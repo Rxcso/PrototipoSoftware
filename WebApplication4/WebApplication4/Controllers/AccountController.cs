@@ -70,7 +70,7 @@ namespace WebApplication4.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View();
+                return Redirect("~/Home/Index");
             }
 
             // This doesn't count login failures towards account lockout
