@@ -1,0 +1,135 @@
+﻿@{
+    ViewBag.Title = "TickNet";
+}
+<html>
+<body>
+    <div id="seccionPrincipal" class="container">
+        <div class="row">
+            <div class="col-md-12 ">
+                <div id="carousel-1" class="carousel slide" data-ride="carousel">
+                    <!--indicadores primero-->
+                    <ol class="carousel-indicators">
+                        <li data-target="#carousel-1" data-slide-to="0" class="active"></li>
+                        <li data-target="#carousel-1" data-slide-to="1"></li>
+                        <li data-target="#carousel-1" data-slide-to="2"></li>
+                        <li data-target="#carousel-1" data-slide-to="3"></li>
+                        <li data-target="#carousel-1" data-slide-to="4"></li>
+                        <li data-target="#carousel-1" data-slide-to="5"></li>
+                    </ol>
+                    <!--Contenedor de los slide-->
+                    <div class="carousel-inner" role="listbox">
+                        <div class="item active">
+                            <a href="@Url.Action("ViewEvent","Event")"><img src="~/images/arjona.jpg" width="1200" class="img-responsive" alt=""></a>
+                        </div>
+                        <div class="item">
+                            <a href="ver_evento.html"><img src="~/images/bruta.jpg" width="1200" class="img-responsive" alt=""></a>
+                        </div>
+                        <div class="item">
+                            <a href="ver_evento.html"><img src="~/images/chino.jpg" width="1200" class="img-responsive" alt=""></a>
+                        </div>
+                        <div class="item">
+                            <a href="ver_evento.html"><img src="~/images/disco.jpg" width="1200" class="img-responsive" alt=""></a>
+                        </div>
+                        <div class="item">
+                            <a href="ver_evento.html"><img src="~/images/katyperry.jpg" width="1200" class="img-responsive" alt=""></a>
+                        </div>
+                        <div class="item">
+                            <a href="ver_evento.html"><img src="~/images/fiesta.jpg" width="1200" class="img-responsive" alt=""></a>
+                        </div>
+                    </div>
+                    <!--Controles-->
+                    <a href="#carousel-1" class="left carousel-control" role="button" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    </a>
+                    <a href="#carousel-1" class="right carousel-control" role="button" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="panel panel-primary">
+                    <div id="titulo1" class="panel-heading"><strong>Eventos populares</strong></div>
+
+                    <!--Aca iran los eventos en miniatura-->
+                    <div class="panel-body">
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="thumbnail">
+                                <img onclick="verEvento()" class="event" src="http://lorempixel.com/400/250/nightlife/" alt="">
+                                <div class="caption" style="text-align:center">
+                                    Fecha: 08-AGO
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="thumbnail">
+                                <img onclick="verEvento()" class="event" src="http://lorempixel.com/400/250/nightlife/" alt="">
+                                <div class="caption" style="text-align:center">
+                                    Fecha: 09-AGO
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="thumbnail">
+                                <img onclick="verEvento()" class="event" src="http://lorempixel.com/400/250/nightlife/" alt="">
+                                <div class="caption" style="text-align:center">
+                                    Fecha: 10-AGO
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="thumbnail">
+                                <img onclick="verEvento()" class="event" src="http://lorempixel.com/400/250/nightlife/" alt="">
+                                <div class="caption" style="text-align:center">
+                                    Fecha: 08-SEP
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="thumbnail">
+                                <img onclick="verEvento()" class="event" src="http://lorempixel.com/400/250/nightlife/" alt="">
+                                <div class="caption" style="text-align:center">
+                                    Fecha: 08-NOV
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="thumbnail">
+                                <img onclick="verEvento()" class="event" src="http://lorempixel.com/400/250/nightlife/" alt="">
+                                <div class="caption" style="text-align:center">
+                                    Fecha: 08-DIC
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!--Paginacion-->
+                    <ul class="pagination pagination-lg pull-right">
+                        <!--lg    md    sm-->
+                        <li class="disabled"><a href="">&laquo;</a></li>
+                        <li class="active"><a href="">1</a></li>
+                        <li><a href="">2</a></li>
+                        <li><a href="">3</a></li>
+                        <li><a href="">4</a></li>
+                        <li><a href="">5</a></li>
+                        <li><a href="">&raquo;</a></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!--librerias-->
+    <script>
+        function verEvento() {
+            window.open("ver_evento.html", "_self");
+        }
+        function buscar() {
+            window.open("index1.html", "_self");
+        }
+        function ingresar() {
+            window.open("mi_cuenta.html", "_self");
+        }
+    </script>
+</body>
+</html>

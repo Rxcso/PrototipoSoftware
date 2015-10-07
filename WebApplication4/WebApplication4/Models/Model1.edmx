@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="inf245netsoftModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'inf245netsoft.dbo.CuentaUsuario' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="CuentaUsuario">
+          <Key>
+            <PropertyRef Name="usuario" />
+            <PropertyRef Name="codPerfil" />
+          </Key>
+          <Property Name="usuario" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="tipoUsuario" Type="varchar" MaxLength="100" />
+          <Property Name="correo" Type="varchar" MaxLength="100" />
+          <Property Name="contrasena" Type="varchar" MaxLength="100" />
+          <Property Name="estado" Type="bit" />
+          <Property Name="tipoDoc" Type="int" />
+          <Property Name="codDoc" Type="varchar" MaxLength="30" />
+          <Property Name="nombre" Type="varchar" MaxLength="100" />
+          <Property Name="apellido" Type="varchar" MaxLength="100" />
+          <Property Name="direccion" Type="varchar" MaxLength="100" />
+          <Property Name="telefono" Type="varchar" MaxLength="20" />
+          <Property Name="telMovil" Type="varchar" MaxLength="20" />
+          <Property Name="sexo" Type="varchar" MaxLength="1" />
+          <Property Name="fechaNac" Type="datetime" />
+          <Property Name="puntos" Type="int" />
+          <Property Name="codPerfil" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="inf245netsoftModelStoreContainer">
+          <EntitySet Name="CuentaUsuario" EntityType="Self.CuentaUsuario" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [CuentaUsuario].[usuario] AS [usuario], 
+    [CuentaUsuario].[tipoUsuario] AS [tipoUsuario], 
+    [CuentaUsuario].[correo] AS [correo], 
+    [CuentaUsuario].[contrasena] AS [contrasena], 
+    [CuentaUsuario].[estado] AS [estado], 
+    [CuentaUsuario].[tipoDoc] AS [tipoDoc], 
+    [CuentaUsuario].[codDoc] AS [codDoc], 
+    [CuentaUsuario].[nombre] AS [nombre], 
+    [CuentaUsuario].[apellido] AS [apellido], 
+    [CuentaUsuario].[direccion] AS [direccion], 
+    [CuentaUsuario].[telefono] AS [telefono], 
+    [CuentaUsuario].[telMovil] AS [telMovil], 
+    [CuentaUsuario].[sexo] AS [sexo], 
+    [CuentaUsuario].[fechaNac] AS [fechaNac], 
+    [CuentaUsuario].[puntos] AS [puntos], 
+    [CuentaUsuario].[codPerfil] AS [codPerfil]
+    FROM [dbo].[CuentaUsuario] AS [CuentaUsuario]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="inf245netsoftModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CuentaUsuario">
+          <Key>
+            <PropertyRef Name="usuario" />
+            <PropertyRef Name="codPerfil" />
+          </Key>
+          <Property Name="usuario" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="tipoUsuario" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="correo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="contrasena" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="estado" Type="Boolean" />
+          <Property Name="tipoDoc" Type="Int32" />
+          <Property Name="codDoc" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="apellido" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="direccion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="telefono" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="telMovil" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="sexo" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+          <Property Name="fechaNac" Type="DateTime" Precision="3" />
+          <Property Name="puntos" Type="Int32" />
+          <Property Name="codPerfil" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="inf245netsoft" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CuentaUsuario" EntityType="Self.CuentaUsuario" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="inf245netsoftModelStoreContainer" CdmEntityContainer="inf245netsoft">
+          <EntitySetMapping Name="CuentaUsuario">
+            <EntityTypeMapping TypeName="inf245netsoftModel.CuentaUsuario">
+              <MappingFragment StoreEntitySet="CuentaUsuario">
+                <ScalarProperty Name="usuario" ColumnName="usuario" />
+                <ScalarProperty Name="tipoUsuario" ColumnName="tipoUsuario" />
+                <ScalarProperty Name="correo" ColumnName="correo" />
+                <ScalarProperty Name="contrasena" ColumnName="contrasena" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="tipoDoc" ColumnName="tipoDoc" />
+                <ScalarProperty Name="codDoc" ColumnName="codDoc" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="apellido" ColumnName="apellido" />
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
+                <ScalarProperty Name="telefono" ColumnName="telefono" />
+                <ScalarProperty Name="telMovil" ColumnName="telMovil" />
+                <ScalarProperty Name="sexo" ColumnName="sexo" />
+                <ScalarProperty Name="fechaNac" ColumnName="fechaNac" />
+                <ScalarProperty Name="puntos" ColumnName="puntos" />
+                <ScalarProperty Name="codPerfil" ColumnName="codPerfil" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
