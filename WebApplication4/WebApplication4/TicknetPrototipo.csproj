@@ -161,6 +161,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CuentaUsuarioController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Models\CuentaUsuario.cs">
@@ -290,6 +291,11 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Account\RegisterClient.cshtml" />
+    <Content Include="Views\CuentaUsuario\Create.cshtml" />
+    <Content Include="Views\CuentaUsuario\Delete.cshtml" />
+    <Content Include="Views\CuentaUsuario\Details.cshtml" />
+    <Content Include="Views\CuentaUsuario\Edit.cshtml" />
+    <Content Include="Views\CuentaUsuario\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

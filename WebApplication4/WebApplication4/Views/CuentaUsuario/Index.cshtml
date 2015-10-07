@@ -1,0 +1,111 @@
+﻿@model IEnumerable<WebApplication4.Models.CuentaUsuario>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.tipoUsuario)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.correo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.contrasena)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.estado)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tipoDoc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.codDoc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.apellido)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.direccion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.telefono)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.telMovil)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.sexo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fechaNac)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.puntos)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.tipoUsuario)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.correo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.contrasena)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.estado)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tipoDoc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.codDoc)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.apellido)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.direccion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.telefono)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.telMovil)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.sexo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fechaNac)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.puntos)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>
