@@ -5,7 +5,14 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>RegisterClient</h2>
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li>@Html.ActionLink("Inicio", "Index", "Home")
+            <li class="active">Registrarse</li>
+        </ol>
+    </div>
+</div>
 
 
 @using (Html.BeginForm()) 
@@ -13,10 +20,8 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>RegisterViewModel</h4>
-        <hr />
         @Html.ValidationSummary(true)
-
+        <h3>Datos de ingreso</h3><br>  
         <div class="form-group">
             @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -122,7 +127,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Index", "Home")
 </div>
 
 @section Scripts {

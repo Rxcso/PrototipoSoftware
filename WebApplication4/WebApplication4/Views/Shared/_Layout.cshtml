@@ -132,7 +132,15 @@
 
 
        
-        @{Html.RenderPartial("_LoginPartial"); }
+        @{
+            try { 
+            Html.RenderPartial("_LoginPartial");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+         }
 
 
         <div class="modal fade" id="logInEmpleado">

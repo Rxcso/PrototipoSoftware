@@ -159,3 +159,5 @@ F:\down\Ingenieria de software\pruebas\PrototipoSoftware2\WebApplication4\WebApp
 F:\down\Ingenieria de software\pruebas\PrototipoSoftware2\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 F:\down\Ingenieria de software\pruebas\PrototipoSoftware2\WebApplication4\WebApplication4\obj\Debug\WebApplication4.dll
 F:\down\Ingenieria de software\pruebas\PrototipoSoftware2\WebApplication4\WebApplication4\obj\Debug\WebApplication4.pdb
+F:\down\Ingenieria de software\pruebas\PrototipoSoftware2\WebApplication4\WebApplication4\bin\log4net.dll
+F:\down\Ingenieria de software\pruebas\PrototipoSoftware2\WebApplication4\WebApplication4\bin\log4net.xml
