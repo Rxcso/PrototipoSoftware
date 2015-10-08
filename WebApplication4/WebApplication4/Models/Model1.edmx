@@ -4,13 +4,10 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="inf245netsoftModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'inf245netsoft.dbo.CuentaUsuario' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+    <Schema Namespace="inf245netsoftModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="CuentaUsuario">
           <Key>
             <PropertyRef Name="usuario" />
-            <PropertyRef Name="codPerfil" />
           </Key>
           <Property Name="usuario" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="tipoUsuario" Type="varchar" MaxLength="100" />
@@ -30,36 +27,15 @@ advertencia 6002: La tabla o vista 'inf245netsoft.dbo.CuentaUsuario' no tiene de
           <Property Name="codPerfil" Type="int" Nullable="false" />
         </EntityType>
         <EntityContainer Name="inf245netsoftModelStoreContainer">
-          <EntitySet Name="CuentaUsuario" EntityType="Self.CuentaUsuario" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [CuentaUsuario].[usuario] AS [usuario], 
-    [CuentaUsuario].[tipoUsuario] AS [tipoUsuario], 
-    [CuentaUsuario].[correo] AS [correo], 
-    [CuentaUsuario].[contrasena] AS [contrasena], 
-    [CuentaUsuario].[estado] AS [estado], 
-    [CuentaUsuario].[tipoDoc] AS [tipoDoc], 
-    [CuentaUsuario].[codDoc] AS [codDoc], 
-    [CuentaUsuario].[nombre] AS [nombre], 
-    [CuentaUsuario].[apellido] AS [apellido], 
-    [CuentaUsuario].[direccion] AS [direccion], 
-    [CuentaUsuario].[telefono] AS [telefono], 
-    [CuentaUsuario].[telMovil] AS [telMovil], 
-    [CuentaUsuario].[sexo] AS [sexo], 
-    [CuentaUsuario].[fechaNac] AS [fechaNac], 
-    [CuentaUsuario].[puntos] AS [puntos], 
-    [CuentaUsuario].[codPerfil] AS [codPerfil]
-    FROM [dbo].[CuentaUsuario] AS [CuentaUsuario]</DefiningQuery>
-          </EntitySet>
+          <EntitySet Name="CuentaUsuario" EntityType="Self.CuentaUsuario" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="inf245netsoftModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="CuentaUsuario">
           <Key>
             <PropertyRef Name="usuario" />
-            <PropertyRef Name="codPerfil" />
           </Key>
           <Property Name="usuario" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="tipoUsuario" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />

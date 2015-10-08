@@ -3,7 +3,6 @@
   <EntityType Name="CuentaUsuario">
     <Key>
       <PropertyRef Name="usuario" />
-      <PropertyRef Name="codPerfil" />
     </Key>
     <Property Name="usuario" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="tipoUsuario" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
