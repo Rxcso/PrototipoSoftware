@@ -26,5 +26,7 @@ namespace WebApplication4.Models
         }
     
         public virtual DbSet<CuentaUsuario> CuentaUsuario { get; set; }
+        public virtual DbSet<Perfiles> Perfiles { get; set; }
+        public virtual DbSet<Promociones> Promociones { get; set; }
     }
 }

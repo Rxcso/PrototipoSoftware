@@ -77,10 +77,14 @@ namespace WebApplication4.Controllers
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            CuentaUsuario cuentausuario = db.CuentaUsuario.Find(model.Email);
             switch (result)
             {
                 case SignInStatus.Success:
+                    if (cuentausuario.codPerfil==1)
                     return Redirect("~/Home/Index");
+                    else
+                        return Redirect("~/Home/Index2");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -432,7 +436,7 @@ namespace WebApplication4.Controllers
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
         }
-
+        
         //
         // GET: /Account/ExternalLoginFailure
         [AllowAnonymous]

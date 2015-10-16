@@ -23,5 +23,30 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Perfiles">
+      <EntityTypeMapping TypeName="inf245netsoftModel.Perfiles">
+        <MappingFragment StoreEntitySet="Perfiles">
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="codPerfil" ColumnName="codPerfil" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Promociones">
+      <EntityTypeMapping TypeName="inf245netsoftModel.Promociones">
+        <MappingFragment StoreEntitySet="Promociones">
+          <ScalarProperty Name="codTipoTarjeta" ColumnName="codTipoTarjeta" />
+          <ScalarProperty Name="codBanco" ColumnName="codBanco" />
+          <ScalarProperty Name="codPromo" ColumnName="codPromo" />
+          <ScalarProperty Name="modoPago" ColumnName="modoPago" />
+          <ScalarProperty Name="cantComp" ColumnName="cantComp" />
+          <ScalarProperty Name="cantAdq" ColumnName="cantAdq" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="descuento" ColumnName="descuento" />
+          <ScalarProperty Name="fechaFin" ColumnName="fechaFin" />
+          <ScalarProperty Name="fechaIni" ColumnName="fechaIni" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

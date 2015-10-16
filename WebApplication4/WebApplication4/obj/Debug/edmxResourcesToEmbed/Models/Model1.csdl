@@ -23,5 +23,32 @@
   </EntityType>
   <EntityContainer Name="inf245netsoft" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="CuentaUsuario" EntityType="Self.CuentaUsuario" />
+    <EntitySet Name="Perfiles" EntityType="inf245netsoftModel.Perfiles" />
+    <EntitySet Name="Promociones" EntityType="inf245netsoftModel.Promociones" />
   </EntityContainer>
+  <EntityType Name="Perfiles">
+    <Key>
+      <PropertyRef Name="codPerfil" />
+    </Key>
+    <Property Name="codPerfil" Type="Int32" Nullable="false" />
+    <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Promociones">
+    <Key>
+      <PropertyRef Name="codPromo" />
+      <PropertyRef Name="codBanco" />
+      <PropertyRef Name="codTipoTarjeta" />
+    </Key>
+    <Property Name="fechaIni" Type="DateTime" Precision="3" />
+    <Property Name="fechaFin" Type="DateTime" Precision="3" />
+    <Property Name="descuento" Type="Single" />
+    <Property Name="descripcion" Type="String" MaxLength="18" FixedLength="true" Unicode="false" />
+    <Property Name="cantAdq" Type="Int32" />
+    <Property Name="cantComp" Type="Int32" />
+    <Property Name="modoPago" Type="String" MaxLength="18" FixedLength="true" Unicode="false" />
+    <Property Name="codPromo" Type="Int32" Nullable="false" />
+    <Property Name="codBanco" Type="Int32" Nullable="false" />
+    <Property Name="codTipoTarjeta" Type="Int32" Nullable="false" />
+  </EntityType>
 </Schema>

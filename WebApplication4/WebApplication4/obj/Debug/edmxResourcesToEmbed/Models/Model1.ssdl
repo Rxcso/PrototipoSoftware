@@ -21,7 +21,34 @@
     <Property Name="puntos" Type="int" />
     <Property Name="codPerfil" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="Perfiles">
+    <Key>
+      <PropertyRef Name="codPerfil" />
+    </Key>
+    <Property Name="codPerfil" Type="int" Nullable="false" />
+    <Property Name="nombre" Type="varchar" MaxLength="50" />
+    <Property Name="descripcion" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Promociones">
+    <Key>
+      <PropertyRef Name="codPromo" />
+      <PropertyRef Name="codBanco" />
+      <PropertyRef Name="codTipoTarjeta" />
+    </Key>
+    <Property Name="fechaIni" Type="datetime" />
+    <Property Name="fechaFin" Type="datetime" />
+    <Property Name="descuento" Type="real" />
+    <Property Name="descripcion" Type="char" MaxLength="18" />
+    <Property Name="cantAdq" Type="int" />
+    <Property Name="cantComp" Type="int" />
+    <Property Name="modoPago" Type="char" MaxLength="18" />
+    <Property Name="codPromo" Type="int" Nullable="false" />
+    <Property Name="codBanco" Type="int" Nullable="false" />
+    <Property Name="codTipoTarjeta" Type="int" Nullable="false" />
+  </EntityType>
   <EntityContainer Name="inf245netsoftModelStoreContainer">
     <EntitySet Name="CuentaUsuario" EntityType="Self.CuentaUsuario" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Perfiles" EntityType="Self.Perfiles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Promociones" EntityType="Self.Promociones" Schema="dbo" store:Type="Tables" />
   </EntityContainer>
 </Schema>
