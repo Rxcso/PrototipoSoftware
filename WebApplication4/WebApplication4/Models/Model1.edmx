@@ -37,19 +37,20 @@
         <EntityType Name="Promociones">
           <Key>
             <PropertyRef Name="codPromo" />
-            <PropertyRef Name="codBanco" />
-            <PropertyRef Name="codTipoTarjeta" />
+            <PropertyRef Name="codEvento" />
           </Key>
           <Property Name="fechaIni" Type="datetime" />
           <Property Name="fechaFin" Type="datetime" />
           <Property Name="descuento" Type="real" />
-          <Property Name="descripcion" Type="char" MaxLength="18" />
+          <Property Name="descripcion" Type="char" MaxLength="50" />
           <Property Name="cantAdq" Type="int" />
           <Property Name="cantComp" Type="int" />
           <Property Name="modoPago" Type="char" MaxLength="18" />
+          <Property Name="estado" Type="bit" />
           <Property Name="codPromo" Type="int" Nullable="false" />
-          <Property Name="codBanco" Type="int" Nullable="false" />
-          <Property Name="codTipoTarjeta" Type="int" Nullable="false" />
+          <Property Name="codBanco" Type="int" />
+          <Property Name="codTipoTarjeta" Type="int" />
+          <Property Name="codEvento" Type="int" Nullable="false" />
         </EntityType>
         <EntityContainer Name="inf245netsoftModelStoreContainer">
           <EntitySet Name="CuentaUsuario" EntityType="Self.CuentaUsuario" Schema="dbo" store:Type="Tables" />
@@ -85,7 +86,7 @@
           <EntitySet Name="CuentaUsuario" EntityType="Self.CuentaUsuario" />
           <EntitySet Name="Perfiles" EntityType="inf245netsoftModel.Perfiles" />
           <EntitySet Name="Promociones" EntityType="inf245netsoftModel.Promociones" />
-        </EntityContainer>
+          </EntityContainer>
         <EntityType Name="Perfiles">
           <Key>
             <PropertyRef Name="codPerfil" />
@@ -97,21 +98,22 @@
         <EntityType Name="Promociones">
           <Key>
             <PropertyRef Name="codPromo" />
-            <PropertyRef Name="codBanco" />
-            <PropertyRef Name="codTipoTarjeta" />
+            <PropertyRef Name="codEvento" />
           </Key>
           <Property Name="fechaIni" Type="DateTime" Precision="3" />
           <Property Name="fechaFin" Type="DateTime" Precision="3" />
           <Property Name="descuento" Type="Single" />
-          <Property Name="descripcion" Type="String" MaxLength="18" FixedLength="true" Unicode="false" />
+          <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="true" Unicode="false" />
           <Property Name="cantAdq" Type="Int32" />
           <Property Name="cantComp" Type="Int32" />
           <Property Name="modoPago" Type="String" MaxLength="18" FixedLength="true" Unicode="false" />
+          <Property Name="estado" Type="Boolean" />
           <Property Name="codPromo" Type="Int32" Nullable="false" />
-          <Property Name="codBanco" Type="Int32" Nullable="false" />
-          <Property Name="codTipoTarjeta" Type="Int32" Nullable="false" />
+          <Property Name="codBanco" Type="Int32" />
+          <Property Name="codTipoTarjeta" Type="Int32" />
+          <Property Name="codEvento" Type="Int32" Nullable="false" />
         </EntityType>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -151,9 +153,11 @@
           <EntitySetMapping Name="Promociones">
             <EntityTypeMapping TypeName="inf245netsoftModel.Promociones">
               <MappingFragment StoreEntitySet="Promociones">
+                <ScalarProperty Name="codEvento" ColumnName="codEvento" />
                 <ScalarProperty Name="codTipoTarjeta" ColumnName="codTipoTarjeta" />
                 <ScalarProperty Name="codBanco" ColumnName="codBanco" />
                 <ScalarProperty Name="codPromo" ColumnName="codPromo" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
                 <ScalarProperty Name="modoPago" ColumnName="modoPago" />
                 <ScalarProperty Name="cantComp" ColumnName="cantComp" />
                 <ScalarProperty Name="cantAdq" ColumnName="cantAdq" />
@@ -164,7 +168,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

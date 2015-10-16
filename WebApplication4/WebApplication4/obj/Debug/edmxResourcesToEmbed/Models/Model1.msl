@@ -35,9 +35,11 @@
     <EntitySetMapping Name="Promociones">
       <EntityTypeMapping TypeName="inf245netsoftModel.Promociones">
         <MappingFragment StoreEntitySet="Promociones">
+          <ScalarProperty Name="codEvento" ColumnName="codEvento" />
           <ScalarProperty Name="codTipoTarjeta" ColumnName="codTipoTarjeta" />
           <ScalarProperty Name="codBanco" ColumnName="codBanco" />
           <ScalarProperty Name="codPromo" ColumnName="codPromo" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
           <ScalarProperty Name="modoPago" ColumnName="modoPago" />
           <ScalarProperty Name="cantComp" ColumnName="cantComp" />
           <ScalarProperty Name="cantAdq" ColumnName="cantAdq" />

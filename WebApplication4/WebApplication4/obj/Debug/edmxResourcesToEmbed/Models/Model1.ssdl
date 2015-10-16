@@ -32,19 +32,20 @@
   <EntityType Name="Promociones">
     <Key>
       <PropertyRef Name="codPromo" />
-      <PropertyRef Name="codBanco" />
-      <PropertyRef Name="codTipoTarjeta" />
+      <PropertyRef Name="codEvento" />
     </Key>
     <Property Name="fechaIni" Type="datetime" />
     <Property Name="fechaFin" Type="datetime" />
     <Property Name="descuento" Type="real" />
-    <Property Name="descripcion" Type="char" MaxLength="18" />
+    <Property Name="descripcion" Type="char" MaxLength="50" />
     <Property Name="cantAdq" Type="int" />
     <Property Name="cantComp" Type="int" />
     <Property Name="modoPago" Type="char" MaxLength="18" />
+    <Property Name="estado" Type="bit" />
     <Property Name="codPromo" Type="int" Nullable="false" />
-    <Property Name="codBanco" Type="int" Nullable="false" />
-    <Property Name="codTipoTarjeta" Type="int" Nullable="false" />
+    <Property Name="codBanco" Type="int" />
+    <Property Name="codTipoTarjeta" Type="int" />
+    <Property Name="codEvento" Type="int" Nullable="false" />
   </EntityType>
   <EntityContainer Name="inf245netsoftModelStoreContainer">
     <EntitySet Name="CuentaUsuario" EntityType="Self.CuentaUsuario" Schema="dbo" store:Type="Tables" />
