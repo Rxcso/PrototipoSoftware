@@ -1,0 +1,49 @@
+﻿@using Microsoft.AspNet.Identity
+@using WebApplication4.Models
+@model WebApplication4.Models.PromocionModel
+
+@using (Html.BeginForm("RegisterPromocion", "Promocion", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true)
+        <br>
+        <div class="row form-group">
+            @Html.LabelFor(model => model.fechaIni, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.fechaIni)
+                @Html.ValidationMessageFor(model => model.fechaIni)
+            </div>
+        </div>
+
+        <div class="row form-group">
+            @Html.LabelFor(model => model.fechaFin, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.fechaFin)
+                @Html.ValidationMessageFor(model => model.fechaFin)
+            </div>
+        </div>
+        <br>
+
+        <label>Promocion:</label>
+        <br>
+        <br>
+        <div class="row form-group">
+            <div class="form-inline">
+                Personalizado
+                @Html.EditorFor(model => model.cantAdq)
+                @Html.ValidationMessageFor(model => model.cantAdq)
+                X
+                @Html.EditorFor(model => model.cantComp)
+                @Html.ValidationMessageFor(model => model.cantComp)
+            </div>
+        </div><br>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Aceptar" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}

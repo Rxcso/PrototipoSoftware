@@ -320,6 +320,7 @@
     <Content Include="Views\Home\Index2.cshtml" />
     <Content Include="Views\Evento\Index.cshtml" />
     <Content Include="Views\Promocion\Index.cshtml" />
+    <Content Include="Views\Promocion\_RegisterPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
