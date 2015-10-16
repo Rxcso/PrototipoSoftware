@@ -32,6 +32,14 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Banco">
+      <EntityTypeMapping TypeName="inf245netsoftModel.Banco">
+        <MappingFragment StoreEntitySet="Banco">
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="codigo" ColumnName="codigo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Promociones">
       <EntityTypeMapping TypeName="inf245netsoftModel.Promociones">
         <MappingFragment StoreEntitySet="Promociones">
@@ -47,6 +55,14 @@
           <ScalarProperty Name="descuento" ColumnName="descuento" />
           <ScalarProperty Name="fechaFin" ColumnName="fechaFin" />
           <ScalarProperty Name="fechaIni" ColumnName="fechaIni" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TipoTarjeta">
+      <EntityTypeMapping TypeName="inf245netsoftModel.TipoTarjeta">
+        <MappingFragment StoreEntitySet="TipoTarjeta">
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="idTipoTar" ColumnName="idTipoTar" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

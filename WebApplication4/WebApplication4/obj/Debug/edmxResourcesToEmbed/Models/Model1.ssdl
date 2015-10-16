@@ -1,5 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="inf245netsoftModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Banco">
+    <Key>
+      <PropertyRef Name="codigo" />
+    </Key>
+    <Property Name="codigo" Type="int" Nullable="false" />
+    <Property Name="nombre" Type="char" MaxLength="18" />
+  </EntityType>
   <EntityType Name="CuentaUsuario">
     <Key>
       <PropertyRef Name="usuario" />
@@ -47,9 +54,50 @@
     <Property Name="codTipoTarjeta" Type="int" />
     <Property Name="codEvento" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="TipoTarjeta">
+    <Key>
+      <PropertyRef Name="idTipoTar" />
+    </Key>
+    <Property Name="idTipoTar" Type="int" Nullable="false" />
+    <Property Name="nombre" Type="char" MaxLength="18" />
+  </EntityType>
+  <Association Name="R_3">
+    <End Role="Banco" Type="Self.Banco" Multiplicity="0..1" />
+    <End Role="Promociones" Type="Self.Promociones" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Banco">
+        <PropertyRef Name="codigo" />
+      </Principal>
+      <Dependent Role="Promociones">
+        <PropertyRef Name="codBanco" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_6">
+    <End Role="TipoTarjeta" Type="Self.TipoTarjeta" Multiplicity="0..1" />
+    <End Role="Promociones" Type="Self.Promociones" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoTarjeta">
+        <PropertyRef Name="idTipoTar" />
+      </Principal>
+      <Dependent Role="Promociones">
+        <PropertyRef Name="codTipoTarjeta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="inf245netsoftModelStoreContainer">
+    <EntitySet Name="Banco" EntityType="Self.Banco" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CuentaUsuario" EntityType="Self.CuentaUsuario" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Perfiles" EntityType="Self.Perfiles" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Promociones" EntityType="Self.Promociones" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TipoTarjeta" EntityType="Self.TipoTarjeta" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="R_3" Association="Self.R_3">
+      <End Role="Banco" EntitySet="Banco" />
+      <End Role="Promociones" EntitySet="Promociones" />
+    </AssociationSet>
+    <AssociationSet Name="R_6" Association="Self.R_6">
+      <End Role="TipoTarjeta" EntitySet="TipoTarjeta" />
+      <End Role="Promociones" EntitySet="Promociones" />
+    </AssociationSet>
   </EntityContainer>
 </Schema>

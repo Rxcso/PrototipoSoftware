@@ -24,7 +24,17 @@
   <EntityContainer Name="inf245netsoft" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="CuentaUsuario" EntityType="Self.CuentaUsuario" />
     <EntitySet Name="Perfiles" EntityType="inf245netsoftModel.Perfiles" />
+    <EntitySet Name="Banco" EntityType="inf245netsoftModel.Banco" />
     <EntitySet Name="Promociones" EntityType="inf245netsoftModel.Promociones" />
+    <EntitySet Name="TipoTarjeta" EntityType="inf245netsoftModel.TipoTarjeta" />
+    <AssociationSet Name="R_3" Association="inf245netsoftModel.R_3">
+      <End Role="Banco" EntitySet="Banco" />
+      <End Role="Promociones" EntitySet="Promociones" />
+    </AssociationSet>
+    <AssociationSet Name="R_6" Association="inf245netsoftModel.R_6">
+      <End Role="TipoTarjeta" EntitySet="TipoTarjeta" />
+      <End Role="Promociones" EntitySet="Promociones" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Perfiles">
     <Key>
@@ -33,6 +43,14 @@
     <Property Name="codPerfil" Type="Int32" Nullable="false" />
     <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Banco">
+    <Key>
+      <PropertyRef Name="codigo" />
+    </Key>
+    <Property Name="codigo" Type="Int32" Nullable="false" />
+    <Property Name="nombre" Type="String" MaxLength="18" FixedLength="true" Unicode="false" />
+    <NavigationProperty Name="Promociones" Relationship="inf245netsoftModel.R_3" FromRole="Banco" ToRole="Promociones" />
   </EntityType>
   <EntityType Name="Promociones">
     <Key>
@@ -51,5 +69,39 @@
     <Property Name="codBanco" Type="Int32" />
     <Property Name="codTipoTarjeta" Type="Int32" />
     <Property Name="codEvento" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Banco" Relationship="inf245netsoftModel.R_3" FromRole="Promociones" ToRole="Banco" />
+    <NavigationProperty Name="TipoTarjeta" Relationship="inf245netsoftModel.R_6" FromRole="Promociones" ToRole="TipoTarjeta" />
   </EntityType>
+  <EntityType Name="TipoTarjeta">
+    <Key>
+      <PropertyRef Name="idTipoTar" />
+    </Key>
+    <Property Name="idTipoTar" Type="Int32" Nullable="false" />
+    <Property Name="nombre" Type="String" MaxLength="18" FixedLength="true" Unicode="false" />
+    <NavigationProperty Name="Promociones" Relationship="inf245netsoftModel.R_6" FromRole="TipoTarjeta" ToRole="Promociones" />
+  </EntityType>
+  <Association Name="R_3">
+    <End Type="inf245netsoftModel.Banco" Role="Banco" Multiplicity="0..1" />
+    <End Type="inf245netsoftModel.Promociones" Role="Promociones" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Banco">
+        <PropertyRef Name="codigo" />
+      </Principal>
+      <Dependent Role="Promociones">
+        <PropertyRef Name="codBanco" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_6">
+    <End Type="inf245netsoftModel.TipoTarjeta" Role="TipoTarjeta" Multiplicity="0..1" />
+    <End Type="inf245netsoftModel.Promociones" Role="Promociones" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoTarjeta">
+        <PropertyRef Name="idTipoTar" />
+      </Principal>
+      <Dependent Role="Promociones">
+        <PropertyRef Name="codTipoTarjeta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>
