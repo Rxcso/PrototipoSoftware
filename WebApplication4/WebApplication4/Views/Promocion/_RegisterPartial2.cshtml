@@ -1,0 +1,85 @@
+﻿@using Microsoft.AspNet.Identity
+@using WebApplication4.Models
+
+
+@model PromocionModel
+
+@{
+    var db = new WebApplication4.Models.inf245netsoft();
+    List<WebApplication4.Models.Promociones> listaPromo = db.Promociones.AsNoTracking().Where(c => c.codEvento == 1 && c.estado == true).ToList();
+}
+
+@using (Html.BeginForm("RegisterPromocion", "Promocion", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true)
+        <br>
+        <div class="row form-group">
+            @Html.LabelFor(model => model.fechaIni, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.fechaIni)
+                @Html.ValidationMessageFor(model => model.fechaIni)
+            </div>
+        </div>
+
+        <div class="row form-group">
+            @Html.LabelFor(model => model.fechaFin, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.fechaFin)
+                @Html.ValidationMessageFor(model => model.fechaFin)
+            </div>
+        </div>
+        <br>
+
+        <div class="row form-group">
+            @Html.LabelFor(model => model.codBanco, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @{
+    List<WebApplication4.Models.Banco> listaBanco = db.Banco.AsNoTracking().ToList();
+    IEnumerable<SelectListItem> listItems = (from a in listaBanco
+                                             select new SelectListItem
+                                           {
+                                               Value = a.codigo.ToString(),
+                                               Text = a.nombre,
+                                               Selected = false
+                                           });
+                }
+                @Html.DropDownListFor(model => model.codBanco, listItems, "Seleccione Banco")
+            </div>
+        </div>
+
+        <div class="row form-group">
+            @Html.LabelFor(model => model.codTipoTarjeta, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @{
+    List<WebApplication4.Models.TipoTarjeta> listaTipoTarj = db.TipoTarjeta.AsNoTracking().ToList();
+    IEnumerable<SelectListItem> listItems2 = (from a in listaTipoTarj
+                                              select new SelectListItem
+                                              {
+                                                  Value = a.idTipoTar.ToString(),
+                                                  Text = a.nombre,
+                                                  Selected = false
+                                              });
+                }
+                @Html.DropDownListFor(model => model.codTipoTarjeta, listItems2, "Seleccione tipo de Tarjeta")
+            </div>
+        </div>
+
+        <div class="row form-group">
+            @Html.LabelFor(model => model.descuento, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.descuento)
+                @Html.ValidationMessageFor(model => model.descuento)
+                <label class="control-label col-md-1"> %</label>
+            </div>
+        </div><br>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Aceptar" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
