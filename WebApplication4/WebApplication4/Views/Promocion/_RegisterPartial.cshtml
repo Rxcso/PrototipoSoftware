@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNet.Identity
 @using WebApplication4.Models
-@model WebApplication4.Models.PromocionModel
+@model PromocionModel
 
 @using (Html.BeginForm("RegisterPromocion", "Promocion", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
@@ -39,6 +39,7 @@
                 @Html.ValidationMessageFor(model => model.cantComp)
             </div>
         </div><br>
+                
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
