@@ -38,7 +38,7 @@
     </div>
     @{
         var db = new WebApplication4.Models.inf245netsoft();
-        //List<WebApplication4.Models.Regalo> listaRegalo = db.Regalo.AsNoTracking().Where(c => c.codEvento == 1 && c.estado == true).ToList();
+        //List<WebApplication4.Models.Regalo> listaRegalo = db.Regalo.AsNoTracking()ToList();
     }
 
     <div class="row">
@@ -53,7 +53,7 @@
                 </tr>
             </thead>
             <tbody id="tbody">
-                @foreach (var row in listaPromo)
+                @foreach (var row in listaRegalo)
                 {
                     <tr id=@row.codPromo onclick="myFunction(this)">
                         <td>@row.codPromo</td>
