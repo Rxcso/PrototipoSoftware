@@ -66,5 +66,23 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Regalo">
+      <EntityTypeMapping TypeName="inf245netsoftModel.Regalo">
+        <MappingFragment StoreEntitySet="Regalo">
+          <ScalarProperty Name="puntos" ColumnName="puntos" />
+          <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+          <ScalarProperty Name="idRegalo" ColumnName="idRegalo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RegaloXCuenta">
+      <EntityTypeMapping TypeName="inf245netsoftModel.RegaloXCuenta">
+        <MappingFragment StoreEntitySet="RegaloXCuenta">
+          <ScalarProperty Name="usuario" ColumnName="usuario" />
+          <ScalarProperty Name="idRegalo" ColumnName="idRegalo" />
+          <ScalarProperty Name="fechaRecojo" ColumnName="fechaRecojo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

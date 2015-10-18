@@ -30,5 +30,7 @@ namespace WebApplication4.Models
         public virtual DbSet<Banco> Banco { get; set; }
         public virtual DbSet<Promociones> Promociones { get; set; }
         public virtual DbSet<TipoTarjeta> TipoTarjeta { get; set; }
+        public virtual DbSet<Regalo> Regalo { get; set; }
+        public virtual DbSet<RegaloXCuenta> RegaloXCuenta { get; set; }
     }
 }

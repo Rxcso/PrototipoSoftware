@@ -1,0 +1,157 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li class="active">Mantenimiento de regalos</li>
+        </ol>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <a class="btn btn-primary" href="#formNuevo" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
+                <button type="button" class="btn btn-primary" onclick="modificar()">Modificar <span class="glyphicon glyphicon-pencil"></span></button>
+                <a class="btn btn-primary" href="#eliminar" data-toggle="modal">Dar de Baja <span class="glyphicon glyphicon-remove"></span></a>
+                <button id=botonOculto style="visibility:hidden" type="button" class="btn btn-primary" onclick="msjConfirmacion2()">Guardar cambios <span class="glyphicon glyphicon-save"></span></button>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <form action="" class="" role="search">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="BUSCAR UN REGALO">
+                        <span class="input-group-btn"><button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-3">
+            <a class="btn btn-danger pull-right" href="index2.html">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+        </div>
+
+    </div>
+    <div class="row">
+        <table class="table table-bordered table-hover">
+            <tr class="active">
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Puntos</th>
+                <th>Estado</th>
+            </tr>
+            <tr>
+                <td>01</td>
+                <td>Lapicero</td>
+                <td>Lapicero marca Blue nro 222</td>
+                <td>900</td>
+                <td>Activo</td>
+            </tr>
+            <tr>
+                <td>02</td>
+                <td>Cartera</td>
+                <td>Cartera para mujer rosa de cuero</td>
+                <td>1300</td>
+                <td>Activo</td>
+            </tr>
+            <tr>
+                <td>03</td>
+                <td>Oso polar</td>
+                <td>Oso polar de lana rojo-verde</td>
+                <td>2800</td>
+                <td>Activo</td>
+            </tr>
+            <tr>
+                <td>04</td>
+                <td class="modificado">Reloj suizo</td>
+                <td class="modificado">Reloj suizo cod 203</td>
+                <td class="modificado">3000</td>
+                <td>Activo</td>
+            </tr>
+            <tr id="filaAgregada" style="visibility:hidden">
+                <td>05</td>
+                <td id="nomb">a</td>
+                <td id="dir">b</td>
+                <td id="afo">c</td>
+                <td>Activo</td>
+            </tr>
+        </table>
+
+
+
+    </div>
+
+</div>
+
+
+<div class="modal fade" id="formNuevo">
+    <!--esta div pondra la pantalla oscura al presionar el boton-->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--ACA VA EL CONTENIDO DEL MODAL-->
+            <!--header de la ventana-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+                <h4 class="modal-title">Nuevo Regalo</h4>
+            </div>
+            <!--contenido de la ventana-->
+            <div class="modal-body">
+                <form action="" class="form-horizontal">
+                    <div class="form-group">
+                        <label for="nombre" class="control-label col-md-2">Nombre:</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" id="nombre" placeholder="Nombre del regalo">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="direccion" class="control-label col-md-2">Descripción:</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" id="direccion" placeholder="Descripción del regalo">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ptos" class="control-label col-md-2">Puntos:</label>
+                        <div class="col-md-5">
+                            <input type="number" class="form-control" id="ptos" placeholder="Nº ptos que vale el regalo">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--footer de la ventana-->
+            <div class="modal-footer">
+                <button type="button" onclick="registrar()" class="btn btn-primary">Agregar <span class="glyphicon glyphicon-ok"></span></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="eliminar">
+    <!--esta div pondra la pantalla oscura al presionar el boton-->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--ACA VA EL CONTENIDO DEL MODAL-->
+            <!--header de la ventana-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+                <h4 class="modal-title">Aviso</h4>
+            </div>
+            <!--contenido de la ventana-->
+            <div class="modal-body">
+                ¿Está seguro que quiere dar de baja el registro?
+            </div>
+            <!--footer de la ventana-->
+            <div class="modal-footer">
+                <button type="button" onclick="eliminar()" class="btn btn-primary">Aceptar <span class="glyphicon glyphicon-ok"></span></button>
+                <button type="button" onclick="eliminar()" class="btn btn-danger">Cancelar <span class="glyphicon glyphicon-remove"></span></button>
+            </div>
+        </div>
+    </div>
+</div>
+

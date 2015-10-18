@@ -12,6 +12,10 @@
         <EntityTypeShape EntityType="inf245netsoftModel.TipoTarjeta" Width="1.5" PointX="3.375" PointY="8.125" />
         <AssociationConnector Association="inf245netsoftModel.R_3" />
         <AssociationConnector Association="inf245netsoftModel.R_6" />
+        <EntityTypeShape EntityType="inf245netsoftModel.Regalo" Width="1.5" PointX="3.75" PointY="11" />
+        <EntityTypeShape EntityType="inf245netsoftModel.RegaloXCuenta" Width="1.5" PointX="6" PointY="0.875" />
+        <AssociationConnector Association="inf245netsoftModel.FK__RegaloXCu__usuar__4BAC3F29" />
+        <AssociationConnector Association="inf245netsoftModel.R_74" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

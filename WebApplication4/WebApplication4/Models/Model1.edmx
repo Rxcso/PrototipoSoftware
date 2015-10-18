@@ -59,6 +59,22 @@
           <Property Name="codTipoTarjeta" Type="int" />
           <Property Name="codEvento" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="Regalo">
+          <Key>
+            <PropertyRef Name="idRegalo" />
+          </Key>
+          <Property Name="idRegalo" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="100" />
+          <Property Name="puntos" Type="int" />
+        </EntityType>
+        <EntityType Name="RegaloXCuenta">
+          <Key>
+            <PropertyRef Name="fechaRecojo" />
+          </Key>
+          <Property Name="fechaRecojo" Type="datetime" Nullable="false" />
+          <Property Name="idRegalo" Type="int" Nullable="false" />
+          <Property Name="usuario" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
         <EntityType Name="TipoTarjeta">
           <Key>
             <PropertyRef Name="idTipoTar" />
@@ -66,6 +82,18 @@
           <Property Name="idTipoTar" Type="int" Nullable="false" />
           <Property Name="nombre" Type="char" MaxLength="18" />
         </EntityType>
+        <Association Name="FK__RegaloXCu__usuar__4BAC3F29">
+          <End Role="CuentaUsuario" Type="Self.CuentaUsuario" Multiplicity="1" />
+          <End Role="RegaloXCuenta" Type="Self.RegaloXCuenta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CuentaUsuario">
+              <PropertyRef Name="usuario" />
+            </Principal>
+            <Dependent Role="RegaloXCuenta">
+              <PropertyRef Name="usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="R_3">
           <End Role="Banco" Type="Self.Banco" Multiplicity="0..1" />
           <End Role="Promociones" Type="Self.Promociones" Multiplicity="*" />
@@ -90,12 +118,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="R_74">
+          <End Role="Regalo" Type="Self.Regalo" Multiplicity="1" />
+          <End Role="RegaloXCuenta" Type="Self.RegaloXCuenta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Regalo">
+              <PropertyRef Name="idRegalo" />
+            </Principal>
+            <Dependent Role="RegaloXCuenta">
+              <PropertyRef Name="idRegalo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="inf245netsoftModelStoreContainer">
           <EntitySet Name="Banco" EntityType="Self.Banco" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CuentaUsuario" EntityType="Self.CuentaUsuario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Perfiles" EntityType="Self.Perfiles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Promociones" EntityType="Self.Promociones" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Regalo" EntityType="Self.Regalo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RegaloXCuenta" EntityType="Self.RegaloXCuenta" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoTarjeta" EntityType="Self.TipoTarjeta" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__RegaloXCu__usuar__4BAC3F29" Association="Self.FK__RegaloXCu__usuar__4BAC3F29">
+            <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
+            <End Role="RegaloXCuenta" EntitySet="RegaloXCuenta" />
+          </AssociationSet>
           <AssociationSet Name="R_3" Association="Self.R_3">
             <End Role="Banco" EntitySet="Banco" />
             <End Role="Promociones" EntitySet="Promociones" />
@@ -103,6 +149,10 @@
           <AssociationSet Name="R_6" Association="Self.R_6">
             <End Role="TipoTarjeta" EntitySet="TipoTarjeta" />
             <End Role="Promociones" EntitySet="Promociones" />
+          </AssociationSet>
+          <AssociationSet Name="R_74" Association="Self.R_74">
+            <End Role="Regalo" EntitySet="Regalo" />
+            <End Role="RegaloXCuenta" EntitySet="RegaloXCuenta" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -129,6 +179,7 @@
           <Property Name="fechaNac" Type="DateTime" Precision="3" />
           <Property Name="puntos" Type="Int32" />
           <Property Name="codPerfil" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="RegaloXCuenta" Relationship="inf245netsoftModel.FK__RegaloXCu__usuar__4BAC3F29" FromRole="CuentaUsuario" ToRole="RegaloXCuenta" />
         </EntityType>
         <EntityContainer Name="inf245netsoft" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="CuentaUsuario" EntityType="Self.CuentaUsuario" />
@@ -143,6 +194,16 @@
           <AssociationSet Name="R_6" Association="inf245netsoftModel.R_6">
             <End Role="TipoTarjeta" EntitySet="TipoTarjeta" />
             <End Role="Promociones" EntitySet="Promociones" />
+          </AssociationSet>
+          <EntitySet Name="Regalo" EntityType="inf245netsoftModel.Regalo" />
+          <EntitySet Name="RegaloXCuenta" EntityType="inf245netsoftModel.RegaloXCuenta" />
+          <AssociationSet Name="FK__RegaloXCu__usuar__4BAC3F29" Association="inf245netsoftModel.FK__RegaloXCu__usuar__4BAC3F29">
+            <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
+            <End Role="RegaloXCuenta" EntitySet="RegaloXCuenta" />
+          </AssociationSet>
+          <AssociationSet Name="R_74" Association="inf245netsoftModel.R_74">
+            <End Role="Regalo" EntitySet="Regalo" />
+            <End Role="RegaloXCuenta" EntitySet="RegaloXCuenta" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Perfiles">
@@ -210,6 +271,49 @@
             </Principal>
             <Dependent Role="Promociones">
               <PropertyRef Name="codTipoTarjeta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Regalo">
+          <Key>
+            <PropertyRef Name="idRegalo" />
+          </Key>
+          <Property Name="idRegalo" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="puntos" Type="Int32" />
+          <NavigationProperty Name="RegaloXCuenta" Relationship="inf245netsoftModel.R_74" FromRole="Regalo" ToRole="RegaloXCuenta" />
+        </EntityType>
+        <EntityType Name="RegaloXCuenta">
+          <Key>
+            <PropertyRef Name="fechaRecojo" />
+          </Key>
+          <Property Name="fechaRecojo" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="idRegalo" Type="Int32" Nullable="false" />
+          <Property Name="usuario" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CuentaUsuario" Relationship="inf245netsoftModel.FK__RegaloXCu__usuar__4BAC3F29" FromRole="RegaloXCuenta" ToRole="CuentaUsuario" />
+          <NavigationProperty Name="Regalo" Relationship="inf245netsoftModel.R_74" FromRole="RegaloXCuenta" ToRole="Regalo" />
+        </EntityType>
+        <Association Name="FK__RegaloXCu__usuar__4BAC3F29">
+          <End Type="inf245netsoftModel.CuentaUsuario" Role="CuentaUsuario" Multiplicity="1" />
+          <End Type="inf245netsoftModel.RegaloXCuenta" Role="RegaloXCuenta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CuentaUsuario">
+              <PropertyRef Name="usuario" />
+            </Principal>
+            <Dependent Role="RegaloXCuenta">
+              <PropertyRef Name="usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_74">
+          <End Type="inf245netsoftModel.Regalo" Role="Regalo" Multiplicity="1" />
+          <End Type="inf245netsoftModel.RegaloXCuenta" Role="RegaloXCuenta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Regalo">
+              <PropertyRef Name="idRegalo" />
+            </Principal>
+            <Dependent Role="RegaloXCuenta">
+              <PropertyRef Name="idRegalo" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -281,6 +385,24 @@
               <MappingFragment StoreEntitySet="TipoTarjeta">
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
                 <ScalarProperty Name="idTipoTar" ColumnName="idTipoTar" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Regalo">
+            <EntityTypeMapping TypeName="inf245netsoftModel.Regalo">
+              <MappingFragment StoreEntitySet="Regalo">
+                <ScalarProperty Name="puntos" ColumnName="puntos" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="idRegalo" ColumnName="idRegalo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RegaloXCuenta">
+            <EntityTypeMapping TypeName="inf245netsoftModel.RegaloXCuenta">
+              <MappingFragment StoreEntitySet="RegaloXCuenta">
+                <ScalarProperty Name="usuario" ColumnName="usuario" />
+                <ScalarProperty Name="idRegalo" ColumnName="idRegalo" />
+                <ScalarProperty Name="fechaRecojo" ColumnName="fechaRecojo" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

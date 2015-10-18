@@ -14,6 +14,11 @@ namespace WebApplication4.Models
     
     public partial class CuentaUsuario
     {
+        public CuentaUsuario()
+        {
+            this.RegaloXCuenta = new HashSet<RegaloXCuenta>();
+        }
+    
         public string usuario { get; set; }
         public string tipoUsuario { get; set; }
         public string correo { get; set; }
@@ -30,5 +35,7 @@ namespace WebApplication4.Models
         public Nullable<System.DateTime> fechaNac { get; set; }
         public Nullable<int> puntos { get; set; }
         public int codPerfil { get; set; }
+    
+        public virtual ICollection<RegaloXCuenta> RegaloXCuenta { get; set; }
     }
 }
