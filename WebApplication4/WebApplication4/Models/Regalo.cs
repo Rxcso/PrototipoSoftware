@@ -22,6 +22,7 @@ namespace WebApplication4.Models
         public int idRegalo { get; set; }
         public string Nombre { get; set; }
         public Nullable<int> puntos { get; set; }
+        public string descripcion { get; set; }
     
         public virtual ICollection<RegaloXCuenta> RegaloXCuenta { get; set; }
     }

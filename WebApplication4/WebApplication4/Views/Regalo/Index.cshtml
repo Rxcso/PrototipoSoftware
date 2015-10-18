@@ -36,54 +36,35 @@
         </div>
 
     </div>
+    @{
+        var db = new WebApplication4.Models.inf245netsoft();
+        //List<WebApplication4.Models.Regalo> listaRegalo = db.Regalo.AsNoTracking().Where(c => c.codEvento == 1 && c.estado == true).ToList();
+    }
+
     <div class="row">
-        <table class="table table-bordered table-hover">
-            <tr class="active">
-                <th>Id</th>
-                <th>Nombre</th>
-                <th>Descripción</th>
-                <th>Puntos</th>
-                <th>Estado</th>
-            </tr>
-            <tr>
-                <td>01</td>
-                <td>Lapicero</td>
-                <td>Lapicero marca Blue nro 222</td>
-                <td>900</td>
-                <td>Activo</td>
-            </tr>
-            <tr>
-                <td>02</td>
-                <td>Cartera</td>
-                <td>Cartera para mujer rosa de cuero</td>
-                <td>1300</td>
-                <td>Activo</td>
-            </tr>
-            <tr>
-                <td>03</td>
-                <td>Oso polar</td>
-                <td>Oso polar de lana rojo-verde</td>
-                <td>2800</td>
-                <td>Activo</td>
-            </tr>
-            <tr>
-                <td>04</td>
-                <td class="modificado">Reloj suizo</td>
-                <td class="modificado">Reloj suizo cod 203</td>
-                <td class="modificado">3000</td>
-                <td>Activo</td>
-            </tr>
-            <tr id="filaAgregada" style="visibility:hidden">
-                <td>05</td>
-                <td id="nomb">a</td>
-                <td id="dir">b</td>
-                <td id="afo">c</td>
-                <td>Activo</td>
-            </tr>
+        <table id="mytable" class="table table-bordered table-hover">
+            <thead>
+                <tr class="thead">
+                    <th>Codigo</th>
+                    <th>Descripcion</th>
+                    <th>Fecha Inicio</th>
+                    <th>Fecha Fin</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+                @foreach (var row in listaPromo)
+                {
+                    <tr id=@row.codPromo onclick="myFunction(this)">
+                        <td>@row.codPromo</td>
+                        <td>@row.descripcion</td>
+                        <td>@row.fechaIni</td>
+                        <td>@row.fechaFin</td>
+                        <td>@Html.ActionLink("Delete", "Delete", new { id = row.codPromo, ide = row.codEvento })</td>
+                    </tr>
+                }
+            </tbody>
         </table>
-
-
-
     </div>
 
 </div>
