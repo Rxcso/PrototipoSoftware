@@ -1,0 +1,113 @@
+﻿@using Microsoft.AspNet.Identity
+@using WebApplication4.Models
+@{
+    ViewBag.ReturnUrl = "Index2";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+</head>
+<body>
+    <header>
+        <nav style="margin-bottom:0" class="navbar navbar-static-top navbar-inverse " role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navegacion">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="@Url.Action("Index2", "Home")" class="navbar-brand">TICKNET </a><!--nos redirige a la pag principal-->
+                </div>
+                <!--inicia el MENU-->
+                <div class="collapse navbar-collapse" id="navegacion">
+                    <!--menu desplegable -->
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                                Módulo de venta <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="buscar-evento(vendedor).html">Buscar eventos</a></li>
+                                <li><a href="entregar_boletos(vendedor).html">Entregar boletos</a></li>
+                                <li><a href="pagar_reserva(vendedor).html">Buscar reserva</a></li>
+                                <li><a href="devolucion_entradas.html">Devolución</a></li>
+                                <li class="divider"></li>
+                                <li><a href="ver_cliente.html">Buscar cliente</a></li>
+                                <li class="divider"></li>
+                                <li><a href="repVentasDia.html">Reporte de ventas</a></li>
+                                <li><a href="abrir_caja.html">Apertura de caja</a></li>
+                                <li><a href="cerrar_caja.html">Cierre de caja</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                                Procesos <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!--Administrador-->
+                                <li><a href="asignar_turnos.html">Asignar turnos y puntos de venta</a></li>
+                                <li><a href="mantener_politicas.html">Políticas de la empresa</a></li>
+                                <li><a href="tipo_cambio.html">Tipo de cambio</a></li>
+                                <li><a href="registrar_pagos.html">Registrar pagos</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                                Mantenimientos <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!--Administrador del negocio-->
+                                <li><a href="mantener_categoria.html">Categorías de eventos</a></li>
+                                <li><a href="mantener_empleados.html">Empleados</a></li>
+                                <li><a href="mantener_puntos_venta.html">Puntos de venta</a></li>
+                                <li><a href="@Url.Action("Index", "Regalo")">Regalos</a></li>
+
+                                <!--Promotor-->
+                                <li class="divider"></li>
+                                <li><a href="mantener_organizador.html">Organizadores</a></li>
+                                <li><a href="mantener_locales.html">Locales</a></li>
+                                <li><a href="@Url.Action("Index", "Evento")">Eventos</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                                Reportes <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="repVentas.html">Ventas</a></li>
+                                <li><a href="reporte_eventos.html">Eventos</a></li>
+                                <li class="divider"></li>
+                                <li><a href="Reporte_Asignacion_de_Vendedores.html">Asignación de vendedores</a></li>
+                                <li><a href="reporte_asistencia_vendedores.html">Asistencia</a></li>
+                                <li><a href="ReporteCliente.html">Clientes</a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                    @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "form" }))
+                    {
+                    @Html.AntiForgeryToken()
+
+                    <div class="nav navbar-nav navbar-right">
+                        <font color="white"> Hello @User.Identity.GetUserName()!</font>
+                        <a type="button" class="btn btn-default" href="javascript:document.getElementById('logoutForm').submit()">Cerrar Sesion <span class="glyphicon glyphicon-log-out"></span></a>
+                    </div>
+                    }
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    @RenderBody()
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

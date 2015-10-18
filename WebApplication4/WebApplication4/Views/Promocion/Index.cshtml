@@ -1,0 +1,293 @@
+﻿@using Microsoft.AspNet.Identity
+@using WebApplication4.Models
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+    var idProm=0;
+    int idEvento = 1;
+}
+
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li><a href="@Url.Action("Index", "Evento")">Mantener evento</a></li>
+            <li class="active">Registrar Promociones</li>
+        </ol>
+    </div>
+</div>
+
+
+<div class="container">
+
+    <div class="row form-group">
+        <label for="idEvento" class="control-label col-md-4">ID Evento:</label>
+        <div class="col-md-8">
+            <input type="text" class="form-control" placeholder=@idEvento disabled>
+        </div>
+    </div>
+
+    <div class="row form-group">
+        <label for="nombreEvento" class="control-label col-md-4">Nombre Evento:</label>
+        <div class="col-md-8">
+            <input type="text" class="form-control" placeholder="Circo Kiko" disabled>
+        </div>
+    </div><br><br>
+
+    <div class="row">
+        <div class="col-md-10 col-sm-6 col-xs-6">
+            <a class="btn btn-primary" href="#nuevaPromocion" data-toggle="modal">Agregar Promocion<span class="glyphicon glyphicon-plus"></span></a>    
+            <a class="btn btn-primary" href="#nuevaPromocion2" data-toggle="modal">Agregar Promocion Cantidad <span class="glyphicon glyphicon-plus"></span></a>        
+            @*<a class="btn btn-primary" href="@Url.Action("Delete", "Promocion", new { id = idProm, ide = idEvento })">Borrar<span class="glyphicon glyphicon-pencil"></span></a>*@
+                         
+    @*
+                 <a class="btn btn-primary" href="@Url.Action("Delete", "Promocion")">Borrar <span class="glyphicon glyphicon-pencil"></span></a>
+                 @Html.ActionLink("Borrar", "Delete", "Promocion", new { id = idProm }, null)
+        <a href="@Url.Action("Delete", "Promocion", new { id = idProm })">Borrar</a>*@
+        </div>
+        <div class="col-md-2 col-sm-6 colxs-6">
+            <a class="btn btn-danger pull-right" href="@Url.Action("Index", "Evento")"> salir <span class="glyphicon glyphicon-log-out"></span></a>
+        </div>
+    </div>
+    <br>
+    @{
+        var db = new WebApplication4.Models.inf245netsoft();
+        List<WebApplication4.Models.Promociones> listaPromo = db.Promociones.AsNoTracking().Where(c => c.codEvento == 1 && c.estado == true).ToList();
+    }
+
+
+    <div class="row">
+        <table id="mytable" class="table table-bordered table-hover">
+            <thead>
+                <tr class="thead">
+                    <th>Codigo</th>
+                    <th>Descripcion</th>
+                    <th>Fecha Inicio</th>
+                    <th>Fecha Fin</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+                @foreach (var row in listaPromo)
+                {
+                    <tr id=@row.codPromo onclick="myFunction(this)">
+                        <td>@row.codPromo</td>
+                        <td>@row.descripcion</td>
+                        <td>@row.fechaIni</td>
+                        <td>@row.fechaFin</td>
+                        <td>@Html.ActionLink("Delete","Delete", new { id = row.codPromo, ide = row.codEvento })</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<script>
+    function myFunction(x) {
+        if (document.getElementsByClassName("trselected").length > 0) {
+            var element = document.getElementsByClassName("trselected");
+            //element.item[0].cells[0].innerText;
+            element[0].className = "";            
+            ViewData["Prueba"] = element[0].cells[0].innerText;
+            ViewBag.Name = element[0].cells[1].innerText;
+        }
+        x.className = "trselected";
+        //<a class="btn btn-primary" href="javascript:document.getElementsByClassName('trselected').submit()">Borrar<span class="glyphicon glyphicon-pencil"></span></a>
+        idProm = x.codp;
+    }
+</script>
+
+<style>
+    .trselected {
+        background: gray;
+    }
+</style>
+
+<div class="modal fade" id="nuevaPromocion">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button tyle="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-tittle">Ingresar nueva promocion</h4>
+            </div>
+
+            <div class="modal-body">
+
+                <form action="" class="">
+                    <!--DECLARAMOS EL TABS Y LA CANTIDAD DE PESTAÑAS QUE TENDRA -->
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#xEntrada" data-toggle="tab">Por Entrada</a></li>
+                        <li><a href="#xTarjeta" data-toggle="tab">Por Tarjeta</a></li>
+                    </ul>
+
+                    <!--INTRODUCIMOS EL CONTIDO QUE TENDRA CADA PESTAÑA -->
+                    <div class="tab-content">
+                        <!--PRIMERA PESTAÑA-->
+                        <div class="tab-pane fade in active" id="xEntrada">                               
+                            @{
+                                Html.RenderPartial("_RegisterPartial");
+                            }
+                            @*
+    @using (Html.BeginForm("RegisterPromocion", "Promocion", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true)
+            <br>
+            <div class="row form-group">
+                @Html.LabelFor(model => model.fechaIni, new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.EditorFor(model => model.fechaIni)
+                    @Html.ValidationMessageFor(model => model.fechaIni)
+                </div>
+            </div>
+
+            <div class="row form-group">
+                @Html.LabelFor(model => model.fechaFin, new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.EditorFor(model => model.fechaFin)
+                    @Html.ValidationMessageFor(model => model.fechaFin)
+                </div>
+            </div>
+            <br>
+
+            <label>Promocion:</label>
+            <br>
+            <br>
+            <div class="row form-group">
+                <div class="form-inline">
+                    Personalizado
+                    @Html.EditorFor(model => model.cantAdq)
+                    @Html.ValidationMessageFor(model => model.cantAdq)
+                    X
+                    @Html.EditorFor(model => model.cantComp)
+                    @Html.ValidationMessageFor(model => model.cantComp)
+                </div>
+            </div><br>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Aceptar" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }*@
+
+                        </div>
+
+                        <!--SEGUNDA PESTAÑA-->
+                        <div class="tab-pane fade" id="xTarjeta">
+
+                            @{
+                                Html.RenderPartial("_RegisterPartial2");
+                            }
+                            @*@using (Html.BeginForm("RegisterPromocion", "Promocion", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                            {
+                                @Html.AntiForgeryToken()
+
+                                <div class="form-horizontal">
+                                    @Html.ValidationSummary(true)
+                                    <br>
+                                    <div class="row form-group">
+                                        @Html.LabelFor(model => model.fechaIni, new { @class = "control-label col-md-3" })
+                                        <div class="col-md-9">
+                                            @Html.EditorFor(model => model.fechaIni)
+                                            @Html.ValidationMessageFor(model => model.fechaIni)
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-group">
+                                        @Html.LabelFor(model => model.fechaFin, new { @class = "control-label col-md-3" })
+                                        <div class="col-md-9">
+                                            @Html.EditorFor(model => model.fechaFin)
+                                            @Html.ValidationMessageFor(model => model.fechaFin)
+                                        </div>
+                                    </div>
+                                    <br>
+
+                                    <div class="row form-group">
+                                        @Html.LabelFor(model => model.codBanco, new { @class = "control-label col-md-3" })
+                                        <div class="col-md-9">
+                                            @{                                
+                                                List<WebApplication4.Models.Banco> listaBanco = db.Banco.AsNoTracking().ToList();                                
+                                                IEnumerable<SelectListItem> listItems = (from a in listaBanco
+                                                                         select new SelectListItem
+                                                                       {
+                                                                           Value = a.codigo.ToString(),
+                                                                           Text = a.nombre,
+                                                                           Selected = false
+                                                                       });
+                                            }
+                                            @Html.DropDownListFor(model => model.codBanco, listItems, "Seleccione Banco")
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-group">
+                                        @Html.LabelFor(model => model.codTipoTarjeta, new { @class = "control-label col-md-3" })
+                                        <div class="col-md-9">
+                                            @{
+                                List<WebApplication4.Models.TipoTarjeta> listaTipoTarj = db.TipoTarjeta.AsNoTracking().ToList();
+                                IEnumerable<SelectListItem> listItems2 = (from a in listaTipoTarj
+                                                                          select new SelectListItem
+                                                                          {
+                                                                              Value = a.idTipoTar.ToString(),
+                                                                              Text = a.nombre,
+                                                                              Selected = false
+                                                                          });
+                                            }
+                                            @Html.DropDownListFor(model => model.codTipoTarjeta, listItems2, "Seleccione tipo de Tarjeta")
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-group">
+                                        @Html.LabelFor(model => model.descuento, new { @class = "control-label col-md-3" })
+                                        <div class="col-md-9">
+                                            @Html.EditorFor(model => model.descuento)
+                                            @Html.ValidationMessageFor(model => model.descuento)
+                                            <label class="control-label col-md-1"> %</label>
+                                        </div>
+                                    </div><br>
+
+                                    <div class="form-group">
+                                        <div class="col-md-offset-2 col-md-10">
+                                            <input type="submit" value="Aceptar" class="btn btn-default" />
+                                        </div>
+                                    </div>
+                                </div>
+                            }*@
+                        </div>
+
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="nuevaPromocion2">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button tyle="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-tittle">Ingresar nueva promocion</h4>
+            </div>
+
+            @{
+                Html.RenderPartial("_RegisterPartial");
+            }
+
+
+        </div>
+    </div>
+</div>

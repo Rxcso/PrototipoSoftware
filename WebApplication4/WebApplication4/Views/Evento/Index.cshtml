@@ -1,0 +1,159 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li class="active">Mantenimiento de eventos</li>
+        </ol>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-sm-12">
+            <div class="form-group">
+                <a class="btn btn-primary" href="registrar_evento.html">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
+                <a class="btn btn-primary" href="modificar_evento.html">Modificar <span class="glyphicon glyphicon-pencil"></span></a>
+                <a class="btn btn-primary" href="asientos.html">Asientos <span class="glyphicon glyphicon-equalizer"></span></a>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-12">
+            <div class="form-group">
+                <a class="btn btn-primary" href="@Url.Action("Index", "Promocion")">Agregar Promoción <span class="glyphicon glyphicon-tags"></span></a>
+                <a class="btn btn-primary" href="reservar_organizador.html">Reservar Entradas <span class="glyphicon glyphicon-flag"></span></a>
+                <a class="btn btn-warning" href="postergar_evento.html">Postergar <span class="glyphicon glyphicon-calendar"></span></a>
+                <a class="btn btn-warning" href="cancelar_evento.html">Cancelar <span class="glyphicon glyphicon-remove-sign"></span></a>
+            </div>
+        </div>
+        <div class="col-md-2 col-sm-12" style="text-align:center">
+            <a class="btn btn-danger" href="@Url.Action("Index2", "Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+        </div>
+    </div><br>
+    <div class="row">
+        <div class="col-md-10 ">
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="BUSCAR UN EVENTO">
+                    <span class="input-group-btn"><button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div id="busqAvanzada" class="container-fluid">
+            <div id="busqAvanzada">
+                <!--formulario EN LINEA-->
+                <form id="search" action="" class="form-inline">
+                    <div class="form-group ">
+                        <div class="form-group ">
+                            <div class="input-group">
+                                <span class="input-group-addon">Desde:</span>
+                                <input type="date" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group ">
+                            <div class="input-group">
+                                <span class="input-group-addon">Hasta:</span>
+                                <input type="date" class="form-control">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group ">
+                            <select name="" id="Tipo" class="form-control col-lg-2">
+                                <option value="">Evento</option>
+                                <option value="">Teatro</option>
+                                <option value="">Actividad</option>
+                                <option value="">Cine</option>
+                            </select>
+                        </div>
+                        <div class="form-group ">
+                            <select name="" id="Categoria" class="form-control col-lg-2">
+                                <option value="">Entretenimiento</option>
+                                <option value="">Comedia</option>
+                                <option value="">Deporte</option>
+                                <option value="">Salud</option>
+                                <option value="">Música</option>
+                                <option value="">Romance</option>
+                            </select>
+                        </div>
+
+
+                        <div class="form-group">
+                            <select name="" id="lugares" class="form-control ">
+                                <option value="">Lima</option>
+                                <option value="">Piura</option>
+                                <option value="">Juliaca</option>
+                                <option value="">Trujillo</option>
+                                <option value="">Loreto</option>
+                                <option value="">Ica</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <a href="buscar-evento(vendedor).html" class="btn btn-primary ">Buscar <span class="glyphicon glyphicon-search"></span></a>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-12 table-responsive">
+            <table class="table table-bordered table-hover">
+                <tr class="active">
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Tipo</th>
+                    <th>Categoría</th>
+                    <th>Organizador</th>
+                    <th>Estado</th>
+                </tr>
+                <tr>
+                    <td>02</td>
+                    <td>Circo Kiko</td>
+                    <td>Evento</td>
+                    <td>Entretenimiento</td>
+                    <td>Kiko rules</td>
+                    <td>Activo</td>
+                </tr>
+                <tr>
+                    <td>03</td>
+                    <td>Jose no me esperes</td>
+                    <td>Actividad</td>
+                    <td>Show</td>
+                    <td>Juancho Producciones</td>
+                    <td>Activo</td>
+                </tr>
+                <tr id="fila3" onclick="select()">
+                    <td>04</td>
+                    <td>Los tres chiflados</td>
+                    <td>Teatro</td>
+                    <td>Comedia</td>
+                    <td>Juancho Producciones</td>
+                    <td>Activo</td>
+                </tr>
+                <tr>
+                    <td>05</td>
+                    <td>David Guetta</td>
+                    <td>Cine</td>
+                    <td>Musical</td>
+                    <td>Chavela S.A.C.</td>
+                    <td>Activo</td>
+                </tr>
+            </table>
+        </div>
+
+
+    </div>
+
+</div>
+
+
