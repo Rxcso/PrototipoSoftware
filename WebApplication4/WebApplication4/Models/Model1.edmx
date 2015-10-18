@@ -76,6 +76,13 @@
           <Property Name="idRegalo" Type="int" Nullable="false" />
           <Property Name="usuario" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
+        <EntityType Name="TipoDeCambio">
+          <Key>
+            <PropertyRef Name="fecha" />
+          </Key>
+          <Property Name="fecha" Type="datetime" Nullable="false" />
+          <Property Name="valor" Type="float" />
+        </EntityType>
         <EntityType Name="TipoTarjeta">
           <Key>
             <PropertyRef Name="idTipoTar" />
@@ -138,6 +145,7 @@
           <EntitySet Name="Promociones" EntityType="Self.Promociones" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Regalo" EntityType="Self.Regalo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RegaloXCuenta" EntityType="Self.RegaloXCuenta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TipoDeCambio" EntityType="Self.TipoDeCambio" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoTarjeta" EntityType="Self.TipoTarjeta" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__RegaloXCu__usuar__4BAC3F29" Association="Self.FK__RegaloXCu__usuar__4BAC3F29">
             <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
@@ -206,6 +214,7 @@
             <End Role="Regalo" EntitySet="Regalo" />
             <End Role="RegaloXCuenta" EntitySet="RegaloXCuenta" />
           </AssociationSet>
+          <EntitySet Name="TipoDeCambio" EntityType="inf245netsoftModel.TipoDeCambio" />
           </EntityContainer>
         <EntityType Name="Perfiles">
           <Key>
@@ -319,6 +328,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="TipoDeCambio">
+          <Key>
+            <PropertyRef Name="fecha" />
+          </Key>
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="valor" Type="Double" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -406,6 +422,14 @@
                 <ScalarProperty Name="usuario" ColumnName="usuario" />
                 <ScalarProperty Name="idRegalo" ColumnName="idRegalo" />
                 <ScalarProperty Name="fechaRecojo" ColumnName="fechaRecojo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TipoDeCambio">
+            <EntityTypeMapping TypeName="inf245netsoftModel.TipoDeCambio">
+              <MappingFragment StoreEntitySet="TipoDeCambio">
+                <ScalarProperty Name="valor" ColumnName="valor" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

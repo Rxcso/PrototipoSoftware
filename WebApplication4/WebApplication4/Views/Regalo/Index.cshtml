@@ -1,4 +1,8 @@
-﻿
+﻿@using Microsoft.AspNet.Identity
+@using WebApplication4.Models
+
+
+@model RegaloModel
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
@@ -38,7 +42,7 @@
     </div>
     @{
         var db = new WebApplication4.Models.inf245netsoft();
-        //List<WebApplication4.Models.Regalo> listaRegalo = db.Regalo.AsNoTracking()ToList();
+        List<WebApplication4.Models.Regalo> listaRegalo = db.Regalo.ToList();
     }
 
     <div class="row">
@@ -46,21 +50,21 @@
             <thead>
                 <tr class="thead">
                     <th>Codigo</th>
+                    <th>Nombre</th>
                     <th>Descripcion</th>
-                    <th>Fecha Inicio</th>
-                    <th>Fecha Fin</th>
+                    <th>Puntos</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody id="tbody">
                 @foreach (var row in listaRegalo)
                 {
-                    <tr id=@row.codPromo onclick="myFunction(this)">
-                        <td>@row.codPromo</td>
+                    <tr id=@row.idRegalo onclick="myFunction(this)">
+                        <td>@row.idRegalo</td>
+                        <td>@row.Nombre</td>
                         <td>@row.descripcion</td>
-                        <td>@row.fechaIni</td>
-                        <td>@row.fechaFin</td>
-                        <td>@Html.ActionLink("Delete", "Delete", new { id = row.codPromo, ide = row.codEvento })</td>
+                        <td>@row.puntos</td>
+                        <td>@Html.ActionLink("Delete", "Delete", new { id = row.idRegalo})</td>
                     </tr>
                 }
             </tbody>
@@ -82,28 +86,45 @@
             </div>
             <!--contenido de la ventana-->
             <div class="modal-body">
-                <form action="" class="form-horizontal">
-                    <div class="form-group">
-                        <label for="nombre" class="control-label col-md-2">Nombre:</label>
-                        <div class="col-md-10">
-                            <input type="text" class="form-control" id="nombre" placeholder="Nombre del regalo">
-                        </div>
-                    </div>
+                @using (Html.BeginForm("RegisterRegalo", "Regalo", FormMethod.Post, new { }))
+                {
+                    @Html.AntiForgeryToken()
 
-                    <div class="form-group">
-                        <label for="direccion" class="control-label col-md-2">Descripción:</label>
-                        <div class="col-md-10">
-                            <input type="text" class="form-control" id="direccion" placeholder="Descripción del regalo">
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true)
+                        <br>
+                        <div class="row form-group">
+                            @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.nombre)
+                                @Html.ValidationMessageFor(model => model.nombre)
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <label for="ptos" class="control-label col-md-2">Puntos:</label>
-                        <div class="col-md-5">
-                            <input type="number" class="form-control" id="ptos" placeholder="Nº ptos que vale el regalo">
+                        <div class="row form-group">
+                            @Html.LabelFor(model => model.descripcion, new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.descripcion)
+                                @Html.ValidationMessageFor(model => model.descripcion)
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row form-group">
+                            @Html.LabelFor(model => model.puntos, new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.puntos)
+                                @Html.ValidationMessageFor(model => model.puntos)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Aceptar" class="btn btn-default" />
+                            </div>
                         </div>
                     </div>
-                </form>
+                }
+            
             </div>
             <!--footer de la ventana-->
             <div class="modal-footer">
