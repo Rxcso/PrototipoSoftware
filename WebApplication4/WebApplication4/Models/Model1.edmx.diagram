@@ -17,6 +17,7 @@
         <AssociationConnector Association="inf245netsoftModel.FK__RegaloXCu__usuar__4BAC3F29" />
         <AssociationConnector Association="inf245netsoftModel.R_74" />
         <EntityTypeShape EntityType="inf245netsoftModel.TipoDeCambio" Width="1.5" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="inf245netsoftModel.Local" Width="1.5" PointX="8.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

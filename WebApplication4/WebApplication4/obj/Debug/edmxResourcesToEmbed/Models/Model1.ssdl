@@ -28,6 +28,17 @@
     <Property Name="puntos" Type="int" />
     <Property Name="codPerfil" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="Local">
+    <Key>
+      <PropertyRef Name="codLocal" />
+    </Key>
+    <Property Name="aforo" Type="int" />
+    <Property Name="ubicacion" Type="varchar" MaxLength="50" />
+    <Property Name="descripcion" Type="varchar" MaxLength="100" />
+    <Property Name="codLocal" Type="int" Nullable="false" />
+    <Property Name="idProvincia" Type="int" Nullable="false" />
+    <Property Name="idRegion" Type="int" />
+  </EntityType>
   <EntityType Name="Perfiles">
     <Key>
       <PropertyRef Name="codPerfil" />
@@ -70,6 +81,13 @@
     <Property Name="fechaRecojo" Type="datetime" Nullable="false" />
     <Property Name="idRegalo" Type="int" Nullable="false" />
     <Property Name="usuario" Type="varchar" MaxLength="100" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TipoDeCambio">
+    <Key>
+      <PropertyRef Name="fecha" />
+    </Key>
+    <Property Name="fecha" Type="datetime" Nullable="false" />
+    <Property Name="valor" Type="float" />
   </EntityType>
   <EntityType Name="TipoTarjeta">
     <Key>
@@ -129,10 +147,12 @@
   <EntityContainer Name="inf245netsoftModelStoreContainer">
     <EntitySet Name="Banco" EntityType="Self.Banco" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CuentaUsuario" EntityType="Self.CuentaUsuario" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Local" EntityType="Self.Local" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Perfiles" EntityType="Self.Perfiles" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Promociones" EntityType="Self.Promociones" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Regalo" EntityType="Self.Regalo" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="RegaloXCuenta" EntityType="Self.RegaloXCuenta" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TipoDeCambio" EntityType="Self.TipoDeCambio" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoTarjeta" EntityType="Self.TipoTarjeta" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK__RegaloXCu__usuar__4BAC3F29" Association="Self.FK__RegaloXCu__usuar__4BAC3F29">
       <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />

@@ -20,7 +20,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 <a class="btn btn-primary" href="#formNuevo" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
-                <button type="button" class="btn btn-primary" onclick="modificar()">Modificar <span class="glyphicon glyphicon-pencil"></span></button>
+                <button type="button" class="btn btn-primary" href="#formEditar" onclick="modificar()">Modificar <span class="glyphicon glyphicon-pencil"></span></button>
                 <a class="btn btn-primary" href="#eliminar" data-toggle="modal">Dar de Baja <span class="glyphicon glyphicon-remove"></span></a>
                 <button id=botonOculto style="visibility:hidden" type="button" class="btn btn-primary" onclick="msjConfirmacion2()">Guardar cambios <span class="glyphicon glyphicon-save"></span></button>
             </div>
@@ -65,6 +65,7 @@
                         <td>@row.descripcion</td>
                         <td>@row.puntos</td>
                         <td>@Html.ActionLink("Delete", "Delete", new { id = row.idRegalo})</td>
+                        <td>@Html.ActionLink("Edit", "Edit", new { id = row.idRegalo })</td>
                     </tr>
                 }
             </tbody>
@@ -125,6 +126,66 @@
                     </div>
                 }
             
+            </div>
+            <!--footer de la ventana-->
+            <div class="modal-footer">
+                <button type="button" onclick="registrar()" class="btn btn-primary">Agregar <span class="glyphicon glyphicon-ok"></span></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="formEditar">
+    <!--esta div pondra la pantalla oscura al presionar el boton-->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--ACA VA EL CONTENIDO DEL MODAL-->
+            <!--header de la ventana-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+                <h4 class="modal-title">Nuevo Regalo</h4>
+            </div>
+            <!--contenido de la ventana-->
+            <div class="modal-body">
+                @using (Html.BeginForm("RegisterRegalo", "Regalo", FormMethod.Post, new { }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true)
+                        <br>
+                        <div class="row form-group">
+                            @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.nombre)
+                                @Html.ValidationMessageFor(model => model.nombre)
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            @Html.LabelFor(model => model.descripcion, new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.descripcion)
+                                @Html.ValidationMessageFor(model => model.descripcion)
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row form-group">
+                            @Html.LabelFor(model => model.puntos, new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.puntos)
+                                @Html.ValidationMessageFor(model => model.puntos)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Aceptar" class="btn btn-default" />
+                            </div>
+                        </div>
+                    </div>
+                }
+
             </div>
             <!--footer de la ventana-->
             <div class="modal-footer">

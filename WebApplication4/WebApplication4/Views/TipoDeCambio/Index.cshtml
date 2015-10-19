@@ -1,0 +1,81 @@
+﻿@using Microsoft.AspNet.Identity
+@using WebApplication4.Models
+
+
+@model TipoDeCambioModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li class="active">Tipo de cambio</li>
+        </ol>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <br>
+            <a href="index2.html" class="btn btn-danger pull-right">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+        </div>
+    </div>
+
+    @using (Html.BeginForm("RegisterTipoDeCambio", "TipoDeCambio", FormMethod.Post, new { }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true)
+            <br>
+            <div class="row form-group">
+                @Html.LabelFor(model => model.valor, new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.EditorFor(model => model.valor)
+                    @Html.ValidationMessageFor(model => model.valor)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Registrar" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="row">
+        <div class="col-md-4 col-md-offset-2">
+            <table class="table table-bordered table-hover">
+                <tr class="active">
+                    <th>Fecha de registro</th>
+                    <th>Valor</th>
+                </tr>
+                <tr>
+                    <td>10/09/2015</td>
+                    <td>3.50</td>
+                </tr>
+                <tr>
+                    <td>02/09/2015</td>
+                    <td>2.99</td>
+                </tr>
+                <tr>
+                    <td>05/09/2015</td>
+                    <td>3.09</td>
+                </tr>
+                <tr id="filaAgregar" style="visibility:hidden">
+                    <td>25/09/2015</td>
+                    <td id="tipocambio">3.00</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+
+
+
+</div>
+

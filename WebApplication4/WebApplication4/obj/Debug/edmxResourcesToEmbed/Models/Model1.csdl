@@ -46,6 +46,8 @@
       <End Role="Regalo" EntitySet="Regalo" />
       <End Role="RegaloXCuenta" EntitySet="RegaloXCuenta" />
     </AssociationSet>
+    <EntitySet Name="TipoDeCambio" EntityType="inf245netsoftModel.TipoDeCambio" />
+    <EntitySet Name="Local" EntityType="inf245netsoftModel.Local" />
   </EntityContainer>
   <EntityType Name="Perfiles">
     <Key>
@@ -159,4 +161,22 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="TipoDeCambio">
+    <Key>
+      <PropertyRef Name="fecha" />
+    </Key>
+    <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="valor" Type="Double" />
+  </EntityType>
+  <EntityType Name="Local">
+    <Key>
+      <PropertyRef Name="codLocal" />
+    </Key>
+    <Property Name="aforo" Type="Int32" />
+    <Property Name="ubicacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="codLocal" Type="Int32" Nullable="false" />
+    <Property Name="idProvincia" Type="Int32" Nullable="false" />
+    <Property Name="idRegion" Type="Int32" />
+  </EntityType>
 </Schema>

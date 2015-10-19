@@ -33,6 +33,17 @@
           <Property Name="puntos" Type="int" />
           <Property Name="codPerfil" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="Local">
+          <Key>
+            <PropertyRef Name="codLocal" />
+          </Key>
+          <Property Name="aforo" Type="int" />
+          <Property Name="ubicacion" Type="varchar" MaxLength="50" />
+          <Property Name="descripcion" Type="varchar" MaxLength="100" />
+          <Property Name="codLocal" Type="int" Nullable="false" />
+          <Property Name="idProvincia" Type="int" Nullable="false" />
+          <Property Name="idRegion" Type="int" />
+        </EntityType>
         <EntityType Name="Perfiles">
           <Key>
             <PropertyRef Name="codPerfil" />
@@ -141,6 +152,7 @@
         <EntityContainer Name="inf245netsoftModelStoreContainer">
           <EntitySet Name="Banco" EntityType="Self.Banco" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CuentaUsuario" EntityType="Self.CuentaUsuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Local" EntityType="Self.Local" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Perfiles" EntityType="Self.Perfiles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Promociones" EntityType="Self.Promociones" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Regalo" EntityType="Self.Regalo" Schema="dbo" store:Type="Tables" />
@@ -215,6 +227,7 @@
             <End Role="RegaloXCuenta" EntitySet="RegaloXCuenta" />
           </AssociationSet>
           <EntitySet Name="TipoDeCambio" EntityType="inf245netsoftModel.TipoDeCambio" />
+          <EntitySet Name="Local" EntityType="inf245netsoftModel.Local" />
           </EntityContainer>
         <EntityType Name="Perfiles">
           <Key>
@@ -335,6 +348,17 @@
           <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="valor" Type="Double" />
         </EntityType>
+        <EntityType Name="Local">
+          <Key>
+            <PropertyRef Name="codLocal" />
+          </Key>
+          <Property Name="aforo" Type="Int32" />
+          <Property Name="ubicacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="codLocal" Type="Int32" Nullable="false" />
+          <Property Name="idProvincia" Type="Int32" Nullable="false" />
+          <Property Name="idRegion" Type="Int32" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -430,6 +454,18 @@
               <MappingFragment StoreEntitySet="TipoDeCambio">
                 <ScalarProperty Name="valor" ColumnName="valor" />
                 <ScalarProperty Name="fecha" ColumnName="fecha" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Local">
+            <EntityTypeMapping TypeName="inf245netsoftModel.Local">
+              <MappingFragment StoreEntitySet="Local">
+                <ScalarProperty Name="idRegion" ColumnName="idRegion" />
+                <ScalarProperty Name="idProvincia" ColumnName="idProvincia" />
+                <ScalarProperty Name="codLocal" ColumnName="codLocal" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="ubicacion" ColumnName="ubicacion" />
+                <ScalarProperty Name="aforo" ColumnName="aforo" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

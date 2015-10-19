@@ -41,5 +41,13 @@ namespace WebApplication4.Controllers
             //return RedirectToAction("Index", "Evento");
             return View("Index");
         }
+
+        [HttpPost]
+        public ActionResult Edit(Regalo regalo)
+        {
+            db.Regalo.Attach(regalo);
+            db.SaveChanges();
+            return View("Index");
+        }
     }
 }
