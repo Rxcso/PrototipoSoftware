@@ -77,6 +77,7 @@
           <Property Name="idRegalo" Type="int" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="100" />
           <Property Name="descripcion" Type="varchar" MaxLength="100" />
+          <Property Name="estado" Type="bit" />
           <Property Name="puntos" Type="int" />
         </EntityType>
         <EntityType Name="RegaloXCuenta">
@@ -306,6 +307,7 @@
           <Property Name="puntos" Type="Int32" />
           <NavigationProperty Name="RegaloXCuenta" Relationship="inf245netsoftModel.R_74" FromRole="Regalo" ToRole="RegaloXCuenta" />
           <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="estado" Type="Boolean" />
         </EntityType>
         <EntityType Name="RegaloXCuenta">
           <Key>
@@ -433,6 +435,7 @@
           <EntitySetMapping Name="Regalo">
             <EntityTypeMapping TypeName="inf245netsoftModel.Regalo">
               <MappingFragment StoreEntitySet="Regalo">
+                <ScalarProperty Name="estado" ColumnName="estado" />
                 <ScalarProperty Name="descripcion" ColumnName="descripcion" />
                 <ScalarProperty Name="puntos" ColumnName="puntos" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />

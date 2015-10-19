@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -103,8 +104,9 @@ namespace WebApplication4.Controllers
         public ActionResult Delete(int id, int ide)
         {
             Promociones prom = db.Promociones.Find(id, ide);
-            db.Promociones.Remove(prom);
-            
+            //db.Promociones.Remove(prom);
+            db.Entry(prom).State = EntityState.Modified;
+            prom.estado = false;
             db.SaveChanges();
             //return RedirectToAction("Index", "Evento");
             return View("Index");

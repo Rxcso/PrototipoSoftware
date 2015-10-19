@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -26,6 +27,7 @@ namespace WebApplication4.Controllers
             Regalo regaloL = db.Regalo.ToList().Last();
             regalo.idRegalo = regaloL.idRegalo + 1;
             regalo.Nombre = model.nombre;
+            regalo.estado = true;
             regalo.descripcion = model.descripcion;
             regalo.puntos = model.puntos;
             db.Regalo.Add(regalo);
@@ -36,18 +38,34 @@ namespace WebApplication4.Controllers
         public ActionResult Delete(int id)
         {
             Regalo regalo = db.Regalo.Find(id);
-            db.Regalo.Remove(regalo);
+            //db.Regalo.Remove(regalo);
+            db.Entry(regalo).State = EntityState.Modified;
+            regalo.estado = false;
             db.SaveChanges();
             //return RedirectToAction("Index", "Evento");
             return View("Index");
         }
 
-        [HttpPost]
-        public ActionResult Edit(Regalo regalo)
+        
+        public ActionResult Edit(int id)
         {
-            db.Regalo.Attach(regalo);
+            ViewBag.id = id;
+            TempData["codigo"] = id;
+            return View("Edit");
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult EditRegister(RegaloModel model)
+        {
+            var o = ViewBag.id;
+            Regalo regalo = db.Regalo.Find(TempData["codigo"]);
+            db.Entry(regalo).State = EntityState.Modified;
+            regalo.Nombre = model.nombre;
+            regalo.descripcion = model.descripcion;
+            regalo.puntos = model.puntos;
             db.SaveChanges();
-            return View("Index");
+            return RedirectToAction("Index", "Regalo");
         }
     }
 }

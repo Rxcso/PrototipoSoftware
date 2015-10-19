@@ -72,6 +72,7 @@
     <Property Name="idRegalo" Type="int" Nullable="false" />
     <Property Name="Nombre" Type="varchar" MaxLength="100" />
     <Property Name="descripcion" Type="varchar" MaxLength="100" />
+    <Property Name="estado" Type="bit" />
     <Property Name="puntos" Type="int" />
   </EntityType>
   <EntityType Name="RegaloXCuenta">

@@ -126,6 +126,7 @@
     <Property Name="puntos" Type="Int32" />
     <NavigationProperty Name="RegaloXCuenta" Relationship="inf245netsoftModel.R_74" FromRole="Regalo" ToRole="RegaloXCuenta" />
     <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="estado" Type="Boolean" />
   </EntityType>
   <EntityType Name="RegaloXCuenta">
     <Key>

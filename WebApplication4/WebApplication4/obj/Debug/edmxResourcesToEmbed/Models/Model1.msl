@@ -69,6 +69,7 @@
     <EntitySetMapping Name="Regalo">
       <EntityTypeMapping TypeName="inf245netsoftModel.Regalo">
         <MappingFragment StoreEntitySet="Regalo">
+          <ScalarProperty Name="estado" ColumnName="estado" />
           <ScalarProperty Name="descripcion" ColumnName="descripcion" />
           <ScalarProperty Name="puntos" ColumnName="puntos" />
           <ScalarProperty Name="Nombre" ColumnName="Nombre" />
