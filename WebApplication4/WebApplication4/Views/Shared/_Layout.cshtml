@@ -3,6 +3,7 @@
 
 @{
     var esIntranet = 0;
+    var nombre ="";
     if (Request.IsAuthenticated)
     {
         var act = User.Identity.GetUserName();
@@ -11,7 +12,9 @@
         if ( cuenta.codPerfil != 1){
             esIntranet = 1;    
         }
-               
+        
+        nombre = cuenta.nombre;
+    
     }    
 }
 @{
@@ -114,7 +117,7 @@
                     @Html.AntiForgeryToken()
 
                     <div class="nav navbar-nav navbar-right">
-                        <font color="white"> Hello @User.Identity.GetUserName()!</font>
+                        <font color="white"> Hola @nombre!</font>
                         <a type="button" class="btn btn-default" href="javascript:document.getElementById('logoutForm').submit()">Cerrar Sesion <span class="glyphicon glyphicon-log-out"></span></a>
                     </div>
                     }
@@ -185,7 +188,7 @@ else {
                         @Html.AntiForgeryToken()
 
                             <div class="nav navbar-nav navbar-right">
-                                    <font color="white"> Hello @User.Identity.GetUserName()!</font>
+                                    <font color="white"> Hola @nombre!</font>
                                 <a  type="button" class="btn btn-default"  href="javascript:document.getElementById('logoutForm').submit()">Salir <span class="glyphicon glyphicon-log-out"></span></a>
                             </div>
                             }
@@ -274,62 +277,9 @@ else {
          }
 
 
-        <div class="modal fade" id="logInEmpleado">
-            <!--esta div pondra la pantalla oscura al presionar el boton-->
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <!--ACA VA EL CONTENIDO DEL MODAL-->
-                    <!--header de la ventana modal-->
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
-                        <h4 class="modal-title">Logueo</h4>
-                    </div>
-                    <!--contenido de la ventana modal-->
-                    <div class="modal-body">
-                        <form action="" class="form-horizontal">
-                            <div class="form-group">
-                                <label for="correo" class="control-label col-md-2">Usuario:</label>
-                                <div class="col-md-10">
-                                    <input type="text" class="form-control" id="correo" placeholder="miusuario123">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="password" class="control-label col-md-2">Contraseña:</label>
-                                <div class="col-md-10">
-                                    <input id="password" class="form-control" type="password">
-
-                                </div>
-                            </div>
-
-                        </form>
-                    </div>
-                    <!--footer de la ventana modal-->
-                    <div class="modal-footer">
-                        <a href="@Url.Action("Index2", "Home")" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-user"></span> Ingresar</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
     </header>
 
     @RenderBody()
-
-
-    <div id="footer" class="container-fluid">
-        <br>
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-
-                <p>Contratos: 666-6666 </p>
-                <p>Creado por <strong>.NETSOFT</strong> Derechos reservados</p>
-                <a id="intranet" href="#logInEmpleado" data-toggle="modal">Intranet</a>
-
-            </div>
-        </div>
-    </div>
 
 
     @Scripts.Render("~/bundles/jquery")

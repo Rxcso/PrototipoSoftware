@@ -85,6 +85,7 @@ namespace WebApplication4.Controllers
                     return Redirect("~/Home/Index");
                     else
                         return Redirect("~/Home/Index2");
+
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -92,7 +93,7 @@ namespace WebApplication4.Controllers
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
-                    return View(model);
+                    return Redirect("~/Home/Index");
             }
         }
 

@@ -271,6 +271,6 @@ C:\Users\alulab14.INF.001\Source\Repos\PrototipoSoftware\WebApplication4\WebAppl
 C:\Users\alulab14.INF.001\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.Google.xml
 C:\Users\alulab14.INF.001\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.Twitter.xml
 C:\Users\alulab14.INF.001\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
-C:\Users\alulab14.INF.001\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\obj\Debug\TicknetPrototipo.csprojResolveAssemblyReference.cache
 C:\Users\alulab14.INF.001\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\obj\Debug\WebApplication4.dll
 C:\Users\alulab14.INF.001\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\obj\Debug\WebApplication4.pdb
+C:\Users\alulab14.INF.001\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\obj\Debug\TicknetPrototipo.csprojResolveAssemblyReference.cache
