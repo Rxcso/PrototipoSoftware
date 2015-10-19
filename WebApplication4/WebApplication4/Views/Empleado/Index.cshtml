@@ -67,6 +67,7 @@
                                 <th>Telefono</th>
                                 <th>Correo (Usuario)</th>
                                 <th>Estado</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody id="tbody">
@@ -79,6 +80,7 @@
                                     <td>@row.telefono</td>
                                     <td>@row.usuario</td>
                                     <td>@row.estado</td>
+                                    <td>@Html.ActionLink("Delete", "Delete", new { id = row.usuario })</td>
                                     @*<td>@Html.ActionLink("Delete", "Delete", new { id = row.idRegalo })</td>
                                     <td>@Html.ActionLink("Edit", "Edit", new { id = row.idRegalo })</td>*@
                                 </tr>
@@ -128,6 +130,7 @@
                                 <th>Telefono</th>
                                 <th>Correo (Usuario)</th>
                                 <th>Estado</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody id="tbody">
@@ -140,6 +143,7 @@
                                     <td>@row.telefono</td>
                                     <td>@row.usuario</td>
                                     <td>@row.estado</td>
+                                    <td>@Html.ActionLink("Delete", "Delete", new { id = row.usuario })</td>
                                     @*<td>@Html.ActionLink("Delete", "Delete", new { id = row.idRegalo })</td>
                             <td>@Html.ActionLink("Edit", "Edit", new { id = row.idRegalo })</td>*@
                                 </tr>

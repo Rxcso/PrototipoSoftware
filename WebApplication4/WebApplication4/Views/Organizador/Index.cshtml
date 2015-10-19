@@ -52,52 +52,38 @@
             </div>
 
         </div>
+
+        @{
+            var db = new WebApplication4.Models.inf245netsoft();
+            List<WebApplication4.Models.Organizador> listaOrganizador = db.Organizador.AsNoTracking().Where(c => c.estadoOrg == "Activo").ToList(); }
+
         <div class="row">
-            <table class="table table-bordered table-hover">
-                <tr class="active">
-                    <th>Id</th>
-                    <th>Nombre</th>
-                    <th>Dni</th>
-                    <th>Teléfono</th>
-                    <th>Estado</th>
-                </tr>
-                <tr>
-                    <td>01</td>
-                    <td>Juan Perez</td>
-                    <td>78654378</td>
-                    <td>5342312</td>
-                    <td>Activo</td>
-                </tr>
-                <tr>
-                    <td>02</td>
-                    <td>Ana Perez</td>
-                    <td>90754378</td>
-                    <td>5342412</td>
-                    <td>Activo</td>
-                </tr>
-                <tr id="fila3" onclick="select()">
-                    <td>03</td>
-                    <td id="fila3Nomb">José Sanchez</td>
-                    <td id="fila3Dni">76589035</td>
-                    <td id="fila3Telf">5876532</td>
-                    <td>Activo</td>
-                </tr>
-                <tr>
-                    <td>04</td>
-                    <td>Juan Paz</td>
-                    <td>72345627</td>
-                    <td>5342367</td>
-                    <td>Activo</td>
-                </tr>
-                <tr id="filaAgregada" style="visibility:hidden" onclick="select11()">
-                    <td>05</td>
-                    <td id="nomb">a</td>
-                    <td id="dni">d</td>
-                    <td id="tel">t</td>
-                    <!-- <td contentEditable id="afo">c</td>
-                     <td contentEditable id="reg">d</td>-->
-                    <td>Activo</td>
-                </tr>
+            <table id="mytable" class="table table-bordered table-hover">
+                <thead>
+                    <tr class="thead">
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Nro. Documento</th>
+                        <th>Correo</th>
+                        <th>Telefono</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                    @foreach (var row in listaOrganizador)
+                    {
+                        <tr id=@row.codOrg onclick="myFunction(this)">
+                            <td>@row.codOrg</td>
+                            <td>@row.nombOrg</td>
+                            <td>@row.codDoc</td>
+                            <td>@row.correo</td>
+                            <td>@row.telefOrg</td>
+                            <td>@Html.ActionLink("Delete", "Delete", new { id = row.codOrg })</td>
+                            @*<td>@Html.ActionLink("Delete", "Delete", new { id = row.idRegalo })</td>
+                            <td>@Html.ActionLink("Edit", "Edit", new { id = row.idRegalo })</td>*@
+                        </tr>
+                    }
+                </tbody>
             </table>
         </div>
 
@@ -159,11 +145,9 @@
 
                     </form>
                 </div>
-                <!--footer de la ventana-->
-                <div class="modal-footer">
 
-                    <button type="button" onclick="registrar()" data-dismiss="modal" aria-hidden="true" class="btn btn-primary">Agregar <span class="glyphicon glyphicon-ok"></span></button>
-                </div>
+                <!--footer de la ventana-->
+
             </div>
         </div>
     </div>

@@ -217,3 +217,4 @@ F:\down\Ingenieria de software\swnetv3\WebApplication4\WebApplication4\bin\Micro
 F:\down\Ingenieria de software\swnetv3\WebApplication4\WebApplication4\obj\Debug\TicknetPrototipo.csprojResolveAssemblyReference.cache
 F:\down\Ingenieria de software\swnetv3\WebApplication4\WebApplication4\obj\Debug\WebApplication4.dll
 F:\down\Ingenieria de software\swnetv3\WebApplication4\WebApplication4\obj\Debug\WebApplication4.pdb
+F:\down\Ingenieria de software\pruebas\PrototipoSoftware2\WebApplication4\WebApplication4\obj\Debug\TicknetPrototipo.csprojResolveAssemblyReference.cache

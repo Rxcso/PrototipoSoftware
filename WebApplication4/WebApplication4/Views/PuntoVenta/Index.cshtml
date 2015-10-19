@@ -1,4 +1,8 @@
-﻿
+﻿@using Microsoft.AspNet.Identity
+@using WebApplication4.Models
+
+@model PuntoVentaModel
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
@@ -44,73 +48,37 @@
         </div>
 
     </div>
+    @{
+        var db = new WebApplication4.Models.inf245netsoft();
+        List<WebApplication4.Models.PuntoVenta> listaPunto = db.PuntoVenta.AsNoTracking().Where(c => c.estaActivo == true).ToList(); }
+
     <div class="row">
-        <table class="table table-bordered table-hover">
-            <tr class="active">
-                <th>Id</th>
-                <th>Nombre</th>
-                <th>Dirección</th>
-                <th>Provincia</th>
-                <th>Departamento</th>
-                <th>Fecha de Creación</th>
-                <th>Dirección MAC</th>
-                <th>Estado</th>
-            </tr>
-            <tr>
-                <td>01</td>
-                <td>Sede San Miguel</td>
-                <td>Av. Xxxxxxxx 123</td>
-                <td>Lima</td>
-                <td>Lima</td>
-                <td>10/07/2015</td>
-                <td>48:2C:6A:1E:59:3D</td>
-                <td>Activo</td>
-            </tr>
-            <tr>
-                <td>02</td>
-                <td>Sede Comas</td>
-                <td>Av. Mmmmmmmmmmmm 987</td>
-                <td>Lima</td>
-                <td>Lima</td>
-                <td>12/07/2015</td>
-                <td>48:CC:69:1E:70:3D</td>
-                <td>Activo</td>
-            </tr>
-            <tr>
-                <td>03</td>
-                <td>Sede San Isidro</td>
-                <td>Av. Zzzzzzzzzzzzzzzzzz 456</td>
-                <td>Lima</td>
-                <td>Lima</td>
-                <td>11/07/2015</td>
-                <td>98:21:6C:1E:54:3E</td>
-                <td>Activo</td>
-            </tr>
-            <tr>
-                <td>04</td>
-                <td class="modificado">Sede PUCP</td>
-                <td class="modificado">Av Aaaaaaaaaaaaaaaa 741</td>
-                <td>Ica</td>
-                <td>Ica</td>
-                <td>14/07/2015</td>
-                <td class="modificado">48:2C:2A:4A:59:23</td>
-                <td>Activo</td>
-            </tr>
-            <tr id="filaAgregada" style="visibility:hidden">
-                <td>05</td>
-                <td id="nomb">a</td>
-                <td id="dir">b</td>
-                <td id="prov">d</td>
-                <td id="reg">d</td>
-                <td>25/09/2015</td>
-                <td id=mac>e</td>
-                <td>Activo</td>
-            </tr>
+        <table id="mytable" class="table table-bordered table-hover">
+            <thead>
+                <tr class="thead">
+                    <th>Id</th>
+                    <th>Ubicacion</th>
+                    <th>Dirección MAC</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+                @foreach (var row in listaPunto)
+                {
+                    <tr id=@row.codPuntoVenta onclick="myFunction(this)">
+                        <td>@row.codPuntoVenta</td>
+                        <td>@row.ubicacion</td>
+                        <td>@row.dirMAC</td>
+                        <td>@Html.ActionLink("Delete", "Delete", new { id = row.codPuntoVenta })</td>
+                        @*<td>@Html.ActionLink("Delete", "Delete", new { id = row.idRegalo })</td>
+                            <td>@Html.ActionLink("Edit", "Edit", new { id = row.idRegalo })</td>*@
+                    </tr>
+                }
+            </tbody>
         </table>
-
-
-
     </div>
+
+
 
 </div>
 
@@ -126,63 +94,41 @@
                 <h4 class="modal-title">Nuevo Punto de Venta</h4>
             </div>
             <!--contenido de la ventana-->
+
             <div class="modal-body">
-                <form action="" class="form-horizontal">
-                    <div class="form-group">
-                        <label for="nombre" class="control-label col-md-2">Nombre:</label>
-                        <div class="col-md-10">
-                            <input type="text" class="form-control" id="nombre" placeholder="Nombre del Punto de Venta">
+                @using (Html.BeginForm("RegisterPunto", "PuntoVenta", FormMethod.Post, new { }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true)
+                        <br>
+                        <div class="row form-group">
+                            @Html.LabelFor(model => model.ubicacion, new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.ubicacion)
+                                @Html.ValidationMessageFor(model => model.ubicacion)
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            @Html.LabelFor(model => model.mac, new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.mac)
+                                @Html.ValidationMessageFor(model => model.mac)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Agregar" class="btn btn-primary" />
+                            </div>
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        <label for="direccion" class="control-label col-md-2">Dirección:</label>
-                        <div class="col-md-10">
-                            <input type="text" class="form-control" id="direccion" placeholder="Direccion del Punto de Venta">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="provincia" class="control-label col-md-2">Provincia:</label>
-                        <div class="col-md-3">
-                            <select name="" id="provincia" class="form-control ">
-                                <option value="">Provincia1</option>
-                                <option value="">Provincia2</option>
-                                <option value="">Provincia3</option>
-                                <option value="">Provincia4</option>
-                                <option value="">Provincia5</option>
-                                <option value="">Provincia6</option>
-
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="region" class="control-label col-md-2">Departamento:</label>
-                        <div class="col-md-3">
-                            <select name="" id="region" class="form-control ">
-                                <option value="">Lima</option>
-                                <option value="">Piura</option>
-                                <option value="">Juliaca</option>
-                                <option value="">Trujillo</option>
-                                <option value="">Loreto</option>
-                                <option value="">Ica</option>
-
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="ipdir" class="control-label col-md-2">Dirección MAC:</label>
-                        <div class="col-md-10">
-                            <input type="text" class="form-control" id="macdir" placeholder="">
-                        </div>
-                    </div>
-
-                </form>
+                }
             </div>
+
             <!--footer de la ventana-->
-            <div class="modal-footer">
-                <button type="button" onclick="registrar()" class="btn btn-primary">Agregar <span class="glyphicon glyphicon-ok"></span></button>
-            </div>
         </div>
     </div>
 </div>
