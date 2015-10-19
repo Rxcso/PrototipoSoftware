@@ -1,0 +1,334 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li class="active">Mantenimiento de Vendedores</li>
+        </ol>
+    </div>
+</div>
+
+@{
+    var db = new WebApplication4.Models.inf245netsoft();
+    List<WebApplication4.Models.CuentaUsuario> listaEmpleado = db.CuentaUsuario.AsNoTracking().Where(c => c.codPerfil == 2).ToList();
+    List<WebApplication4.Models.CuentaUsuario> listaPromotor = db.CuentaUsuario.AsNoTracking().Where(c => c.codPerfil == 3).ToList();
+}
+
+<div class="container">
+    <form action="" class="">
+        <!--DECLARAMOS EL TABS Y LA CANTIDAD DE PESTAÑAS QUE TENDRA -->
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#mVendedores" data-toggle="tab">Mantenimiento de Vendedores</a></li>
+            <li><a href="#mPromotores" data-toggle="tab">Mantenimiento de Promotores</a></li>
+        </ul>
+
+        <!--INTRODUCIMOS EL CONTIDO QUE TENDRA CADA PESTAÑA -->
+        <div class="tab-content">
+            <!--PRIMERA PESTAÑA-->
+            <div class="tab-pane fade in active" id="mVendedores">
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <a class="btn btn-primary" href="#formNuevo1" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
+                            <button type="button" class="btn btn-primary" onclick="modificar1()">Modificar <span class="glyphicon glyphicon-pencil"></span></button>
+                            <a class="btn btn-primary" href="#eliminar1" data-toggle="modal">Dar de Baja <span class="glyphicon glyphicon-remove"></span></a>
+                            <button id=botonOculto1 style="visibility:hidden" type="button" class="btn btn-primary" onclick="msjConfirmacion2_1()">Guardar Cambios <span class="glyphicon glyphicon-save"></span></button>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <form action="" class="" role="search">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="BUSCAR UN VENDEDOR">
+                                    <span class="input-group-btn"><button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-2">
+                        <a class="btn btn-danger pull-right" href="@Url.Action("Index2", "Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+                    <table id="mytable" class="table table-bordered table-hover">
+                        <thead>
+                            <tr class="thead">
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Direccion</th>
+                                <th>Telefono</th>
+                                <th>Correo (Usuario)</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody">
+                            @foreach (var row in listaEmpleado)
+                            {
+                                <tr id=@row.usuario onclick="myFunction(this)">
+                                    <td>@row.nombre</td>
+                                    <td>@row.apellido</td>
+                                    <td>@row.direccion</td>
+                                    <td>@row.telefono</td>
+                                    <td>@row.usuario</td>
+                                    <td>@row.estado</td>
+                                    @*<td>@Html.ActionLink("Delete", "Delete", new { id = row.idRegalo })</td>
+                                    <td>@Html.ActionLink("Edit", "Edit", new { id = row.idRegalo })</td>*@
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+
+            <!--SEGUNDA PESTAÑA-->
+            <div class="tab-pane fade" id="mPromotores">
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <a class="btn btn-primary" href="#formNuevo2" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
+                            <button type="button" class="btn btn-primary" onclick="modificar2()">Modificar <span class="glyphicon glyphicon-pencil"></span></button>
+                            <a class="btn btn-primary" href="#eliminar2" data-toggle="modal">Dar de Baja <span class="glyphicon glyphicon-remove"></span></a>
+                            <button id=botonOculto2 style="visibility:hidden" type="button" class="btn btn-primary" onclick="msjConfirmacion2_2()">Guardar cambios <span class="glyphicon glyphicon-save"></span></button>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <form action="" class="" role="search">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="BUSCAR UN PROMOTOR">
+                                    <span class="input-group-btn"><button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-2">
+                        <a class="btn btn-danger pull-right" href="@Url.Action("Index2", "Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <table id="mytable" class="table table-bordered table-hover">
+                        <thead>
+                            <tr class="thead">
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Direccion</th>
+                                <th>Telefono</th>
+                                <th>Correo (Usuario)</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody">
+                            @foreach (var row in listaPromotor)
+                            {
+                                <tr id=@row.usuario onclick="myFunction(this)">
+                                    <td>@row.nombre</td>
+                                    <td>@row.apellido</td>
+                                    <td>@row.direccion</td>
+                                    <td>@row.telefono</td>
+                                    <td>@row.usuario</td>
+                                    <td>@row.estado</td>
+                                    @*<td>@Html.ActionLink("Delete", "Delete", new { id = row.idRegalo })</td>
+                            <td>@Html.ActionLink("Edit", "Edit", new { id = row.idRegalo })</td>*@
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </form>
+
+</div>
+
+
+<div class="modal fade" id="formNuevo1">
+    <!--esta div pondra la pantalla oscura al presionar el boton-->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--ACA VA EL CONTENIDO DEL MODAL-->
+            <!--header de la ventana-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+                <h4 class="modal-title">Nuevo Vendedor</h4>
+            </div>
+            <!--contenido de la ventana-->
+            <div class="modal-body">
+                <form action="" class="form-horizontal">
+                    <div class="form-group">
+                        <label for="nombre1" class="control-label col-md-2">Nombre:</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" id="nombre1" placeholder="Nombre">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="apellidop1" class="control-label col-md-2">Apellido Paterno:</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" id="apellidop1" placeholder="Apellido">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="apellidom1" class="control-label col-md-2">Apellido Materno:</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" id="apellidom1" placeholder="Apellido">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="direccion1" class="control-label col-md-2">Dirección:</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" id="direccion1" placeholder="Dirección">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="telefono1" class="control-label col-md-2">Teléfono:</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" id="telefono1" placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="correo1" class="control-label col-md-2">Correo:</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" id="correo1" placeholder="correo@mail.com">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="usuario1" class="control-label col-md-2">Usuario:</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" id="usuario1" placeholder="user">
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <!--footer de la ventana-->
+            <div class="modal-footer">
+                <button type="button" onclick="registrar1()" class="btn btn-primary">Agregar <span class="glyphicon glyphicon-ok"></span></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="formNuevo2">
+    <!--esta div pondra la pantalla oscura al presionar el boton-->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--ACA VA EL CONTENIDO DEL MODAL-->
+            <!--header de la ventana-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+                <h4 class="modal-title">Nuevo Promotor</h4>
+            </div>
+            <!--contenido de la ventana-->
+            <div class="modal-body">
+                <form action="" class="form-horizontal">
+                    <div class="form-group">
+                        <label for="nombre2" class="control-label col-md-2">Nombre:</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" id="nombre2" placeholder="Nombre">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="apellidop2" class="control-label col-md-2">Apellido Paterno:</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" id="apellidop2" placeholder="Apellido">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="apellidom2" class="control-label col-md-2">Apellido Materno:</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" id="apellidom2" placeholder="Apellido">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="direccion2" class="control-label col-md-2">Dirección:</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" id="direccion2" placeholder="Dirección">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="telefono2" class="control-label col-md-2">Teléfono:</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" id="telefono2" placeholder="Teléfono">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="correo2" class="control-label col-md-2">Correo:</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" id="correo2" placeholder="correo@mail.com">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="usuario2" class="control-label col-md-2">Usuario:</label>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" id="usuario2" placeholder="user">
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <!--footer de la ventana-->
+            <div class="modal-footer">
+                <button type="button" onclick="registrar2()" class="btn btn-primary">Agregar <span class="glyphicon glyphicon-ok"></span></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="eliminar1">
+    <!--esta div pondra la pantalla oscura al presionar el boton-->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--ACA VA EL CONTENIDO DEL MODAL-->
+            <!--header de la ventana-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+                <h4 class="modal-title">Aviso</h4>
+            </div>
+            <!--contenido de la ventana-->
+            <div class="modal-body">
+                ¿Está seguro que quiere dar de baja el registro?
+            </div>
+            <!--footer de la ventana-->
+            <div class="modal-footer">
+                <button type="button" onclick="eliminar1()" class="btn btn-primary">Si <span class="glyphicon glyphicon-ok"></span></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="eliminar2">
+    <!--esta div pondra la pantalla oscura al presionar el boton-->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--ACA VA EL CONTENIDO DEL MODAL-->
+            <!--header de la ventana-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+                <h4 class="modal-title">Aviso</h4>
+            </div>
+            <!--contenido de la ventana-->
+            <div class="modal-body">
+                ¿Está seguro que quiere dar de baja el registro?
+            </div>
+            <!--footer de la ventana-->
+            <div class="modal-footer">
+                <button type="button" onclick="eliminar2()" class="btn btn-primary">Si <span class="glyphicon glyphicon-ok"></span></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

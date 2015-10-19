@@ -1,0 +1,172 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li class="active">Mantenimiento de Organizadores</li>
+        </ol>
+    </div>
+</div>
+
+
+<div class="tab-content">
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <br>
+                    <br>
+                    <a class="btn btn-primary" href="#formNuevo" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
+                    <a class="btn btn-primary" onclick="editar()">Modificar <span class="glyphicon glyphicon-pencil"></span></a>
+                    <a class="btn btn-primary" onclick="borrar()">Dar de Baja <span class="glyphicon glyphicon-remove"></span></a>
+
+                    <a class="btn btn-primary" onclick="Guardar()">Guardar <span class="glyphicon glyphicon-save"></span></a>
+
+                    <br>
+                    <br>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <form action="" class="" role="search">
+                    <br>
+                    <br>
+                    <div class="form-group">
+                        <div class="input-group">
+
+                            <input type="text" class="form-control" placeholder="BUSCAR UNA ORGANIZADOR">
+                            <span class="input-group-btn"><button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-2">
+                <br>
+                <br>
+                <a class="btn btn-danger pull-right" href="@Url.Action("Index2", "Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+            </div>
+
+        </div>
+        <div class="row">
+            <table class="table table-bordered table-hover">
+                <tr class="active">
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Dni</th>
+                    <th>Teléfono</th>
+                    <th>Estado</th>
+                </tr>
+                <tr>
+                    <td>01</td>
+                    <td>Juan Perez</td>
+                    <td>78654378</td>
+                    <td>5342312</td>
+                    <td>Activo</td>
+                </tr>
+                <tr>
+                    <td>02</td>
+                    <td>Ana Perez</td>
+                    <td>90754378</td>
+                    <td>5342412</td>
+                    <td>Activo</td>
+                </tr>
+                <tr id="fila3" onclick="select()">
+                    <td>03</td>
+                    <td id="fila3Nomb">José Sanchez</td>
+                    <td id="fila3Dni">76589035</td>
+                    <td id="fila3Telf">5876532</td>
+                    <td>Activo</td>
+                </tr>
+                <tr>
+                    <td>04</td>
+                    <td>Juan Paz</td>
+                    <td>72345627</td>
+                    <td>5342367</td>
+                    <td>Activo</td>
+                </tr>
+                <tr id="filaAgregada" style="visibility:hidden" onclick="select11()">
+                    <td>05</td>
+                    <td id="nomb">a</td>
+                    <td id="dni">d</td>
+                    <td id="tel">t</td>
+                    <!-- <td contentEditable id="afo">c</td>
+                     <td contentEditable id="reg">d</td>-->
+                    <td>Activo</td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+
+
+
+    <div class="modal fade" id="formNuevo">
+        <!--esta div pondra la pantalla oscura al presionar el boton-->
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!--ACA VA EL CONTENIDO DEL MODAL-->
+                <!--header de la ventana-->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+                    <h4 class="modal-title">Nuevo Organizador</h4>
+                </div>
+                <!--contenido de la ventana-->
+                <div class="modal-body">
+                    <form action="" class="form-horizontal">
+                        <div class="form-group">
+                            <label for="nombre" class="control-label col-md-2">Nombre:</label>
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" id="nombre" placeholder="Nombre del organizador">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="dnii" class="control-label col-md-2">DNI:</label>
+                            <div class="col-md-10">
+                                <input type="textarea" class="form-control" id="dnii" placeholder="DNI del organizador">
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="telefono" class="control-label col-md-2">Teléfono:</label>
+                            <div class="col-md-10">
+                                <input type="textarea" class="form-control" id="telefono" placeholder="Teléfono del organizador">
+
+                            </div>
+                        </div>
+
+                        <!-- <div class="form-group">
+                            <label for="region" class="control-label col-md-2">Región:</label>
+                             <div class="col-md-3">
+                                 <select name="" id="region" class="form-control " >
+                                     <option value="">Lima</option>
+                                     <option value="">Piura</option>
+                                     <option value="">Juliaca</option>
+                                     <option value="">Trujillo</option>
+                                     <option value="">Loreto</option>
+                                     <option value="">Ica</option>
+
+                                 </select>
+                             </div>
+                         </div> -->
+
+                    </form>
+                </div>
+                <!--footer de la ventana-->
+                <div class="modal-footer">
+
+                    <button type="button" onclick="registrar()" data-dismiss="modal" aria-hidden="true" class="btn btn-primary">Agregar <span class="glyphicon glyphicon-ok"></span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+

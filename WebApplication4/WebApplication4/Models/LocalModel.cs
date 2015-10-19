@@ -20,5 +20,12 @@ namespace WebApplication4.Models
         [Display(Name = "Ubicacion: ")]
         public String ubicacion { get; set; }
 
+        [Required]
+        [Display(Name = "Provincia: ")]
+        public int provincia { get; set; }
+
+        [Required]
+        [Display(Name = "Departamento: ")]
+        public int departamento { get; set; }
     }
 }

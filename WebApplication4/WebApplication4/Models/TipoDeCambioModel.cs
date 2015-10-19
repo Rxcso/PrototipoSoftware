@@ -10,6 +10,6 @@ namespace WebApplication4.Models
     {
         [Required]
         [Display(Name = "Valor: ")]
-        public int valor { get; set; }
+        public float valor { get; set; }
     }
 }

@@ -12,16 +12,16 @@ namespace WebApplication4.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Local
+    public partial class Turno
     {
-        public Nullable<int> aforo { get; set; }
-        public string ubicacion { get; set; }
-        public string descripcion { get; set; }
-        public int codLocal { get; set; }
-        public Nullable<int> idProvincia { get; set; }
-        public Nullable<int> idRegion { get; set; }
+        public int codPuntoVenta { get; set; }
+        public int codTurnoSis { get; set; }
+        public string estado { get; set; }
+        public string usuario { get; set; }
+        public System.DateTime fecha { get; set; }
     
-        public virtual Region Region { get; set; }
-        public virtual Region Region1 { get; set; }
+        public virtual CuentaUsuario CuentaUsuario { get; set; }
+        public virtual PuntoVenta PuntoVenta { get; set; }
+        public virtual TurnoSistema TurnoSistema { get; set; }
     }
 }

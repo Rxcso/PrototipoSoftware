@@ -12,16 +12,14 @@ namespace WebApplication4.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Local
+    public partial class Organizador
     {
-        public Nullable<int> aforo { get; set; }
-        public string ubicacion { get; set; }
-        public string descripcion { get; set; }
-        public int codLocal { get; set; }
-        public Nullable<int> idProvincia { get; set; }
-        public Nullable<int> idRegion { get; set; }
-    
-        public virtual Region Region { get; set; }
-        public virtual Region Region1 { get; set; }
+        public int codOrg { get; set; }
+        public string nombOrg { get; set; }
+        public Nullable<int> tipoDoc { get; set; }
+        public string codDoc { get; set; }
+        public string estadoOrg { get; set; }
+        public string correo { get; set; }
+        public string telefOrg { get; set; }
     }
 }

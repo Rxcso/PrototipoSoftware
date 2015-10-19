@@ -36,8 +36,20 @@
     <Property Name="ubicacion" Type="varchar" MaxLength="50" />
     <Property Name="descripcion" Type="varchar" MaxLength="100" />
     <Property Name="codLocal" Type="int" Nullable="false" />
-    <Property Name="idProvincia" Type="int" Nullable="false" />
+    <Property Name="idProvincia" Type="int" />
     <Property Name="idRegion" Type="int" />
+  </EntityType>
+  <EntityType Name="Organizador">
+    <Key>
+      <PropertyRef Name="codOrg" />
+    </Key>
+    <Property Name="codOrg" Type="int" Nullable="false" />
+    <Property Name="nombOrg" Type="varchar" MaxLength="50" />
+    <Property Name="tipoDoc" Type="int" />
+    <Property Name="codDoc" Type="varchar" MaxLength="20" />
+    <Property Name="estadoOrg" Type="varchar" MaxLength="20" />
+    <Property Name="correo" Type="varchar" MaxLength="100" />
+    <Property Name="telefOrg" Type="varchar" MaxLength="20" />
   </EntityType>
   <EntityType Name="Perfiles">
     <Key>
@@ -65,6 +77,15 @@
     <Property Name="codTipoTarjeta" Type="int" />
     <Property Name="codEvento" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="PuntoVenta">
+    <Key>
+      <PropertyRef Name="codPuntoVenta" />
+    </Key>
+    <Property Name="codPuntoVenta" Type="int" Nullable="false" />
+    <Property Name="ubicacion" Type="varchar" MaxLength="100" />
+    <Property Name="estaActivo" Type="bit" />
+    <Property Name="dirMAC" Type="varchar" MaxLength="100" />
+  </EntityType>
   <EntityType Name="Regalo">
     <Key>
       <PropertyRef Name="idRegalo" />
@@ -83,12 +104,21 @@
     <Property Name="idRegalo" Type="int" Nullable="false" />
     <Property Name="usuario" Type="varchar" MaxLength="100" Nullable="false" />
   </EntityType>
+  <EntityType Name="Region">
+    <Key>
+      <PropertyRef Name="idRegion" />
+    </Key>
+    <Property Name="idRegion" Type="int" Nullable="false" />
+    <Property Name="idRegPadre" Type="int" />
+    <Property Name="nombre" Type="varchar" MaxLength="30" />
+  </EntityType>
   <EntityType Name="TipoDeCambio">
     <Key>
       <PropertyRef Name="fecha" />
     </Key>
     <Property Name="fecha" Type="datetime" Nullable="false" />
     <Property Name="valor" Type="float" />
+    <Property Name="estado" Type="varchar" MaxLength="20" />
   </EntityType>
   <EntityType Name="TipoTarjeta">
     <Key>
@@ -96,6 +126,28 @@
     </Key>
     <Property Name="idTipoTar" Type="int" Nullable="false" />
     <Property Name="nombre" Type="char" MaxLength="18" />
+  </EntityType>
+  <EntityType Name="Turno">
+    <Key>
+      <PropertyRef Name="codPuntoVenta" />
+      <PropertyRef Name="codTurnoSis" />
+      <PropertyRef Name="usuario" />
+      <PropertyRef Name="fecha" />
+    </Key>
+    <Property Name="codPuntoVenta" Type="int" Nullable="false" />
+    <Property Name="codTurnoSis" Type="int" Nullable="false" />
+    <Property Name="estado" Type="varchar" MaxLength="20" />
+    <Property Name="usuario" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="fecha" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TurnoSistema">
+    <Key>
+      <PropertyRef Name="codTurnoSis" />
+    </Key>
+    <Property Name="codTurnoSis" Type="int" Nullable="false" />
+    <Property Name="horIni" Type="datetime" />
+    <Property Name="horFin" Type="datetime" />
+    <Property Name="activo" Type="int" />
   </EntityType>
   <Association Name="FK__RegaloXCu__usuar__4BAC3F29">
     <End Role="CuentaUsuario" Type="Self.CuentaUsuario" Multiplicity="1" />
@@ -105,6 +157,42 @@
         <PropertyRef Name="usuario" />
       </Principal>
       <Dependent Role="RegaloXCuenta">
+        <PropertyRef Name="usuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_12">
+    <End Role="TurnoSistema" Type="Self.TurnoSistema" Multiplicity="1" />
+    <End Role="Turno" Type="Self.Turno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TurnoSistema">
+        <PropertyRef Name="codTurnoSis" />
+      </Principal>
+      <Dependent Role="Turno">
+        <PropertyRef Name="codTurnoSis" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_20">
+    <End Role="Region" Type="Self.Region" Multiplicity="0..1" />
+    <End Role="Local" Type="Self.Local" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Region">
+        <PropertyRef Name="idRegion" />
+      </Principal>
+      <Dependent Role="Local">
+        <PropertyRef Name="idProvincia" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_26">
+    <End Role="CuentaUsuario" Type="Self.CuentaUsuario" Multiplicity="1" />
+    <End Role="Turno" Type="Self.Turno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CuentaUsuario">
+        <PropertyRef Name="usuario" />
+      </Principal>
+      <Dependent Role="Turno">
         <PropertyRef Name="usuario" />
       </Dependent>
     </ReferentialConstraint>
@@ -133,6 +221,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="R_70">
+    <End Role="Region" Type="Self.Region" Multiplicity="0..1" />
+    <End Role="Region1" Type="Self.Region" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Region">
+        <PropertyRef Name="idRegion" />
+      </Principal>
+      <Dependent Role="Region1">
+        <PropertyRef Name="idRegPadre" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_72">
+    <End Role="Region" Type="Self.Region" Multiplicity="0..1" />
+    <End Role="Local" Type="Self.Local" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Region">
+        <PropertyRef Name="idRegion" />
+      </Principal>
+      <Dependent Role="Local">
+        <PropertyRef Name="idRegion" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="R_74">
     <End Role="Regalo" Type="Self.Regalo" Multiplicity="1" />
     <End Role="RegaloXCuenta" Type="Self.RegaloXCuenta" Multiplicity="*" />
@@ -145,19 +257,48 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="R_9">
+    <End Role="PuntoVenta" Type="Self.PuntoVenta" Multiplicity="1" />
+    <End Role="Turno" Type="Self.Turno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PuntoVenta">
+        <PropertyRef Name="codPuntoVenta" />
+      </Principal>
+      <Dependent Role="Turno">
+        <PropertyRef Name="codPuntoVenta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="inf245netsoftModelStoreContainer">
     <EntitySet Name="Banco" EntityType="Self.Banco" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CuentaUsuario" EntityType="Self.CuentaUsuario" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Local" EntityType="Self.Local" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Organizador" EntityType="Self.Organizador" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Perfiles" EntityType="Self.Perfiles" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Promociones" EntityType="Self.Promociones" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PuntoVenta" EntityType="Self.PuntoVenta" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Regalo" EntityType="Self.Regalo" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="RegaloXCuenta" EntityType="Self.RegaloXCuenta" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Region" EntityType="Self.Region" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoDeCambio" EntityType="Self.TipoDeCambio" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoTarjeta" EntityType="Self.TipoTarjeta" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Turno" EntityType="Self.Turno" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TurnoSistema" EntityType="Self.TurnoSistema" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK__RegaloXCu__usuar__4BAC3F29" Association="Self.FK__RegaloXCu__usuar__4BAC3F29">
       <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
       <End Role="RegaloXCuenta" EntitySet="RegaloXCuenta" />
+    </AssociationSet>
+    <AssociationSet Name="R_12" Association="Self.R_12">
+      <End Role="TurnoSistema" EntitySet="TurnoSistema" />
+      <End Role="Turno" EntitySet="Turno" />
+    </AssociationSet>
+    <AssociationSet Name="R_20" Association="Self.R_20">
+      <End Role="Region" EntitySet="Region" />
+      <End Role="Local" EntitySet="Local" />
+    </AssociationSet>
+    <AssociationSet Name="R_26" Association="Self.R_26">
+      <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
+      <End Role="Turno" EntitySet="Turno" />
     </AssociationSet>
     <AssociationSet Name="R_3" Association="Self.R_3">
       <End Role="Banco" EntitySet="Banco" />
@@ -167,9 +308,21 @@
       <End Role="TipoTarjeta" EntitySet="TipoTarjeta" />
       <End Role="Promociones" EntitySet="Promociones" />
     </AssociationSet>
+    <AssociationSet Name="R_70" Association="Self.R_70">
+      <End Role="Region" EntitySet="Region" />
+      <End Role="Region1" EntitySet="Region" />
+    </AssociationSet>
+    <AssociationSet Name="R_72" Association="Self.R_72">
+      <End Role="Region" EntitySet="Region" />
+      <End Role="Local" EntitySet="Local" />
+    </AssociationSet>
     <AssociationSet Name="R_74" Association="Self.R_74">
       <End Role="Regalo" EntitySet="Regalo" />
       <End Role="RegaloXCuenta" EntitySet="RegaloXCuenta" />
+    </AssociationSet>
+    <AssociationSet Name="R_9" Association="Self.R_9">
+      <End Role="PuntoVenta" EntitySet="PuntoVenta" />
+      <End Role="Turno" EntitySet="Turno" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

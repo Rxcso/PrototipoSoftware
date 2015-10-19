@@ -166,11 +166,14 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CuentaUsuarioController.cs" />
+    <Compile Include="Controllers\EmpleadoController.cs" />
     <Compile Include="Controllers\EventoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LocalController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\OrganizadorController.cs" />
     <Compile Include="Controllers\PromocionController.cs" />
+    <Compile Include="Controllers\PuntoVentaController.cs" />
     <Compile Include="Controllers\RegaloController.cs" />
     <Compile Include="Controllers\TipoDeCambioController.cs" />
     <Compile Include="Models\Banco.cs">
@@ -204,6 +207,10 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Organizador.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OrganizadorModel.cs" />
     <Compile Include="Models\Perfiles.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -211,6 +218,10 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PromocionModel.cs" />
+    <Compile Include="Models\PuntoVenta.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PuntoVentaModel.cs" />
     <Compile Include="Models\Regalo.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -218,11 +229,20 @@
     <Compile Include="Models\RegaloXCuenta.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Region.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TipoDeCambio.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TipoDeCambioModel.cs" />
     <Compile Include="Models\TipoTarjeta.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Turno.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TurnoSistema.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -344,6 +364,11 @@
     <Content Include="Views\TipoDeCambio\Index.cshtml" />
     <Content Include="Views\Local\Index.cshtml" />
     <Content Include="Views\Regalo\Edit.cshtml" />
+    <Content Include="Views\Local\Edit.cshtml" />
+    <Content Include="Views\Empleado\Index.cshtml" />
+    <Content Include="Views\Organizador\Index.cshtml" />
+    <Content Include="Views\PuntoVenta\Index.cshtml" />
+    <Content Include="Views\Account\IndexEmpleado.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

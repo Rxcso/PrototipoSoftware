@@ -155,7 +155,7 @@ namespace WebApplication4.Controllers
         {
             return View("RegisterClient");
         }
-        
+
 
         //
         // POST: /Account/Register
@@ -212,6 +212,117 @@ namespace WebApplication4.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RegisterVendedor(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var result = await UserManager.CreateAsync(user, model.Password);
+
+
+                if (result.Succeeded)
+                {
+
+                    CuentaUsuario cuentausuario = new CuentaUsuario();
+
+                    cuentausuario.correo = model.Email;
+                    cuentausuario.apellido = model.apellido;
+                    cuentausuario.codDoc = model.codDoc;
+                    cuentausuario.codPerfil = 2;
+                    cuentausuario.contrasena = model.Password;
+                    cuentausuario.direccion = model.direccion;
+                    cuentausuario.estado = true;
+                    cuentausuario.fechaNac = model.fechaNac;
+                    cuentausuario.nombre = model.nombre;
+                    cuentausuario.puntos = 0;
+                    cuentausuario.sexo = model.sexo;
+                    cuentausuario.telefono = model.telefono;
+                    cuentausuario.telMovil = model.telMovil;
+                    cuentausuario.tipoDoc = model.tipoDoc;
+                    cuentausuario.tipoUsuario = "Cliente";
+                    cuentausuario.usuario = model.Email;
+
+
+                    db.CuentaUsuario.Add(cuentausuario);
+
+                    db.SaveChanges();
+
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                    // Send an email with this link
+                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    return RedirectToAction("Index", "Empleado");
+                    //return View("~/Views/Home/Index.cshtml");
+                }
+                AddErrors(result);
+            }
+
+            // If we got this far, something failed, redisplay form
+            return RedirectToAction("Index", "Empleado");
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RegisterPromotor(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var result = await UserManager.CreateAsync(user, model.Password);
+
+
+                if (result.Succeeded)
+                {
+
+                    CuentaUsuario cuentausuario = new CuentaUsuario();
+
+                    cuentausuario.correo = model.Email;
+                    cuentausuario.apellido = model.apellido;
+                    cuentausuario.codDoc = model.codDoc;
+                    cuentausuario.codPerfil = 3;
+                    cuentausuario.contrasena = model.Password;
+                    cuentausuario.direccion = model.direccion;
+                    cuentausuario.estado = true;
+                    cuentausuario.fechaNac = model.fechaNac;
+                    cuentausuario.nombre = model.nombre;
+                    cuentausuario.puntos = 0;
+                    cuentausuario.sexo = model.sexo;
+                    cuentausuario.telefono = model.telefono;
+                    cuentausuario.telMovil = model.telMovil;
+                    cuentausuario.tipoDoc = model.tipoDoc;
+                    cuentausuario.tipoUsuario = "Cliente";
+                    cuentausuario.usuario = model.Email;
+
+
+                    db.CuentaUsuario.Add(cuentausuario);
+
+                    db.SaveChanges();
+
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                    // Send an email with this link
+                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    return RedirectToAction("Index", "Empleado");
+                    //return View("~/Views/Home/Index.cshtml");
+                }
+                AddErrors(result);
+            }
+
+            // If we got this far, something failed, redisplay form
+            return RedirectToAction("Index", "Empleado");
         }
 
         //

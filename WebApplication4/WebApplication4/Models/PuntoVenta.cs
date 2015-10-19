@@ -12,16 +12,18 @@ namespace WebApplication4.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Local
+    public partial class PuntoVenta
     {
-        public Nullable<int> aforo { get; set; }
-        public string ubicacion { get; set; }
-        public string descripcion { get; set; }
-        public int codLocal { get; set; }
-        public Nullable<int> idProvincia { get; set; }
-        public Nullable<int> idRegion { get; set; }
+        public PuntoVenta()
+        {
+            this.Turno = new HashSet<Turno>();
+        }
     
-        public virtual Region Region { get; set; }
-        public virtual Region Region1 { get; set; }
+        public int codPuntoVenta { get; set; }
+        public string ubicacion { get; set; }
+        public Nullable<bool> estaActivo { get; set; }
+        public string dirMAC { get; set; }
+    
+        public virtual ICollection<Turno> Turno { get; set; }
     }
 }

@@ -17,6 +17,7 @@ namespace WebApplication4.Models
         public CuentaUsuario()
         {
             this.RegaloXCuenta = new HashSet<RegaloXCuenta>();
+            this.Turno = new HashSet<Turno>();
         }
     
         public string usuario { get; set; }
@@ -37,5 +38,6 @@ namespace WebApplication4.Models
         public int codPerfil { get; set; }
     
         public virtual ICollection<RegaloXCuenta> RegaloXCuenta { get; set; }
+        public virtual ICollection<Turno> Turno { get; set; }
     }
 }

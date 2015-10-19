@@ -64,13 +64,13 @@
                             <ul class="dropdown-menu">
                                 <!--Administrador del negocio-->
                                 <li><a href="mantener_categoria.html">Categorías de eventos</a></li>
-                                <li><a href="mantener_empleados.html">Empleados</a></li>
-                                <li><a href="mantener_puntos_venta.html">Puntos de venta</a></li>
+                                <li><a href="@Url.Action("Index", "Empleado")">Empleados</a></li>
+                                <li><a href="@Url.Action("Index", "PuntoVenta")">Puntos de venta</a></li>
                                 <li><a href="@Url.Action("Index", "Regalo")">Regalos</a></li>
 
                                 <!--Promotor-->
                                 <li class="divider"></li>
-                                <li><a href="mantener_organizador.html">Organizadores</a></li>
+                                <li><a href="@Url.Action("Index", "Organizador")">Organizadores</a></li>
                                 <li><a href="@Url.Action("Index", "Local")">Locales</a></li>
                                 <li><a href="@Url.Action("Index", "Evento")">Eventos</a></li>
                             </ul>
