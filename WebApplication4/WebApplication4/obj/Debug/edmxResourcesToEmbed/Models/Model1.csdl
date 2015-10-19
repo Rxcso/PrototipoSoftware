@@ -83,6 +83,10 @@
       <End Role="Region" EntitySet="Region" />
       <End Role="Eventos" EntitySet="Eventos" />
     </AssociationSet>
+    <AssociationSet Name="fk_EventoOrg" Association="inf245netsoftModel.fk_EventoOrg">
+      <End Role="Organizador" EntitySet="Organizador" />
+      <End Role="Eventos" EntitySet="Eventos" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Perfiles">
     <Key>
@@ -229,6 +233,7 @@
     <Property Name="estadoOrg" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
     <Property Name="correo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
     <Property Name="telefOrg" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Eventos" Relationship="inf245netsoftModel.fk_EventoOrg" FromRole="Organizador" ToRole="Eventos" />
   </EntityType>
   <EntityType Name="PuntoVenta">
     <Key>
@@ -373,6 +378,9 @@
     <Property Name="idPromotor" Type="Int32" />
     <Property Name="idOrganizador" Type="Int32" />
     <NavigationProperty Name="Region" Relationship="inf245netsoftModel.fk_EventoRegion" FromRole="Eventos" ToRole="Region" />
+    <Property Name="fechaRegistro" Type="DateTime" Precision="3" />
+    <Property Name="fechaUltModificacion" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Organizador" Relationship="inf245netsoftModel.fk_EventoOrg" FromRole="Eventos" ToRole="Organizador" />
   </EntityType>
   <Association Name="fk_EventoRegion">
     <End Type="inf245netsoftModel.Region" Role="Region" Multiplicity="0..1" />
@@ -383,6 +391,18 @@
       </Principal>
       <Dependent Role="Eventos">
         <PropertyRef Name="idRegion" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_EventoOrg">
+    <End Type="inf245netsoftModel.Organizador" Role="Organizador" Multiplicity="0..1" />
+    <End Type="inf245netsoftModel.Eventos" Role="Eventos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Organizador">
+        <PropertyRef Name="codOrg" />
+      </Principal>
+      <Dependent Role="Eventos">
+        <PropertyRef Name="idOrganizador" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

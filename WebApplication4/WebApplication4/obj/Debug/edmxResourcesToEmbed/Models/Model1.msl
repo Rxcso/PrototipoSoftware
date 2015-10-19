@@ -163,6 +163,8 @@
     <EntitySetMapping Name="Eventos">
       <EntityTypeMapping TypeName="inf245netsoftModel.Eventos">
         <MappingFragment StoreEntitySet="Eventos">
+          <ScalarProperty Name="fechaUltModificacion" ColumnName="fechaUltModificacion" />
+          <ScalarProperty Name="fechaRegistro" ColumnName="fechaRegistro" />
           <ScalarProperty Name="idOrganizador" ColumnName="idOrganizador" />
           <ScalarProperty Name="idPromotor" ColumnName="idPromotor" />
           <ScalarProperty Name="idRegion" ColumnName="idRegion" />

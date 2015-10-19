@@ -329,3 +329,4 @@ C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplicatio
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\obj\Debug\WebApplication4.dll
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\obj\Debug\WebApplication4.pdb
+C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\obj\Debug\TicknetPrototipo.csprojResolveAssemblyReference.cache

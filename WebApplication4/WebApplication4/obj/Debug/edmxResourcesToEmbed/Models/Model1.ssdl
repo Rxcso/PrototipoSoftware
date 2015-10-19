@@ -49,6 +49,8 @@
     <Property Name="idRegion" Type="int" />
     <Property Name="idPromotor" Type="int" />
     <Property Name="idOrganizador" Type="int" />
+    <Property Name="fechaRegistro" Type="datetime" />
+    <Property Name="fechaUltModificacion" Type="datetime" />
   </EntityType>
   <EntityType Name="Local">
     <Key>
@@ -180,6 +182,18 @@
       </Principal>
       <Dependent Role="RegaloXCuenta">
         <PropertyRef Name="usuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_EventoOrg">
+    <End Role="Organizador" Type="Self.Organizador" Multiplicity="0..1" />
+    <End Role="Eventos" Type="Self.Eventos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Organizador">
+        <PropertyRef Name="codOrg" />
+      </Principal>
+      <Dependent Role="Eventos">
+        <PropertyRef Name="idOrganizador" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -322,6 +336,10 @@
     <AssociationSet Name="FK__RegaloXCu__usuar__4BAC3F29" Association="Self.FK__RegaloXCu__usuar__4BAC3F29">
       <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
       <End Role="RegaloXCuenta" EntitySet="RegaloXCuenta" />
+    </AssociationSet>
+    <AssociationSet Name="fk_EventoOrg" Association="Self.fk_EventoOrg">
+      <End Role="Organizador" EntitySet="Organizador" />
+      <End Role="Eventos" EntitySet="Eventos" />
     </AssociationSet>
     <AssociationSet Name="fk_EventoRegion" Association="Self.fk_EventoRegion">
       <End Role="Region" EntitySet="Region" />

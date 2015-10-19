@@ -130,7 +130,10 @@
                             <td>@evento.nombre</td>
                             <td>Evento</td>
                             <td>@evento.idCategoria</td>
-                            <td>@evento.idOrganizador</td>
+                            @{
+                        WebApplication4.Models.Organizador org = db.Organizador.Where(mod => mod.codOrg == @evento.idOrganizador).First();
+                            }
+                            <td>@org.nombOrg</td>
                             <td>@evento.estado</td>
                         </tr>
                     }

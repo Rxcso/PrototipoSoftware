@@ -31,7 +31,10 @@ namespace WebApplication4.Models
         public Nullable<int> idRegion { get; set; }
         public Nullable<int> idPromotor { get; set; }
         public Nullable<int> idOrganizador { get; set; }
+        public Nullable<System.DateTime> fechaRegistro { get; set; }
+        public Nullable<System.DateTime> fechaUltModificacion { get; set; }
     
         public virtual Region Region { get; set; }
+        public virtual Organizador Organizador { get; set; }
     }
 }

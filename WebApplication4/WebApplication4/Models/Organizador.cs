@@ -14,6 +14,11 @@ namespace WebApplication4.Models
     
     public partial class Organizador
     {
+        public Organizador()
+        {
+            this.Eventos = new HashSet<Eventos>();
+        }
+    
         public int codOrg { get; set; }
         public string nombOrg { get; set; }
         public Nullable<int> tipoDoc { get; set; }
@@ -21,5 +26,7 @@ namespace WebApplication4.Models
         public string estadoOrg { get; set; }
         public string correo { get; set; }
         public string telefOrg { get; set; }
+    
+        public virtual ICollection<Eventos> Eventos { get; set; }
     }
 }
