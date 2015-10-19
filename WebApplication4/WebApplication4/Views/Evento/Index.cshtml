@@ -105,49 +105,36 @@
 
     </div>
     <br>
+    @{
+        var db = new WebApplication4.Models.inf245netsoft();
+        List<WebApplication4.Models.Eventos> list = db.Eventos.ToList();
+    }
     <div class="row">
         <div class="col-md-12 table-responsive">
             <table class="table table-bordered table-hover">
-                <tr class="active">
-                    <th>Id</th>
-                    <th>Nombre</th>
-                    <th>Tipo</th>
-                    <th>Categoría</th>
-                    <th>Organizador</th>
-                    <th>Estado</th>
-                </tr>
-                <tr>
-                    <td>02</td>
-                    <td>Circo Kiko</td>
-                    <td>Evento</td>
-                    <td>Entretenimiento</td>
-                    <td>Kiko rules</td>
-                    <td>Activo</td>
-                </tr>
-                <tr>
-                    <td>03</td>
-                    <td>Jose no me esperes</td>
-                    <td>Actividad</td>
-                    <td>Show</td>
-                    <td>Juancho Producciones</td>
-                    <td>Activo</td>
-                </tr>
-                <tr id="fila3" onclick="select()">
-                    <td>04</td>
-                    <td>Los tres chiflados</td>
-                    <td>Teatro</td>
-                    <td>Comedia</td>
-                    <td>Juancho Producciones</td>
-                    <td>Activo</td>
-                </tr>
-                <tr>
-                    <td>05</td>
-                    <td>David Guetta</td>
-                    <td>Cine</td>
-                    <td>Musical</td>
-                    <td>Chavela S.A.C.</td>
-                    <td>Activo</td>
-                </tr>
+                <thsead>
+                    <tr class="thead">
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Tipo</th>
+                        <th>Categoría</th>
+                        <th>Organizador</th>
+                        <th>Estado</th>
+                    </tr>
+                </thsead>
+                <tbody>
+                    @foreach (var evento in list)
+                    {
+                        <tr>
+                            <td>@evento.codigo</td>
+                            <td>@evento.nombre</td>
+                            <td>Evento</td>
+                            <td>@evento.idCategoria</td>
+                            <td>@evento.idOrganizador</td>
+                            <td>@evento.estado</td>
+                        </tr>
+                    }
+                </tbody>
             </table>
         </div>
 

@@ -28,6 +28,28 @@
     <Property Name="puntos" Type="int" />
     <Property Name="codPerfil" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="Eventos">
+    <Key>
+      <PropertyRef Name="codigo" />
+    </Key>
+    <Property Name="codigo" Type="int" Nullable="false" />
+    <Property Name="nombre" Type="text" />
+    <Property Name="descripcion" Type="text" />
+    <Property Name="fecha_inicio" Type="datetime" />
+    <Property Name="fecha_fin" Type="datetime" />
+    <Property Name="estado" Type="text" />
+    <Property Name="monto_transferir" Type="float" />
+    <Property Name="monto_adeudado" Type="float" />
+    <Property Name="lugar" Type="text" />
+    <Property Name="penalidadXcancelacion" Type="float" />
+    <Property Name="penalidadXpostergacion" Type="float" />
+    <Property Name="porccomision" Type="float" />
+    <Property Name="esUnico" Type="bit" />
+    <Property Name="idCategoria" Type="int" />
+    <Property Name="idRegion" Type="int" />
+    <Property Name="idPromotor" Type="int" />
+    <Property Name="idOrganizador" Type="int" />
+  </EntityType>
   <EntityType Name="Local">
     <Key>
       <PropertyRef Name="codLocal" />
@@ -161,6 +183,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="fk_EventoRegion">
+    <End Role="Region" Type="Self.Region" Multiplicity="0..1" />
+    <End Role="Eventos" Type="Self.Eventos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Region">
+        <PropertyRef Name="idRegion" />
+      </Principal>
+      <Dependent Role="Eventos">
+        <PropertyRef Name="idRegion" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="R_12">
     <End Role="TurnoSistema" Type="Self.TurnoSistema" Multiplicity="1" />
     <End Role="Turno" Type="Self.Turno" Multiplicity="*" />
@@ -272,6 +306,7 @@
   <EntityContainer Name="inf245netsoftModelStoreContainer">
     <EntitySet Name="Banco" EntityType="Self.Banco" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CuentaUsuario" EntityType="Self.CuentaUsuario" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Eventos" EntityType="Self.Eventos" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Local" EntityType="Self.Local" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Organizador" EntityType="Self.Organizador" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Perfiles" EntityType="Self.Perfiles" Schema="dbo" store:Type="Tables" />
@@ -287,6 +322,10 @@
     <AssociationSet Name="FK__RegaloXCu__usuar__4BAC3F29" Association="Self.FK__RegaloXCu__usuar__4BAC3F29">
       <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
       <End Role="RegaloXCuenta" EntitySet="RegaloXCuenta" />
+    </AssociationSet>
+    <AssociationSet Name="fk_EventoRegion" Association="Self.fk_EventoRegion">
+      <End Role="Region" EntitySet="Region" />
+      <End Role="Eventos" EntitySet="Eventos" />
     </AssociationSet>
     <AssociationSet Name="R_12" Association="Self.R_12">
       <End Role="TurnoSistema" EntitySet="TurnoSistema" />
