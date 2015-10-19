@@ -373,6 +373,7 @@
     <Content Include="Views\Organizador\Index.cshtml" />
     <Content Include="Views\PuntoVenta\Index.cshtml" />
     <Content Include="Views\Account\IndexEmpleado.cshtml" />
+    <Content Include="Views\Evento\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

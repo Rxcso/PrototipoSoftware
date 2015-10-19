@@ -13,5 +13,16 @@ namespace WebApplication4.Controllers
         {
             return View();
         }
+        [HttpGet]
+        public ActionResult Register()
+        {
+            return View();
+        }
+        
+        [HttpPost]
+        public ActionResult Register()
+        {
+            return View();
+        }
     }
 }
