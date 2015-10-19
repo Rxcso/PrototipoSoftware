@@ -4,6 +4,23 @@
     ViewBag.ReturnUrl = "Index2";
 }
 
+@{
+    var esIntranet = 0;
+    var nombre ="";
+    if (Request.IsAuthenticated)
+    {
+        var act = User.Identity.GetUserName();
+        inf245netsoft db = new inf245netsoft();
+        CuentaUsuario cuenta = db.CuentaUsuario.Find(act);
+        if ( cuenta.codPerfil != 1){
+            esIntranet = 1;
+        }
+
+        nombre = cuenta.nombre;
+
+    }
+    
+}
 <!DOCTYPE html>
 <html>
 <head>
@@ -53,7 +70,7 @@
                                 <!--Administrador-->
                                 <li><a href="asignar_turnos.html">Asignar turnos y puntos de venta</a></li>
                                 <li><a href="mantener_politicas.html">Políticas de la empresa</a></li>
-                                <li><a href="tipo_cambio.html">Tipo de cambio</a></li>
+                                <li><a href="@Url.Action("Index", "TipoDeCambio")">Tipo de cambio</a></li>
                                 <li><a href="registrar_pagos.html">Registrar pagos</a></li>
                             </ul>
                         </li>
@@ -95,7 +112,7 @@
                     @Html.AntiForgeryToken()
 
                     <div class="nav navbar-nav navbar-right">
-                        <font color="white"> Hello @User.Identity.GetUserName()!</font>
+                        <font color="white"> Hello @nombre!</font>
                         <a type="button" class="btn btn-default" href="javascript:document.getElementById('logoutForm').submit()">Cerrar Sesion <span class="glyphicon glyphicon-log-out"></span></a>
                     </div>
                     }
