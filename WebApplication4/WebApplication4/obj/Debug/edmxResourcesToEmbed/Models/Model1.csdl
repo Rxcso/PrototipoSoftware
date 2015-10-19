@@ -78,6 +78,11 @@
       <End Role="TurnoSistema" EntitySet="TurnoSistema" />
       <End Role="Turno" EntitySet="Turno" />
     </AssociationSet>
+    <EntitySet Name="Eventos" EntityType="inf245netsoftModel.Eventos" />
+    <AssociationSet Name="fk_EventoRegion" Association="inf245netsoftModel.fk_EventoRegion">
+      <End Role="Region" EntitySet="Region" />
+      <End Role="Eventos" EntitySet="Eventos" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Perfiles">
     <Key>
@@ -246,6 +251,7 @@
     <NavigationProperty Name="Local1" Relationship="inf245netsoftModel.R_72" FromRole="Region" ToRole="Local" />
     <NavigationProperty Name="Region1" Relationship="inf245netsoftModel.R_70" FromRole="Region" ToRole="Region1" />
     <NavigationProperty Name="Region2" Relationship="inf245netsoftModel.R_70" FromRole="Region1" ToRole="Region" />
+    <NavigationProperty Name="Eventos" Relationship="inf245netsoftModel.fk_EventoRegion" FromRole="Region" ToRole="Eventos" />
   </EntityType>
   <EntityType Name="Turno">
     <Key>
@@ -342,6 +348,41 @@
       </Principal>
       <Dependent Role="Turno">
         <PropertyRef Name="codTurnoSis" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Eventos">
+    <Key>
+      <PropertyRef Name="codigo" />
+    </Key>
+    <Property Name="codigo" Type="Int32" Nullable="false" />
+    <Property Name="nombre" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="fecha_inicio" Type="DateTime" Precision="3" />
+    <Property Name="fecha_fin" Type="DateTime" Precision="3" />
+    <Property Name="estado" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="monto_transferir" Type="Double" />
+    <Property Name="monto_adeudado" Type="Double" />
+    <Property Name="lugar" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="penalidadXcancelacion" Type="Double" />
+    <Property Name="penalidadXpostergacion" Type="Double" />
+    <Property Name="porccomision" Type="Double" />
+    <Property Name="esUnico" Type="Boolean" />
+    <Property Name="idCategoria" Type="Int32" />
+    <Property Name="idRegion" Type="Int32" />
+    <Property Name="idPromotor" Type="Int32" />
+    <Property Name="idOrganizador" Type="Int32" />
+    <NavigationProperty Name="Region" Relationship="inf245netsoftModel.fk_EventoRegion" FromRole="Eventos" ToRole="Region" />
+  </EntityType>
+  <Association Name="fk_EventoRegion">
+    <End Type="inf245netsoftModel.Region" Role="Region" Multiplicity="0..1" />
+    <End Type="inf245netsoftModel.Eventos" Role="Eventos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Region">
+        <PropertyRef Name="idRegion" />
+      </Principal>
+      <Dependent Role="Eventos">
+        <PropertyRef Name="idRegion" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

@@ -160,5 +160,28 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Eventos">
+      <EntityTypeMapping TypeName="inf245netsoftModel.Eventos">
+        <MappingFragment StoreEntitySet="Eventos">
+          <ScalarProperty Name="idOrganizador" ColumnName="idOrganizador" />
+          <ScalarProperty Name="idPromotor" ColumnName="idPromotor" />
+          <ScalarProperty Name="idRegion" ColumnName="idRegion" />
+          <ScalarProperty Name="idCategoria" ColumnName="idCategoria" />
+          <ScalarProperty Name="esUnico" ColumnName="esUnico" />
+          <ScalarProperty Name="porccomision" ColumnName="porccomision" />
+          <ScalarProperty Name="penalidadXpostergacion" ColumnName="penalidadXpostergacion" />
+          <ScalarProperty Name="penalidadXcancelacion" ColumnName="penalidadXcancelacion" />
+          <ScalarProperty Name="lugar" ColumnName="lugar" />
+          <ScalarProperty Name="monto_adeudado" ColumnName="monto_adeudado" />
+          <ScalarProperty Name="monto_transferir" ColumnName="monto_transferir" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="fecha_fin" ColumnName="fecha_fin" />
+          <ScalarProperty Name="fecha_inicio" ColumnName="fecha_inicio" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="codigo" ColumnName="codigo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>
