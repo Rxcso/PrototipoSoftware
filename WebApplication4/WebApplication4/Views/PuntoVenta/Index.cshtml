@@ -70,8 +70,7 @@
                         <td>@row.ubicacion</td>
                         <td>@row.dirMAC</td>
                         <td>@Html.ActionLink("Delete", "Delete", new { id = row.codPuntoVenta })</td>
-                        @*<td>@Html.ActionLink("Delete", "Delete", new { id = row.idRegalo })</td>
-                            <td>@Html.ActionLink("Edit", "Edit", new { id = row.idRegalo })</td>*@
+                        <td>@Html.ActionLink("Edit", "Edit", new { id = row.codPuntoVenta })</td>
                     </tr>
                 }
             </tbody>
