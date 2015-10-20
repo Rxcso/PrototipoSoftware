@@ -378,7 +378,6 @@
     <Content Include="Views\PuntoVenta\Edit.cshtml" />
     <Content Include="Views\Organizador\Edit.cshtml" />
     <Content Include="Views\Empleado\Edit.cshtml" />
-    <Content Include="Views\Evento\Prov.cshtml" />
     <Content Include="Views\Regalo\_Search.cshtml" />
     <Content Include="Views\Local\_Search.cshtml" />
     <Content Include="Views\Organizador\_Search.cshtml" />

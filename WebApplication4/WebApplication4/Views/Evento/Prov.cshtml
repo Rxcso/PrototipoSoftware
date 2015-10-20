@@ -1,5 +1,0 @@
-﻿@{
-    var db = new WebApplication4.Models.inf245netsoft();
-    var source = db.Region.Where(c => (""+c.idRegion) == Request["country"]);
-    Json.Write(source,Response.Output);
-}

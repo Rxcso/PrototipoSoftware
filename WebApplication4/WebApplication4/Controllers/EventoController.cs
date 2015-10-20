@@ -14,6 +14,7 @@ namespace WebApplication4.Controllers
         {
             return View();
         }
+        
         [HttpGet]
         public ActionResult Register()
         {
@@ -28,7 +29,7 @@ namespace WebApplication4.Controllers
             if (ModelState.IsValid)
             {
             }
-            return RedirectToAction("Index", "Regalo");
+            return RedirectToAction("Index", "Evento");
         }
     }
 }
