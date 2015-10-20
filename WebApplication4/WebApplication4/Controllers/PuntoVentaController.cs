@@ -42,5 +42,25 @@ namespace WebApplication4.Controllers
             //return RedirectToAction("Index", "Evento");
             return View("Index");
         }
+
+        public ActionResult Edit(int id)
+        {
+            ViewBag.id = id;
+            TempData["codigoP"] = id;
+            return View("Edit");
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult EditRegister(PuntoVentaModel model)
+        {
+            var o = ViewBag.id;
+            PuntoVenta punto = db.PuntoVenta.Find(TempData["codigoP"]);
+            db.Entry(punto).State = EntityState.Modified;
+            punto.dirMAC = model.mac;
+            punto.ubicacion = model.ubicacion;
+            db.SaveChanges();
+            return RedirectToAction("Index", "PuntoVenta");
+        }
     }
 }
