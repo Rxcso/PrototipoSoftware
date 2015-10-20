@@ -18,8 +18,8 @@
     </div><br>
 
 
-    @using ( Html.BeginForm("Register", "Evento", FormMethod.Post) )
-{
+    @using (Html.BeginForm("Register", "Evento", FormMethod.Post, new { }))
+    {
     <!--DECLARAMOS EL TABS Y LA CANTIDAD DE PESTAÑAS QUE TENDRA -->
     <ul class="nav nav-tabs">
         <li id="tab_1" class="active"><a href="#generales" data-toggle="tab">Datos Generales</a></li>
@@ -100,8 +100,8 @@
                     <div class="col-md-4">
                         <select class="form-control" name="" id="departamento" >
                             @{
-                                var db = new WebApplication4.Models.inf245netsoft();
-                                List<WebApplication4.Models.Region> list = db.Region.Where(c => c.idRegPadre == null).ToList();
+        var db = new WebApplication4.Models.inf245netsoft();
+        List<WebApplication4.Models.Region> list = db.Region.Where(c => c.idRegPadre == null).ToList();
                             }
                             <option value="0">Seleccione</option>
                             @foreach (var reg in list)

@@ -34,7 +34,6 @@ namespace WebApplication4.Models
 
     public class OrganizadorSearchModel
     {
-
         [Required]
         [Display(Name = "Nombre: ")]
         public string nombre { get; set; }

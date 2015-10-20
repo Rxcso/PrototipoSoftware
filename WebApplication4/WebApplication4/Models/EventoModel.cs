@@ -16,9 +16,11 @@ namespace WebApplication4.Models
         [Display(Name = "Descripcion")]
         public string descripcion { get; set; }
 
-        public DateTime fecha_inicio { get; set; }
+        //public DateTime fecha_inicio { get; set; }
+        //Se calcula
 
-        public DateTime fecha_fin { get; set; }
+        //public DateTime fecha_fin { get; set; }
+        //Se calcula
 
         //public string estado { get; set; }
 
@@ -26,6 +28,8 @@ namespace WebApplication4.Models
 
         //public Nullable<double> monto_adeudado { get; set; }
 
+        [Required]
+        [Display(Name="Lugar")]
         public string lugar { get; set; }
 
         //public Nullable<double> penalidadXcancelacion { get; set; }
@@ -43,6 +47,14 @@ namespace WebApplication4.Models
         //public Nullable<int> idPromotor { get; set; }
 
         //public Nullable<int> idOrganizador { get; set; }
+
+        [Required]
+        [Display(Name="Imagen")]
+        public string ImagenEvento { get; set; }
+
+        [Required]
+        [Display(Name="Imagen Destacada")]
+        public string ImagenDestacado { get; set; }
 
     }
 }

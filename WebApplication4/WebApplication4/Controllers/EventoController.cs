@@ -23,20 +23,10 @@ namespace WebApplication4.Controllers
 
         [HttpPost]
         [Authorize]
-        public ActionResult RegisterRegalo(EventoModel model)
+        public ActionResult Register(EventoModel model)
         {
             if (ModelState.IsValid)
             {
-                Regalo regalo = new Regalo();
-                Regalo regaloL = db.Regalo.ToList().Last();
-                regalo.idRegalo = regaloL.idRegalo + 1;
-                regalo.Nombre = model.nombre;
-                regalo.estado = true;
-                regalo.descripcion = model.descripcion;
-                regalo.puntos = model.puntos;
-                db.Regalo.Add(regalo);
-                db.SaveChanges();
-                return RedirectToAction("Index", "Regalo");
             }
             return RedirectToAction("Index", "Regalo");
         }
