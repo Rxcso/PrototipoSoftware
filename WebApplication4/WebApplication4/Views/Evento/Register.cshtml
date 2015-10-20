@@ -1,9 +1,7 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Register";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
 }
-
 <div class="container-fluid">
     <div class="col-md-5">
         <ol class="breadcrumb">
@@ -12,14 +10,12 @@
         </ol>
     </div>
 </div>
-
 <div class="container">
     <div class="row">
         <div class="col-md-12">
             <a href="@Url.Action("Index","Evento")" class="btn btn-danger pull-right"><span class="glyphicon glyphicon-hand-left"></span> Regresar</a>
         </div>
     </div><br>
-
     <!--DECLARAMOS EL TABS Y LA CANTIDAD DE PESTAÑAS QUE TENDRA -->
     <ul class="nav nav-tabs">
         <li id="tab_1" class="active"><a href="#generales" data-toggle="tab">Datos Generales</a></li>
@@ -28,7 +24,6 @@
         <li id="tab_4"><a href="#tarifas" data-toggle="tab">Tarifas</a></li>
         <li id="tab_6"><a href="#extras" data-toggle="tab">Extras</a></li>
     </ul>
-
     <!--INTRODUCIMOS EL CONTIDO QUE TENDRA CADA PESTAÑA -->
     <div class="tab-content">
         <!--PRIMERA PESTAÑA-->
@@ -41,7 +36,6 @@
                         <input type="text" class="form-control" id="nombre" placeholder="Nombre del evento">
                     </div>
                 </div><br><br>
-
                 <div class="form-group">
                     <label for="organizador" class="control-label col-md-2">Organizador:</label>
                     <div class="col-md-10">
@@ -50,10 +44,8 @@
                             <span class="input-group-btn"><a href="#modalBuscarOrganizador" class="btn btn-primary" data-toggle="modal" type="button">Buscar <span class="glyphicon glyphicon-search"></span></a></span>
                         </div>
 
-
                     </div>
                 </div><br><br>
-
                 <div class="form-group">
                     <label for="organizador" class="control-label col-md-2">Tipo:</label>
                     <div class="col-md-10">
@@ -65,10 +57,8 @@
                             <option value="">Actividad</option>
                         </select>
 
-
                     </div>
                 </div><br><br>
-
                 <div class="form-group">
                     <label for="organizador" class="control-label col-md-2">Categoría:</label>
                     <div class="col-md-10">
@@ -81,10 +71,8 @@
                             <option value="">Ingeniería</option>
                         </select>
 
-
                     </div>
                 </div><br><br>
-
                 <div class="form-group">
                     <label for="organizador" class="control-label col-md-2">Local:</label>
                     <div class="col-md-10">
@@ -93,39 +81,34 @@
                             <span class="input-group-btn"><a href="#modalBuscarOrganizador" class="btn btn-primary" data-toggle="modal" type="button">Buscar <span class="glyphicon glyphicon-search"></span></a></span>
                         </div>
 
-
                     </div>
-
                 </div><br><br>
-
                 <div class="form-group">
                     <label for="nombre" class="control-label col-md-2">Dirección:</label>
                     <div class="col-md-10">
                         <input type="text" class="form-control" id="nombre" placeholder="Solo si no existe local para el evento">
                     </div>
                 </div><br><br>
-
                 <div class="form-group">
                     <label for="organizador" class="control-label col-md-2">Departamento:</label>
                     <div class="col-md-4">
-                        <select class="form-control" name="" id="">
-                            <option value="">Seleccione</option>
-                            <option value="">Lima</option>
-                            <option value="">Ica</option>
-                            <option value="">La Libertad</option>
+                        <select class="form-control" name="" id="departamento">
+                            @{
+                                var db = new WebApplication4.Models.inf245netsoft();
+                                List<WebApplication4.Models.Region> list = db.Region.Where(c => c.idRegPadre == null).ToList();
+                            }
+                            <option value="0">Seleccione</option>
+                            @foreach (var reg in list)
+                            {
+                                <option value="@reg.idRegion">@reg.nombre</option>
+                            }
                         </select>
                     </div>
                     <label for="organizador" class="control-label col-md-2">Provincia:</label>
                     <div class="col-md-4">
-                        <select class="form-control" name="" id="">
-                            <option value="">Seleccione</option>
-                            <option value="">Lima</option>
-                            <option value="">Cañete</option>
-                        </select>
+                        <select class="form-control" name="" id="provincia"></select>
                     </div>
-
                 </div><br><br>
-
                 <div class="form-group">
                     <label for="descripcion" class="control-label col-md-2">Descripción:</label>
                     <div class="col-md-10">
@@ -134,7 +117,6 @@
                 </div>
             </form>
         </div>
-
         <!--SEGUNDA PESTAÑA-->
         <div class="tab-pane fade in container" id="bloques_tiempo">
             <br>
@@ -173,9 +155,7 @@
                                       </div>
                 -->
             </div>
-
         </div>
-
         <!--TERCERA PESTAÑA-->
         <div class="tab-pane fade in container" id="funciones">
             <br>
@@ -200,7 +180,6 @@
                 </div><br>
             </div>
         </div>
-
         <!--CUARTA PESTAÑA-->
         <div class="tab-pane fade in container" id="tarifas">
             <div class="container">
@@ -210,7 +189,6 @@
                         <button class="btn btn-primary ">Agregar fila <span class="glyphicon glyphicon-plus"></span></button>
                         <button class="btn btn-primary ">Quitar fila <span class="glyphicon glyphicon-remove"></span></button>
                     </div>
-
                 </div><br>
                 <div class="row">
                     <table class="table table-bordered table-hover" contenteditable="true">
@@ -235,12 +213,10 @@
                             <td></td>
                             <td></td>
                         </tr>
-
                     </table>
                 </div>
             </div>
         </div>
-
         <!--QUINTA PESTAÑA-->
         <div class="tab-pane fade in container" id="zonas_asientos">
             <div class="container">
@@ -254,9 +230,7 @@
                     </div>
                 </div><br>
             </div>
-
         </div>
-
         <!--SEXTA PESTAÑA-->
         <div class="tab-pane fade in container" id="extras">
             <div class="container">
@@ -337,7 +311,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col-md-4 col-md-offset-2">
                         <div class="checkbox">
@@ -379,7 +352,4 @@
             </div>
         </div>
     </div>
-
 </div>
-
-
