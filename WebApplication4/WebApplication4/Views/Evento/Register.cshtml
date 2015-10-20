@@ -1,6 +1,9 @@
-﻿@{
+﻿@using WebApplication4.Models
+@model EventoModel
+@{
     ViewBag.Title = "Register";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+    var db = new inf245netsoft();
 }
 <div class="container-fluid">
     <div class="col-md-5">
@@ -37,16 +40,16 @@
                 <br>
                 <form action="" class="form-horizontal">
                     <div class="form-group">
-                        <label for="nombre" class="control-label col-md-2">Nombre:</label>
+                        @Html.LabelFor(c => c.nombre, new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            <input type="text" class="form-control" id="nombre" placeholder="Nombre del evento">
+                            @Html.TextBoxFor(c => c.nombre, new { @class = "form-control", @placeholder = "Nombre del evento" })
                         </div>
                     </div><br><br>
                     <div class="form-group">
-                        <label for="organizador" class="control-label col-md-2">Organizador:</label>
+                        @Html.LabelFor(c => c.idOrganizador, new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
                             <div class="input-group">
-                                <input type="text" class="form-control" disabled>
+                                <input type="text" class="form-control" disabled id="orgNombre">
                                 <span class="input-group-btn"><a href="#modalBuscarOrganizador" class="btn btn-primary" data-toggle="modal" type="button">Buscar <span class="glyphicon glyphicon-search"></span></a></span>
                             </div>
 
@@ -80,11 +83,10 @@
                         </div>
                     </div><br><br>
                     <div class="form-group">
-                        <label for="organizador" class="control-label col-md-2">Local:</label>
-                        <div class="col-md-10">
+                        @Html.LabelFor(model => model.idLocal, new { @class = "control-label col-md-2" })   <div class="col-md-10">
                             <div class="input-group">
-                                <input type="text" class="form-control" disabled>
-                                <span class="input-group-btn"><a href="#modalBuscarOrganizador" class="btn btn-primary" data-toggle="modal" type="button">Buscar <span class="glyphicon glyphicon-search"></span></a></span>
+                                <input type="text" class="form-control" disabled id="localNombre">
+                                <span class="input-group-btn"><a href="#modalBuscarLocal" class="btn btn-primary" data-toggle="modal" type="button">Buscar <span class="glyphicon glyphicon-search"></span></a></span>
                             </div>
 
                         </div>
@@ -98,21 +100,12 @@
                     <div class="form-group">
                         <label for="organizador" class="control-label col-md-2">Departamento:</label>
                         <div class="col-md-4">
-                            <select class="form-control" name="" id="departamento" onchange="hola">
-                                @{
-        var db = new WebApplication4.Models.inf245netsoft();
-        List<WebApplication4.Models.Region> list = db.Region.Where(c => c.idRegPadre == null).ToList();
-                                }
-                                <option value="0">Seleccione</option>
-                                @foreach (var reg in list)
-                                {
-                                    <option value="@reg.idRegion">@reg.nombre</option>
-                                }
-                            </select>
                         </div>
                         <label for="organizador" class="control-label col-md-2">Provincia:</label>
                         <div class="col-md-4">
-                            <select class="form-control" name="" id="provincia"></select>
+                            <select class="form-control" name="provincia" id="provincia" onchange="getProvincias()">
+                                <option value="0"> -- Provincia -- </option>
+                            </select>
                         </div>
                     </div><br><br>
                     <div class="form-group">
@@ -340,6 +333,50 @@
         </div>
     }
 
+    <!--ventana de buscar local-->
+    <div class="modal fade" id="modalBuscarLocal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!--ACA VA EL CONTENIDO DEL MODAL-->
+                <!--contenido de la ventana-->
+                <div class="modal-body">
+                    <form action="" class="form-horizontal">
+                        <div class="form-group">
+                            @{
+                                List<Local> localList = db.Local.ToList();
+                            }
+                            <table class="table table-bordered table-hover" id="tablita">
+                                <thsead>
+                                    <tr class="thead">
+                                        <th>Id</th>
+                                        <th>Aforo</th>
+                                        <th>Ubicacion</th>
+                                        <th>Seleccionar</th>
+                                    </tr>
+                                </thsead>
+                                <tbody>
+                                    @foreach (var local in localList)
+                                    {
+                                        <tr>
+                                            <td>@local.codLocal</td>
+                                            <td>@local.aforo</td>
+                                            <td>@local.ubicacion</td>
+                                            <td><input type="radio" name="groupL" value="@local.ubicacion"></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+                <!--footer de la ventana-->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="llenaLocal()"><span class="glyphicon glyphicon-ok"></span> Seleccionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!--ventana de buscar organizador-->
     <div class="modal fade" id="modalBuscarOrganizador">
         <div class="modal-dialog">
@@ -349,15 +386,50 @@
                 <div class="modal-body">
                     <form action="" class="form-horizontal">
                         <div class="form-group">
-                            xdxx
+                            @{
+                                List<Organizador> orgList = db.Organizador.Where(c => c.estadoOrg == "Activo").ToList();
+                            }
+                            <table class="table table-bordered table-hover" id="tablita">
+                                <thsead>
+                                    <tr class="thead">
+                                        <th>Id</th>
+                                        <th>Nombre</th>
+                                        <th>Seleccionar</th>
+                                    </tr>
+                                </thsead>
+                                <tbody>
+                                    @foreach (var org in orgList)
+                                    {
+                                        <tr>
+                                            <td>@org.codOrg</td>
+                                            <td>@org.nombOrg</td>
+                                            <td><input type="radio" name="groupO" value="@org.nombOrg"></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
                         </div>
                     </form>
                 </div>
                 <!--footer de la ventana-->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Seleccionar</button>
+                    <button type="button" class="btn btn-primary" onclick="llenaOrg()"><span class="glyphicon glyphicon-ok"></span> Seleccionar</button>
                 </div>
             </div>
         </div>
     </div>
+    
+    <script>
+        function llenaOrg() {
+            var nomb = $('input[name="groupO"]:checked').val();
+            $("#orgNombre").val(nomb);
+            $('#modalBuscarOrganizador').modal('hide');
+        }
+        function llenaLocal() {
+            var nomb = $('input[name="groupL"]:checked').val();
+            $("#localNombre").val(nomb);
+            $('#modalBuscarLocal').modal('hide');
+        }
+    </script>
 </div>
+

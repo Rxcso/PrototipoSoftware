@@ -385,6 +385,7 @@
     <Content Include="Views\Empleado\_Search1.cshtml" />
     <Content Include="Views\Empleado\_Search2.cshtml" />
     <Content Include="Views\CuentaUsuario\BuscaCliente.cshtml" />
+    <Content Include="Views\Evento\Provincia.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

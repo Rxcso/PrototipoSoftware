@@ -1,0 +1,8 @@
+﻿@{
+    Layout = null;
+}
+@{
+    var db = new WebApplication4.Models.inf245netsoft();
+    var source = db.Region.Where(c => "" + c.idRegPadre == Request["rPadre"]);
+    Json.Write(source, Response.Output);
+}

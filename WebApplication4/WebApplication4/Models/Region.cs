@@ -12,44 +12,44 @@
 namespace WebApplication4.Models
 {
 
-using System;
+    using System;
     using System.Collections.Generic;
-    
-public partial class Region
-{
 
-    public Region()
+    public partial class Region
     {
 
-        this.Local = new HashSet<Local>();
+        public Region()
+        {
 
-        this.Local1 = new HashSet<Local>();
+            this.Local = new HashSet<Local>();
 
-        this.Region1 = new HashSet<Region>();
+            this.Local1 = new HashSet<Local>();
 
-        this.Eventos = new HashSet<Eventos>();
+            this.Region1 = new HashSet<Region>();
+
+            this.Eventos = new HashSet<Eventos>();
+
+        }
+
+
+        public int idRegion { get; set; }
+
+        public Nullable<int> idRegPadre { get; set; }
+
+        public string nombre { get; set; }
+
+
+
+        public virtual ICollection<Local> Local { get; set; }
+
+        public virtual ICollection<Local> Local1 { get; set; }
+
+        public virtual ICollection<Region> Region1 { get; set; }
+
+        public virtual Region Region2 { get; set; }
+
+        public virtual ICollection<Eventos> Eventos { get; set; }
 
     }
-
-
-    public int idRegion { get; set; }
-
-    public Nullable<int> idRegPadre { get; set; }
-
-    public string nombre { get; set; }
-
-
-
-    public virtual ICollection<Local> Local { get; set; }
-
-    public virtual ICollection<Local> Local1 { get; set; }
-
-    public virtual ICollection<Region> Region1 { get; set; }
-
-    public virtual Region Region2 { get; set; }
-
-    public virtual ICollection<Eventos> Eventos { get; set; }
-
-}
 
 }
