@@ -17,21 +17,26 @@ namespace WebApplication4.Controllers
             return View();
         }
 
+
         [HttpPost]
         [AllowAnonymous]
         public ActionResult RegisterOrganizador(OrganizadorModel model)
         {
-            Organizador org = new Organizador();
-            Organizador orgL = db.Organizador.ToList().Last();
-            org.codOrg =  orgL.codOrg + 1;
-            org.codDoc = model.codDoc;
-            org.correo = model.Email;
-            org.nombOrg = model.nombre;
-            org.telefOrg = model.telefono;
-            org.tipoDoc = model.tipoDoc;
-            org.estadoOrg = "Activo";
-            db.Organizador.Add(org);
-            db.SaveChanges();
+            if (ModelState.IsValid)
+            {
+                Organizador org = new Organizador();
+                Organizador orgL = db.Organizador.ToList().Last();
+                org.codOrg = orgL.codOrg + 1;
+                org.codDoc = model.codDoc;
+                org.correo = model.Email;
+                org.nombOrg = model.nombre;
+                org.telefOrg = model.telefono;
+                org.tipoDoc = model.tipoDoc;
+                org.estadoOrg = "Activo";
+                db.Organizador.Add(org);
+                db.SaveChanges();
+                return RedirectToAction("Index", "Organizador");
+            }
             return RedirectToAction("Index", "Organizador");
         }
 
@@ -44,6 +49,33 @@ namespace WebApplication4.Controllers
             db.SaveChanges();
             //return RedirectToAction("Index", "Evento");
             return View("Index");
+        }
+
+        public ActionResult Edit(int id)
+        {
+            ViewBag.id = id;
+            TempData["codigoO"] = id;
+            return View("Edit");
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult EditRegister(OrganizadorModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var o = ViewBag.id;
+                Organizador org = db.Organizador.Find(TempData["codigoO"]);
+                db.Entry(org).State = EntityState.Modified;
+                org.correo = model.Email;
+                org.nombOrg = model.nombre;
+                org.telefOrg = model.telefono;
+                org.codDoc = model.codDoc;
+                org.tipoDoc = model.tipoDoc;
+                db.SaveChanges();
+                return RedirectToAction("Index", "Organizador");
+            }
+            return RedirectToAction("Index", "Organizador");
         }
 
     }

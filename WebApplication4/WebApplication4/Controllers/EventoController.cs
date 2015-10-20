@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebApplication4.Models;
 
 namespace WebApplication4.Controllers
 {
@@ -18,11 +19,26 @@ namespace WebApplication4.Controllers
         {
             return View();
         }
-        
+
+
         [HttpPost]
-        public ActionResult Register()
+        [Authorize]
+        public ActionResult RegisterRegalo(EventoModel model)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                Regalo regalo = new Regalo();
+                Regalo regaloL = db.Regalo.ToList().Last();
+                regalo.idRegalo = regaloL.idRegalo + 1;
+                regalo.Nombre = model.nombre;
+                regalo.estado = true;
+                regalo.descripcion = model.descripcion;
+                regalo.puntos = model.puntos;
+                db.Regalo.Add(regalo);
+                db.SaveChanges();
+                return RedirectToAction("Index", "Regalo");
+            }
+            return RedirectToAction("Index", "Regalo");
         }
     }
 }

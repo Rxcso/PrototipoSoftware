@@ -21,14 +21,18 @@ namespace WebApplication4.Controllers
         [AllowAnonymous]
         public ActionResult RegisterPunto(PuntoVentaModel model)
         {
-            PuntoVenta punto = new PuntoVenta();
-            PuntoVenta puntoL = db.PuntoVenta.ToList().Last();
-            punto.codPuntoVenta = puntoL.codPuntoVenta + 1;
-            punto.dirMAC = model.mac;
-            punto.estaActivo = true;
-            punto.ubicacion = model.ubicacion;
-            db.PuntoVenta.Add(punto);
-            db.SaveChanges();
+            if (ModelState.IsValid)
+            {
+                PuntoVenta punto = new PuntoVenta();
+                PuntoVenta puntoL = db.PuntoVenta.ToList().Last();
+                punto.codPuntoVenta = puntoL.codPuntoVenta + 1;
+                punto.dirMAC = model.mac;
+                punto.estaActivo = true;
+                punto.ubicacion = model.ubicacion;
+                db.PuntoVenta.Add(punto);
+                db.SaveChanges();
+                return RedirectToAction("Index", "PuntoVenta");
+            }
             return RedirectToAction("Index", "PuntoVenta");
         }
 
@@ -41,6 +45,30 @@ namespace WebApplication4.Controllers
             db.SaveChanges();
             //return RedirectToAction("Index", "Evento");
             return View("Index");
+        }
+
+        public ActionResult Edit(int id)
+        {
+            ViewBag.id = id;
+            TempData["codigoP"] = id;
+            return View("Edit");
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult EditRegister(PuntoVentaModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var o = ViewBag.id;
+                PuntoVenta punto = db.PuntoVenta.Find(TempData["codigoP"]);
+                db.Entry(punto).State = EntityState.Modified;
+                punto.dirMAC = model.mac;
+                punto.ubicacion = model.ubicacion;
+                db.SaveChanges();
+                return RedirectToAction("Index", "PuntoVenta");
+            }
+            return RedirectToAction("Index", "PuntoVenta");
         }
     }
 }
