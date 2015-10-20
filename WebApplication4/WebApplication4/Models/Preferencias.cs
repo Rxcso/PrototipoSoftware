@@ -15,30 +15,12 @@ namespace WebApplication4.Models
 using System;
     using System.Collections.Generic;
     
-public partial class Regalo
+public partial class Preferencias
 {
 
-    public Regalo()
-    {
-
-        this.RegaloXCuenta = new HashSet<RegaloXCuenta>();
-
-    }
-
-
-    public int idRegalo { get; set; }
-
-    public string Nombre { get; set; }
-
-    public Nullable<int> puntos { get; set; }
+    public int codPreferencia { get; set; }
 
     public string descripcion { get; set; }
-
-    public Nullable<bool> estado { get; set; }
-
-
-
-    public virtual ICollection<RegaloXCuenta> RegaloXCuenta { get; set; }
 
 }
 

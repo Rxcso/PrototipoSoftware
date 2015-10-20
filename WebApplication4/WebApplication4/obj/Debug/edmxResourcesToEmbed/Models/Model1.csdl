@@ -87,6 +87,8 @@
       <End Role="Organizador" EntitySet="Organizador" />
       <End Role="Eventos" EntitySet="Eventos" />
     </AssociationSet>
+    <EntitySet Name="EventosPrueba" EntityType="inf245netsoftModel.EventosPrueba" />
+    <EntitySet Name="Preferencias" EntityType="inf245netsoftModel.Preferencias" />
   </EntityContainer>
   <EntityType Name="Perfiles">
     <Key>
@@ -408,4 +410,47 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="EventosPrueba">
+    <Key>
+      <PropertyRef Name="codEvento" />
+    </Key>
+    <Property Name="codEvento" Type="Int32" Nullable="false" />
+    <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="fechaFin" Type="DateTime" Precision="3" />
+    <Property Name="estado" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="fechaInicio" Type="DateTime" Precision="3" />
+    <Property Name="mAdeudado" Type="Double" />
+    <Property Name="mTransferir" Type="Double" />
+    <Property Name="lugar" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="penCan" Type="Double" />
+    <Property Name="penPost" Type="Double" />
+    <Property Name="comision" Type="Double" />
+    <Property Name="esRecurrente" Type="Boolean" />
+    <Property Name="destacado" Type="Int32" />
+    <Property Name="fechDev" Type="DateTime" Precision="3" />
+    <Property Name="esImpri" Type="Boolean" />
+    <Property Name="esReser" Type="Boolean" />
+    <Property Name="maxReserva" Type="Int32" />
+    <Property Name="limReserva" Type="DateTime" Precision="3" />
+    <Property Name="codOrg" Type="Int32" Nullable="false" />
+    <Property Name="codPromotor" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="idRegion" Type="Int32" Nullable="false" />
+    <Property Name="idProvincia" Type="Int32" />
+    <Property Name="necDoc" Type="Boolean" Nullable="false" />
+    <Property Name="codLocal" Type="Int32" />
+    <Property Name="idCategoria" Type="Int32" />
+    <Property Name="cantPuntos" Type="Int32" />
+    <Property Name="urlDestacado" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="urlImagen" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="urlDistribucion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="codPreferencia" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Preferencias">
+    <Key>
+      <PropertyRef Name="codPreferencia" />
+    </Key>
+    <Property Name="codPreferencia" Type="Int32" Nullable="false" />
+    <Property Name="descripcion" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+  </EntityType>
 </Schema>
