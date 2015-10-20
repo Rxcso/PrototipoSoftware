@@ -53,7 +53,7 @@
                         <label for="organizador" class="control-label col-md-2">Organizador:</label>
                         <div class="col-md-10">
                             <div class="input-group">
-                                <input type="text" class="form-control" disabled>
+                                <input type="text" class="form-control" disabled id="organizadorNombre">
                                 <span class="input-group-btn"><a href="#modalBuscarOrganizador" class="btn btn-primary" data-toggle="modal" type="button">Buscar <span class="glyphicon glyphicon-search"></span></a></span>
                             </div>
 
@@ -90,8 +90,8 @@
                         <label for="organizador" class="control-label col-md-2">Local:</label>
                         <div class="col-md-10">
                             <div class="input-group">
-                                <input type="text" class="form-control" disabled>
-                                <span class="input-group-btn"><a href="#modalBuscarOrganizador" class="btn btn-primary" data-toggle="modal" type="button">Buscar <span class="glyphicon glyphicon-search"></span></a></span>
+                                <input type="text" class="form-control" disabled id="localNombre">
+                                <span class="input-group-btn"><a href="#modalBuscarLocal" class="btn btn-primary" data-toggle="modal" type="button">Buscar <span class="glyphicon glyphicon-search"></span></a></span>
                             </div>
 
                         </div>
@@ -368,6 +368,7 @@
                             @{
                                 List<Local> localList = db.Local.ToList();
                             }
+                            Seleccione un Local:
                             <table class="table table-bordered table-hover" id="tablita">
                                 <thsead>
                                     <tr class="thead">
@@ -445,7 +446,7 @@
     <script>
         function llenaOrg() {
             var nomb = $('input[name="groupO"]:checked').val();
-            $("#orgNombre").val(nomb);
+            $("#organizadorNombre").val(nomb);
             $('#modalBuscarOrganizador').modal('hide');
         }
         function llenaLocal() {
