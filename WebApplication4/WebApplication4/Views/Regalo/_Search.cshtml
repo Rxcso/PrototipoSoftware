@@ -1,0 +1,28 @@
+﻿@using Microsoft.AspNet.Identity
+@using WebApplication4.Models
+
+@model RegaloSearchModel
+
+<br>
+@using (Html.BeginForm("Search", "Regalo", FormMethod.Post, new { }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true)
+        <br>
+        <div class="row form-group">
+            @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.nombre)
+                @Html.ValidationMessageFor(model => model.nombre)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Buscar" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}

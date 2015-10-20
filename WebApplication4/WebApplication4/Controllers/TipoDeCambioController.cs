@@ -7,7 +7,9 @@ using System.Web.Mvc;
 using WebApplication4.Models;
 
 namespace WebApplication4.Controllers
+
 {
+    [Authorize]
     public class TipoDeCambioController : Controller
     {
 

@@ -20,6 +20,11 @@ namespace WebApplication4.Controllers
             return View(db.CuentaUsuario.ToList());
         }
 
+        public ActionResult BuscaCliente()
+        {
+            return View();
+        }
+
         // GET: /CuentaUsuario/Details/5
         public ActionResult Details(string id)
         {
@@ -122,6 +127,28 @@ namespace WebApplication4.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult Search(ClienteSearchModel cliente)
+        {
+            if (ModelState.IsValid)
+            {
+                List<CuentaUsuario> listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.tipoDoc == cliente.tipoDoc && c.codDoc==cliente.codDoc && c.estado == true && c.codPerfil == 1).ToList();
+                if (listacl != null) TempData["ListaCL"] = listacl;
+                else TempData["ListaCL"] = null;
+                return RedirectToAction("BuscaCliente", "CuentaUsuario");
+            }
+            TempData["ListaCL"] = null;
+            return RedirectToAction("BuscaCliente", "CuentaUsuario");
+        }
+
+        public ActionResult Entrega(string usuario)
+        {
+            CuentaUsuario cuenta = db.CuentaUsuario.AsNoTracking().Where(c => c.codDoc == usuario).ToList().First();
+            TempData["EntregaCl"] = cuenta;
+            return RedirectToAction("BuscaCliente", "CuentaUsuario");
         }
     }
 }

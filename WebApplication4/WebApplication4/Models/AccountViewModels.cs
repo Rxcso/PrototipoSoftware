@@ -117,6 +117,51 @@ namespace WebApplication4.Models
 
     }
 
+    public class EditViewModel
+    {
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Correo Electronico")]
+        public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "Nombres")]
+        public string nombre { get; set; }
+
+        [Required]
+        [Display(Name = "Apellidos")]
+        public string apellido { get; set; }
+
+        [Display(Name = "Direccion")]
+        public string direccion { get; set; }
+
+        [Display(Name = "Telefono")]
+        public string telefono { get; set; }
+
+        [Display(Name = "Telefono Movil")]
+        public string telMovil { get; set; }
+    }
+
+    public class EmpleadoSearchModel
+    {
+
+        [Required]
+        [Display(Name = "Nombre: ")]
+        public string nombre { get; set; }
+    }
+
+    public class ClienteSearchModel
+    {
+        [Required]
+        [Range(1, 3)]
+        [Display(Name = "Tipo de Doc.")]
+        public int tipoDoc { get; set; }
+
+        [Required]
+        [Display(Name = "# Doc")]
+        public string codDoc { get; set; }
+    }
+
     public class ResetPasswordViewModel
     {
         [Required]

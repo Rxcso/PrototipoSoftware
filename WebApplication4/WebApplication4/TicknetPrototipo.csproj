@@ -323,6 +323,7 @@
     </Content>
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
@@ -374,6 +375,17 @@
     <Content Include="Views\PuntoVenta\Index.cshtml" />
     <Content Include="Views\Account\IndexEmpleado.cshtml" />
     <Content Include="Views\Evento\Register.cshtml" />
+    <Content Include="Views\PuntoVenta\Edit.cshtml" />
+    <Content Include="Views\Organizador\Edit.cshtml" />
+    <Content Include="Views\Empleado\Edit.cshtml" />
+    <Content Include="Views\Evento\Prov.cshtml" />
+    <Content Include="Views\Regalo\_Search.cshtml" />
+    <Content Include="Views\Local\_Search.cshtml" />
+    <Content Include="Views\Organizador\_Search.cshtml" />
+    <Content Include="Views\PuntoVenta\_Search.cshtml" />
+    <Content Include="Views\Empleado\_Search1.cshtml" />
+    <Content Include="Views\Empleado\_Search2.cshtml" />
+    <Content Include="Views\CuentaUsuario\BuscaCliente.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,4 +1,8 @@
-﻿
+﻿@using Microsoft.AspNet.Identity
+@using WebApplication4.Models
+
+@model OrganizadorModel
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
@@ -32,7 +36,8 @@
                     <br>
                 </div>
             </div>
-            <div class="col-md-4">
+
+            @*<div class="col-md-4">
                 <form action="" class="" role="search">
                     <br>
                     <br>
@@ -44,7 +49,8 @@
                         </div>
                     </div>
                 </form>
-            </div>
+            </div>*@
+
             <div class="col-md-2">
                 <br>
                 <br>
@@ -54,8 +60,20 @@
         </div>
 
         @{
+            Html.RenderPartial("_Search");
+        }
+        @{
             var db = new WebApplication4.Models.inf245netsoft();
-            List<WebApplication4.Models.Organizador> listaOrganizador = db.Organizador.AsNoTracking().Where(c => c.estadoOrg == "Activo").ToList(); }
+            List<WebApplication4.Models.Organizador> listaOrganizador;
+            if (TempData["ListaO"] == null)
+            {
+                listaOrganizador = db.Organizador.AsNoTracking().Where(c => c.estadoOrg == "Activo").ToList();
+            }
+            else
+            {
+                listaOrganizador = (List<WebApplication4.Models.Organizador>)TempData["ListaO"];
+            }      
+            }
 
         <div class="row">
             <table id="mytable" class="table table-bordered table-hover">
@@ -79,6 +97,7 @@
                             <td>@row.correo</td>
                             <td>@row.telefOrg</td>
                             <td>@Html.ActionLink("Delete", "Delete", new { id = row.codOrg })</td>
+                            <td>@Html.ActionLink("Edit", "Edit", new { id = row.codOrg })</td>
                             @*<td>@Html.ActionLink("Delete", "Delete", new { id = row.idRegalo })</td>
                             <td>@Html.ActionLink("Edit", "Edit", new { id = row.idRegalo })</td>*@
                         </tr>
@@ -102,50 +121,72 @@
                     <h4 class="modal-title">Nuevo Organizador</h4>
                 </div>
                 <!--contenido de la ventana-->
-                <div class="modal-body">
-                    <form action="" class="form-horizontal">
-                        <div class="form-group">
-                            <label for="nombre" class="control-label col-md-2">Nombre:</label>
-                            <div class="col-md-10">
-                                <input type="text" class="form-control" id="nombre" placeholder="Nombre del organizador">
+                @using (Html.BeginForm("RegisterOrganizador", "Organizador", FormMethod.Post, new { }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true)
+                        <br>
+                        <div class="row form-group">
+                            @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.nombre)
+                                @Html.ValidationMessageFor(model => model.nombre)
                             </div>
                         </div>
 
-
-                        <div class="form-group">
-                            <label for="dnii" class="control-label col-md-2">DNI:</label>
-                            <div class="col-md-10">
-                                <input type="textarea" class="form-control" id="dnii" placeholder="DNI del organizador">
-
+                        <div class="row form-group">
+                            @Html.LabelFor(model => model.telefono, new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.telefono)
+                                @Html.ValidationMessageFor(model => model.telefono)
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="telefono" class="control-label col-md-2">Teléfono:</label>
+                            @Html.LabelFor(model => model.tipoDoc, new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
-                                <input type="textarea" class="form-control" id="telefono" placeholder="Teléfono del organizador">
-
+                                @{
+                    List<SelectListItem> listItems = new List<SelectListItem>();
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "DNI",
+                        Value = "1",
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "Pasaporte",
+                        Value = "2"
+                    });
+                                }
+                                @Html.DropDownListFor(model => model.tipoDoc, listItems, "Seleccione tipo de documento")
                             </div>
                         </div>
 
-                        <!-- <div class="form-group">
-                            <label for="region" class="control-label col-md-2">Región:</label>
-                             <div class="col-md-3">
-                                 <select name="" id="region" class="form-control " >
-                                     <option value="">Lima</option>
-                                     <option value="">Piura</option>
-                                     <option value="">Juliaca</option>
-                                     <option value="">Trujillo</option>
-                                     <option value="">Loreto</option>
-                                     <option value="">Ica</option>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.codDoc, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.codDoc)
+                                @Html.ValidationMessageFor(model => model.codDoc)
+                            </div>
+                        </div>
 
-                                 </select>
-                             </div>
-                         </div> -->
+                        <div class="row form-group">
+                            @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.Email)
+                                @Html.ValidationMessageFor(model => model.Email)
+                            </div>
+                        </div>
 
-                    </form>
-                </div>
-
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Agregar" class="btn btn-primary" />
+                            </div>
+                        </div>
+                    </div>
+                }
                 <!--footer de la ventana-->
 
             </div>
