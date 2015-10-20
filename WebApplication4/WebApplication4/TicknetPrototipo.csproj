@@ -383,6 +383,8 @@
     <Content Include="Views\Local\_Search.cshtml" />
     <Content Include="Views\Organizador\_Search.cshtml" />
     <Content Include="Views\PuntoVenta\_Search.cshtml" />
+    <Content Include="Views\Empleado\_Search1.cshtml" />
+    <Content Include="Views\Empleado\_Search2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -18,8 +18,24 @@
 
 @{
     var db = new WebApplication4.Models.inf245netsoft();
-    List<WebApplication4.Models.CuentaUsuario> listaEmpleado = db.CuentaUsuario.AsNoTracking().Where(c => c.codPerfil == 2).ToList();
-    List<WebApplication4.Models.CuentaUsuario> listaPromotor = db.CuentaUsuario.AsNoTracking().Where(c => c.codPerfil == 3).ToList();
+    List<WebApplication4.Models.CuentaUsuario> listaEmpleado;
+    List<WebApplication4.Models.CuentaUsuario> listaPromotor;
+    if (TempData["ListaV1"] == null)
+    {
+        listaEmpleado = db.CuentaUsuario.AsNoTracking().Where(c => c.codPerfil == 2).ToList();
+    }
+    else
+    {
+        listaEmpleado = (List<WebApplication4.Models.CuentaUsuario>)TempData["ListaV1"];
+    }
+    if (TempData["ListaT"] == null)
+    {
+        listaPromotor = db.CuentaUsuario.AsNoTracking().Where(c => c.codPerfil == 3).ToList();
+    }
+    else
+    {
+        listaPromotor = (List<WebApplication4.Models.CuentaUsuario>)TempData["ListaT"];
+    }
 }
 
 <div class="container">
@@ -44,7 +60,8 @@
                             <button id=botonOculto1 style="visibility:hidden" type="button" class="btn btn-primary" onclick="msjConfirmacion2_1()">Guardar Cambios <span class="glyphicon glyphicon-save"></span></button>
                         </div>
                     </div>
-                    <div class="col-md-4">
+
+                    @*<div class="col-md-4">
                         <form action="" class="" role="search">
                             <div class="form-group">
                                 <div class="input-group">
@@ -53,14 +70,16 @@
                                 </div>
                             </div>
                         </form>
-                    </div>
+                    </div>*@
+
                     <div class="col-md-2">
                         <a class="btn btn-danger pull-right" href="@Url.Action("Index2", "Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
                     </div>
 
                 </div>
-
-
+                @{
+                    Html.RenderPartial("_Search1");
+                }
                 <div class="row">
                     <table id="mytable" class="table table-bordered table-hover">
                         <thead>
@@ -110,7 +129,8 @@
                             <button id=botonOculto2 style="visibility:hidden" type="button" class="btn btn-primary" onclick="msjConfirmacion2_2()">Guardar cambios <span class="glyphicon glyphicon-save"></span></button>
                         </div>
                     </div>
-                    <div class="col-md-4">
+
+                    @*<div class="col-md-4">
                         <form action="" class="" role="search">
                             <div class="form-group">
                                 <div class="input-group">
@@ -119,12 +139,17 @@
                                 </div>
                             </div>
                         </form>
-                    </div>
+                    </div>*@
+
                     <div class="col-md-2">
                         <a class="btn btn-danger pull-right" href="@Url.Action("Index2", "Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
                     </div>
 
                 </div>
+
+                @{
+                    Html.RenderPartial("_Search2");
+                }
 
                 <div class="row">
                     <table id="mytable" class="table table-bordered table-hover">
