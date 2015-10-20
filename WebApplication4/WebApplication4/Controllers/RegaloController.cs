@@ -90,6 +90,5 @@ namespace WebApplication4.Controllers
             TempData["ListaR"] = null;
            return RedirectToAction("Index", "Regalo");
         }
-
     }
 }

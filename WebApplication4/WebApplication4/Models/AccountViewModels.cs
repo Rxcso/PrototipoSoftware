@@ -142,6 +142,14 @@ namespace WebApplication4.Models
         public string telMovil { get; set; }
     }
 
+    public class EmpleadoSearchModel
+    {
+
+        [Required]
+        [Display(Name = "Nombre: ")]
+        public string nombre { get; set; }
+    }
+
     public class ResetPasswordViewModel
     {
         [Required]

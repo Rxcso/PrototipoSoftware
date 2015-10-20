@@ -28,4 +28,12 @@ namespace WebApplication4.Models
         [Display(Name = "Departamento: ")]
         public int departamento { get; set; }
     }
+
+    public class LocalSearchModel
+    {
+        [Display(Name = "Descripcion: ")]
+        public string nombre { get; set; }
+
+        public int departamento { get; set; }
+    }
 }
