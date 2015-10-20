@@ -31,4 +31,13 @@ namespace WebApplication4.Models
         [Display(Name = "Telefono")]
         public string telefono { get; set; }
     }
+
+    public class OrganizadorSearchModel
+    {
+
+        [Required]
+        [Display(Name = "Nombre: ")]
+        public string nombre { get; set; }
+    }
+
 }

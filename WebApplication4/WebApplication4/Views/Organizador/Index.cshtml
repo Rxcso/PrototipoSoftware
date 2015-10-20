@@ -36,7 +36,8 @@
                     <br>
                 </div>
             </div>
-            <div class="col-md-4">
+
+            @*<div class="col-md-4">
                 <form action="" class="" role="search">
                     <br>
                     <br>
@@ -48,7 +49,8 @@
                         </div>
                     </div>
                 </form>
-            </div>
+            </div>*@
+
             <div class="col-md-2">
                 <br>
                 <br>
@@ -58,8 +60,20 @@
         </div>
 
         @{
+            Html.RenderPartial("_Search");
+        }
+        @{
             var db = new WebApplication4.Models.inf245netsoft();
-            List<WebApplication4.Models.Organizador> listaOrganizador = db.Organizador.AsNoTracking().Where(c => c.estadoOrg == "Activo").ToList(); }
+            List<WebApplication4.Models.Organizador> listaOrganizador;
+            if (TempData["ListaO"] == null)
+            {
+                listaOrganizador = db.Organizador.AsNoTracking().Where(c => c.estadoOrg == "Activo").ToList();
+            }
+            else
+            {
+                listaOrganizador = (List<WebApplication4.Models.Organizador>)TempData["ListaO"];
+            }      
+            }
 
         <div class="row">
             <table id="mytable" class="table table-bordered table-hover">

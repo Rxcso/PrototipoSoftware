@@ -75,5 +75,20 @@ namespace WebApplication4.Controllers
             }
             return RedirectToAction("Index", "Regalo");
         }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult Search(RegaloSearchModel regalo)
+        {
+            if (ModelState.IsValid)
+            {
+                List<Regalo> listaReg = db.Regalo.AsNoTracking().Where(c => c.Nombre.StartsWith(regalo.nombre)).ToList();
+                if (listaReg != null) TempData["ListaR"] = listaReg;
+                else TempData["ListaR"] = null;
+                return RedirectToAction("Index", "Regalo");
+            }
+            TempData["ListaR"] = null;
+           return RedirectToAction("Index", "Regalo");
+        }
     }
 }

@@ -78,5 +78,20 @@ namespace WebApplication4.Controllers
             return RedirectToAction("Index", "Organizador");
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult Search(OrganizadorSearchModel organizador)
+        {
+            if (ModelState.IsValid)
+            {
+                List<Organizador> listaOrg = db.Organizador.AsNoTracking().Where(c => c.nombOrg.StartsWith(organizador.nombre)).ToList();
+                if (listaOrg != null) TempData["ListaO"] = listaOrg;
+                else TempData["ListaO"] = null;
+                return RedirectToAction("Index", "Organizador");
+            }
+            TempData["ListaO"] = null;
+            return RedirectToAction("Index", "Organizador");
+        }
+
     }
 }

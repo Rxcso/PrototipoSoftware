@@ -21,4 +21,12 @@ namespace WebApplication4.Models
         [Display(Name = "Puntos: ")]
         public int puntos { get; set; }
     }
+
+    public class RegaloSearchModel
+    {
+
+        [Required]
+        [Display(Name = "Nombre: ")]
+        public string nombre { get; set; }
+    }
 }

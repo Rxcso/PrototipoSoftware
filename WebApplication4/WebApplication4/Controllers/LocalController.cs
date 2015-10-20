@@ -76,5 +76,19 @@ namespace WebApplication4.Controllers
             return RedirectToAction("Index", "Local");
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult Search(LocalSearchModel local)
+        {         
+            List<Local> listaLoc=null;
+                if (local.departamento == 0 && local.nombre != null ) listaLoc = db.Local.AsNoTracking().Where(c => c.descripcion.StartsWith(local.nombre)).ToList();
+                else if (local.departamento != 0 && local.nombre == null) listaLoc = db.Local.AsNoTracking().Where(c => local.departamento == c.idRegion).ToList();
+                else if (local.departamento != 0 && local.nombre != null) listaLoc = db.Local.AsNoTracking().Where(c => c.descripcion.StartsWith(local.nombre) && local.departamento == c.idRegion).ToList();
+                else TempData["ListaL"] = null;
+                if (listaLoc != null) TempData["ListaL"] = listaLoc;
+                else TempData["ListaL"] = null;            
+            return RedirectToAction("Index", "Local");
+        }
+
     }
 }
