@@ -70,5 +70,20 @@ namespace WebApplication4.Controllers
             }
             return RedirectToAction("Index", "PuntoVenta");
         }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult Search(PuntoVentaSearchModel punto)
+        {
+            if (ModelState.IsValid)
+            {
+                List<PuntoVenta> listaP = db.PuntoVenta.AsNoTracking().Where(c => c.ubicacion.StartsWith(punto.ubicacion)).ToList();
+                if (listaP != null) TempData["ListaP"] = listaP;
+                else TempData["ListaP"] = null;
+                return RedirectToAction("Index", "PuntoVenta");
+            }
+            TempData["ListaP"] = null;
+            return RedirectToAction("Index", "PuntoVenta");
+        }
     }
 }
