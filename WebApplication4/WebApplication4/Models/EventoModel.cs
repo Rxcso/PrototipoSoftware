@@ -8,30 +8,41 @@ namespace WebApplication4.Models
 {
     public class EventoModel
     {
+        //PESTAÑA DATOS GENERALES
         [Required]
-        [Display(Name="Nombre")]
+        [Display(Name="Nombre:")]
         public string nombre { get; set; }
 
         [Required]
-        [Display(Name = "Descripcion")]
-        public string descripcion { get; set; }
-
-        //public DateTime fecha_inicio { get; set; }
-        //Se calcula
-
-        //public DateTime fecha_fin { get; set; }
-        //Se calcula
-
-        //public string estado { get; set; }
-
-        //public Nullable<double> monto_transferir { get; set; }
-
-        //public Nullable<double> monto_adeudado { get; set; }
+        [Display(Name="Organizador:")]
+        public int idOrganizador { get; set; }
 
         [Required]
-        [Display(Name="Lugar")]
-        public string lugar { get; set; }
+        [Display(Name = "Tipo:")]
+        public int idCategoria { get; set; }
 
+        [Required]
+        [Display(Name = "Categoría:")]
+        public int idSubCat { get; set; }
+
+        [Display(Name = "Local:")]
+        public int idLocal { get; set; }
+
+        [Display(Name = "Dirección:")]
+        public string lugar { get; set; }
+        
+        [Required]
+        [Display(Name = "Departamento:")]
+        public int idRegion { get; set; }
+
+        [Required]
+        [Display(Name = "Provincia:")]
+        public int idProv { get; set; }
+
+        [Required]
+        [Display(Name = "Descripcion:")]
+        public string descripcion { get; set; }
+        //TERMINA DATOS GENERALES
         //public Nullable<double> penalidadXcancelacion { get; set; }
 
         //public Nullable<double> penalidadXpostergacion { get; set; }
@@ -40,13 +51,11 @@ namespace WebApplication4.Models
 
         //public Nullable<bool> esUnico { get; set; }
 
-        //public Nullable<int> idCategoria { get; set; }
+        
 
-        //public Nullable<int> idRegion { get; set; }
-
+       
         //public Nullable<int> idPromotor { get; set; }
 
-        //public Nullable<int> idOrganizador { get; set; }
 
         [Required]
         [Display(Name="Imagen")]
@@ -56,5 +65,17 @@ namespace WebApplication4.Models
         [Display(Name="Imagen Destacada")]
         public string ImagenDestacado { get; set; }
 
+        //public DateTime fecha_inicio { get; set; }
+        //Se calcula
+
+        //public DateTime fecha_fin { get; set; }
+        //Se calcula
+
+        //public string estado { get; set; }
+        //empieza como activo
+
+        //calculados despues
+        //public Nullable<double> monto_transferir { get; set; }
+        //public Nullable<double> monto_adeudado { get; set; }
     }
 }

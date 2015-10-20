@@ -150,6 +150,18 @@ namespace WebApplication4.Models
         public string nombre { get; set; }
     }
 
+    public class ClienteSearchModel
+    {
+        [Required]
+        [Range(1, 3)]
+        [Display(Name = "Tipo de Doc.")]
+        public int tipoDoc { get; set; }
+
+        [Required]
+        [Display(Name = "# Doc")]
+        public string codDoc { get; set; }
+    }
+
     public class ResetPasswordViewModel
     {
         [Required]

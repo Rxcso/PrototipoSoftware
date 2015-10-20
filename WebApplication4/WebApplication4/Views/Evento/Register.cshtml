@@ -21,344 +21,325 @@
     @using (Html.BeginForm("Register", "Evento", FormMethod.Post, new { }))
     {
     <!--DECLARAMOS EL TABS Y LA CANTIDAD DE PESTAÑAS QUE TENDRA -->
-    <ul class="nav nav-tabs">
-        <li id="tab_1" class="active"><a href="#generales" data-toggle="tab">Datos Generales</a></li>
-        <li id="tab_2"><a href="#bloques_tiempo" data-toggle="tab">Bloques de tiempo de venta</a></li>
-        <li id="tab_3"><a href="#funciones" data-toggle="tab">Funciones</a></li>
-        <li id="tab_4"><a href="#tarifas" data-toggle="tab">Tarifas</a></li>
-        <li id="tab_6"><a href="#extras" data-toggle="tab">Extras</a></li>
-    </ul>
+        <ul class="nav nav-tabs">
+            <li id="tab_1" class="active"><a href="#generales" data-toggle="tab">Datos Generales</a></li>
+            <li id="tab_2"><a href="#bloques_tiempo" data-toggle="tab">Bloques de tiempo de venta</a></li>
+            <li id="tab_3"><a href="#funciones" data-toggle="tab">Funciones</a></li>
+            <li id="tab_4"><a href="#tarifas" data-toggle="tab">Tarifas</a></li>
+            <li id="tab_6"><a href="#extras" data-toggle="tab">Extras</a></li>
+        </ul>
 
 
     <!--INTRODUCIMOS EL CONTIDO QUE TENDRA CADA PESTAÑA -->
-    <div class="tab-content">
-        <!--PRIMERA PESTAÑA-->
-        <div class="tab-pane active  fade in  container" id="generales">
-            <br>
-            <form action="" class="form-horizontal">
-                <div class="form-group">
-                    <label for="nombre" class="control-label col-md-2">Nombre:</label>
-                    <div class="col-md-10">
-                        <input type="text" class="form-control" id="nombre" placeholder="Nombre del evento">
-                    </div>
-                </div><br><br>
-                <div class="form-group">
-                    <label for="organizador" class="control-label col-md-2">Organizador:</label>
-                    <div class="col-md-10">
-                        <div class="input-group">
-                            <input type="text" class="form-control" disabled>
-                            <span class="input-group-btn"><a href="#modalBuscarOrganizador" class="btn btn-primary" data-toggle="modal" type="button">Buscar <span class="glyphicon glyphicon-search"></span></a></span>
+        <div class="tab-content">
+            <!--PRIMERA PESTAÑA-->
+            <div class="tab-pane active  fade in  container" id="generales">
+                <br>
+                <form action="" class="form-horizontal">
+                    <div class="form-group">
+                        <label for="nombre" class="control-label col-md-2">Nombre:</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" id="nombre" placeholder="Nombre del evento">
                         </div>
+                    </div><br><br>
+                    <div class="form-group">
+                        <label for="organizador" class="control-label col-md-2">Organizador:</label>
+                        <div class="col-md-10">
+                            <div class="input-group">
+                                <input type="text" class="form-control" disabled>
+                                <span class="input-group-btn"><a href="#modalBuscarOrganizador" class="btn btn-primary" data-toggle="modal" type="button">Buscar <span class="glyphicon glyphicon-search"></span></a></span>
+                            </div>
 
-                    </div>
-                </div><br><br>
-                <div class="form-group">
-                    <label for="organizador" class="control-label col-md-2">Tipo:</label>
-                    <div class="col-md-10">
-                        <select class="form-control" name="" id="">
-                            <option value="">Seleccione</option>
-                            <option value="">Evento</option>
-                            <option value="">Cine</option>
-                            <option value="">Teatro</option>
-                            <option value="">Actividad</option>
-                        </select>
-
-                    </div>
-                </div><br><br>
-                <div class="form-group">
-                    <label for="organizador" class="control-label col-md-2">Categoría:</label>
-                    <div class="col-md-10">
-                        <select class="form-control" name="" id="">
-                            <option value="">Seleccione</option>
-                            <option value="">Comedia</option>
-                            <option value="">Musical</option>
-                            <option value="">Concierto</option>
-                            <option value="">Dinosaurios</option>
-                            <option value="">Ingeniería</option>
-                        </select>
-
-                    </div>
-                </div><br><br>
-                <div class="form-group">
-                    <label for="organizador" class="control-label col-md-2">Local:</label>
-                    <div class="col-md-10">
-                        <div class="input-group">
-                            <input type="text" class="form-control" disabled>
-                            <span class="input-group-btn"><a href="#modalBuscarOrganizador" class="btn btn-primary" data-toggle="modal" type="button">Buscar <span class="glyphicon glyphicon-search"></span></a></span>
                         </div>
+                    </div><br><br>
+                    <div class="form-group">
+                        <label for="organizador" class="control-label col-md-2">Tipo:</label>
+                        <div class="col-md-10">
+                            <select class="form-control" name="" id="">
+                                <option value="">Seleccione</option>
+                                <option value="">Evento</option>
+                                <option value="">Cine</option>
+                                <option value="">Teatro</option>
+                                <option value="">Actividad</option>
+                            </select>
 
-                    </div>
-                </div><br><br>
-                <div class="form-group">
-                    <label for="nombre" class="control-label col-md-2">Dirección:</label>
-                    <div class="col-md-10">
-                        <input type="text" class="form-control" id="nombre" placeholder="Solo si no existe local para el evento">
-                    </div>
-                </div><br><br>
-                <div class="form-group">
-                    <label for="organizador" class="control-label col-md-2">Departamento:</label>
-                    <div class="col-md-4">
-                        <select class="form-control" name="" id="departamento" >
-                            @{
+                        </div>
+                    </div><br><br>
+                    <div class="form-group">
+                        <label for="organizador" class="control-label col-md-2">Categoría:</label>
+                        <div class="col-md-10">
+                            <select class="form-control" name="" id="">
+                                <option value="">Seleccione</option>
+                                <option value="">Comedia</option>
+                                <option value="">Musical</option>
+                                <option value="">Concierto</option>
+                                <option value="">Dinosaurios</option>
+                                <option value="">Ingeniería</option>
+                            </select>
+
+                        </div>
+                    </div><br><br>
+                    <div class="form-group">
+                        <label for="organizador" class="control-label col-md-2">Local:</label>
+                        <div class="col-md-10">
+                            <div class="input-group">
+                                <input type="text" class="form-control" disabled>
+                                <span class="input-group-btn"><a href="#modalBuscarOrganizador" class="btn btn-primary" data-toggle="modal" type="button">Buscar <span class="glyphicon glyphicon-search"></span></a></span>
+                            </div>
+
+                        </div>
+                    </div><br><br>
+                    <div class="form-group">
+                        <label for="nombre" class="control-label col-md-2">Dirección:</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" id="nombre" placeholder="Solo si no existe local para el evento">
+                        </div>
+                    </div><br><br>
+                    <div class="form-group">
+                        <label for="organizador" class="control-label col-md-2">Departamento:</label>
+                        <div class="col-md-4">
+                            <select class="form-control" name="" id="departamento" onchange="hola">
+                                @{
         var db = new WebApplication4.Models.inf245netsoft();
         List<WebApplication4.Models.Region> list = db.Region.Where(c => c.idRegPadre == null).ToList();
-                            }
-                            <option value="0">Seleccione</option>
-                            @foreach (var reg in list)
-                            {
-                                <option value="@reg.idRegion">@reg.nombre</option>
-                            }
-                        </select>
-                    </div>
-                    <script type="text/javascript">
-                        $(function () {
-                            $("#departamento").change(function () {
-                                var selecDep = $(this).val();
-                                $.getJSON('Prov.cshtml', { country: selecDep }, function (provs) {
-                                    var provSelect = $('#provincia');
-                                    provSelect.empty();
-                                    $.each(provs, function (index, prov) {
-                                        provSelect.append(
-                                            $('<option/>')
-                                                .attr('value', prov.idRegion)
-                                                .text(customer.prov.nombre)
-                                        );
-                                    });
-                                });
-                            });
-                        });
-                    </script>
-                    <label for="organizador" class="control-label col-md-2">Provincia:</label>
-                    <div class="col-md-4">
-                        <select class="form-control" name="" id="provincia">
-                        </select>
-                    </div>
-                </div><br><br>
-                <div class="form-group">
-                    <label for="descripcion" class="control-label col-md-2">Descripción:</label>
-                    <div class="col-md-10">
-                        <textarea class="form-control " rows="8" id="descripcion"></textarea>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <!--SEGUNDA PESTAÑA-->
-        <div class="tab-pane fade in container" id="bloques_tiempo">
-            <br>
-            <div id="bloques" class="container">
-                <div id="bloque_1" class="row">
-                    <div class="col-md-2">
-                        <label for="">Bloque de tiempo:</label>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="input-group">
-                            <span class="input-group-addon">Desde:</span>
-                            <input type="date" class="form-control">
+                                }
+                                <option value="0">Seleccione</option>
+                                @foreach (var reg in list)
+                                {
+                                    <option value="@reg.idRegion">@reg.nombre</option>
+                                }
+                            </select>
+                        </div>
+                        <label for="organizador" class="control-label col-md-2">Provincia:</label>
+                        <div class="col-md-4">
+                            <select class="form-control" name="" id="provincia"></select>
+                        </div>
+                    </div><br><br>
+                    <div class="form-group">
+                        <label for="descripcion" class="control-label col-md-2">Descripción:</label>
+                        <div class="col-md-10">
+                            <textarea class="form-control " rows="8" id="descripcion"></textarea>
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <div class="input-group">
-                            <span class="input-group-addon">Hasta:</span>
-                            <input type="date" class="form-control">
+                </form>
+            </div>
+            <!--SEGUNDA PESTAÑA-->
+            <div class="tab-pane fade in container" id="bloques_tiempo">
+                <br>
+                <div id="bloques" class="container">
+                    <div id="bloque_1" class="row">
+                        <div class="col-md-2">
+                            <label for="">Bloque de tiempo:</label>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <button id="btnAgregarBloque" class="btn btn-primary">Añadir bloque <span class="glyphicon glyphicon-plus"></span></button>
-                            <button id="btnQuitarBloque" class="btn btn-primary">Quitar bloque <span class="glyphicon glyphicon-remove"></span></button>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Desde:</span>
+                                <input type="date" class="form-control">
+                            </div>
                         </div>
-                    </div>
-                </div><br>
-                <!--
-                                      <div class="row">
-                                          <div class="col-md-6">
-                                                   <button onclick="" class="btn btn-primary pull-left"><span class="glyphicon glyphicon-hand-left"></span> Anterior</button>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon">Hasta:</span>
+                                <input type="date" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <button id="btnAgregarBloque" class="btn btn-primary">Añadir bloque <span class="glyphicon glyphicon-plus"></span></button>
+                                <button id="btnQuitarBloque" class="btn btn-primary">Quitar bloque <span class="glyphicon glyphicon-remove"></span></button>
+                            </div>
+                        </div>
+                    </div><br>
+                    <!--
+                                          <div class="row">
+                                              <div class="col-md-6">
+                                                       <button onclick="" class="btn btn-primary pull-left"><span class="glyphicon glyphicon-hand-left"></span> Anterior</button>
+                                              </div>
+                                              <div class="col-md-6">
+                                                   <button onclick="" class="btn btn-primary  pull-right">Siguiente <span class="glyphicon glyphicon-hand-right"></span></button>
+                                               </div>
                                           </div>
-                                          <div class="col-md-6">
-                                               <button onclick="" class="btn btn-primary  pull-right">Siguiente <span class="glyphicon glyphicon-hand-right"></span></button>
-                                           </div>
-                                      </div>
-                -->
+                    -->
+                </div>
             </div>
-        </div>
-        <!--TERCERA PESTAÑA-->
-        <div class="tab-pane fade in container" id="funciones">
-            <br>
-            <div id="funciones" class="container">
-                <div id="funcion_1" class="row">
-                    <div class="col-md-1 col-md-offset-1">
-                        <label for="">Fecha:</label>
-                    </div>
-                    <div class="col-md-2">
-                        <input class="form-control" type="date">
-                    </div>
-                    <div class="col-md-1 col-md-offset-1">
-                        <label for="">Hora:</label>
-                    </div>
-                    <div class="col-md-2">
-                        <input class="form-control" type="time">
-                    </div>
-                    <div class="col-md-4">
-                        <button id="btnAgregarFuncion" class="btn btn-primary">Agregar función <span class="glyphicon glyphicon-plus"></span></button>
-                        <button id="btnAgregarFuncion" class="btn btn-primary">Quitar función <span class="glyphicon glyphicon-remove"></span></button>
-                    </div>
-                </div><br>
-            </div>
-        </div>
-        <!--CUARTA PESTAÑA-->
-        <div class="tab-pane fade in container" id="tarifas">
-            <div class="container">
+            <!--TERCERA PESTAÑA-->
+            <div class="tab-pane fade in container" id="funciones">
                 <br>
-                <div class="row">
-                    <div class="col-md-3 col-md-offset-9">
-                        <button class="btn btn-primary ">Agregar fila <span class="glyphicon glyphicon-plus"></span></button>
-                        <button class="btn btn-primary ">Quitar fila <span class="glyphicon glyphicon-remove"></span></button>
-                    </div>
-                </div><br>
-                <div class="row">
-                    <table class="table table-bordered table-hover" contenteditable="true">
-                        <tr class="active">
-                            <th>Nº</th>
-                            <th>Tipo de entrada/Zona</th>
-                            <th>Del 1/1/2016 al 1/2/2016</th>
-                            <th>Del 2/2/2016 al 16/2/2016</th>
-                            <th>Cantidad de entradas</th>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </table>
+                <div id="funciones" class="container">
+                    <div id="funcion_1" class="row">
+                        <div class="col-md-1 col-md-offset-1">
+                            <label for="">Fecha:</label>
+                        </div>
+                        <div class="col-md-2">
+                            <input class="form-control" type="date">
+                        </div>
+                        <div class="col-md-1 col-md-offset-1">
+                            <label for="">Hora:</label>
+                        </div>
+                        <div class="col-md-2">
+                            <input class="form-control" type="time">
+                        </div>
+                        <div class="col-md-4">
+                            <button id="btnAgregarFuncion" class="btn btn-primary">Agregar función <span class="glyphicon glyphicon-plus"></span></button>
+                            <button id="btnAgregarFuncion" class="btn btn-primary">Quitar función <span class="glyphicon glyphicon-remove"></span></button>
+                        </div>
+                    </div><br>
                 </div>
             </div>
-        </div>
-        <!--QUINTA PESTAÑA-->
-        <div class="tab-pane fade in container" id="zonas_asientos">
-            <div class="container">
-                <br>
-                <div class="row">
-                    <div class="form-group">
-                        <label for="nombre" class="control-label col-md-2">Ruta imagen distribución de zonas: </label>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control">
+            <!--CUARTA PESTAÑA-->
+            <div class="tab-pane fade in container" id="tarifas">
+                <div class="container">
+                    <br>
+                    <div class="row">
+                        <div class="col-md-3 col-md-offset-9">
+                            <button class="btn btn-primary ">Agregar fila <span class="glyphicon glyphicon-plus"></span></button>
+                            <button class="btn btn-primary ">Quitar fila <span class="glyphicon glyphicon-remove"></span></button>
                         </div>
-                    </div>
-                </div><br>
-            </div>
-        </div>
-        <!--SEXTA PESTAÑA-->
-        <div class="tab-pane fade in container" id="extras">
-            <div class="container">
-                <br>
-                <div class="row">
-                    <div class="form-group">
-                        <label for="nombre" class="control-label col-md-2">Máximo de reservas/ventas permitidas:</label>
-                        <div class="col-md-2">
-                            <input type="number" class="form-control" id="nombre">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group">
-                        <label for="nombre" class="control-label col-md-2">Puntos que otorga al cliente:</label>
-                        <div class="col-md-2">
-                            <input type="number" class="form-control" id="nombre">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group">
-                        <label for="nombre" class="control-label col-md-2">Ganancia sobre las ventas: </label>
-                        <div class="col-md-2">
-                            <div class="input-group">
-                                <input type="text" class="form-control" aria-describedby="ganancia">
-                                <span class="input-group-addon" id="ganancia">%</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group">
-                        <label for="nombre" class="control-label col-md-2">Monto fijo por venta de entradas: </label>
-                        <div class="col-md-2">
-                            <div class="input-group">
-                                <span class="input-group-addon" id="cancelar">S/.</span>
-                                <input type="text" class="form-control" aria-describedby="cancelar">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group">
-                        <label for="nombre" class="control-label col-md-2">Penalidad por cancelación: </label>
-                        <div class="col-md-2">
-                            <div class="input-group">
-                                <span class="input-group-addon" id="cancelar">S/.</span>
-                                <input type="text" class="form-control" aria-describedby="cancelar">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group">
-                        <label for="nombre" class="control-label col-md-2">Penalidad por postergación: </label>
-                        <div class="col-md-2">
-                            <div class="input-group">
-                                <span class="input-group-addon" id="postergar">S/.</span>
-                                <input type="text" class="form-control" aria-describedby="postergar">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group">
-                        <label for="nombre" class="control-label col-md-2">Ruta imagen principal del evento: </label>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-group">
-                        <label for="nombre" class="control-label col-md-2">Ruta imagen evento destacado: </label>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-4 col-md-offset-2">
-                        <div class="checkbox">
-                            <label><input type="checkbox" value="">Destacado</label>
-                        </div>
-                        <div class="checkbox">
-                            <label><input type="checkbox" value="">Permitir reservas vía web</label>
-                        </div>
-                        <div class="checkbox">
-                            <label><input type="checkbox" value="">Permitir boleto electrónico</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-2 col-md-offset-5">
-                        <button class="btn btn-primary">Registrar evento</button>
+                    </div><br>
+                    <div class="row">
+                        <table class="table table-bordered table-hover" contenteditable="true">
+                            <tr class="active">
+                                <th>Nº</th>
+                                <th>Tipo de entrada/Zona</th>
+                                <th>Del 1/1/2016 al 1/2/2016</th>
+                                <th>Del 2/2/2016 al 16/2/2016</th>
+                                <th>Cantidad de entradas</th>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
             </div>
+            <!--QUINTA PESTAÑA-->
+            <div class="tab-pane fade in container" id="zonas_asientos">
+                <div class="container">
+                    <br>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="nombre" class="control-label col-md-2">Ruta imagen distribución de zonas: </label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div><br>
+                </div>
+            </div>
+            <!--SEXTA PESTAÑA-->
+            <div class="tab-pane fade in container" id="extras">
+                <div class="container">
+                    <br>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="nombre" class="control-label col-md-2">Máximo de reservas/ventas permitidas:</label>
+                            <div class="col-md-2">
+                                <input type="number" class="form-control" id="nombre">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="nombre" class="control-label col-md-2">Puntos que otorga al cliente:</label>
+                            <div class="col-md-2">
+                                <input type="number" class="form-control" id="nombre">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="nombre" class="control-label col-md-2">Ganancia sobre las ventas: </label>
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" aria-describedby="ganancia">
+                                    <span class="input-group-addon" id="ganancia">%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="nombre" class="control-label col-md-2">Monto fijo por venta de entradas: </label>
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="cancelar">S/.</span>
+                                    <input type="text" class="form-control" aria-describedby="cancelar">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="nombre" class="control-label col-md-2">Penalidad por cancelación: </label>
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="cancelar">S/.</span>
+                                    <input type="text" class="form-control" aria-describedby="cancelar">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="nombre" class="control-label col-md-2">Penalidad por postergación: </label>
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="postergar">S/.</span>
+                                    <input type="text" class="form-control" aria-describedby="postergar">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="nombre" class="control-label col-md-2">Ruta imagen principal del evento: </label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="nombre" class="control-label col-md-2">Ruta imagen evento destacado: </label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-md-offset-2">
+                            <div class="checkbox">
+                                <label><input type="checkbox" value="">Destacado</label>
+                            </div>
+                            <div class="checkbox">
+                                <label><input type="checkbox" value="">Permitir reservas vía web</label>
+                            </div>
+                            <div class="checkbox">
+                                <label><input type="checkbox" value="">Permitir boleto electrónico</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 col-md-offset-5">
+                            <button class="btn btn-primary">Registrar evento</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-    }    
-        
+    }
+
     <!--ventana de buscar organizador-->
     <div class="modal fade" id="modalBuscarOrganizador">
         <div class="modal-dialog">
