@@ -85,7 +85,8 @@
                                     <td>@row.usuario</td>
                                     <td>@row.estado</td>
                                     <td>@Html.ActionLink("Delete", "Delete", new { id = row.usuario })</td>
-                                    <td>@Html.ActionLink("Edit", "Edit", new { id = row.usuario })</td>
+                                    @*<td>@Html.ActionLink("Edit", "Edit", new { id = row.usuario })</td>*@
+                                    <td><a href="@Url.Action("Edit", "Empleado", new { id = row.usuario })" class="btn btn-primary">Modificar <span class="glyphicon glyphicon-pencil"></span></a></td>
                                     @*<td>@Html.ActionLink("Delete", "Delete", new { id = row.idRegalo })</td>
                                     <td>@Html.ActionLink("Edit", "Edit", new { id = row.idRegalo })</td>*@
                                 </tr>
