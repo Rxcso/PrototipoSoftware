@@ -25,24 +25,25 @@
                 <button id=botonOculto style="visibility:hidden" type="button" class="btn btn-primary" onclick="msjConfirmacion2()">Guardar cambios <span class="glyphicon glyphicon-save"></span></button>
             </div>
         </div>
-        <div class="col-md-3">
-            <form action="" class="" role="search">
-                <div class="form-group">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="BUSCAR UN REGALO">
-                        <span class="input-group-btn"><button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
-                    </div>
-                </div>
-            </form>
-        </div>
+
         <div class="col-md-3">
             <a class="btn btn-danger pull-right" href="@Url.Action("Index2", "Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
         </div>
 
     </div>
     @{
+        Html.RenderPartial("_Search");
+    }
+    @{
         var db = new WebApplication4.Models.inf245netsoft();
-        List<WebApplication4.Models.Regalo> listaRegalo = db.Regalo.AsNoTracking().Where(c => c.estado == true).ToList();
+        List<WebApplication4.Models.Regalo> listaRegalo;
+        if (TempData["ListaR"] == null) { 
+        listaRegalo = db.Regalo.AsNoTracking().Where(c => c.estado == true).ToList();
+        }
+        else
+        {
+            listaRegalo = (List<WebApplication4.Models.Regalo>) TempData["ListaR"];
+        }
     }
 
     <div class="row">
