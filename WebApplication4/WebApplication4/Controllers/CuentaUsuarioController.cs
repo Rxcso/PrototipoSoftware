@@ -20,6 +20,11 @@ namespace WebApplication4.Controllers
             return View(db.CuentaUsuario.ToList());
         }
 
+        public ActionResult BuscaCliente()
+        {
+            return View();
+        }
+
         // GET: /CuentaUsuario/Details/5
         public ActionResult Details(string id)
         {
