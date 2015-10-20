@@ -92,7 +92,7 @@
                 <div class="form-group">
                     <label for="organizador" class="control-label col-md-2">Departamento:</label>
                     <div class="col-md-4">
-                        <select class="form-control" name="" id="departamento">
+                        <select class="form-control" name="" id="departamento" >
                             @{
                                 var db = new WebApplication4.Models.inf245netsoft();
                                 List<WebApplication4.Models.Region> list = db.Region.Where(c => c.idRegPadre == null).ToList();
@@ -104,9 +104,28 @@
                             }
                         </select>
                     </div>
+                    <script type="text/javascript">
+                        $(function () {
+                            $("#departamento").change(function () {
+                                var selecDep = $(this).val();
+                                $.getJSON('Prov.cshtml', { country: selecDep }, function (provs) {
+                                    var provSelect = $('#provincia');
+                                    provSelect.empty();
+                                    $.each(provs, function (index, prov) {
+                                        provSelect.append(
+                                            $('<option/>')
+                                                .attr('value', prov.idRegion)
+                                                .text(customer.prov.nombre)
+                                        );
+                                    });
+                                });
+                            });
+                        });
+                    </script>
                     <label for="organizador" class="control-label col-md-2">Provincia:</label>
                     <div class="col-md-4">
-                        <select class="form-control" name="" id="provincia"></select>
+                        <select class="form-control" name="" id="provincia">
+                        </select>
                     </div>
                 </div><br><br>
                 <div class="form-group">
