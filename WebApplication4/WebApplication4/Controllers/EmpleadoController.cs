@@ -23,7 +23,7 @@ namespace WebApplication4.Controllers
 
         public ActionResult Delete(string usuario)
         {
-            CuentaUsuario cuenta = db.CuentaUsuario.Find(usuario);
+            CuentaUsuario cuenta = db.CuentaUsuario.AsNoTracking().Where(c => c.codDoc == usuario).ToList().First();
             //db.Regalo.Remove(regalo);
             db.Entry(cuenta).State = EntityState.Modified;
             cuenta.estado = false;
@@ -44,14 +44,14 @@ namespace WebApplication4.Controllers
         public ActionResult EditRegister(RegisterViewModel model)
         {
             var o = ViewBag.id;
-            CuentaUsuario cuenta = db.CuentaUsuario.Find(TempData["codigoE"]);
+            string usuario = Convert.ToString(TempData["codigoE"]);
+            CuentaUsuario cuenta = db.CuentaUsuario.AsNoTracking().Where(c => c.codDoc == usuario).ToList().First();
             db.Entry(cuenta).State = EntityState.Modified;
             cuenta.correo = model.Email;
             cuenta.nombre = model.nombre;
             cuenta.telefono = model.telefono;
             cuenta.codDoc = model.codDoc;
             cuenta.tipoDoc = model.tipoDoc;
-            cuenta.sexo = model.sexo;
             cuenta.telMovil = model.telMovil;
             cuenta.apellido = model.apellido;
             db.SaveChanges();
