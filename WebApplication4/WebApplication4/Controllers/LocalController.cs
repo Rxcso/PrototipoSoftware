@@ -22,16 +22,20 @@ namespace WebApplication4.Controllers
         [AllowAnonymous]
         public ActionResult RegisterLocal(LocalModel model)
         {
-            Local local = new Local();
-            Local localL = db.Local.ToList().Last();
-            local.codLocal = localL.codLocal + 1;
-            local.descripcion = model.descripcion;
-            local.aforo = model.aforo;
-            local.ubicacion = model.ubicacion;
-            local.idProvincia = model.provincia;
-            local.idRegion = model.departamento;
-            db.Local.Add(local);
-            db.SaveChanges();
+            if (ModelState.IsValid)
+            {
+                Local local = new Local();
+                Local localL = db.Local.ToList().Last();
+                local.codLocal = localL.codLocal + 1;
+                local.descripcion = model.descripcion;
+                local.aforo = model.aforo;
+                local.ubicacion = model.ubicacion;
+                local.idProvincia = model.provincia;
+                local.idRegion = model.departamento;
+                db.Local.Add(local);
+                db.SaveChanges();
+                return RedirectToAction("Index", "Local");
+            }
             return RedirectToAction("Index", "Local");
         }
 
@@ -56,15 +60,19 @@ namespace WebApplication4.Controllers
         [AllowAnonymous]
         public ActionResult EditRegister(LocalModel model)
         {
-            var o = ViewBag.id;
-            Local local = db.Local.Find(TempData["codigol"]);
-            db.Entry(local).State = EntityState.Modified;
-            local.aforo = model.aforo;
-            local.descripcion = model.descripcion;
-            local.ubicacion = local.ubicacion;
-            local.idProvincia = model.provincia;
-            local.idRegion = model.departamento;
-            db.SaveChanges();
+            if (ModelState.IsValid)
+            {
+                var o = ViewBag.id;
+                Local local = db.Local.Find(TempData["codigol"]);
+                db.Entry(local).State = EntityState.Modified;
+                local.aforo = model.aforo;
+                local.descripcion = model.descripcion;
+                local.ubicacion = local.ubicacion;
+                local.idProvincia = model.provincia;
+                local.idRegion = model.departamento;
+                db.SaveChanges();
+                return RedirectToAction("Index", "Local");
+            }
             return RedirectToAction("Index", "Local");
         }
 

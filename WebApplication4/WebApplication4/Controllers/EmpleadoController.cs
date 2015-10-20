@@ -41,20 +41,22 @@ namespace WebApplication4.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult EditRegister(RegisterViewModel model)
+        public ActionResult EditRegister(EditViewModel model)
         {
-            var o = ViewBag.id;
-            string usuario = Convert.ToString(TempData["codigoE"]);
-            CuentaUsuario cuenta = db.CuentaUsuario.AsNoTracking().Where(c => c.codDoc == usuario).ToList().First();
-            db.Entry(cuenta).State = EntityState.Modified;
-            cuenta.correo = model.Email;
-            cuenta.nombre = model.nombre;
-            cuenta.telefono = model.telefono;
-            cuenta.codDoc = model.codDoc;
-            cuenta.tipoDoc = model.tipoDoc;
-            cuenta.telMovil = model.telMovil;
-            cuenta.apellido = model.apellido;
-            db.SaveChanges();
+            if (ModelState.IsValid)
+            {
+                var o = ViewBag.id;
+                string usuario = Convert.ToString(TempData["codigoE"]);
+                CuentaUsuario cuenta = db.CuentaUsuario.AsNoTracking().Where(c => c.codDoc == usuario).ToList().First();
+                db.Entry(cuenta).State = EntityState.Modified;
+                cuenta.correo = model.Email;
+                cuenta.nombre = model.nombre;
+                cuenta.telefono = model.telefono;
+                cuenta.telMovil = model.telMovil;
+                cuenta.apellido = model.apellido;
+                db.SaveChanges();
+                return RedirectToAction("Index", "Empleado");
+            }
             return RedirectToAction("Index", "Empleado");
         }
         

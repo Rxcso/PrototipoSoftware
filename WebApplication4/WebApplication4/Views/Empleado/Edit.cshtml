@@ -1,4 +1,4 @@
-﻿@model WebApplication4.Models.RegisterViewModel
+﻿@model WebApplication4.Models.EditViewModel
 
 
 @{
@@ -18,35 +18,6 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Email)
                 @Html.ValidationMessageFor(model => model.Email)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.tipoDoc, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @{
-    List<SelectListItem> listItems = new List<SelectListItem>();
-    listItems.Add(new SelectListItem
-    {
-        Text = "DNI",
-        Value = "1",
-    });
-    listItems.Add(new SelectListItem
-    {
-        Text = "Pasaporte",
-        Value = "2"
-    });
-                }
-                @Html.DropDownListFor(model => model.tipoDoc, listItems, "Seleccione tipo de documento")
-            </div>
-
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.codDoc, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.codDoc)
-                @Html.ValidationMessageFor(model => model.codDoc)
             </div>
         </div>
 
