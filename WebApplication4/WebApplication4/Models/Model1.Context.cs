@@ -62,6 +62,10 @@ public partial class inf245netsoft : DbContext
 
     public virtual DbSet<Eventos> Eventos { get; set; }
 
+    public virtual DbSet<EventosPrueba> EventosPrueba { get; set; }
+
+    public virtual DbSet<Preferencias> Preferencias { get; set; }
+
 }
 
 }

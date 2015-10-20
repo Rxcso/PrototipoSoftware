@@ -55,7 +55,21 @@ namespace WebApplication4.Models
 
        
         //public Nullable<int> idPromotor { get; set; }
+        [Required]
+        [DataType(DataType.Upload)]
+        public HttpPostedFileBase ImageDestacado { get; set; }
 
+        [Required]
+        [DataType(DataType.Upload)]
+        public HttpPostedFileBase ImageEvento { get; set; }
+        
+        [Required]
+        [DataType(DataType.Upload)]
+        public HttpPostedFileBase ImageSitios { get; set; }
+
+        [Required]
+        [Display(Name="Destacado?  " )]
+        public Boolean EsDestacado { get; set; } 
 
         [Required]
         [Display(Name="Imagen")]

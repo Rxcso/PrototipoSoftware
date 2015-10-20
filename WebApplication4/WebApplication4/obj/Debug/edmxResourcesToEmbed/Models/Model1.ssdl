@@ -54,6 +54,42 @@
     <Property Name="ImagenEvento" Type="text" />
     <Property Name="ImagenDestacado" Type="text" Nullable="false" />
   </EntityType>
+  <EntityType Name="EventosPrueba">
+    <Key>
+      <PropertyRef Name="codEvento" />
+    </Key>
+    <Property Name="codEvento" Type="int" Nullable="false" />
+    <Property Name="nombre" Type="varchar" MaxLength="100" />
+    <Property Name="descripcion" Type="varchar" MaxLength="100" />
+    <Property Name="fechaFin" Type="datetime" />
+    <Property Name="estado" Type="varchar" MaxLength="20" />
+    <Property Name="fechaInicio" Type="datetime" />
+    <Property Name="mAdeudado" Type="float" />
+    <Property Name="mTransferir" Type="float" />
+    <Property Name="lugar" Type="varchar" MaxLength="100" />
+    <Property Name="penCan" Type="float" />
+    <Property Name="penPost" Type="float" />
+    <Property Name="comision" Type="float" />
+    <Property Name="esRecurrente" Type="bit" />
+    <Property Name="destacado" Type="int" />
+    <Property Name="fechDev" Type="datetime" />
+    <Property Name="esImpri" Type="bit" />
+    <Property Name="esReser" Type="bit" />
+    <Property Name="maxReserva" Type="int" />
+    <Property Name="limReserva" Type="datetime" />
+    <Property Name="codOrg" Type="int" Nullable="false" />
+    <Property Name="codPromotor" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="idRegion" Type="int" Nullable="false" />
+    <Property Name="idProvincia" Type="int" />
+    <Property Name="necDoc" Type="bit" Nullable="false" />
+    <Property Name="codLocal" Type="int" />
+    <Property Name="idCategoria" Type="int" />
+    <Property Name="cantPuntos" Type="int" />
+    <Property Name="urlDestacado" Type="varchar" MaxLength="100" />
+    <Property Name="urlImagen" Type="varchar" MaxLength="100" />
+    <Property Name="urlDistribucion" Type="varchar" MaxLength="100" />
+    <Property Name="codPreferencia" Type="int" />
+  </EntityType>
   <EntityType Name="Local">
     <Key>
       <PropertyRef Name="codLocal" />
@@ -85,6 +121,13 @@
     <Property Name="nombre" Type="varchar" MaxLength="50" />
     <Property Name="descripcion" Type="varchar" MaxLength="50" />
   </EntityType>
+  <EntityType Name="Preferencias">
+    <Key>
+      <PropertyRef Name="codPreferencia" />
+    </Key>
+    <Property Name="codPreferencia" Type="int" Nullable="false" />
+    <Property Name="descripcion" Type="varchar" MaxLength="200" />
+  </EntityType>
   <EntityType Name="Promociones">
     <Key>
       <PropertyRef Name="codPromo" />
@@ -103,6 +146,11 @@
     <Property Name="codTipoTarjeta" Type="int" />
     <Property Name="codEvento" Type="int" Nullable="false" />
   </EntityType>
+  <!--Errores durante la generación:
+advertencia 6013: La tabla o vista 'inf245netsoft.dbo.prueba' no tiene definida una clave principal y no es posible inferir ninguna clave principal válida. Esta tabla o vista se ha excluido. Para usar la entidad, necesitará revisar el esquema, agregar las claves correctas y quitar sus comentarios.
+        <EntityType Name="prueba">
+          <Property Name="id" Type="int" />
+        </EntityType>-->
   <EntityType Name="PuntoVenta">
     <Key>
       <PropertyRef Name="codPuntoVenta" />
@@ -323,9 +371,11 @@
     <EntitySet Name="Banco" EntityType="Self.Banco" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CuentaUsuario" EntityType="Self.CuentaUsuario" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Eventos" EntityType="Self.Eventos" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EventosPrueba" EntityType="Self.EventosPrueba" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Local" EntityType="Self.Local" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Organizador" EntityType="Self.Organizador" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Perfiles" EntityType="Self.Perfiles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Preferencias" EntityType="Self.Preferencias" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Promociones" EntityType="Self.Promociones" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PuntoVenta" EntityType="Self.PuntoVenta" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Regalo" EntityType="Self.Regalo" Schema="dbo" store:Type="Tables" />

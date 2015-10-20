@@ -32,6 +32,8 @@
         <EntityTypeShape EntityType="inf245netsoftModel.Eventos" Width="1.5" PointX="8.375" PointY="11.875" />
         <AssociationConnector Association="inf245netsoftModel.fk_EventoRegion" />
         <AssociationConnector Association="inf245netsoftModel.fk_EventoOrg" />
+        <EntityTypeShape EntityType="inf245netsoftModel.EventosPrueba" Width="1.5" PointX="10.375" PointY="0.75" />
+        <EntityTypeShape EntityType="inf245netsoftModel.Preferencias" Width="1.5" PointX="5.375" PointY="8.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
