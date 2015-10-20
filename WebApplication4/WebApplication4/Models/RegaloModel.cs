@@ -29,4 +29,11 @@ namespace WebApplication4.Models
         [Display(Name = "Nombre: ")]
         public string nombre { get; set; }
     }
+
+    public class RegaloListModel
+    {
+        [Required]
+        [Display(Name = "Regalo: ")]
+        public int id { get; set; }
+    }
 }

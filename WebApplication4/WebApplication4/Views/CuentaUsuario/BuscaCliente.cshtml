@@ -20,34 +20,38 @@
 <div class="container">
     <div class="row ">
         @*<div class="col-md-1">
-            <label for="dni" class="control-label">Tipo Doc:</label>
-        </div>
-        <div class="col-md-2">
-            <select class="form-control" name="" id="">
-                <option value="">DNI</option>
-                <option value="">Pasaporte</option>
-                <option value="">Carnet Extranjería</option>
-            </select>
-        </div>
-        <div class="col-md-2">
-            <label for="dni" class="control-label">N° Documento:</label>
-        </div>
-        <div class="col-md-2">
-            <div class="input-group">
-                <input id="dni" type="text" class="form-control">
-                <span class="input-group-btn"><button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
+                <label for="dni" class="control-label">Tipo Doc:</label>
             </div>
-        </div>
+            <div class="col-md-2">
+                <select class="form-control" name="" id="">
+                    <option value="">DNI</option>
+                    <option value="">Pasaporte</option>
+                    <option value="">Carnet Extranjería</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label for="dni" class="control-label">N° Documento:</label>
+            </div>
+            <div class="col-md-2">
+                <div class="input-group">
+                    <input id="dni" type="text" class="form-control">
+                    <span class="input-group-btn"><button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="input-group">
+                    <a class="btn btn-primary" href="#regalo" data-toggle="modal"><span class="glyphicon glyphicon-gift"></span> Entregar Regalo</a>
+                </div>
+            </div>*@
         <div class="col-md-2">
             <div class="input-group">
                 <a class="btn btn-primary" href="#regalo" data-toggle="modal"><span class="glyphicon glyphicon-gift"></span> Entregar Regalo</a>
             </div>
-        </div>*@
-
+        </div>
         <div class="col-md-3">
             <a href="@Url.Action("Index2", "Home")" class="btn btn-danger pull-right">Salir <span class="glyphicon glyphicon-log-out"></span></a>
         </div>
-        
+
     </div>
     <br>
     @using (Html.BeginForm("Search", "CuentaUsuario", FormMethod.Post, new { }))
@@ -56,7 +60,7 @@
 
         <div class="form-horizontal">
             @Html.ValidationSummary(true)
-            
+
             <div class="form-group">
                 @Html.LabelFor(model => model.tipoDoc, new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
@@ -96,14 +100,14 @@
 
     @{
         var db = new WebApplication4.Models.inf245netsoft();
-        List<WebApplication4.Models.CuentaUsuario> listaCliente=null;
+        List<WebApplication4.Models.CuentaUsuario> listaCliente = null;
         if (TempData["ListaCL"] != null)
         {
             listaCliente = (List<WebApplication4.Models.CuentaUsuario>)TempData["ListaCL"];
         }
         else
         {
-            listaCliente = db.CuentaUsuario.AsNoTracking().Where(c => c.estado == true && c.codPerfil == 1).ToList();
+            listaCliente = db.CuentaUsuario.AsNoTracking().Where(c => c.estado == true && c.codPerfil == 1 && c.puntos > 0).ToList();
         }
     }
 
@@ -146,27 +150,9 @@
             </div>
             <!--contenido de la ventana-->
             <div class="modal-body">
-
-                <form action="" class="form-horizontal">
-                    <div class="form-group">
-                        <label for="reg" class="control-label col-md-2">Regalo:</label>
-                        <div class="col-md-4">
-                            <select id="listaregalo" class="form-control">
-                                <option value="o0">Seleccione</option>
-                                <option value="o1">Oso</option>
-                                <option value="o2">Entrada 1</option>
-                                <option value="o3">Entrada 2</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <input type="text" class="form-control" id="puntos" placeholder="" disabled>
-                        </div>
-                    </div>
-                    <div id="mensaje">
-
-                    </div>
-                </form>
-
+                @{
+                    Html.RenderPartial("_Search1");
+                }
             </div>
             <!--footer de la ventana-->
             <div class="modal-footer">
@@ -176,5 +162,6 @@
         </div>
     </div>
 </div>
+
 
 

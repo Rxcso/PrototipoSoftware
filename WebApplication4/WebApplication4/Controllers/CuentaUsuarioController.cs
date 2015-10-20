@@ -150,5 +150,22 @@ namespace WebApplication4.Controllers
             TempData["EntregaCl"] = cuenta;
             return RedirectToAction("BuscaCliente", "CuentaUsuario");
         }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult EntregaRegalo(RegaloListModel regalo)
+        {
+            CuentaUsuario cuenta2 = (CuentaUsuario)TempData["EntregaCl"];
+            Regalo re = db.Regalo.Find(regalo.id);
+            if (re.puntos < cuenta2.puntos)
+            {
+                db.Entry(cuenta2).State = EntityState.Modified;
+                cuenta2.puntos = cuenta2.puntos - re.puntos;
+                db.SaveChanges();
+                return RedirectToAction("BuscaCliente", "CuentaUsuario");
+            }
+            return RedirectToAction("BuscaCliente", "CuentaUsuario");
+        }
+
     }
 }
