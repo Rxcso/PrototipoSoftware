@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNet.Identity
+﻿@using Microsoft@using Microsoft.AspNet.Identity
 @using WebApplication4.Models
 
 @model CategoriaModel
@@ -24,9 +24,22 @@
             </div>
         </div>
         <div class="col-md-1">
-            <a class="btn btn-danger" href="@Url.Action("Index2", "Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+            <a class="btn btn-danger" href="index2.html">Salir <span class="glyphicon glyphicon-log-out"></span></a>
         </div>
     </div>
+
+    @{
+        var db = new WebApplication4.Models.inf245netsoft();
+        List<WebApplication4.Models.Categoria> listaCategoria;
+        if (TempData["ListaC"] == null)
+        {
+            listaCategoria = db.Categoria.AsNoTracking().ToList();
+        }
+        else
+        {
+            listaCategoria = (List<WebApplication4.Models.Categoria>)TempData["ListaC"];
+        }
+    }
     <div class="row">
         <table class="table table-bordered table-hover">
             <tr class="active">
@@ -34,8 +47,24 @@
                 <th>Nombre</th>
                 <th>Descripción</th>
                 <th>Id Padre</th>
+                <th>Nivel</th>
                 <th>Estado</th>
-            </tr>            
+            </tr>
+            <tbody id="tbody">
+                @foreach (var row in listaCategoria)
+                {
+                    <tr id=@row.idCategoria onclick="myFunction(this)">
+                        <td>@row.idCategoria</td>
+                        <td>@row.nombre</td>
+                        <td>@row.descripcion</td>
+                        <td>@row.idCatPadre</td>
+                        <td>@row.nivel</td>
+                        <td>@row.activo</td>
+                        <td>@Html.ActionLink("Delete", "Delete", new { id = row.idCategoria })</td>
+                        <td>@Html.ActionLink("Edit", "Edit", new { id = row.idCategoria })</td>
+                    </tr>
+                }
+            </tbody>
         </table>
     </div>
 </div>
@@ -91,9 +120,3 @@
         </div>
     </div>
 </div>
-
-
-
-
-
-
