@@ -1,0 +1,167 @@
+﻿@using Microsoft.AspNet.Identity
+@using WebApplication4.Models
+
+
+@model ClienteSearchModel
+
+@{
+    ViewBag.Title = "BuscaCliente";
+    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li class="active">Buscar cliente</li>
+        </ol>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row ">
+        @*<div class="col-md-1">
+                <label for="dni" class="control-label">Tipo Doc:</label>
+            </div>
+            <div class="col-md-2">
+                <select class="form-control" name="" id="">
+                    <option value="">DNI</option>
+                    <option value="">Pasaporte</option>
+                    <option value="">Carnet Extranjería</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label for="dni" class="control-label">N° Documento:</label>
+            </div>
+            <div class="col-md-2">
+                <div class="input-group">
+                    <input id="dni" type="text" class="form-control">
+                    <span class="input-group-btn"><button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="input-group">
+                    <a class="btn btn-primary" href="#regalo" data-toggle="modal"><span class="glyphicon glyphicon-gift"></span> Entregar Regalo</a>
+                </div>
+            </div>*@
+        <div class="col-md-2">
+            <div class="input-group">
+                <a class="btn btn-primary" href="#regalo" data-toggle="modal"><span class="glyphicon glyphicon-gift"></span> Entregar Regalo</a>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <a href="@Url.Action("Index2", "Home")" class="btn btn-danger pull-right">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+        </div>
+
+    </div>
+    <br>
+    @using (Html.BeginForm("Search", "CuentaUsuario", FormMethod.Post, new { }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.tipoDoc, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @{
+        List<SelectListItem> listItems = new List<SelectListItem>();
+        listItems.Add(new SelectListItem
+        {
+            Text = "DNI",
+            Value = "1",
+        });
+        listItems.Add(new SelectListItem
+        {
+            Text = "Pasaporte",
+            Value = "2"
+        });
+                    }
+                    @Html.DropDownListFor(model => model.tipoDoc, listItems, "Seleccione tipo de documento")
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.codDoc, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.codDoc)
+                    @Html.ValidationMessageFor(model => model.codDoc)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Buscar" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+
+    @{
+        var db = new WebApplication4.Models.inf245netsoft();
+        List<WebApplication4.Models.CuentaUsuario> listaCliente = null;
+        if (TempData["ListaCL"] != null)
+        {
+            listaCliente = (List<WebApplication4.Models.CuentaUsuario>)TempData["ListaCL"];
+        }
+        else
+        {
+            listaCliente = db.CuentaUsuario.AsNoTracking().Where(c => c.estado == true && c.codPerfil == 1 && c.puntos > 0).ToList();
+        }
+    }
+
+    <div class="row">
+        <table id="mytable" class="table table-bordered table-hover">
+            <thead>
+                <tr class="thead">
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>No Documento</th>
+                    <th>Puntos</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+                @foreach (var row in listaCliente)
+                {
+                    <tr id=@row.codDoc onclick="myFunction(this)">
+                        <td>@row.nombre</td>
+                        <td>@row.apellido</td>
+                        <td>@row.codDoc</td>
+                        <td>@row.puntos</td>
+                        <td>@Html.ActionLink("Selecciona", "Entrega", new { usuario = row.usuario.Replace("@", "°") })</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div><!--Fin del container-->
+
+<div class="modal fade" id="regalo">
+    <!--esta div pondra la pantalla oscura al presionar el boton-->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--ACA VA EL CONTENIDO DEL MODAL-->
+            <!--header de la ventana-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+                <h4 class="modal-title">Entrega de Regalo</h4>
+            </div>
+            <!--contenido de la ventana-->
+            <div class="modal-body">
+                @{
+                    Html.RenderPartial("_Search1");
+                }
+            </div>
+            <!--footer de la ventana-->
+            <div class="modal-footer">
+                <button type="button" onclick="entregar()" class="btn btn-primary">Entregar <span class="glyphicon glyphicon-ok"></span></button>
+                <button type="button" onclick="cerrarModal()" class="btn btn-danger">Cancelar <span class="glyphicon glyphicon-remove"></span></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

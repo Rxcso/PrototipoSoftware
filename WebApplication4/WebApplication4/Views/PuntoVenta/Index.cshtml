@@ -1,0 +1,171 @@
+﻿@using Microsoft.AspNet.Identity
+@using WebApplication4.Models
+
+@model PuntoVentaModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li class="active">Mantenimiento de Puntos de Venta</li>
+        </ol>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <a class="btn btn-primary" href="#formNuevo" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
+                <button type="button" class="btn btn-primary" onclick="modificar()">Modificar <span class="glyphicon glyphicon-pencil"></span></button>
+                <a class="btn btn-primary" href="#eliminar" data-toggle="modal">Dar de Baja <span class="glyphicon glyphicon-remove"></span></a>
+                <button id=botonOculto style="visibility:hidden" type="button" class="btn btn-primary" onclick="msjConfirmacion2()">Guardar Cambios <span class="glyphicon glyphicon-save"></span></button>
+            </div>
+        </div>
+
+        @*<div class="col-md-3">
+            <form action="" class="" role="search">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="NOMBRE DEL PTO DE VENTA">
+                        <span class="input-group-btn"><button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-2">
+            <select class="form-control" name="" id="">
+                <option value="">Región</option>
+                <option value="">Lima</option>
+                <option value="">Ica</option>
+            </select>
+
+        </div>*@
+
+        <div class="col-md-1">
+            <a class="btn btn-danger pull-right" href="@Url.Action("Index2", "Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+        </div>
+
+    </div>
+    @{
+        Html.RenderPartial("_Search");
+    }
+    @{
+        var db = new WebApplication4.Models.inf245netsoft();
+        List<WebApplication4.Models.PuntoVenta> listaPunto = db.PuntoVenta.AsNoTracking().Where(c => c.estaActivo == true).ToList();
+        if (TempData["ListaP"] == null)
+        {
+            listaPunto = db.PuntoVenta.AsNoTracking().Where(c => c.estaActivo == true).ToList();
+        }
+        else
+        {
+            listaPunto = (List<WebApplication4.Models.PuntoVenta>)TempData["ListaP"];
+        } 
+         }
+
+    <div class="row">
+        <table id="mytable" class="table table-bordered table-hover">
+            <thead>
+                <tr class="thead">
+                    <th>Id</th>
+                    <th>Ubicacion</th>
+                    <th>Dirección MAC</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+                @foreach (var row in listaPunto)
+                {
+                    <tr id=@row.codPuntoVenta onclick="myFunction(this)">
+                        <td>@row.codPuntoVenta</td>
+                        <td>@row.ubicacion</td>
+                        <td>@row.dirMAC</td>
+                        <td>@Html.ActionLink("Delete", "Delete", new { id = row.codPuntoVenta })</td>
+                        <td>@Html.ActionLink("Edit", "Edit", new { id = row.codPuntoVenta })</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+
+
+</div>
+
+
+<div class="modal fade" id="formNuevo">
+    <!--esta div pondra la pantalla oscura al presionar el boton-->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--ACA VA EL CONTENIDO DEL MODAL-->
+            <!--header de la ventana-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+                <h4 class="modal-title">Nuevo Punto de Venta</h4>
+            </div>
+            <!--contenido de la ventana-->
+
+            <div class="modal-body">
+                @using (Html.BeginForm("RegisterPunto", "PuntoVenta", FormMethod.Post, new { }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true)
+                        <br>
+                        <div class="row form-group">
+                            @Html.LabelFor(model => model.ubicacion, new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.ubicacion)
+                                @Html.ValidationMessageFor(model => model.ubicacion)
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            @Html.LabelFor(model => model.mac, new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.mac)
+                                @Html.ValidationMessageFor(model => model.mac)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Agregar" class="btn btn-primary" />
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!--footer de la ventana-->
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="eliminar">
+    <!--esta div pondra la pantalla oscura al presionar el boton-->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--ACA VA EL CONTENIDO DEL MODAL-->
+            <!--header de la ventana-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+                <h4 class="modal-title">Aviso</h4>
+            </div>
+            <!--contenido de la ventana-->
+            <div class="modal-body">
+                ¿Está seguro que quiere dar de baja el registro?
+            </div>
+            <!--footer de la ventana-->
+            <div class="modal-footer">
+                <button type="button" onclick="eliminar()" class="btn btn-primary">Si <span class="glyphicon glyphicon-ok"></span></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

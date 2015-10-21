@@ -20,7 +20,6 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
-    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -40,6 +39,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="itextsharp, Version=5.5.7.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.7\lib\itextsharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
       <Private>True</Private>
@@ -166,27 +169,47 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CategoriaController.cs" />
     <Compile Include="Controllers\CuentaUsuarioController.cs" />
+    <Compile Include="Controllers\EmpleadoController.cs" />
     <Compile Include="Controllers\EventoController.cs" />
-    <Compile Include="Controllers\EventosPruebaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LocalController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\OrganizadorController.cs" />
     <Compile Include="Controllers\PromocionController.cs" />
-    <Compile Include="Controllers\PruebaController.cs" />
+    <Compile Include="Controllers\PuntoVentaController.cs" />
     <Compile Include="Controllers\RegaloController.cs" />
     <Compile Include="Controllers\TipoDeCambioController.cs" />
+    <Compile Include="Models\AspNetRoles.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUserClaims.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUserLogins.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUsers.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Banco.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Categoria.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Models\Categoria.cs" />
+    <Compile Include="Models\CategoriaModel.cs" />
     <Compile Include="Models\CuentaUsuario.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C__MigrationHistory.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EventoModel.cs" />
+    <Compile Include="Models\Eventos.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EventosPrueba.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -213,6 +236,10 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Organizador.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OrganizadorModel.cs" />
     <Compile Include="Models\Perfiles.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -220,6 +247,10 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PromocionModel.cs" />
+    <Compile Include="Models\PuntoVenta.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PuntoVentaModel.cs" />
     <Compile Include="Models\Regalo.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -235,6 +266,12 @@
     </Compile>
     <Compile Include="Models\TipoDeCambioModel.cs" />
     <Compile Include="Models\TipoTarjeta.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Turno.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TurnoSistema.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -253,8 +290,6 @@
     <Content Include="Images\destacado.png" />
     <Content Include="Images\destacado2.png" />
     <Content Include="Images\disco.jpg" />
-    <Content Include="Images\Eventos\imagen1.jpg" />
-    <Content Include="Images\Eventos\imagen2.jpg" />
     <Content Include="Images\fiesta.jpg" />
     <Content Include="Images\guerrasexos.jpg" />
     <Content Include="Images\icons.png" />
@@ -313,6 +348,7 @@
     </Content>
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
@@ -358,12 +394,29 @@
     <Content Include="Views\TipoDeCambio\Index.cshtml" />
     <Content Include="Views\Local\Index.cshtml" />
     <Content Include="Views\Regalo\Edit.cshtml" />
-    <Content Include="Views\EventosPrueba\Index.cshtml" />
-    <Content Include="Views\EventosPrueba\GetDistritosPorDepart.cshtml" />
+    <Content Include="Views\Local\Edit.cshtml" />
+    <Content Include="Views\Empleado\Index.cshtml" />
+    <Content Include="Views\Organizador\Index.cshtml" />
+    <Content Include="Views\PuntoVenta\Index.cshtml" />
+    <Content Include="Views\Account\IndexEmpleado.cshtml" />
+    <Content Include="Views\Evento\Register.cshtml" />
+    <Content Include="Views\PuntoVenta\Edit.cshtml" />
+    <Content Include="Views\Organizador\Edit.cshtml" />
+    <Content Include="Views\Empleado\Edit.cshtml" />
+    <Content Include="Views\Regalo\_Search.cshtml" />
+    <Content Include="Views\Local\_Search.cshtml" />
+    <Content Include="Views\Organizador\_Search.cshtml" />
+    <Content Include="Views\PuntoVenta\_Search.cshtml" />
+    <Content Include="Views\Empleado\_Search1.cshtml" />
+    <Content Include="Views\Empleado\_Search2.cshtml" />
+    <Content Include="Views\CuentaUsuario\BuscaCliente.cshtml" />
+    <Content Include="Views\CuentaUsuario\_Search1.cshtml" />
+    <Content Include="Views\Categoria\Index.cshtml" />
+    <Content Include="Views\Evento\VerEvento.cshtml" />
+    <Content Include="Views\CuentaUsuario\ReporteCliente.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Prueba\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

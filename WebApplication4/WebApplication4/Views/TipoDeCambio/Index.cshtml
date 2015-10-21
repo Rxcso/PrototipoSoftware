@@ -1,13 +1,13 @@
-﻿@using Microsoft.AspNet.Identity
-@using WebApplication4.Models
+﻿    @using Microsoft.AspNet.Identity
+    @using WebApplication4.Models
 
 
-@model TipoDeCambioModel
+    @model TipoDeCambioModel
 
-@{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
-}
+    @{
+        ViewBag.Title = "Index";
+        Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+    }
 
 <div class="container-fluid">
     <div class="col-md-5">
@@ -20,7 +20,7 @@
     <div class="row">
         <div class="col-md-12">
             <br>
-            <a href="index2.html" class="btn btn-danger pull-right">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+            <a href="@Url.Action("Index2", "Home")" class="btn btn-danger pull-right">Salir <span class="glyphicon glyphicon-log-out"></span></a>
         </div>
     </div>
 
@@ -34,45 +34,45 @@
             <div class="row form-group">
                 @Html.LabelFor(model => model.valor, new { @class = "control-label col-md-3" })
                 <div class="col-md-9">
-                    @Html.EditorFor(model => model.valor)
+                    @Html.EditorFor(model => model.valor, new { @class = "form-control" } )
                     @Html.ValidationMessageFor(model => model.valor)
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Registrar" class="btn btn-default" />
+                    <input type="submit" value="Registrar" class="btn btn-primary" />
                 </div>
             </div>
         </div>
     }
 
+    @{
+        var db = new WebApplication4.Models.inf245netsoft();
+        DateTime fecha1 = DateTime.Today.AddDays(-120);
+        List<WebApplication4.Models.TipoDeCambio> listaCambio = db.TipoDeCambio.AsNoTracking().Where(c => c.fecha > fecha1).ToList();
+    }
+
     <div class="row">
-        <div class="col-md-4 col-md-offset-2">
-            <table class="table table-bordered table-hover">
-                <tr class="active">
-                    <th>Fecha de registro</th>
+        <table id="mytable" class="table table-bordered table-hover">
+            <thead>
+                <tr class="thead">
+                    <th>Fecha de Registro</th>
                     <th>Valor</th>
                 </tr>
-                <tr>
-                    <td>10/09/2015</td>
-                    <td>3.50</td>
-                </tr>
-                <tr>
-                    <td>02/09/2015</td>
-                    <td>2.99</td>
-                </tr>
-                <tr>
-                    <td>05/09/2015</td>
-                    <td>3.09</td>
-                </tr>
-                <tr id="filaAgregar" style="visibility:hidden">
-                    <td>25/09/2015</td>
-                    <td id="tipocambio">3.00</td>
-                </tr>
-            </table>
-        </div>
+            </thead>
+            <tbody id="tbody">
+                @foreach (var row in listaCambio)
+                {
+                    <tr>
+                        <td>@row.fecha</td>
+                        <td>@row.valor</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
+
 
 
 

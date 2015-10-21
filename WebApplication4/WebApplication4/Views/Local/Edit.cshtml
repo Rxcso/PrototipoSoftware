@@ -1,0 +1,99 @@
+﻿
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+}
+
+@using Microsoft.AspNet.Identity
+@using WebApplication4.Models
+
+@{
+    var db = new WebApplication4.Models.inf245netsoft();
+}
+
+@model LocalModel
+@using (Html.BeginForm("EditRegister", "Local", FormMethod.Post, new { }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true)
+        <br>
+        <div class="row form-group">
+            @Html.LabelFor(model => model.aforo, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.aforo)
+                @Html.ValidationMessageFor(model => model.aforo)
+            </div>
+        </div>
+
+        <div class="row form-group">
+            @Html.LabelFor(model => model.descripcion, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.descripcion)
+                @Html.ValidationMessageFor(model => model.descripcion)
+            </div>
+        </div>
+        <br>
+        <div class="row form-group">
+            @Html.LabelFor(model => model.ubicacion, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @Html.EditorFor(model => model.ubicacion)
+                @Html.ValidationMessageFor(model => model.ubicacion)
+            </div>
+        </div>
+
+        <div class="row form-group">
+            @Html.LabelFor(model => model.departamento, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @{
+    List<WebApplication4.Models.Region> listaDepartamento = db.Region.AsNoTracking().Where(c => c.idRegPadre == null).ToList();
+    IEnumerable<SelectListItem> listItems = (from a in listaDepartamento
+                                             select new SelectListItem
+                                           {
+                                               Value = a.idRegion.ToString(),
+                                               Text = a.nombre,
+                                               Selected = false
+                                           });
+    listItems.First().Selected = true;
+                }
+                @Html.DropDownListFor(model => model.departamento, listItems, "Seleccione Departamento")
+            </div>
+        </div>
+
+        <div class="row form-group">
+            @Html.LabelFor(model => model.provincia, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @{
+    List<WebApplication4.Models.Region> listaProvincia = db.Region.AsNoTracking().Where(c => c.idRegPadre != null).ToList();
+    //List<WebApplication4.Models.Region> listaProvincia = db.Region.AsNoTracking().Where(c => c.idRegPadre == 1).ToList();
+    //List<WebApplication4.Models.Region> listaProvincia;
+    //int i=(int)ViewData["Region"];
+    //if (ViewData["Region"] != null)
+    //{
+    //    listaProvincia = db.Region.AsNoTracking().Where(c => c.idRegPadre == i).ToList();
+    //}
+    //else
+    //{
+    //    listaProvincia = db.Region.AsNoTracking().Where(c => c.idRegPadre != null).ToList();
+    //}
+    IEnumerable<SelectListItem> listItems2 = (from a in listaProvincia
+                                              select new SelectListItem
+                                            {
+                                                Value = a.idRegion.ToString(),
+                                                Text = a.nombre,
+                                                Selected = false
+                                            });
+                }
+                @Html.DropDownListFor(model => model.provincia, listItems2, "Seleccione Provincia")
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Aceptar" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+

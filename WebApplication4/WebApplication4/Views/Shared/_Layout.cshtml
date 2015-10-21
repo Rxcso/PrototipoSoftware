@@ -1,13 +1,154 @@
 ﻿@using Microsoft.AspNet.Identity
 @using WebApplication4.Models
+
+@{
+    var esIntranet = 0;
+    var nombre ="";
+    if (Request.IsAuthenticated)
+    {
+        var act = User.Identity.GetUserName();
+        var cuenta=new CuentaUsuario();
+        inf245netsoft db = new inf245netsoft();
+        if (db != null) { 
+            cuenta = db.CuentaUsuario.Find(act);
+            if (cuenta!=null && cuenta.codPerfil != 1){
+                esIntranet = 1;    
+            }
+        }
+        nombre = cuenta.nombre;
+    }    
+}
+
 @{
     ViewBag.ReturnUrl = "Index";
 }
 
+
+@if (esIntranet==1)
+{    
+    
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+</head>
+<body>
+    <header>
+        <nav style="margin-bottom:0" class="navbar navbar-static-top navbar-inverse " role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navegacion">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="@Url.Action("Index2", "Home")" class="navbar-brand">TICKNET </a><!--nos redirige a la pag principal-->
+                </div>
+                <!--inicia el MENU-->
+                <div class="collapse navbar-collapse" id="navegacion">
+                    <!--menu desplegable -->
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                                Módulo de venta <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="buscar-evento(vendedor).html">Buscar eventos</a></li>
+                                <li><a href="entregar_boletos(vendedor).html">Entregar boletos</a></li>
+                                <li><a href="pagar_reserva(vendedor).html">Buscar reserva</a></li>
+                                <li><a href="devolucion_entradas.html">Devolución</a></li>
+                                <li class="divider"></li>
+                                <li><a href="ver_cliente.html">Buscar cliente</a></li>
+                                <li class="divider"></li>
+                                <li><a href="repVentasDia.html">Reporte de ventas</a></li>
+                                <li><a href="abrir_caja.html">Apertura de caja</a></li>
+                                <li><a href="cerrar_caja.html">Cierre de caja</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                                Procesos <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!--Administrador-->
+                                <li><a href="asignar_turnos.html">Asignar turnos y puntos de venta</a></li>
+                                <li><a href="mantener_politicas.html">Políticas de la empresa</a></li>
+                                <li><a href="tipo_cambio.html">Tipo de cambio</a></li>
+                                <li><a href="registrar_pagos.html">Registrar pagos</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                                Mantenimientos <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!--Administrador del negocio-->
+                                <li><a href="mantener_categoria.html">Categorías de eventos</a></li>
+                                <li><a href="@Url.Action("Index", "Empleado")">Empleados</a></li>
+                                <li><a href="@Url.Action("Index", "PuntoVenta")">Puntos de venta</a></li>
+                                <li><a href="@Url.Action("Index", "Regalo")">Regalos</a></li>
+
+                                <!--Promotor-->
+                                <li class="divider"></li>
+                                <li><a href="@Url.Action("Index", "Organizador")">Organizadores</a></li>
+                                <li><a href="@Url.Action("Index", "Local")">Locales</a></li>
+                                <li><a href="@Url.Action("Index", "Evento")">Eventos</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                                Reportes <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="repVentas.html">Ventas</a></li>
+                                <li><a href="reporte_eventos.html">Eventos</a></li>
+                                <li class="divider"></li>
+                                <li><a href="Reporte_Asignacion_de_Vendedores.html">Asignación de vendedores</a></li>
+                                <li><a href="reporte_asistencia_vendedores.html">Asistencia</a></li>
+                                <li><a href="ReporteCliente.html">Clientes</a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                    @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "form" }))
+                    {
+                    @Html.AntiForgeryToken()
+
+                    <div class="nav navbar-nav navbar-right">
+                        <font color="white"> Hola @nombre!</font>
+                        <a type="button" class="btn btn-default" href="javascript:document.getElementById('logoutForm').submit()">Cerrar Sesion <span class="glyphicon glyphicon-log-out"></span></a>
+                    </div>
+                    }
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="@TempData["tipo"]">
+            @(TempData["message"])
+        </div>
+    </div>
+
+    @RenderBody()
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+
+    
+}
+else { 
+
 <!DOCTYPE html>
 <html>
 <meta charset="UTF-8">
-<title>@ViewBag.Title</title>    
+<title>@ViewBag.Title</title>
 <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 <link rel="stylesheet" href="~/css/estilos-index1.css">
@@ -54,7 +195,7 @@
                         @Html.AntiForgeryToken()
 
                             <div class="nav navbar-nav navbar-right">
-                                    <font color="white"> Hello @User.Identity.GetUserName()!</font>
+                                    <font color="white"> Hola @nombre!</font>
                                 <a  type="button" class="btn btn-default"  href="javascript:document.getElementById('logoutForm').submit()">Salir <span class="glyphicon glyphicon-log-out"></span></a>
                             </div>
                             }
@@ -124,17 +265,13 @@
             </form>
         </div>
 
-
-        <div>
-
-
-        </div>
+        
 
 
        
         @{
             try { 
-            Html.RenderPartial("_LoginPartial");
+            Html.RenderPartial("_LoginPartial", new LoginViewModel() );
             }
             catch (Exception ex)
             {
@@ -143,62 +280,15 @@
          }
 
 
-        <div class="modal fade" id="logInEmpleado">
-            <!--esta div pondra la pantalla oscura al presionar el boton-->
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <!--ACA VA EL CONTENIDO DEL MODAL-->
-                    <!--header de la ventana modal-->
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
-                        <h4 class="modal-title">Logueo</h4>
-                    </div>
-                    <!--contenido de la ventana modal-->
-                    <div class="modal-body">
-                        <form action="" class="form-horizontal">
-                            <div class="form-group">
-                                <label for="correo" class="control-label col-md-2">Usuario:</label>
-                                <div class="col-md-10">
-                                    <input type="text" class="form-control" id="correo" placeholder="miusuario123">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="password" class="control-label col-md-2">Contraseña:</label>
-                                <div class="col-md-10">
-                                    <input id="password" class="form-control" type="password">
-
-                                </div>
-                            </div>
-
-                        </form>
-                    </div>
-                    <!--footer de la ventana modal-->
-                    <div class="modal-footer">
-                        <a href="@Url.Action("Index2", "Home")" type="button" class="btn btn-primary"><span class="glyphicon glyphicon-user"></span> Ingresar</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
     </header>
 
-    @RenderBody()
-
-
-    <div id="footer" class="container-fluid">
-        <br>
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-
-                <p>Contratos: 666-6666 </p>
-                <p>Creado por <strong>.NETSOFT</strong> Derechos reservados</p>
-                <a id="intranet" href="#logInEmpleado" data-toggle="modal">Intranet</a>
-
-            </div>
+    <div class="container">
+        <div class="@TempData["tipo"]">
+            @(TempData["message"])
         </div>
     </div>
+
+    @RenderBody()
 
 
     @Scripts.Render("~/bundles/jquery")
@@ -208,52 +298,4 @@
 </html>
 
 
-
-
-
-@*
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>@ViewBag.Title - My ASP.NET Application</title>
-        @Styles.Render("~/Content/css")
-        @Scripts.Render("~/bundles/modernizr")
-
-    </head>
-    <body>
-        <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                        <li>@Html.ActionLink("About", "About", "Home")</li>
-                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    </ul>
-
-                </div>
-            </div>
-        </div>
-        <div class="container body-content">
-            @RenderBody()
-            <hr />
-            <footer>
-                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-            </footer>
-        </div>
-
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")
-        @RenderSection("scripts", required: false)
-    </body>
-    </html>
-*@
+}

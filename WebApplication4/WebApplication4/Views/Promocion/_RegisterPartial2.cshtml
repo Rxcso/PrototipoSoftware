@@ -37,14 +37,14 @@
             @Html.LabelFor(model => model.codBanco, new { @class = "control-label col-md-3" })
             <div class="col-md-9">
                 @{
-    List<WebApplication4.Models.Banco> listaBanco = db.Banco.AsNoTracking().ToList();
-    IEnumerable<SelectListItem> listItems = (from a in listaBanco
-                                             select new SelectListItem
-                                           {
-                                               Value = a.codigo.ToString(),
-                                               Text = a.nombre,
-                                               Selected = false
-                                           });
+                    List<WebApplication4.Models.Banco> listaBanco = db.Banco.AsNoTracking().ToList();
+                    IEnumerable<SelectListItem> listItems = (from a in listaBanco
+                                                 select new SelectListItem
+                                                       {
+                                                       Value = a.codigo.ToString(),
+                                                       Text = a.nombre,
+                                                       Selected = false
+                                                   });
                 }
                 @Html.DropDownListFor(model => model.codBanco, listItems, "Seleccione Banco")
             </div>
@@ -54,14 +54,14 @@
             @Html.LabelFor(model => model.codTipoTarjeta, new { @class = "control-label col-md-3" })
             <div class="col-md-9">
                 @{
-    List<WebApplication4.Models.TipoTarjeta> listaTipoTarj = db.TipoTarjeta.AsNoTracking().ToList();
-    IEnumerable<SelectListItem> listItems2 = (from a in listaTipoTarj
-                                              select new SelectListItem
-                                              {
-                                                  Value = a.idTipoTar.ToString(),
-                                                  Text = a.nombre,
-                                                  Selected = false
-                                              });
+                    List<WebApplication4.Models.TipoTarjeta> listaTipoTarj = db.TipoTarjeta.AsNoTracking().ToList();
+                    IEnumerable<SelectListItem> listItems2 = (from a in listaTipoTarj
+                                                              select new SelectListItem
+                                                              {
+                                                                  Value = a.idTipoTar.ToString(),
+                                                                  Text = a.nombre,
+                                                                  Selected = false
+                                                              });
                 }
                 @Html.DropDownListFor(model => model.codTipoTarjeta, listItems2, "Seleccione tipo de Tarjeta")
             </div>
@@ -72,14 +72,16 @@
             <div class="col-md-9">
                 @Html.EditorFor(model => model.descuento)
                 @Html.ValidationMessageFor(model => model.descuento)
-                <label class="control-label col-md-1"> %</label>
+                <label> %</label>
             </div>
         </div><br>
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Aceptar" class="btn btn-default" />
+            <div class="col-md-12">
+                <input type="submit" value="Aceptar" class="btn btn-default btn-primary" />
+                <button tyle="button" class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Salir <span class="glyphicon glyphicon-log-out"></span> </button>
             </div>
+
         </div>
     </div>
 }

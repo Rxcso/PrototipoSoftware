@@ -4,6 +4,23 @@
     ViewBag.ReturnUrl = "Index2";
 }
 
+@{
+    var esIntranet = 0;
+    var nombre ="";
+    if (Request.IsAuthenticated)
+    {
+        var act = User.Identity.GetUserName();
+        inf245netsoft db = new inf245netsoft();
+        CuentaUsuario cuenta = db.CuentaUsuario.Find(act);
+        if ( cuenta.codPerfil != 1){
+            esIntranet = 1;
+        }
+
+        nombre = cuenta.nombre;
+
+    }
+    
+}
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,7 +55,7 @@
                                 <li><a href="pagar_reserva(vendedor).html">Buscar reserva</a></li>
                                 <li><a href="devolucion_entradas.html">Devolución</a></li>
                                 <li class="divider"></li>
-                                <li><a href="ver_cliente.html">Buscar cliente</a></li>
+                                <li><a href="@Url.Action("BuscaCliente", "CuentaUsuario")">Buscar cliente</a></li>
                                 <li class="divider"></li>
                                 <li><a href="repVentasDia.html">Reporte de ventas</a></li>
                                 <li><a href="abrir_caja.html">Apertura de caja</a></li>
@@ -53,7 +70,7 @@
                                 <!--Administrador-->
                                 <li><a href="asignar_turnos.html">Asignar turnos y puntos de venta</a></li>
                                 <li><a href="mantener_politicas.html">Políticas de la empresa</a></li>
-                                <li><a href="tipo_cambio.html">Tipo de cambio</a></li>
+                                <li><a href="@Url.Action("Index", "TipoDeCambio")">Tipo de cambio</a></li>
                                 <li><a href="registrar_pagos.html">Registrar pagos</a></li>
                             </ul>
                         </li>
@@ -64,13 +81,13 @@
                             <ul class="dropdown-menu">
                                 <!--Administrador del negocio-->
                                 <li><a href="mantener_categoria.html">Categorías de eventos</a></li>
-                                <li><a href="mantener_empleados.html">Empleados</a></li>
-                                <li><a href="mantener_puntos_venta.html">Puntos de venta</a></li>
+                                <li><a href="@Url.Action("Index", "Empleado")">Empleados</a></li>
+                                <li><a href="@Url.Action("Index", "PuntoVenta")">Puntos de venta</a></li>
                                 <li><a href="@Url.Action("Index", "Regalo")">Regalos</a></li>
 
                                 <!--Promotor-->
                                 <li class="divider"></li>
-                                <li><a href="mantener_organizador.html">Organizadores</a></li>
+                                <li><a href="@Url.Action("Index", "Organizador")">Organizadores</a></li>
                                 <li><a href="@Url.Action("Index", "Local")">Locales</a></li>
                                 <li><a href="@Url.Action("Index", "Evento")">Eventos</a></li>
                             </ul>
@@ -85,7 +102,7 @@
                                 <li class="divider"></li>
                                 <li><a href="Reporte_Asignacion_de_Vendedores.html">Asignación de vendedores</a></li>
                                 <li><a href="reporte_asistencia_vendedores.html">Asistencia</a></li>
-                                <li><a href="ReporteCliente.html">Clientes</a></li>
+                                <li><a href="@Url.Action("ReporteCliente", "CuentaUsuario")">Clientes</a></li>
                             </ul>
                         </li>
 
@@ -95,7 +112,7 @@
                     @Html.AntiForgeryToken()
 
                     <div class="nav navbar-nav navbar-right">
-                        <font color="white"> Hello @User.Identity.GetUserName()!</font>
+                        <font color="white"> Hello @nombre!</font>
                         <a type="button" class="btn btn-default" href="javascript:document.getElementById('logoutForm').submit()">Cerrar Sesion <span class="glyphicon glyphicon-log-out"></span></a>
                     </div>
                     }
@@ -103,6 +120,12 @@
             </div>
         </nav>
     </header>
+
+    <div class="container">
+        <div class="@TempData["tipo"]">
+            @(TempData["message"])
+        </div>
+    </div>
 
     @RenderBody()
 

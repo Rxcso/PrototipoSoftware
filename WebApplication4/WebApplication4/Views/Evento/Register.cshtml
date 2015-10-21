@@ -1,0 +1,480 @@
+﻿@using Microsoft.AspNet.Identity;
+@using WebApplication4.Models;
+
+@model EventoModel
+
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+    var db = new inf245netsoft();
+}
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li><a href="@Url.Action("Index","Evento")">Mantenimiento de eventos</a></li>
+            <li class="active">Nuevo evento</li>
+        </ol>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <a href="@Url.Action("Index","Evento")" class="btn btn-danger pull-right"><span class="glyphicon glyphicon-hand-left"></span> Regresar</a>
+        </div>
+    </div>
+
+    <form action="" method="post" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        <!--DECLARAMOS EL TABS Y LA CANTIDAD DE PESTAÑAS QUE TENDRA -->
+        <ul class="nav nav-tabs">
+            <li id="tab_1" class="active"><a href="#generales" data-toggle="tab">Datos Generales</a></li>
+            <li id="tab_2"><a href="#bloques_tiempo" data-toggle="tab">Bloques de tiempo de venta</a></li>
+            <li id="tab_3"><a href="#funciones" data-toggle="tab">Funciones</a></li>
+            <li id="tab_4"><a href="#tarifas" data-toggle="tab">Tarifas</a></li>
+            <li id="tab_6"><a href="#extras" data-toggle="tab">Extras</a></li>
+        </ul>
+
+
+        <!--INTRODUCIMOS EL CONTIDO QUE TENDRA CADA PESTAÑA -->
+        <div class="tab-content">
+            <!--PRIMERA PESTAÑA-->
+            <div class="tab-pane active  fade in  container" id="generales">
+                <br>
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.nombre, new { @class = "control-label col-md-2" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(m => m.nombre, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.nombre)
+                        </div>
+                    </div><br><br>
+                    <div class="form-group">
+                        <label for="organizador" class="control-label col-md-2">Organizador:</label>
+                        <div class="col-md-10">
+                            <div class="input-group">
+                                <input type="text" class="form-control" disabled id="organizadorNombre">
+                                <span class="input-group-btn"><a href="#modalBuscarOrganizador" class="btn btn-primary" data-toggle="modal" type="button">Buscar <span class="glyphicon glyphicon-search"></span></a></span>
+                            </div>
+
+                        </div>
+                    </div><br><br>
+                    <div class="form-group">
+                        <label for="organizador" class="control-label col-md-2">Tipo:</label>
+                        <div class="col-md-10">
+                            <select class="form-control" name="" id="">
+                                <option value="">Seleccione</option>
+                                <option value="">Evento</option>
+                                <option value="">Cine</option>
+                                <option value="">Teatro</option>
+                                <option value="">Actividad</option>
+                            </select>
+
+                        </div>
+                    </div><br><br>
+                    <div class="form-group">
+                        <label for="organizador" class="control-label col-md-2">Categoría:</label>
+                        <div class="col-md-10">
+                            <select class="form-control" name="" id="">
+                                <option value="">Seleccione</option>
+                                <option value="">Comedia</option>
+                                <option value="">Musical</option>
+                                <option value="">Concierto</option>
+                                <option value="">Dinosaurios</option>
+                                <option value="">Ingeniería</option>
+                            </select>
+
+                        </div>
+                    </div><br><br>
+                    <div class="form-group">
+                        <label for="organizador" class="control-label col-md-2">Local:</label>
+                        <div class="col-md-10">
+                            <div class="input-group">
+
+                                <input type="text" class="form-control" disabled id="localNombre">
+                                <span class="input-group-btn"><a href="#modalBuscarLocal" class="btn btn-primary" data-toggle="modal" type="button">Buscar <span class="glyphicon glyphicon-search"></span></a></span>
+                            </div>
+
+                        </div>
+                    </div><br><br>
+                    <div class="form-group">
+                        <label for="nombre" class="control-label col-md-2">Dirección:</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" id="nombre" placeholder="Solo si no existe local para el evento">
+                        </div>
+                    </div><br><br>
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            @Html.LabelFor(model => model.idRegion)
+                            @Html.DropDownListFor(model => model.idRegion, @ViewBag.DepID as SelectList, "Departamento", new { @class  = "form-control",@onchange = "cambio()" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.LabelFor(model => model.idProv)
+                            @Html.DropDownListFor(model => model.idProv, @ViewBag.ProvID as SelectList, "Provincia", new {@class ="form-control"})
+                        </div>
+                    </div><br><br>
+                    <div class="form-group">
+                        <label for="descripcion" class="control-label col-md-2">Descripción:</label>
+                        <div class="col-md-10">
+                            <textarea class="form-control " rows="8" id="descripcion"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--SEGUNDA PESTAÑA-->
+            <div class="tab-pane fade in container" id="bloques_tiempo">
+                <br>
+                <div id="bloques" class="container">
+                    <div class="row" id="bloqueDeTiempo">
+                        <div class="col-md-2">
+                            <label for="">Bloque de tiempo:</label>
+                        </div>
+                        <div class="col-md-3" id="desdeGroup">
+                            <div class="input-group">
+                                <span class="input-group-addon">Desde:</span>
+                                <input type="date" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group" id="hastaGroup">
+                                <span class="input-group-addon">Hasta:</span>
+                                <input type="date" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <button id="btnAgregarBloque" class="btn btn-primary" onclick="nuevoBloque()">Añadir bloque <span class="glyphicon glyphicon-plus"></span></button>
+                                <button id="btnQuitarBloque" class="btn btn-primary">Quitar bloque <span class="glyphicon glyphicon-remove"></span></button>
+                            </div>
+                        </div>
+                    </div><br>
+                    <!--
+                                          <div class="row">
+                                              <div class="col-md-6">
+                                                       <button onclick="" class="btn btn-primary pull-left"><span class="glyphicon glyphicon-hand-left"></span> Anterior</button>
+                                              </div>
+                                              <div class="col-md-6">
+                                                   <button onclick="" class="btn btn-primary  pull-right">Siguiente <span class="glyphicon glyphicon-hand-right"></span></button>
+                                               </div>
+                                          </div>
+                    -->
+                </div>
+            </div>
+            <!--TERCERA PESTAÑA-->
+            <div class="tab-pane fade in container" id="funciones">
+                <br>
+                <div id="funciones" class="container">
+                    <div id="funcion_1" class="row">
+                        <div class="col-md-1 col-md-offset-1">
+                            <label for="">Fecha:</label>
+                        </div>
+                        <div class="col-md-2">
+                            <input class="form-control" type="date">
+                        </div>
+                        <div class="col-md-1 col-md-offset-1">
+                            <label for="">Hora:</label>
+                        </div>
+                        <div class="col-md-2">
+                            <input class="form-control" type="time">
+                        </div>
+                        <div class="col-md-4">
+                            <button id="btnAgregarFuncion" class="btn btn-primary">Agregar función <span class="glyphicon glyphicon-plus"></span></button>
+                            <button id="btnAgregarFuncion" class="btn btn-primary">Quitar función <span class="glyphicon glyphicon-remove"></span></button>
+                        </div>
+                    </div><br>
+                </div>
+            </div>
+            <!--CUARTA PESTAÑA-->
+            <div class="tab-pane fade in container" id="tarifas">
+                <div class="container">
+                    <br>
+                    <div class="row">
+                        <div class="col-md-3 col-md-offset-9">
+                            <button class="btn btn-primary ">Agregar fila <span class="glyphicon glyphicon-plus"></span></button>
+                            <button class="btn btn-primary ">Quitar fila <span class="glyphicon glyphicon-remove"></span></button>
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <table class="table table-bordered table-hover" contenteditable="true">
+                            <tr class="active">
+                                <th>Nº</th>
+                                <th>Tipo de entrada/Zona</th>
+                                <th>Del 1/1/2016 al 1/2/2016</th>
+                                <th>Del 2/2/2016 al 16/2/2016</th>
+                                <th>Cantidad de entradas</th>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!--QUINTA PESTAÑA-->
+            <div class="tab-pane fade in container" id="zonas_asientos">
+                <div class="container">
+                    <br>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="nombre" class="control-label col-md-2">Ruta imagen distribución de zonas: </label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div><br>
+                </div>
+            </div>
+            <!--SEXTA PESTAÑA-->
+            <div class="tab-pane fade in container" id="extras">
+                <div class="container">
+                    <br>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="nombre" class="control-label col-md-2">Máximo de reservas/ventas permitidas:</label>
+                            <div class="col-md-2">
+                                <input type="number" class="form-control" id="nombre">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="nombre" class="control-label col-md-2">Puntos que otorga al cliente:</label>
+                            <div class="col-md-2">
+                                <input type="number" class="form-control" id="nombre">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="nombre" class="control-label col-md-2">Ganancia sobre las ventas: </label>
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" aria-describedby="ganancia">
+                                    <span class="input-group-addon" id="ganancia">%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="nombre" class="control-label col-md-2">Monto fijo por venta de entradas: </label>
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="cancelar">S/.</span>
+                                    <input type="text" class="form-control" aria-describedby="cancelar">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="nombre" class="control-label col-md-2">Penalidad por cancelación: </label>
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="cancelar">S/.</span>
+                                    <input type="text" class="form-control" aria-describedby="cancelar">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="nombre" class="control-label col-md-2">Penalidad por postergación: </label>
+                            <div class="col-md-2">
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="postergar">S/.</span>
+                                    <input type="text" class="form-control" aria-describedby="postergar">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.ImageEvento)
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(m => m.ImageEvento, new { type = "file", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.ImageEvento)
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.ImageDestacado)
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(m => m.ImageDestacado, new { type = "file", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.ImageDestacado)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.ImageSitios)
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(m => m.ImageSitios, new { type = "file" ,@class="form-control" })
+                                @Html.ValidationMessageFor(model => model.ImageSitios)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-md-offset-2">
+                            <div class="checkbox">
+                                <label><input type="checkbox" value="">Permitir reservas vía web</label>
+                            </div>
+                            <div class="checkbox">
+                                <label><input type="checkbox" value="">Permitir boleto electrónico</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 col-md-offset-5">
+                            <button type="submit" class="btn btn-primary">Registrar Evento</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <!--ventana de buscar local-->
+    <div class="modal fade" id="modalBuscarLocal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!--ACA VA EL CONTENIDO DEL MODAL-->
+                <!--contenido de la ventana-->
+                <div class="modal-body">
+                    <form action="" class="form-horizontal">
+                        <div class="form-group">
+                            @{
+                                List<Local> localList = db.Local.ToList();
+                            }
+                            Seleccione un Local:
+                            <table class="table table-bordered table-hover" id="tablita">
+                                <thsead>
+                                    <tr class="thead">
+                                        <th>Id</th>
+                                        <th>Aforo</th>
+                                        <th>Ubicacion</th>
+                                        <th>Seleccionar</th>
+                                    </tr>
+                                </thsead>
+                                <tbody>
+                                    @foreach (var local in localList)
+                                    {
+                                        <tr>
+                                            <td>@local.codLocal</td>
+                                            <td>@local.aforo</td>
+                                            <td>@local.ubicacion</td>
+                                            <td><input type="radio" name="groupL" value="@local.ubicacion"></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+                <!--footer de la ventana-->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="llenaLocal()"><span class="glyphicon glyphicon-ok"></span> Seleccionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--ventana de buscar organizador-->
+    <div class="modal fade" id="modalBuscarOrganizador">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!--ACA VA EL CONTENIDO DEL MODAL-->
+                <!--contenido de la ventana-->
+                <div class="modal-body">
+                    <form action="" class="form-horizontal">
+                        <div class="form-group">
+                            @{
+                                List<Organizador> orgList = db.Organizador.Where(c => c.estadoOrg == "Activo").ToList();
+                            }
+                            <table class="table table-bordered table-hover" id="tablita">
+                                <thsead>
+                                    <tr class="thead">
+                                        <th>Id</th>
+                                        <th>Nombre</th>
+                                        <th>Seleccionar</th>
+                                    </tr>
+                                </thsead>
+                                <tbody>
+                                    @foreach (var org in orgList)
+                                    {
+                                        <tr>
+                                            <td>@org.codOrg</td>
+                                            <td>@org.nombOrg</td>
+                                            <td><input type="radio" name="groupO" value="@org.nombOrg"></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+                <!--footer de la ventana-->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="llenaOrg()"><span class="glyphicon glyphicon-ok"></span> Seleccionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function cambio() {
+            var depId = parseInt($("#idRegion").val());
+            if (!isNaN(depId)) {
+                var ddProv = $("#idProv");
+                ddProv.empty();
+                ddProv.append($("<option></option>").val("").html("--Provincia--"));
+                $.ajax({
+                    url: "Provincia",
+                    data: { depId: depId },
+                    datatype: "json",
+                    success: function (data) {
+                        var obj = $.parseJSON(data);
+                        $.each(obj, function (k, v) {
+                            ddProv.append($("<option></option>").val(v.IdRegion).html(v.Nombre));
+                        });
+                    },
+                    error: function () {
+                        alert("Error :(");
+                    }
+                });
+            }
+        }
+        function llenaOrg() {
+            var nomb = $('input[name="groupO"]:checked').val();
+            $("#organizadorNombre").val(nomb);
+            $('#modalBuscarOrganizador').modal('hide');
+        }
+        function llenaLocal() {
+            var nomb = $('input[name="groupL"]:checked').val();
+            $("#localNombre").val(nomb);
+            $('#modalBuscarLocal').modal('hide');
+        }
+        function nuevoBloque() {
+            
+            var gDesde = document.getElementById("#desdeGroup");
+            var htmlAdd = '<div class="input-group"><span class="input-group-addon">Desdemicorazon:</span>'+
+                '<input type="date" class="form-control>"';
+            gDesde.innerHTML = htmlAdd;
+            
+        }
+    </script>
+</div>

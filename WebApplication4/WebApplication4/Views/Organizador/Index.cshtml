@@ -1,0 +1,197 @@
+﻿@using Microsoft.AspNet.Identity
+@using WebApplication4.Models
+
+@model OrganizadorModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li class="active">Mantenimiento de Organizadores</li>
+        </ol>
+    </div>
+</div>
+
+
+<div class="tab-content">
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <br>
+                    <br>
+                    <a class="btn btn-primary" href="#formNuevo" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
+                    <a class="btn btn-primary" onclick="editar()">Modificar <span class="glyphicon glyphicon-pencil"></span></a>
+                    <a class="btn btn-primary" onclick="borrar()">Dar de Baja <span class="glyphicon glyphicon-remove"></span></a>
+
+                    <a class="btn btn-primary" onclick="Guardar()">Guardar <span class="glyphicon glyphicon-save"></span></a>
+
+                    <br>
+                    <br>
+                </div>
+            </div>
+
+            @*<div class="col-md-4">
+                <form action="" class="" role="search">
+                    <br>
+                    <br>
+                    <div class="form-group">
+                        <div class="input-group">
+
+                            <input type="text" class="form-control" placeholder="BUSCAR UNA ORGANIZADOR">
+                            <span class="input-group-btn"><button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
+                        </div>
+                    </div>
+                </form>
+            </div>*@
+
+            <div class="col-md-2">
+                <br>
+                <br>
+                <a class="btn btn-danger pull-right" href="@Url.Action("Index2", "Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+            </div>
+
+        </div>
+
+        @{
+            Html.RenderPartial("_Search");
+        }
+        @{
+            var db = new WebApplication4.Models.inf245netsoft();
+            List<WebApplication4.Models.Organizador> listaOrganizador;
+            if (TempData["ListaO"] == null)
+            {
+                listaOrganizador = db.Organizador.AsNoTracking().Where(c => c.estadoOrg == "Activo").ToList();
+            }
+            else
+            {
+                listaOrganizador = (List<WebApplication4.Models.Organizador>)TempData["ListaO"];
+            }      
+            }
+
+        <div class="row">
+            <table id="mytable" class="table table-bordered table-hover">
+                <thead>
+                    <tr class="thead">
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Nro. Documento</th>
+                        <th>Correo</th>
+                        <th>Telefono</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                    @foreach (var row in listaOrganizador)
+                    {
+                        <tr id=@row.codOrg onclick="myFunction(this)">
+                            <td>@row.codOrg</td>
+                            <td>@row.nombOrg</td>
+                            <td>@row.codDoc</td>
+                            <td>@row.correo</td>
+                            <td>@row.telefOrg</td>
+                            <td>@Html.ActionLink("Delete", "Delete", new { id = row.codOrg })</td>
+                            <td>@Html.ActionLink("Edit", "Edit", new { id = row.codOrg })</td>
+                            @*<td>@Html.ActionLink("Delete", "Delete", new { id = row.idRegalo })</td>
+                            <td>@Html.ActionLink("Edit", "Edit", new { id = row.idRegalo })</td>*@
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+
+
+    <div class="modal fade" id="formNuevo">
+        <!--esta div pondra la pantalla oscura al presionar el boton-->
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!--ACA VA EL CONTENIDO DEL MODAL-->
+                <!--header de la ventana-->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+                    <h4 class="modal-title">Nuevo Organizador</h4>
+                </div>
+                <!--contenido de la ventana-->
+                @using (Html.BeginForm("RegisterOrganizador", "Organizador", FormMethod.Post, new { }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true)
+                        <br>
+                        <div class="row form-group">
+                            @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.nombre)
+                                @Html.ValidationMessageFor(model => model.nombre)
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            @Html.LabelFor(model => model.telefono, new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.telefono)
+                                @Html.ValidationMessageFor(model => model.telefono)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.tipoDoc, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @{
+                    List<SelectListItem> listItems = new List<SelectListItem>();
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "DNI",
+                        Value = "1",
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "Pasaporte",
+                        Value = "2"
+                    });
+                                }
+                                @Html.DropDownListFor(model => model.tipoDoc, listItems, "Seleccione tipo de documento")
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.codDoc, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.codDoc)
+                                @Html.ValidationMessageFor(model => model.codDoc)
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.Email)
+                                @Html.ValidationMessageFor(model => model.Email)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Agregar" class="btn btn-primary" />
+                            </div>
+                        </div>
+                    </div>
+                }
+                <!--footer de la ventana-->
+
+            </div>
+        </div>
+    </div>
+
+
+

@@ -1,0 +1,44 @@
+﻿@using Microsoft.AspNet.Identity
+@using WebApplication4.Models
+
+@model RegaloListModel
+
+@{
+    var db = new WebApplication4.Models.inf245netsoft();
+}
+
+<br>
+@using (Html.BeginForm("EntregaRegalo", "CuentaUsuario", FormMethod.Post, new { }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true)
+        <br>
+
+        <div class="row form-group">
+            @Html.LabelFor(model => model.id, new { @class = "control-label col-md-3" })
+            <div class="col-md-9">
+                @{
+    List<WebApplication4.Models.Regalo> listaRegalo = db.Regalo.AsNoTracking().Where(c => c.estado == true).ToList();
+    IEnumerable<SelectListItem> listItems = (from a in listaRegalo
+                                             select new SelectListItem
+                                           {
+                                               Value = a.idRegalo.ToString(),
+                                               Text = a.Nombre,
+                                               Selected = false
+                                           });
+    listItems.First().Selected = true;
+                }
+                @Html.DropDownListFor(model => model.id, listItems, "Seleccione Regalo")
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Buscar" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}

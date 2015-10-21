@@ -1,5 +1,66 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="inf245netsoftModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="__MigrationHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+      <PropertyRef Name="ContextKey" />
+    </Key>
+    <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+    <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+    <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+    <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetRoles">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetUserClaims">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="ClaimType" Type="nvarchar(max)" />
+    <Property Name="ClaimValue" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="AspNetUserLogins">
+    <Key>
+      <PropertyRef Name="LoginProvider" />
+      <PropertyRef Name="ProviderKey" />
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetUserRoles">
+    <Key>
+      <PropertyRef Name="UserId" />
+      <PropertyRef Name="RoleId" />
+    </Key>
+    <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AspNetUsers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="256" />
+    <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+    <Property Name="PasswordHash" Type="nvarchar(max)" />
+    <Property Name="SecurityStamp" Type="nvarchar(max)" />
+    <Property Name="PhoneNumber" Type="nvarchar(max)" />
+    <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+    <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+    <Property Name="LockoutEndDateUtc" Type="datetime" />
+    <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+    <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+  </EntityType>
   <EntityType Name="Banco">
     <Key>
       <PropertyRef Name="codigo" />
@@ -17,6 +78,14 @@
     <Property Name="nombre" Type="varchar" MaxLength="100" />
     <Property Name="nivel" Type="int" />
     <Property Name="activo" Type="int" />
+  </EntityType>
+  <EntityType Name="CategoriasXUsuario">
+    <Key>
+      <PropertyRef Name="usuario" />
+      <PropertyRef Name="idCategoria" />
+    </Key>
+    <Property Name="usuario" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="idCategoria" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="CuentaUsuario">
     <Key>
@@ -39,6 +108,33 @@
     <Property Name="puntos" Type="int" />
     <Property Name="codPerfil" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="Eventos">
+    <Key>
+      <PropertyRef Name="codigo" />
+    </Key>
+    <Property Name="codigo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nombre" Type="text" />
+    <Property Name="descripcion" Type="text" />
+    <Property Name="fecha_inicio" Type="datetime" />
+    <Property Name="fecha_fin" Type="datetime" />
+    <Property Name="estado" Type="text" />
+    <Property Name="monto_transferir" Type="float" />
+    <Property Name="monto_adeudado" Type="float" />
+    <Property Name="lugar" Type="text" />
+    <Property Name="penalidadXcancelacion" Type="float" />
+    <Property Name="penalidadXpostergacion" Type="float" />
+    <Property Name="porccomision" Type="float" />
+    <Property Name="esUnico" Type="bit" />
+    <Property Name="idCategoria" Type="int" />
+    <Property Name="idRegion" Type="int" />
+    <Property Name="idPromotor" Type="int" />
+    <Property Name="idOrganizador" Type="int" />
+    <Property Name="fechaRegistro" Type="datetime" />
+    <Property Name="fechaUltModificacion" Type="datetime" />
+    <Property Name="ImagenEvento" Type="text" />
+    <Property Name="ImagenDestacado" Type="text" Nullable="false" />
+    <Property Name="ImagenSitios" Type="text" />
+  </EntityType>
   <EntityType Name="EventosPrueba">
     <Key>
       <PropertyRef Name="codEvento" />
@@ -56,7 +152,7 @@
     <Property Name="penPost" Type="float" />
     <Property Name="comision" Type="float" />
     <Property Name="esRecurrente" Type="bit" />
-    <Property Name="destacado" Type="bit" />
+    <Property Name="destacado" Type="int" />
     <Property Name="fechDev" Type="datetime" />
     <Property Name="esImpri" Type="bit" />
     <Property Name="esReser" Type="bit" />
@@ -86,6 +182,18 @@
     <Property Name="idProvincia" Type="int" />
     <Property Name="idRegion" Type="int" />
   </EntityType>
+  <EntityType Name="Organizador">
+    <Key>
+      <PropertyRef Name="codOrg" />
+    </Key>
+    <Property Name="codOrg" Type="int" Nullable="false" />
+    <Property Name="nombOrg" Type="varchar" MaxLength="50" />
+    <Property Name="tipoDoc" Type="int" />
+    <Property Name="codDoc" Type="varchar" MaxLength="20" />
+    <Property Name="estadoOrg" Type="varchar" MaxLength="20" />
+    <Property Name="correo" Type="varchar" MaxLength="100" />
+    <Property Name="telefOrg" Type="varchar" MaxLength="20" />
+  </EntityType>
   <EntityType Name="Perfiles">
     <Key>
       <PropertyRef Name="codPerfil" />
@@ -111,6 +219,20 @@
     <Property Name="codBanco" Type="int" />
     <Property Name="codTipoTarjeta" Type="int" />
     <Property Name="codEvento" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'inf245netsoft.dbo.prueba' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="prueba">
+          <Property Name="id" Type="int" />
+        </EntityType>-->
+  <EntityType Name="PuntoVenta">
+    <Key>
+      <PropertyRef Name="codPuntoVenta" />
+    </Key>
+    <Property Name="codPuntoVenta" Type="int" Nullable="false" />
+    <Property Name="ubicacion" Type="varchar" MaxLength="100" />
+    <Property Name="estaActivo" Type="bit" />
+    <Property Name="dirMAC" Type="varchar" MaxLength="100" />
   </EntityType>
   <EntityType Name="Regalo">
     <Key>
@@ -153,6 +275,28 @@
     <Property Name="idTipoTar" Type="int" Nullable="false" />
     <Property Name="nombre" Type="char" MaxLength="18" />
   </EntityType>
+  <EntityType Name="Turno">
+    <Key>
+      <PropertyRef Name="codPuntoVenta" />
+      <PropertyRef Name="codTurnoSis" />
+      <PropertyRef Name="usuario" />
+      <PropertyRef Name="fecha" />
+    </Key>
+    <Property Name="codPuntoVenta" Type="int" Nullable="false" />
+    <Property Name="codTurnoSis" Type="int" Nullable="false" />
+    <Property Name="estado" Type="varchar" MaxLength="20" />
+    <Property Name="usuario" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="fecha" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TurnoSistema">
+    <Key>
+      <PropertyRef Name="codTurnoSis" />
+    </Key>
+    <Property Name="codTurnoSis" Type="int" Nullable="false" />
+    <Property Name="horIni" Type="datetime" />
+    <Property Name="horFin" Type="datetime" />
+    <Property Name="activo" Type="int" />
+  </EntityType>
   <Association Name="FK__RegaloXCu__usuar__4BAC3F29">
     <End Role="CuentaUsuario" Type="Self.CuentaUsuario" Multiplicity="1" />
     <End Role="RegaloXCuenta" Type="Self.RegaloXCuenta" Multiplicity="*" />
@@ -165,6 +309,98 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserClaims">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserLogins">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+    <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetRoles">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserRoles">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+    <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserRoles">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_EventoOrg">
+    <End Role="Organizador" Type="Self.Organizador" Multiplicity="0..1" />
+    <End Role="Eventos" Type="Self.Eventos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Organizador">
+        <PropertyRef Name="codOrg" />
+      </Principal>
+      <Dependent Role="Eventos">
+        <PropertyRef Name="idOrganizador" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_EventoRegion">
+    <End Role="Region" Type="Self.Region" Multiplicity="0..1" />
+    <End Role="Eventos" Type="Self.Eventos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Region">
+        <PropertyRef Name="idRegion" />
+      </Principal>
+      <Dependent Role="Eventos">
+        <PropertyRef Name="idRegion" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_12">
+    <End Role="TurnoSistema" Type="Self.TurnoSistema" Multiplicity="1" />
+    <End Role="Turno" Type="Self.Turno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TurnoSistema">
+        <PropertyRef Name="codTurnoSis" />
+      </Principal>
+      <Dependent Role="Turno">
+        <PropertyRef Name="codTurnoSis" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="R_20">
     <End Role="Region" Type="Self.Region" Multiplicity="0..1" />
     <End Role="Local" Type="Self.Local" Multiplicity="*" />
@@ -174,6 +410,18 @@
       </Principal>
       <Dependent Role="Local">
         <PropertyRef Name="idProvincia" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_26">
+    <End Role="CuentaUsuario" Type="Self.CuentaUsuario" Multiplicity="1" />
+    <End Role="Turno" Type="Self.Turno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CuentaUsuario">
+        <PropertyRef Name="usuario" />
+      </Principal>
+      <Dependent Role="Turno">
+        <PropertyRef Name="usuario" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -249,26 +497,106 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="R_78">
+    <End Role="Categoria" Type="Self.Categoria" Multiplicity="1" />
+    <End Role="CategoriasXUsuario" Type="Self.CategoriasXUsuario" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Categoria">
+        <PropertyRef Name="idCategoria" />
+      </Principal>
+      <Dependent Role="CategoriasXUsuario">
+        <PropertyRef Name="idCategoria" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_80">
+    <End Role="CuentaUsuario" Type="Self.CuentaUsuario" Multiplicity="1" />
+    <End Role="CategoriasXUsuario" Type="Self.CategoriasXUsuario" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CuentaUsuario">
+        <PropertyRef Name="usuario" />
+      </Principal>
+      <Dependent Role="CategoriasXUsuario">
+        <PropertyRef Name="usuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_9">
+    <End Role="PuntoVenta" Type="Self.PuntoVenta" Multiplicity="1" />
+    <End Role="Turno" Type="Self.Turno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PuntoVenta">
+        <PropertyRef Name="codPuntoVenta" />
+      </Principal>
+      <Dependent Role="Turno">
+        <PropertyRef Name="codPuntoVenta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="inf245netsoftModelStoreContainer">
+    <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Banco" EntityType="Self.Banco" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Categoria" EntityType="Self.Categoria" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CategoriasXUsuario" EntityType="Self.CategoriasXUsuario" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CuentaUsuario" EntityType="Self.CuentaUsuario" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Eventos" EntityType="Self.Eventos" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="EventosPrueba" EntityType="Self.EventosPrueba" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Local" EntityType="Self.Local" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Organizador" EntityType="Self.Organizador" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Perfiles" EntityType="Self.Perfiles" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Promociones" EntityType="Self.Promociones" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PuntoVenta" EntityType="Self.PuntoVenta" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Regalo" EntityType="Self.Regalo" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="RegaloXCuenta" EntityType="Self.RegaloXCuenta" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Region" EntityType="Self.Region" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoDeCambio" EntityType="Self.TipoDeCambio" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TipoTarjeta" EntityType="Self.TipoTarjeta" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Turno" EntityType="Self.Turno" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TurnoSistema" EntityType="Self.TurnoSistema" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK__RegaloXCu__usuar__4BAC3F29" Association="Self.FK__RegaloXCu__usuar__4BAC3F29">
       <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
       <End Role="RegaloXCuenta" EntitySet="RegaloXCuenta" />
     </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+      <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+      <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+    </AssociationSet>
+    <AssociationSet Name="fk_EventoOrg" Association="Self.fk_EventoOrg">
+      <End Role="Organizador" EntitySet="Organizador" />
+      <End Role="Eventos" EntitySet="Eventos" />
+    </AssociationSet>
+    <AssociationSet Name="fk_EventoRegion" Association="Self.fk_EventoRegion">
+      <End Role="Region" EntitySet="Region" />
+      <End Role="Eventos" EntitySet="Eventos" />
+    </AssociationSet>
+    <AssociationSet Name="R_12" Association="Self.R_12">
+      <End Role="TurnoSistema" EntitySet="TurnoSistema" />
+      <End Role="Turno" EntitySet="Turno" />
+    </AssociationSet>
     <AssociationSet Name="R_20" Association="Self.R_20">
       <End Role="Region" EntitySet="Region" />
       <End Role="Local" EntitySet="Local" />
+    </AssociationSet>
+    <AssociationSet Name="R_26" Association="Self.R_26">
+      <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
+      <End Role="Turno" EntitySet="Turno" />
     </AssociationSet>
     <AssociationSet Name="R_3" Association="Self.R_3">
       <End Role="Banco" EntitySet="Banco" />
@@ -293,6 +621,18 @@
     <AssociationSet Name="R_74" Association="Self.R_74">
       <End Role="Regalo" EntitySet="Regalo" />
       <End Role="RegaloXCuenta" EntitySet="RegaloXCuenta" />
+    </AssociationSet>
+    <AssociationSet Name="R_78" Association="Self.R_78">
+      <End Role="Categoria" EntitySet="Categoria" />
+      <End Role="CategoriasXUsuario" EntitySet="CategoriasXUsuario" />
+    </AssociationSet>
+    <AssociationSet Name="R_80" Association="Self.R_80">
+      <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
+      <End Role="CategoriasXUsuario" EntitySet="CategoriasXUsuario" />
+    </AssociationSet>
+    <AssociationSet Name="R_9" Association="Self.R_9">
+      <End Role="PuntoVenta" EntitySet="PuntoVenta" />
+      <End Role="Turno" EntitySet="Turno" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

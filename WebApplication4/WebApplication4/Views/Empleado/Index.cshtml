@@ -1,0 +1,526 @@
+﻿@using Microsoft.AspNet.Identity
+@using WebApplication4.Models
+
+@model RegisterViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li class="active">Mantenimiento de Vendedores</li>
+        </ol>
+    </div>
+</div>
+
+@{
+    var db = new WebApplication4.Models.inf245netsoft();
+    List<WebApplication4.Models.CuentaUsuario> listaEmpleado;
+    List<WebApplication4.Models.CuentaUsuario> listaPromotor;
+    if (TempData["ListaV1"] == null)
+    {
+        listaEmpleado = db.CuentaUsuario.AsNoTracking().Where(c => c.codPerfil == 2).ToList();
+    }
+    else
+    {
+        listaEmpleado = (List<WebApplication4.Models.CuentaUsuario>)TempData["ListaV1"];
+    }
+    if (TempData["ListaT"] == null)
+    {
+        listaPromotor = db.CuentaUsuario.AsNoTracking().Where(c => c.codPerfil == 3).ToList();
+    }
+    else
+    {
+        listaPromotor = (List<WebApplication4.Models.CuentaUsuario>)TempData["ListaT"];
+    }
+}
+
+<div class="container">
+    <form action="" class="">
+        <!--DECLARAMOS EL TABS Y LA CANTIDAD DE PESTAÑAS QUE TENDRA -->
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#mVendedores" data-toggle="tab">Mantenimiento de Vendedores</a></li>
+            <li><a href="#mPromotores" data-toggle="tab">Mantenimiento de Promotores</a></li>
+        </ul>
+
+        <!--INTRODUCIMOS EL CONTIDO QUE TENDRA CADA PESTAÑA -->
+        <div class="tab-content">
+            <!--PRIMERA PESTAÑA-->
+            <div class="tab-pane fade in active" id="mVendedores">
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <a class="btn btn-primary" href="#formNuevo1" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
+                            <button type="button" class="btn btn-primary" onclick="modificar1()">Modificar <span class="glyphicon glyphicon-pencil"></span></button>
+                            <a class="btn btn-primary" href="#eliminar1" data-toggle="modal">Dar de Baja <span class="glyphicon glyphicon-remove"></span></a>
+                            <button id=botonOculto1 style="visibility:hidden" type="button" class="btn btn-primary" onclick="msjConfirmacion2_1()">Guardar Cambios <span class="glyphicon glyphicon-save"></span></button>
+                        </div>
+                    </div>
+
+                    @*<div class="col-md-4">
+                        <form action="" class="" role="search">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="BUSCAR UN VENDEDOR">
+                                    <span class="input-group-btn"><button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>*@
+
+                    <div class="col-md-2">
+                        <a class="btn btn-danger pull-right" href="@Url.Action("Index2", "Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+                    </div>
+
+                </div>
+                @{
+                    Html.RenderPartial("_Search1");
+                }
+                <div class="row">
+                    <table id="mytable" class="table table-bordered table-hover">
+                        <thead>
+                            <tr class="thead">
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Direccion</th>
+                                <th>Telefono</th>
+                                <th>Correo (Usuario)</th>
+                                <th>Estado</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody">
+                            @foreach (var row in listaEmpleado)
+                            {
+                                <tr id=@row.usuario onclick="myFunction(this)">
+                                    <td>@row.nombre</td>
+                                    <td>@row.apellido</td>
+                                    <td>@row.direccion</td>
+                                    <td>@row.telefono</td>
+                                    <td>@row.usuario</td>
+                                    <td>@row.estado</td>
+                                    <td>@Html.ActionLink("Delete", "Delete", new { usuario = row.usuario.Replace("@", "°") })</td>
+                                    <td>@Html.ActionLink("Edit", "Edit", new { usuario = row.usuario.Replace("@", "°") })</td>
+                                    @*<td><a href="@Url.Action("Edit", "Empleado", new { id = row.codDoc })" class="btn btn-primary">Modificar <span class="glyphicon glyphicon-pencil"></span></a></td>*@
+                                    @*<td>@Html.ActionLink("Delete", "Delete", new { id = row.idRegalo })</td>
+                                    <td>@Html.ActionLink("Edit", "Edit", new { id = row.idRegalo })</td>*@
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+
+            <!--SEGUNDA PESTAÑA-->
+            <div class="tab-pane fade" id="mPromotores">
+                <br>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <a class="btn btn-primary" href="#formNuevo2" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
+                            <button type="button" class="btn btn-primary" onclick="modificar2()">Modificar <span class="glyphicon glyphicon-pencil"></span></button>
+                            <a class="btn btn-primary" href="#eliminar2" data-toggle="modal">Dar de Baja <span class="glyphicon glyphicon-remove"></span></a>
+                            <button id=botonOculto2 style="visibility:hidden" type="button" class="btn btn-primary" onclick="msjConfirmacion2_2()">Guardar cambios <span class="glyphicon glyphicon-save"></span></button>
+                        </div>
+                    </div>
+
+                    @*<div class="col-md-4">
+                        <form action="" class="" role="search">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="BUSCAR UN PROMOTOR">
+                                    <span class="input-group-btn"><button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>*@
+
+                    <div class="col-md-2">
+                        <a class="btn btn-danger pull-right" href="@Url.Action("Index2", "Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+                    </div>
+
+                </div>
+
+                @{
+                    Html.RenderPartial("_Search2");
+                }
+
+                <div class="row">
+                    <table id="mytable" class="table table-bordered table-hover">
+                        <thead>
+                            <tr class="thead">
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Direccion</th>
+                                <th>Telefono</th>
+                                <th>Correo (Usuario)</th>
+                                <th>Estado</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody">
+                            @foreach (var row in listaPromotor)
+                            {
+                                <tr id=@row.usuario onclick="myFunction(this)">
+                                    <td>@row.nombre</td>
+                                    <td>@row.apellido</td>
+                                    <td>@row.direccion</td>
+                                    <td>@row.telefono</td>
+                                    <td>@row.usuario</td>
+                                    <td>@row.estado</td>
+                                    <td>@Html.ActionLink("Delete", "Delete", new { usuario = row.usuario.Replace("@", "°") })</td>
+                                    <td>@Html.ActionLink("Edit", "Edit", new { usuario = row.usuario.Replace("@", "°") })</td>
+                                    @*<td>@Html.ActionLink("Delete", "Delete", new { id = row.idRegalo })</td>
+                            <td>@Html.ActionLink("Edit", "Edit", new { id = row.idRegalo })</td>*@
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </form>
+
+</div>
+
+
+<div class="modal fade" id="formNuevo1">
+    <!--esta div pondra la pantalla oscura al presionar el boton-->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--ACA VA EL CONTENIDO DEL MODAL-->
+            <!--header de la ventana-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+                <h4 class="modal-title">Nuevo Vendedor</h4>
+            </div>
+            <!--contenido de la ventana-->
+            <div class="modal-body">
+                @using (Html.BeginForm(Html.BeginForm("RegisterVendedor", "Account", FormMethod.Post, new { })))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true)
+                        <h3>Datos de ingreso</h3><br>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Email)
+                                @Html.ValidationMessageFor(model => model.Email)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Password, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Password)
+                                @Html.ValidationMessageFor(model => model.Password)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ConfirmPassword, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.ConfirmPassword)
+                                @Html.ValidationMessageFor(model => model.ConfirmPassword)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.tipoDoc, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @{
+                    List<SelectListItem> listItems = new List<SelectListItem>();
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "DNI",
+                        Value = "1",
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "Pasaporte",
+                        Value = "2"
+                    });
+                                }
+                                @Html.DropDownListFor(model => model.tipoDoc, listItems, "Seleccione tipo de documento")
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.codDoc, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.codDoc)
+                                @Html.ValidationMessageFor(model => model.codDoc)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.nombre)
+                                @Html.ValidationMessageFor(model => model.nombre)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.apellido, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.apellido)
+                                @Html.ValidationMessageFor(model => model.apellido)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.direccion, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.direccion)
+                                @Html.ValidationMessageFor(model => model.direccion)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.telefono, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.telefono)
+                                @Html.ValidationMessageFor(model => model.telefono)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.telMovil, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.telMovil)
+                                @Html.ValidationMessageFor(model => model.telMovil)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.sexo, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.sexo)
+                                @Html.ValidationMessageFor(model => model.sexo)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.fechaNac, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.fechaNac)
+                                @Html.ValidationMessageFor(model => model.fechaNac)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Create" class="btn btn-default" />
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <!--footer de la ventana-->
+            <div class="modal-footer">
+                <button type="button" onclick="registrar1()" class="btn btn-primary">Agregar <span class="glyphicon glyphicon-ok"></span></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="formNuevo2">
+    <!--esta div pondra la pantalla oscura al presionar el boton-->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--ACA VA EL CONTENIDO DEL MODAL-->
+            <!--header de la ventana-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+                <h4 class="modal-title">Nuevo Promotor</h4>
+            </div>
+            <!--contenido de la ventana-->
+            <div class="modal-body">
+                @using (Html.BeginForm("RegisterPromotor", "Account", FormMethod.Post, new { }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true)
+                        <h3>Datos de ingreso</h3><br>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Email)
+                                @Html.ValidationMessageFor(model => model.Email)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Password, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Password)
+                                @Html.ValidationMessageFor(model => model.Password)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ConfirmPassword, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.ConfirmPassword)
+                                @Html.ValidationMessageFor(model => model.ConfirmPassword)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.tipoDoc, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @{
+                    List<SelectListItem> listItems = new List<SelectListItem>();
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "DNI",
+                        Value = "1",
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "Pasaporte",
+                        Value = "2"
+                    });
+                                }
+                                @Html.DropDownListFor(model => model.tipoDoc, listItems, "Seleccione tipo de documento")
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.codDoc, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.codDoc)
+                                @Html.ValidationMessageFor(model => model.codDoc)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.nombre)
+                                @Html.ValidationMessageFor(model => model.nombre)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.apellido, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.apellido)
+                                @Html.ValidationMessageFor(model => model.apellido)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.direccion, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.direccion)
+                                @Html.ValidationMessageFor(model => model.direccion)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.telefono, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.telefono)
+                                @Html.ValidationMessageFor(model => model.telefono)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.telMovil, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.telMovil)
+                                @Html.ValidationMessageFor(model => model.telMovil)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.sexo, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.sexo)
+                                @Html.ValidationMessageFor(model => model.sexo)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.fechaNac, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.fechaNac)
+                                @Html.ValidationMessageFor(model => model.fechaNac)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Create" class="btn btn-default" />
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <!--footer de la ventana-->
+            <div class="modal-footer">
+                <button type="button" onclick="registrar2()" class="btn btn-primary">Agregar <span class="glyphicon glyphicon-ok"></span></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="eliminar1">
+    <!--esta div pondra la pantalla oscura al presionar el boton-->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--ACA VA EL CONTENIDO DEL MODAL-->
+            <!--header de la ventana-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+                <h4 class="modal-title">Aviso</h4>
+            </div>
+            <!--contenido de la ventana-->
+            <div class="modal-body">
+                ¿Está seguro que quiere dar de baja el registro?
+            </div>
+            <!--footer de la ventana-->
+            <div class="modal-footer">
+                <button type="button" onclick="eliminar1()" class="btn btn-primary">Si <span class="glyphicon glyphicon-ok"></span></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="eliminar2">
+    <!--esta div pondra la pantalla oscura al presionar el boton-->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--ACA VA EL CONTENIDO DEL MODAL-->
+            <!--header de la ventana-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+                <h4 class="modal-title">Aviso</h4>
+            </div>
+            <!--contenido de la ventana-->
+            <div class="modal-body">
+                ¿Está seguro que quiere dar de baja el registro?
+            </div>
+            <!--footer de la ventana-->
+            <div class="modal-footer">
+                <button type="button" onclick="eliminar2()" class="btn btn-primary">Si <span class="glyphicon glyphicon-ok"></span></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
