@@ -20,6 +20,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -167,13 +168,18 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CuentaUsuarioController.cs" />
     <Compile Include="Controllers\EventoController.cs" />
+    <Compile Include="Controllers\EventosPruebaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LocalController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PromocionController.cs" />
+    <Compile Include="Controllers\PruebaController.cs" />
     <Compile Include="Controllers\RegaloController.cs" />
     <Compile Include="Controllers\TipoDeCambioController.cs" />
     <Compile Include="Models\Banco.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Categoria.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CuentaUsuario.cs">
@@ -181,6 +187,9 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EventosPrueba.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Local.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -218,6 +227,9 @@
     <Compile Include="Models\RegaloXCuenta.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Region.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\TipoDeCambio.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -241,6 +253,8 @@
     <Content Include="Images\destacado.png" />
     <Content Include="Images\destacado2.png" />
     <Content Include="Images\disco.jpg" />
+    <Content Include="Images\Eventos\imagen1.jpg" />
+    <Content Include="Images\Eventos\imagen2.jpg" />
     <Content Include="Images\fiesta.jpg" />
     <Content Include="Images\guerrasexos.jpg" />
     <Content Include="Images\icons.png" />
@@ -344,9 +358,12 @@
     <Content Include="Views\TipoDeCambio\Index.cshtml" />
     <Content Include="Views\Local\Index.cshtml" />
     <Content Include="Views\Regalo\Edit.cshtml" />
+    <Content Include="Views\EventosPrueba\Index.cshtml" />
+    <Content Include="Views\EventosPrueba\GetDistritosPorDepart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Prueba\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

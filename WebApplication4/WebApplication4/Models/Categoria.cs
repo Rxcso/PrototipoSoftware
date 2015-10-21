@@ -12,16 +12,21 @@ namespace WebApplication4.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Local
+    public partial class Categoria
     {
-        public Nullable<int> aforo { get; set; }
-        public string ubicacion { get; set; }
-        public string descripcion { get; set; }
-        public int codLocal { get; set; }
-        public Nullable<int> idProvincia { get; set; }
-        public Nullable<int> idRegion { get; set; }
+        public Categoria()
+        {
+            this.Categoria1 = new HashSet<Categoria>();
+        }
     
-        public virtual Region Region { get; set; }
-        public virtual Region Region1 { get; set; }
+        public int idCategoria { get; set; }
+        public Nullable<int> idCatPadre { get; set; }
+        public string descripcion { get; set; }
+        public string nombre { get; set; }
+        public Nullable<int> nivel { get; set; }
+        public Nullable<int> activo { get; set; }
+    
+        public virtual ICollection<Categoria> Categoria1 { get; set; }
+        public virtual Categoria Categoria2 { get; set; }
     }
 }

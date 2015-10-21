@@ -16,5 +16,6 @@ namespace WebApplication4.Models
     {
         public System.DateTime fecha { get; set; }
         public Nullable<double> valor { get; set; }
+        public string estado { get; set; }
     }
 }

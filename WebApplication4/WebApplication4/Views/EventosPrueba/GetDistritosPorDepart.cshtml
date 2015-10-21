@@ -1,0 +1,9 @@
+﻿@{
+    Layout = null;
+    var db = new WebApplication4.Models.inf245netsoft();
+    int id = int.Parse(Request["id"]);
+    var data = from obj in db.Region
+               where obj.idRegPadre == id
+               select new { IdRegion = obj.idRegion, Nombre = obj.nombre };
+    Json.Write(data, Response.Output);
+}

@@ -12,6 +12,17 @@
           <Property Name="codigo" Type="int" Nullable="false" />
           <Property Name="nombre" Type="char" MaxLength="18" />
         </EntityType>
+        <EntityType Name="Categoria">
+          <Key>
+            <PropertyRef Name="idCategoria" />
+          </Key>
+          <Property Name="idCategoria" Type="int" Nullable="false" />
+          <Property Name="idCatPadre" Type="int" />
+          <Property Name="descripcion" Type="varchar" MaxLength="100" />
+          <Property Name="nombre" Type="varchar" MaxLength="100" />
+          <Property Name="nivel" Type="int" />
+          <Property Name="activo" Type="int" />
+        </EntityType>
         <EntityType Name="CuentaUsuario">
           <Key>
             <PropertyRef Name="usuario" />
@@ -33,6 +44,42 @@
           <Property Name="puntos" Type="int" />
           <Property Name="codPerfil" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="EventosPrueba">
+          <Key>
+            <PropertyRef Name="codEvento" />
+          </Key>
+          <Property Name="codEvento" Type="int" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="100" />
+          <Property Name="descripcion" Type="varchar" MaxLength="100" />
+          <Property Name="fechaFin" Type="datetime" />
+          <Property Name="estado" Type="varchar" MaxLength="20" />
+          <Property Name="fechaInicio" Type="datetime" />
+          <Property Name="mAdeudado" Type="float" />
+          <Property Name="mTransferir" Type="float" />
+          <Property Name="lugar" Type="varchar" MaxLength="100" />
+          <Property Name="penCan" Type="float" />
+          <Property Name="penPost" Type="float" />
+          <Property Name="comision" Type="float" />
+          <Property Name="esRecurrente" Type="bit" />
+          <Property Name="destacado" Type="bit" />
+          <Property Name="fechDev" Type="datetime" />
+          <Property Name="esImpri" Type="bit" />
+          <Property Name="esReser" Type="bit" />
+          <Property Name="maxReserva" Type="int" />
+          <Property Name="limReserva" Type="datetime" />
+          <Property Name="codOrg" Type="int" />
+          <Property Name="codPromotor" Type="varchar" MaxLength="100" />
+          <Property Name="idRegion" Type="int" />
+          <Property Name="idProvincia" Type="int" />
+          <Property Name="necDoc" Type="bit" />
+          <Property Name="codLocal" Type="int" />
+          <Property Name="idCategoria" Type="int" />
+          <Property Name="cantPuntos" Type="int" />
+          <Property Name="urlDestacado" Type="varchar" MaxLength="100" />
+          <Property Name="urlImagen" Type="varchar" MaxLength="100" />
+          <Property Name="urlDistribucion" Type="varchar" MaxLength="100" />
+          <Property Name="codPreferencia" Type="int" />
+        </EntityType>
         <EntityType Name="Local">
           <Key>
             <PropertyRef Name="codLocal" />
@@ -41,7 +88,7 @@
           <Property Name="ubicacion" Type="varchar" MaxLength="50" />
           <Property Name="descripcion" Type="varchar" MaxLength="100" />
           <Property Name="codLocal" Type="int" Nullable="false" />
-          <Property Name="idProvincia" Type="int" Nullable="false" />
+          <Property Name="idProvincia" Type="int" />
           <Property Name="idRegion" Type="int" />
         </EntityType>
         <EntityType Name="Perfiles">
@@ -88,12 +135,21 @@
           <Property Name="idRegalo" Type="int" Nullable="false" />
           <Property Name="usuario" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
+        <EntityType Name="Region">
+          <Key>
+            <PropertyRef Name="idRegion" />
+          </Key>
+          <Property Name="idRegion" Type="int" Nullable="false" />
+          <Property Name="idRegPadre" Type="int" />
+          <Property Name="nombre" Type="varchar" MaxLength="30" />
+        </EntityType>
         <EntityType Name="TipoDeCambio">
           <Key>
             <PropertyRef Name="fecha" />
           </Key>
           <Property Name="fecha" Type="datetime" Nullable="false" />
           <Property Name="valor" Type="float" />
+          <Property Name="estado" Type="varchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="TipoTarjeta">
           <Key>
@@ -111,6 +167,18 @@
             </Principal>
             <Dependent Role="RegaloXCuenta">
               <PropertyRef Name="usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_20">
+          <End Role="Region" Type="Self.Region" Multiplicity="0..1" />
+          <End Role="Local" Type="Self.Local" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="idRegion" />
+            </Principal>
+            <Dependent Role="Local">
+              <PropertyRef Name="idProvincia" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -138,6 +206,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="R_70">
+          <End Role="Region" Type="Self.Region" Multiplicity="0..1" />
+          <End Role="Region1" Type="Self.Region" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="idRegion" />
+            </Principal>
+            <Dependent Role="Region1">
+              <PropertyRef Name="idRegPadre" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_72">
+          <End Role="Region" Type="Self.Region" Multiplicity="0..1" />
+          <End Role="Local" Type="Self.Local" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="idRegion" />
+            </Principal>
+            <Dependent Role="Local">
+              <PropertyRef Name="idRegion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_73">
+          <End Role="Categoria" Type="Self.Categoria" Multiplicity="0..1" />
+          <End Role="Categoria1" Type="Self.Categoria" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categoria">
+              <PropertyRef Name="idCategoria" />
+            </Principal>
+            <Dependent Role="Categoria1">
+              <PropertyRef Name="idCatPadre" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="R_74">
           <End Role="Regalo" Type="Self.Regalo" Multiplicity="1" />
           <End Role="RegaloXCuenta" Type="Self.RegaloXCuenta" Multiplicity="*" />
@@ -152,17 +256,24 @@
         </Association>
         <EntityContainer Name="inf245netsoftModelStoreContainer">
           <EntitySet Name="Banco" EntityType="Self.Banco" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Categoria" EntityType="Self.Categoria" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CuentaUsuario" EntityType="Self.CuentaUsuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EventosPrueba" EntityType="Self.EventosPrueba" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Local" EntityType="Self.Local" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Perfiles" EntityType="Self.Perfiles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Promociones" EntityType="Self.Promociones" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Regalo" EntityType="Self.Regalo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RegaloXCuenta" EntityType="Self.RegaloXCuenta" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Region" EntityType="Self.Region" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoDeCambio" EntityType="Self.TipoDeCambio" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoTarjeta" EntityType="Self.TipoTarjeta" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__RegaloXCu__usuar__4BAC3F29" Association="Self.FK__RegaloXCu__usuar__4BAC3F29">
             <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
             <End Role="RegaloXCuenta" EntitySet="RegaloXCuenta" />
+          </AssociationSet>
+          <AssociationSet Name="R_20" Association="Self.R_20">
+            <End Role="Region" EntitySet="Region" />
+            <End Role="Local" EntitySet="Local" />
           </AssociationSet>
           <AssociationSet Name="R_3" Association="Self.R_3">
             <End Role="Banco" EntitySet="Banco" />
@@ -171,6 +282,18 @@
           <AssociationSet Name="R_6" Association="Self.R_6">
             <End Role="TipoTarjeta" EntitySet="TipoTarjeta" />
             <End Role="Promociones" EntitySet="Promociones" />
+          </AssociationSet>
+          <AssociationSet Name="R_70" Association="Self.R_70">
+            <End Role="Region" EntitySet="Region" />
+            <End Role="Region1" EntitySet="Region" />
+          </AssociationSet>
+          <AssociationSet Name="R_72" Association="Self.R_72">
+            <End Role="Region" EntitySet="Region" />
+            <End Role="Local" EntitySet="Local" />
+          </AssociationSet>
+          <AssociationSet Name="R_73" Association="Self.R_73">
+            <End Role="Categoria" EntitySet="Categoria" />
+            <End Role="Categoria1" EntitySet="Categoria" />
           </AssociationSet>
           <AssociationSet Name="R_74" Association="Self.R_74">
             <End Role="Regalo" EntitySet="Regalo" />
@@ -229,6 +352,25 @@
           </AssociationSet>
           <EntitySet Name="TipoDeCambio" EntityType="inf245netsoftModel.TipoDeCambio" />
           <EntitySet Name="Local" EntityType="inf245netsoftModel.Local" />
+          <EntitySet Name="EventosPrueba" EntityType="inf245netsoftModel.EventosPrueba" />
+          <EntitySet Name="Categoria" EntityType="inf245netsoftModel.Categoria" />
+          <AssociationSet Name="R_73" Association="inf245netsoftModel.R_73">
+            <End Role="Categoria" EntitySet="Categoria" />
+            <End Role="Categoria1" EntitySet="Categoria" />
+          </AssociationSet>
+          <EntitySet Name="Region" EntityType="inf245netsoftModel.Region" />
+          <AssociationSet Name="R_20" Association="inf245netsoftModel.R_20">
+            <End Role="Region" EntitySet="Region" />
+            <End Role="Local" EntitySet="Local" />
+          </AssociationSet>
+          <AssociationSet Name="R_72" Association="inf245netsoftModel.R_72">
+            <End Role="Region" EntitySet="Region" />
+            <End Role="Local" EntitySet="Local" />
+          </AssociationSet>
+          <AssociationSet Name="R_70" Association="inf245netsoftModel.R_70">
+            <End Role="Region" EntitySet="Region" />
+            <End Role="Region1" EntitySet="Region" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Perfiles">
           <Key>
@@ -349,6 +491,7 @@
           </Key>
           <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="valor" Type="Double" />
+          <Property Name="estado" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Local">
           <Key>
@@ -358,9 +501,120 @@
           <Property Name="ubicacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="codLocal" Type="Int32" Nullable="false" />
-          <Property Name="idProvincia" Type="Int32" Nullable="false" />
+          <Property Name="idProvincia" Type="Int32" />
           <Property Name="idRegion" Type="Int32" />
+          <NavigationProperty Name="Region" Relationship="inf245netsoftModel.R_20" FromRole="Local" ToRole="Region" />
+          <NavigationProperty Name="Region1" Relationship="inf245netsoftModel.R_72" FromRole="Local" ToRole="Region" />
         </EntityType>
+        <EntityType Name="EventosPrueba">
+          <Key>
+            <PropertyRef Name="codEvento" />
+          </Key>
+          <Property Name="codEvento" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="fechaFin" Type="DateTime" Precision="3" />
+          <Property Name="estado" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="fechaInicio" Type="DateTime" Precision="3" />
+          <Property Name="mAdeudado" Type="Double" />
+          <Property Name="mTransferir" Type="Double" />
+          <Property Name="lugar" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="penCan" Type="Double" />
+          <Property Name="penPost" Type="Double" />
+          <Property Name="comision" Type="Double" />
+          <Property Name="esRecurrente" Type="Boolean" />
+          <Property Name="destacado" Type="Boolean" />
+          <Property Name="fechDev" Type="DateTime" Precision="3" />
+          <Property Name="esImpri" Type="Boolean" />
+          <Property Name="esReser" Type="Boolean" />
+          <Property Name="maxReserva" Type="Int32" />
+          <Property Name="limReserva" Type="DateTime" Precision="3" />
+          <Property Name="codOrg" Type="Int32" />
+          <Property Name="codPromotor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="idRegion" Type="Int32" />
+          <Property Name="idProvincia" Type="Int32" />
+          <Property Name="necDoc" Type="Boolean" />
+          <Property Name="codLocal" Type="Int32" />
+          <Property Name="idCategoria" Type="Int32" />
+          <Property Name="cantPuntos" Type="Int32" />
+          <Property Name="urlDestacado" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="urlImagen" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="urlDistribucion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="codPreferencia" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Categoria">
+          <Key>
+            <PropertyRef Name="idCategoria" />
+          </Key>
+          <Property Name="idCategoria" Type="Int32" Nullable="false" />
+          <Property Name="idCatPadre" Type="Int32" />
+          <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="nivel" Type="Int32" />
+          <Property Name="activo" Type="Int32" />
+          <NavigationProperty Name="Categoria1" Relationship="inf245netsoftModel.R_73" FromRole="Categoria" ToRole="Categoria1" />
+          <NavigationProperty Name="Categoria2" Relationship="inf245netsoftModel.R_73" FromRole="Categoria1" ToRole="Categoria" />
+        </EntityType>
+        <Association Name="R_73">
+          <End Type="inf245netsoftModel.Categoria" Role="Categoria" Multiplicity="0..1" />
+          <End Type="inf245netsoftModel.Categoria" Role="Categoria1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categoria">
+              <PropertyRef Name="idCategoria" />
+            </Principal>
+            <Dependent Role="Categoria1">
+              <PropertyRef Name="idCatPadre" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Region">
+          <Key>
+            <PropertyRef Name="idRegion" />
+          </Key>
+          <Property Name="idRegion" Type="Int32" Nullable="false" />
+          <Property Name="idRegPadre" Type="Int32" />
+          <Property Name="nombre" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Local" Relationship="inf245netsoftModel.R_20" FromRole="Region" ToRole="Local" />
+          <NavigationProperty Name="Local1" Relationship="inf245netsoftModel.R_72" FromRole="Region" ToRole="Local" />
+          <NavigationProperty Name="Region1" Relationship="inf245netsoftModel.R_70" FromRole="Region" ToRole="Region1" />
+          <NavigationProperty Name="Region2" Relationship="inf245netsoftModel.R_70" FromRole="Region1" ToRole="Region" />
+        </EntityType>
+        <Association Name="R_20">
+          <End Type="inf245netsoftModel.Region" Role="Region" Multiplicity="0..1" />
+          <End Type="inf245netsoftModel.Local" Role="Local" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="idRegion" />
+            </Principal>
+            <Dependent Role="Local">
+              <PropertyRef Name="idProvincia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_72">
+          <End Type="inf245netsoftModel.Region" Role="Region" Multiplicity="0..1" />
+          <End Type="inf245netsoftModel.Local" Role="Local" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="idRegion" />
+            </Principal>
+            <Dependent Role="Local">
+              <PropertyRef Name="idRegion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_70">
+          <End Type="inf245netsoftModel.Region" Role="Region" Multiplicity="0..1" />
+          <End Type="inf245netsoftModel.Region" Role="Region1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="idRegion" />
+            </Principal>
+            <Dependent Role="Region1">
+              <PropertyRef Name="idRegPadre" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -455,6 +709,7 @@
           <EntitySetMapping Name="TipoDeCambio">
             <EntityTypeMapping TypeName="inf245netsoftModel.TipoDeCambio">
               <MappingFragment StoreEntitySet="TipoDeCambio">
+                <ScalarProperty Name="estado" ColumnName="estado" />
                 <ScalarProperty Name="valor" ColumnName="valor" />
                 <ScalarProperty Name="fecha" ColumnName="fecha" />
               </MappingFragment>
@@ -469,6 +724,64 @@
                 <ScalarProperty Name="descripcion" ColumnName="descripcion" />
                 <ScalarProperty Name="ubicacion" ColumnName="ubicacion" />
                 <ScalarProperty Name="aforo" ColumnName="aforo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EventosPrueba">
+            <EntityTypeMapping TypeName="inf245netsoftModel.EventosPrueba">
+              <MappingFragment StoreEntitySet="EventosPrueba">
+                <ScalarProperty Name="codPreferencia" ColumnName="codPreferencia" />
+                <ScalarProperty Name="urlDistribucion" ColumnName="urlDistribucion" />
+                <ScalarProperty Name="urlImagen" ColumnName="urlImagen" />
+                <ScalarProperty Name="urlDestacado" ColumnName="urlDestacado" />
+                <ScalarProperty Name="cantPuntos" ColumnName="cantPuntos" />
+                <ScalarProperty Name="idCategoria" ColumnName="idCategoria" />
+                <ScalarProperty Name="codLocal" ColumnName="codLocal" />
+                <ScalarProperty Name="necDoc" ColumnName="necDoc" />
+                <ScalarProperty Name="idProvincia" ColumnName="idProvincia" />
+                <ScalarProperty Name="idRegion" ColumnName="idRegion" />
+                <ScalarProperty Name="codPromotor" ColumnName="codPromotor" />
+                <ScalarProperty Name="codOrg" ColumnName="codOrg" />
+                <ScalarProperty Name="limReserva" ColumnName="limReserva" />
+                <ScalarProperty Name="maxReserva" ColumnName="maxReserva" />
+                <ScalarProperty Name="esReser" ColumnName="esReser" />
+                <ScalarProperty Name="esImpri" ColumnName="esImpri" />
+                <ScalarProperty Name="fechDev" ColumnName="fechDev" />
+                <ScalarProperty Name="destacado" ColumnName="destacado" />
+                <ScalarProperty Name="esRecurrente" ColumnName="esRecurrente" />
+                <ScalarProperty Name="comision" ColumnName="comision" />
+                <ScalarProperty Name="penPost" ColumnName="penPost" />
+                <ScalarProperty Name="penCan" ColumnName="penCan" />
+                <ScalarProperty Name="lugar" ColumnName="lugar" />
+                <ScalarProperty Name="mTransferir" ColumnName="mTransferir" />
+                <ScalarProperty Name="mAdeudado" ColumnName="mAdeudado" />
+                <ScalarProperty Name="fechaInicio" ColumnName="fechaInicio" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="fechaFin" ColumnName="fechaFin" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="codEvento" ColumnName="codEvento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categoria">
+            <EntityTypeMapping TypeName="inf245netsoftModel.Categoria">
+              <MappingFragment StoreEntitySet="Categoria">
+                <ScalarProperty Name="activo" ColumnName="activo" />
+                <ScalarProperty Name="nivel" ColumnName="nivel" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="idCatPadre" ColumnName="idCatPadre" />
+                <ScalarProperty Name="idCategoria" ColumnName="idCategoria" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Region">
+            <EntityTypeMapping TypeName="inf245netsoftModel.Region">
+              <MappingFragment StoreEntitySet="Region">
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="idRegPadre" ColumnName="idRegPadre" />
+                <ScalarProperty Name="idRegion" ColumnName="idRegion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

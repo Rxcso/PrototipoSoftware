@@ -17,6 +17,7 @@ namespace WebApplication4.Controllers
         public ActionResult Index()
         {
             return View();
+            
         }
 
         // GET: /Account/Register
@@ -82,7 +83,7 @@ namespace WebApplication4.Controllers
         [AllowAnonymous]
         public ActionResult RegisterPromocion2(PromocionModel2 model)
         {
-
+           
             Promociones promocion = new Promociones();
             Promociones promocionL = db.Promociones.ToList().Last();
             promocion.codPromo = promocionL.codPromo + 1;

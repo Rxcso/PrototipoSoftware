@@ -34,5 +34,8 @@ namespace WebApplication4.Models
         public virtual DbSet<RegaloXCuenta> RegaloXCuenta { get; set; }
         public virtual DbSet<TipoDeCambio> TipoDeCambio { get; set; }
         public virtual DbSet<Local> Local { get; set; }
+        public virtual DbSet<EventosPrueba> EventosPrueba { get; set; }
+        public virtual DbSet<Categoria> Categoria { get; set; }
+        public virtual DbSet<Region> Region { get; set; }
     }
 }
