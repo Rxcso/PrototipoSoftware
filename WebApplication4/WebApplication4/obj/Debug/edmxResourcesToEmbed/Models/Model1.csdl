@@ -411,6 +411,7 @@
     <NavigationProperty Name="Organizador" Relationship="inf245netsoftModel.fk_EventoOrg" FromRole="Eventos" ToRole="Organizador" />
     <Property Name="ImagenEvento" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="ImagenDestacado" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="ImagenSitios" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
   </EntityType>
   <Association Name="fk_EventoRegion">
     <End Type="inf245netsoftModel.Region" Role="Region" Multiplicity="0..1" />

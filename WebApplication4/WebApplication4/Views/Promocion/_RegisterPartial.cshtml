@@ -14,7 +14,7 @@
             @Html.ValidationSummary(true)
             <br>
             <div class="row form-group">
-                @Html.LabelFor(model => model.fechaIni, new { @class = "col-md-3" })
+                @Html.LabelFor(model => model.fechaIni, new { @class = "control-label col-md-3" })
                
                 @Html.EditorFor(model => model.fechaIni, new { @class = "col-md-8" })
                 @Html.ValidationMessageFor(model => model.fechaIni)
@@ -22,7 +22,7 @@
             </div>
 
             <div class="row form-group">
-                @Html.LabelFor(model => model.fechaFin, new { @class = "col-md-3" })
+                @Html.LabelFor(model => model.fechaFin, new { @class = "control-label col-md-3" })
                 
                 @Html.EditorFor(model => model.fechaFin, new { @class = "col-md-8" })
                 @Html.ValidationMessageFor(model => model.fechaFin)
@@ -31,7 +31,7 @@
 
             <br>
             <div class="row form-inline">
-                <div class="col-md-3">
+                <div class="control-label col-md-3">
                     <label>Personalizado: </label>
                 </div>                
                 @Html.EditorFor(model => model.cantAdq, new { @class = "col-md-3" })

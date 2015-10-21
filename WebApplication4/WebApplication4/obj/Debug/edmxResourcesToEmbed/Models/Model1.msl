@@ -163,6 +163,7 @@
     <EntitySetMapping Name="Eventos">
       <EntityTypeMapping TypeName="inf245netsoftModel.Eventos">
         <MappingFragment StoreEntitySet="Eventos">
+          <ScalarProperty Name="ImagenSitios" ColumnName="ImagenSitios" />
           <ScalarProperty Name="ImagenDestacado" ColumnName="ImagenDestacado" />
           <ScalarProperty Name="ImagenEvento" ColumnName="ImagenEvento" />
           <ScalarProperty Name="fechaUltModificacion" ColumnName="fechaUltModificacion" />

@@ -9,6 +9,8 @@ namespace WebApplication4.Models
     public class EventoModel
     {
         //PESTAÑA DATOS GENERALES
+        public int id { get; set; }
+
         [Required]
         [Display(Name="Nombre:")]
         public string nombre { get; set; }
@@ -50,25 +52,20 @@ namespace WebApplication4.Models
         //public Nullable<double> porccomision { get; set; }
 
         //public Nullable<bool> esUnico { get; set; }
-
-        
-
        
         //public Nullable<int> idPromotor { get; set; }
         [DataType(DataType.Upload)]
+        [Display(Name = "Imagen para destacado: ")]
         public HttpPostedFileBase ImageDestacado { get; set; }
 
         [Required]
         [DataType(DataType.Upload)]
+        [Display(Name = "Imagen para Evento: ")]
         public HttpPostedFileBase ImageEvento { get; set; }
         
         [DataType(DataType.Upload)]
+        [Display(Name = "Imagen para la distribución: ")]
         public HttpPostedFileBase ImageSitios { get; set; }
-
-        [Required]
-        [Display(Name="Destacado?  " )]
-        public Boolean EsDestacado { get; set; } 
-
 
         //public DateTime fecha_inicio { get; set; }
         //Se calcula
@@ -82,5 +79,14 @@ namespace WebApplication4.Models
         //calculados despues
         //public Nullable<double> monto_transferir { get; set; }
         //public Nullable<double> monto_adeudado { get; set; }
+
+        public static EventoModel getEvento(Eventos evento)
+        {
+            var model = new EventoModel();
+            model.nombre = evento.nombre;
+            model.descripcion = evento.descripcion;
+
+            return model;
+        }
     }
 }

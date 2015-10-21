@@ -112,7 +112,7 @@
     <Key>
       <PropertyRef Name="codigo" />
     </Key>
-    <Property Name="codigo" Type="int" Nullable="false" />
+    <Property Name="codigo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="nombre" Type="text" />
     <Property Name="descripcion" Type="text" />
     <Property Name="fecha_inicio" Type="datetime" />
@@ -133,6 +133,7 @@
     <Property Name="fechaUltModificacion" Type="datetime" />
     <Property Name="ImagenEvento" Type="text" />
     <Property Name="ImagenDestacado" Type="text" Nullable="false" />
+    <Property Name="ImagenSitios" Type="text" />
   </EntityType>
   <EntityType Name="EventosPrueba">
     <Key>
