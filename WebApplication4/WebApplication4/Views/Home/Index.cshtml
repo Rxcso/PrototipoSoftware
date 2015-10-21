@@ -2,10 +2,8 @@
 @using WebApplication4.Models;
 
 @{
-    ViewBag.Title = "TickNet";    
+    ViewBag.Title = "TickNet";
 }
-
-
 
 <html>
 <body>
@@ -19,20 +17,19 @@
                     }
                     <!--indicadores primero-->
                     <ol class="carousel-indicators">
-                        @for (var i = 0; i < listaDestacados.Count; i++ )
+                        @for (var i = 0; i < listaDestacados.Count; i++)
                         {
-                            <li data-target="#carousel-1" data-slide-to= @("" + i) class="active"></li>
+                            <li data-target="#carousel-1" data-slide-to=@("" + i) class="active"></li>
                         }
-                        
+
                     </ol>
                     <!--Contenedor de los slide-->
                     <div class="carousel-inner" role="listbox">
-                        
-
-                        @for (var i = 0; i < listaDestacados.Count; i++ ){
-                                    <div class=  " @((i==0)?"item active":"item ") " >
-                                        < a href="@Url.Action("ViewEvent","Event")"><img src=@listaDestacados[i].ImagenDestacado height="500" width="1200" class="img-responsive" alt=@listaDestacados[i].nombre></a>
-                                    </div>
+                        @for (var i = 0; i < listaDestacados.Count; i++)
+                        {
+                            <div class=@((i==0)?"item active":"item ")>
+                                <a href="@Url.Action("ViewEvent", "Event")"><img src=@listaDestacados[i].ImagenDestacado height="500" width="1200" class="img-responsive" alt=@listaDestacados[i].nombre></a>
+                            </div>
                         }
 
                     </div>
