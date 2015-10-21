@@ -17,7 +17,6 @@ namespace WebApplication4.Controllers
             return View();
         }
 
-
         public ActionResult Delete(int id)
         {
             Categoria categoria = db.Categoria.Find(id);            

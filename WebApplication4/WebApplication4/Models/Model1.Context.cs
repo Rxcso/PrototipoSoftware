@@ -72,9 +72,9 @@ public partial class inf245netsoft : DbContext
 
     public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
 
-    public virtual DbSet<EventosPrueba> EventosPrueba { get; set; }
-
     public virtual DbSet<Categoria> Categoria { get; set; }
+
+    public virtual DbSet<EventosPrueba> EventosPrueba { get; set; }
 
 }
 

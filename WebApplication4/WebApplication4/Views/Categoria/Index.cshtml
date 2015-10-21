@@ -23,6 +23,7 @@
                 <a class="btn btn-primary" onclick="borrar()">Dar de Baja <span class="glyphicon glyphicon-remove"></span></a>
             </div>
         </div>
+
         <div class="col-md-1">
             <a class="btn btn-danger" href="index2.html">Salir <span class="glyphicon glyphicon-log-out"></span></a>
         </div>
@@ -33,7 +34,7 @@
         List<WebApplication4.Models.Categoria> listaCategoria;
         if (TempData["ListaC"] == null)
         {
-            listaCategoria = db.Categoria.AsNoTracking().ToList();
+            listaCategoria = db.Categoria.AsNoTracking().Where(c => c.activo == 1).ToList();
         }
         else
         {
@@ -41,15 +42,18 @@
         }
     }
     <div class="row">
-        <table class="table table-bordered table-hover">
-            <tr class="active">
-                <th>Id</th>
-                <th>Nombre</th>
-                <th>Descripción</th>
-                <th>Id Padre</th>
-                <th>Nivel</th>
-                <th>Estado</th>
-            </tr>
+        <table id="mytable" class="table table-bordered table-hover">
+            <thead>
+                <tr class="thead">
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Id Padre</th>
+                    <th>Nivel</th>
+                    <th>Estado</th>
+                    <th></th>
+                </tr>
+            </thead>
             <tbody id="tbody">
                 @foreach (var row in listaCategoria)
                 {
