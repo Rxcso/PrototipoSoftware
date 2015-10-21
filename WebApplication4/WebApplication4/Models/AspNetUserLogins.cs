@@ -15,14 +15,18 @@ namespace WebApplication4.Models
 using System;
     using System.Collections.Generic;
     
-public partial class TipoDeCambio
+public partial class AspNetUserLogins
 {
 
-    public System.DateTime fecha { get; set; }
+    public string LoginProvider { get; set; }
 
-    public Nullable<double> valor { get; set; }
+    public string ProviderKey { get; set; }
 
-    public string estado { get; set; }
+    public string UserId { get; set; }
+
+
+
+    public virtual AspNetUsers AspNetUsers { get; set; }
 
 }
 

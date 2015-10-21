@@ -15,12 +15,38 @@ namespace WebApplication4.Models
 using System;
     using System.Collections.Generic;
     
-public partial class Preferencias
+public partial class Categoria
 {
 
-    public int codPreferencia { get; set; }
+    public Categoria()
+    {
+
+        this.Categoria1 = new HashSet<Categoria>();
+
+        this.CuentaUsuario = new HashSet<CuentaUsuario>();
+
+    }
+
+
+    public int idCategoria { get; set; }
+
+    public Nullable<int> idCatPadre { get; set; }
 
     public string descripcion { get; set; }
+
+    public string nombre { get; set; }
+
+    public Nullable<int> nivel { get; set; }
+
+    public Nullable<int> activo { get; set; }
+
+
+
+    public virtual ICollection<Categoria> Categoria1 { get; set; }
+
+    public virtual Categoria Categoria2 { get; set; }
+
+    public virtual ICollection<CuentaUsuario> CuentaUsuario { get; set; }
 
 }
 
