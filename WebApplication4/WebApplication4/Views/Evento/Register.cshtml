@@ -446,7 +446,7 @@
                 $.ajax({
                     url: "Provincia",
                     data: { depId: depId },
-                    datatype: "jsonp",
+                    datatype: "json",
                     success: function (data) {
                         var obj = $.parseJSON(data);
                         $.each(obj, function (k, v) {

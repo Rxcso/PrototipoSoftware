@@ -26,12 +26,16 @@ namespace WebApplication4.Controllers
             return View();
         }
 
+        public ActionResult Provincia()
+        {
+            return View();
+        }
+
 
         [HttpGet]
         [AllowAnonymous]
         public ActionResult VerEvento(int id)
         {
-
             var evento = db.Eventos.Find(id);
             if (evento== null) return Redirect("~/Home/Index");
             var model = EventoModel.getEvento( evento );
