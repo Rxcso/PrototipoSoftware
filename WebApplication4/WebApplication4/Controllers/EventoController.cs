@@ -9,20 +9,20 @@ namespace WebApplication4.Controllers
 {
     public class EventoController : Controller
     {
-
-        private inf245netsoft db = new inf245netsoft();
-
+        inf245netsoft db = new inf245netsoft();
         // GET: Evento
         public ActionResult Index()
         {
             return View();
         }
-        
+
         [HttpGet]
-        //[Authorize]
         public ActionResult Register()
         {
-
+            List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
+            List<Region> listProv = new List<Region>();
+            ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
+            ViewBag.ProvID = new SelectList(listProv, "idProv", "nombre");
             return View();
         }
 
@@ -33,35 +33,19 @@ namespace WebApplication4.Controllers
         public ActionResult Register(EventoModel model)
         {
 
+            //System.Console.WriteLine("gg");
             if (model.ImageEvento == null || model.ImageEvento.ContentLength == 0){
-                ModelState.AddModelError("ImageEvento", "Falta Imagen Evento");
+                ModelState.AddModelError("ImageEvento", "This field is required");
             }
-            if ( model.EsDestacado &&( model.ImageDestacado == null || model.ImageDestacado.ContentLength == 0))
+            if ( model.EsDestacado &&( model.ImageEvento == null || model.ImageEvento.ContentLength == 0))
             {
-                ModelState.AddModelError("ImageDestacado", "Falta Imagen de Evento Destacado");
+                ModelState.AddModelError("ImageDestacado", "This field is required");
             }
             if (ModelState.IsValid)
             {
 
-                if (model.EsDestacado && model.ImageDestacado != null && model.ImageDestacado.ContentLength > 0)
-                {
-                    var uploadDir = "~/Images";
-                    model.ImageDestacado.SaveAs(uploadDir+"ImagenDestacada1.jpg");
-                    
-                }
 
-
-                var eventp = new EventosPrueba();
-                eventp.nombre = model.nombre;
-                eventp.destacado = model.EsDestacado;
-                //eventp.urlDestacado = "ImagenDestacada1.jpg";
-                eventp.codEvento = 4;
-
-                db.EventosPrueba.Add(eventp);
-                db.SaveChanges();
-
-                return Redirect("~/Home/Index2");  
-             
+                return Redirect("~/Home/Index2");               
             }
 
             return View(model);
