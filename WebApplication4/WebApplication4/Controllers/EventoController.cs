@@ -27,6 +27,18 @@ namespace WebApplication4.Controllers
         }
 
 
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult VerEvento(int id)
+        {
+
+            var evento = db.Eventos.Find(id);
+            if (evento== null) return Redirect("~/Home/Index");
+            var model = EventoModel.getEvento( evento );
+            return View(model); 
+        }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         //[Authorize]

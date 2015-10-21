@@ -9,6 +9,8 @@ namespace WebApplication4.Models
     public class EventoModel
     {
         //PESTAÑA DATOS GENERALES
+        public int id { get; set; }
+
         [Required]
         [Display(Name="Nombre:")]
         public string nombre { get; set; }
@@ -80,5 +82,15 @@ namespace WebApplication4.Models
         //calculados despues
         //public Nullable<double> monto_transferir { get; set; }
         //public Nullable<double> monto_adeudado { get; set; }
+
+        public static EventoModel getEvento(Eventos evento)
+        {
+            var model = new EventoModel();
+            model.nombre = evento.nombre;
+            model.descripcion = evento.descripcion;
+            model.id = evento.codigo;
+
+            return model;
+        }
     }
 }

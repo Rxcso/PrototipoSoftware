@@ -30,8 +30,8 @@
                         
 
                         @for (var i = 0; i < listaDestacados.Count; i++ ){
-                                    <div class=  " @((i==0)?"item active":"item ") " >
-                                        < a href="@Url.Action("ViewEvent","Event")"><img src=@listaDestacados[i].ImagenDestacado height="500" width="1200" class="img-responsive" alt=@listaDestacados[i].nombre></a>
+                                    <div class="@((i==0)?"item active":"item ")">
+                                         <a href= @Url.Action("Ver","Evento")><img src=@listaDestacados[i].ImagenDestacado height="500" width="1200" class="img-responsive" alt=@listaDestacados[i].nombre></a>
                                     </div>
                         }
 
