@@ -48,8 +48,9 @@ namespace WebApplication4.Controllers
 
             var lista = bd.EventosPrueba.AsNoTracking().Where(c => c.nombre.Contains(valor)).ToList();
 
-            ViewBag.lista = lista;           
-            
+            ViewBag.lista = lista;
+            ViewBag.Categorias = bd.Categoria.AsNoTracking().Where(c => c.nivel == 1);
+            ViewBag.Departamentos = bd.Region.AsNoTracking().Where(c => c.idRegPadre == null);
 
             return View("Index");
         }
@@ -72,7 +73,7 @@ namespace WebApplication4.Controllers
         }
 
        
-        [ActionName("DistritosPorDepart")]
+        
         public ActionResult GetDistritosPorDepart(int id)
         {
 
