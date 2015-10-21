@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="9f5a5b25d4a3465ebca948c0c7a5a8c7" Name="Diagram1" ZoomLevel="94">
+      <Diagram DiagramId="9f5a5b25d4a3465ebca948c0c7a5a8c7" Name="Diagram1" ZoomLevel="70">
         <EntityTypeShape EntityType="inf245netsoftModel.CuentaUsuario" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="inf245netsoftModel.Perfiles" Width="1.5" PointX="3.625" PointY="0.5" />
         <EntityTypeShape EntityType="inf245netsoftModel.Banco" Width="1.5" PointX="3.375" PointY="5.25" />
@@ -32,10 +32,18 @@
         <EntityTypeShape EntityType="inf245netsoftModel.Eventos" Width="1.5" PointX="8.375" PointY="11.875" />
         <AssociationConnector Association="inf245netsoftModel.fk_EventoRegion" />
         <AssociationConnector Association="inf245netsoftModel.fk_EventoOrg" />
-        <EntityTypeShape EntityType="inf245netsoftModel.Categoria" Width="1.5" PointX="0.75" PointY="9.75" />
+        <EntityTypeShape EntityType="inf245netsoftModel.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="9.75" />
+        <EntityTypeShape EntityType="inf245netsoftModel.AspNetRoles" Width="1.5" PointX="10.75" PointY="11.5" />
+        <EntityTypeShape EntityType="inf245netsoftModel.AspNetUserClaims" Width="1.5" PointX="15.25" PointY="12.625" />
+        <EntityTypeShape EntityType="inf245netsoftModel.AspNetUserLogins" Width="1.5" PointX="15.25" PointY="10" />
+        <EntityTypeShape EntityType="inf245netsoftModel.AspNetUsers" Width="1.5" PointX="13" PointY="10.375" />
+        <EntityTypeShape EntityType="inf245netsoftModel.EventosPrueba" Width="1.5" PointX="13.75" PointY="0.75" />
+        <AssociationConnector Association="inf245netsoftModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="inf245netsoftModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="inf245netsoftModel.AspNetUserRoles" />
+        <EntityTypeShape EntityType="inf245netsoftModel.Categoria" Width="1.5" PointX="0.75" PointY="19.75" />
         <AssociationConnector Association="inf245netsoftModel.R_73" />
         <AssociationConnector Association="inf245netsoftModel.CategoriasXUsuario" />
-        <EntityTypeShape EntityType="inf245netsoftModel.EventosPrueba" Width="1.5" PointX="10.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

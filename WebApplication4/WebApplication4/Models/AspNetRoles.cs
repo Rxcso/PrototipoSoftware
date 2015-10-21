@@ -15,14 +15,24 @@ namespace WebApplication4.Models
 using System;
     using System.Collections.Generic;
     
-public partial class TipoDeCambio
+public partial class AspNetRoles
 {
 
-    public System.DateTime fecha { get; set; }
+    public AspNetRoles()
+    {
 
-    public Nullable<double> valor { get; set; }
+        this.AspNetUsers = new HashSet<AspNetUsers>();
 
-    public string estado { get; set; }
+    }
+
+
+    public string Id { get; set; }
+
+    public string Name { get; set; }
+
+
+
+    public virtual ICollection<AspNetUsers> AspNetUsers { get; set; }
 
 }
 
