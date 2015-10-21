@@ -5,6 +5,6 @@
     var data = from obj in db.Region
                where obj.idRegPadre == depId
                select new { IdRegion = obj.idRegion, Nombre = obj.nombre };
-                                               
+
     Json.Write(data, Response.Output);
 }
