@@ -22,6 +22,7 @@
     <Property Name="codPerfil" Type="Int32" Nullable="false" />
     <NavigationProperty Name="RegaloXCuenta" Relationship="inf245netsoftModel.FK__RegaloXCu__usuar__4BAC3F29" FromRole="CuentaUsuario" ToRole="RegaloXCuenta" />
     <NavigationProperty Name="Turno" Relationship="inf245netsoftModel.R_26" FromRole="CuentaUsuario" ToRole="Turno" />
+    <NavigationProperty Name="Categoria" Relationship="inf245netsoftModel.CategoriasXUsuario" FromRole="CuentaUsuario" ToRole="Categoria" />
   </EntityType>
   <EntityContainer Name="inf245netsoft" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="CuentaUsuario" EntityType="Self.CuentaUsuario" />
@@ -87,8 +88,16 @@
       <End Role="Organizador" EntitySet="Organizador" />
       <End Role="Eventos" EntitySet="Eventos" />
     </AssociationSet>
+    <EntitySet Name="Categoria" EntityType="inf245netsoftModel.Categoria" />
+    <AssociationSet Name="R_73" Association="inf245netsoftModel.R_73">
+      <End Role="Categoria" EntitySet="Categoria" />
+      <End Role="Categoria1" EntitySet="Categoria" />
+    </AssociationSet>
+    <AssociationSet Name="CategoriasXUsuario" Association="inf245netsoftModel.CategoriasXUsuario">
+      <End Role="Categoria" EntitySet="Categoria" />
+      <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
+    </AssociationSet>
     <EntitySet Name="EventosPrueba" EntityType="inf245netsoftModel.EventosPrueba" />
-    <EntitySet Name="Preferencias" EntityType="inf245netsoftModel.Preferencias" />
   </EntityContainer>
   <EntityType Name="Perfiles">
     <Key>
@@ -410,6 +419,36 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="Categoria">
+    <Key>
+      <PropertyRef Name="idCategoria" />
+    </Key>
+    <Property Name="idCategoria" Type="Int32" Nullable="false" />
+    <Property Name="idCatPadre" Type="Int32" />
+    <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="nivel" Type="Int32" />
+    <Property Name="activo" Type="Int32" />
+    <NavigationProperty Name="Categoria1" Relationship="inf245netsoftModel.R_73" FromRole="Categoria" ToRole="Categoria1" />
+    <NavigationProperty Name="Categoria2" Relationship="inf245netsoftModel.R_73" FromRole="Categoria1" ToRole="Categoria" />
+    <NavigationProperty Name="CuentaUsuario" Relationship="inf245netsoftModel.CategoriasXUsuario" FromRole="Categoria" ToRole="CuentaUsuario" />
+  </EntityType>
+  <Association Name="R_73">
+    <End Type="inf245netsoftModel.Categoria" Role="Categoria" Multiplicity="0..1" />
+    <End Type="inf245netsoftModel.Categoria" Role="Categoria1" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Categoria">
+        <PropertyRef Name="idCategoria" />
+      </Principal>
+      <Dependent Role="Categoria1">
+        <PropertyRef Name="idCatPadre" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CategoriasXUsuario">
+    <End Type="inf245netsoftModel.Categoria" Role="Categoria" Multiplicity="*" />
+    <End Type="inf245netsoftModel.CuentaUsuario" Role="CuentaUsuario" Multiplicity="*" />
+  </Association>
   <EntityType Name="EventosPrueba">
     <Key>
       <PropertyRef Name="codEvento" />
@@ -427,17 +466,17 @@
     <Property Name="penPost" Type="Double" />
     <Property Name="comision" Type="Double" />
     <Property Name="esRecurrente" Type="Boolean" />
-    <Property Name="destacado" Type="Int32" />
+    <Property Name="destacado" Type="Boolean" />
     <Property Name="fechDev" Type="DateTime" Precision="3" />
     <Property Name="esImpri" Type="Boolean" />
     <Property Name="esReser" Type="Boolean" />
     <Property Name="maxReserva" Type="Int32" />
     <Property Name="limReserva" Type="DateTime" Precision="3" />
-    <Property Name="codOrg" Type="Int32" Nullable="false" />
-    <Property Name="codPromotor" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="idRegion" Type="Int32" Nullable="false" />
+    <Property Name="codOrg" Type="Int32" />
+    <Property Name="codPromotor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="idRegion" Type="Int32" />
     <Property Name="idProvincia" Type="Int32" />
-    <Property Name="necDoc" Type="Boolean" Nullable="false" />
+    <Property Name="necDoc" Type="Boolean" />
     <Property Name="codLocal" Type="Int32" />
     <Property Name="idCategoria" Type="Int32" />
     <Property Name="cantPuntos" Type="Int32" />
@@ -445,12 +484,5 @@
     <Property Name="urlImagen" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
     <Property Name="urlDistribucion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
     <Property Name="codPreferencia" Type="Int32" />
-  </EntityType>
-  <EntityType Name="Preferencias">
-    <Key>
-      <PropertyRef Name="codPreferencia" />
-    </Key>
-    <Property Name="codPreferencia" Type="Int32" Nullable="false" />
-    <Property Name="descripcion" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
   </EntityType>
 </Schema>

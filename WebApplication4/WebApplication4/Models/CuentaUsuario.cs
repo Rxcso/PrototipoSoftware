@@ -25,6 +25,8 @@ public partial class CuentaUsuario
 
         this.Turno = new HashSet<Turno>();
 
+        this.Categoria = new HashSet<Categoria>();
+
     }
 
 
@@ -65,6 +67,8 @@ public partial class CuentaUsuario
     public virtual ICollection<RegaloXCuenta> RegaloXCuenta { get; set; }
 
     public virtual ICollection<Turno> Turno { get; set; }
+
+    public virtual ICollection<Categoria> Categoria { get; set; }
 
 }
 

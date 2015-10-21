@@ -44,7 +44,7 @@ public partial class EventosPrueba
 
     public Nullable<bool> esRecurrente { get; set; }
 
-    public Nullable<int> destacado { get; set; }
+    public Nullable<bool> destacado { get; set; }
 
     public Nullable<System.DateTime> fechDev { get; set; }
 
@@ -56,15 +56,15 @@ public partial class EventosPrueba
 
     public Nullable<System.DateTime> limReserva { get; set; }
 
-    public int codOrg { get; set; }
+    public Nullable<int> codOrg { get; set; }
 
     public string codPromotor { get; set; }
 
-    public int idRegion { get; set; }
+    public Nullable<int> idRegion { get; set; }
 
     public Nullable<int> idProvincia { get; set; }
 
-    public bool necDoc { get; set; }
+    public Nullable<bool> necDoc { get; set; }
 
     public Nullable<int> codLocal { get; set; }
 

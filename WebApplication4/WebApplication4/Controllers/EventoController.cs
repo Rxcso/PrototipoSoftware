@@ -9,6 +9,9 @@ namespace WebApplication4.Controllers
 {
     public class EventoController : Controller
     {
+
+        private inf245netsoft db = new inf245netsoft();
+
         // GET: Evento
         public ActionResult Index()
         {
@@ -19,7 +22,7 @@ namespace WebApplication4.Controllers
         //[Authorize]
         public ActionResult Register()
         {
-            //System.Console.WriteLine("gg");
+
             return View();
         }
 
@@ -30,19 +33,35 @@ namespace WebApplication4.Controllers
         public ActionResult Register(EventoModel model)
         {
 
-            //System.Console.WriteLine("gg");
             if (model.ImageEvento == null || model.ImageEvento.ContentLength == 0){
-                ModelState.AddModelError("ImageEvento", "This field is required");
+                ModelState.AddModelError("ImageEvento", "Falta Imagen Evento");
             }
-            if ( model.EsDestacado &&( model.ImageEvento == null || model.ImageEvento.ContentLength == 0))
+            if ( model.EsDestacado &&( model.ImageDestacado == null || model.ImageDestacado.ContentLength == 0))
             {
-                ModelState.AddModelError("ImageDestacado", "This field is required");
+                ModelState.AddModelError("ImageDestacado", "Falta Imagen de Evento Destacado");
             }
             if (ModelState.IsValid)
             {
 
+                if (model.EsDestacado && model.ImageDestacado != null && model.ImageDestacado.ContentLength > 0)
+                {
+                    var uploadDir = "~/Images";
+                    model.ImageDestacado.SaveAs(uploadDir+"ImagenDestacada1.jpg");
+                    
+                }
 
-                return Redirect("~/Home/Index2");               
+
+                var eventp = new EventosPrueba();
+                eventp.nombre = model.nombre;
+                eventp.destacado = model.EsDestacado;
+                //eventp.urlDestacado = "ImagenDestacada1.jpg";
+                eventp.codEvento = 4;
+
+                db.EventosPrueba.Add(eventp);
+                db.SaveChanges();
+
+                return Redirect("~/Home/Index2");  
+             
             }
 
             return View(model);
