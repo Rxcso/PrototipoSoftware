@@ -56,19 +56,17 @@ namespace WebApplication4.Models
        
         //public Nullable<int> idPromotor { get; set; }
         [DataType(DataType.Upload)]
+        [Display(Name = "Imagen para destacado: ")]
         public HttpPostedFileBase ImageDestacado { get; set; }
 
         [Required]
         [DataType(DataType.Upload)]
+        [Display(Name = "Imagen para Evento: ")]
         public HttpPostedFileBase ImageEvento { get; set; }
         
         [DataType(DataType.Upload)]
+        [Display(Name = "Imagen para la distribución: ")]
         public HttpPostedFileBase ImageSitios { get; set; }
-
-        [Required]
-        [Display(Name="Destacado?  " )]
-        public Boolean EsDestacado { get; set; } 
-
 
         //public DateTime fecha_inicio { get; set; }
         //Se calcula

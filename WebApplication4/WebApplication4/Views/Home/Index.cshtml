@@ -15,14 +15,13 @@
                 <div id="carousel-1" class="carousel slide" data-ride="carousel">
                     @{
                         var db = new WebApplication4.Models.inf245netsoft();
-                        List<EventosPrueba> listaDestacados = db.EventosPrueba.AsNoTracking().Where(c => (c.destacado == true)).ToList();
-                        var valor = 0;
+                        List<Eventos> listaDestacados = db.Eventos.AsNoTracking().Where(c => (c.ImagenDestacado != null)).ToList();
                     }
                     <!--indicadores primero-->
                     <ol class="carousel-indicators">
-                        @foreach (var item in listaDestacados)
+                        @for (var i = 0; i < listaDestacados.Count; i++ )
                         {
-                            <li data-target="#carousel-1" data-slide-to= @valor class="active"></li>
+                            <li data-target="#carousel-1" data-slide-to= @("" + i) class="active"></li>
                         }
                         
                     </ol>
@@ -30,15 +29,15 @@
                     <div class="carousel-inner" role="listbox">
                         
 
-                        @foreach( var item in listaDestacados  ){
-                            <div class="item active">
-                                <a href="@Url.Action("ViewEvent","Event")"><img src=@item.urlDestacado height="200" width="1200" class="img-responsive" alt=@item.nombre></a>
-                            </div>
+                        @for (var i = 0; i < listaDestacados.Count; i++ ){
+                                    <div class=  " @((i==0)?"item active":"item ") " >
+                                        < a href="@Url.Action("ViewEvent","Event")"><img src=@listaDestacados[i].ImagenDestacado height="500" width="1200" class="img-responsive" alt=@listaDestacados[i].nombre></a>
+                                    </div>
                         }
 
-
-
                     </div>
+
+
                     <!--Controles-->
                     <a href="#carousel-1" class="left carousel-control" role="button" data-slide="prev">
                         <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>

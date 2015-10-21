@@ -35,15 +35,26 @@ namespace WebApplication4.Controllers
 
             //System.Console.WriteLine("gg");
             if (model.ImageEvento == null || model.ImageEvento.ContentLength == 0){
-                ModelState.AddModelError("ImageEvento", "This field is required");
+                ModelState.AddModelError("ImageEvento", "Se necesita la Imagen del Evento");
             }
-            if ( model.EsDestacado &&( model.ImageEvento == null || model.ImageEvento.ContentLength == 0))
-            {
-                ModelState.AddModelError("ImageDestacado", "This field is required");
-            }
+
+
             if (ModelState.IsValid)
             {
+                var eventp = new Eventos();	
+                if (model.ImageDestacado != null && model.ImageDestacado.ContentLength > 0)		
+                {		
+                    var uploadDir = "/Images/";
+                    eventp.ImagenDestacado = uploadDir + "destacado" + model.ImageDestacado.FileName;
+                    model.ImageDestacado.SaveAs(Server.MapPath("~/Images/" + "destacado" + model.ImageDestacado.FileName));                   
+                }		
+               	
+               eventp.nombre = model.nombre;
+               eventp.idOrganizador = 1;
+               eventp.idRegion = 1;
 
+               db.Eventos.Add(eventp);	
+               db.SaveChanges();
 
                 return Redirect("~/Home/Index2");               
             }

@@ -91,6 +91,7 @@
                         <label for="organizador" class="control-label col-md-2">Local:</label>
                         <div class="col-md-10">
                             <div class="input-group">
+
                                 <input type="text" class="form-control" disabled id="localNombre">
                                 <span class="input-group-btn"><a href="#modalBuscarLocal" class="btn btn-primary" data-toggle="modal" type="button">Buscar <span class="glyphicon glyphicon-search"></span></a></span>
                             </div>
@@ -339,8 +340,6 @@
                     </div>
                     <div class="row">
                         <div class="col-md-4 col-md-offset-2">
-                            @Html.LabelFor(m => m.EsDestacado)
-                            @Html.EditorFor(m => m.EsDestacado)
                             <div class="checkbox">
                                 <label><input type="checkbox" value="">Permitir reservas vía web</label>
                             </div>

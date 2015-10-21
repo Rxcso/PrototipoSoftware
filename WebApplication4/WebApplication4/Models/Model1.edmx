@@ -56,7 +56,7 @@
           <Key>
             <PropertyRef Name="codigo" />
           </Key>
-          <Property Name="codigo" Type="int" Nullable="false" />
+          <Property Name="codigo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="nombre" Type="text" />
           <Property Name="descripcion" Type="text" />
           <Property Name="fecha_inicio" Type="datetime" />
@@ -77,6 +77,7 @@
           <Property Name="fechaUltModificacion" Type="datetime" />
           <Property Name="ImagenEvento" Type="text" />
           <Property Name="ImagenDestacado" Type="text" Nullable="false" />
+          <Property Name="ImagenSitios" Type="text" />
         </EntityType>
         <EntityType Name="EventosPrueba">
           <Key>
@@ -893,6 +894,7 @@
           <NavigationProperty Name="Organizador" Relationship="inf245netsoftModel.fk_EventoOrg" FromRole="Eventos" ToRole="Organizador" />
           <Property Name="ImagenEvento" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="ImagenDestacado" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ImagenSitios" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="fk_EventoRegion">
           <End Type="inf245netsoftModel.Region" Role="Region" Multiplicity="0..1" />
@@ -1152,6 +1154,7 @@
           <EntitySetMapping Name="Eventos">
             <EntityTypeMapping TypeName="inf245netsoftModel.Eventos">
               <MappingFragment StoreEntitySet="Eventos">
+                <ScalarProperty Name="ImagenSitios" ColumnName="ImagenSitios" />
                 <ScalarProperty Name="ImagenDestacado" ColumnName="ImagenDestacado" />
                 <ScalarProperty Name="ImagenEvento" ColumnName="ImagenEvento" />
                 <ScalarProperty Name="fechaUltModificacion" ColumnName="fechaUltModificacion" />

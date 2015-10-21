@@ -60,6 +60,8 @@ public partial class Eventos
 
     public string ImagenDestacado { get; set; }
 
+    public string ImagenSitios { get; set; }
+
 
 
     public virtual Region Region { get; set; }
