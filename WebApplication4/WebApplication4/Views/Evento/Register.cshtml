@@ -6,6 +6,7 @@
 @{
     ViewBag.Title = "Register";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+    var db = new inf245netsoft();
 }
 <div class="container-fluid">
     <div class="col-md-5">
@@ -20,12 +21,11 @@
         <div class="col-md-12">
             <a href="@Url.Action("Index","Evento")" class="btn btn-danger pull-right"><span class="glyphicon glyphicon-hand-left"></span> Regresar</a>
         </div>
-    </div><br>
-
+    </div>
 
     <form action="" method="post" enctype="multipart/form-data">
         @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true);
+        @Html.ValidationSummary(true)
 
         <!--DECLARAMOS EL TABS Y LA CANTIDAD DE PESTAÑAS QUE TENDRA -->
         <ul class="nav nav-tabs">
@@ -44,9 +44,9 @@
                 <br>
                 <div class="form-horizontal">
                     <div class="form-group">
-                        @Html.LabelFor(m => m.nombre, new { @class="control-label col-md-2"})
+                        @Html.LabelFor(m => m.nombre, new { @class = "control-label col-md-2" })
                         <div class="col-md-6">
-                            @Html.TextBoxFor(m => m.nombre, new { @class="form-control"})
+                            @Html.TextBoxFor(m => m.nombre, new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.nombre)
                         </div>
                     </div><br><br>
@@ -105,23 +105,13 @@
                         </div>
                     </div><br><br>
                     <div class="form-group">
-                        <label for="organizador" class="control-label col-md-2">Departamento:</label>
                         <div class="col-md-4">
-                            <select class="form-control" name="" id="departamento" onchange="hola">
-                                @{
-                                    var db = new WebApplication4.Models.inf245netsoft();
-                                    List<WebApplication4.Models.Region> list = db.Region.Where(c => c.idRegPadre == null).ToList();
-                                }
-                                <option value="0">Seleccione</option>
-                                @foreach (var reg in list)
-                                {
-                                    <option value="@reg.idRegion">@reg.nombre</option>
-                                }
-                            </select>
+                            @Html.LabelFor(model => model.idRegion)
+                            @Html.DropDownListFor(model => model.idRegion, @ViewBag.DepID as SelectList, "Departamento", new { @class  = "form-control",@onchange = "cambio()" })
                         </div>
-                        <label for="organizador" class="control-label col-md-2">Provincia:</label>
                         <div class="col-md-4">
-                            <select class="form-control" name="" id="provincia"></select>
+                            @Html.LabelFor(model => model.idProv)
+                            @Html.DropDownListFor(model => model.idProv, @ViewBag.ProvID as SelectList, "Provincia", new {@class ="form-control"})
                         </div>
                     </div><br><br>
                     <div class="form-group">
@@ -136,25 +126,25 @@
             <div class="tab-pane fade in container" id="bloques_tiempo">
                 <br>
                 <div id="bloques" class="container">
-                    <div id="bloque_1" class="row">
+                    <div class="row" id="bloqueDeTiempo">
                         <div class="col-md-2">
                             <label for="">Bloque de tiempo:</label>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3" id="desdeGroup">
                             <div class="input-group">
                                 <span class="input-group-addon">Desde:</span>
                                 <input type="date" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div class="input-group">
+                            <div class="input-group" id="hastaGroup">
                                 <span class="input-group-addon">Hasta:</span>
                                 <input type="date" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <button id="btnAgregarBloque" class="btn btn-primary">Añadir bloque <span class="glyphicon glyphicon-plus"></span></button>
+                                <button id="btnAgregarBloque" class="btn btn-primary" onclick="nuevoBloque()">Añadir bloque <span class="glyphicon glyphicon-plus"></span></button>
                                 <button id="btnQuitarBloque" class="btn btn-primary">Quitar bloque <span class="glyphicon glyphicon-remove"></span></button>
                             </div>
                         </div>
@@ -313,10 +303,10 @@
                     <div class="row">
                         <div class="form-group">
                             @Html.LabelFor(m => m.ImageEvento)
-                             <div class="col-md-6">
-                                @Html.TextBoxFor(m => m.ImageEvento, new { type = "file" })
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(m => m.ImageEvento, new { type = "file", @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.ImageEvento)
-                             </div>
+                            </div>
 
                         </div>
                     </div>
@@ -324,7 +314,7 @@
                         <div class="form-group">
                             @Html.LabelFor(m => m.ImageDestacado)
                             <div class="col-md-6">
-                                @Html.TextBoxFor(m => m.ImageDestacado, new { type = "file" })
+                                @Html.TextBoxFor(m => m.ImageDestacado, new { type = "file", @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.ImageDestacado)
                             </div>
                         </div>
@@ -333,7 +323,7 @@
                         <div class="form-group">
                             @Html.LabelFor(m => m.ImageSitios)
                             <div class="col-md-6">
-                                @Html.TextBoxFor(m => m.ImageSitios, new { type = "file" })
+                                @Html.TextBoxFor(m => m.ImageSitios, new { type = "file" ,@class="form-control" })
                                 @Html.ValidationMessageFor(model => model.ImageSitios)
                             </div>
                         </div>
@@ -350,13 +340,13 @@
                     </div>
                     <div class="row">
                         <div class="col-md-2 col-md-offset-5">
-                            <button type="submit" class="btn btn-primary">Registrar Evento</button>    
+                            <button type="submit" class="btn btn-primary">Registrar Evento</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        </form>
+    </form>
 
     <!--ventana de buscar local-->
     <div class="modal fade" id="modalBuscarLocal">
@@ -446,6 +436,28 @@
     </div>
 
     <script>
+        function cambio() {
+            var depId = parseInt($("#idRegion").val());
+            if (!isNaN(depId)) {
+                var ddProv = $("#idProv");
+                ddProv.empty();
+                ddProv.append($("<option></option>").val("").html("--Provincia--"));
+                $.ajax({
+                    url: "Provincia",
+                    data: { depId: depId },
+                    datatype: "json",
+                    success: function (data) {
+                        var obj = $.parseJSON(data);
+                        $.each(obj, function (k, v) {
+                            ddProv.append($("<option></option>").val(v.IdRegion).html(v.Nombre));
+                        });
+                    },
+                    error: function () {
+                        alert("Error :(");
+                    }
+                });
+            }
+        }
         function llenaOrg() {
             var nomb = $('input[name="groupO"]:checked').val();
             $("#organizadorNombre").val(nomb);
@@ -455,6 +467,14 @@
             var nomb = $('input[name="groupL"]:checked').val();
             $("#localNombre").val(nomb);
             $('#modalBuscarLocal').modal('hide');
+        }
+        function nuevoBloque() {
+            
+            var gDesde = document.getElementById("#desdeGroup");
+            var htmlAdd = '<div class="input-group"><span class="input-group-addon">Desdemicorazon:</span>'+
+                '<input type="date" class="form-control>"';
+            gDesde.innerHTML = htmlAdd;
+            
         }
     </script>
 </div>

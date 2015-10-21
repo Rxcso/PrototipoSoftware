@@ -52,9 +52,6 @@ namespace WebApplication4.Models
         //public Nullable<double> porccomision { get; set; }
 
         //public Nullable<bool> esUnico { get; set; }
-
-        
-
        
         //public Nullable<int> idPromotor { get; set; }
         [DataType(DataType.Upload)]
@@ -88,7 +85,6 @@ namespace WebApplication4.Models
             var model = new EventoModel();
             model.nombre = evento.nombre;
             model.descripcion = evento.descripcion;
-            model.id = evento.codigo;
 
             return model;
         }

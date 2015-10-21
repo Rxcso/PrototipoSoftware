@@ -162,6 +162,14 @@ namespace WebApplication4.Models
         public string codDoc { get; set; }
     }
 
+    public class ReporteClienteModel
+    {
+
+        [Required]
+        [Display(Name = "Puntos: ")]
+        public int puntos { get; set; }
+    }
+
     public class ResetPasswordViewModel
     {
         [Required]
