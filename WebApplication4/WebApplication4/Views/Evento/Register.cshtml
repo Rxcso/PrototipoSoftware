@@ -21,12 +21,11 @@
         <div class="col-md-12">
             <a href="@Url.Action("Index","Evento")" class="btn btn-danger pull-right"><span class="glyphicon glyphicon-hand-left"></span> Regresar</a>
         </div>
-    </div><br>
-
+    </div>
 
     <form action="" method="post" enctype="multipart/form-data">
         @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true);
+        @Html.ValidationSummary(true)
 
         <!--DECLARAMOS EL TABS Y LA CANTIDAD DE PESTAÑAS QUE TENDRA -->
         <ul class="nav nav-tabs">
@@ -108,11 +107,11 @@
                     <div class="form-group">
                         <div class="col-md-4">
                             @Html.LabelFor(model => model.idRegion)
-                            @Html.DropDownListFor(model => model.idRegion, @ViewBag.DepID as SelectList, "--Departamento--", new { @onchange = "cambio()" })
+                            @Html.DropDownListFor(model => model.idRegion, @ViewBag.DepID as SelectList, "Departamento", new { @class  = "control-label",@onchange = "cambio()" })
                         </div>
                         <div class="col-md-4">
                             @Html.LabelFor(model => model.idProv)
-                            @Html.DropDownListFor(model => model.idProv, @ViewBag.ProvID as SelectList, "--Provincia--")
+                            @Html.DropDownListFor(model => model.idProv, @ViewBag.ProvID as SelectList, "Provincia",new {@class ="control-label"})
                         </div>
                     </div><br><br>
                     <div class="form-group">
@@ -127,25 +126,25 @@
             <div class="tab-pane fade in container" id="bloques_tiempo">
                 <br>
                 <div id="bloques" class="container">
-                    <div id="bloque_1" class="row">
+                    <div class="row" id="bloqueDeTiempo">
                         <div class="col-md-2">
                             <label for="">Bloque de tiempo:</label>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3" id="desdeGroup">
                             <div class="input-group">
                                 <span class="input-group-addon">Desde:</span>
                                 <input type="date" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div class="input-group">
+                            <div class="input-group" id="hastaGroup">
                                 <span class="input-group-addon">Hasta:</span>
                                 <input type="date" class="form-control">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <button id="btnAgregarBloque" class="btn btn-primary">Añadir bloque <span class="glyphicon glyphicon-plus"></span></button>
+                                <button id="btnAgregarBloque" class="btn btn-primary" onclick="nuevoBloque()">Añadir bloque <span class="glyphicon glyphicon-plus"></span></button>
                                 <button id="btnQuitarBloque" class="btn btn-primary">Quitar bloque <span class="glyphicon glyphicon-remove"></span></button>
                             </div>
                         </div>
@@ -468,6 +467,14 @@
             var nomb = $('input[name="groupL"]:checked').val();
             $("#localNombre").val(nomb);
             $('#modalBuscarLocal').modal('hide');
+        }
+        function nuevoBloque() {
+            
+            var gDesde = document.getElementById("#desdeGroup");
+            var htmlAdd = '<div class="input-group"><span class="input-group-addon">Desdemicorazon:</span>'+
+                '<input type="date" class="form-control>"';
+            gDesde.innerHTML = htmlAdd;
+            
         }
     </script>
 </div>
