@@ -6,6 +6,7 @@
 @{
     ViewBag.Title = "Register";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+    var db = new inf245netsoft();
 }
 <div class="container-fluid">
     <div class="col-md-5">
@@ -44,9 +45,9 @@
                 <br>
                 <div class="form-horizontal">
                     <div class="form-group">
-                        @Html.LabelFor(m => m.nombre, new { @class="control-label col-md-2"})
+                        @Html.LabelFor(m => m.nombre, new { @class = "control-label col-md-2" })
                         <div class="col-md-6">
-                            @Html.TextBoxFor(m => m.nombre, new { @class="form-control"})
+                            @Html.TextBoxFor(m => m.nombre, new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.nombre)
                         </div>
                     </div><br><br>
@@ -105,23 +106,13 @@
                         </div>
                     </div><br><br>
                     <div class="form-group">
-                        <label for="organizador" class="control-label col-md-2">Departamento:</label>
                         <div class="col-md-4">
-                            <select class="form-control" name="" id="departamento" onchange="hola">
-                                @{
-                                    var db = new WebApplication4.Models.inf245netsoft();
-                                    List<WebApplication4.Models.Region> list = db.Region.Where(c => c.idRegPadre == null).ToList();
-                                }
-                                <option value="0">Seleccione</option>
-                                @foreach (var reg in list)
-                                {
-                                    <option value="@reg.idRegion">@reg.nombre</option>
-                                }
-                            </select>
+                            @Html.LabelFor(model => model.idRegion)
+                            @Html.DropDownListFor(model => model.idRegion, @ViewBag.DepID as SelectList, "--Departamento--", new { @onchange = "cambio()" })
                         </div>
-                        <label for="organizador" class="control-label col-md-2">Provincia:</label>
                         <div class="col-md-4">
-                            <select class="form-control" name="" id="provincia"></select>
+                            @Html.LabelFor(model => model.idProv)
+                            @Html.DropDownListFor(model => model.idProv, @ViewBag.ProvID as SelectList, "--Provincia--")
                         </div>
                     </div><br><br>
                     <div class="form-group">
@@ -313,10 +304,10 @@
                     <div class="row">
                         <div class="form-group">
                             @Html.LabelFor(m => m.ImageEvento)
-                             <div class="col-md-6">
+                            <div class="col-md-6">
                                 @Html.TextBoxFor(m => m.ImageEvento, new { type = "file" })
                                 @Html.ValidationMessageFor(model => model.ImageEvento)
-                             </div>
+                            </div>
 
                         </div>
                     </div>
@@ -350,13 +341,13 @@
                     </div>
                     <div class="row">
                         <div class="col-md-2 col-md-offset-5">
-                            <button type="submit" class="btn btn-primary">Registrar Evento</button>    
+                            <button type="submit" class="btn btn-primary">Registrar Evento</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        </form>
+    </form>
 
     <!--ventana de buscar local-->
     <div class="modal fade" id="modalBuscarLocal">
@@ -446,6 +437,28 @@
     </div>
 
     <script>
+        function cambio() {
+            var depId = parseInt($("#idRegion").val());
+            if (!isNaN(depId)) {
+                var ddProv = $("#idProv");
+                ddProv.empty();
+                ddProv.append($("<option></option>").val("").html("--Provincia--"));
+                $.ajax({
+                    url: "Provincia",
+                    data: { depId: depId },
+                    datatype: "jsonp",
+                    success: function (data) {
+                        var obj = $.parseJSON(data);
+                        $.each(obj, function (k, v) {
+                            ddProv.append($("<option></option>").val(v.IdRegion).html(v.Nombre));
+                        });
+                    },
+                    error: function () {
+                        alert("Error :(");
+                    }
+                });
+            }
+        }
         function llenaOrg() {
             var nomb = $('input[name="groupO"]:checked').val();
             $("#organizadorNombre").val(nomb);
