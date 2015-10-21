@@ -7,12 +7,14 @@
     if (Request.IsAuthenticated)
     {
         var act = User.Identity.GetUserName();
+        var cuenta=new CuentaUsuario();
         inf245netsoft db = new inf245netsoft();
-        CuentaUsuario cuenta = db.CuentaUsuario.Find(act);
-        if ( cuenta.codPerfil != 1){
-            esIntranet = 1;    
+        if (db != null) { 
+            cuenta = db.CuentaUsuario.Find(act);
+            if (cuenta!=null && cuenta.codPerfil != 1){
+                esIntranet = 1;    
+            }
         }
-        
         nombre = cuenta.nombre;
     }    
 }

@@ -13,33 +13,33 @@ namespace WebApplication4.Models
         [Display(Name="Nombre:")]
         public string nombre { get; set; }
 
-        [Required]
+        //[Required]
         [Display(Name="Organizador:")]
         public int idOrganizador { get; set; }
 
-        [Required]
+        //[Required]
         [Display(Name = "Tipo:")]
         public int idCategoria { get; set; }
 
-        [Required]
+        //[Required]
         [Display(Name = "Categoría:")]
         public int idSubCat { get; set; }
 
-        [Display(Name = "Local:")]
+        //[Display(Name = "Local:")]
         public int idLocal { get; set; }
 
-        [Display(Name = "Dirección:")]
+        //[Display(Name = "Dirección:")]
         public string lugar { get; set; }
         
-        [Required]
+        //[Required]
         [Display(Name = "Departamento:")]
         public int idRegion { get; set; }
 
-        [Required]
+        //[Required]
         [Display(Name = "Provincia:")]
         public int idProv { get; set; }
 
-        [Required]
+        //[Required]
         [Display(Name = "Descripcion:")]
         public string descripcion { get; set; }
         //TERMINA DATOS GENERALES
@@ -55,15 +55,20 @@ namespace WebApplication4.Models
 
        
         //public Nullable<int> idPromotor { get; set; }
-
-
-        [Required]
-        [Display(Name="Imagen")]
-        public string ImagenEvento { get; set; }
+        [DataType(DataType.Upload)]
+        public HttpPostedFileBase ImageDestacado { get; set; }
 
         [Required]
-        [Display(Name="Imagen Destacada")]
-        public string ImagenDestacado { get; set; }
+        [DataType(DataType.Upload)]
+        public HttpPostedFileBase ImageEvento { get; set; }
+        
+        [DataType(DataType.Upload)]
+        public HttpPostedFileBase ImageSitios { get; set; }
+
+        [Required]
+        [Display(Name="Destacado?  " )]
+        public Boolean EsDestacado { get; set; } 
+
 
         //public DateTime fecha_inicio { get; set; }
         //Se calcula

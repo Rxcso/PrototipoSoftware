@@ -1,11 +1,11 @@
-﻿@{
+﻿@using Microsoft.AspNet.Identity
+@using WebApplication4.Models;
+
+@{
     ViewBag.Title = "TickNet";    
 }
 
-@{
 
-
-}
 
 <html>
 <body>
@@ -13,35 +13,31 @@
         <div class="row">
             <div class="col-md-12 ">
                 <div id="carousel-1" class="carousel slide" data-ride="carousel">
+                    @{
+                        var db = new WebApplication4.Models.inf245netsoft();
+                        List<EventosPrueba> listaDestacados = db.EventosPrueba.AsNoTracking().Where(c => (c.destacado == true)).ToList();
+                        var valor = 0;
+                    }
                     <!--indicadores primero-->
                     <ol class="carousel-indicators">
-                        <li data-target="#carousel-1" data-slide-to="0" class="active"></li>
-                        <li data-target="#carousel-1" data-slide-to="1"></li>
-                        <li data-target="#carousel-1" data-slide-to="2"></li>
-                        <li data-target="#carousel-1" data-slide-to="3"></li>
-                        <li data-target="#carousel-1" data-slide-to="4"></li>
-                        <li data-target="#carousel-1" data-slide-to="5"></li>
+                        @foreach (var item in listaDestacados)
+                        {
+                            <li data-target="#carousel-1" data-slide-to= @valor class="active"></li>
+                        }
+                        
                     </ol>
                     <!--Contenedor de los slide-->
                     <div class="carousel-inner" role="listbox">
-                        <div class="item active">
-                            <a href="@Url.Action("ViewEvent","Event")"><img src="~/images/arjona.jpg" width="1200" class="img-responsive" alt=""></a>
-                        </div>
-                        <div class="item">
-                            <a href="ver_evento.html"><img src="~/images/bruta.jpg" width="1200" class="img-responsive" alt=""></a>
-                        </div>
-                        <div class="item">
-                            <a href="ver_evento.html"><img src="~/images/chino.jpg" width="1200" class="img-responsive" alt=""></a>
-                        </div>
-                        <div class="item">
-                            <a href="ver_evento.html"><img src="~/images/disco.jpg" width="1200" class="img-responsive" alt=""></a>
-                        </div>
-                        <div class="item">
-                            <a href="ver_evento.html"><img src="~/images/katyperry.jpg" width="1200" class="img-responsive" alt=""></a>
-                        </div>
-                        <div class="item">
-                            <a href="ver_evento.html"><img src="~/images/fiesta.jpg" width="1200" class="img-responsive" alt=""></a>
-                        </div>
+                        
+
+                        @foreach( var item in listaDestacados  ){
+                            <div class="item active">
+                                <a href="@Url.Action("ViewEvent","Event")"><img src=@item.urlDestacado height="200" width="1200" class="img-responsive" alt=@item.nombre></a>
+                            </div>
+                        }
+
+
+
                     </div>
                     <!--Controles-->
                     <a href="#carousel-1" class="left carousel-control" role="button" data-slide="prev">

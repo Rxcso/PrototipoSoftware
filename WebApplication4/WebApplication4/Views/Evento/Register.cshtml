@@ -1,4 +1,9 @@
-﻿@{
+﻿@using Microsoft.AspNet.Identity;
+@using WebApplication4.Models;
+
+@model EventoModel
+
+@{
     ViewBag.Title = "Register";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
 }
@@ -18,9 +23,11 @@
     </div><br>
 
 
-    @using (Html.BeginForm("Register", "Evento", FormMethod.Post, new { }))
-    {
-    <!--DECLARAMOS EL TABS Y LA CANTIDAD DE PESTAÑAS QUE TENDRA -->
+    <form action="" method="post" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true);
+
+        <!--DECLARAMOS EL TABS Y LA CANTIDAD DE PESTAÑAS QUE TENDRA -->
         <ul class="nav nav-tabs">
             <li id="tab_1" class="active"><a href="#generales" data-toggle="tab">Datos Generales</a></li>
             <li id="tab_2"><a href="#bloques_tiempo" data-toggle="tab">Bloques de tiempo de venta</a></li>
@@ -30,23 +37,24 @@
         </ul>
 
 
-    <!--INTRODUCIMOS EL CONTIDO QUE TENDRA CADA PESTAÑA -->
+        <!--INTRODUCIMOS EL CONTIDO QUE TENDRA CADA PESTAÑA -->
         <div class="tab-content">
             <!--PRIMERA PESTAÑA-->
             <div class="tab-pane active  fade in  container" id="generales">
                 <br>
-                <form action="" class="form-horizontal">
+                <div class="form-horizontal">
                     <div class="form-group">
-                        <label for="nombre" class="control-label col-md-2">Nombre:</label>
-                        <div class="col-md-10">
-                            <input type="text" class="form-control" id="nombre" placeholder="Nombre del evento">
+                        @Html.LabelFor(m => m.nombre, new { @class="control-label col-md-2"})
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(m => m.nombre, new { @class="form-control"})
+                            @Html.ValidationMessageFor(model => model.nombre)
                         </div>
                     </div><br><br>
                     <div class="form-group">
                         <label for="organizador" class="control-label col-md-2">Organizador:</label>
                         <div class="col-md-10">
                             <div class="input-group">
-                                <input type="text" class="form-control" disabled>
+                                <input type="text" class="form-control" disabled id="organizadorNombre">
                                 <span class="input-group-btn"><a href="#modalBuscarOrganizador" class="btn btn-primary" data-toggle="modal" type="button">Buscar <span class="glyphicon glyphicon-search"></span></a></span>
                             </div>
 
@@ -83,8 +91,8 @@
                         <label for="organizador" class="control-label col-md-2">Local:</label>
                         <div class="col-md-10">
                             <div class="input-group">
-                                <input type="text" class="form-control" disabled>
-                                <span class="input-group-btn"><a href="#modalBuscarOrganizador" class="btn btn-primary" data-toggle="modal" type="button">Buscar <span class="glyphicon glyphicon-search"></span></a></span>
+                                <input type="text" class="form-control" disabled id="localNombre">
+                                <span class="input-group-btn"><a href="#modalBuscarLocal" class="btn btn-primary" data-toggle="modal" type="button">Buscar <span class="glyphicon glyphicon-search"></span></a></span>
                             </div>
 
                         </div>
@@ -100,8 +108,8 @@
                         <div class="col-md-4">
                             <select class="form-control" name="" id="departamento" onchange="hola">
                                 @{
-        var db = new WebApplication4.Models.inf245netsoft();
-        List<WebApplication4.Models.Region> list = db.Region.Where(c => c.idRegPadre == null).ToList();
+                                    var db = new WebApplication4.Models.inf245netsoft();
+                                    List<WebApplication4.Models.Region> list = db.Region.Where(c => c.idRegPadre == null).ToList();
                                 }
                                 <option value="0">Seleccione</option>
                                 @foreach (var reg in list)
@@ -121,7 +129,7 @@
                             <textarea class="form-control " rows="8" id="descripcion"></textarea>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
             <!--SEGUNDA PESTAÑA-->
             <div class="tab-pane fade in container" id="bloques_tiempo">
@@ -303,25 +311,36 @@
                     </div>
                     <div class="row">
                         <div class="form-group">
-                            <label for="nombre" class="control-label col-md-2">Ruta imagen principal del evento: </label>
+                            @Html.LabelFor(m => m.ImageEvento)
+                             <div class="col-md-6">
+                                @Html.TextBoxFor(m => m.ImageEvento, new { type = "file" })
+                                @Html.ValidationMessageFor(model => model.ImageEvento)
+                             </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.ImageDestacado)
                             <div class="col-md-6">
-                                <input type="text" class="form-control">
+                                @Html.TextBoxFor(m => m.ImageDestacado, new { type = "file" })
+                                @Html.ValidationMessageFor(model => model.ImageDestacado)
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group">
-                            <label for="nombre" class="control-label col-md-2">Ruta imagen evento destacado: </label>
+                            @Html.LabelFor(m => m.ImageSitios)
                             <div class="col-md-6">
-                                <input type="text" class="form-control">
+                                @Html.TextBoxFor(m => m.ImageSitios, new { type = "file" })
+                                @Html.ValidationMessageFor(model => model.ImageSitios)
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4 col-md-offset-2">
-                            <div class="checkbox">
-                                <label><input type="checkbox" value="">Destacado</label>
-                            </div>
+                            @Html.LabelFor(m => m.EsDestacado)
+                            @Html.EditorFor(m => m.EsDestacado)
                             <div class="checkbox">
                                 <label><input type="checkbox" value="">Permitir reservas vía web</label>
                             </div>
@@ -332,13 +351,58 @@
                     </div>
                     <div class="row">
                         <div class="col-md-2 col-md-offset-5">
-                            <button class="btn btn-primary">Registrar evento</button>
+                            <button type="submit" class="btn btn-primary">Registrar Evento</button>    
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    }
+        </form>
+
+    <!--ventana de buscar local-->
+    <div class="modal fade" id="modalBuscarLocal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!--ACA VA EL CONTENIDO DEL MODAL-->
+                <!--contenido de la ventana-->
+                <div class="modal-body">
+                    <form action="" class="form-horizontal">
+                        <div class="form-group">
+                            @{
+                                List<Local> localList = db.Local.ToList();
+                            }
+                            Seleccione un Local:
+                            <table class="table table-bordered table-hover" id="tablita">
+                                <thsead>
+                                    <tr class="thead">
+                                        <th>Id</th>
+                                        <th>Aforo</th>
+                                        <th>Ubicacion</th>
+                                        <th>Seleccionar</th>
+                                    </tr>
+                                </thsead>
+                                <tbody>
+                                    @foreach (var local in localList)
+                                    {
+                                        <tr>
+                                            <td>@local.codLocal</td>
+                                            <td>@local.aforo</td>
+                                            <td>@local.ubicacion</td>
+                                            <td><input type="radio" name="groupL" value="@local.ubicacion"></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+                <!--footer de la ventana-->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="llenaLocal()"><span class="glyphicon glyphicon-ok"></span> Seleccionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!--ventana de buscar organizador-->
     <div class="modal fade" id="modalBuscarOrganizador">
@@ -349,15 +413,49 @@
                 <div class="modal-body">
                     <form action="" class="form-horizontal">
                         <div class="form-group">
-                            xdxx
+                            @{
+                                List<Organizador> orgList = db.Organizador.Where(c => c.estadoOrg == "Activo").ToList();
+                            }
+                            <table class="table table-bordered table-hover" id="tablita">
+                                <thsead>
+                                    <tr class="thead">
+                                        <th>Id</th>
+                                        <th>Nombre</th>
+                                        <th>Seleccionar</th>
+                                    </tr>
+                                </thsead>
+                                <tbody>
+                                    @foreach (var org in orgList)
+                                    {
+                                        <tr>
+                                            <td>@org.codOrg</td>
+                                            <td>@org.nombOrg</td>
+                                            <td><input type="radio" name="groupO" value="@org.nombOrg"></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
                         </div>
                     </form>
                 </div>
                 <!--footer de la ventana-->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Seleccionar</button>
+                    <button type="button" class="btn btn-primary" onclick="llenaOrg()"><span class="glyphicon glyphicon-ok"></span> Seleccionar</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        function llenaOrg() {
+            var nomb = $('input[name="groupO"]:checked').val();
+            $("#organizadorNombre").val(nomb);
+            $('#modalBuscarOrganizador').modal('hide');
+        }
+        function llenaLocal() {
+            var nomb = $('input[name="groupL"]:checked').val();
+            $("#localNombre").val(nomb);
+            $('#modalBuscarLocal').modal('hide');
+        }
+    </script>
 </div>
