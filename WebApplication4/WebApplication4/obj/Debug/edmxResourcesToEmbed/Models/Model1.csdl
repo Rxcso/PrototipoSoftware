@@ -22,6 +22,7 @@
     <Property Name="codPerfil" Type="Int32" Nullable="false" />
     <NavigationProperty Name="RegaloXCuenta" Relationship="inf245netsoftModel.FK__RegaloXCu__usuar__4BAC3F29" FromRole="CuentaUsuario" ToRole="RegaloXCuenta" />
     <NavigationProperty Name="Turno" Relationship="inf245netsoftModel.R_26" FromRole="CuentaUsuario" ToRole="Turno" />
+    <NavigationProperty Name="Categoria" Relationship="inf245netsoftModel.CategoriasXUsuario" FromRole="CuentaUsuario" ToRole="Categoria" />
   </EntityType>
   <EntityContainer Name="inf245netsoft" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="CuentaUsuario" EntityType="Self.CuentaUsuario" />
@@ -86,6 +87,33 @@
     <AssociationSet Name="fk_EventoOrg" Association="inf245netsoftModel.fk_EventoOrg">
       <End Role="Organizador" EntitySet="Organizador" />
       <End Role="Eventos" EntitySet="Eventos" />
+    </AssociationSet>
+    <EntitySet Name="C__MigrationHistory" EntityType="inf245netsoftModel.C__MigrationHistory" />
+    <EntitySet Name="AspNetRoles" EntityType="inf245netsoftModel.AspNetRoles" />
+    <EntitySet Name="AspNetUserClaims" EntityType="inf245netsoftModel.AspNetUserClaims" />
+    <EntitySet Name="AspNetUserLogins" EntityType="inf245netsoftModel.AspNetUserLogins" />
+    <EntitySet Name="AspNetUsers" EntityType="inf245netsoftModel.AspNetUsers" />
+    <EntitySet Name="EventosPrueba" EntityType="inf245netsoftModel.EventosPrueba" />
+    <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="inf245netsoftModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="inf245netsoftModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+    </AssociationSet>
+    <AssociationSet Name="AspNetUserRoles" Association="inf245netsoftModel.AspNetUserRoles">
+      <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+      <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+    </AssociationSet>
+    <EntitySet Name="Categoria" EntityType="inf245netsoftModel.Categoria" />
+    <AssociationSet Name="R_73" Association="inf245netsoftModel.R_73">
+      <End Role="Categoria" EntitySet="Categoria" />
+      <End Role="Categoria1" EntitySet="Categoria" />
+    </AssociationSet>
+    <AssociationSet Name="CategoriasXUsuario" Association="inf245netsoftModel.CategoriasXUsuario">
+      <End Role="Categoria" EntitySet="Categoria" />
+      <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Perfiles">
@@ -407,5 +435,162 @@
         <PropertyRef Name="idOrganizador" />
       </Dependent>
     </ReferentialConstraint>
+  </Association>
+  <EntityType Name="C__MigrationHistory">
+    <Key>
+      <PropertyRef Name="MigrationId" />
+      <PropertyRef Name="ContextKey" />
+    </Key>
+    <Property Name="MigrationId" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="ContextKey" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="Model" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+    <Property Name="ProductVersion" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="AspNetRoles">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUsers" Relationship="inf245netsoftModel.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="AspNetUserClaims">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUsers" Relationship="inf245netsoftModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="AspNetUserLogins">
+    <Key>
+      <PropertyRef Name="LoginProvider" />
+      <PropertyRef Name="ProviderKey" />
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUsers" Relationship="inf245netsoftModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
+  </EntityType>
+  <EntityType Name="AspNetUsers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+    <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+    <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUserClaims" Relationship="inf245netsoftModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
+    <NavigationProperty Name="AspNetUserLogins" Relationship="inf245netsoftModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
+    <NavigationProperty Name="AspNetRoles" Relationship="inf245netsoftModel.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+  </EntityType>
+  <EntityType Name="EventosPrueba">
+    <Key>
+      <PropertyRef Name="codEvento" />
+    </Key>
+    <Property Name="codEvento" Type="Int32" Nullable="false" />
+    <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="fechaFin" Type="DateTime" Precision="3" />
+    <Property Name="estado" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="fechaInicio" Type="DateTime" Precision="3" />
+    <Property Name="mAdeudado" Type="Double" />
+    <Property Name="mTransferir" Type="Double" />
+    <Property Name="lugar" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="penCan" Type="Double" />
+    <Property Name="penPost" Type="Double" />
+    <Property Name="comision" Type="Double" />
+    <Property Name="esRecurrente" Type="Boolean" />
+    <Property Name="destacado" Type="Int32" />
+    <Property Name="fechDev" Type="DateTime" Precision="3" />
+    <Property Name="esImpri" Type="Boolean" />
+    <Property Name="esReser" Type="Boolean" />
+    <Property Name="maxReserva" Type="Int32" />
+    <Property Name="limReserva" Type="DateTime" Precision="3" />
+    <Property Name="codOrg" Type="Int32" />
+    <Property Name="codPromotor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="idRegion" Type="Int32" />
+    <Property Name="idProvincia" Type="Int32" />
+    <Property Name="necDoc" Type="Boolean" />
+    <Property Name="codLocal" Type="Int32" />
+    <Property Name="idCategoria" Type="Int32" />
+    <Property Name="cantPuntos" Type="Int32" />
+    <Property Name="urlDestacado" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="urlImagen" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="urlDistribucion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="codPreferencia" Type="Int32" />
+  </EntityType>
+  <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+    <End Type="inf245netsoftModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="inf245netsoftModel.AspNetUserClaims" Role="AspNetUserClaims" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserClaims">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+    <End Type="inf245netsoftModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="inf245netsoftModel.AspNetUserLogins" Role="AspNetUserLogins" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUsers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserLogins">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AspNetUserRoles">
+    <End Type="inf245netsoftModel.AspNetRoles" Role="AspNetRoles" Multiplicity="*" />
+    <End Type="inf245netsoftModel.AspNetUsers" Role="AspNetUsers" Multiplicity="*" />
+  </Association>
+  <EntityType Name="Categoria">
+    <Key>
+      <PropertyRef Name="idCategoria" />
+    </Key>
+    <Property Name="idCategoria" Type="Int32" Nullable="false" />
+    <Property Name="idCatPadre" Type="Int32" />
+    <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="nivel" Type="Int32" />
+    <Property Name="activo" Type="Int32" />
+    <NavigationProperty Name="Categoria1" Relationship="inf245netsoftModel.R_73" FromRole="Categoria" ToRole="Categoria1" />
+    <NavigationProperty Name="Categoria2" Relationship="inf245netsoftModel.R_73" FromRole="Categoria1" ToRole="Categoria" />
+    <NavigationProperty Name="CuentaUsuario" Relationship="inf245netsoftModel.CategoriasXUsuario" FromRole="Categoria" ToRole="CuentaUsuario" />
+  </EntityType>
+  <Association Name="R_73">
+    <End Type="inf245netsoftModel.Categoria" Role="Categoria" Multiplicity="0..1" />
+    <End Type="inf245netsoftModel.Categoria" Role="Categoria1" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Categoria">
+        <PropertyRef Name="idCategoria" />
+      </Principal>
+      <Dependent Role="Categoria1">
+        <PropertyRef Name="idCatPadre" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CategoriasXUsuario">
+    <End Type="inf245netsoftModel.Categoria" Role="Categoria" Multiplicity="*" />
+    <End Type="inf245netsoftModel.CuentaUsuario" Role="CuentaUsuario" Multiplicity="*" />
   </Association>
 </Schema>

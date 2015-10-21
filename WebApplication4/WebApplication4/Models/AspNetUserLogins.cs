@@ -15,34 +15,18 @@ namespace WebApplication4.Models
 using System;
     using System.Collections.Generic;
     
-public partial class Organizador
+public partial class AspNetUserLogins
 {
 
-    public Organizador()
-    {
+    public string LoginProvider { get; set; }
 
-        this.Eventos = new HashSet<Eventos>();
+    public string ProviderKey { get; set; }
 
-    }
-
-
-    public int codOrg { get; set; }
-
-    public string nombOrg { get; set; }
-
-    public Nullable<int> tipoDoc { get; set; }
-
-    public string codDoc { get; set; }
-
-    public string estadoOrg { get; set; }
-
-    public string correo { get; set; }
-
-    public string telefOrg { get; set; }
+    public string UserId { get; set; }
 
 
 
-    public virtual ICollection<Eventos> Eventos { get; set; }
+    public virtual AspNetUsers AspNetUsers { get; set; }
 
 }
 
