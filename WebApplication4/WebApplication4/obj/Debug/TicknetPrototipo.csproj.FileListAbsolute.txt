@@ -834,3 +834,6 @@ F:\down\Ingenieria de software\pruebas\PrototipoSoftware2\WebApplication4\WebApp
 C:\temp\PrototipoSoftware\WebApplication4\WebApplication4\bin\itextsharp.dll
 C:\temp\PrototipoSoftware\WebApplication4\WebApplication4\bin\itextsharp.xml
 C:\temp\PrototipoSoftware\WebApplication4\WebApplication4\obj\Debug\TicknetPrototipo.csprojResolveAssemblyReference.cache
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\itextsharp.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\itextsharp.xml
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\obj\Debug\TicknetPrototipo.csprojResolveAssemblyReference.cache

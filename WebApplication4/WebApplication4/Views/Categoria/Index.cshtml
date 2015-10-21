@@ -24,7 +24,7 @@
             </div>
         </div>
         <div class="col-md-1">
-            <a class="btn btn-danger" href="index2.html">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+            <a class="btn btn-danger" href="@Url.Action("Index2", "Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
         </div>
     </div>
     <div class="row">
@@ -35,79 +35,7 @@
                 <th>Descripción</th>
                 <th>Id Padre</th>
                 <th>Estado</th>
-            </tr>
-            <tr>
-                <td>01</td>
-                <td>Evento</td>
-                <td>Descripción 1</td>
-                <td> </td>
-                <td>Activo</td>
-            </tr>
-            <tr>
-                <td>02</td>
-                <td>Cine</td>
-                <td>Descripción 2</td>
-                <td> </td>
-                <td>Activo</td>
-            </tr>
-            <tr id="fila3" onclick="select()">
-                <td>03</td>
-                <td id="fila3Nomb">Teatro</td>
-                <td id="fila3Desc">Descripción 3</td>
-                <td id="filaPadre"></td>
-                <td>Activo</td>
-            </tr>
-            <tr>
-                <td>04</td>
-                <td>Actividad</td>
-                <td>Descripción 4</td>
-                <td> </td>
-                <td>Activo</td>
-            </tr>
-
-            <tr>
-                <td>05</td>
-                <td>Concierto</td>
-                <td>Descripción 5</td>
-                <td> 1</td>
-                <td>Activo</td>
-            </tr>
-            <tr>
-                <td>06</td>
-                <td>Musical</td>
-                <td>Descripción 6</td>
-                <td> 1</td>
-                <td>Activo</td>
-            </tr>
-            <tr>
-                <td>07</td>
-                <td>Comedia</td>
-                <td>Descripción 7</td>
-                <td> 4</td>
-                <td>Activo</td>
-            </tr>
-            <tr id="fila4" onclick="select2()">
-                <td>08</td>
-                <td id="fila4Nomb">Horror</td>
-                <td id="fila4Desc">Descripción 8</td>
-                <td> 2</td>
-                <td>Activo</td>
-            </tr>
-            <tr>
-                <td>09</td>
-                <td>Drama</td>
-                <td>Descripción 9</td>
-                <td> 3</td>
-                <td>Activo</td>
-            </tr>
-
-            <tr id="filaAgregada" style="visibility:hidden" onclick="select11()">
-                <td>10</td>
-                <td id="nomb">a</td>
-                <td id="dir">b</td>
-                <td id="idP"></td>
-                <td>Activo</td>
-            </tr>
+            </tr>            
         </table>
     </div>
 </div>
