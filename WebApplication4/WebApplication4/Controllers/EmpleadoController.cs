@@ -23,8 +23,10 @@ namespace WebApplication4.Controllers
 
         public ActionResult Delete(string usuario)
         {
-            CuentaUsuario cuenta = db.CuentaUsuario.AsNoTracking().Where(c => c.codDoc == usuario).ToList().First();
+            //CuentaUsuario cuenta = db.CuentaUsuario.AsNoTracking().Where(c => c.codDoc == usuario).ToList().First();
             //db.Regalo.Remove(regalo);
+            string usuario2 = usuario.Replace("°", "@");
+            CuentaUsuario cuenta = db.CuentaUsuario.Find(usuario2);
             db.Entry(cuenta).State = EntityState.Modified;
             cuenta.estado = false;
             db.SaveChanges();
@@ -34,8 +36,9 @@ namespace WebApplication4.Controllers
 
         public ActionResult Edit(string usuario)
         {
-            ViewBag.id = usuario;
-            TempData["codigoE"] = usuario;
+            string usuario2 = usuario.Replace("°", "@");
+            ViewBag.id = usuario2;
+            TempData["codigoE"] = usuario2;
             return View("Edit");
         }
 
@@ -47,7 +50,8 @@ namespace WebApplication4.Controllers
             {
                 var o = ViewBag.id;
                 string usuario = Convert.ToString(TempData["codigoE"]);
-                CuentaUsuario cuenta = db.CuentaUsuario.AsNoTracking().Where(c => c.codDoc == usuario).ToList().First();
+                CuentaUsuario cuenta = db.CuentaUsuario.Find(usuario);
+                //CuentaUsuario cuenta = db.CuentaUsuario.AsNoTracking().Where(c => c.codDoc == usuario).ToList().First();
                 db.Entry(cuenta).State = EntityState.Modified;
                 cuenta.correo = model.Email;
                 cuenta.nombre = model.nombre;

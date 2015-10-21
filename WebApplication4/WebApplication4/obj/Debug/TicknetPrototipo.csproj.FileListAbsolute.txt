@@ -830,3 +830,5 @@ C:\temp\PrototipoSoftware\WebApplication4\WebApplication4\bin\Microsoft.Owin.Sec
 C:\temp\PrototipoSoftware\WebApplication4\WebApplication4\obj\Debug\TicknetPrototipo.csprojResolveAssemblyReference.cache
 C:\temp\PrototipoSoftware\WebApplication4\WebApplication4\obj\Debug\WebApplication4.dll
 C:\temp\PrototipoSoftware\WebApplication4\WebApplication4\obj\Debug\WebApplication4.pdb
+F:\down\Ingenieria de software\pruebas\PrototipoSoftware2\WebApplication4\WebApplication4\bin\itextsharp.dll
+F:\down\Ingenieria de software\pruebas\PrototipoSoftware2\WebApplication4\WebApplication4\bin\itextsharp.xml
