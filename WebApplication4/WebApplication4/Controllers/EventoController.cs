@@ -22,40 +22,23 @@ namespace WebApplication4.Controllers
             List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
             List<Region> listProv = new List<Region>();
             ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
-            ViewBag.ProvID = new SelectList(listProv, "idRegion", "nombre");
+            ViewBag.ProvID = new SelectList(listProv, "idProv", "nombre");
             return View();
         }
 
-        public ActionResult Provincia()
-        {
-            return View();
-        }
+
         [HttpGet]
-        public JsonResult ListaProvincias(string depid = "")
+        [AllowAnonymous]
+        public ActionResult VerEvento(int id)
         {
-            List<Region> list = new List<Region>();
-            int ID = 0;
-            if (int.TryParse(depid, out ID))
-            {
-                list = db.Region.Where(c => c.idRegPadre == ID).OrderBy(c => c.nombre).ToList();
-            }
-            if (Request.IsAjaxRequest())
-            {
-                return new JsonResult
-                {
-                    Data = list,
-                    JsonRequestBehavior = JsonRequestBehavior.AllowGet
-                };
-            }
-            else
-            {
-                return new JsonResult
-                {
-                    Data = "No se encontraron provincias",
-                    JsonRequestBehavior = JsonRequestBehavior.AllowGet
-                };
-            }
+
+            var evento = db.Eventos.Find(id);
+            if (evento== null) return Redirect("~/Home/Index");
+            var model = EventoModel.getEvento( evento );
+            return View(model); 
         }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         //[Authorize]

@@ -1,0 +1,181 @@
+﻿
+@{
+    ViewBag.Title = "Ver Evento";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<!DOCTYPE html>
+<html lang="es">
+
+    <div class="container-fluid">
+        <ol class="breadcrumb">
+            <li><a href="index1.html">Inicio</a></li>
+            <li class="active">Evento xxx</li>
+        </ol>
+    </div>
+    <div class="container ">
+        <!--la parte importante-->
+        <div id="contenido" class="col-md-8 borde">
+            <div id="detalles" class="row">
+                <div class="col-md-3">
+                    <div id="fila" class="row">
+                        <div class="thumbnail">
+                            <img class="event" src="http://lorempixel.com/400/250/nightlife/" alt="">
+                            <div class="caption" style="text-align:left">
+                                <h4>NOMBRE DEL EVENTO QUE PUEDE SER MUY LARGO PERO ESPERO QUE NO</h4>
+                                <p><strong><u>Fechas:</u></strong> Del 12 al 15 de Septiembre</p>
+                                <p><strong><u>Dirección:</u></strong> Av. Los geranios 3023, VMT, Lima. Referencia: a costado del cine El ciego optimista, frente a la cabaña de la sra Ramona</p>
+                                <p><strong><u>Región:</u></strong> Lima</p>
+                                <p><strong><u>Ofertas:</u></strong> 20% dcto. con tarjeta VISA</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-9">
+                    <div id="fila" class="row">
+                        <div class="thumbnail" style="text-align:justify">
+                            <p><strong><u>Tipo:</u></strong> Evento</p>
+                            <p><strong><u>Categoría:</u></strong> Entretenimiento</p>
+                            <p><strong><u>Descripción:</u></strong></p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Porro nostrum aspernatur, nisi esse inventore. Nobis reprehenderit voluptates facilis unde adipisci dolorum ratione natus laboriosam beatae, at, nesciunt ut odit alias. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus veniam iusto excepturi necessitatibus libero, deserunt corporis repudiandae aliquid suscipit, eius quibusdam, dolorem a fuga, assumenda dicta. Fugit ex quasi nesciunt! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi animi quisquam iusto sit fuga maiores doloremque ipsam magnam necessitatibus culpa consequuntur, corporis voluptatum sunt laborum, corrupti earum aliquid, in error!  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipique consectetur quidem ea laboriosam aperiam quia deleniti nihil placeat officia? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere nobis vero nihil praesentium quis minima, aperiam, illo fugiat totam. Eius excepturi similique deleniti eligendi, nisi fugiat quos quo deserunt ad! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam possimus saepe eos inventore culpa esse, nihil atque ratione dolore voluptate eaque tempore doloribus porro non velit provident officia officiis voluptates odit eveniet ipsam commodi. Nam numquam officia sint sit ipsa quas placeat repellendus vero voluptatibus, nihil similique neque voluptatum voluptate quibusdam quaerat cum ratione delectus enim tenetur recusandae consequatur quisquam praesentium excepturi. Fugiat omnis, repellat, repellendus nihil iure aliquam cumque temporibus molestiae dicta dolore magnam. Sunt sit quos, necessitatibus dolores cum ullam nostrum tempora beatae, nobis atque quibusdam dignissimos quia officiis fugit eaque nisi, dolor saepe sed! Repellat, illum, Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat labore excepturi pariatur temporibus aliquam unde ut similique cumque odio iusto molestias, ea optio voluptatem minima autem aperiam. Quo dignissimos enim tenetur, in amet nobis ad alias expedita repellendus adipisci eius iure odio modi natus. Laboriosam dolores impedit accusantium saepe ducimus consequatur eum soluta error eveniet illo quia, nisi, omnis vitae qui doloribus temporibus cupiditate assumenda explicabo. Quae quod rem voluptates eligendi error ut reprehenderit ab esse, iure neque soluta aperiam corporis molestiae, dolorem modi a deleniti voluptatem inventore dolor quo eos odio quisquam. Asperiores tempore sequi fugit accusamus distinctio, quaerat! accusamus.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="zonas" class="row">
+                <div class="thumbnail">
+                    <div class="container-fluid">
+                        <h4><u>Distribución de zonas</u></h4>
+                        <img class="event" src="images/zonass.jpg" alt="zonas de evento xxx">
+                    </div>
+                </div>
+            </div>
+            <div id="tarifas" class="row">
+                <div class="thumbnail">
+                    <div class="container-fluid">
+                        <h4><u>Selección de boletos/asientos</u></h4>
+                        <div id="canvas" class="col-md-12">
+                        </div>
+                        <div id="aux" class="col-md-12">
+                        </div>
+                    </div>
+
+                    <br>
+                    <div class="caption" style="text-align:justify">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        Función:
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="date" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        Hora:
+                                    </div>
+                                    <div class="col-md-6">
+                                        <select name="" class="form-control">
+                                            <option value="">Seleccione</option>
+                                            <option value="">4:00 pm</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        Zona/Tarifa:
+                                    </div>
+                                    <div class="col-md-6">
+                                        <select name="" class="form-control">
+                                            <option value="">Seleccione</option>
+                                            <option value="">GENERAL A - S/.50</option>
+                                            <option value="">GENERAL B - S/.50</option>
+                                            <option value="">GENERAL C - S/.50</option>
+                                            <option value="">VIP A - S/.200</option>
+                                            <option value="">VIP B - S/.200</option>
+                                            <option value="">VIP C - S/.150</option>
+                                            <option value="">VIP D - S/.150</option>
+                                            <option value="">VIP E - S/.150</option>
+                                            <option value="">PREFERENCIAL A - S/.80</option>
+                                            <option value="">PREFERENCIAL B - S/.80</option>
+                                            <option value="">PREFERENCIAL C - S/.70</option>
+                                            <option value="">PREFERENCIAL D - S/.70</option>
+                                            <option value="">MOMENTOS CREDOMATIC - S/.300</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        Cantidad de entradas:
+                                    </div>
+                                    <div class="col-md-6">
+                                        <select name="" class="form-control">
+                                            <option value="">Seleccione</option>
+                                            <option value="">1</option>
+                                            <option value="">2</option>
+                                            <option value="">3</option>
+                                            <option value="">4</option>
+                                            <option value="">5</option>
+                                            <option value="">6</option>
+                                            <option value="">7</option>
+                                            <option value="">8</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <br>
+                                    <div class="col-md-6">
+                                        <a href="mi_carrito_compras.html" class="btn btn-success pull-right ">Agregar al carrito <span class="glyphicon glyphicon-shopping-cart"></span></a>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a onclick="reservaExitosa()" href="buscar_reserva(cliente).html" class="btn btn-primary pull-right ">Reservar <span class="glyphicon glyphicon-save"></span></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <div id="comentarios" class="row">
+                <div class="thumbnail">
+                    <div class="caption" style="text-align:justify">
+                        <div class="container-fluid">
+                            <h4><u>Comentarios</u></h4>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-10 col-md-offset-1">
+                                <textarea class="form-control " rows="1" id="comentario" placeholder="Escribe un comentario de este evento"></textarea>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--LOS EVENTOS DESTACADOS-->
+
+    </div>
+    <script>
+        function reservaExitosa() {
+            alert("Reserva exitosa, tiene hasta el final del día para pagarla");
+        }
+    </script>
+
+    <!--librerias-->
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</body>
+</html>
+
