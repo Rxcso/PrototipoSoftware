@@ -112,6 +112,8 @@
     function borrar() {
         var evento = $('#eventoP').val();
         var promocion = $('#idPromocionT').val();
+        var el = document.getElementById(promocion);
+        var row = $(el).closest('tr');
         //alert(evento);
         //alert(promocion);
         $.ajax({
@@ -119,6 +121,7 @@
             data: { evento: evento, promocion:promocion },
         success: function (data) {
             alert("Eliminado");
+            row.remove();
         },
         error: function () {
             alert("Error :(");
