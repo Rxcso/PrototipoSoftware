@@ -72,7 +72,7 @@
                         <td>@row.descripcion</td>
                         <td>@row.fechaIni</td>
                         <td>@row.fechaFin</td>
-                        <td><a href="@Url.Action("Delete", "Promocion", new { id = row.codPromo, ide = row.codEvento })" class="btn btn-primary">Dar de Baja <span class="glyphicon glyphicon-remove"></span></a></td>
+                        <td><a href="@Url.Action("Delete2", "Promocion", new { id = row.codPromo, ide = row.codEvento })" class="btn btn-primary">Dar de Baja <span class="glyphicon glyphicon-remove"></span></a></td>
                     </tr>
                 }
             </tbody>
@@ -80,7 +80,7 @@
     </div>
 </div>
 
-
+<input type="hidden" id="idPromocionT" value="" />
 <script>
     function myFunction(x) {
         if (document.getElementsByClassName("trselected").length > 0) {
