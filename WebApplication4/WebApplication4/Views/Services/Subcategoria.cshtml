@@ -1,0 +1,9 @@
+﻿@{
+    Layout = null;
+    var db = new WebApplication4.Models.inf245netsoft();
+    int catId = int.Parse(Request["catId"]);
+    var data = from obj in db.Categoria
+               where obj.idCatPadre == catId && obj.activo == 1 && obj.nivel == 2
+               select new { IdSCategoria = obj.idCatPadre, Nombre = obj.nombre };
+    Json.Write(data, Response.Output);
+}

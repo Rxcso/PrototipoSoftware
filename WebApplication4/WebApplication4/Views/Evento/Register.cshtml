@@ -61,30 +61,15 @@
                         </div>
                     </div><br><br>
                     <div class="form-group">
-                        <label for="organizador" class="control-label col-md-2">Tipo:</label>
+                        @Html.LabelFor(c => c.idCategoria, new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            <select class="form-control" name="" id="">
-                                <option value="">Seleccione</option>
-                                <option value="">Evento</option>
-                                <option value="">Cine</option>
-                                <option value="">Teatro</option>
-                                <option value="">Actividad</option>
-                            </select>
-
+                            @Html.DropDownListFor(c => c.idCategoria, @ViewBag.CatID as SelectList, "Categoria", new { @class = "form-control", @onchange = "cambioCategoria()" })
                         </div>
                     </div><br><br>
                     <div class="form-group">
-                        <label for="organizador" class="control-label col-md-2">Categoría:</label>
+                        @Html.LabelFor(c => c.idSubCat, new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            <select class="form-control" name="" id="">
-                                <option value="">Seleccione</option>
-                                <option value="">Comedia</option>
-                                <option value="">Musical</option>
-                                <option value="">Concierto</option>
-                                <option value="">Dinosaurios</option>
-                                <option value="">Ingeniería</option>
-                            </select>
-
+                            @Html.DropDownListFor(c => c.idSubCat, @ViewBag.SubID as SelectList, "Subcategoria", new { @class = "form-control" })
                         </div>
                     </div><br><br>
                     <div class="form-group">
@@ -105,13 +90,13 @@
                         </div>
                     </div><br><br>
                     <div class="form-group">
+                        @Html.LabelFor(model => model.idRegion, new { @class = "control-label col-md-2" })
                         <div class="col-md-4">
-                            @Html.LabelFor(model => model.idRegion)
-                            @Html.DropDownListFor(model => model.idRegion, @ViewBag.DepID as SelectList, "Departamento", new { @class  = "form-control",@onchange = "cambio()" })
+                            @Html.DropDownListFor(model => model.idRegion, @ViewBag.DepID as SelectList, "Departamento", new { @class = "form-control", @onchange = "cambioDepartamento()" })
                         </div>
+                        @Html.LabelFor(model => model.idProv, new { @class = "control-label col-md-2" })
                         <div class="col-md-4">
-                            @Html.LabelFor(model => model.idProv)
-                            @Html.DropDownListFor(model => model.idProv, @ViewBag.ProvID as SelectList, "Provincia", new {@class ="form-control"})
+                            @Html.DropDownListFor(model => model.idProv, @ViewBag.ProvID as SelectList, "Provincia", new { @class = "form-control" })
                         </div>
                     </div><br><br>
                     <div class="form-group">
@@ -121,7 +106,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div><br /><br />
             <!--SEGUNDA PESTAÑA-->
             <div class="tab-pane fade in container" id="bloques_tiempo">
                 <br>
@@ -323,7 +308,7 @@
                         <div class="form-group">
                             @Html.LabelFor(m => m.ImageSitios)
                             <div class="col-md-6">
-                                @Html.TextBoxFor(m => m.ImageSitios, new { type = "file" ,@class="form-control" })
+                                @Html.TextBoxFor(m => m.ImageSitios, new { type = "file", @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.ImageSitios)
                             </div>
                         </div>
@@ -436,12 +421,12 @@
     </div>
 
     <script>
-        function cambio() {
+        function cambioDepartamento() {
             var depId = parseInt($("#idRegion").val());
             if (!isNaN(depId)) {
                 var ddProv = $("#idProv");
                 ddProv.empty();
-                //ddProv.append($("<option></option>").val("").html("--Provincia--"));
+                ddProv.append($("<option></option>").val("").html("Provincia"));
                 $.ajax({
                     url: "@Url.Action("Provincia","Services")",
                     data: { depId: depId },
@@ -450,6 +435,28 @@
                         var obj = $.parseJSON(data);
                         $.each(obj, function (k, v) {
                             ddProv.append($("<option></option>").val(v.IdRegion).html(v.Nombre));
+                        });
+                    },
+                    error: function () {
+                        alert("Error :(");
+                    }
+                });
+            }
+        }
+        function cambioCategoria() {
+            var catId = parseInt($("#idCategoria").val());
+            if (!isNaN(catId)) {
+                var ddProv = $("#idSubCat");
+                ddProv.empty();
+                ddProv.append($("<option></option>").val("").html("Subcategoria"));
+                $.ajax({
+                    url: "@Url.Action("Subcategoria","Services")",
+                    data: { catId: catId },
+                    datatype: "json",
+                    success: function (data) {
+                        var obj = $.parseJSON(data);
+                        $.each(obj, function (k, v) {
+                            ddProv.append($("<option></option>").val(v.IdSCategoria).html(v.Nombre));
                         });
                     },
                     error: function () {
@@ -468,6 +475,6 @@
             $("#localNombre").val(nomb);
             $('#modalBuscarLocal').modal('hide');
         }
-        
+
     </script>
 </div>
