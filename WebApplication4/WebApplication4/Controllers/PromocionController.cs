@@ -26,8 +26,9 @@ namespace WebApplication4.Controllers
                 TempData["nombreEvento"] = queryEvento.nombre;
                 ViewBag.nombreEvento = queryEvento.nombre;
                 ViewBag.idEvento = evento;
+                return View();
             }
-            return View();
+            return RedirectToAction("Index", "Evento");
         }
 
         // GET: /Account/Register
@@ -119,7 +120,7 @@ namespace WebApplication4.Controllers
             //db.Entry(prom).State = EntityState.Modified;
             //prom.estado = false;
             db.SaveChanges();
-            //return RedirectToAction("Index", "Evento");
+            //return RedirectToAction("Index", "Promocion");
             return View("Index");
         }
 
