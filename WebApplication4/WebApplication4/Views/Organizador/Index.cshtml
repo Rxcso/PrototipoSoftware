@@ -29,6 +29,9 @@
                     <a class="btn btn-primary" href="#formNuevo" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
                     <a class="btn btn-primary" data-toggle="modal" onclick="redirige()">Modificar<span class="glyphicon glyphicon-pencil"></span></a>
                     <a class="btn btn-primary" href="#eliminar" data-toggle="modal">Borrar<span class="glyphicon glyphicon-remove"></span></a>
+                    @{
+                        Html.RenderPartial("_Search");
+                    }
                     <br>
                     <br>
                 </div>
@@ -47,7 +50,6 @@
                         </div>
                     </form>
                 </div>*@
-
             <div class="col-md-2">
                 <br>
                 <br>
@@ -56,9 +58,6 @@
 
         </div>
 
-        @{
-            Html.RenderPartial("_Search");
-        }
         @{
             var db = new WebApplication4.Models.inf245netsoft();
             List<WebApplication4.Models.Organizador> listaOrganizador;
