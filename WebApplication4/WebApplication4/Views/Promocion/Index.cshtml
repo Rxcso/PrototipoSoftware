@@ -4,7 +4,16 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
-    int idEvento = int.Parse(ViewBag.idEvento);
+    int idEvento=0;
+    string nombre = null;
+    if (ViewBag.idEvento != null) { 
+        idEvento = int.Parse(ViewBag.idEvento);
+    }
+    if (Session["idEvento"] != null)
+    {
+        idEvento = (int)Session["idEvento"];
+        nombre = (string)Session["nombreEvento"];
+    }
 }
 
 <div class="container-fluid">
@@ -29,7 +38,7 @@
     <div class="row form-group">
         <label for="nombreEvento" class="control-label col-md-4">Nombre Evento:</label>
         <div class="col-md-8">
-            <input type="text" class="form-control" placeholder="@ViewBag.nombreEvento" disabled>
+            <input type="text" class="form-control" placeholder="@nombre" disabled>
         </div>
     </div><br><br>
 
@@ -49,6 +58,7 @@
 
     @{
         var db = new WebApplication4.Models.inf245netsoft();
+        ViewBag.idEvento = idEvento;
         List<WebApplication4.Models.Promociones> listaPromo = db.Promociones.AsNoTracking().Where(c => c.codEvento == idEvento && c.estado == true).ToList();
     }
 
@@ -102,6 +112,8 @@
     function borrar() {
         var evento = $('#eventoP').val();
         var promocion = $('#idPromocionT').val();
+        var el = document.getElementById(promocion);
+        var row = $(el).closest('tr');
         //alert(evento);
         //alert(promocion);
         $.ajax({
@@ -109,6 +121,7 @@
             data: { evento: evento, promocion:promocion },
         success: function (data) {
             alert("Eliminado");
+            row.remove();
         },
         error: function () {
             alert("Error :(");
