@@ -112,6 +112,7 @@ namespace WebApplication4.Controllers
 
         public ActionResult Delete(string evento, string promocion)
         {
+            if (promocion == "" || promocion == null) return View("Index");
             int idQ = int.Parse(evento);
             int ideQ = int.Parse(promocion);
             //ViewBag.idEvento = idQ;

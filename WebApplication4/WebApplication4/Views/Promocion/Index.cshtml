@@ -116,6 +116,7 @@
         var row = $(el).closest('tr');
         //alert(evento);
         //alert(promocion);
+
         $.ajax({
             url: "@Url.Action("Delete","Promocion")",
             data: { evento: evento, promocion:promocion },
@@ -126,7 +127,8 @@
         error: function () {
             alert("Error :(");
         }
-    });
+        });
+
     }
 </script>
 

@@ -18,6 +18,7 @@ namespace WebApplication4.Models
         public string descripcion { get; set; }
 
         [Required]
+        [PosNumberAttribute(ErrorMessage = "Debe ser un numero Positivo mayor que cero")]
         [Display(Name = "Puntos: ")]
         public int puntos { get; set; }
     }
@@ -35,5 +36,24 @@ namespace WebApplication4.Models
         [Required]
         [Display(Name = "Regalo: ")]
         public int id { get; set; }
+    }
+
+    public class PosNumberAttribute : ValidationAttribute
+    {
+        public override bool IsValid(object value)
+        {
+            if (value == null)
+            {
+                return true;
+            }
+            int getal;
+            if (int.TryParse(value.ToString(), out getal))
+            {
+
+                if (getal >= 0)
+                    return true;
+            }
+            return false;
+        }
     }
 }

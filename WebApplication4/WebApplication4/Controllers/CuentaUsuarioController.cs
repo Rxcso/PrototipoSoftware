@@ -191,21 +191,6 @@ namespace WebApplication4.Controllers
                 List<CuentaUsuario> listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.puntos > cliente.puntos && c.estado == true && c.codPerfil == 1).ToList();
                 if (listacl != null) TempData["ListaPU"] = listacl;
                 else TempData["ListaPU"] = null;
-                Document document = new Document();
-                PdfWriter.GetInstance(document, new FileStream("F://ReporteVentas.pdf", FileMode.OpenOrCreate));
-                //PdfWriter.GetInstance(document, new FileStream("F://down//lp2//Lab9//CS//Sales//ReporteVentas.pdf", FileMode.OpenOrCreate));
-                document.Open();
-                DateTime d1 = DateTime.Now;
-                document.Add(new Paragraph(""));
-                document.Add(new Paragraph("                                                            Reporte de Clientes"));
-                document.Add(new Paragraph("            Fecha:               " + d1.Date + "                     "));
-                document.Add(new Paragraph("                     Usuario        Nombre y Apellido             Codigo Documento       Puntos"));
-                for (int i = 0; i < listacl.Count(); i++)
-                {
-                    document.Add(new Paragraph("                     " + listacl[i].usuario + "                 " + listacl[i].nombre + "  " + listacl[i].apellido + "             " + listacl[i].codDoc + "        " + listacl[i].puntos));
-
-                }
-                document.Close();
                 return RedirectToAction("ReporteCliente", "CuentaUsuario");
             }
             TempData["ListaPU"] = null;
