@@ -28,7 +28,9 @@
             <a class="btn btn-danger" href="index2.html">Salir <span class="glyphicon glyphicon-log-out"></span></a>
         </div>
     </div>
-
+    @{
+        Html.RenderPartial("_Search");
+    }
     @{
         var db = new WebApplication4.Models.inf245netsoft();
         List<WebApplication4.Models.Categoria> listaCategoria;
