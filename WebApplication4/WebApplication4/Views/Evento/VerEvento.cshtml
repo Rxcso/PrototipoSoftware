@@ -1,18 +1,15 @@
-﻿
+﻿@using Microsoft.AspNet.Identity;
+@using WebApplication4.Models;
+
 @{
     ViewBag.Title = "Ver Evento";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-
-<!DOCTYPE html>
-<html lang="es">
-
     <div class="container-fluid">
         <ol class="breadcrumb">
-            <li><a href="index1.html">Inicio</a></li>
-            <li class="active">Evento xxx</li>
+            <li><a href="@Url.Action("Index","Home")">Inicio</a></li>
+            <li class="active">Evento @Model.nombre</li>
         </ol>
     </div>
     <div class="container ">
@@ -22,9 +19,9 @@
                 <div class="col-md-3">
                     <div id="fila" class="row">
                         <div class="thumbnail">
-                            <img class="event" src="http://lorempixel.com/400/250/nightlife/" alt="">
+                            <img class="event" src=@Model.ImagenDestacado alt=@Model.nombre>
                             <div class="caption" style="text-align:left">
-                                <h4>NOMBRE DEL EVENTO QUE PUEDE SER MUY LARGO PERO ESPERO QUE NO</h4>
+                                <h4>@Model.nombre</h4>
                                 <p><strong><u>Fechas:</u></strong> Del 12 al 15 de Septiembre</p>
                                 <p><strong><u>Dirección:</u></strong> Av. Los geranios 3023, VMT, Lima. Referencia: a costado del cine El ciego optimista, frente a la cabaña de la sra Ramona</p>
                                 <p><strong><u>Región:</u></strong> Lima</p>
@@ -40,7 +37,7 @@
                             <p><strong><u>Tipo:</u></strong> Evento</p>
                             <p><strong><u>Categoría:</u></strong> Entretenimiento</p>
                             <p><strong><u>Descripción:</u></strong></p>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Porro nostrum aspernatur, nisi esse inventore. Nobis reprehenderit voluptates facilis unde adipisci dolorum ratione natus laboriosam beatae, at, nesciunt ut odit alias. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus veniam iusto excepturi necessitatibus libero, deserunt corporis repudiandae aliquid suscipit, eius quibusdam, dolorem a fuga, assumenda dicta. Fugit ex quasi nesciunt! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi animi quisquam iusto sit fuga maiores doloremque ipsam magnam necessitatibus culpa consequuntur, corporis voluptatum sunt laborum, corrupti earum aliquid, in error!  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipique consectetur quidem ea laboriosam aperiam quia deleniti nihil placeat officia? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere nobis vero nihil praesentium quis minima, aperiam, illo fugiat totam. Eius excepturi similique deleniti eligendi, nisi fugiat quos quo deserunt ad! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam possimus saepe eos inventore culpa esse, nihil atque ratione dolore voluptate eaque tempore doloribus porro non velit provident officia officiis voluptates odit eveniet ipsam commodi. Nam numquam officia sint sit ipsa quas placeat repellendus vero voluptatibus, nihil similique neque voluptatum voluptate quibusdam quaerat cum ratione delectus enim tenetur recusandae consequatur quisquam praesentium excepturi. Fugiat omnis, repellat, repellendus nihil iure aliquam cumque temporibus molestiae dicta dolore magnam. Sunt sit quos, necessitatibus dolores cum ullam nostrum tempora beatae, nobis atque quibusdam dignissimos quia officiis fugit eaque nisi, dolor saepe sed! Repellat, illum, Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat labore excepturi pariatur temporibus aliquam unde ut similique cumque odio iusto molestias, ea optio voluptatem minima autem aperiam. Quo dignissimos enim tenetur, in amet nobis ad alias expedita repellendus adipisci eius iure odio modi natus. Laboriosam dolores impedit accusantium saepe ducimus consequatur eum soluta error eveniet illo quia, nisi, omnis vitae qui doloribus temporibus cupiditate assumenda explicabo. Quae quod rem voluptates eligendi error ut reprehenderit ab esse, iure neque soluta aperiam corporis molestiae, dolorem modi a deleniti voluptatem inventore dolor quo eos odio quisquam. Asperiores tempore sequi fugit accusamus distinctio, quaerat! accusamus.</p>
+                            <p>@Model.descripcion                               </p>
                         </div>
                     </div>
                 </div>
@@ -49,7 +46,7 @@
                 <div class="thumbnail">
                     <div class="container-fluid">
                         <h4><u>Distribución de zonas</u></h4>
-                        <img class="event" src="images/zonass.jpg" alt="zonas de evento xxx">
+                        <img class="event" src=@Model.ImagenSitios alt="Zonas de evento">
                     </div>
                 </div>
             </div>
@@ -176,6 +173,4 @@
     <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-</body>
-</html>
 

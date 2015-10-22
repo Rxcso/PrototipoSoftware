@@ -80,7 +80,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <!--Administrador del negocio-->
-                                <li><a href="mantener_categoria.html">Categorías de eventos</a></li>
+                                <li><a href="@Url.Action("Index", "Categoria")">Categorías de eventos</a></li>
                                 <li><a href="@Url.Action("Index", "Empleado")">Empleados</a></li>
                                 <li><a href="@Url.Action("Index", "PuntoVenta")">Puntos de venta</a></li>
                                 <li><a href="@Url.Action("Index", "Regalo")">Regalos</a></li>
@@ -102,7 +102,7 @@
                                 <li class="divider"></li>
                                 <li><a href="Reporte_Asignacion_de_Vendedores.html">Asignación de vendedores</a></li>
                                 <li><a href="reporte_asistencia_vendedores.html">Asistencia</a></li>
-                                <li><a href="ReporteCliente.html">Clientes</a></li>
+                                <li><a href="@Url.Action("ReporteCliente", "CuentaUsuario")">Clientes</a></li>
                             </ul>
                         </li>
 
@@ -120,6 +120,12 @@
             </div>
         </nav>
     </header>
+
+    <div class="container">
+        <div class="@TempData["tipo"]">
+            @(TempData["message"])
+        </div>
+    </div>
 
     @RenderBody()
 

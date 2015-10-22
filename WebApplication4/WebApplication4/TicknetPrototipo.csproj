@@ -39,6 +39,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="itextsharp, Version=5.5.7.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.7\lib\itextsharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
       <Private>True</Private>
@@ -192,7 +196,9 @@
     <Compile Include="Models\Banco.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Categoria.cs" />
+    <Compile Include="Models\Categoria.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CategoriaModel.cs" />
     <Compile Include="Models\CuentaUsuario.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -409,6 +415,8 @@
     <Content Include="Views\CuentaUsuario\_Search1.cshtml" />
     <Content Include="Views\Categoria\Index.cshtml" />
     <Content Include="Views\Evento\VerEvento.cshtml" />
+    <Content Include="Views\CuentaUsuario\ReporteCliente.cshtml" />
+    <Content Include="Views\Categoria\_Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

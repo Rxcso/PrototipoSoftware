@@ -157,7 +157,7 @@
           <Property Name="penPost" Type="float" />
           <Property Name="comision" Type="float" />
           <Property Name="esRecurrente" Type="bit" />
-          <Property Name="destacado" Type="int" />
+          <Property Name="destacado" Type="bit" />
           <Property Name="fechDev" Type="datetime" />
           <Property Name="esImpri" Type="bit" />
           <Property Name="esReser" Type="bit" />
@@ -225,11 +225,6 @@
           <Property Name="codTipoTarjeta" Type="int" />
           <Property Name="codEvento" Type="int" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6013: The table/view 'inf245netsoft.dbo.prueba' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
-        <EntityType Name="prueba">
-          <Property Name="id" Type="int" />
-        </EntityType>-->
         <EntityType Name="PuntoVenta">
           <Key>
             <PropertyRef Name="codPuntoVenta" />
@@ -737,7 +732,6 @@ warning 6013: The table/view 'inf245netsoft.dbo.prueba' does not have a primary 
           <EntitySet Name="AspNetUserClaims" EntityType="inf245netsoftModel.AspNetUserClaims" />
           <EntitySet Name="AspNetUserLogins" EntityType="inf245netsoftModel.AspNetUserLogins" />
           <EntitySet Name="AspNetUsers" EntityType="inf245netsoftModel.AspNetUsers" />
-          <EntitySet Name="EventosPrueba" EntityType="inf245netsoftModel.EventosPrueba" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="inf245netsoftModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -759,6 +753,7 @@ warning 6013: The table/view 'inf245netsoft.dbo.prueba' does not have a primary 
             <End Role="Categoria" EntitySet="Categoria" />
             <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
           </AssociationSet>
+          <EntitySet Name="EventosPrueba" EntityType="inf245netsoftModel.EventosPrueba" />
           </EntityContainer>
         <EntityType Name="Perfiles">
           <Key>
@@ -1140,42 +1135,6 @@ warning 6013: The table/view 'inf245netsoft.dbo.prueba' does not have a primary 
           <NavigationProperty Name="AspNetUserLogins" Relationship="inf245netsoftModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
           <NavigationProperty Name="AspNetRoles" Relationship="inf245netsoftModel.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
         </EntityType>
-        <EntityType Name="EventosPrueba">
-          <Key>
-            <PropertyRef Name="codEvento" />
-          </Key>
-          <Property Name="codEvento" Type="Int32" Nullable="false" />
-          <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="fechaFin" Type="DateTime" Precision="3" />
-          <Property Name="estado" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="fechaInicio" Type="DateTime" Precision="3" />
-          <Property Name="mAdeudado" Type="Double" />
-          <Property Name="mTransferir" Type="Double" />
-          <Property Name="lugar" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="penCan" Type="Double" />
-          <Property Name="penPost" Type="Double" />
-          <Property Name="comision" Type="Double" />
-          <Property Name="esRecurrente" Type="Boolean" />
-          <Property Name="destacado" Type="Int32" />
-          <Property Name="fechDev" Type="DateTime" Precision="3" />
-          <Property Name="esImpri" Type="Boolean" />
-          <Property Name="esReser" Type="Boolean" />
-          <Property Name="maxReserva" Type="Int32" />
-          <Property Name="limReserva" Type="DateTime" Precision="3" />
-          <Property Name="codOrg" Type="Int32" />
-          <Property Name="codPromotor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="idRegion" Type="Int32" />
-          <Property Name="idProvincia" Type="Int32" />
-          <Property Name="necDoc" Type="Boolean" />
-          <Property Name="codLocal" Type="Int32" />
-          <Property Name="idCategoria" Type="Int32" />
-          <Property Name="cantPuntos" Type="Int32" />
-          <Property Name="urlDestacado" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="urlImagen" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="urlDistribucion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="codPreferencia" Type="Int32" />
-        </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Type="inf245netsoftModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -1238,6 +1197,42 @@ warning 6013: The table/view 'inf245netsoft.dbo.prueba' does not have a primary 
           <End Type="inf245netsoftModel.Categoria" Role="Categoria" Multiplicity="*" />
           <End Type="inf245netsoftModel.CuentaUsuario" Role="CuentaUsuario" Multiplicity="*" />
         </Association>
+        <EntityType Name="EventosPrueba">
+          <Key>
+            <PropertyRef Name="codEvento" />
+          </Key>
+          <Property Name="codEvento" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="fechaFin" Type="DateTime" Precision="3" />
+          <Property Name="estado" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="fechaInicio" Type="DateTime" Precision="3" />
+          <Property Name="mAdeudado" Type="Double" />
+          <Property Name="mTransferir" Type="Double" />
+          <Property Name="lugar" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="penCan" Type="Double" />
+          <Property Name="penPost" Type="Double" />
+          <Property Name="comision" Type="Double" />
+          <Property Name="esRecurrente" Type="Boolean" />
+          <Property Name="destacado" Type="Boolean" />
+          <Property Name="fechDev" Type="DateTime" Precision="3" />
+          <Property Name="esImpri" Type="Boolean" />
+          <Property Name="esReser" Type="Boolean" />
+          <Property Name="maxReserva" Type="Int32" />
+          <Property Name="limReserva" Type="DateTime" Precision="3" />
+          <Property Name="codOrg" Type="Int32" />
+          <Property Name="codPromotor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="idRegion" Type="Int32" />
+          <Property Name="idProvincia" Type="Int32" />
+          <Property Name="necDoc" Type="Boolean" />
+          <Property Name="codLocal" Type="Int32" />
+          <Property Name="idCategoria" Type="Int32" />
+          <Property Name="cantPuntos" Type="Int32" />
+          <Property Name="urlDestacado" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="urlImagen" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="urlDistribucion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="codPreferencia" Type="Int32" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1486,6 +1481,34 @@ warning 6013: The table/view 'inf245netsoft.dbo.prueba' does not have a primary 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="inf245netsoftModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetUsers">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+            <EndProperty Name="AspNetRoles">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="Categoria">
+            <EntityTypeMapping TypeName="inf245netsoftModel.Categoria">
+              <MappingFragment StoreEntitySet="Categoria">
+                <ScalarProperty Name="activo" ColumnName="activo" />
+                <ScalarProperty Name="nivel" ColumnName="nivel" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="idCatPadre" ColumnName="idCatPadre" />
+                <ScalarProperty Name="idCategoria" ColumnName="idCategoria" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="CategoriasXUsuario" TypeName="inf245netsoftModel.CategoriasXUsuario" StoreEntitySet="CategoriasXUsuario">
+            <EndProperty Name="CuentaUsuario">
+              <ScalarProperty Name="usuario" ColumnName="usuario" />
+            </EndProperty>
+            <EndProperty Name="Categoria">
+              <ScalarProperty Name="idCategoria" ColumnName="idCategoria" />
+            </EndProperty>
+          </AssociationSetMapping>
           <EntitySetMapping Name="EventosPrueba">
             <EntityTypeMapping TypeName="inf245netsoftModel.EventosPrueba">
               <MappingFragment StoreEntitySet="EventosPrueba">
@@ -1523,34 +1546,6 @@ warning 6013: The table/view 'inf245netsoft.dbo.prueba' does not have a primary 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="AspNetUserRoles" TypeName="inf245netsoftModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
-            <EndProperty Name="AspNetUsers">
-              <ScalarProperty Name="Id" ColumnName="UserId" />
-            </EndProperty>
-            <EndProperty Name="AspNetRoles">
-              <ScalarProperty Name="Id" ColumnName="RoleId" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <EntitySetMapping Name="Categoria">
-            <EntityTypeMapping TypeName="inf245netsoftModel.Categoria">
-              <MappingFragment StoreEntitySet="Categoria">
-                <ScalarProperty Name="activo" ColumnName="activo" />
-                <ScalarProperty Name="nivel" ColumnName="nivel" />
-                <ScalarProperty Name="nombre" ColumnName="nombre" />
-                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-                <ScalarProperty Name="idCatPadre" ColumnName="idCatPadre" />
-                <ScalarProperty Name="idCategoria" ColumnName="idCategoria" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <AssociationSetMapping Name="CategoriasXUsuario" TypeName="inf245netsoftModel.CategoriasXUsuario" StoreEntitySet="CategoriasXUsuario">
-            <EndProperty Name="CuentaUsuario">
-              <ScalarProperty Name="usuario" ColumnName="usuario" />
-            </EndProperty>
-            <EndProperty Name="Categoria">
-              <ScalarProperty Name="idCategoria" ColumnName="idCategoria" />
-            </EndProperty>
-          </AssociationSetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

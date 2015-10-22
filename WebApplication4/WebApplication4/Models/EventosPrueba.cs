@@ -44,7 +44,7 @@ public partial class EventosPrueba
 
     public Nullable<bool> esRecurrente { get; set; }
 
-    public Nullable<int> destacado { get; set; }
+    public Nullable<bool> destacado { get; set; }
 
     public Nullable<System.DateTime> fechDev { get; set; }
 

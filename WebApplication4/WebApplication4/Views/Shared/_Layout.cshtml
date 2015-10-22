@@ -18,14 +18,14 @@
         nombre = cuenta.nombre;
     }    
 }
+
 @{
     ViewBag.ReturnUrl = "Index";
 }
 
 
 @if (esIntranet==1)
-{
-    
+{    
     
 <!DOCTYPE html>
 <html>
@@ -86,7 +86,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <!--Administrador del negocio-->
-                                <li><a href="mantener_categoria.html">Categorías de eventos</a></li>
+                                <li><a href="@Url.Action("Index", "Categoria")">Categorías de eventos</a></li>
                                 <li><a href="@Url.Action("Index", "Empleado")">Empleados</a></li>
                                 <li><a href="@Url.Action("Index", "PuntoVenta")">Puntos de venta</a></li>
                                 <li><a href="@Url.Action("Index", "Regalo")">Regalos</a></li>
@@ -126,6 +126,12 @@
             </div>
         </nav>
     </header>
+
+    <div class="container">
+        <div class="@TempData["tipo"]">
+            @(TempData["message"])
+        </div>
+    </div>
 
     @RenderBody()
 
@@ -259,17 +265,13 @@ else {
             </form>
         </div>
 
-
-        <div>
-
-
-        </div>
+        
 
 
        
         @{
             try { 
-            Html.RenderPartial("_LoginPartial");
+            Html.RenderPartial("_LoginPartial", new LoginViewModel() );
             }
             catch (Exception ex)
             {
@@ -279,6 +281,12 @@ else {
 
 
     </header>
+
+    <div class="container">
+        <div class="@TempData["tipo"]">
+            @(TempData["message"])
+        </div>
+    </div>
 
     @RenderBody()
 
@@ -291,51 +299,3 @@ else {
 
 
 }
-
-
-@*
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>@ViewBag.Title - My ASP.NET Application</title>
-        @Styles.Render("~/Content/css")
-        @Scripts.Render("~/bundles/modernizr")
-
-    </head>
-    <body>
-        <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                        <li>@Html.ActionLink("About", "About", "Home")</li>
-                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    </ul>
-
-                </div>
-            </div>
-        </div>
-        <div class="container body-content">
-            @RenderBody()
-            <hr />
-            <footer>
-                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-            </footer>
-        </div>
-
-        @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")
-        @RenderSection("scripts", required: false)
-    </body>
-    </html>
-*@

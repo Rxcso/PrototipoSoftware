@@ -37,9 +37,14 @@ namespace WebApplication4.Controllers
         public ActionResult VerEvento(int id)
         {
             var evento = db.Eventos.Find(id);
-            if (evento== null) return Redirect("~/Home/Index");
-            var model = EventoModel.getEvento( evento );
-            return View(model); 
+            if (evento == null)
+            {
+                ModelState.AddModelError( string.Empty, "No hay Evento" );   
+                return Redirect("~/Home/Index");
+
+            }
+
+            return View(evento); 
         }
 
 

@@ -130,7 +130,7 @@
                         <td>@row.apellido</td>
                         <td>@row.codDoc</td>
                         <td>@row.puntos</td>
-                        <td>@Html.ActionLink("Selecciona", "Entrega", new { usuario = row.codDoc })</td>
+                        <td>@Html.ActionLink("Selecciona", "Entrega", new { usuario = row.usuario.Replace("@", "°") })</td>
                     </tr>
                 }
             </tbody>

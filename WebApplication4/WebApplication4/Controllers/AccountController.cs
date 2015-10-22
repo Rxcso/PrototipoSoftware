@@ -71,6 +71,8 @@ namespace WebApplication4.Controllers
         {
             if (!ModelState.IsValid)
             {
+                TempData["tipo"] = "alert alert-warning";
+                TempData["message"] = "Colocar correo y contraseña con el formato indicado";
                 return Redirect("~/Home/Index");
             }
 
@@ -78,19 +80,24 @@ namespace WebApplication4.Controllers
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             CuentaUsuario cuentausuario = db.CuentaUsuario.Find(model.Email);
+            TempData["tipo"] = "alert alert-warning";
+            TempData["message"] = "Logueo Incorrecto";
             switch (result)
             {
+                
                 case SignInStatus.Success:
+                    TempData["tipo"] = "alert alert-success";
+                    TempData["message"] = "Logueado Correctamente";
                     if (cuentausuario.codPerfil==1)
                     return Redirect("~/Home/Index");
                     else
-                        return Redirect("~/Home/Index2");
-
+                    return Redirect("~/Home/Index2");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
+                    return Redirect("~/Home/Index");
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
                     return Redirect("~/Home/Index");
