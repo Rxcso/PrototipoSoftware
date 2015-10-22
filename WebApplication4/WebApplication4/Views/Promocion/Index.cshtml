@@ -49,7 +49,7 @@
 
     @{
         var db = new WebApplication4.Models.inf245netsoft();
-        List<WebApplication4.Models.Promociones> listaPromo = db.Promociones.AsNoTracking().Where(c => c.codEvento == 1 && c.estado == true).ToList();
+        List<WebApplication4.Models.Promociones> listaPromo = db.Promociones.AsNoTracking().Where(c => c.codEvento == idEvento && c.estado == true).ToList();
     }
 
     <div class="row">

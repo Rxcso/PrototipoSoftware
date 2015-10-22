@@ -31,7 +31,15 @@ namespace WebApplication4.Controllers
             return View();
         }
 
-
+        [HttpGet]
+        public ActionResult Asientos(string evento)
+        {
+            int id = int.Parse(evento);
+            Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();
+            ViewBag.nombreEvento = queryEvento.nombre;
+            ViewBag.idEvento = evento;
+            return View();
+        }
         [HttpGet]
         [AllowAnonymous]
         public ActionResult VerEvento(int id)
