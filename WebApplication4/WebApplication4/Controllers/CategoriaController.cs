@@ -26,11 +26,11 @@ namespace WebApplication4.Controllers
                 if (listaCategoria == null) return;
                 else
                     for (int i = 0; i < listaCategoria.Count; i++)
-                    {
-                        borrar(listaCategoria[i].idCategoria);
+                    {                        
                         db.Entry(listaCategoria[i]).State = EntityState.Modified;
                         listaCategoria[i].activo = 0;
                         db.SaveChanges();
+                        borrar(listaCategoria[i].idCategoria)
                     }
             }
         }
