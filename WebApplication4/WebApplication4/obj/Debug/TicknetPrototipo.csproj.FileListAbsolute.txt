@@ -1068,6 +1068,5 @@ F:\down\Ingenieria de software\pruebas\PrototipoSoftware13\WebApplication4\WebAp
 F:\down\Ingenieria de software\pruebas\PrototipoSoftware13\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.Google.xml
 F:\down\Ingenieria de software\pruebas\PrototipoSoftware13\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.Twitter.xml
 F:\down\Ingenieria de software\pruebas\PrototipoSoftware13\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
-F:\down\Ingenieria de software\pruebas\PrototipoSoftware13\WebApplication4\WebApplication4\obj\Debug\TicknetPrototipo.csprojResolveAssemblyReference.cache
 F:\down\Ingenieria de software\pruebas\PrototipoSoftware13\WebApplication4\WebApplication4\obj\Debug\WebApplication4.dll
 F:\down\Ingenieria de software\pruebas\PrototipoSoftware13\WebApplication4\WebApplication4\obj\Debug\WebApplication4.pdb
