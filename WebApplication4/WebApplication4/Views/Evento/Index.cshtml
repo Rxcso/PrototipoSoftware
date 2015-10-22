@@ -21,7 +21,8 @@
         </div>
         <div class="col-md-6 col-sm-12">
             <div class="form-group">
-                <a class="btn btn-primary" href="@Url.Action("Index", "Promocion")">Agregar Promoción <span class="glyphicon glyphicon-tags"></span></a>
+                @Html.Hidden("idEventoT")
+                <a class="btn btn-primary" onclick="redirige()">Agregar Promoción <span class="glyphicon glyphicon-tags"></span></a>
                 <a class="btn btn-primary" href="reservar_organizador.html">Reservar Entradas <span class="glyphicon glyphicon-flag"></span></a>
                 <a class="btn btn-warning" href="postergar_evento.html">Postergar <span class="glyphicon glyphicon-calendar"></span></a>
                 <a class="btn btn-warning" href="cancelar_evento.html">Cancelar <span class="glyphicon glyphicon-remove-sign"></span></a>
@@ -124,7 +125,7 @@
                 <tbody>
                     @foreach (var evento in list)
                     {
-                        <tr>
+                        <tr id="@evento.codigo" onclick="seleccionaFilaTabla(this)">
                             <td>@evento.codigo</td>
                             <td>@evento.nombre</td>
                             <td>Evento</td>
@@ -144,5 +145,19 @@
     </div>
 
 </div>
-
+<script>
+    function seleccionaFilaTabla(x) {
+        if (document.getElementsByClassName("trselected").length > 0) {
+            var element = document.getElementsByClassName("trselected");
+            element[0].className = "";
+        }
+        var elem = document.getElementById("idEventoT");
+        elem.value = x.cells[0].innerHTML;
+        x.className = "trselected";
+    }
+    function redirige() {
+        var evento = $('#idEventoT').val();
+        window.location.href = '/Promocion/Index?evento=' + evento;
+    }
+</script>
 

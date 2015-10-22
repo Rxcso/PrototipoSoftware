@@ -14,8 +14,13 @@ namespace WebApplication4.Controllers
         // GET: Promocion
         private inf245netsoft db = new inf245netsoft();
 
-        public ActionResult Index()
+        public ActionResult Index(string evento)
         {
+            int id = int.Parse(evento);
+            Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();
+            ViewBag.nombreEvento = queryEvento.nombre;
+            ViewBag.idEvento = evento;
+
             return View();
         }
 
