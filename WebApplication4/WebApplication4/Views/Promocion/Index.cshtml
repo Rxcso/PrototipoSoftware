@@ -70,7 +70,7 @@
                     <th>Descripcion</th>
                     <th>Fecha Inicio</th>
                     <th>Fecha Fin</th>
-                    <th></th>
+                    @*<th></th>*@
                 </tr>
             </thead>
             <tbody id="tbody">
@@ -81,7 +81,7 @@
                         <td>@row.descripcion</td>
                         <td>@row.fechaIni</td>
                         <td>@row.fechaFin</td>
-                        <td><a href="@Url.Action("Delete2", "Promocion", new { id = row.codPromo, ide = row.codEvento })" class="btn btn-primary">Dar de Baja <span class="glyphicon glyphicon-remove"></span></a></td>
+                        @*<td><a href="@Url.Action("Delete2", "Promocion", new { id = row.codPromo, ide = row.codEvento })" class="btn btn-primary">Dar de Baja <span class="glyphicon glyphicon-remove"></span></a></td>*@
                     </tr>
                 }
             </tbody>
