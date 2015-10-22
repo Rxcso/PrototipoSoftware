@@ -32,7 +32,7 @@
             <li id="tab_1" class="active"><a href="#generales" data-toggle="tab">Datos Generales</a></li>
             <li id="tab_2"><a href="#bloques_tiempo" data-toggle="tab">Bloques de tiempo de venta</a></li>
             <li id="tab_3"><a href="#funciones" data-toggle="tab">Funciones</a></li>
-            <li id="tab_4"><a href="#tarifas" data-toggle="tab">Tarifas</a></li>
+            <li id="tab_4"><a href="#tarifas" data-toggle="tab" onclick="generaTablaTarifas()">Tarifas</a></li>
             <li id="tab_6"><a href="#extras" data-toggle="tab">Extras</a></li>
         </ul>
 
@@ -147,7 +147,7 @@
             <!--TERCERA PESTAÑA-->
             <div class="tab-pane fade in container" id="funciones">
                 <br>
-                <div id="funciones" class="container">
+                <div class="container">
                     <div id="funcion_1" class="row">
                         <div class="col-md-1 col-md-offset-1">
                             <label for="">Fecha:</label>
@@ -174,51 +174,25 @@
                     <br>
                     <div class="row">
                         <div class="col-md-3 col-md-offset-9">
-                            <button class="btn btn-primary ">Agregar fila <span class="glyphicon glyphicon-plus"></span></button>
+                            <button class="btn btn-primary" type="button" onclick="agregarFila()">Agregar fila <span class="glyphicon glyphicon-plus"></span></button>
                             <button class="btn btn-primary ">Quitar fila <span class="glyphicon glyphicon-remove"></span></button>
                         </div>
                     </div><br>
                     <div class="row">
-                        <table class="table table-bordered table-hover" contenteditable="true">
-                            <tr class="active">
-                                <th>Nº</th>
-                                <th>Tipo de entrada/Zona</th>
-                                <th>Del 1/1/2016 al 1/2/2016</th>
-                                <th>Del 2/2/2016 al 16/2/2016</th>
-                                <th>Cantidad de entradas</th>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
+                        <table class="table table-bordered table-hover" id="tarifaTabla">
+                            <thsead>
+                                <tr class="thead">
+                                    <th>Nº</th>
+                                    <th>Tipo de entrada/Zona</th>
+                                </tr>
+                            </thsead>
+                            <tbody>
+                            </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-            <!--QUINTA PESTAÑA-->
-            <div class="tab-pane fade in container" id="zonas_asientos">
-                <div class="container">
-                    <br>
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="nombre" class="control-label col-md-2">Ruta imagen distribución de zonas: </label>
-                            <div class="col-md-6">
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                    </div><br>
-                </div>
-            </div>
+            <!--QUINTA PESTAÑA no existe, asientos tiene su propia vista-->
             <!--SEXTA PESTAÑA-->
             <div class="tab-pane fade in container" id="extras">
                 <div class="container">
@@ -473,6 +447,13 @@
             $("#localNombre").val(nomb);
             $('#modalBuscarLocal').modal('hide');
         }
+        function agregarFila() {
+            var tabla = document.getElementById("tarifaTabla");
+            var row = tabla.insertRow();
+            row.insertCell(0);
+            row.insertCell(1);
+
+        }
         function nuevoBloque() {
             var table = document.getElementById("bloqueDeTiempo");
             var row = table.insertRow();
@@ -491,6 +472,22 @@
             alert(fila);
             var row = document.getElementById(parseInt(fila));
             row.parentNode.removeChild(row);
+        }
+
+        function generaTablaTarifas() {
+            var table = document.getElementById("bloqueDeTiempo");
+            var tamBloque = parseInt(table.rows.length);
+            var tblHead = document.getElementById("tarifaTabla").tHead;
+            for (var i = 1; i < tamBloque; i++) {
+                var row = table.rows[i];
+                var name = "Del " + $('input', row.cells[0]).val() + " hasta " + $('input', row.cells[1]).val();
+                var tieneColumna = $('#tarifaTabla thead th').filter(function () {
+                    return this.textContent === name;
+                }).length > 0;
+                if (!tieneColumna) {
+                    $('#tarifaTabla thead').append('<th>' + name+'</th>');
+                }
+            }
         }
     </script>
 </div>
