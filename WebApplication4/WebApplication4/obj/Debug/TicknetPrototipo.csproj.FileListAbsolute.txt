@@ -953,3 +953,5 @@ F:\down\Ingenieria de software\pruebas\PrototipoSoftware12\WebApplication4\WebAp
 F:\down\Ingenieria de software\pruebas\PrototipoSoftware12\WebApplication4\WebApplication4\obj\Debug\TicknetPrototipo.csprojResolveAssemblyReference.cache
 F:\down\Ingenieria de software\pruebas\PrototipoSoftware12\WebApplication4\WebApplication4\obj\Debug\WebApplication4.dll
 F:\down\Ingenieria de software\pruebas\PrototipoSoftware12\WebApplication4\WebApplication4\obj\Debug\WebApplication4.pdb
+C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\itextsharp.dll
+C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\itextsharp.xml
