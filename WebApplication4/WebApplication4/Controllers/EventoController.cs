@@ -23,15 +23,24 @@ namespace WebApplication4.Controllers
             List<Region> listProv = new List<Region>();
             ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
             ViewBag.ProvID = new SelectList(listProv, "idProv", "nombre");
+            List<Categoria> listaCat = db.Categoria.Where(c => c.idCatPadre == null).ToList();
+            listaCat = listaCat.Where(c => c.activo == 1).ToList();
+            List<Categoria> listSubCat = new List<Categoria>();
+            ViewBag.CatID = new SelectList(listaCat, "idCategoria", "nombre");
+            ViewBag.SubID = new SelectList(listSubCat, "idSubCat", "nombre");
             return View();
         }
 
-        public ActionResult Provincia()
+        
+        [HttpGet]
+        public ActionResult Asientos(string evento)
         {
+            int id = int.Parse(evento);
+            Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();
+            ViewBag.nombreEvento = queryEvento.nombre;
+            ViewBag.idEvento = evento;
             return View();
         }
-
-
         [HttpGet]
         [AllowAnonymous]
         public ActionResult VerEvento(int id)
@@ -82,5 +91,74 @@ namespace WebApplication4.Controllers
 
             return View(model);
         }
+
+
+
+       
+        public ActionResult Busqueda() {
+
+
+
+            var categorias = db.Categoria.AsNoTracking().Where(c => c.nivel == 1);
+            ViewBag.categorias = new SelectList(categorias, "idCategoria", "nombre");
+            var departamentos = db.Region.AsNoTracking().Where(c => c.idRegPadre == null);
+            ViewBag.departamentos = new SelectList(departamentos, "idRegion", "nombre");
+            List<Region> listProv = new List<Region>();
+            List<Categoria> listSubCat = new List<Categoria>();
+
+
+
+            ViewBag.distritos = new SelectList(listProv, "idProv", "nombre");
+            ViewBag.subcategorias = new SelectList(listSubCat, "idSubcat", "nombre");
+
+            return View();
+            
+
+        }
+        [HttpPost]
+        public ActionResult Buscar(FormCollection collection)
+        {
+
+          
+
+
+            string valor = collection["busqueda"];
+            var lista = db.Eventos.AsNoTracking().Where(c => c.nombre.Contains(valor)).ToList();
+
+            ViewBag.Lista = lista;
+            ViewBag.Categorias = db.Categoria.AsNoTracking().Where(c => c.nivel == 1);
+            ViewBag.Departamentos = db.Region.AsNoTracking().Where(c => c.idRegPadre == null);
+
+            
+
+            return View("Busqueda");
+
+
+
+        }
+
+        public ActionResult Subcategorias()
+        {
+
+            return View();
+
+        }
+
+        
+        public ActionResult BusquedaAvanzada(FormCollection collection)
+        {
+
+
+
+            return View();
+
+
+
+        }
+
+       
+
+
+        
     }
 }

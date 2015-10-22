@@ -14,9 +14,21 @@ namespace WebApplication4.Controllers
         // GET: Promocion
         private inf245netsoft db = new inf245netsoft();
 
-        public ActionResult Index()
+        public ActionResult Index(string evento)
         {
-            return View();
+            if (evento != "" && evento !=null)
+            {
+                int id = int.Parse(evento);
+                Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();
+                TempData["idEvento"] = int.Parse(evento);
+                Session["idEvento"] = int.Parse(evento);
+                Session["nombreEvento"] = queryEvento.nombre;
+                TempData["nombreEvento"] = queryEvento.nombre;
+                ViewBag.nombreEvento = queryEvento.nombre;
+                ViewBag.idEvento = evento;
+                return View();
+            }
+            return RedirectToAction("Index", "Evento");
         }
 
         // GET: /Account/Register
@@ -44,7 +56,13 @@ namespace WebApplication4.Controllers
             Promociones promocion = new Promociones();
             Promociones promocionL = db.Promociones.ToList().Last();
             promocion.codPromo = promocionL.codPromo + 1;
-            promocion.codEvento = 1;
+            if (Session["idEvento"] != null)
+            {
+                int ev =(int)Session["idEvento"];
+                if (ev == 0) return RedirectToAction("Index", "Evento");
+                promocion.codEvento = (int)Session["idEvento"];
+            }
+            else return View("Index");
             promocion.estado = true;
 
             if (model.codBanco != 0) //promocion por tarjeta
@@ -77,7 +95,7 @@ namespace WebApplication4.Controllers
                     db.SaveChanges();
                 }
             }
-            return RedirectToAction("Index", "Promocion");
+            return View("Index");
             //throw new Exception("Test Exception");
         }
 
@@ -96,12 +114,13 @@ namespace WebApplication4.Controllers
         {
             int idQ = int.Parse(evento);
             int ideQ = int.Parse(promocion);
+            //ViewBag.idEvento = idQ;
             Promociones prom = db.Promociones.Find(ideQ, idQ);
             db.Promociones.Remove(prom);
             //db.Entry(prom).State = EntityState.Modified;
             //prom.estado = false;
             db.SaveChanges();
-            //return RedirectToAction("Index", "Evento");
+            //return RedirectToAction("Index", "Promocion");
             return View("Index");
         }
 
