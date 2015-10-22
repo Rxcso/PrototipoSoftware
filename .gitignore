@@ -154,3 +154,8 @@ $RECYCLE.BIN/
 
 # Mac desktop service store files
 .DS_Store
+/WebApplication4/packages/iTextSharp.5.5.7/lib/itextsharp.dll
+/WebApplication4/packages/iTextSharp.5.5.7/lib/iTextSharp.xml
+/WebApplication4/packages/iTextSharp.5.5.7/AGPL.txt
+/WebApplication4/packages/iTextSharp.5.5.7/iTextSharp.5.5.7.nupkg
+/WebApplication4/packages/iTextSharp.5.5.7/notice.txt
