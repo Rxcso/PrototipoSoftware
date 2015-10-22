@@ -110,30 +110,28 @@
             <!--SEGUNDA PESTAÑA-->
             <div class="tab-pane fade in container" id="bloques_tiempo">
                 <br>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <button id="btnAgregarBloque" type="button" class="btn btn-primary" onclick="nuevoBloque()">Añadir bloque <span class="glyphicon glyphicon-plus"></span></button>
+                        <button id="btnQuitarBloque" type="button" class="btn btn-primary" onclick="quitarBloque()">Quitar bloque <span class="glyphicon glyphicon-remove"></span></button>
+                    </div>
+                </div>
+
                 <div id="bloques" class="container">
-                    <div class="row" id="bloqueDeTiempo">
-                        <div class="col-md-2">
-                            <label for="">Bloque de tiempo:</label>
-                        </div>
-                        <div class="col-md-3" id="desdeGroup">
-                            <div class="input-group">
-                                <span class="input-group-addon">Desde:</span>
-                                <input type="date" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="input-group" id="hastaGroup">
-                                <span class="input-group-addon">Hasta:</span>
-                                <input type="date" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <button id="btnAgregarBloque" class="btn btn-primary" onclick="nuevoBloque()">Añadir bloque <span class="glyphicon glyphicon-plus"></span></button>
-                                <button id="btnQuitarBloque" class="btn btn-primary">Quitar bloque <span class="glyphicon glyphicon-remove"></span></button>
-                            </div>
-                        </div>
-                    </div><br>
+                    <div class="col-md-2">
+                        <label for="">Bloque de tiempo:</label>
+                    </div>
+                    @Html.Hidden("histBloque", "0")
+                    <table class="table table-bordered table-hover" id="bloqueDeTiempo">
+                        <tshead>
+                            <tr class="thead">
+                                <td>Desde: </td>
+                                <td>Hasta: </td>
+                                <td>¿Quitar?</td>
+                            </tr>
+                        </tshead>
+                        <tbody></tbody>
+                    </table><br>
                     <!--
                                           <div class="row">
                                               <div class="col-md-6">
@@ -475,6 +473,24 @@
             $("#localNombre").val(nomb);
             $('#modalBuscarLocal').modal('hide');
         }
-
+        function nuevoBloque() {
+            var table = document.getElementById("bloqueDeTiempo");
+            var row = table.insertRow();
+            row.id = $("#histBloque").val();
+            var cell1 = row.insertCell(0);//desde
+            cell1.innerHTML = '<input type="date" class="form-control" >';
+            var cell2 = row.insertCell(1);//hasta
+            cell2.innerHTML = '<input type="date" class="form-control" >';
+            var cell3 = row.insertCell(2);
+            cell3.align = "center";
+            cell3.innerHTML = '<input type="radio" name="groupBloquedeVenta" value="' + (parseInt(row.id)) + '">';
+            $("#histBloque").val(parseInt(row.id) + 1);
+        }
+        function quitarBloque() {
+            var fila = $('input[name="groupBloquedeVenta"]:checked').val();
+            alert(fila);
+            var row = document.getElementById(parseInt(fila));
+            row.parentNode.removeChild(row);
+        }
     </script>
 </div>

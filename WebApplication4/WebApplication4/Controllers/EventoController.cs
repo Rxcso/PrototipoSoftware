@@ -31,11 +31,7 @@ namespace WebApplication4.Controllers
             return View();
         }
 
-        public ActionResult Provincia()
-        {
-            return View();
-        }
-
+        
         [HttpGet]
         public ActionResult Asientos(string evento)
         {
