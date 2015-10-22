@@ -23,15 +23,18 @@ namespace WebApplication4.Controllers
             while (true)
             {
                 listaCategoria = db.Categoria.Where(c=>c.idCatPadre==id).ToList();
-                if (listaCategoria == null) return;
-                else
+                if (listaCategoria.Count == 0) return;
+                else {
                     for (int i = 0; i < listaCategoria.Count; i++)
-                    {                        
+                    {
                         db.Entry(listaCategoria[i]).State = EntityState.Modified;
                         listaCategoria[i].activo = 0;
                         db.SaveChanges();
-                        borrar(listaCategoria[i].idCategoria)
+                        borrar(listaCategoria[i].idCategoria);
                     }
+                    return;
+                }                    
+
             }
         }
 
@@ -58,6 +61,30 @@ namespace WebApplication4.Controllers
                 return RedirectToAction("Index", "Categoria");
             }
             TempData["ListaC"] = null;
+            return RedirectToAction("Index", "Categoria");
+        }
+        public ActionResult Edit(int id)
+        {
+            ViewBag.id = id;
+            TempData["codigo"] = id;
+            return View("Edit");
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult EditRegister(CategoriaModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var o = ViewBag.id;
+                Categoria categoria = db.Categoria.Find(TempData["codigo"]);
+                db.Entry(categoria).State = EntityState.Modified;
+                categoria.nombre = model.nombre;
+                categoria.descripcion = model.descripcion;
+                categoria.idCatPadre = model.idCatPadre;
+                db.SaveChanges();
+                return RedirectToAction("Index", "Categoria");
+            }
             return RedirectToAction("Index", "Categoria");
         }
     }

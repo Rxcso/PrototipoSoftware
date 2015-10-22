@@ -421,6 +421,7 @@
     <Content Include="Views\Evento\Busqueda.cshtml" />
     <Content Include="Views\Evento\Subcategorias.cshtml" />
     <Content Include="Views\Categoria\_Search.cshtml" />
+    <Content Include="Views\Categoria\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

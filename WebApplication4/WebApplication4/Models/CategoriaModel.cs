@@ -18,8 +18,7 @@ namespace WebApplication4.Models
         
         [Required]
         [Display(Name = "Id Padre: ")]
-        public int idCatPadre { get; set; }
-        //nivel                integer  NULL , autogenerado?
+        public int idCatPadre { get; set; }       
     }
 
     public class CategoriaSearchModel

@@ -1,0 +1,48 @@
+﻿@using Microsoft.AspNet.Identity
+@using WebApplication4.Models
+
+@model CategoriaModel
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+}
+<h2>Editar Registro</h2>
+
+<div class="modal-body">
+    @using (Html.BeginForm("EditRegister", "Categoria", FormMethod.Post, new { }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true)
+            <br>
+            <div class="row form-group">
+                @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.EditorFor(model => model.nombre, new { @placeholder = "Nombre" })
+                    @Html.ValidationMessageFor(model => model.nombre)
+                </div>
+            </div>
+            <div class="row form-group">
+                @Html.LabelFor(model => model.descripcion, new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.EditorFor(model => model.descripcion)
+                    @Html.ValidationMessageFor(model => model.descripcion)
+                </div>
+            </div>
+            <br>
+            <div class="row form-group">
+                @Html.LabelFor(model => model.idCatPadre, new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.EditorFor(model => model.idCatPadre)
+                    @Html.ValidationMessageFor(model => model.idCatPadre)
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Aceptar" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+    }
+</div>
