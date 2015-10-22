@@ -116,19 +116,22 @@
         var row = $(el).closest('tr');
         //alert(evento);
         //alert(promocion);
-
-        $.ajax({
-            url: "@Url.Action("Delete","Promocion")",
-            data: { evento: evento, promocion:promocion },
-        success: function (data) {
-            alert("Eliminado");
-            row.remove();
-        },
-        error: function () {
-            alert("Error :(");
+        if (promocion != "" && promocion != null) {
+            $.ajax({
+                url: "@Url.Action("Delete","Promocion")",
+                data: { evento: evento, promocion: promocion },
+                success: function (data) {
+                    alert("Eliminado");
+                    row.remove();
+                },
+                error: function () {
+                    alert("Error :(");
+                }
+            });
+        } else {
+            alert("Seleccione una promocion");
+            promocion = "";
         }
-        });
-
     }
 </script>
 
