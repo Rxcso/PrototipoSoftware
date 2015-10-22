@@ -443,7 +443,7 @@
                 ddProv.empty();
                 //ddProv.append($("<option></option>").val("").html("--Provincia--"));
                 $.ajax({
-                    url: "Provincia",
+                    url: "@Url.Action("Provincia","Services")",
                     data: { depId: depId },
                     datatype: "json",
                     success: function (data) {
