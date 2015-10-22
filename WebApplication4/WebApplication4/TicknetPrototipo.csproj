@@ -416,6 +416,7 @@
     <Content Include="Views\Categoria\Index.cshtml" />
     <Content Include="Views\Evento\VerEvento.cshtml" />
     <Content Include="Views\CuentaUsuario\ReporteCliente.cshtml" />
+    <Content Include="Views\Categoria\_Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
