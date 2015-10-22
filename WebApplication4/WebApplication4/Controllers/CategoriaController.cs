@@ -16,13 +16,34 @@ namespace WebApplication4.Controllers
         {
             return View();
         }
+        //no me mires
+        private void borrar(int id)
+        {
+            List<Categoria> listaCategoria = null;
+            while (true)
+            {
+                listaCategoria = db.Categoria.Where(c=>c.idCatPadre==id).ToList();
+                if (listaCategoria == null) return;
+                else
+                    for (int i = 0; i < listaCategoria.Count; i++)
+                    {
+                        borrar(listaCategoria[i].idCategoria);
+                        db.Entry(listaCategoria[i]).State = EntityState.Modified;
+                        listaCategoria[i].activo = 0;
+                        db.SaveChanges();
+                    }
+            }
+        }
 
         public ActionResult Delete(int id)
-        {
-            Categoria categoria = db.Categoria.Find(id);            
+        {            
+            //borrar categoría padre
+            Categoria categoria = db.Categoria.Find(id);
             db.Entry(categoria).State = EntityState.Modified;
             categoria.activo = 0;
             db.SaveChanges();
+            //borrar arbol de la categoría padre
+            borrar(id);                        
             //return RedirectToAction("Index", "Evento");
             return View("Index");
         }
