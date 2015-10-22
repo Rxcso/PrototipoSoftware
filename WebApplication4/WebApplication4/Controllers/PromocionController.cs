@@ -81,22 +81,22 @@ namespace WebApplication4.Controllers
             //throw new Exception("Test Exception");
         }
 
-        //public ActionResult Delete(int id, int ide)
-        //{
-        //    Promociones prom = db.Promociones.Find(id, ide);
-        //    db.Promociones.Remove(prom);
-        //    //db.Entry(prom).State = EntityState.Modified;
-        //    //prom.estado = false;
-        //    db.SaveChanges();
-        //    //return RedirectToAction("Index", "Evento");
-        //    return View("Index");
-        //}
+        public ActionResult Delete2(int id, int ide)
+        {
+            Promociones prom = db.Promociones.Find(id, ide);
+            db.Promociones.Remove(prom);
+            //db.Entry(prom).State = EntityState.Modified;
+            //prom.estado = false;
+            db.SaveChanges();
+            //return RedirectToAction("Index", "Evento");
+            return View("Index");
+        }
 
         public ActionResult Delete(string evento, string promocion)
         {
             int idQ = int.Parse(evento);
             int ideQ = int.Parse(promocion);
-            Promociones prom = db.Promociones.Find(idQ, ideQ);
+            Promociones prom = db.Promociones.Find(ideQ, idQ);
             db.Promociones.Remove(prom);
             //db.Entry(prom).State = EntityState.Modified;
             //prom.estado = false;
