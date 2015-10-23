@@ -15,7 +15,7 @@
             <li class="active">Nuevo evento</li>
         </ol>
     </div>
-</div>
+</div>  
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -368,10 +368,9 @@
             </div>
         </div>
     </div>
-
+    <input name="plox" id="plox" />
     <script>
         function cambioDepartamento() {
-            alert("cambio");
             var depId = parseInt($("#idRegion").val());
             if (!isNaN(depId)) {
                 var ddProv = $("#idProv");
@@ -392,6 +391,7 @@
                     }
                 });
             }
+            ddProv.empty();
         }
         function cambioCategoria() {
             var catId = parseInt($("#idCategoria").val());
