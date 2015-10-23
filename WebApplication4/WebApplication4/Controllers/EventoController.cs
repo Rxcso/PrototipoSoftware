@@ -123,10 +123,10 @@ namespace WebApplication4.Controllers
 
 
         }
+
         [RequireRequestValue(new[] { "fech_ini", "fech_fin", "idCategoria", "idSubCat", "idRegion", "idProv" })]
         public ActionResult Busqueda(DateTime fech_ini, DateTime fech_fin, int idCategoria, int idSubCat, int idRegion, int idProv)
         {
-
 
             if (fech_ini.CompareTo(fech_fin) > 0)
             {
