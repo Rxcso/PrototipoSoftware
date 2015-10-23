@@ -243,6 +243,34 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <AssociationSetMapping Name="AspNetUserRoles" TypeName="inf245netsoftModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+      <EndProperty Name="AspNetUsers">
+        <ScalarProperty Name="Id" ColumnName="UserId" />
+      </EndProperty>
+      <EndProperty Name="AspNetRoles">
+        <ScalarProperty Name="Id" ColumnName="RoleId" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <EntitySetMapping Name="Categoria">
+      <EntityTypeMapping TypeName="inf245netsoftModel.Categoria">
+        <MappingFragment StoreEntitySet="Categoria">
+          <ScalarProperty Name="activo" ColumnName="activo" />
+          <ScalarProperty Name="nivel" ColumnName="nivel" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="idCatPadre" ColumnName="idCatPadre" />
+          <ScalarProperty Name="idCategoria" ColumnName="idCategoria" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="CategoriasXUsuario" TypeName="inf245netsoftModel.CategoriasXUsuario" StoreEntitySet="CategoriasXUsuario">
+      <EndProperty Name="CuentaUsuario">
+        <ScalarProperty Name="usuario" ColumnName="usuario" />
+      </EndProperty>
+      <EndProperty Name="Categoria">
+        <ScalarProperty Name="idCategoria" ColumnName="idCategoria" />
+      </EndProperty>
+    </AssociationSetMapping>
     <EntitySetMapping Name="EventosPrueba">
       <EntityTypeMapping TypeName="inf245netsoftModel.EventosPrueba">
         <MappingFragment StoreEntitySet="EventosPrueba">
@@ -280,33 +308,5 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="AspNetUserRoles" TypeName="inf245netsoftModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
-      <EndProperty Name="AspNetUsers">
-        <ScalarProperty Name="Id" ColumnName="UserId" />
-      </EndProperty>
-      <EndProperty Name="AspNetRoles">
-        <ScalarProperty Name="Id" ColumnName="RoleId" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <EntitySetMapping Name="Categoria">
-      <EntityTypeMapping TypeName="inf245netsoftModel.Categoria">
-        <MappingFragment StoreEntitySet="Categoria">
-          <ScalarProperty Name="activo" ColumnName="activo" />
-          <ScalarProperty Name="nivel" ColumnName="nivel" />
-          <ScalarProperty Name="nombre" ColumnName="nombre" />
-          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-          <ScalarProperty Name="idCatPadre" ColumnName="idCatPadre" />
-          <ScalarProperty Name="idCategoria" ColumnName="idCategoria" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <AssociationSetMapping Name="CategoriasXUsuario" TypeName="inf245netsoftModel.CategoriasXUsuario" StoreEntitySet="CategoriasXUsuario">
-      <EndProperty Name="CuentaUsuario">
-        <ScalarProperty Name="usuario" ColumnName="usuario" />
-      </EndProperty>
-      <EndProperty Name="Categoria">
-        <ScalarProperty Name="idCategoria" ColumnName="idCategoria" />
-      </EndProperty>
-    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping>

@@ -4,8 +4,16 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
-    var idProm=0;
-    int idEvento = 1;
+    int idEvento=0;
+    string nombre = null;
+    if (ViewBag.idEvento != null) { 
+        idEvento = int.Parse(ViewBag.idEvento);
+    }
+    if (Session["idEvento"] != null)
+    {
+        idEvento = (int)Session["idEvento"];
+        nombre = (string)Session["nombreEvento"];
+    }
 }
 
 <div class="container-fluid">
@@ -23,14 +31,14 @@
     <div class="row form-group">
         <label for="idEvento" class="control-label col-md-4">ID Evento:</label>
         <div class="col-md-8">
-            <input type="text" class="form-control" placeholder=@idEvento disabled>
+            <input id="eventoP" type="text" class="form-control" value=@idEvento disabled>
         </div>
     </div>
 
     <div class="row form-group">
         <label for="nombreEvento" class="control-label col-md-4">Nombre Evento:</label>
         <div class="col-md-8">
-            <input type="text" class="form-control" placeholder="Circo Kiko" disabled>
+            <input type="text" class="form-control" placeholder="@nombre" disabled>
         </div>
     </div><br><br>
 
@@ -38,6 +46,7 @@
         <div class="col-md-10 col-sm-6 col-xs-6">
             <a class="btn btn-primary" href="#nuevaPromocion" data-toggle="modal">Agregar Cantidad<span class="glyphicon glyphicon-plus"></span></a>    
             <a class="btn btn-primary" href="#nuevaPromocion2" data-toggle="modal">Agregar Tarjeta<span class="glyphicon glyphicon-plus"></span></a> 
+            <a class="btn btn-primary" data-toggle="modal" onclick="borrar()">Borrar<span class="glyphicon glyphicon-plus"></span></a>
         </div>
 
         <div class="col-md-2 col-sm-6 colxs-6">
@@ -49,7 +58,8 @@
 
     @{
         var db = new WebApplication4.Models.inf245netsoft();
-        List<WebApplication4.Models.Promociones> listaPromo = db.Promociones.AsNoTracking().Where(c => c.codEvento == 1 && c.estado == true).ToList();
+        ViewBag.idEvento = idEvento;
+        List<WebApplication4.Models.Promociones> listaPromo = db.Promociones.AsNoTracking().Where(c => c.codEvento == idEvento && c.estado == true).ToList();
     }
 
     <div class="row">
@@ -60,7 +70,7 @@
                     <th>Descripcion</th>
                     <th>Fecha Inicio</th>
                     <th>Fecha Fin</th>
-                    <th></th>
+                    @*<th></th>*@
                 </tr>
             </thead>
             <tbody id="tbody">
@@ -71,7 +81,7 @@
                         <td>@row.descripcion</td>
                         <td>@row.fechaIni</td>
                         <td>@row.fechaFin</td>
-                        <td><a href="@Url.Action("Delete", "Promocion", new { id = row.codPromo, ide = row.codEvento })" class="btn btn-primary">Dar de Baja <span class="glyphicon glyphicon-remove"></span></a></td>
+                        @*<td><a href="@Url.Action("Delete2", "Promocion", new { id = row.codPromo, ide = row.codEvento })" class="btn btn-primary">Dar de Baja <span class="glyphicon glyphicon-remove"></span></a></td>*@
                     </tr>
                 }
             </tbody>
@@ -79,19 +89,49 @@
     </div>
 </div>
 
-
+<input type="hidden" id="idPromocionT" value="" />
 <script>
     function myFunction(x) {
         if (document.getElementsByClassName("trselected").length > 0) {
             var element = document.getElementsByClassName("trselected");
             //element.item[0].cells[0].innerText;
             element[0].className = "";            
-            ViewData["Prueba"] = element[0].cells[0].innerText;
-            ViewBag.Name = element[0].cells[1].innerText;
         }
+        //var tabla = document.getElementById("mytable");
+        //alert(x);
+        //var y = x.getCells();
+        var elem = document.getElementById("idPromocionT");
+        elem.value = x.cells[0].innerHTML;
+        //alert(x.cells[0].innerHTML);
+        //ViewBag.P = x.cells[0].innerHTML;
         x.className = "trselected";
+
         //<a class="btn btn-primary" href="javascript:document.getElementsByClassName('trselected').submit()">Borrar<span class="glyphicon glyphicon-pencil"></span></a>
-        idProm = x.codp;
+        //idProm = x.codp;
+    }
+    function borrar() {
+        var evento = $('#eventoP').val();
+        var promocion = $('#idPromocionT').val();
+        var el = document.getElementById(promocion);
+        var row = $(el).closest('tr');
+        //alert(evento);
+        //alert(promocion);
+        if (promocion != "" && promocion != null) {
+            $.ajax({
+                url: "@Url.Action("Delete","Promocion")",
+                data: { evento: evento, promocion: promocion },
+                success: function (data) {
+                    alert("Eliminado");
+                    row.remove();
+                },
+                error: function () {
+                    alert("Error :(");
+                }
+            });
+        } else {
+            alert("Seleccione una promocion");
+            promocion = "";
+        }
     }
 </script>
 

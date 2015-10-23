@@ -23,11 +23,22 @@ namespace WebApplication4.Controllers
             List<Region> listProv = new List<Region>();
             ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
             ViewBag.ProvID = new SelectList(listProv, "idProv", "nombre");
+            List<Categoria> listaCat = db.Categoria.Where(c => c.idCatPadre == null).ToList();
+            listaCat = listaCat.Where(c => c.activo == 1).ToList();
+            List<Categoria> listSubCat = new List<Categoria>();
+            ViewBag.CatID = new SelectList(listaCat, "idCategoria", "nombre");
+            ViewBag.SubID = new SelectList(listSubCat, "idSubCat", "nombre");
             return View();
         }
 
-        public ActionResult Provincia()
+        
+        [HttpGet]
+        public ActionResult Asientos(string evento)
         {
+            int id = int.Parse(evento);
+            Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();
+            ViewBag.nombreEvento = queryEvento.nombre;
+            ViewBag.idEvento = evento;
             return View();
         }
 
@@ -82,5 +93,68 @@ namespace WebApplication4.Controllers
 
             return View(model);
         }
+
+
+
+
+        public ActionResult Busqueda(string busqueda = "")
+        {
+
+            if (!busqueda.Equals(""))
+            {
+
+                var lista = db.Eventos.AsNoTracking().Where(c => c.nombre.Contains(busqueda)).ToList();
+                ViewBag.Lista = lista;
+            }
+
+            var categorias = db.Categoria.AsNoTracking().Where(c => c.nivel == 1);
+            ViewBag.categorias = new SelectList(categorias, "idCategoria", "nombre");
+            var departamentos = db.Region.AsNoTracking().Where(c => c.idRegPadre == null);
+            ViewBag.departamentos = new SelectList(departamentos, "idRegion", "nombre");
+            List<Region> listProv = new List<Region>();
+            List<Categoria> listSubCat = new List<Categoria>();
+
+
+
+            ViewBag.distritos = new SelectList(listProv, "idProv", "nombre");
+            ViewBag.subcategorias = new SelectList(listSubCat, "idSubcat", "nombre");
+
+            return View();
+
+
+        }
+        [RequireRequestValue(new[] { "fech_ini", "fech_fin", "idCategoria", "idSubCat", "idRegion", "idProv" })]
+        public ActionResult Busqueda(DateTime fech_ini, DateTime fech_fin, int idCategoria, int idSubCat, int idRegion, int idProv)
+        {
+
+
+            if (fech_ini.CompareTo(fech_fin) > 0)
+            {
+
+
+
+            }
+
+
+            ViewBag.Categorias = db.Categoria.AsNoTracking().Where(c => c.nivel == 1);
+            ViewBag.Departamentos = db.Region.AsNoTracking().Where(c => c.idRegPadre == null);
+
+
+
+            return View("Busqueda");
+
+
+        }
+
+        public ActionResult Subcategorias()
+        {
+
+            return View();
+
+        }
+
+
+
+
     }
 }

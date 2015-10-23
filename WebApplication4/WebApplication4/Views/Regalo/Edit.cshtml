@@ -7,6 +7,11 @@
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+    Regalo re = (Regalo)Session["regalo"];
+    RegaloModel r1 = new RegaloModel();
+    r1.nombre = re.Nombre;
+    r1.descripcion = re.descripcion;
+    r1.puntos = (int)re.puntos;
 }
 
 <h2>Editar Registro</h2>
@@ -14,7 +19,7 @@
 
 
 <div class="modal-body">
-    @using (Html.BeginForm("EditRegister", "Regalo", FormMethod.Post, new { }))
+    @using (Html.BeginForm("EditRegister", "Regalo", FormMethod.Post, new { model = r1 }))
     {
         @Html.AntiForgeryToken()
 
@@ -24,7 +29,8 @@
             <div class="row form-group">
                 @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })
                 <div class="col-md-9">
-                    @Html.EditorFor(model => model.nombre, new { @placeholder = "Nombre" })
+                    @*@Html.EditorFor(model => model.nombre)*@
+                    @Html.TextBoxFor(model => model.nombre, new { @placeholder = @re.Nombre })
                     @Html.ValidationMessageFor(model => model.nombre)
                 </div>
             </div>
@@ -32,7 +38,7 @@
             <div class="row form-group">
                 @Html.LabelFor(model => model.descripcion, new { @class = "control-label col-md-3" })
                 <div class="col-md-9">
-                    @Html.EditorFor(model => model.descripcion)
+                    @Html.TextAreaFor(model => model.descripcion, new { @placeholder = @re.descripcion })
                     @Html.ValidationMessageFor(model => model.descripcion)
                 </div>
             </div>
@@ -40,7 +46,7 @@
             <div class="row form-group">
                 @Html.LabelFor(model => model.puntos, new { @class = "control-label col-md-3" })
                 <div class="col-md-9">
-                    @Html.EditorFor(model => model.puntos)
+                    @Html.TextBoxFor(model => model.puntos, new { @placeholder = @re.puntos })
                     @Html.ValidationMessageFor(model => model.puntos)
                 </div>
             </div>

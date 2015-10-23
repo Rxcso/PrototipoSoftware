@@ -15,7 +15,7 @@
             <li class="active">Nuevo evento</li>
         </ol>
     </div>
-</div>
+</div>  
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -32,7 +32,7 @@
             <li id="tab_1" class="active"><a href="#generales" data-toggle="tab">Datos Generales</a></li>
             <li id="tab_2"><a href="#bloques_tiempo" data-toggle="tab">Bloques de tiempo de venta</a></li>
             <li id="tab_3"><a href="#funciones" data-toggle="tab">Funciones</a></li>
-            <li id="tab_4"><a href="#tarifas" data-toggle="tab">Tarifas</a></li>
+            <li id="tab_4"><a href="#tarifas" data-toggle="tab" onclick="generaTablaTarifas()">Tarifas</a></li>
             <li id="tab_6"><a href="#extras" data-toggle="tab">Extras</a></li>
         </ul>
 
@@ -61,30 +61,15 @@
                         </div>
                     </div><br><br>
                     <div class="form-group">
-                        <label for="organizador" class="control-label col-md-2">Tipo:</label>
+                        @Html.LabelFor(c => c.idCategoria, new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            <select class="form-control" name="" id="">
-                                <option value="">Seleccione</option>
-                                <option value="">Evento</option>
-                                <option value="">Cine</option>
-                                <option value="">Teatro</option>
-                                <option value="">Actividad</option>
-                            </select>
-
+                            @Html.DropDownListFor(c => c.idCategoria, @ViewBag.CatID as SelectList, "Categoria", new { @class = "form-control", @onchange = "cambioCategoria()" })
                         </div>
                     </div><br><br>
                     <div class="form-group">
-                        <label for="organizador" class="control-label col-md-2">Categoría:</label>
+                        @Html.LabelFor(c => c.idSubCat, new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            <select class="form-control" name="" id="">
-                                <option value="">Seleccione</option>
-                                <option value="">Comedia</option>
-                                <option value="">Musical</option>
-                                <option value="">Concierto</option>
-                                <option value="">Dinosaurios</option>
-                                <option value="">Ingeniería</option>
-                            </select>
-
+                            @Html.DropDownListFor(c => c.idSubCat, @ViewBag.SubID as SelectList, "Subcategoria", new { @class = "form-control" })
                         </div>
                     </div><br><br>
                     <div class="form-group">
@@ -105,13 +90,13 @@
                         </div>
                     </div><br><br>
                     <div class="form-group">
+                        @Html.LabelFor(model => model.idRegion, new { @class = "control-label col-md-2" })
                         <div class="col-md-4">
-                            @Html.LabelFor(model => model.idRegion)
-                            @Html.DropDownListFor(model => model.idRegion, @ViewBag.DepID as SelectList, "Departamento", new { @class  = "form-control",@onchange = "cambio()" })
+                            @Html.DropDownListFor(model => model.idRegion, @ViewBag.DepID as SelectList, "Departamento", new { @class = "form-control", @onchange = "cambioDepartamento()" })
                         </div>
+                        @Html.LabelFor(model => model.idProv, new { @class = "control-label col-md-2" })
                         <div class="col-md-4">
-                            @Html.LabelFor(model => model.idProv)
-                            @Html.DropDownListFor(model => model.idProv, @ViewBag.ProvID as SelectList, "Provincia", new {@class ="form-control"})
+                            @Html.DropDownListFor(model => model.idProv, @ViewBag.ProvID as SelectList, "Provincia", new { @class = "form-control" })
                         </div>
                     </div><br><br>
                     <div class="form-group">
@@ -121,68 +106,44 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div><br /><br />
             <!--SEGUNDA PESTAÑA-->
             <div class="tab-pane fade in container" id="bloques_tiempo">
                 <br>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <button id="btnAgregarBloque" type="button" class="btn btn-primary" onclick="nuevoBloque()">Añadir bloque <span class="glyphicon glyphicon-plus"></span></button>
+                        <button id="btnQuitarBloque" type="button" class="btn btn-primary" onclick="quitarBloque()">Quitar bloque <span class="glyphicon glyphicon-remove"></span></button>
+                    </div>
+                </div>
+
                 <div id="bloques" class="container">
-                    <div class="row" id="bloqueDeTiempo">
-                        <div class="col-md-2">
-                            <label for="">Bloque de tiempo:</label>
-                        </div>
-                        <div class="col-md-3" id="desdeGroup">
-                            <div class="input-group">
-                                <span class="input-group-addon">Desde:</span>
-                                <input type="date" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="input-group" id="hastaGroup">
-                                <span class="input-group-addon">Hasta:</span>
-                                <input type="date" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <button id="btnAgregarBloque" class="btn btn-primary" onclick="nuevoBloque()">Añadir bloque <span class="glyphicon glyphicon-plus"></span></button>
-                                <button id="btnQuitarBloque" class="btn btn-primary">Quitar bloque <span class="glyphicon glyphicon-remove"></span></button>
-                            </div>
-                        </div>
-                    </div><br>
-                    <!--
-                                          <div class="row">
-                                              <div class="col-md-6">
-                                                       <button onclick="" class="btn btn-primary pull-left"><span class="glyphicon glyphicon-hand-left"></span> Anterior</button>
-                                              </div>
-                                              <div class="col-md-6">
-                                                   <button onclick="" class="btn btn-primary  pull-right">Siguiente <span class="glyphicon glyphicon-hand-right"></span></button>
-                                               </div>
-                                          </div>
-                    -->
+                    <div class="col-md-2">
+                        <label for="">Bloque de tiempo:</label>
+                    </div>
+                    @Html.Hidden("histBloque", "0")
+                    <table class="table table-bordered table-hover" id="bloqueDeTiempo">
+                        <tshead>
+                            <tr class="thead">
+                                <td>Desde: </td>
+                                <td>Hasta: </td>
+                                <td>¿Quitar?</td>
+                            </tr>
+                        </tshead>
+                        <tbody></tbody>
+                    </table><br>
                 </div>
             </div>
             <!--TERCERA PESTAÑA-->
+            
             <div class="tab-pane fade in container" id="funciones">
+                @Html.Hidden("histFuncion", "0")
                 <br>
+                <div>
+                    <button id="btnAgregarFuncion" type="button" class="btn btn-primary" onclick="agregaFuncion()">Agregar función <span class="glyphicon glyphicon-plus"></span></button>
+                    <button id="btnAgregarFuncion" type="button" class="btn btn-primary" onclick="eliminarFuncion()">Quitar función <span class="glyphicon glyphicon-remove"></span></button>
+                </div><br /><br />
                 <div id="funciones" class="container">
-                    <div id="funcion_1" class="row">
-                        <div class="col-md-1 col-md-offset-1">
-                            <label for="">Fecha:</label>
-                        </div>
-                        <div class="col-md-2">
-                            <input class="form-control" type="date">
-                        </div>
-                        <div class="col-md-1 col-md-offset-1">
-                            <label for="">Hora:</label>
-                        </div>
-                        <div class="col-md-2">
-                            <input class="form-control" type="time">
-                        </div>
-                        <div class="col-md-4">
-                            <button id="btnAgregarFuncion" class="btn btn-primary">Agregar función <span class="glyphicon glyphicon-plus"></span></button>
-                            <button id="btnAgregarFuncion" class="btn btn-primary">Quitar función <span class="glyphicon glyphicon-remove"></span></button>
-                        </div>
-                    </div><br>
                 </div>
             </div>
             <!--CUARTA PESTAÑA-->
@@ -191,51 +152,24 @@
                     <br>
                     <div class="row">
                         <div class="col-md-3 col-md-offset-9">
-                            <button class="btn btn-primary ">Agregar fila <span class="glyphicon glyphicon-plus"></span></button>
+                            <button class="btn btn-primary" type="button" onclick="agregarFila()">Agregar fila <span class="glyphicon glyphicon-plus"></span></button>
                             <button class="btn btn-primary ">Quitar fila <span class="glyphicon glyphicon-remove"></span></button>
                         </div>
                     </div><br>
                     <div class="row">
-                        <table class="table table-bordered table-hover" contenteditable="true">
-                            <tr class="active">
-                                <th>Nº</th>
-                                <th>Tipo de entrada/Zona</th>
-                                <th>Del 1/1/2016 al 1/2/2016</th>
-                                <th>Del 2/2/2016 al 16/2/2016</th>
-                                <th>Cantidad de entradas</th>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
+                        <table class="table table-bordered table-hover" id="tarifaTabla">
+                            <thsead>
+                                <tr class="thead">
+                                    <th>Nº</th>
+                                    <th>Tipo de entrada/Zona</th>
+                                </tr>
+                            </thsead>
+                            <tbody></tbody>
                         </table>
                     </div>
                 </div>
             </div>
-            <!--QUINTA PESTAÑA-->
-            <div class="tab-pane fade in container" id="zonas_asientos">
-                <div class="container">
-                    <br>
-                    <div class="row">
-                        <div class="form-group">
-                            <label for="nombre" class="control-label col-md-2">Ruta imagen distribución de zonas: </label>
-                            <div class="col-md-6">
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                    </div><br>
-                </div>
-            </div>
+            <!--QUINTA PESTAÑA no existe, asientos tiene su propia vista-->
             <!--SEXTA PESTAÑA-->
             <div class="tab-pane fade in container" id="extras">
                 <div class="container">
@@ -261,7 +195,7 @@
                             <label for="nombre" class="control-label col-md-2">Ganancia sobre las ventas: </label>
                             <div class="col-md-2">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" aria-describedby="ganancia">
+                                    <input type="number" class="form-control" aria-describedby="ganancia">
                                     <span class="input-group-addon" id="ganancia">%</span>
                                 </div>
                             </div>
@@ -273,7 +207,7 @@
                             <div class="col-md-2">
                                 <div class="input-group">
                                     <span class="input-group-addon" id="cancelar">S/.</span>
-                                    <input type="text" class="form-control" aria-describedby="cancelar">
+                                    <input type="number" class="form-control" aria-describedby="cancelar">
                                 </div>
                             </div>
                         </div>
@@ -284,7 +218,7 @@
                             <div class="col-md-2">
                                 <div class="input-group">
                                     <span class="input-group-addon" id="cancelar">S/.</span>
-                                    <input type="text" class="form-control" aria-describedby="cancelar">
+                                    <input type="number" class="form-control" aria-describedby="cancelar">
                                 </div>
                             </div>
                         </div>
@@ -295,7 +229,7 @@
                             <div class="col-md-2">
                                 <div class="input-group">
                                     <span class="input-group-addon" id="postergar">S/.</span>
-                                    <input type="text" class="form-control" aria-describedby="postergar">
+                                    <input type="number" class="form-control" aria-describedby="postergar">
                                 </div>
                             </div>
                         </div>
@@ -323,7 +257,7 @@
                         <div class="form-group">
                             @Html.LabelFor(m => m.ImageSitios)
                             <div class="col-md-6">
-                                @Html.TextBoxFor(m => m.ImageSitios, new { type = "file" ,@class="form-control" })
+                                @Html.TextBoxFor(m => m.ImageSitios, new { type = "file", @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.ImageSitios)
                             </div>
                         </div>
@@ -340,7 +274,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-2 col-md-offset-5">
-                            <button type="submit" class="btn btn-primary">Registrar Evento</button>
+                            <button type="submit" class="btn btn-primary">Registrar Evento</button><br /><br />
                         </div>
                     </div>
                 </div>
@@ -434,22 +368,45 @@
             </div>
         </div>
     </div>
-
+    <input name="plox" id="plox" />
     <script>
-        function cambio() {
+        function cambioDepartamento() {
             var depId = parseInt($("#idRegion").val());
             if (!isNaN(depId)) {
                 var ddProv = $("#idProv");
                 ddProv.empty();
-                ddProv.append($("<option></option>").val("").html("--Provincia--"));
+                ddProv.append($("<option></option>").val("").html("Provincia"));
                 $.ajax({
-                    url: "Provincia",
+                    url: "@Url.Action("Provincia","Services")",
                     data: { depId: depId },
                     datatype: "json",
                     success: function (data) {
                         var obj = $.parseJSON(data);
                         $.each(obj, function (k, v) {
                             ddProv.append($("<option></option>").val(v.IdRegion).html(v.Nombre));
+                        });
+                    },
+                    error: function () {
+                        alert("Error :(");
+                    }
+                });
+            }
+            ddProv.empty();
+        }
+        function cambioCategoria() {
+            var catId = parseInt($("#idCategoria").val());
+            if (!isNaN(catId)) {
+                var ddProv = $("#idSubCat");
+                ddProv.empty();
+                ddProv.append($("<option></option>").val("").html("Subcategoria"));
+                $.ajax({
+                    url: "@Url.Action("Subcategoria","Services")",
+                    data: { catId: catId },
+                    datatype: "json",
+                    success: function (data) {
+                        var obj = $.parseJSON(data);
+                        $.each(obj, function (k, v) {
+                            ddProv.append($("<option></option>").val(v.IdSCategoria).html(v.Nombre));
                         });
                     },
                     error: function () {
@@ -468,13 +425,54 @@
             $("#localNombre").val(nomb);
             $('#modalBuscarLocal').modal('hide');
         }
+        function agregarFila() {
+            var tabla = document.getElementById("tarifaTabla");
+            var row = tabla.insertRow();
+            row.insertCell(0);
+            row.insertCell(1);
+        }
         function nuevoBloque() {
-            
-            var gDesde = document.getElementById("#desdeGroup");
-            var htmlAdd = '<div class="input-group"><span class="input-group-addon">Desdemicorazon:</span>'+
-                '<input type="date" class="form-control>"';
-            gDesde.innerHTML = htmlAdd;
-            
+            var table = document.getElementById("bloqueDeTiempo");
+            var row = table.insertRow();
+            row.id = $("#histBloque").val();
+            var cell1 = row.insertCell(0);//desde
+            cell1.innerHTML = '<input type="date" class="form-control" >';
+            var cell2 = row.insertCell(1);//hasta
+            cell2.innerHTML = '<input type="date" class="form-control" >';
+            var cell3 = row.insertCell(2);
+            cell3.align = "center";
+            cell3.innerHTML = '<input type="radio" name="groupBloquedeVenta" value="' + (parseInt(row.id)) + '">';
+            $("#histBloque").val(parseInt(row.id) + 1);
+        }
+        function quitarBloque() {
+            var fila = $('input[name="groupBloquedeVenta"]:checked').val();
+            var row = document.getElementById(parseInt(fila));
+            row.parentNode.removeChild(row);
+        }
+
+        function generaTablaTarifas() {
+            var table = document.getElementById("bloqueDeTiempo");
+            var tamBloque = parseInt(table.rows.length);
+            var tblHead = document.getElementById("tarifaTabla").tHead;
+            for (var i = 1; i < tamBloque; i++) {
+                var row = table.rows[i];
+                var name = "Del " + $('input', row.cells[0]).val() + " hasta " + $('input', row.cells[1]).val();
+                var tieneColumna = $('#tarifaTabla thead th').filter(function () {
+                    return this.textContent === name;
+                }).length > 0;
+                if (!tieneColumna) {
+                    $('#tarifaTabla thead').append('<th>' + name + '</th>');
+                }
+            }
+        }
+        function agregaFuncion() {
+            var cantFuncion = parseInt($("#histFuncion").val());
+            $('<div id="funcion_' + (cantFuncion + 1) + '" class="row" ><div class="col-md-1 col-md-offset-1"><label for="">Fecha:</label></div><div class="col-md-2"><input class="form-control" type="date"></div><div class="col-md-1 col-md-offset-1"><label for="">Hora:</label></div><div class="col-md-2"><input class="form-control" type="time"></div><div class="col-md-1"><input type="radio" name="groupFunciones" value="' + (cantFuncion + 1) + '"></div></div><br>').appendTo("#funciones");
+            $("#histFuncion").val(cantFuncion + 1);
+        }
+        function eliminarFuncion() {
+            var fila = $('input[name="groupFunciones"]:checked').val();
+            $("#funcion_" + fila).remove();
         }
     </script>
 </div>

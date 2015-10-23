@@ -1,0 +1,29 @@
+﻿@using Microsoft.AspNet.Identity
+@using WebApplication4.Models
+@model CategoriaSearchModel
+<br>
+@using (Html.BeginForm("Search", "Categoria", FormMethod.Post, new { }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true)
+        <br>
+        <div class="col-md-10">
+            <form action="" class="" role="search">
+                <div class="form-group">
+                    <div class="input-group">
+                        @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })            
+                            @Html.EditorFor(model => model.nombre)
+                            @Html.ValidationMessageFor(model => model.nombre)
+                      
+                      <input type="submit" value="Buscar" class="btn btn-primary" />
+                    </div>
+
+                </div>
+
+            </form>
+        </div>
+    </div>
+}
+

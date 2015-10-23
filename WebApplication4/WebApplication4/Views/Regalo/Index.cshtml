@@ -20,29 +20,42 @@
         <div class="col-md-6">
             <div class="form-group">
                 <a class="btn btn-primary" href="#formNuevo" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
-               @* <button type="button" class="btn btn-primary" href="#formEditar" onclick="modificar()">Modificar <span class="glyphicon glyphicon-pencil"></span></button>*@
+                @*<a class="btn btn-primary" data-toggle="modal" onclick="borrar()">Dar de Baja <span class="glyphicon glyphicon-remove"></span></a>*@
+                <a class="btn btn-primary" data-toggle="modal" onclick="redirigeRegalo()">Modificar<span class="glyphicon glyphicon-pencil"></span></a>
+                <a class="btn btn-primary" href="#eliminar" data-toggle="modal">Borrar<span class="glyphicon glyphicon-remove"></span></a>
+                @* <button type="button" class="btn btn-primary" href="#formEditar" onclick="modificar()">Modificar <span class="glyphicon glyphicon-pencil"></span></button>*@
                 @*<a class="btn btn-primary" href="#eliminar" data-toggle="modal">Dar de Baja <span class="glyphicon glyphicon-remove"></span></a>*@
                 <button id=botonOculto style="visibility:hidden" type="button" class="btn btn-primary" onclick="msjConfirmacion2()">Guardar cambios <span class="glyphicon glyphicon-save"></span></button>
             </div>
         </div>
-
+        <div class="col-md-3">
+            <form action="" class="" role="search">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input id="idBusq" type="text" class="form-control" placeholder="BUSCAR UN REGALO">
+                        <span class="input-group-btn"><button onclick="busca()" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
+                    </div>
+                </div>
+            </form>
+        </div>
         <div class="col-md-3">
             <a class="btn btn-danger pull-right" href="@Url.Action("Index2", "Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
         </div>
 
     </div>
-    @{
-        Html.RenderPartial("_Search");
-    }
+    @*@{
+            Html.RenderPartial("_Search");
+        }*@
     @{
         var db = new WebApplication4.Models.inf245netsoft();
         List<WebApplication4.Models.Regalo> listaRegalo;
-        if (TempData["ListaR"] == null) { 
-        listaRegalo = db.Regalo.AsNoTracking().Where(c => c.estado == true).ToList();
+        if (Session["ListaR"] == null)
+        {
+            listaRegalo = db.Regalo.AsNoTracking().Where(c => c.estado == true).ToList();
         }
         else
         {
-            listaRegalo = (List<WebApplication4.Models.Regalo>) TempData["ListaR"];
+            listaRegalo = (List<WebApplication4.Models.Regalo>)Session["ListaR"];
         }
     }
 
@@ -54,7 +67,7 @@
                     <th>Nombre</th>
                     <th>Descripcion</th>
                     <th>Puntos</th>
-                    <th></th>
+                    @*<th></th>*@
                 </tr>
             </thead>
             <tbody id="tbody">
@@ -65,15 +78,117 @@
                         <td>@row.Nombre</td>
                         <td>@row.descripcion</td>
                         <td>@row.puntos</td>
-                        <td>@Html.ActionLink("Delete", "Delete", new { id = row.idRegalo})</td>
-                        <td>@Html.ActionLink("Edit", "Edit", new { id = row.idRegalo })</td>
+                        @*<td>@Html.ActionLink("Delete", "Delete2", new { id = row.idRegalo})</td>
+                            <td>@Html.ActionLink("Edit", "Edit2", new { id = row.idRegalo })</td>*@
                     </tr>
                 }
             </tbody>
         </table>
     </div>
-
 </div>
+
+<input type="hidden" id="idRegaloT" value="" />
+<script>
+    function myFunction(x) {
+        if (document.getElementsByClassName("trselected").length > 0) {
+            var element = document.getElementsByClassName("trselected");
+            //element.item[0].cells[0].innerText;
+            element[0].className = "";
+        }
+        //var tabla = document.getElementById("mytable");
+        //alert(x);
+        //var y = x.getCells();
+        var elem = document.getElementById("idRegaloT");
+        elem.value = x.cells[0].innerHTML;
+        //alert(x.cells[0].innerHTML);
+        //ViewBag.P = x.cells[0].innerHTML;
+        x.className = "trselected";
+
+        //<a class="btn btn-primary" href="javascript:document.getElementsByClassName('trselected').submit()">Borrar<span class="glyphicon glyphicon-pencil"></span></a>
+        //idProm = x.codp;
+    }
+    function borrar() {
+        var regalo = $('#idRegaloT').val();
+        var el = document.getElementById(regalo);
+        var row = $(el).closest('tr');
+        //alert(evento);
+        //alert(promocion);
+        if (regalo != "" && regalo != null) {
+            $.ajax({
+                url: "@Url.Action("Delete","Regalo")",
+                data: { regalo: regalo },
+                success: function (data) {
+                    //alert("Eliminado");
+                    $('#eliminar').modal('hide');
+                    row.remove();
+                    window.location.href = '/Regalo/Index';
+                },
+                error: function () {
+                    alert("Error :(");
+                }
+            });
+        } else {
+            alert("Seleccione un Regalo");
+            evento = "";
+        }
+    }
+    function redirigeRegalo() {
+        var regalo = $('#idRegaloT').val();
+        if (regalo != "") {
+            window.location.href = '/Regalo/Edit?regalo=' + regalo;
+        } else {
+            alert("Seleccione un Regalo");
+            evento = "";
+        }
+        //$.post('/Regalo/Edit/' + regalo);
+    }
+    function busca() {
+        var regalo = $('#idBusq').val();
+        //var el = document.getElementById(regalo);
+        //var row = $(el).closest('tr');
+        //alert(evento);
+        //alert(promocion);
+        $.ajax({
+            url: "@Url.Action("Search2", "Regalo")",
+            data: { regalo: regalo },
+            success: function (data) {
+                window.location.href = '/Regalo/Index';
+                //alert("Eliminado");
+                //row.remove();
+            },
+            error: function () {
+                alert("Error :(");
+            }
+        });
+    }
+    function modificar() {
+        var regalo = $('#idRegaloT').val();
+        //var el = document.getElementById(regalo);
+        //var row = $(el).closest('tr');
+        //alert(evento);
+        //alert(promocion);
+        $.ajax({
+            url: "@Url.Action("Edit","Regalo")",
+            data: { regalo: regalo },
+            success: function (data) {
+                //alert("Eliminado");
+                //row.remove();
+            },
+            error: function () {
+                alert("Error :(");
+            }
+        });
+    }
+    function closewindow() {
+        $('#eliminar').modal('hide');
+    }
+</script>
+
+<style>
+    .trselected {
+        background: gray;
+    }
+</style>
 
 
 <div class="modal fade" id="formNuevo">
@@ -126,7 +241,7 @@
                         </div>
                     </div>
                 }
-            
+
             </div>
         </div>
     </div>
@@ -149,8 +264,8 @@
             </div>
             <!--footer de la ventana-->
             <div class="modal-footer">
-                <button type="button" onclick="eliminar()" class="btn btn-primary">Aceptar <span class="glyphicon glyphicon-ok"></span></button>
-                <button type="button" onclick="eliminar()" class="btn btn-danger">Cancelar <span class="glyphicon glyphicon-remove"></span></button>
+                <button type="button" onclick="borrar()" class="btn btn-primary">Aceptar <span class="glyphicon glyphicon-ok"></span></button>
+                <button type="button" onclick="return closewindow();" class="btn btn-danger">Cancelar <span class="glyphicon glyphicon-remove"></span></button>
             </div>
         </div>
     </div>

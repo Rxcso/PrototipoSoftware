@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNet.Identity
+﻿@using Microsoft@using Microsoft.AspNet.Identity
 @using WebApplication4.Models
 
 @model CategoriaModel
@@ -19,95 +19,59 @@
         <div class="col-md-11">
             <div class="form-group">
                 <a class="btn btn-primary" href="#formNuevo" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
-                <a class="btn btn-primary" onclick="editar()">Modificar <span class="glyphicon glyphicon-pencil"></span></a>
-                <a class="btn btn-primary" onclick="borrar()">Dar de Baja <span class="glyphicon glyphicon-remove"></span></a>
+                <!--<a class="btn btn-primary" onclick="editar()">Modificar <span class="glyphicon glyphicon-pencil"></span></a>-->
+                <!--<a class="btn btn-primary" onclick="borrar()">Dar de Baja <span class="glyphicon glyphicon-remove"></span></a>-->
             </div>
         </div>
+
         <div class="col-md-1">
             <a class="btn btn-danger" href="index2.html">Salir <span class="glyphicon glyphicon-log-out"></span></a>
         </div>
     </div>
+    @{
+        Html.RenderPartial("_Search");
+    }
+    @{
+        var db = new WebApplication4.Models.inf245netsoft();
+        List<WebApplication4.Models.Categoria> listaCategoria;
+        if (TempData["ListaC"] == null)
+        {
+            listaCategoria = db.Categoria.AsNoTracking().Where(c => c.activo == 1).ToList();
+        }
+        else
+        {
+            listaCategoria = (List<WebApplication4.Models.Categoria>)TempData["ListaC"];
+        }
+    }
     <div class="row">
-        <table class="table table-bordered table-hover">
-            <tr class="active">
-                <th>Id</th>
-                <th>Nombre</th>
-                <th>Descripción</th>
-                <th>Id Padre</th>
-                <th>Estado</th>
-            </tr>
-            <tr>
-                <td>01</td>
-                <td>Evento</td>
-                <td>Descripción 1</td>
-                <td> </td>
-                <td>Activo</td>
-            </tr>
-            <tr>
-                <td>02</td>
-                <td>Cine</td>
-                <td>Descripción 2</td>
-                <td> </td>
-                <td>Activo</td>
-            </tr>
-            <tr id="fila3" onclick="select()">
-                <td>03</td>
-                <td id="fila3Nomb">Teatro</td>
-                <td id="fila3Desc">Descripción 3</td>
-                <td id="filaPadre"></td>
-                <td>Activo</td>
-            </tr>
-            <tr>
-                <td>04</td>
-                <td>Actividad</td>
-                <td>Descripción 4</td>
-                <td> </td>
-                <td>Activo</td>
-            </tr>
-
-            <tr>
-                <td>05</td>
-                <td>Concierto</td>
-                <td>Descripción 5</td>
-                <td> 1</td>
-                <td>Activo</td>
-            </tr>
-            <tr>
-                <td>06</td>
-                <td>Musical</td>
-                <td>Descripción 6</td>
-                <td> 1</td>
-                <td>Activo</td>
-            </tr>
-            <tr>
-                <td>07</td>
-                <td>Comedia</td>
-                <td>Descripción 7</td>
-                <td> 4</td>
-                <td>Activo</td>
-            </tr>
-            <tr id="fila4" onclick="select2()">
-                <td>08</td>
-                <td id="fila4Nomb">Horror</td>
-                <td id="fila4Desc">Descripción 8</td>
-                <td> 2</td>
-                <td>Activo</td>
-            </tr>
-            <tr>
-                <td>09</td>
-                <td>Drama</td>
-                <td>Descripción 9</td>
-                <td> 3</td>
-                <td>Activo</td>
-            </tr>
-
-            <tr id="filaAgregada" style="visibility:hidden" onclick="select11()">
-                <td>10</td>
-                <td id="nomb">a</td>
-                <td id="dir">b</td>
-                <td id="idP"></td>
-                <td>Activo</td>
-            </tr>
+        <table id="mytable" class="table table-bordered table-hover">
+            <thead>
+                <tr class="thead">
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Id Padre</th>
+                    <th>Nivel</th>
+                    <th>Estado</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+                @foreach (var row in listaCategoria)
+                {
+                    <tr id=@row.idCategoria onclick="myFunction(this)">
+                        <td>@row.idCategoria</td>
+                        <td>@row.nombre</td>
+                        <td>@row.descripcion</td>
+                        <td>@row.idCatPadre</td>
+                        <td>@row.nivel</td>
+                        <td>@row.activo</td>
+                        <td>@Html.ActionLink("Delete", "Delete", new { id = row.idCategoria })</td>
+                        <td>@Html.ActionLink("Edit", "Edit", new { id = row.idCategoria })</td>
+                    </tr>
+                }
+            </tbody>
         </table>
     </div>
 </div>
@@ -163,9 +127,3 @@
         </div>
     </div>
 </div>
-
-
-
-
-
-

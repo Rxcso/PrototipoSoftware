@@ -35,12 +35,24 @@ namespace WebApplication4.Controllers
                 org.estadoOrg = "Activo";
                 db.Organizador.Add(org);
                 db.SaveChanges();
-                return RedirectToAction("Index", "Organizador");
+                return View("Index");
             }
-            return RedirectToAction("Index", "Organizador");
+            return View("Index");
         }
 
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string organizador)
+        {
+            int id = int.Parse(organizador);
+            Organizador org = db.Organizador.Find(id);
+            //db.Regalo.Remove(regalo);
+            db.Entry(org).State = EntityState.Modified;
+            org.estadoOrg = "Inactivo";
+            db.SaveChanges();
+            //return RedirectToAction("Index", "Evento");
+            return View("Index");
+        }
+
+        public ActionResult Delete2(int id)
         {
             Organizador org = db.Organizador.Find(id);
             //db.Regalo.Remove(regalo);
@@ -51,7 +63,16 @@ namespace WebApplication4.Controllers
             return View("Index");
         }
 
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string organizador)
+        {
+            int id = int.Parse(organizador);
+            ViewBag.id = id;
+            TempData["codigoO"] = id;
+            Session["organizador"] = db.Organizador.Find(id);
+            return View("Edit");
+        }
+
+        public ActionResult Edit2(int id)
         {
             ViewBag.id = id;
             TempData["codigoO"] = id;
@@ -75,7 +96,7 @@ namespace WebApplication4.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index", "Organizador");
             }
-            return RedirectToAction("Index", "Organizador");
+            return View("Edit");
         }
 
         [HttpPost]
@@ -90,6 +111,21 @@ namespace WebApplication4.Controllers
                 return RedirectToAction("Index", "Organizador");
             }
             TempData["ListaO"] = null;
+            return RedirectToAction("Index", "Organizador");
+        }
+
+        public ActionResult Search2(string organizador)
+        {
+            List<Organizador> listaOrg;
+            if (organizador == "")
+            {
+                //listaReg = db.Regalo.AsNoTracking().Where(c => c.estado == true).ToList();
+                Session["ListaO"] = null;
+                return RedirectToAction("Index", "Organizador");
+            }
+            listaOrg = db.Organizador.AsNoTracking().Where(c => c.nombOrg.StartsWith(organizador) && c.estadoOrg == "Activo").ToList();
+            if (listaOrg != null) Session["ListaO"] = listaOrg;
+            else Session["ListaO"] = null;
             return RedirectToAction("Index", "Organizador");
         }
 

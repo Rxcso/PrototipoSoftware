@@ -1,0 +1,40 @@
+﻿#grilla-borde {	
+	background-color: #BBADA0;
+	display: block; 
+	margin: 0 auto; 
+	text-align:center;
+	position: relative;
+	border-radius: 5%;
+	z-index: 1;
+}
+
+#grilla-interna {	
+	background-color: #BBADA0;
+	position: absolute;
+	z-index: 2;
+}
+
+.filas {	
+	background-color: #BBADA0;
+	z-index: 3;
+} 
+
+.celdas {	
+	border-radius: 5%;
+	float: left;
+	z-index: 4;
+}
+
+.ficha {
+	background-color: #009900;
+	border-radius: 5%;
+	z-index: 5;
+	height: 100%;
+	width: 100%;
+}
+.eliminado{
+    background-color: #BBADA0;
+}
+.elegido{
+    background-color: blue;
+}

@@ -34,12 +34,23 @@ namespace WebApplication4.Controllers
                 local.idRegion = model.departamento;
                 db.Local.Add(local);
                 db.SaveChanges();
-                return RedirectToAction("Index", "Local");
+                return View("Index");
             }
-            return RedirectToAction("Index", "Local");
+            return View("Index");
         }
 
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string local)
+        {
+            int id = int.Parse(local);
+            Local localr = db.Local.Find(id);
+            db.Local.Remove(localr);
+            //db.Entry(localr).State = EntityState.Modified;
+            //local.es
+            db.SaveChanges();
+            return View("Index");
+        }
+
+        public ActionResult Delete2(int id)
         {
             Local local = db.Local.Find(id);
             db.Local.Remove(local);
@@ -49,7 +60,16 @@ namespace WebApplication4.Controllers
             return View("Index");
         }
 
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string local)
+        {
+            int id=int.Parse(local);
+            ViewBag.id = id;
+            TempData["codigol"] = id;
+            Session["local"] = db.Local.Find(id);
+            return View("Edit");
+        }
+
+        public ActionResult Edit2(int id)
         {
             ViewBag.id = id;
             TempData["codigol"] = id;
@@ -67,13 +87,13 @@ namespace WebApplication4.Controllers
                 db.Entry(local).State = EntityState.Modified;
                 local.aforo = model.aforo;
                 local.descripcion = model.descripcion;
-                local.ubicacion = local.ubicacion;
+                local.ubicacion = model.ubicacion;
                 local.idProvincia = model.provincia;
                 local.idRegion = model.departamento;
                 db.SaveChanges();
                 return RedirectToAction("Index", "Local");
             }
-            return RedirectToAction("Index", "Local");
+            return View("Edit");
         }
 
         [HttpPost]
@@ -87,6 +107,42 @@ namespace WebApplication4.Controllers
                 else TempData["ListaL"] = null;
                 if (listaLoc != null) TempData["ListaL"] = listaLoc;
                 else TempData["ListaL"] = null;            
+            return RedirectToAction("Index", "Local");
+        }
+
+        public ActionResult Search2(string local)
+        {
+            List<Local> listaLoc;
+            if (local == "")
+            {
+                //listaReg = db.Regalo.AsNoTracking().Where(c => c.estado == true).ToList();
+                Session["ListaL"] = null;
+                return RedirectToAction("Index", "Local");
+            }
+            listaLoc = db.Local.AsNoTracking().Where(c => c.descripcion.StartsWith(local)).ToList();
+            if (listaLoc != null) Session["ListaL"] = listaLoc;
+            else Session["ListaL"] = null;
+            return RedirectToAction("Index", "Local");
+        }
+
+        public ActionResult Search3(string region)
+        {
+            int id = int.Parse(region);
+            List<Local> listaLoc;
+            if (region == "")
+            {
+                //listaReg = db.Regalo.AsNoTracking().Where(c => c.estado == true).ToList();
+                Session["ListaL"] = null;
+                return RedirectToAction("Index", "Local");
+            }
+            if (region == "0")
+            {
+                Session["ListaL"] = db.Local.ToList();
+                return RedirectToAction("Index", "Local");
+            }
+            listaLoc = db.Local.AsNoTracking().Where(c => c.idRegion==id).ToList();
+            if (listaLoc != null) Session["ListaL"] = listaLoc;
+            else Session["ListaL"] = null;
             return RedirectToAction("Index", "Local");
         }
 

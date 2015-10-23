@@ -27,29 +27,27 @@
                     <br>
                     <br>
                     <a class="btn btn-primary" href="#formNuevo" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
-                    <a class="btn btn-primary" onclick="editar()">Modificar <span class="glyphicon glyphicon-pencil"></span></a>
-                    <a class="btn btn-primary" onclick="borrar()">Dar de Baja <span class="glyphicon glyphicon-remove"></span></a>
-
-                    <a class="btn btn-primary" onclick="Guardar()">Guardar <span class="glyphicon glyphicon-save"></span></a>
-
+                    <a class="btn btn-primary" data-toggle="modal" onclick="redirige()">Modificar<span class="glyphicon glyphicon-pencil"></span></a>
+                    <a class="btn btn-primary" href="#eliminar" data-toggle="modal">Borrar<span class="glyphicon glyphicon-remove"></span></a>
+                    @*@{
+                        Html.RenderPartial("_Search");
+                    }*@
                     <br>
                     <br>
                 </div>
             </div>
-
-            @*<div class="col-md-4">
+            <div class="col-md-3">
                 <form action="" class="" role="search">
                     <br>
                     <br>
                     <div class="form-group">
                         <div class="input-group">
-
-                            <input type="text" class="form-control" placeholder="BUSCAR UNA ORGANIZADOR">
-                            <span class="input-group-btn"><button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
+                            <input id="idBusq" type="text" class="form-control" placeholder="BUSCAR UNA ORGANIZADOR">
+                            <span class="input-group-btn"><button onclick="busca()" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
                         </div>
                     </div>
                 </form>
-            </div>*@
+            </div>
 
             <div class="col-md-2">
                 <br>
@@ -60,20 +58,17 @@
         </div>
 
         @{
-            Html.RenderPartial("_Search");
-        }
-        @{
             var db = new WebApplication4.Models.inf245netsoft();
             List<WebApplication4.Models.Organizador> listaOrganizador;
-            if (TempData["ListaO"] == null)
+            if (Session["ListaO"] == null)
             {
                 listaOrganizador = db.Organizador.AsNoTracking().Where(c => c.estadoOrg == "Activo").ToList();
             }
             else
             {
-                listaOrganizador = (List<WebApplication4.Models.Organizador>)TempData["ListaO"];
-            }      
+                listaOrganizador = (List<WebApplication4.Models.Organizador>)Session["ListaO"];
             }
+        }
 
         <div class="row">
             <table id="mytable" class="table table-bordered table-hover">
@@ -84,7 +79,7 @@
                         <th>Nro. Documento</th>
                         <th>Correo</th>
                         <th>Telefono</th>
-                        <th></th>
+                        @*<th></th>*@
                     </tr>
                 </thead>
                 <tbody id="tbody">
@@ -96,10 +91,10 @@
                             <td>@row.codDoc</td>
                             <td>@row.correo</td>
                             <td>@row.telefOrg</td>
-                            <td>@Html.ActionLink("Delete", "Delete", new { id = row.codOrg })</td>
-                            <td>@Html.ActionLink("Edit", "Edit", new { id = row.codOrg })</td>
+                            @*<td>@Html.ActionLink("Delete2", "Delete", new { id = row.codOrg })</td>
+                                <td>@Html.ActionLink("Edit", "Edit", new { id = row.codOrg })</td>*@
                             @*<td>@Html.ActionLink("Delete", "Delete", new { id = row.idRegalo })</td>
-                            <td>@Html.ActionLink("Edit", "Edit", new { id = row.idRegalo })</td>*@
+                                <td>@Html.ActionLink("Edit", "Edit", new { id = row.idRegalo })</td>*@
                         </tr>
                     }
                 </tbody>
@@ -108,90 +103,214 @@
 
     </div>
 
+</div>
 
+<input type="hidden" id="idOrganizadorT" value="" />
+<script>
+    function myFunction(x) {
+        if (document.getElementsByClassName("trselected").length > 0) {
+            var element = document.getElementsByClassName("trselected");
+            //element.item[0].cells[0].innerText;
+            element[0].className = "";
+        }
+        //var tabla = document.getElementById("mytable");
+        //alert(x);
+        //var y = x.getCells();
+        var elem = document.getElementById("idOrganizadorT");
+        elem.value = x.cells[0].innerHTML;
+        //alert(x.cells[0].innerHTML);
+        //ViewBag.P = x.cells[0].innerHTML;
+        x.className = "trselected";
 
-    <div class="modal fade" id="formNuevo">
-        <!--esta div pondra la pantalla oscura al presionar el boton-->
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <!--ACA VA EL CONTENIDO DEL MODAL-->
-                <!--header de la ventana-->
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
-                    <h4 class="modal-title">Nuevo Organizador</h4>
-                </div>
-                <!--contenido de la ventana-->
-                @using (Html.BeginForm("RegisterOrganizador", "Organizador", FormMethod.Post, new { }))
-                {
-                    @Html.AntiForgeryToken()
+        //<a class="btn btn-primary" href="javascript:document.getElementsByClassName('trselected').submit()">Borrar<span class="glyphicon glyphicon-pencil"></span></a>
+        //idProm = x.codp;
+    }
+    function borrar() {
+        var organizador = $('#idOrganizadorT').val();
+        var el = document.getElementById(organizador);
+        var row = $(el).closest('tr');
+        //alert(evento);
+        //alert(promocion);
+        if (organizador != "" && organizador != null) {
+            $.ajax({
+                url: "@Url.Action("Delete", "Organizador")",
+                data: { organizador: organizador },
+                success: function (data) {
+                    //alert("Eliminado");
+                    $('#eliminar').modal('hide');
+                    row.remove();
+                    window.location.href = '/Organizador/Index';
+                },
+                error: function () {
+                    alert("Error :(");
+                }
+            });
+        } else {
+            alert("Seleccione un Organizador");
+            evento = "";
+        }
+    }
+    function busca() {
+        var organizador = $('#idBusq').val();
+        //var el = document.getElementById(regalo);
+        //var row = $(el).closest('tr');
+        //alert(evento);
+        //alert(promocion);
+        $.ajax({
+            url: "@Url.Action("Search2", "Organizador")",
+            data: { organizador: organizador },
+        success: function (data) {
+            window.location.href = '/Organizador/Index';
+            //alert("Eliminado");
+            //row.remove();
+        },
+        error: function () {
+            alert("Error :(");
+        }
+    });
+    }
+    function redirige() {
+        var organizador = $('#idOrganizadorT').val();
+        if (organizador != "") {
+            window.location.href = '/Organizador/Edit?organizador=' + organizador;
+        } else {
+            alert("Seleccione un Organizador");
+            evento = "";
+        }
+        //$.post('/Regalo/Edit/' + regalo);
+    }
+    function modificar() {
+        var regalo = $('#idOrganizadorT').val();
+        //var el = document.getElementById(regalo);
+        //var row = $(el).closest('tr');
+        //alert(evento);
+        //alert(promocion);
+        $.ajax({
+            url: "@Url.Action("Edit", "Organizador")",
+            data: { regalo: regalo },
+            success: function (data) {
+                //alert("Eliminado");
+                //row.remove();
+            },
+            error: function () {
+                alert("Error :(");
+            }
+        });
+    }
+    function closewindow() {
+        $('#eliminar').modal('hide');
+    }
+</script>
 
-                    <div class="form-horizontal">
-                        @Html.ValidationSummary(true)
-                        <br>
-                        <div class="row form-group">
-                            @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
-                                @Html.EditorFor(model => model.nombre)
-                                @Html.ValidationMessageFor(model => model.nombre)
-                            </div>
-                        </div>
+<style>
+    .trselected {
+        background: gray;
+    }
+</style>
 
-                        <div class="row form-group">
-                            @Html.LabelFor(model => model.telefono, new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
-                                @Html.EditorFor(model => model.telefono)
-                                @Html.ValidationMessageFor(model => model.telefono)
-                            </div>
-                        </div>
+<div class="modal fade" id="formNuevo">
+    <!--esta div pondra la pantalla oscura al presionar el boton-->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--ACA VA EL CONTENIDO DEL MODAL-->
+            <!--header de la ventana-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+                <h4 class="modal-title">Nuevo Organizador</h4>
+            </div>
+            <!--contenido de la ventana-->
+            @using (Html.BeginForm("RegisterOrganizador", "Organizador", FormMethod.Post, new { }))
+            {
+                @Html.AntiForgeryToken()
 
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.tipoDoc, new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @{
-                    List<SelectListItem> listItems = new List<SelectListItem>();
-                    listItems.Add(new SelectListItem
-                    {
-                        Text = "DNI",
-                        Value = "1",
-                    });
-                    listItems.Add(new SelectListItem
-                    {
-                        Text = "Pasaporte",
-                        Value = "2"
-                    });
-                                }
-                                @Html.DropDownListFor(model => model.tipoDoc, listItems, "Seleccione tipo de documento")
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.codDoc, new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.codDoc)
-                                @Html.ValidationMessageFor(model => model.codDoc)
-                            </div>
-                        </div>
-
-                        <div class="row form-group">
-                            @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
-                                @Html.EditorFor(model => model.Email)
-                                @Html.ValidationMessageFor(model => model.Email)
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-offset-2 col-md-10">
-                                <input type="submit" value="Agregar" class="btn btn-primary" />
-                            </div>
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true)
+                    <br>
+                    <div class="row form-group">
+                        @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.nombre)
+                            @Html.ValidationMessageFor(model => model.nombre)
                         </div>
                     </div>
-                }
-                <!--footer de la ventana-->
 
+                    <div class="row form-group">
+                        @Html.LabelFor(model => model.telefono, new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.telefono)
+                            @Html.ValidationMessageFor(model => model.telefono)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.tipoDoc, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @{
+                List<SelectListItem> listItems = new List<SelectListItem>();
+                listItems.Add(new SelectListItem
+                {
+                    Text = "DNI",
+                    Value = "1",
+                });
+                listItems.Add(new SelectListItem
+                {
+                    Text = "Pasaporte",
+                    Value = "2"
+                });
+                            }
+                            @Html.DropDownListFor(model => model.tipoDoc, listItems, "Seleccione tipo de documento")
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.codDoc, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.codDoc)
+                            @Html.ValidationMessageFor(model => model.codDoc)
+                        </div>
+                    </div>
+
+                    <div class="row form-group">
+                        @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.Email)
+                            @Html.ValidationMessageFor(model => model.Email)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Agregar" class="btn btn-primary" />
+                        </div>
+                    </div>
+                </div>
+            }
+            <!--footer de la ventana-->
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="eliminar">
+    <!--esta div pondra la pantalla oscura al presionar el boton-->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--ACA VA EL CONTENIDO DEL MODAL-->
+            <!--header de la ventana-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+                <h4 class="modal-title">Aviso</h4>
+            </div>
+            <!--contenido de la ventana-->
+            <div class="modal-body">
+                ¿Está seguro que quiere dar de baja el registro?
+            </div>
+            <!--footer de la ventana-->
+            <div class="modal-footer">
+                <button type="button" onclick="borrar()" class="btn btn-primary">Aceptar <span class="glyphicon glyphicon-ok"></span></button>
+                <button type="button" onclick="return closewindow();" class="btn btn-danger">Cancelar <span class="glyphicon glyphicon-remove"></span></button>
             </div>
         </div>
     </div>
-
-
+</div>
 

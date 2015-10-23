@@ -182,9 +182,32 @@ namespace WebApplication4.Controllers
             return RedirectToAction("ReporteCliente", "CuentaUsuario");
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult ReporteCliente(ReporteClienteModel cliente)
+        {
+            if (ModelState.IsValid)
+            {
+                List<CuentaUsuario> listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.puntos > cliente.puntos && c.estado == true && c.codPerfil == 1).ToList();
+                if (listacl != null) TempData["ListaPU"] = listacl;
+                else TempData["ListaPU"] = null;
+                return RedirectToAction("ReporteCliente", "CuentaUsuario");
+            }
+            TempData["ListaPU"] = null;
+            return RedirectToAction("ReporteCliente", "CuentaUsuario");
+        }
+
         public ActionResult Entrega(string usuario)
         {
             string usuario2 = usuario.Replace("°", "@");
+            CuentaUsuario cuenta = db.CuentaUsuario.Find(usuario2);
+            TempData["EntregaCl"] = cuenta;
+            return RedirectToAction("BuscaCliente", "CuentaUsuario");
+        }
+
+        public ActionResult Entrega2(string cliente)
+        {
+            string usuario2 = cliente.Replace("°", "@");
             CuentaUsuario cuenta = db.CuentaUsuario.Find(usuario2);
             TempData["EntregaCl"] = cuenta;
             return RedirectToAction("BuscaCliente", "CuentaUsuario");

@@ -34,12 +34,12 @@ namespace WebApplication4.Controllers
                 regalo.puntos = model.puntos;
                 db.Regalo.Add(regalo);
                 db.SaveChanges();
-                return RedirectToAction("Index", "Regalo");
+                return View("Index");
             }
-            return RedirectToAction("Index", "Regalo");
+            return View("Index");
         }
 
-        public ActionResult Delete(int id)
+        public ActionResult Delete2(int id)
         {
             Regalo regalo = db.Regalo.Find(id);
             //db.Regalo.Remove(regalo);
@@ -50,8 +50,29 @@ namespace WebApplication4.Controllers
             return View("Index");
         }
 
-        
-        public ActionResult Edit(int id)
+        public ActionResult Delete(string regalo)
+        {
+            //if (regalo == "" || regalo == null) return View("Index");
+            int idQ = int.Parse(regalo);
+            Regalo regaloE = db.Regalo.Find(idQ);
+            //db.Regalo.Remove(regalo);
+            db.Entry(regaloE).State = EntityState.Modified;
+            regaloE.estado = false;
+            db.SaveChanges();
+            //return RedirectToAction("Index", "Evento");
+            return View("Index");
+        }
+
+        public ActionResult Edit(string regalo)
+        {
+            int id = int.Parse(regalo);
+            ViewBag.id = id;
+            TempData["codigo"] = id;
+            Session["regalo"] = db.Regalo.Find(id);
+            return View("Edit");
+        }
+
+        public ActionResult Edit2(int id)
         {
             ViewBag.id = id;
             TempData["codigo"] = id;
@@ -73,7 +94,7 @@ namespace WebApplication4.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index", "Regalo");
             }
-            return RedirectToAction("Index", "Regalo");
+            return View("Edit");
         }
 
         [HttpPost]
@@ -88,7 +109,22 @@ namespace WebApplication4.Controllers
                 return RedirectToAction("Index", "Regalo");
             }
             TempData["ListaR"] = null;
-           return RedirectToAction("Index", "Regalo");
+            return RedirectToAction("Index", "Regalo");
+        }
+
+        public ActionResult Search2(string regalo)
+        {
+            List<Regalo> listaReg;
+            if (regalo == "")
+            {
+                //listaReg = db.Regalo.AsNoTracking().Where(c => c.estado == true).ToList();
+                Session["ListaR"] = null;
+                return RedirectToAction("Index", "Regalo");
+            }
+            listaReg = db.Regalo.AsNoTracking().Where(c => c.Nombre.StartsWith(regalo) && c.estado == true).ToList();
+            if (listaReg != null) Session["ListaR"] = listaReg;
+            else Session["ListaR"] = null;
+            return RedirectToAction("Index", "Regalo");
         }
     }
 }
