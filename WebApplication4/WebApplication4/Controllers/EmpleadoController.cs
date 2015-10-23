@@ -38,7 +38,9 @@ namespace WebApplication4.Controllers
         {
             string usuario2 = usuario.Replace("°", "@");
             ViewBag.id = usuario2;
+            CuentaUsuario cuenta=db.CuentaUsuario.Find(usuario2);
             TempData["codigoE"] = usuario2;
+            Session["usuarioE"] = cuenta;
             return View("Edit");
         }
 
@@ -61,7 +63,7 @@ namespace WebApplication4.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index", "Empleado");
             }
-            return RedirectToAction("Index", "Empleado");
+            return View("Edit");
         }
 
         [HttpPost]
