@@ -20,21 +20,21 @@
     var db = new WebApplication4.Models.inf245netsoft();
     List<WebApplication4.Models.CuentaUsuario> listaEmpleado;
     List<WebApplication4.Models.CuentaUsuario> listaPromotor;
-    if (TempData["ListaV1"] == null)
+    if (Session["ListaV1"] == null)
     {
         listaEmpleado = db.CuentaUsuario.AsNoTracking().Where(c => c.codPerfil == 2).ToList();
     }
     else
     {
-        listaEmpleado = (List<WebApplication4.Models.CuentaUsuario>)TempData["ListaV1"];
+        listaEmpleado = (List<WebApplication4.Models.CuentaUsuario>)Session["ListaV1"];
     }
-    if (TempData["ListaT"] == null)
+    if (Session["ListaT"] == null)
     {
         listaPromotor = db.CuentaUsuario.AsNoTracking().Where(c => c.codPerfil == 3).ToList();
     }
     else
     {
-        listaPromotor = (List<WebApplication4.Models.CuentaUsuario>)TempData["ListaT"];
+        listaPromotor = (List<WebApplication4.Models.CuentaUsuario>)Session["ListaT"];
     }
 }
 
@@ -55,31 +55,31 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <a class="btn btn-primary" href="#formNuevo1" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
-                            <button type="button" class="btn btn-primary" onclick="modificar1()">Modificar <span class="glyphicon glyphicon-pencil"></span></button>
+                            <a class="btn btn-primary" data-toggle="modal" onclick="redirige()">Modificar<span class="glyphicon glyphicon-pencil"></span></a>
                             <a class="btn btn-primary" href="#eliminar1" data-toggle="modal">Dar de Baja <span class="glyphicon glyphicon-remove"></span></a>
-                            <button id=botonOculto1 style="visibility:hidden" type="button" class="btn btn-primary" onclick="msjConfirmacion2_1()">Guardar Cambios <span class="glyphicon glyphicon-save"></span></button>
+                            @*<button id=botonOculto1 style="visibility:hidden" type="button" class="btn btn-primary" onclick="msjConfirmacion2_1()">Guardar Cambios <span class="glyphicon glyphicon-save"></span></button>*@
                         </div>
                     </div>
 
-                    @*<div class="col-md-4">
+                    <div class="col-md-3">
                         <form action="" class="" role="search">
                             <div class="form-group">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="BUSCAR UN VENDEDOR">
-                                    <span class="input-group-btn"><button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
+                                    <input id="idBusq" type="text" class="form-control" placeholder="BUSCAR UN VENDEDOR">
+                                    <span class="input-group-btn"><button onclick="busca()" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
                                 </div>
                             </div>
                         </form>
-                    </div>*@
+                    </div>
 
                     <div class="col-md-2">
                         <a class="btn btn-danger pull-right" href="@Url.Action("Index2", "Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
                     </div>
 
                 </div>
-                @{
+                @*@{
                     Html.RenderPartial("_Search1");
-                }
+                }*@
                 <div class="row">
                     <table id="mytable" class="table table-bordered table-hover">
                         <thead>
@@ -124,22 +124,22 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <a class="btn btn-primary" href="#formNuevo2" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
-                            <button type="button" class="btn btn-primary" onclick="modificar2()">Modificar <span class="glyphicon glyphicon-pencil"></span></button>
+                            <a class="btn btn-primary" data-toggle="modal" onclick="redirige()">Modificar<span class="glyphicon glyphicon-pencil"></span></a>
                             <a class="btn btn-primary" href="#eliminar2" data-toggle="modal">Dar de Baja <span class="glyphicon glyphicon-remove"></span></a>
-                            <button id=botonOculto2 style="visibility:hidden" type="button" class="btn btn-primary" onclick="msjConfirmacion2_2()">Guardar cambios <span class="glyphicon glyphicon-save"></span></button>
+                            @*<button id=botonOculto2 style="visibility:hidden" type="button" class="btn btn-primary" onclick="msjConfirmacion2_2()">Guardar cambios <span class="glyphicon glyphicon-save"></span></button>*@
                         </div>
                     </div>
 
-                    @*<div class="col-md-4">
+                    <div class="col-md-3">
                         <form action="" class="" role="search">
                             <div class="form-group">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="BUSCAR UN PROMOTOR">
-                                    <span class="input-group-btn"><button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
+                                    <input id="idBusq2" type="text" class="form-control" placeholder="BUSCAR UN PROMOTOR">
+                                    <span class="input-group-btn"><button onclick="busca2()" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
                                 </div>
                             </div>
                         </form>
-                    </div>*@
+                    </div>
 
                     <div class="col-md-2">
                         <a class="btn btn-danger pull-right" href="@Url.Action("Index2", "Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
@@ -147,9 +147,9 @@
 
                 </div>
 
-                @{
+                @*@{
                     Html.RenderPartial("_Search2");
-                }
+                }*@
 
                 <div class="row">
                     <table id="mytable" class="table table-bordered table-hover">
@@ -189,6 +189,131 @@
     </form>
 
 </div>
+
+<input type="hidden" id="idEmpleadoT" value="" />
+<input type="hidden" id="idPromotorT" value="" />
+<script>
+    function myFunction(x) {
+        if (document.getElementsByClassName("trselected").length > 0) {
+            var element = document.getElementsByClassName("trselected");
+            //element.item[0].cells[0].innerText;
+            element[0].className = "";
+        }
+        var elem = document.getElementById("idEmpleadoT");
+        elem.value = x.cells[0].innerHTML;
+        x.className = "trselected";
+    }
+    function myFunction2(x) {
+        if (document.getElementsByClassName("trselected").length > 0) {
+            var element = document.getElementsByClassName("trselected");
+            //element.item[0].cells[0].innerText;
+            element[0].className = "";
+        }
+        var elem = document.getElementById("idPromotorT");
+        elem.value = x.cells[0].innerHTML;
+        x.className = "trselected";
+    }
+    function borrar() {
+        var organizador = $('#idOrganizadorT').val();
+        var el = document.getElementById(organizador);
+        var row = $(el).closest('tr');
+        //alert(evento);
+        //alert(promocion);
+        if (organizador != "" && organizador != null) {
+            $.ajax({
+                url: "@Url.Action("Delete", "Organizador")",
+                data: { organizador: organizador },
+                success: function (data) {
+                    //alert("Eliminado");
+                    $('#eliminar').modal('hide');
+                    row.remove();
+                    window.location.href = '/Organizador/Index';
+                },
+                error: function () {
+                    alert("Error :(");
+                }
+            });
+        } else {
+            alert("Seleccione un Organizador");
+            evento = "";
+        }
+    }
+    function busca() {
+        var nombre = $('#idBusq').val();
+        //var el = document.getElementById(regalo);
+        //var row = $(el).closest('tr');
+        //alert(evento);
+        //alert(promocion);
+        $.ajax({
+            url: "@Url.Action("Search3", "Empleado")",
+            data: { nombre: nombre },
+            success: function (data) {
+                window.location.href = '/Empleado/Index';
+                //alert("Eliminado");
+                //row.remove();
+            },
+            error: function () {
+                alert("Error :(");
+            }
+        });
+    }
+    function busca2() {
+        var nombre = $('#idBusq2').val();
+        //var el = document.getElementById(regalo);
+        //var row = $(el).closest('tr');
+        //alert(evento);
+        //alert(promocion);
+        $.ajax({
+            url: "@Url.Action("Search4", "Empleado")",
+            data: { nombre: nombre },
+        success: function (data) {
+            window.location.href = '/Empleado/Index';
+            //alert("Eliminado");
+            //row.remove();
+        },
+        error: function () {
+            alert("Error :(");
+        }
+    });
+    }
+    function redirige() {
+        var organizador = $('#idOrganizadorT').val();
+        if (organizador != "") {
+            window.location.href = '/Organizador/Edit?organizador=' + organizador;
+        } else {
+            alert("Seleccione un Organizador");
+            evento = "";
+        }
+        //$.post('/Regalo/Edit/' + regalo);
+    }
+    function modificar() {
+        var regalo = $('#idOrganizadorT').val();
+        //var el = document.getElementById(regalo);
+        //var row = $(el).closest('tr');
+        //alert(evento);
+        //alert(promocion);
+        $.ajax({
+            url: "@Url.Action("Edit", "Organizador")",
+            data: { regalo: regalo },
+            success: function (data) {
+                //alert("Eliminado");
+                //row.remove();
+            },
+            error: function () {
+                alert("Error :(");
+            }
+        });
+    }
+    function closewindow() {
+        $('#eliminar').modal('hide');
+    }
+</script>
+
+<style>
+    .trselected {
+        background: gray;
+    }
+</style>
 
 
 <div class="modal fade" id="formNuevo1">
@@ -321,16 +446,16 @@
 
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">
-                                <input type="submit" value="Create" class="btn btn-default" />
+                                <input type="submit" value="Agregar" class="btn btn-default" />
                             </div>
                         </div>
                     </div>
                 }
             </div>
             <!--footer de la ventana-->
-            <div class="modal-footer">
+            @*<div class="modal-footer">
                 <button type="button" onclick="registrar1()" class="btn btn-primary">Agregar <span class="glyphicon glyphicon-ok"></span></button>
-            </div>
+            </div>*@
         </div>
     </div>
 </div>
@@ -465,16 +590,16 @@
 
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">
-                                <input type="submit" value="Create" class="btn btn-default" />
+                                <input type="submit" value="Agregar" class="btn btn-default" />
                             </div>
                         </div>
                     </div>
                 }
             </div>
             <!--footer de la ventana-->
-            <div class="modal-footer">
+            @*<div class="modal-footer">
                 <button type="button" onclick="registrar2()" class="btn btn-primary">Agregar <span class="glyphicon glyphicon-ok"></span></button>
-            </div>
+            </div>*@
         </div>
     </div>
 </div>
@@ -495,7 +620,8 @@
             </div>
             <!--footer de la ventana-->
             <div class="modal-footer">
-                <button type="button" onclick="eliminar1()" class="btn btn-primary">Si <span class="glyphicon glyphicon-ok"></span></button>
+                <button type="button" onclick="borrar()" class="btn btn-primary">Aceptar <span class="glyphicon glyphicon-ok"></span></button>
+                <button type="button" onclick="return closewindow();" class="btn btn-danger">Cancelar <span class="glyphicon glyphicon-remove"></span></button>
             </div>
         </div>
     </div>
@@ -517,7 +643,8 @@
             </div>
             <!--footer de la ventana-->
             <div class="modal-footer">
-                <button type="button" onclick="eliminar2()" class="btn btn-primary">Si <span class="glyphicon glyphicon-ok"></span></button>
+                <button type="button" onclick="borrar()" class="btn btn-primary">Aceptar <span class="glyphicon glyphicon-ok"></span></button>
+                <button type="button" onclick="return closewindow();" class="btn btn-danger">Cancelar <span class="glyphicon glyphicon-remove"></span></button>
             </div>
         </div>
     </div>
