@@ -31,12 +31,24 @@ namespace WebApplication4.Controllers
                 punto.ubicacion = model.ubicacion;
                 db.PuntoVenta.Add(punto);
                 db.SaveChanges();
-                return RedirectToAction("Index", "PuntoVenta");
+                return View("Index");
             }
-            return RedirectToAction("Index", "PuntoVenta");
+            return View("Index");
         }
 
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string punto)
+        {
+            int id = int.Parse(punto);
+            PuntoVenta punto2 = db.PuntoVenta.Find(id);
+            //db.Regalo.Remove(regalo);
+            db.Entry(punto2).State = EntityState.Modified;
+            punto2.estaActivo = false;
+            db.SaveChanges();
+            //return RedirectToAction("Index", "Evento");
+            return View("Index");
+        }
+
+        public ActionResult Delete2(int id)
         {
             PuntoVenta punto = db.PuntoVenta.Find(id);
             //db.Regalo.Remove(regalo);
@@ -47,7 +59,16 @@ namespace WebApplication4.Controllers
             return View("Index");
         }
 
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string punto)
+        {
+            int id = int.Parse(punto);
+            ViewBag.id = id;
+            TempData["codigoP"] = id;
+            Session["punto"] = db.PuntoVenta.Find(id);
+            return View("Edit");
+        }
+
+        public ActionResult Edit2(int id)
         {
             ViewBag.id = id;
             TempData["codigoP"] = id;
@@ -85,5 +106,21 @@ namespace WebApplication4.Controllers
             TempData["ListaP"] = null;
             return RedirectToAction("Index", "PuntoVenta");
         }
+
+        public ActionResult Search2(string punto)
+        {
+            List<PuntoVenta> listaP;
+            if (punto == "")
+            {
+                //listaReg = db.Regalo.AsNoTracking().Where(c => c.estado == true).ToList();
+                Session["ListaP"] = null;
+                return RedirectToAction("Index", "PuntoVenta");
+            }
+            listaP = db.PuntoVenta.AsNoTracking().Where(c => c.ubicacion.StartsWith(punto) && c.estaActivo == true).ToList();
+            if (listaP != null) Session["ListaP"] = listaP;
+            else Session["ListaP"] = null;
+            return RedirectToAction("Index", "PuntoVenta");
+        }
+
     }
 }
