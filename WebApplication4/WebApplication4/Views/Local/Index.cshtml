@@ -6,6 +6,15 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+    var db = new WebApplication4.Models.inf245netsoft();
+    List<WebApplication4.Models.Region> listaSearch= db.Region.AsNoTracking().Where(c => c.idRegPadre == null).ToList();
+    IEnumerable<SelectListItem> listItemsSearch = (from a in listaSearch
+                                             select new SelectListItem
+                                             {
+                                                 Value = a.idRegion.ToString(),
+                                                 Text = a.nombre,
+                                                 Selected = false
+                                             });                                       
 }
 
 <div class="container-fluid">
@@ -35,14 +44,19 @@
                 </div>
             </form>
         </div>
-        @*<div class="col-md-2">
-            <select class="form-control" name="" id="comboBusq" onchange="">
-                <option value="">Región</option>
-                <option value="">Lima</option>
-                <option value="">Ica</option>
-            </select>
 
-        </div>*@
+        <div class="col-md-2">
+            <select class="form-control" name="" id="comboBusq" onchange="busca2()">
+                <option>Departamento</option>
+                <option value="0">Todos</option>
+                @foreach (var item in listaSearch)
+                {
+                    <option value="@item.idRegion">
+                        @item.nombre
+                    </option>
+                }
+            </select>
+        </div>
 
         <div class="col-md-1">
             <a class="btn btn-danger pull-right" href="@Url.Action("Index2", "Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
@@ -54,7 +68,6 @@
         Html.RenderPartial("_Search");
     }*@
     @{
-        var db = new WebApplication4.Models.inf245netsoft();
         List<WebApplication4.Models.Local> listaLocal ;
         if (Session["ListaL"] == null)
         {
@@ -284,6 +297,27 @@
                 alert("Error :(");
             }
         });
+    }
+    function busca2() {
+        var region = $('#comboBusq option:selected').val();
+        //alert($('#comboBusq option:selected').val());
+        //var local = $('#idBusq').val();
+        //var el = document.getElementById(regalo);
+        //var row = $(el).closest('tr');
+        //alert(evento);
+        //alert(promocion);
+        $.ajax({
+            url: "@Url.Action("Search3", "Local")",
+            data: { region: region },
+        success: function (data) {
+            window.location.href = '/Local/Index';
+            //alert("Eliminado");
+            //row.remove();
+        },
+        error: function () {
+            alert("Error :(");
+        }
+    });
     }
     function closewindow() {
         $('#eliminar').modal('hide');

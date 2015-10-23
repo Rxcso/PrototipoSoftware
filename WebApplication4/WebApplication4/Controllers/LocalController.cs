@@ -125,5 +125,26 @@ namespace WebApplication4.Controllers
             return RedirectToAction("Index", "Local");
         }
 
+        public ActionResult Search3(string region)
+        {
+            int id = int.Parse(region);
+            List<Local> listaLoc;
+            if (region == "")
+            {
+                //listaReg = db.Regalo.AsNoTracking().Where(c => c.estado == true).ToList();
+                Session["ListaL"] = null;
+                return RedirectToAction("Index", "Local");
+            }
+            if (region == "0")
+            {
+                Session["ListaL"] = db.Local.ToList();
+                return RedirectToAction("Index", "Local");
+            }
+            listaLoc = db.Local.AsNoTracking().Where(c => c.idRegion==id).ToList();
+            if (listaLoc != null) Session["ListaL"] = listaLoc;
+            else Session["ListaL"] = null;
+            return RedirectToAction("Index", "Local");
+        }
+
     }
 }
