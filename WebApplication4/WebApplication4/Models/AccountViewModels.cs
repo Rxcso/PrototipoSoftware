@@ -107,6 +107,7 @@ namespace WebApplication4.Models
         public string telMovil { get; set; }
 
         [Required]
+        [StringLength(1, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 1)]
         [Display(Name = "Sexo")]
         public string sexo { get; set; }
 

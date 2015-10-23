@@ -18,8 +18,8 @@
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
-    
-    <div class="col-md-8">
+    <div class="container">
+        <div class="col-md-8">
         @Html.ValidationSummary(true)
         <h3>Datos de Ingreso</h3><br>  
         <div class="row form-group" >
@@ -95,6 +95,7 @@
                 });
                 }
                 @Html.DropDownListFor(model => model.tipoDoc, listItems, "Seleccione tipo de documento", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.tipoDoc)
             </div>
 
             @Html.LabelFor(model => model.codDoc, new { @class = "control-label col-md-1" })
@@ -122,6 +123,7 @@
                 });
                     }
              @Html.DropDownListFor(model => model.sexo, listItemsS, "Seleccione", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.sexo)
             </div>
         </div>
 
@@ -172,6 +174,8 @@
             </div>
         </div>
     </div>
+    </div>
+    
 }
 
 
