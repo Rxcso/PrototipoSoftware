@@ -89,7 +89,7 @@ namespace WebApplication4.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index", "PuntoVenta");
             }
-            return RedirectToAction("Index", "PuntoVenta");
+            return View("Edit");
         }
 
         [HttpPost]
