@@ -132,40 +132,18 @@
                         </tshead>
                         <tbody></tbody>
                     </table><br>
-                    <!--
-                                          <div class="row">
-                                              <div class="col-md-6">
-                                                       <button onclick="" class="btn btn-primary pull-left"><span class="glyphicon glyphicon-hand-left"></span> Anterior</button>
-                                              </div>
-                                              <div class="col-md-6">
-                                                   <button onclick="" class="btn btn-primary  pull-right">Siguiente <span class="glyphicon glyphicon-hand-right"></span></button>
-                                               </div>
-                                          </div>
-                    -->
                 </div>
             </div>
             <!--TERCERA PESTAÑA-->
+            
             <div class="tab-pane fade in container" id="funciones">
+                @Html.Hidden("histFuncion", "0")
                 <br>
-                <div class="container">
-                    <div id="funcion_1" class="row">
-                        <div class="col-md-1 col-md-offset-1">
-                            <label for="">Fecha:</label>
-                        </div>
-                        <div class="col-md-2">
-                            <input class="form-control" type="date">
-                        </div>
-                        <div class="col-md-1 col-md-offset-1">
-                            <label for="">Hora:</label>
-                        </div>
-                        <div class="col-md-2">
-                            <input class="form-control" type="time">
-                        </div>
-                        <div class="col-md-4">
-                            <button id="btnAgregarFuncion" class="btn btn-primary">Agregar función <span class="glyphicon glyphicon-plus"></span></button>
-                            <button id="btnAgregarFuncion" class="btn btn-primary">Quitar función <span class="glyphicon glyphicon-remove"></span></button>
-                        </div>
-                    </div><br>
+                <div>
+                    <button id="btnAgregarFuncion" type="button" class="btn btn-primary" onclick="agregaFuncion()">Agregar función <span class="glyphicon glyphicon-plus"></span></button>
+                    <button id="btnAgregarFuncion" type="button" class="btn btn-primary" onclick="eliminarFuncion()">Quitar función <span class="glyphicon glyphicon-remove"></span></button>
+                </div><br /><br />
+                <div id="funciones" class="container">
                 </div>
             </div>
             <!--CUARTA PESTAÑA-->
@@ -186,8 +164,7 @@
                                     <th>Tipo de entrada/Zona</th>
                                 </tr>
                             </thsead>
-                            <tbody>
-                            </tbody>
+                            <tbody></tbody>
                         </table>
                     </div>
                 </div>
@@ -218,7 +195,7 @@
                             <label for="nombre" class="control-label col-md-2">Ganancia sobre las ventas: </label>
                             <div class="col-md-2">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" aria-describedby="ganancia">
+                                    <input type="number" class="form-control" aria-describedby="ganancia">
                                     <span class="input-group-addon" id="ganancia">%</span>
                                 </div>
                             </div>
@@ -230,7 +207,7 @@
                             <div class="col-md-2">
                                 <div class="input-group">
                                     <span class="input-group-addon" id="cancelar">S/.</span>
-                                    <input type="text" class="form-control" aria-describedby="cancelar">
+                                    <input type="number" class="form-control" aria-describedby="cancelar">
                                 </div>
                             </div>
                         </div>
@@ -241,7 +218,7 @@
                             <div class="col-md-2">
                                 <div class="input-group">
                                     <span class="input-group-addon" id="cancelar">S/.</span>
-                                    <input type="text" class="form-control" aria-describedby="cancelar">
+                                    <input type="number" class="form-control" aria-describedby="cancelar">
                                 </div>
                             </div>
                         </div>
@@ -252,7 +229,7 @@
                             <div class="col-md-2">
                                 <div class="input-group">
                                     <span class="input-group-addon" id="postergar">S/.</span>
-                                    <input type="text" class="form-control" aria-describedby="postergar">
+                                    <input type="number" class="form-control" aria-describedby="postergar">
                                 </div>
                             </div>
                         </div>
@@ -297,7 +274,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-2 col-md-offset-5">
-                            <button type="submit" class="btn btn-primary">Registrar Evento</button>
+                            <button type="submit" class="btn btn-primary">Registrar Evento</button><br /><br />
                         </div>
                     </div>
                 </div>
@@ -452,7 +429,6 @@
             var row = tabla.insertRow();
             row.insertCell(0);
             row.insertCell(1);
-
         }
         function nuevoBloque() {
             var table = document.getElementById("bloqueDeTiempo");
@@ -469,7 +445,6 @@
         }
         function quitarBloque() {
             var fila = $('input[name="groupBloquedeVenta"]:checked').val();
-            alert(fila);
             var row = document.getElementById(parseInt(fila));
             row.parentNode.removeChild(row);
         }
@@ -485,9 +460,18 @@
                     return this.textContent === name;
                 }).length > 0;
                 if (!tieneColumna) {
-                    $('#tarifaTabla thead').append('<th>' + name+'</th>');
+                    $('#tarifaTabla thead').append('<th>' + name + '</th>');
                 }
             }
+        }
+        function agregaFuncion() {
+            var cantFuncion = parseInt($("#histFuncion").val());
+            $('<div id="funcion_' + (cantFuncion + 1) + '" class="row" ><div class="col-md-1 col-md-offset-1"><label for="">Fecha:</label></div><div class="col-md-2"><input class="form-control" type="date"></div><div class="col-md-1 col-md-offset-1"><label for="">Hora:</label></div><div class="col-md-2"><input class="form-control" type="time"></div><div class="col-md-1"><input type="radio" name="groupFunciones" value="' + (cantFuncion + 1) + '"></div></div><br>').appendTo("#funciones");
+            $("#histFuncion").val(cantFuncion + 1);
+        }
+        function eliminarFuncion() {
+            var fila = $('input[name="groupFunciones"]:checked').val();
+            $("#funcion_" + fila).remove();
         }
     </script>
 </div>

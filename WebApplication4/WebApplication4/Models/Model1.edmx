@@ -131,7 +131,9 @@
           <Property Name="porccomision" Type="float" />
           <Property Name="esUnico" Type="bit" />
           <Property Name="idCategoria" Type="int" />
+          <Property Name="idSubcategoria" Type="int" />
           <Property Name="idRegion" Type="int" />
+          <Property Name="idProvincia" Type="int" />
           <Property Name="idPromotor" Type="int" />
           <Property Name="idOrganizador" Type="int" />
           <Property Name="fechaRegistro" Type="datetime" />
@@ -1051,6 +1053,8 @@
           <Property Name="ImagenEvento" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="ImagenDestacado" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="ImagenSitios" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="idSubcategoria" Type="Int32" />
+          <Property Name="idProvincia" Type="Int32" />
         </EntityType>
         <Association Name="fk_EventoRegion">
           <End Type="inf245netsoftModel.Region" Role="Region" Multiplicity="0..1" />
@@ -1401,6 +1405,8 @@
           <EntitySetMapping Name="Eventos">
             <EntityTypeMapping TypeName="inf245netsoftModel.Eventos">
               <MappingFragment StoreEntitySet="Eventos">
+                <ScalarProperty Name="idProvincia" ColumnName="idProvincia" />
+                <ScalarProperty Name="idSubcategoria" ColumnName="idSubcategoria" />
                 <ScalarProperty Name="ImagenSitios" ColumnName="ImagenSitios" />
                 <ScalarProperty Name="ImagenDestacado" ColumnName="ImagenDestacado" />
                 <ScalarProperty Name="ImagenEvento" ColumnName="ImagenEvento" />

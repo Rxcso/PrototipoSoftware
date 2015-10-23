@@ -41,6 +41,8 @@ namespace WebApplication4.Controllers
             ViewBag.idEvento = evento;
             return View();
         }
+
+
         [HttpGet]
         [AllowAnonymous]
         public ActionResult VerEvento(int id)
