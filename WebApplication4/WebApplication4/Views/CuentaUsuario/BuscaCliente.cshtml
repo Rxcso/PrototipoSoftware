@@ -45,7 +45,7 @@
             </div>*@
         <div class="col-md-2">
             <div class="input-group">
-                <a class="btn btn-primary" href="#regalo" data-toggle="modal"><span class="glyphicon glyphicon-gift"></span> Entregar Regalo</a>
+                <a class="btn btn-primary" href="#regalo" onclick="selecciona()" data-toggle="modal"><span class="glyphicon glyphicon-gift"></span> Entregar Regalo</a>
             </div>
         </div>
         <div class="col-md-3">
@@ -115,28 +115,78 @@
         <table id="mytable" class="table table-bordered table-hover">
             <thead>
                 <tr class="thead">
+                    <th>Usuario</th>
                     <th>Nombre</th>
                     <th>Apellido</th>
                     <th>No Documento</th>
                     <th>Puntos</th>
-                    <th></th>
+                    @*<th></th>*@
                 </tr>
             </thead>
             <tbody id="tbody">
                 @foreach (var row in listaCliente)
                 {
                     <tr id=@row.codDoc onclick="myFunction(this)">
+                        <td>@row.usuario.Replace("@", "°")</td>
                         <td>@row.nombre</td>
                         <td>@row.apellido</td>
                         <td>@row.codDoc</td>
                         <td>@row.puntos</td>
-                        <td>@Html.ActionLink("Selecciona", "Entrega", new { usuario = row.usuario.Replace("@", "°") })</td>
+                        @*<td>@Html.ActionLink("Selecciona", "Entrega", new { usuario = row.usuario.Replace("@", "°") })</td>*@
                     </tr>
                 }
             </tbody>
         </table>
     </div>
 </div><!--Fin del container-->
+
+<input type="hidden" id="idClienteT" value="" />
+
+<script>
+    function myFunction(x) {
+        if (document.getElementsByClassName("trselected").length > 0) {
+            var element = document.getElementsByClassName("trselected");
+            //element.item[0].cells[0].innerText;
+            element[0].className = "";
+        }
+        //var tabla = document.getElementById("mytable");
+        //alert(x);
+        //var y = x.getCells();
+        var elem = document.getElementById("idClienteT");
+        elem.value = x.cells[0].innerHTML;
+        //alert(x.cells[0].innerHTML);
+        //ViewBag.P = x.cells[0].innerHTML;
+        x.className = "trselected";
+
+        //<a class="btn btn-primary" href="javascript:document.getElementsByClassName('trselected').submit()">Borrar<span class="glyphicon glyphicon-pencil"></span></a>
+        //idProm = x.codp;
+    }
+    function selecciona() {
+        var cliente = $('#idClienteT').val();
+        //var el = document.getElementById(regalo);
+        //var row = $(el).closest('tr');
+        //alert(evento);
+        //alert(promocion);
+        $.ajax({
+            url: "@Url.Action("Entrega2", "CuentaUsuario")",
+            data: { cliente: cliente },
+            success: function (data) {
+
+                //alert("Eliminado");
+                //row.remove();
+            },
+            error: function () {
+                alert("Error :(");
+            }
+        });
+    }
+</script>
+
+<style>
+    .trselected {
+        background: gray;
+    }
+</style>
 
 <div class="modal fade" id="regalo">
     <!--esta div pondra la pantalla oscura al presionar el boton-->

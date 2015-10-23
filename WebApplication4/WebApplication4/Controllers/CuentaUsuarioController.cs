@@ -205,6 +205,14 @@ namespace WebApplication4.Controllers
             return RedirectToAction("BuscaCliente", "CuentaUsuario");
         }
 
+        public ActionResult Entrega2(string cliente)
+        {
+            string usuario2 = cliente.Replace("°", "@");
+            CuentaUsuario cuenta = db.CuentaUsuario.Find(usuario2);
+            TempData["EntregaCl"] = cuenta;
+            return RedirectToAction("BuscaCliente", "CuentaUsuario");
+        }
+
         [HttpPost]
         [AllowAnonymous]
         public ActionResult EntregaRegalo(RegaloListModel regalo)
