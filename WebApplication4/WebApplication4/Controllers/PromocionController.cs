@@ -9,6 +9,7 @@ using WebApplication4.Models;
 
 namespace WebApplication4.Controllers
 {
+    [Authorize]
     public class PromocionController : Controller
     {
         // GET: Promocion
@@ -32,14 +33,12 @@ namespace WebApplication4.Controllers
         }
 
         // GET: /Account/Register
-        [AllowAnonymous]
         public ActionResult Register()
         {
             return View();
         }
 
         [HttpGet]
-        [AllowAnonymous]
         public ActionResult RegisterPromocion()
         {
             return View("RegisterPromocion");
@@ -49,7 +48,6 @@ namespace WebApplication4.Controllers
         //
         // POST: /Promocion/Register
         [HttpPost]
-        [AllowAnonymous]
         public ActionResult RegisterPromocion(PromocionModel model)
         {
             
