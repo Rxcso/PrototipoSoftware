@@ -29,27 +29,26 @@
                     <a class="btn btn-primary" href="#formNuevo" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
                     <a class="btn btn-primary" data-toggle="modal" onclick="redirige()">Modificar<span class="glyphicon glyphicon-pencil"></span></a>
                     <a class="btn btn-primary" href="#eliminar" data-toggle="modal">Borrar<span class="glyphicon glyphicon-remove"></span></a>
-                    @{
+                    @*@{
                         Html.RenderPartial("_Search");
-                    }
+                    }*@
                     <br>
                     <br>
                 </div>
             </div>
-
-            @*<div class="col-md-4">
-                    <form action="" class="" role="search">
-                        <br>
-                        <br>
-                        <div class="form-group">
-                            <div class="input-group">
-
-                                <input type="text" class="form-control" placeholder="BUSCAR UNA ORGANIZADOR">
-                                <span class="input-group-btn"><button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
-                            </div>
+            <div class="col-md-3">
+                <form action="" class="" role="search">
+                    <br>
+                    <br>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input id="idBusq" type="text" class="form-control" placeholder="BUSCAR UNA ORGANIZADOR">
+                            <span class="input-group-btn"><button onclick="busca()" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
                         </div>
-                    </form>
-                </div>*@
+                    </div>
+                </form>
+            </div>
+
             <div class="col-md-2">
                 <br>
                 <br>
@@ -61,13 +60,13 @@
         @{
             var db = new WebApplication4.Models.inf245netsoft();
             List<WebApplication4.Models.Organizador> listaOrganizador;
-            if (TempData["ListaO"] == null)
+            if (Session["ListaO"] == null)
             {
                 listaOrganizador = db.Organizador.AsNoTracking().Where(c => c.estadoOrg == "Activo").ToList();
             }
             else
             {
-                listaOrganizador = (List<WebApplication4.Models.Organizador>)TempData["ListaO"];
+                listaOrganizador = (List<WebApplication4.Models.Organizador>)Session["ListaO"];
             }
         }
 
@@ -140,6 +139,7 @@
                     //alert("Eliminado");
                     $('#eliminar').modal('hide');
                     row.remove();
+                    window.location.href = '/Organizador/Index';
                 },
                 error: function () {
                     alert("Error :(");
@@ -149,6 +149,25 @@
             alert("Seleccione un Organizador");
             evento = "";
         }
+    }
+    function busca() {
+        var organizador = $('#idBusq').val();
+        //var el = document.getElementById(regalo);
+        //var row = $(el).closest('tr');
+        //alert(evento);
+        //alert(promocion);
+        $.ajax({
+            url: "@Url.Action("Search2", "Organizador")",
+            data: { organizador: organizador },
+        success: function (data) {
+            window.location.href = '/Organizador/Index';
+            //alert("Eliminado");
+            //row.remove();
+        },
+        error: function () {
+            alert("Error :(");
+        }
+    });
     }
     function redirige() {
         var organizador = $('#idOrganizadorT').val();
