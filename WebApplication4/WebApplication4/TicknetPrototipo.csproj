@@ -265,6 +265,7 @@
     <Compile Include="Models\Region.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\RequireRequestValueAttribute.cs" />
     <Compile Include="Models\TipoDeCambio.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
