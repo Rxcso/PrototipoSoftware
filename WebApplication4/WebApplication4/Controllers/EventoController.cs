@@ -94,10 +94,16 @@ namespace WebApplication4.Controllers
 
 
 
-       
-        public ActionResult Busqueda() {
 
+        public ActionResult Busqueda(string busqueda = "")
+        {
 
+            if (!busqueda.Equals(""))
+            {
+
+                var lista = db.Eventos.AsNoTracking().Where(c => c.nombre.Contains(busqueda)).ToList();
+                ViewBag.Lista = lista;
+            }
 
             var categorias = db.Categoria.AsNoTracking().Where(c => c.nivel == 1);
             ViewBag.categorias = new SelectList(categorias, "idCategoria", "nombre");
@@ -112,27 +118,28 @@ namespace WebApplication4.Controllers
             ViewBag.subcategorias = new SelectList(listSubCat, "idSubcat", "nombre");
 
             return View();
-            
+
 
         }
-        [HttpPost]
-        public ActionResult Buscar(FormCollection collection)
+        [RequireRequestValue(new[] { "fech_ini", "fech_fin", "idCategoria", "idSubCat", "idRegion", "idProv" })]
+        public ActionResult Busqueda(DateTime fech_ini, DateTime fech_fin, int idCategoria, int idSubCat, int idRegion, int idProv)
         {
 
-          
+
+            if (fech_ini.CompareTo(fech_fin) > 0)
+            {
 
 
-            string valor = collection["busqueda"];
-            var lista = db.Eventos.AsNoTracking().Where(c => c.nombre.Contains(valor)).ToList();
 
-            ViewBag.Lista = lista;
+            }
+
+
             ViewBag.Categorias = db.Categoria.AsNoTracking().Where(c => c.nivel == 1);
             ViewBag.Departamentos = db.Region.AsNoTracking().Where(c => c.idRegPadre == null);
 
-            
+
 
             return View("Busqueda");
-
 
 
         }
@@ -144,21 +151,8 @@ namespace WebApplication4.Controllers
 
         }
 
-        
-        public ActionResult BusquedaAvanzada(FormCollection collection)
-        {
 
 
 
-            return View();
-
-
-
-        }
-
-       
-
-
-        
     }
 }

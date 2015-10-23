@@ -265,6 +265,7 @@
     <Compile Include="Models\Region.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\RequireRequestValueAttribute.cs" />
     <Compile Include="Models\TipoDeCambio.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -421,6 +422,7 @@
     <Content Include="Views\Evento\Busqueda.cshtml" />
     <Content Include="Views\Evento\Subcategorias.cshtml" />
     <Content Include="Views\Categoria\_Search.cshtml" />
+    <Content Include="Views\Categoria\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

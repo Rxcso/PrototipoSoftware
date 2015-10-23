@@ -6,10 +6,17 @@
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+    Organizador org = (Organizador)Session["organizador"];
+    OrganizadorModel orgM = new OrganizadorModel();
+    orgM.codDoc = org.codDoc;
+    orgM.Email = org.correo;
+    orgM.nombre = org.nombOrg;
+    orgM.telefono = org.telefOrg;
+    orgM.tipoDoc = (int)org.tipoDoc;
 }
 
 <div class="modal-body">
-    @using (Html.BeginForm("EditRegister", "Organizador", FormMethod.Post, new { }))
+    @using (Html.BeginForm("EditRegister", "Organizador", FormMethod.Post, new { model = orgM }))
     {
         @Html.AntiForgeryToken()
 
@@ -19,7 +26,7 @@
             <div class="row form-group">
                 @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })
                 <div class="col-md-9">
-                    @Html.EditorFor(model => model.nombre)
+                    @Html.TextBoxFor(model => model.nombre, new { @placeholder = @orgM.nombre })
                     @Html.ValidationMessageFor(model => model.nombre)
                 </div>
             </div>
@@ -27,7 +34,7 @@
             <div class="row form-group">
                 @Html.LabelFor(model => model.telefono, new { @class = "control-label col-md-3" })
                 <div class="col-md-9">
-                    @Html.EditorFor(model => model.telefono)
+                    @Html.TextBoxFor(model => model.telefono, new { @placeholder = @orgM.telefono })
                     @Html.ValidationMessageFor(model => model.telefono)
                 </div>
             </div>
@@ -48,6 +55,9 @@
             Value = "2"
         });
                     }
+                    @{
+        listItems[(int)org.tipoDoc-1].Selected = true;
+                    }
                     @Html.DropDownListFor(model => model.tipoDoc, listItems, "Seleccione tipo de documento")
                 </div>
             </div>
@@ -55,7 +65,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.codDoc, new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.codDoc)
+                    @Html.TextBoxFor(model => model.codDoc, new { @placeholder = @orgM.codDoc })
                     @Html.ValidationMessageFor(model => model.codDoc)
                 </div>
             </div>
@@ -63,7 +73,7 @@
             <div class="row form-group">
                 @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-3" })
                 <div class="col-md-9">
-                    @Html.EditorFor(model => model.Email)
+                    @Html.TextBoxFor(model => model.Email, new { @placeholder = @orgM.Email })
                     @Html.ValidationMessageFor(model => model.Email)
                 </div>
             </div>
