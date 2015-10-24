@@ -449,6 +449,7 @@
     <Content Include="Views\Ventas\Pago.cshtml" />
     <Content Include="Views\Ventas\ReporteDia.cshtml" />
     <Content Include="Views\CuentaUsuario\Asignacion.cshtml" />
+    <Content Include="Views\Evento\Distritos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

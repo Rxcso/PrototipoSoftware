@@ -13,11 +13,14 @@ namespace WebApplication4.Controllers
         private const int DefaultPageSize = 2;
 
         
+
+        
         Evento2Model modelo = new Evento2Model(12);
         // GET: Evento
         public ActionResult Index()
         {
             return View();
+          
         }
 
         [HttpGet]
@@ -103,6 +106,9 @@ namespace WebApplication4.Controllers
         public ActionResult BusquedaPaging(int? page)
         {
 
+            
+         
+
 
             modelo.ListaEventos = db.Eventos.AsNoTracking().Where(c => c.estado.Contains("Activo")).ToList();
             IList<Eventos> eventos = modelo.ListaEventos;
@@ -137,7 +143,7 @@ namespace WebApplication4.Controllers
             }
 
 
-            modelo.numeroPaginas = modelo.ListaEventos.Count / modelo.cantidadMaximaMostrar;
+           
 
             ViewBag.Lista = modelo.ListaEventos;
 
@@ -164,12 +170,28 @@ namespace WebApplication4.Controllers
                         where (obj.idCategoria == idCategoria && obj.idRegion == idRegion && obj. ) 
   */
 
-            ViewBag.Categorias = db.Categoria.AsNoTracking().Where(c => c.nivel == 1);
-            ViewBag.Departamentos = db.Region.AsNoTracking().Where(c => c.idRegPadre == null);
 
+            /*
+                        var lista = from obj in db.Eventos
+                                    where (obj.fecha_inicio >= fech_ini && obj.fecha_inicio <= fech_fin && obj.idCategoria == idCategoria &&
+                                    obj.idSubcategoria == idSubCat && obj.idRegion == idRegion && obj.idProvincia == idProv)
+                                    select new Eventos;
+                                    */
+            modelo.ListaEventos = db.Eventos.AsNoTracking().Where(c => (c.fecha_inicio >= fech_ini && c.fecha_inicio <= fech_fin && 
+             c.idCategoria == idCategoria && c.idRegion == idRegion && c.idProvincia == idProv && c.estado.Contains("Activo") )).ToList();
 
+            ViewBag.Lista = modelo.ListaEventos;
+            var categorias = db.Categoria.AsNoTracking().Where(c => c.nivel == 1);
+            ViewBag.categorias = new SelectList(categorias, "idCategoria", "nombre");
+            var departamentos = db.Region.AsNoTracking().Where(c => c.idRegPadre == null);
+            ViewBag.departamentos = new SelectList(departamentos, "idRegion", "nombre");
+           List<Region> listProv = new List<Region>();
+          List<Categoria> listSubCat = new List<Categoria>();
 
-            return View("Busqueda");
+           ViewBag.distritos = new SelectList(listProv, "idProv", "nombre");
+            ViewBag.subcategorias = new SelectList(listSubCat, "idSubcat", "nombre");
+
+            return View(modelo);
 
 
         }
@@ -180,6 +202,15 @@ namespace WebApplication4.Controllers
             return View();
 
         }
+
+        public ActionResult Distritos()
+        {
+
+            return View();
+
+        }
+
+        
 
 
 

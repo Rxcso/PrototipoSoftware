@@ -150,13 +150,21 @@
 @{IList<Eventos> lista = Model.ListaEventos;
     if(this.Request.QueryString.Count != 0)
     {
-       indexPagina = this.Request.QueryString[0].AsInt() -1;
-       
+        
+        var valor = this.Request.QueryString.Keys[0];
+        if (this.Request.QueryString.AllKeys.Contains("page")){
+
+
+            indexPagina = this.Request.QueryString["page"].AsInt() - 1;
+
+        }
+
+
 
     }
 
     Html.RenderPartial("BusquedaPaging", lista.ToPagedList(indexPagina, 2));
-
+   
 
 }
 
@@ -261,7 +269,7 @@
 
     function cambio() {
 
-        fillCombo("idProv", $("#idRegion").val(),"Provincia","Distritos");
+        fillCombo("idProv", $("#idRegion").val(),"Distritos","Distritos");
 
     }
 
