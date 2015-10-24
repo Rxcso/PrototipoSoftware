@@ -7,6 +7,8 @@
 @{
     ViewBag.Title = "BuscaCliente";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+    var db = new WebApplication4.Models.inf245netsoft();
+    List<WebApplication4.Models.Regalo> listaSearch = db.Regalo.AsNoTracking().Where(c => c.estado == true).ToList();
 }
 
 <div class="container-fluid">
@@ -99,7 +101,6 @@
     }*@
 
     @{
-        var db = new WebApplication4.Models.inf245netsoft();
         List<WebApplication4.Models.CuentaUsuario> listaCliente = null;
         if (Session["ListaCL"] != null)
         {
@@ -204,6 +205,31 @@
                 }
             }); 
     }
+    function entregar() {
+        var regalo = $('#comboBusq2 option:selected').val();
+        var cliente = $('#idClienteT').val();
+        //var el = document.getElementById(regalo);
+        //var row = $(el).closest('tr');
+        //alert(evento);
+        //alert(promocion);
+        if (regalo != "" && regalo != null && cliente != null && cliente != "" && regalo!=0) {
+            $.ajax({
+                url: "@Url.Action("EntregaRegalo2", "CuentaUsuario")",
+                data: { regalo: regalo, cliente: cliente },
+                success: function (data) {
+
+                    //alert("Entregado");
+                    window.location.href = '/CuentaUsuario/BuscaCliente';
+                    //row.remove();
+                },
+                error: function () {
+                    alert("Error :(");
+                }
+            });
+        } else {
+            alert("Seleccione un cliente y un regalo");
+        }
+    }
     function closewindow() {
         $('#regalo').modal('hide');
     }
@@ -227,9 +253,20 @@
             </div>
             <!--contenido de la ventana-->
             <div class="modal-body">
-                @{
+                @*@{
                     Html.RenderPartial("_Search1");
-                }
+                }*@
+                <div class="col-md-2">
+                    <select class="form-control" name="" id="comboBusq2" onchange="">
+                        <option value="0">Regalo - Puntos</option>
+                        @foreach (var item in listaSearch)
+                        {
+                            <option value="@item.idRegalo">
+                                Nombre: @item.Nombre Puntos: @item.puntos
+                            </option>
+                        }
+                    </select>
+                </div>
             </div>
             <!--footer de la ventana-->
             <div class="modal-footer">
