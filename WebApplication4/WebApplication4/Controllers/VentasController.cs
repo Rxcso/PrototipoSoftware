@@ -125,7 +125,7 @@ namespace WebApplication4.Controllers
             }
             List<Pago> listP = db.Pago.Where(c => c.codOrg == org.codOrg).ToList();
             Session["Pagos"] = listP;
-            Session["Pendiente"] = (double)Session["Pendiente"] - m;
+            Session["Pendiente"] = (double)Session["Pendiente"] - m1;
             double subtotal;
             List<Eventos> listEv = db.Eventos.AsNoTracking().Where(c => c.idOrganizador == org.codOrg).ToList();
             List<Eventos> listEpa = new List<Eventos>();

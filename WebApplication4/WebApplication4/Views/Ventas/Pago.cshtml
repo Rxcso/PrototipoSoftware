@@ -182,20 +182,22 @@
     function registrar() {
         var monto = $('#monto2').val();
         var pend = $('#pendiente').val();
-        
+        if (monto != "" && monto != null && pend != "" && pend != null) {
             //alert(monto);
             $.ajax({
                 url: "@Url.Action("RegistrarPagos","Ventas")",
-                data: { monto: monto},
-            success: function (data) {
-                //alert("Eliminado");
-                window.location.href = '/Ventas/Pago';
-            },
-            error: function () {
-                //alert("Error :(");
-                window.location.href = '/Ventas/Pago';
-            }
-        });
-        
+                data: { monto: monto },
+                success: function (data) {
+                    //alert("Eliminado");
+                    window.location.href = '/Ventas/Pago';
+                },
+                error: function () {
+                    //alert("Error :(");
+                    window.location.href = '/Ventas/Pago';
+                }
+            });
+        } else {
+            alert("Seleccione un organizador e ingrese un monto");
+        }
     }
 </script>
