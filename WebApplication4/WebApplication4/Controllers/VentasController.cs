@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebApplication4.Models;
 
 namespace WebApplication4.Controllers
 {
     public class VentasController : Controller
     {
+        private inf245netsoft db = new inf245netsoft();
         // GET: Ventas
         public ActionResult Index()
         {
@@ -42,6 +44,14 @@ namespace WebApplication4.Controllers
         public ActionResult ReporteDia()
         {
             return View();
+        }
+
+        public ActionResult LlenaOrg(string id)
+        {
+            int idO = int.Parse(id);
+            Organizador org=db.Organizador.Find(idO);
+            Session["orgPago"] = org;
+            return RedirectToAction("Pado", "Ventas");
         }
     }
 }
