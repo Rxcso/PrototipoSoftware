@@ -1,9 +1,11 @@
 ﻿
 @using Microsoft.AspNet.Identity;
 @using WebApplication4.Models;
+@using MvcPaging;
 
 @model Evento2Model
 @{
+    int indexPagina  = 0;
     ViewBag.MaximoPaginas = 5;
     ViewBag.Title = "Busqueda";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
@@ -145,58 +147,76 @@
     </div>
 </div>
 
+@{IList<Eventos> lista = Model.ListaEventos;
+    if(this.Request.QueryString.Count != 0)
+    {
+       indexPagina = this.Request.QueryString[0].AsInt() -1;
+       
 
-<div class="container-fluid">
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            <strong>Resultados: @ViewBag.Lista.Count </strong>
-        </div>
+    }
 
-        <!--Aca iran los eventos en miniatura-->
-        <div class="panel-body">
-
-
-            @foreach (var evento in ViewBag.Lista)
-            {
+    Html.RenderPartial("BusquedaPaging", lista.ToPagedList(indexPagina, 2));
 
 
-                <div class="col-md-2 col-sm-4 col-xs-6">
-                    <div class="thumbnail">
-                        <img onclick="verEvento()" class="event" src="@evento.ImagenDestacado" alt="">
-                        <div class="caption" style="text-align:center">
-                            <div class="row">@evento.nombre</div>
-                            <div class="row">@evento.fecha_inicio</div>
+}
+
+
+
+
+
+@*
+    @Html.Partial("BusquedaPaging", lista.ToPagedList(0, 2));
+    <div class="container-fluid">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <strong>Resultados: @ViewBag.Lista.Count </strong>
+            </div>
+
+            <!--Aca iran los eventos en miniatura-->
+            <div class="panel-body">
+
+
+                @foreach (var evento in ViewBag.Lista)
+                {
+
+
+                    <div class="col-md-2 col-sm-4 col-xs-6">
+                        <div class="thumbnail">
+                            <img onclick="verEvento()" class="event" src="@evento.ImagenDestacado" alt="">
+                            <div class="caption" style="text-align:center">
+                                <div class="row">@evento.nombre</div>
+                                <div class="row">@evento.fecha_inicio</div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-            }
+                }
+            </div>
+
+
+            <!--Paginacion-->
+            <ul class="pagination pagination-md pull-right">
+                <!--lg    md    sm-->
+
+
+
+                <li class="disabled"><a href="">&laquo;</a></li>
+
+                @{
+                    ViewBag.paginas = ((Model.numeroPaginas - ViewBag.MaximoPaginas) > 0) ? Model.numeroPaginas : ViewBag.MaximoPaginas;
+
+                }
+                @for (int num = 1; num < ViewBag.paginas; num++)
+                {
+                    <li><a>@num</a></li>
+
+                }
+                <li><a href="">&raquo;</a></li>
+
+
+            </ul>
         </div>
-
-
-        <!--Paginacion-->
-        <ul class="pagination pagination-md pull-right">
-            <!--lg    md    sm-->
-
-
-
-            <li class="disabled"><a href="">&laquo;</a></li>
-
-            @{
-                ViewBag.paginas = ((Model.numeroPaginas - ViewBag.MaximoPaginas) > 0) ? Model.numeroPaginas : ViewBag.MaximoPaginas;
-
-            }
-            @for (int num = 1; num < ViewBag.paginas; num++)
-            {
-                <li><a>@num</a></li>
-
-            }
-            <li><a href="">&raquo;</a></li>
-
-
-        </ul>
-    </div>
-</div>
+    </div>*@
 <script>
 
     $(document).ready(function () {

@@ -10,7 +10,7 @@ namespace WebApplication4.Controllers
     public class EventoController : Controller
     {
         inf245netsoft db = new inf245netsoft();
-        private const int DefaultPageSize = 10;
+        private const int DefaultPageSize = 2;
 
         
         Evento2Model modelo = new Evento2Model(12);
@@ -109,7 +109,7 @@ namespace WebApplication4.Controllers
 
 
 
-            int currentPageIndex = page.HasValue ? page.Value - 1 : 0;
+          int currentPageIndex = page.HasValue ? page.Value - 1 : 0;
            
             return View(eventos.ToPagedList(currentPageIndex, DefaultPageSize));
 
