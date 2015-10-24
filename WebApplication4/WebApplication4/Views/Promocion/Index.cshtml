@@ -46,7 +46,7 @@
         <div class="col-md-10 col-sm-6 col-xs-6">
             <a class="btn btn-primary" href="#nuevaPromocion" data-toggle="modal">Agregar Cantidad<span class="glyphicon glyphicon-plus"></span></a>    
             <a class="btn btn-primary" href="#nuevaPromocion2" data-toggle="modal">Agregar Tarjeta<span class="glyphicon glyphicon-plus"></span></a> 
-            <a class="btn btn-primary" data-toggle="modal" onclick="borrar()">Borrar<span class="glyphicon glyphicon-plus"></span></a>
+            <a class="btn btn-primary" data-toggle="modal" onclick="borrar()">Desactivar<span class="glyphicon glyphicon-plus"></span></a>
         </div>
 
         <div class="col-md-2 col-sm-6 colxs-6">
@@ -59,7 +59,7 @@
     @{
         var db = new WebApplication4.Models.inf245netsoft();
         ViewBag.idEvento = idEvento;
-        List<WebApplication4.Models.Promociones> listaPromo = db.Promociones.AsNoTracking().Where(c => c.codEvento == idEvento && c.estado == true).ToList();
+        List<WebApplication4.Models.Promociones> listaPromo = db.Promociones.AsNoTracking().Where(c => c.codEvento == idEvento).ToList();
     }
 
     <div class="row">
@@ -70,7 +70,7 @@
                     <th>Descripcion</th>
                     <th>Fecha Inicio</th>
                     <th>Fecha Fin</th>
-                    @*<th></th>*@
+                    <th>Estado</th>
                 </tr>
             </thead>
             <tbody id="tbody">
@@ -81,6 +81,14 @@
                         <td>@row.descripcion</td>
                         <td>@row.fechaIni</td>
                         <td>@row.fechaFin</td>
+                        @if (@row.estado == true)
+                        {
+                            <td>Activo</td>
+                        }
+                        else
+                        {
+                            <td>Inactivo</td>
+                        }
                         @*<td><a href="@Url.Action("Delete2", "Promocion", new { id = row.codPromo, ide = row.codEvento })" class="btn btn-primary">Dar de Baja <span class="glyphicon glyphicon-remove"></span></a></td>*@
                     </tr>
                 }
@@ -121,8 +129,10 @@
                 url: "@Url.Action("Delete","Promocion")",
                 data: { evento: evento, promocion: promocion },
                 success: function (data) {
-                    alert("Eliminado");
-                    row.remove();
+                    //alert("Desactivado");
+                    window.location.href = '/Promocion/Index?evento=' + evento;
+                    //window.location.href = 'Promocion/Index?evento='+evento;
+                    //row.remove();
                 },
                 error: function () {
                     alert("Error :(");
