@@ -28,25 +28,34 @@
                 <button id=botonOculto style="visibility:hidden" type="button" class="btn btn-primary" onclick="msjConfirmacion2()">Guardar cambios <span class="glyphicon glyphicon-save"></span></button>
             </div>
         </div>
-
+        <div class="col-md-3">
+            <form action="" class="" role="search">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input id="idBusq" type="text" class="form-control" placeholder="BUSCAR UN REGALO">
+                        <span class="input-group-btn"><button onclick="busca()" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
+                    </div>
+                </div>
+            </form>
+        </div>
         <div class="col-md-3">
             <a class="btn btn-danger pull-right" href="@Url.Action("Index2", "Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
         </div>
 
     </div>
-    @{
-        Html.RenderPartial("_Search");
-    }
+    @*@{
+            Html.RenderPartial("_Search");
+        }*@
     @{
         var db = new WebApplication4.Models.inf245netsoft();
         List<WebApplication4.Models.Regalo> listaRegalo;
-        if (TempData["ListaR"] == null)
+        if (Session["ListaR"] == null)
         {
             listaRegalo = db.Regalo.AsNoTracking().Where(c => c.estado == true).ToList();
         }
         else
         {
-            listaRegalo = (List<WebApplication4.Models.Regalo>)TempData["ListaR"];
+            listaRegalo = (List<WebApplication4.Models.Regalo>)Session["ListaR"];
         }
     }
 
@@ -112,6 +121,7 @@
                     //alert("Eliminado");
                     $('#eliminar').modal('hide');
                     row.remove();
+                    window.location.href = '/Regalo/Index';
                 },
                 error: function () {
                     alert("Error :(");
@@ -131,6 +141,25 @@
             evento = "";
         }
         //$.post('/Regalo/Edit/' + regalo);
+    }
+    function busca() {
+        var regalo = $('#idBusq').val();
+        //var el = document.getElementById(regalo);
+        //var row = $(el).closest('tr');
+        //alert(evento);
+        //alert(promocion);
+        $.ajax({
+            url: "@Url.Action("Search2", "Regalo")",
+            data: { regalo: regalo },
+            success: function (data) {
+                window.location.href = '/Regalo/Index';
+                //alert("Eliminado");
+                //row.remove();
+            },
+            error: function () {
+                alert("Error :(");
+            }
+        });
     }
     function modificar() {
         var regalo = $('#idRegaloT').val();
@@ -241,5 +270,4 @@
         </div>
     </div>
 </div>
-
 

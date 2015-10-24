@@ -51,15 +51,15 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a href="buscar-evento(vendedor).html">Buscar eventos</a></li>
-                                <li><a href="entregar_boletos(vendedor).html">Entregar boletos</a></li>
+                                <li><a href="@Url.Action("Entrega", "Ventas")">Entregar boletos</a></li>
                                 <li><a href="pagar_reserva(vendedor).html">Buscar reserva</a></li>
-                                <li><a href="devolucion_entradas.html">Devolución</a></li>
+                                <li><a href="@Url.Action("Devolucion", "Ventas")">Devolución</a></li>
                                 <li class="divider"></li>
                                 <li><a href="@Url.Action("BuscaCliente", "CuentaUsuario")">Buscar cliente</a></li>
                                 <li class="divider"></li>
-                                <li><a href="repVentasDia.html">Reporte de ventas</a></li>
-                                <li><a href="abrir_caja.html">Apertura de caja</a></li>
-                                <li><a href="cerrar_caja.html">Cierre de caja</a></li>
+                                <li><a href="@Url.Action("ReporteDia", "Ventas")">Reporte de ventas</a></li>
+                                <li><a href="@Url.Action("Apertura", "Ventas")">Apertura de caja</a></li>
+                                <li><a href="@Url.Action("Cierre", "Ventas")">Cierre de caja</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">
@@ -68,10 +68,10 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <!--Administrador-->
-                                <li><a href="asignar_turnos.html">Asignar turnos y puntos de venta</a></li>
+                                <li><a href="@Url.Action("Asignacion", "CuentaUsuario")">Asignar turnos y puntos de venta</a></li>
                                 <li><a href="mantener_politicas.html">Políticas de la empresa</a></li>
                                 <li><a href="@Url.Action("Index", "TipoDeCambio")">Tipo de cambio</a></li>
-                                <li><a href="registrar_pagos.html">Registrar pagos</a></li>
+                                <li><a href="@Url.Action("Pago", "Ventas")">Registrar pagos</a></li>
                             </ul>
                         </li>
                         <li class="dropdown">

@@ -1,0 +1,143 @@
+﻿
+@{
+    ViewBag.Title = "Asignacion";
+    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li class="active">Asignar turnos</li>
+        </ol>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <a class="btn btn-primary" href="#nuevaPromocion" data-toggle="modal">Agregar <span class="glyphicon glyphicon-plus"></span></a>
+            <a class="btn btn-primary" href="">Borrar <span class="glyphicon glyphicon-remove"></span></a>
+        </div>
+
+        <div class="col-md-2">
+            <button tyle="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Guardar <span class="glyphicon glyphicon-save"></span> </button>
+        </div>
+
+        <div>
+            <a href="index2.html" class="btn btn-danger pull-right" data-dismiss="modal" aria-hidden="true">Salir <span class="glyphicon glyphicon-log-out"></span> </a><br>
+        </div>
+
+    </div><br>
+
+    <div class="row form-group">
+        <label for="" class="control-label col-md-3">Vendedor:</label>
+        <div class="col-md-1">
+            <input type="text" class="form-control" readonly="true">
+        </div>
+        <div class="col-md-5">
+            <div class="input-group">
+                <input type="text" class="form-control" readonly="true">
+                <span class="input-group-btn"><button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
+            </div>
+        </div>
+    </div>
+    <div class="row form-group">
+        <label for="nombreEvento" class="control-label col-md-3">Fecha:</label>
+        <div class="col-md-3">
+            <div class="input-group">
+                <span class="input-group-addon">Desde:</span>
+                <input type="date" class="form-control">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="input-group">
+                <span class="input-group-addon">Hasta:</span>
+                <input type="date" class="form-control">
+            </div>
+        </div>
+    </div>
+    <div class="row form-group">
+        <label for="nombreEvento" class="control-label col-md-3">Puntos de venta:</label>
+        <div class="col-md-3">
+            <select name="" class="form-control">
+                <option value="">Departamento</option>
+                <option value="">Lima</option>
+                <option value="">Ayacucho</option>
+                <option value="">Cusco</option>
+                <option value="">Tacna</option>
+                <option value="">Iquitos</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select name="" class="form-control">
+                <option value="">Provincia</option>
+                <option value="">Lima</option>
+                <option value="">Cañete</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select name="" class="form-control">
+                <option value="">Punto de Venta</option>
+                <option value="">Pueblo libre I</option>
+                <option value="">San borja I</option>
+                <option value="">San miguel I</option>
+                <option value="">Miraflores I</option>
+                <option value="">San isidro I</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row form-group">
+        <label for="nombreEvento" class="control-label col-md-3">Turno:</label>
+        <div class="col-md-3">
+            <select name="" class="form-control">
+                <option value="">Seleccionar</option>
+                <option value="">8:00am - 4:00pm</option>
+                <option value="">9:00am - 5:00pm</option>
+                <option value="">10:00am - 6:00pm</option>
+                <option value="">11:00am - 7:00pm</option>
+                <option value="">12:00am - 8:00pm</option>
+            </select>
+        </div>
+    </div>
+    <h4>Asignación</h4>
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <table class="table table-bordered table-hover">
+                <tr class="active">
+                    <th>Punto de venta</th>
+                    <th>Fecha</th>
+                    <th>Hora Inicio</th>
+                    <th>Hora Fin</th>
+                </tr>
+                <tr>
+                    <td>San borja I</td>
+                    <td>10/12/2015</td>
+                    <td>10:00am</td>
+                    <td>4:00pm</td>
+                </tr>
+                <tr>
+                    <td>Miraflores</td>
+                    <td>11/12/2015</td>
+                    <td>10:00am</td>
+                    <td>4:00pm</td>
+                </tr>
+                <tr>
+                    <td>San isidro I</td>
+                    <td>12/12/2015</td>
+                    <td>10:00am</td>
+                    <td>4:00pm</td>
+                </tr>
+                <tr>
+                    <td>San miguel I</td>
+                    <td>13/12/2015</td>
+                    <td>10:00am</td>
+                    <td>4:00pm</td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+</div><!--Fin del container-->
+
+

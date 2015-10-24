@@ -9,6 +9,7 @@ using WebApplication4.Models;
 
 namespace WebApplication4.Controllers
 {
+    [Authorize]
     public class PromocionController : Controller
     {
         // GET: Promocion
@@ -32,14 +33,12 @@ namespace WebApplication4.Controllers
         }
 
         // GET: /Account/Register
-        [AllowAnonymous]
         public ActionResult Register()
         {
             return View();
         }
 
         [HttpGet]
-        [AllowAnonymous]
         public ActionResult RegisterPromocion()
         {
             return View("RegisterPromocion");
@@ -49,7 +48,6 @@ namespace WebApplication4.Controllers
         //
         // POST: /Promocion/Register
         [HttpPost]
-        [AllowAnonymous]
         public ActionResult RegisterPromocion(PromocionModel model)
         {
             
@@ -102,9 +100,9 @@ namespace WebApplication4.Controllers
         public ActionResult Delete2(int id, int ide)
         {
             Promociones prom = db.Promociones.Find(id, ide);
-            db.Promociones.Remove(prom);
-            //db.Entry(prom).State = EntityState.Modified;
-            //prom.estado = false;
+            //db.Promociones.Remove(prom);
+            db.Entry(prom).State = EntityState.Modified;
+            prom.estado = false;
             db.SaveChanges();
             //return RedirectToAction("Index", "Evento");
             return View("Index");
@@ -117,9 +115,10 @@ namespace WebApplication4.Controllers
             int ideQ = int.Parse(promocion);
             //ViewBag.idEvento = idQ;
             Promociones prom = db.Promociones.Find(ideQ, idQ);
-            db.Promociones.Remove(prom);
-            //db.Entry(prom).State = EntityState.Modified;
-            //prom.estado = false;
+            if (prom.estado == false) return View("Index");
+            //db.Promociones.Remove(prom);
+            db.Entry(prom).State = EntityState.Modified;
+            prom.estado = false;
             db.SaveChanges();
             //return RedirectToAction("Index", "Promocion");
             return View("Index");

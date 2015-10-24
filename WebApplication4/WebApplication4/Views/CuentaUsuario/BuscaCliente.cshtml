@@ -7,6 +7,8 @@
 @{
     ViewBag.Title = "BuscaCliente";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+    var db = new WebApplication4.Models.inf245netsoft();
+    List<WebApplication4.Models.Regalo> listaSearch = db.Regalo.AsNoTracking().Where(c => c.estado == true).ToList();
 }
 
 <div class="container-fluid">
@@ -19,14 +21,14 @@
 
 <div class="container">
     <div class="row ">
-        @*<div class="col-md-1">
+        <div class="col-md-1">
                 <label for="dni" class="control-label">Tipo Doc:</label>
             </div>
             <div class="col-md-2">
-                <select class="form-control" name="" id="">
-                    <option value="">DNI</option>
-                    <option value="">Pasaporte</option>
-                    <option value="">Carnet Extranjería</option>
+                <select class="form-control" name="" id="comboBusq">
+                    <option value="0">Tipo</option>
+                    <option value="1">DNI</option>
+                    <option value="2">Pasaporte</option>
                 </select>
             </div>
             <div class="col-md-2">
@@ -34,18 +36,18 @@
             </div>
             <div class="col-md-2">
                 <div class="input-group">
-                    <input id="dni" type="text" class="form-control">
-                    <span class="input-group-btn"><button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
+                    <input id="idBusq" type="text" class="form-control">
+                    <span class="input-group-btn"><button onclick="busca()" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
                 </div>
             </div>
-            <div class="col-md-2">
+            @*<div class="col-md-2">
                 <div class="input-group">
                     <a class="btn btn-primary" href="#regalo" data-toggle="modal"><span class="glyphicon glyphicon-gift"></span> Entregar Regalo</a>
                 </div>
             </div>*@
         <div class="col-md-2">
             <div class="input-group">
-                <a class="btn btn-primary" href="#regalo" data-toggle="modal"><span class="glyphicon glyphicon-gift"></span> Entregar Regalo</a>
+                <a class="btn btn-primary" href="#regalo" onclick="selecciona()" data-toggle="modal"><span class="glyphicon glyphicon-gift"></span> Entregar Regalo</a>
             </div>
         </div>
         <div class="col-md-3">
@@ -54,7 +56,7 @@
 
     </div>
     <br>
-    @using (Html.BeginForm("Search", "CuentaUsuario", FormMethod.Post, new { }))
+    @*@using (Html.BeginForm("Search", "CuentaUsuario", FormMethod.Post, new { }))
     {
         @Html.AntiForgeryToken()
 
@@ -96,14 +98,13 @@
                 </div>
             </div>
         </div>
-    }
+    }*@
 
     @{
-        var db = new WebApplication4.Models.inf245netsoft();
         List<WebApplication4.Models.CuentaUsuario> listaCliente = null;
-        if (TempData["ListaCL"] != null)
+        if (Session["ListaCL"] != null)
         {
-            listaCliente = (List<WebApplication4.Models.CuentaUsuario>)TempData["ListaCL"];
+            listaCliente = (List<WebApplication4.Models.CuentaUsuario>)Session["ListaCL"];
         }
         else
         {
@@ -115,28 +116,130 @@
         <table id="mytable" class="table table-bordered table-hover">
             <thead>
                 <tr class="thead">
+                    <th>Usuario</th>
                     <th>Nombre</th>
                     <th>Apellido</th>
                     <th>No Documento</th>
                     <th>Puntos</th>
-                    <th></th>
+                    @*<th></th>*@
                 </tr>
             </thead>
             <tbody id="tbody">
                 @foreach (var row in listaCliente)
                 {
                     <tr id=@row.codDoc onclick="myFunction(this)">
+                        <td>@row.usuario.Replace("@", "°")</td>
                         <td>@row.nombre</td>
                         <td>@row.apellido</td>
                         <td>@row.codDoc</td>
                         <td>@row.puntos</td>
-                        <td>@Html.ActionLink("Selecciona", "Entrega", new { usuario = row.usuario.Replace("@", "°") })</td>
+                        @*<td>@Html.ActionLink("Selecciona", "Entrega", new { usuario = row.usuario.Replace("@", "°") })</td>*@
                     </tr>
                 }
             </tbody>
         </table>
     </div>
 </div><!--Fin del container-->
+
+<input type="hidden" id="idClienteT" value="" />
+
+<script>
+    function myFunction(x) {
+        if (document.getElementsByClassName("trselected").length > 0) {
+            var element = document.getElementsByClassName("trselected");
+            //element.item[0].cells[0].innerText;
+            element[0].className = "";
+        }
+        //var tabla = document.getElementById("mytable");
+        //alert(x);
+        //var y = x.getCells();
+        var elem = document.getElementById("idClienteT");
+        elem.value = x.cells[0].innerHTML;
+        //alert(x.cells[0].innerHTML);
+        //ViewBag.P = x.cells[0].innerHTML;
+        x.className = "trselected";
+
+        //<a class="btn btn-primary" href="javascript:document.getElementsByClassName('trselected').submit()">Borrar<span class="glyphicon glyphicon-pencil"></span></a>
+        //idProm = x.codp;
+    }
+    function busca() {
+        var usuario = $('#idBusq').val();
+        var tipo = $('#comboBusq option:selected').val();
+        //var el = document.getElementById(regalo);
+        //var row = $(el).closest('tr');
+        //alert(evento);
+        //alert(promocion);
+        //if (usuario != "" && tipo != "" && usuario != null && tipo != null) {
+            $.ajax({
+                url: "@Url.Action("Search2", "CuentaUsuario")",
+                data: { usuario:usuario, tipo:tipo },
+                success: function (data) {
+                    window.location.href = '/CuentaUsuario/BuscaCliente';
+                    //alert("Eliminado");
+                    //row.remove();
+                },
+                error: function () {
+                    alert("Error :(");
+                }
+            });
+        //} else {
+        //    alert("Ingrese todos los campos de busqueda");
+        //}
+    }
+    function selecciona() {
+        var cliente = $('#idClienteT').val();
+        //var el = document.getElementById(regalo);
+        //var row = $(el).closest('tr');
+        //alert(evento);
+        //alert(promocion);
+            $.ajax({
+                url: "@Url.Action("Entrega2", "CuentaUsuario")",
+                data: { cliente: cliente },
+                success: function (data) {
+
+                    //alert("Eliminado");
+                    //row.remove();
+                },
+                error: function () {
+                    alert("Error :(");
+                }
+            }); 
+    }
+    function entregar() {
+        var regalo = $('#comboBusq2 option:selected').val();
+        var cliente = $('#idClienteT').val();
+        //var el = document.getElementById(regalo);
+        //var row = $(el).closest('tr');
+        //alert(evento);
+        //alert(promocion);
+        if (regalo != "" && regalo != null && cliente != null && cliente != "" && regalo!=0) {
+            $.ajax({
+                url: "@Url.Action("EntregaRegalo2", "CuentaUsuario")",
+                data: { regalo: regalo, cliente: cliente },
+                success: function (data) {
+
+                    //alert("Entregado");
+                    window.location.href = '/CuentaUsuario/BuscaCliente';
+                    //row.remove();
+                },
+                error: function () {
+                    alert("Error :(");
+                }
+            });
+        } else {
+            alert("Seleccione un cliente y un regalo");
+        }
+    }
+    function closewindow() {
+        $('#regalo').modal('hide');
+    }
+</script>
+
+<style>
+    .trselected {
+        background: gray;
+    }
+</style>
 
 <div class="modal fade" id="regalo">
     <!--esta div pondra la pantalla oscura al presionar el boton-->
@@ -150,14 +253,25 @@
             </div>
             <!--contenido de la ventana-->
             <div class="modal-body">
-                @{
+                @*@{
                     Html.RenderPartial("_Search1");
-                }
+                }*@
+                <div class="col-md-2">
+                    <select class="form-control" name="" id="comboBusq2" onchange="">
+                        <option value="0">Regalo - Puntos</option>
+                        @foreach (var item in listaSearch)
+                        {
+                            <option value="@item.idRegalo">
+                                Nombre: @item.Nombre Puntos: @item.puntos
+                            </option>
+                        }
+                    </select>
+                </div>
             </div>
             <!--footer de la ventana-->
             <div class="modal-footer">
                 <button type="button" onclick="entregar()" class="btn btn-primary">Entregar <span class="glyphicon glyphicon-ok"></span></button>
-                <button type="button" onclick="cerrarModal()" class="btn btn-danger">Cancelar <span class="glyphicon glyphicon-remove"></span></button>
+                <button type="button" onclick="closewindow()" class="btn btn-danger">Cancelar <span class="glyphicon glyphicon-remove"></span></button>
             </div>
         </div>
     </div>

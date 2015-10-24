@@ -111,5 +111,20 @@ namespace WebApplication4.Controllers
             TempData["ListaR"] = null;
             return RedirectToAction("Index", "Regalo");
         }
+
+        public ActionResult Search2(string regalo)
+        {
+            List<Regalo> listaReg;
+            if (regalo == "")
+            {
+                //listaReg = db.Regalo.AsNoTracking().Where(c => c.estado == true).ToList();
+                Session["ListaR"] = null;
+                return RedirectToAction("Index", "Regalo");
+            }
+            listaReg = db.Regalo.AsNoTracking().Where(c => c.Nombre.StartsWith(regalo) && c.estado == true).ToList();
+            if (listaReg != null) Session["ListaR"] = listaReg;
+            else Session["ListaR"] = null;
+            return RedirectToAction("Index", "Regalo");
+        }
     }
 }

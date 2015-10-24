@@ -1,12 +1,23 @@
-﻿@model WebApplication4.Models.EditViewModel
+﻿@using Microsoft.AspNet.Identity
+@using WebApplication4.Models
+
+@model WebApplication4.Models.EditViewModel
 
 
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+    CuentaUsuario cuenta = (CuentaUsuario)Session["usuarioE"];
+    EditViewModel cuentaM = new EditViewModel();
+    cuentaM.apellido = cuenta.apellido;
+    cuentaM.direccion = cuenta.direccion;
+    cuentaM.Email = cuenta.correo;
+    cuentaM.nombre = cuenta.nombre;
+    cuentaM.telefono = cuenta.telefono;
+    cuentaM.telMovil = cuenta.telMovil;
 }
 
-@using (Html.BeginForm("EditRegister", "Empleado", FormMethod.Post, new { }))
+@using (Html.BeginForm("EditRegister", "Empleado", FormMethod.Post, new {model=cuentaM }))
 {
     @Html.AntiForgeryToken()
 
@@ -16,7 +27,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Email)
+                @Html.TextBoxFor(model => model.Email, new { @placeholder = @cuentaM.Email })
                 @Html.ValidationMessageFor(model => model.Email)
             </div>
         </div>
@@ -24,7 +35,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.nombre)
+                @Html.TextBoxFor(model => model.nombre, new { @placeholder = @cuentaM.nombre })
                 @Html.ValidationMessageFor(model => model.nombre)
             </div>
         </div>
@@ -32,7 +43,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.apellido, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.apellido)
+                @Html.TextBoxFor(model => model.apellido, new { @placeholder = @cuentaM.apellido })
                 @Html.ValidationMessageFor(model => model.apellido)
             </div>
         </div>
@@ -40,7 +51,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.direccion, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.direccion)
+                @Html.TextBoxFor(model => model.direccion, new { @placeholder = @cuentaM.direccion })
                 @Html.ValidationMessageFor(model => model.direccion)
             </div>
         </div>
@@ -48,7 +59,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.telefono, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.telefono)
+                @Html.TextBoxFor(model => model.telefono, new { @placeholder = @cuentaM.telefono })
                 @Html.ValidationMessageFor(model => model.telefono)
             </div>
         </div>
@@ -56,7 +67,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.telMovil, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.telMovil)
+                @Html.TextBoxFor(model => model.telMovil, new { @placeholder = @cuentaM.telMovil })
                 @Html.ValidationMessageFor(model => model.telMovil)
             </div>
         </div>

@@ -1,0 +1,77 @@
+﻿
+@{
+    ViewBag.Title = "ReporteDia";
+    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li class="active">Generar Reporte de Ventas del Dia</li>
+        </ol>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <a class="btn btn-danger pull-right" href="index2.html">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+    </div>
+    <div class="row">
+        <div class="col-md-1">
+            <label for="dni" class="control-label">Fecha:</label>
+        </div>
+        <div class="col-md-2">
+            <input type="date" class="form-control" readonly="true">
+        </div>
+    </div><br>
+</div>
+
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+        </div>
+
+    </div>
+    <div class="row">
+        <table class="table table-bordered table-hover" align="center">
+            <tr class="active">
+                <th>Código del evento</th>
+                <th>Nombre del evento</th>
+                <th>Número de entradas vendidas del evento</th>
+                <th>Monto de las ventas</th>
+            </tr>
+            <tr>
+                <td>3221</td>
+                <td>Dinosaurios Gigantes </td>
+                <td>25</td>
+                <td>725.00</td>
+            </tr>
+            <tr>
+                <td>5542</td>
+                <td>Family Park</td>
+                <td>10</td>
+                <td>700.00</td>
+            </tr>
+            <tr>
+                <td>2213</td>
+                <td>Fuerza Bruta</td>
+                <td>4</td>
+                <td>200.00</td>
+            </tr>
+            <tr>
+                <td>404</td>
+                <td>PIAF DE PAM GEMS</td>
+                <td>4</td>
+                <td>220.00</td>
+            </tr>
+            <tr>
+                <td colspan="3"><strong>TOTAL VENDIDO</strong></td>
+                <td contenteditable id="reg"><strong>1845.00</strong></td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
