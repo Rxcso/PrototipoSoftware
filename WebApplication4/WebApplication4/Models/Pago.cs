@@ -12,11 +12,16 @@ namespace WebApplication4.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class C__MigrationHistory
+    public partial class Pago
     {
-        public string MigrationId { get; set; }
-        public string ContextKey { get; set; }
-        public byte[] Model { get; set; }
-        public string ProductVersion { get; set; }
+        public int codPago { get; set; }
+        public Nullable<System.DateTime> fecha { get; set; }
+        public Nullable<double> monto { get; set; }
+        public string descripcion { get; set; }
+        public int codEvento { get; set; }
+        public int codOrg { get; set; }
+    
+        public virtual Eventos Eventos { get; set; }
+        public virtual Organizador Organizador { get; set; }
     }
 }

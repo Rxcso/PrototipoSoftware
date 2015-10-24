@@ -178,6 +178,16 @@
           <Property Name="urlDistribucion" Type="varchar" MaxLength="100" />
           <Property Name="codPreferencia" Type="int" />
         </EntityType>
+        <EntityType Name="Funcion">
+          <Key>
+            <PropertyRef Name="codFuncion" />
+          </Key>
+          <Property Name="codFuncion" Type="int" Nullable="false" />
+          <Property Name="horaIni" Type="datetime" />
+          <Property Name="horaFin" Type="datetime" />
+          <Property Name="fecha" Type="datetime" />
+          <Property Name="codEvento" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Local">
           <Key>
             <PropertyRef Name="codLocal" />
@@ -200,6 +210,19 @@
           <Property Name="estadoOrg" Type="varchar" MaxLength="20" />
           <Property Name="correo" Type="varchar" MaxLength="100" />
           <Property Name="telefOrg" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Pago">
+          <Key>
+            <PropertyRef Name="codPago" />
+            <PropertyRef Name="codEvento" />
+            <PropertyRef Name="codOrg" />
+          </Key>
+          <Property Name="codPago" Type="int" Nullable="false" />
+          <Property Name="fecha" Type="datetime" />
+          <Property Name="monto" Type="float" />
+          <Property Name="descripcion" Type="varchar" MaxLength="50" />
+          <Property Name="codEvento" Type="int" Nullable="false" />
+          <Property Name="codOrg" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Perfiles">
           <Key>
@@ -235,6 +258,8 @@
           <Property Name="ubicacion" Type="varchar" MaxLength="100" />
           <Property Name="estaActivo" Type="bit" />
           <Property Name="dirMAC" Type="varchar" MaxLength="100" />
+          <Property Name="idProvincia" Type="int" />
+          <Property Name="idRegion" Type="int" />
         </EntityType>
         <EntityType Name="Regalo">
           <Key>
@@ -261,6 +286,18 @@
           <Property Name="idRegion" Type="int" Nullable="false" />
           <Property Name="idRegPadre" Type="int" />
           <Property Name="nombre" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="Tarjeta">
+          <Key>
+            <PropertyRef Name="codigo" />
+            <PropertyRef Name="codTarjeta" />
+            <PropertyRef Name="idTipoTar" />
+          </Key>
+          <Property Name="codigo" Type="int" Nullable="false" />
+          <Property Name="numTarjeta" Type="varchar" MaxLength="50" />
+          <Property Name="modoPago" Type="varchar" MaxLength="20" />
+          <Property Name="codTarjeta" Type="int" Nullable="false" />
+          <Property Name="idTipoTar" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="TipoDeCambio">
           <Key>
@@ -289,6 +326,8 @@
           <Property Name="estado" Type="varchar" MaxLength="20" />
           <Property Name="usuario" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="fecha" Type="datetime" Nullable="false" />
+          <Property Name="MontoInicio" Type="float" />
+          <Property Name="MontoFin" Type="float" />
         </EntityType>
         <EntityType Name="TurnoSistema">
           <Key>
@@ -298,6 +337,37 @@
           <Property Name="horIni" Type="datetime" />
           <Property Name="horFin" Type="datetime" />
           <Property Name="activo" Type="int" />
+        </EntityType>
+        <EntityType Name="Ventas">
+          <Key>
+            <PropertyRef Name="codVen" />
+          </Key>
+          <Property Name="codVen" Type="int" Nullable="false" />
+          <Property Name="fecha" Type="datetime" />
+          <Property Name="montoDolares" Type="float" />
+          <Property Name="cantAsientos" Type="int" />
+          <Property Name="montoSoles" Type="float" />
+          <Property Name="modalidad" Type="varchar" MaxLength="100" />
+          <Property Name="montoEfectivo" Type="float" />
+          <Property Name="montoCredito" Type="float" />
+          <Property Name="tipoDoc" Type="int" />
+          <Property Name="codDoc" Type="varchar" MaxLength="100" />
+          <Property Name="cliente" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="vendedor" Type="varchar" MaxLength="100" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
+          <Property Name="MontoTotal" Type="float" />
+        </EntityType>
+        <EntityType Name="VentasXFuncion">
+          <Key>
+            <PropertyRef Name="codVen" />
+            <PropertyRef Name="codFuncion" />
+          </Key>
+          <Property Name="codVen" Type="int" Nullable="false" />
+          <Property Name="cantEntradas" Type="int" />
+          <Property Name="subtotal" Type="float" />
+          <Property Name="descuento" Type="int" />
+          <Property Name="total" Type="float" />
+          <Property Name="codFuncion" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK__RegaloXCu__usuar__4BAC3F29">
           <End Role="CuentaUsuario" Type="Self.CuentaUsuario" Multiplicity="1" />
@@ -403,6 +473,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="R_18">
+          <End Role="Eventos" Type="Self.Eventos" Multiplicity="1" />
+          <End Role="Pago" Type="Self.Pago" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Eventos">
+              <PropertyRef Name="codigo" />
+            </Principal>
+            <Dependent Role="Pago">
+              <PropertyRef Name="codEvento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_19">
+          <End Role="Organizador" Type="Self.Organizador" Multiplicity="1" />
+          <End Role="Pago" Type="Self.Pago" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Organizador">
+              <PropertyRef Name="codOrg" />
+            </Principal>
+            <Dependent Role="Pago">
+              <PropertyRef Name="codOrg" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="R_20">
           <End Role="Region" Type="Self.Region" Multiplicity="0..1" />
           <End Role="Local" Type="Self.Local" Multiplicity="*" />
@@ -427,6 +521,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="R_28">
+          <End Role="Region" Type="Self.Region" Multiplicity="0..1" />
+          <End Role="PuntoVenta" Type="Self.PuntoVenta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="idRegion" />
+            </Principal>
+            <Dependent Role="PuntoVenta">
+              <PropertyRef Name="idProvincia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="R_3">
           <End Role="Banco" Type="Self.Banco" Multiplicity="0..1" />
           <End Role="Promociones" Type="Self.Promociones" Multiplicity="*" />
@@ -436,6 +542,78 @@
             </Principal>
             <Dependent Role="Promociones">
               <PropertyRef Name="codBanco" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_30">
+          <End Role="CuentaUsuario" Type="Self.CuentaUsuario" Multiplicity="1" />
+          <End Role="Ventas" Type="Self.Ventas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CuentaUsuario">
+              <PropertyRef Name="usuario" />
+            </Principal>
+            <Dependent Role="Ventas">
+              <PropertyRef Name="cliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_34">
+          <End Role="CuentaUsuario" Type="Self.CuentaUsuario" Multiplicity="0..1" />
+          <End Role="Ventas" Type="Self.Ventas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CuentaUsuario">
+              <PropertyRef Name="usuario" />
+            </Principal>
+            <Dependent Role="Ventas">
+              <PropertyRef Name="vendedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_38">
+          <End Role="Ventas" Type="Self.Ventas" Multiplicity="1" />
+          <End Role="VentasXFuncion" Type="Self.VentasXFuncion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ventas">
+              <PropertyRef Name="codVen" />
+            </Principal>
+            <Dependent Role="VentasXFuncion">
+              <PropertyRef Name="codVen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_4">
+          <End Role="Banco" Type="Self.Banco" Multiplicity="1" />
+          <End Role="Tarjeta" Type="Self.Tarjeta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Banco">
+              <PropertyRef Name="codigo" />
+            </Principal>
+            <Dependent Role="Tarjeta">
+              <PropertyRef Name="codTarjeta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_43">
+          <End Role="Eventos" Type="Self.Eventos" Multiplicity="1" />
+          <End Role="Funcion" Type="Self.Funcion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Eventos">
+              <PropertyRef Name="codigo" />
+            </Principal>
+            <Dependent Role="Funcion">
+              <PropertyRef Name="codEvento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_47">
+          <End Role="TipoTarjeta" Type="Self.TipoTarjeta" Multiplicity="1" />
+          <End Role="Tarjeta" Type="Self.Tarjeta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoTarjeta">
+              <PropertyRef Name="idTipoTar" />
+            </Principal>
+            <Dependent Role="Tarjeta">
+              <PropertyRef Name="idTipoTar" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -499,6 +677,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="R_75">
+          <End Role="Region" Type="Self.Region" Multiplicity="0..1" />
+          <End Role="PuntoVenta" Type="Self.PuntoVenta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="idRegion" />
+            </Principal>
+            <Dependent Role="PuntoVenta">
+              <PropertyRef Name="idRegion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_76">
+          <End Role="Funcion" Type="Self.Funcion" Multiplicity="1" />
+          <End Role="VentasXFuncion" Type="Self.VentasXFuncion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Funcion">
+              <PropertyRef Name="codFuncion" />
+            </Principal>
+            <Dependent Role="VentasXFuncion">
+              <PropertyRef Name="codFuncion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="R_78">
           <End Role="Categoria" Type="Self.Categoria" Multiplicity="1" />
           <End Role="CategoriasXUsuario" Type="Self.CategoriasXUsuario" Multiplicity="*" />
@@ -548,18 +750,23 @@
           <EntitySet Name="CuentaUsuario" EntityType="Self.CuentaUsuario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Eventos" EntityType="Self.Eventos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EventosPrueba" EntityType="Self.EventosPrueba" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Funcion" EntityType="Self.Funcion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Local" EntityType="Self.Local" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Organizador" EntityType="Self.Organizador" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pago" EntityType="Self.Pago" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Perfiles" EntityType="Self.Perfiles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Promociones" EntityType="Self.Promociones" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PuntoVenta" EntityType="Self.PuntoVenta" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Regalo" EntityType="Self.Regalo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RegaloXCuenta" EntityType="Self.RegaloXCuenta" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Region" EntityType="Self.Region" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tarjeta" EntityType="Self.Tarjeta" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoDeCambio" EntityType="Self.TipoDeCambio" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoTarjeta" EntityType="Self.TipoTarjeta" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Turno" EntityType="Self.Turno" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TurnoSistema" EntityType="Self.TurnoSistema" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ventas" EntityType="Self.Ventas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="VentasXFuncion" EntityType="Self.VentasXFuncion" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__RegaloXCu__usuar__4BAC3F29" Association="Self.FK__RegaloXCu__usuar__4BAC3F29">
             <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
             <End Role="RegaloXCuenta" EntitySet="RegaloXCuenta" />
@@ -592,6 +799,14 @@
             <End Role="TurnoSistema" EntitySet="TurnoSistema" />
             <End Role="Turno" EntitySet="Turno" />
           </AssociationSet>
+          <AssociationSet Name="R_18" Association="Self.R_18">
+            <End Role="Eventos" EntitySet="Eventos" />
+            <End Role="Pago" EntitySet="Pago" />
+          </AssociationSet>
+          <AssociationSet Name="R_19" Association="Self.R_19">
+            <End Role="Organizador" EntitySet="Organizador" />
+            <End Role="Pago" EntitySet="Pago" />
+          </AssociationSet>
           <AssociationSet Name="R_20" Association="Self.R_20">
             <End Role="Region" EntitySet="Region" />
             <End Role="Local" EntitySet="Local" />
@@ -600,9 +815,37 @@
             <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
             <End Role="Turno" EntitySet="Turno" />
           </AssociationSet>
+          <AssociationSet Name="R_28" Association="Self.R_28">
+            <End Role="Region" EntitySet="Region" />
+            <End Role="PuntoVenta" EntitySet="PuntoVenta" />
+          </AssociationSet>
           <AssociationSet Name="R_3" Association="Self.R_3">
             <End Role="Banco" EntitySet="Banco" />
             <End Role="Promociones" EntitySet="Promociones" />
+          </AssociationSet>
+          <AssociationSet Name="R_30" Association="Self.R_30">
+            <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
+            <End Role="Ventas" EntitySet="Ventas" />
+          </AssociationSet>
+          <AssociationSet Name="R_34" Association="Self.R_34">
+            <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
+            <End Role="Ventas" EntitySet="Ventas" />
+          </AssociationSet>
+          <AssociationSet Name="R_38" Association="Self.R_38">
+            <End Role="Ventas" EntitySet="Ventas" />
+            <End Role="VentasXFuncion" EntitySet="VentasXFuncion" />
+          </AssociationSet>
+          <AssociationSet Name="R_4" Association="Self.R_4">
+            <End Role="Banco" EntitySet="Banco" />
+            <End Role="Tarjeta" EntitySet="Tarjeta" />
+          </AssociationSet>
+          <AssociationSet Name="R_43" Association="Self.R_43">
+            <End Role="Eventos" EntitySet="Eventos" />
+            <End Role="Funcion" EntitySet="Funcion" />
+          </AssociationSet>
+          <AssociationSet Name="R_47" Association="Self.R_47">
+            <End Role="TipoTarjeta" EntitySet="TipoTarjeta" />
+            <End Role="Tarjeta" EntitySet="Tarjeta" />
           </AssociationSet>
           <AssociationSet Name="R_6" Association="Self.R_6">
             <End Role="TipoTarjeta" EntitySet="TipoTarjeta" />
@@ -623,6 +866,14 @@
           <AssociationSet Name="R_74" Association="Self.R_74">
             <End Role="Regalo" EntitySet="Regalo" />
             <End Role="RegaloXCuenta" EntitySet="RegaloXCuenta" />
+          </AssociationSet>
+          <AssociationSet Name="R_75" Association="Self.R_75">
+            <End Role="Region" EntitySet="Region" />
+            <End Role="PuntoVenta" EntitySet="PuntoVenta" />
+          </AssociationSet>
+          <AssociationSet Name="R_76" Association="Self.R_76">
+            <End Role="Funcion" EntitySet="Funcion" />
+            <End Role="VentasXFuncion" EntitySet="VentasXFuncion" />
           </AssociationSet>
           <AssociationSet Name="R_78" Association="Self.R_78">
             <End Role="Categoria" EntitySet="Categoria" />
@@ -664,6 +915,8 @@
           <NavigationProperty Name="RegaloXCuenta" Relationship="inf245netsoftModel.FK__RegaloXCu__usuar__4BAC3F29" FromRole="CuentaUsuario" ToRole="RegaloXCuenta" />
           <NavigationProperty Name="Turno" Relationship="inf245netsoftModel.R_26" FromRole="CuentaUsuario" ToRole="Turno" />
           <NavigationProperty Name="Categoria" Relationship="inf245netsoftModel.CategoriasXUsuario" FromRole="CuentaUsuario" ToRole="Categoria" />
+          <NavigationProperty Name="Ventas" Relationship="inf245netsoftModel.R_30" FromRole="CuentaUsuario" ToRole="Ventas" />
+          <NavigationProperty Name="Ventas1" Relationship="inf245netsoftModel.R_34" FromRole="CuentaUsuario" ToRole="Ventas" />
         </EntityType>
         <EntityContainer Name="inf245netsoft" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="CuentaUsuario" EntityType="Self.CuentaUsuario" />
@@ -756,6 +1009,55 @@
             <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
           </AssociationSet>
           <EntitySet Name="EventosPrueba" EntityType="inf245netsoftModel.EventosPrueba" />
+          <EntitySet Name="Funcion" EntityType="inf245netsoftModel.Funcion" />
+          <EntitySet Name="Pago" EntityType="inf245netsoftModel.Pago" />
+          <EntitySet Name="Tarjeta" EntityType="inf245netsoftModel.Tarjeta" />
+          <EntitySet Name="Ventas" EntityType="inf245netsoftModel.Ventas" />
+          <EntitySet Name="VentasXFuncion" EntityType="inf245netsoftModel.VentasXFuncion" />
+          <AssociationSet Name="R_4" Association="inf245netsoftModel.R_4">
+            <End Role="Banco" EntitySet="Banco" />
+            <End Role="Tarjeta" EntitySet="Tarjeta" />
+          </AssociationSet>
+          <AssociationSet Name="R_30" Association="inf245netsoftModel.R_30">
+            <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
+            <End Role="Ventas" EntitySet="Ventas" />
+          </AssociationSet>
+          <AssociationSet Name="R_34" Association="inf245netsoftModel.R_34">
+            <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
+            <End Role="Ventas" EntitySet="Ventas" />
+          </AssociationSet>
+          <AssociationSet Name="R_18" Association="inf245netsoftModel.R_18">
+            <End Role="Eventos" EntitySet="Eventos" />
+            <End Role="Pago" EntitySet="Pago" />
+          </AssociationSet>
+          <AssociationSet Name="R_76" Association="inf245netsoftModel.R_76">
+            <End Role="Funcion" EntitySet="Funcion" />
+            <End Role="VentasXFuncion" EntitySet="VentasXFuncion" />
+          </AssociationSet>
+          <AssociationSet Name="R_28" Association="inf245netsoftModel.R_28">
+            <End Role="Region" EntitySet="Region" />
+            <End Role="PuntoVenta" EntitySet="PuntoVenta" />
+          </AssociationSet>
+          <AssociationSet Name="R_75" Association="inf245netsoftModel.R_75">
+            <End Role="Region" EntitySet="Region" />
+            <End Role="PuntoVenta" EntitySet="PuntoVenta" />
+          </AssociationSet>
+          <AssociationSet Name="R_47" Association="inf245netsoftModel.R_47">
+            <End Role="TipoTarjeta" EntitySet="TipoTarjeta" />
+            <End Role="Tarjeta" EntitySet="Tarjeta" />
+          </AssociationSet>
+          <AssociationSet Name="R_38" Association="inf245netsoftModel.R_38">
+            <End Role="Ventas" EntitySet="Ventas" />
+            <End Role="VentasXFuncion" EntitySet="VentasXFuncion" />
+          </AssociationSet>
+          <AssociationSet Name="R_43" Association="inf245netsoftModel.R_43">
+            <End Role="Eventos" EntitySet="Eventos" />
+            <End Role="Funcion" EntitySet="Funcion" />
+          </AssociationSet>
+          <AssociationSet Name="R_19" Association="inf245netsoftModel.R_19">
+            <End Role="Organizador" EntitySet="Organizador" />
+            <End Role="Pago" EntitySet="Pago" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Perfiles">
           <Key>
@@ -772,6 +1074,7 @@
           <Property Name="codigo" Type="Int32" Nullable="false" />
           <Property Name="nombre" Type="String" MaxLength="18" FixedLength="true" Unicode="false" />
           <NavigationProperty Name="Promociones" Relationship="inf245netsoftModel.R_3" FromRole="Banco" ToRole="Promociones" />
+          <NavigationProperty Name="Tarjeta" Relationship="inf245netsoftModel.R_4" FromRole="Banco" ToRole="Tarjeta" />
         </EntityType>
         <EntityType Name="Promociones">
           <Key>
@@ -800,6 +1103,7 @@
           <Property Name="idTipoTar" Type="Int32" Nullable="false" />
           <Property Name="nombre" Type="String" MaxLength="18" FixedLength="true" Unicode="false" />
           <NavigationProperty Name="Promociones" Relationship="inf245netsoftModel.R_6" FromRole="TipoTarjeta" ToRole="Promociones" />
+          <NavigationProperty Name="Tarjeta" Relationship="inf245netsoftModel.R_47" FromRole="TipoTarjeta" ToRole="Tarjeta" />
         </EntityType>
         <Association Name="R_3">
           <End Type="inf245netsoftModel.Banco" Role="Banco" Multiplicity="0..1" />
@@ -903,6 +1207,7 @@
           <Property Name="correo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="telefOrg" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Eventos" Relationship="inf245netsoftModel.fk_EventoOrg" FromRole="Organizador" ToRole="Eventos" />
+          <NavigationProperty Name="Pago" Relationship="inf245netsoftModel.R_19" FromRole="Organizador" ToRole="Pago" />
         </EntityType>
         <EntityType Name="PuntoVenta">
           <Key>
@@ -913,6 +1218,10 @@
           <Property Name="estaActivo" Type="Boolean" />
           <Property Name="dirMAC" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Turno" Relationship="inf245netsoftModel.R_9" FromRole="PuntoVenta" ToRole="Turno" />
+          <Property Name="idProvincia" Type="Int32" />
+          <Property Name="idRegion" Type="Int32" />
+          <NavigationProperty Name="Region" Relationship="inf245netsoftModel.R_28" FromRole="PuntoVenta" ToRole="Region" />
+          <NavigationProperty Name="Region1" Relationship="inf245netsoftModel.R_75" FromRole="PuntoVenta" ToRole="Region" />
         </EntityType>
         <EntityType Name="Region">
           <Key>
@@ -926,6 +1235,8 @@
           <NavigationProperty Name="Region1" Relationship="inf245netsoftModel.R_70" FromRole="Region" ToRole="Region1" />
           <NavigationProperty Name="Region2" Relationship="inf245netsoftModel.R_70" FromRole="Region1" ToRole="Region" />
           <NavigationProperty Name="Eventos" Relationship="inf245netsoftModel.fk_EventoRegion" FromRole="Region" ToRole="Eventos" />
+          <NavigationProperty Name="PuntoVenta" Relationship="inf245netsoftModel.R_28" FromRole="Region" ToRole="PuntoVenta" />
+          <NavigationProperty Name="PuntoVenta1" Relationship="inf245netsoftModel.R_75" FromRole="Region" ToRole="PuntoVenta" />
         </EntityType>
         <EntityType Name="Turno">
           <Key>
@@ -942,6 +1253,8 @@
           <NavigationProperty Name="CuentaUsuario" Relationship="inf245netsoftModel.R_26" FromRole="Turno" ToRole="CuentaUsuario" />
           <NavigationProperty Name="PuntoVenta" Relationship="inf245netsoftModel.R_9" FromRole="Turno" ToRole="PuntoVenta" />
           <NavigationProperty Name="TurnoSistema" Relationship="inf245netsoftModel.R_12" FromRole="Turno" ToRole="TurnoSistema" />
+          <Property Name="MontoInicio" Type="Double" />
+          <Property Name="MontoFin" Type="Double" />
         </EntityType>
         <EntityType Name="TurnoSistema">
           <Key>
@@ -1055,6 +1368,8 @@
           <Property Name="ImagenSitios" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="idSubcategoria" Type="Int32" />
           <Property Name="idProvincia" Type="Int32" />
+          <NavigationProperty Name="Pago" Relationship="inf245netsoftModel.R_18" FromRole="Eventos" ToRole="Pago" />
+          <NavigationProperty Name="Funcion" Relationship="inf245netsoftModel.R_43" FromRole="Eventos" ToRole="Funcion" />
         </EntityType>
         <Association Name="fk_EventoRegion">
           <End Type="inf245netsoftModel.Region" Role="Region" Multiplicity="0..1" />
@@ -1237,6 +1552,215 @@
           <Property Name="urlDistribucion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="codPreferencia" Type="Int32" />
         </EntityType>
+        <EntityType Name="Funcion">
+          <Key>
+            <PropertyRef Name="codFuncion" />
+          </Key>
+          <Property Name="codFuncion" Type="Int32" Nullable="false" />
+          <Property Name="horaIni" Type="DateTime" Precision="3" />
+          <Property Name="horaFin" Type="DateTime" Precision="3" />
+          <Property Name="fecha" Type="DateTime" Precision="3" />
+          <Property Name="codEvento" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="VentasXFuncion" Relationship="inf245netsoftModel.R_76" FromRole="Funcion" ToRole="VentasXFuncion" />
+          <NavigationProperty Name="Eventos" Relationship="inf245netsoftModel.R_43" FromRole="Funcion" ToRole="Eventos" />
+        </EntityType>
+        <EntityType Name="Pago">
+          <Key>
+            <PropertyRef Name="codPago" />
+            <PropertyRef Name="codEvento" />
+            <PropertyRef Name="codOrg" />
+          </Key>
+          <Property Name="codPago" Type="Int32" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Precision="3" />
+          <Property Name="monto" Type="Double" />
+          <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="codEvento" Type="Int32" Nullable="false" />
+          <Property Name="codOrg" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Eventos" Relationship="inf245netsoftModel.R_18" FromRole="Pago" ToRole="Eventos" />
+          <NavigationProperty Name="Organizador" Relationship="inf245netsoftModel.R_19" FromRole="Pago" ToRole="Organizador" />
+        </EntityType>
+        <EntityType Name="Tarjeta">
+          <Key>
+            <PropertyRef Name="codigo" />
+            <PropertyRef Name="codTarjeta" />
+            <PropertyRef Name="idTipoTar" />
+          </Key>
+          <Property Name="codigo" Type="Int32" Nullable="false" />
+          <Property Name="numTarjeta" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="modoPago" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="codTarjeta" Type="Int32" Nullable="false" />
+          <Property Name="idTipoTar" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Banco" Relationship="inf245netsoftModel.R_4" FromRole="Tarjeta" ToRole="Banco" />
+          <NavigationProperty Name="TipoTarjeta" Relationship="inf245netsoftModel.R_47" FromRole="Tarjeta" ToRole="TipoTarjeta" />
+        </EntityType>
+        <EntityType Name="Ventas">
+          <Key>
+            <PropertyRef Name="codVen" />
+          </Key>
+          <Property Name="codVen" Type="Int32" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Precision="3" />
+          <Property Name="montoDolares" Type="Double" />
+          <Property Name="cantAsientos" Type="Int32" />
+          <Property Name="montoSoles" Type="Double" />
+          <Property Name="modalidad" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="montoEfectivo" Type="Double" />
+          <Property Name="montoCredito" Type="Double" />
+          <Property Name="tipoDoc" Type="Int32" />
+          <Property Name="codDoc" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="cliente" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="vendedor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <Property Name="MontoTotal" Type="Double" />
+          <NavigationProperty Name="CuentaUsuario" Relationship="inf245netsoftModel.R_30" FromRole="Ventas" ToRole="CuentaUsuario" />
+          <NavigationProperty Name="CuentaUsuario1" Relationship="inf245netsoftModel.R_34" FromRole="Ventas" ToRole="CuentaUsuario" />
+          <NavigationProperty Name="VentasXFuncion" Relationship="inf245netsoftModel.R_38" FromRole="Ventas" ToRole="VentasXFuncion" />
+        </EntityType>
+        <EntityType Name="VentasXFuncion">
+          <Key>
+            <PropertyRef Name="codVen" />
+            <PropertyRef Name="codFuncion" />
+          </Key>
+          <Property Name="codVen" Type="Int32" Nullable="false" />
+          <Property Name="cantEntradas" Type="Int32" />
+          <Property Name="subtotal" Type="Double" />
+          <Property Name="descuento" Type="Int32" />
+          <Property Name="total" Type="Double" />
+          <Property Name="codFuncion" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Funcion" Relationship="inf245netsoftModel.R_76" FromRole="VentasXFuncion" ToRole="Funcion" />
+          <NavigationProperty Name="Ventas" Relationship="inf245netsoftModel.R_38" FromRole="VentasXFuncion" ToRole="Ventas" />
+        </EntityType>
+        <Association Name="R_4">
+          <End Type="inf245netsoftModel.Banco" Role="Banco" Multiplicity="1" />
+          <End Type="inf245netsoftModel.Tarjeta" Role="Tarjeta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Banco">
+              <PropertyRef Name="codigo" />
+            </Principal>
+            <Dependent Role="Tarjeta">
+              <PropertyRef Name="codTarjeta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_30">
+          <End Type="inf245netsoftModel.CuentaUsuario" Role="CuentaUsuario" Multiplicity="1" />
+          <End Type="inf245netsoftModel.Ventas" Role="Ventas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CuentaUsuario">
+              <PropertyRef Name="usuario" />
+            </Principal>
+            <Dependent Role="Ventas">
+              <PropertyRef Name="cliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_34">
+          <End Type="inf245netsoftModel.CuentaUsuario" Role="CuentaUsuario" Multiplicity="0..1" />
+          <End Type="inf245netsoftModel.Ventas" Role="Ventas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CuentaUsuario">
+              <PropertyRef Name="usuario" />
+            </Principal>
+            <Dependent Role="Ventas">
+              <PropertyRef Name="vendedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_18">
+          <End Type="inf245netsoftModel.Eventos" Role="Eventos" Multiplicity="1" />
+          <End Type="inf245netsoftModel.Pago" Role="Pago" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Eventos">
+              <PropertyRef Name="codigo" />
+            </Principal>
+            <Dependent Role="Pago">
+              <PropertyRef Name="codEvento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_76">
+          <End Type="inf245netsoftModel.Funcion" Role="Funcion" Multiplicity="1" />
+          <End Type="inf245netsoftModel.VentasXFuncion" Role="VentasXFuncion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Funcion">
+              <PropertyRef Name="codFuncion" />
+            </Principal>
+            <Dependent Role="VentasXFuncion">
+              <PropertyRef Name="codFuncion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_28">
+          <End Type="inf245netsoftModel.Region" Role="Region" Multiplicity="0..1" />
+          <End Type="inf245netsoftModel.PuntoVenta" Role="PuntoVenta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="idRegion" />
+            </Principal>
+            <Dependent Role="PuntoVenta">
+              <PropertyRef Name="idProvincia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_75">
+          <End Type="inf245netsoftModel.Region" Role="Region" Multiplicity="0..1" />
+          <End Type="inf245netsoftModel.PuntoVenta" Role="PuntoVenta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="idRegion" />
+            </Principal>
+            <Dependent Role="PuntoVenta">
+              <PropertyRef Name="idRegion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_47">
+          <End Type="inf245netsoftModel.TipoTarjeta" Role="TipoTarjeta" Multiplicity="1" />
+          <End Type="inf245netsoftModel.Tarjeta" Role="Tarjeta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoTarjeta">
+              <PropertyRef Name="idTipoTar" />
+            </Principal>
+            <Dependent Role="Tarjeta">
+              <PropertyRef Name="idTipoTar" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_38">
+          <End Type="inf245netsoftModel.Ventas" Role="Ventas" Multiplicity="1" />
+          <End Type="inf245netsoftModel.VentasXFuncion" Role="VentasXFuncion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ventas">
+              <PropertyRef Name="codVen" />
+            </Principal>
+            <Dependent Role="VentasXFuncion">
+              <PropertyRef Name="codVen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_43">
+          <End Type="inf245netsoftModel.Eventos" Role="Eventos" Multiplicity="1" />
+          <End Type="inf245netsoftModel.Funcion" Role="Funcion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Eventos">
+              <PropertyRef Name="codigo" />
+            </Principal>
+            <Dependent Role="Funcion">
+              <PropertyRef Name="codEvento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_19">
+          <End Type="inf245netsoftModel.Organizador" Role="Organizador" Multiplicity="1" />
+          <End Type="inf245netsoftModel.Pago" Role="Pago" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Organizador">
+              <PropertyRef Name="codOrg" />
+            </Principal>
+            <Dependent Role="Pago">
+              <PropertyRef Name="codOrg" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1365,6 +1889,8 @@
           <EntitySetMapping Name="PuntoVenta">
             <EntityTypeMapping TypeName="inf245netsoftModel.PuntoVenta">
               <MappingFragment StoreEntitySet="PuntoVenta">
+                <ScalarProperty Name="idRegion" ColumnName="idRegion" />
+                <ScalarProperty Name="idProvincia" ColumnName="idProvincia" />
                 <ScalarProperty Name="dirMAC" ColumnName="dirMAC" />
                 <ScalarProperty Name="estaActivo" ColumnName="estaActivo" />
                 <ScalarProperty Name="ubicacion" ColumnName="ubicacion" />
@@ -1384,6 +1910,8 @@
           <EntitySetMapping Name="Turno">
             <EntityTypeMapping TypeName="inf245netsoftModel.Turno">
               <MappingFragment StoreEntitySet="Turno">
+                <ScalarProperty Name="MontoFin" ColumnName="MontoFin" />
+                <ScalarProperty Name="MontoInicio" ColumnName="MontoInicio" />
                 <ScalarProperty Name="fecha" ColumnName="fecha" />
                 <ScalarProperty Name="usuario" ColumnName="usuario" />
                 <ScalarProperty Name="estado" ColumnName="estado" />
@@ -1549,6 +2077,72 @@
                 <ScalarProperty Name="descripcion" ColumnName="descripcion" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
                 <ScalarProperty Name="codEvento" ColumnName="codEvento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Funcion">
+            <EntityTypeMapping TypeName="inf245netsoftModel.Funcion">
+              <MappingFragment StoreEntitySet="Funcion">
+                <ScalarProperty Name="codEvento" ColumnName="codEvento" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="horaFin" ColumnName="horaFin" />
+                <ScalarProperty Name="horaIni" ColumnName="horaIni" />
+                <ScalarProperty Name="codFuncion" ColumnName="codFuncion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pago">
+            <EntityTypeMapping TypeName="inf245netsoftModel.Pago">
+              <MappingFragment StoreEntitySet="Pago">
+                <ScalarProperty Name="codOrg" ColumnName="codOrg" />
+                <ScalarProperty Name="codEvento" ColumnName="codEvento" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="monto" ColumnName="monto" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="codPago" ColumnName="codPago" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tarjeta">
+            <EntityTypeMapping TypeName="inf245netsoftModel.Tarjeta">
+              <MappingFragment StoreEntitySet="Tarjeta">
+                <ScalarProperty Name="idTipoTar" ColumnName="idTipoTar" />
+                <ScalarProperty Name="codTarjeta" ColumnName="codTarjeta" />
+                <ScalarProperty Name="modoPago" ColumnName="modoPago" />
+                <ScalarProperty Name="numTarjeta" ColumnName="numTarjeta" />
+                <ScalarProperty Name="codigo" ColumnName="codigo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ventas">
+            <EntityTypeMapping TypeName="inf245netsoftModel.Ventas">
+              <MappingFragment StoreEntitySet="Ventas">
+                <ScalarProperty Name="MontoTotal" ColumnName="MontoTotal" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="vendedor" ColumnName="vendedor" />
+                <ScalarProperty Name="cliente" ColumnName="cliente" />
+                <ScalarProperty Name="codDoc" ColumnName="codDoc" />
+                <ScalarProperty Name="tipoDoc" ColumnName="tipoDoc" />
+                <ScalarProperty Name="montoCredito" ColumnName="montoCredito" />
+                <ScalarProperty Name="montoEfectivo" ColumnName="montoEfectivo" />
+                <ScalarProperty Name="modalidad" ColumnName="modalidad" />
+                <ScalarProperty Name="montoSoles" ColumnName="montoSoles" />
+                <ScalarProperty Name="cantAsientos" ColumnName="cantAsientos" />
+                <ScalarProperty Name="montoDolares" ColumnName="montoDolares" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="codVen" ColumnName="codVen" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VentasXFuncion">
+            <EntityTypeMapping TypeName="inf245netsoftModel.VentasXFuncion">
+              <MappingFragment StoreEntitySet="VentasXFuncion">
+                <ScalarProperty Name="codFuncion" ColumnName="codFuncion" />
+                <ScalarProperty Name="total" ColumnName="total" />
+                <ScalarProperty Name="descuento" ColumnName="descuento" />
+                <ScalarProperty Name="subtotal" ColumnName="subtotal" />
+                <ScalarProperty Name="cantEntradas" ColumnName="cantEntradas" />
+                <ScalarProperty Name="codVen" ColumnName="codVen" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

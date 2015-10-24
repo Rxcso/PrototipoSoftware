@@ -147,6 +147,11 @@ namespace WebApplication4.Controllers
             return RedirectToAction("BuscaCliente", "CuentaUsuario");
         }
 
+        public ActionResult Asignacion()
+        {
+            return View();
+        }
+
         public ActionResult ReporteCliente()
         {
             return View();

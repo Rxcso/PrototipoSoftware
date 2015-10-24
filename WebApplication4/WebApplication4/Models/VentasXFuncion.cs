@@ -12,11 +12,16 @@ namespace WebApplication4.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class C__MigrationHistory
+    public partial class VentasXFuncion
     {
-        public string MigrationId { get; set; }
-        public string ContextKey { get; set; }
-        public byte[] Model { get; set; }
-        public string ProductVersion { get; set; }
+        public int codVen { get; set; }
+        public Nullable<int> cantEntradas { get; set; }
+        public Nullable<double> subtotal { get; set; }
+        public Nullable<int> descuento { get; set; }
+        public Nullable<double> total { get; set; }
+        public int codFuncion { get; set; }
+    
+        public virtual Funcion Funcion { get; set; }
+        public virtual Ventas Ventas { get; set; }
     }
 }

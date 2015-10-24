@@ -1,0 +1,183 @@
+﻿
+@{
+    ViewBag.Title = "Cierre";
+    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li class="active">Cerrar Caja</li>
+        </ol>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="form-group">
+            <label for="categoria" class="control-label col-md-2 col-md-offset-2">Monto Inicial:</label>
+            <div class="col-md-2">
+                <div class="input-group">
+                    <span class="input-group-addon" id="soles">S/.</span>
+                    <input type="text" class="form-control" aria-describedby="soles" readonly="true">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="input-group">
+                    <span class="input-group-addon" id="soles">$.</span>
+                    <input type="text" class="form-control" aria-describedby="soles" readonly="true">
+                </div>
+            </div>
+        </div>
+        <br><br>
+
+        <div class="form-group">
+            <label for="categoria" class="control-label col-md-2 col-md-offset-2">Ventas al contado:</label>
+            <div class="col-md-2">
+                <div class="input-group">
+                    <span class="input-group-addon" id="soles">S/.</span>
+                    <input type="text" class="form-control" aria-describedby="soles" readonly="true">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="input-group">
+                    <span class="input-group-addon" id="dolares">$.</span>
+                    <input type="text" class="form-control" aria-describedby="dolares" readonly="true">
+                </div>
+            </div>
+        </div><br>
+
+        <br>
+
+        <div class="form-group">
+            <label for="categoria" class="control-label col-md-2 col-md-offset-2">Ventas con tarjeta:</label>
+            <div class="col-md-2">
+                <div class="input-group">
+                    <span class="input-group-addon" id="soles">S/.</span>
+                    <input type="text" class="form-control" aria-describedby="soles" readonly="true">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="input-group">
+                    <span class="input-group-addon" id="dolares">$.</span>
+                    <input type="text" class="form-control" aria-describedby="dolares" readonly="true">
+                </div>
+            </div>
+        </div>
+
+        <br><br>
+
+        <div class="form-group">
+            <label for="categoria" class="control-label col-md-2 col-md-offset-2">Monto en caja:</label>
+            <div class="col-md-2">
+                <div class="input-group">
+                    <span class="input-group-addon" id="soles">S/.</span>
+                    <input type="text" class="form-control" aria-describedby="soles" readonly="true">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="input-group">
+                    <span class="input-group-addon" id="dolares">$.</span>
+                    <input type="text" class="form-control" aria-describedby="dolares" readonly="true">
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <br><br>
+
+        <div class="form-group">
+            <label for="categoria" class="control-label col-md-2 col-md-offset-2">Monto real:</label>
+            <div class="col-md-2">
+                <div class="input-group">
+                    <span class="input-group-addon" id="soles">S/.</span>
+                    <input type="text" class="form-control" aria-describedby="soles">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="input-group">
+                    <span class="input-group-addon" id="dolares">$.</span>
+                    <input type="text" class="form-control" aria-describedby="dolares">
+                </div>
+            </div>
+        </div>
+        <br><br>
+
+        <center>
+            <button type="button" class="btn btn-primary">Cerrar caja <span class="glyphicon glyphicon-inbox"></span></button>
+            <a href="index2.html" class="btn btn-danger">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+        </center>
+
+        <br><br><br>
+
+    </div>
+</div>
+
+<div class="modal fade" id="formNuevo">
+    <!--esta div pondra la pantalla oscura al presionar el boton-->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--ACA VA EL CONTENIDO DEL MODAL-->
+            <!--header de la ventana-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+                <h4 class="modal-title">Cerrar Caja</h4>
+            </div>
+            <!--contenido de la ventana-->
+            <div class="modal-body">
+                <form action="" class="form-horizontal">
+                    <div class="form-group">
+                        <br>
+                        <div class="row">
+                            <div class="col-md-11">
+                                <table class="table table-bordered table-hover">
+                                    <tr class="active">
+                                        <th>Monto ingresado</th>
+                                        <th>Monto que debería haber</th>
+                                        <th>Moneda</th>
+                                        <th>Estado</th>
+                                    </tr>
+                                    <tr>
+                                        <td>350.6</td>
+                                        <td>350.6</td>
+                                        <td>Soles</td>
+                                        <td>Correcto</td>
+                                    </tr>
+                                    <tr>
+                                        <td>230.8</td>
+                                        <td>230.8</td>
+                                        <td>Dolares</td>
+                                        <td>Correcto</td>
+                                    </tr>
+                                    <tr>
+                                        <td>500.2</td>
+                                        <td>500.2</td>
+                                        <td>Tarjeta(Soles)</td>
+                                        <td>Correcto</td>
+                                    </tr>
+                                    <tr>
+                                        <td>233.9</td>
+                                        <td>233.9</td>
+                                        <td>Tarjeta(Dolares)</td>
+                                        <td>Correcto</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+
+
+                </form>
+
+
+            </div>
+            <!--footer de la ventana-->
+            <div class="modal-footer">
+                <a class="btn btn-primary">Imprimir</a>
+                <a href="index2.html" class="btn btn-danger">Salir</a>
+            </div>
+        </div>
+    </div>
+</div>
+

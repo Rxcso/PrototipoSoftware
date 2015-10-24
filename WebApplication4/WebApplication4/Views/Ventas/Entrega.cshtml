@@ -1,0 +1,131 @@
+﻿
+@{
+    ViewBag.Title = "Entrega";
+    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li class="active">Entrega de boletos</li>
+        </ol>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row ">
+        <div class="col-md-1">
+            <label for="dni" class="control-label">Tipo Doc:</label>
+        </div>
+        <div class="col-md-2">
+            <select for="dni" class="form-control">
+                <option value="">DNI</option>
+                <option value="">Pasaporte</option>
+                <option value="">Carnet Extranj</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label for="dni" class="control-label">Número Documento:</label>
+        </div>
+        <div class="col-md-2">
+            <div class="input-group">
+                <input id="dni" type="text" class="form-control">
+                <span class="input-group-btn"><button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
+            </div>
+        </div>
+
+        <div class="col-md-5 ">
+            <a href="#imprimir" class="btn btn-primary " data-toggle="modal">Entregar boletos <span class="glyphicon glyphicon-tags"></span></a>
+            <a href="index2.html" class="btn btn-danger pull-right">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+        </div>
+        <div class="col-md-2">
+
+        </div>
+
+    </div>
+
+    <div class="row">
+        <h4>Resultados:</h4>
+        <table class="table table-bordered table-hover">
+            <tr class="active">
+                <th>Código Venta</th>
+                <th>N° Doc</th>
+                <th>Apellido Paterno</th>
+                <th>Apellido Materno</th>
+                <th>Nombres</th>
+                <th>Evento</th>
+                <th>Cant. boletos</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+            </tr>
+            <tr>
+                <td>105060</td>
+                <td>46618582</td>
+                <td>Espinoza</td>
+                <td>Torres</td>
+                <td>Henry Antonio</td>
+                <td>Circo de Kiko</td>
+                <td>4</td>
+                <td>31/10/2015</td>
+                <td>14:00</td>
+            </tr>
+            <tr>
+                <td>105060</td>
+                <td>46618582</td>
+                <td>Espinoza</td>
+                <td>Torres</td>
+                <td>Henry Antonio</td>
+                <td>La Tarumba</td>
+                <td>8</td>
+                <td>02/11/2015</td>
+                <td>19:00</td>
+            </tr>
+            </tr>
+            <tr>
+                <td>105060</td>
+                <td>46618582</td>
+                <td>Espinoza</td>
+                <td>Torres</td>
+                <td>Henry Antonio</td>
+                <td>Los 3 chiflados</td>
+                <td>2</td>
+                <td>09/10/2015</td>
+                <td>19:00</td>
+            </tr>
+            </tr>
+        </table>
+    </div><br>
+
+
+
+
+    <br><br>
+
+
+</div><!--Fin del container-->
+
+
+<div class="modal fade" id="imprimir">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button tyle="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-tittle">¿Seguro que desea entregar las entradas?</h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <a class="btn btn-primary pull-right" href="" data-dismiss="modal" aria-hidden="true">Entregar e imprimir <span class="glyphicon glyphicon-print"></span></a>
+                    </div>
+
+                    <div class="col-md-6 col-sm-6 colxs-6">
+                        <a class="btn btn-danger pull-left" href="" aria-hidden="true" data-dismiss="modal">Cancelar <span class="glyphicon glyphicon-remove"></span></a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+

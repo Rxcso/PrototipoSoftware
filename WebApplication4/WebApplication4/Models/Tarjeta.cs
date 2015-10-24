@@ -12,11 +12,15 @@ namespace WebApplication4.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class C__MigrationHistory
+    public partial class Tarjeta
     {
-        public string MigrationId { get; set; }
-        public string ContextKey { get; set; }
-        public byte[] Model { get; set; }
-        public string ProductVersion { get; set; }
+        public int codigo { get; set; }
+        public string numTarjeta { get; set; }
+        public string modoPago { get; set; }
+        public int codTarjeta { get; set; }
+        public int idTipoTar { get; set; }
+    
+        public virtual Banco Banco { get; set; }
+        public virtual TipoTarjeta TipoTarjeta { get; set; }
     }
 }
