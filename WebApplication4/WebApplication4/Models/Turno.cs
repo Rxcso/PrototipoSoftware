@@ -19,8 +19,10 @@ namespace WebApplication4.Models
         public string estado { get; set; }
         public string usuario { get; set; }
         public System.DateTime fecha { get; set; }
-        public Nullable<double> MontoInicio { get; set; }
-        public Nullable<double> MontoFin { get; set; }
+        public Nullable<double> MontoInicioSoles { get; set; }
+        public Nullable<double> MontoInicioDolares { get; set; }
+        public Nullable<double> MontoFinSoles { get; set; }
+        public Nullable<double> MontoFinDolares { get; set; }
     
         public virtual CuentaUsuario CuentaUsuario { get; set; }
         public virtual PuntoVenta PuntoVenta { get; set; }

@@ -37,8 +37,6 @@ namespace WebApplication4.Models
         public virtual DbSet<Organizador> Organizador { get; set; }
         public virtual DbSet<PuntoVenta> PuntoVenta { get; set; }
         public virtual DbSet<Region> Region { get; set; }
-        public virtual DbSet<Turno> Turno { get; set; }
-        public virtual DbSet<TurnoSistema> TurnoSistema { get; set; }
         public virtual DbSet<Eventos> Eventos { get; set; }
         public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
         public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
@@ -52,5 +50,7 @@ namespace WebApplication4.Models
         public virtual DbSet<Tarjeta> Tarjeta { get; set; }
         public virtual DbSet<Ventas> Ventas { get; set; }
         public virtual DbSet<VentasXFuncion> VentasXFuncion { get; set; }
+        public virtual DbSet<Turno> Turno { get; set; }
+        public virtual DbSet<TurnoSistema> TurnoSistema { get; set; }
     }
 }

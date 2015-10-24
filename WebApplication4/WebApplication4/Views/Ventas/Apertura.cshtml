@@ -1,7 +1,54 @@
-﻿
+﻿@using Microsoft.AspNet.Identity
+@using WebApplication4.Models
+
 @{
     ViewBag.Title = "Apertura";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+    var db = new WebApplication4.Models.inf245netsoft();
+    int idPunto;
+    if (Session["PuntoVentaLoguedo"] != null) {
+        idPunto = (int)Session["PuntoVentaLoguedo"];
+    }
+    else{ 
+        idPunto = 1;  
+    }            
+    CuentaUsuario cuenta = (CuentaUsuario)Session["UsuarioLogueado"];
+    TimeSpan da = DateTime.Now.TimeOfDay;
+    TurnoSistema ts=new TurnoSistema();
+    List<TurnoSistema> listaturno = db.TurnoSistema.AsNoTracking().Where(c => c.activo == true).ToList();
+    for(int i=0;i<listaturno.Count;i++){
+        if((TimeSpan.Parse(listaturno[i].horIni)<da) && (TimeSpan.Parse(listaturno[i].horFin)>da))
+        {
+            ts=listaturno[i];
+        }
+    }
+    Turno tu=null;
+    List<Turno> liT = new List<Turno>();
+    DateTime hoy = DateTime.Now;
+    //List<Turno> liT = db.Turno.AsNoTracking().Where(c => c.codPuntoVenta==idPunto && c.codTurnoSis==ts.codTurnoSis && c.usuario==cuenta.usuario).ToList();
+    if (cuenta != null)
+    {
+        liT = db.Turno.AsNoTracking().Where(j => j.usuario == cuenta.usuario && j.codPuntoVenta == idPunto && j.codTurnoSis == ts.codTurnoSis).ToList();
+    }
+    else{ 
+        liT = null;
+    }
+    if(liT!=null)
+    { 
+    for (int i = 0; i < liT.Count; i++)
+    {
+        if (liT[i].fecha.Date == hoy.Date){
+            tu = liT[i];
+            Session["TurnoHoy"] = tu;
+            break;
+        }
+    }
+    }
+    //tu = liT.First();
+    //if (tu == null) {
+    //    tu = new Turno();
+    //    tu.estado = "Error";
+    //}
 }
 
 <div class="container-fluid">
@@ -19,13 +66,13 @@
             <div class="col-md-2">
                 <div class="input-group">
                     <span class="input-group-addon" id="soles">S/.</span>
-                    <input type="text" class="form-control" aria-describedby="soles">
+                    <input type="text" id="montoS" class="form-control" aria-describedby="soles">
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="input-group">
                     <span class="input-group-addon" id="soles">$.</span>
-                    <input type="text" class="form-control" aria-describedby="soles">
+                    <input type="text" id="montoD" class="form-control" aria-describedby="soles">
                 </div>
             </div>
         </div>
@@ -33,8 +80,14 @@
         <br><br>
 
         <center>
-            <button type="button" class="btn btn-primary">Abrir caja <span class="glyphicon glyphicon-inbox"></span></button>
-            <button type="button" class="btn btn-danger">Salir <span class="glyphicon glyphicon-log-out"></span></button>
+            @if(Session["AperturaCompleta"]==null){
+                <button type="button" class="btn btn-primary" onclick="abrir()">Abrir caja <span class="glyphicon glyphicon-inbox"></span></button>
+            }
+            else
+            {
+                <button type="button" class="btn btn-primary" onclick="">Abrir caja <span class="glyphicon glyphicon-inbox"></span></button>
+            }
+            <a class="btn btn-danger pull-right" href="@Url.Action("Index2", "Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
         </center>
 
 
@@ -42,8 +95,37 @@
     </div>
 </div>
 
+<script>
+    function abrir() {
+        var montos = $('#montoS').val();
+        var montod = $('#montoD').val();
+        if (montos != "" && montos != null && montod != "" && montod != null) {
+            //alert(monto);
+            $.ajax({
+                url: "@Url.Action("AbrirCaja", "Ventas")",
+                data: { montos: montos, montod: montod },
+            success: function (data) {
+                //alert("Eliminado");
+                window.location.href = '/Ventas/Apertura';
+            },
+            error: function () {
+                //alert("Error :(");
+                window.location.href = '/Ventas/Apertura';
+            }
+        });
+    } else {
+            alert("Ingrese los monto solicitados");
+    }
+    }
 
-<div class="modal fade" id="modalBuscarPuntoVenta">
+</script>
+
+@*<h1>@tu.estado</h1>*@
+@*<h1>@ts.horIni</h1>*@
+@*<h1>@cuenta.nombre</h1>
+<h2>@idPunto</h2>*@
+
+@*<div class="modal fade" id="modalBuscarPuntoVenta">
     <div class="modal-dialog">
         <div class="modal-content">
             <!--ACA VA EL CONTENIDO DEL MODAL-->
@@ -92,6 +174,6 @@
             </div>
         </div>
     </div>
-</div><!--ventana de buscar organizador-->
+</div><!--ventana de buscar organizador-->*@
 
 

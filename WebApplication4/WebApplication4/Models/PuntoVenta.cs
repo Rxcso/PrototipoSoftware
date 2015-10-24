@@ -26,8 +26,8 @@ namespace WebApplication4.Models
         public Nullable<int> idProvincia { get; set; }
         public Nullable<int> idRegion { get; set; }
     
-        public virtual ICollection<Turno> Turno { get; set; }
         public virtual Region Region { get; set; }
         public virtual Region Region1 { get; set; }
+        public virtual ICollection<Turno> Turno { get; set; }
     }
 }

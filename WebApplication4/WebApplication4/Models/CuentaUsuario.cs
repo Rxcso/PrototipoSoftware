@@ -17,10 +17,10 @@ namespace WebApplication4.Models
         public CuentaUsuario()
         {
             this.RegaloXCuenta = new HashSet<RegaloXCuenta>();
-            this.Turno = new HashSet<Turno>();
             this.Categoria = new HashSet<Categoria>();
             this.Ventas = new HashSet<Ventas>();
             this.Ventas1 = new HashSet<Ventas>();
+            this.Turno = new HashSet<Turno>();
         }
     
         public string usuario { get; set; }
@@ -41,9 +41,9 @@ namespace WebApplication4.Models
         public int codPerfil { get; set; }
     
         public virtual ICollection<RegaloXCuenta> RegaloXCuenta { get; set; }
-        public virtual ICollection<Turno> Turno { get; set; }
         public virtual ICollection<Categoria> Categoria { get; set; }
         public virtual ICollection<Ventas> Ventas { get; set; }
         public virtual ICollection<Ventas> Ventas1 { get; set; }
+        public virtual ICollection<Turno> Turno { get; set; }
     }
 }

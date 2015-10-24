@@ -321,17 +321,19 @@
     <Property Name="estado" Type="varchar" MaxLength="20" />
     <Property Name="usuario" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="fecha" Type="datetime" Nullable="false" />
-    <Property Name="MontoInicio" Type="float" />
-    <Property Name="MontoFin" Type="float" />
+    <Property Name="MontoInicioSoles" Type="float" />
+    <Property Name="MontoInicioDolares" Type="float" />
+    <Property Name="MontoFinSoles" Type="float" />
+    <Property Name="MontoFinDolares" Type="float" />
   </EntityType>
   <EntityType Name="TurnoSistema">
     <Key>
       <PropertyRef Name="codTurnoSis" />
     </Key>
     <Property Name="codTurnoSis" Type="int" Nullable="false" />
-    <Property Name="horIni" Type="datetime" />
-    <Property Name="horFin" Type="datetime" />
-    <Property Name="activo" Type="int" />
+    <Property Name="horIni" Type="varchar" MaxLength="16" />
+    <Property Name="horFin" Type="varchar" MaxLength="16" />
+    <Property Name="activo" Type="bit" />
   </EntityType>
   <EntityType Name="Ventas">
     <Key>

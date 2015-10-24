@@ -87,10 +87,14 @@ namespace WebApplication4.Controllers
                 case SignInStatus.Success:
                     TempData["tipo"] = "alert alert-success";
                     TempData["message"] = "Logueado Correctamente";
-                    if (cuentausuario.codPerfil==1)
-                    return Redirect("~/Home/Index");
+                    if (cuentausuario.codPerfil == 1)
+                        return Redirect("~/Home/Index");
                     else
-                    return Redirect("~/Home/Index2");
+                    {
+                        Session["PuntoVentaLoguedo"] = 1;
+                        Session["UsuarioLogueado"] = cuentausuario;
+                        return Redirect("~/Home/Index2");
+                    }
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:

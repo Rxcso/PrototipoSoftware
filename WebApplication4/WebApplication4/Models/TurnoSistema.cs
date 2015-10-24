@@ -20,9 +20,9 @@ namespace WebApplication4.Models
         }
     
         public int codTurnoSis { get; set; }
-        public Nullable<System.DateTime> horIni { get; set; }
-        public Nullable<System.DateTime> horFin { get; set; }
-        public Nullable<int> activo { get; set; }
+        public string horIni { get; set; }
+        public string horFin { get; set; }
+        public Nullable<bool> activo { get; set; }
     
         public virtual ICollection<Turno> Turno { get; set; }
     }
