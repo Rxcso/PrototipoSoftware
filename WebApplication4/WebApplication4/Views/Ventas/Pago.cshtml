@@ -13,6 +13,16 @@
         idor = org.codOrg;
         nombO = org.nombOrg;
     }
+    List<Pago> liP=new List<Pago>();
+    if (Session["Pagos"] != null)
+    {
+        liP = (List<Pago>)Session["Pagos"];
+    }
+    double pend = 0;
+    if (Session["Pendiente"] != null)
+    {
+        pend = (double)Session["Pendiente"];
+    }
     
 }
 
@@ -37,20 +47,7 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-2">
             <form action="" class="form-horizontal">
-                @*<div class="form-group">
-                    <label for="direccion" class="control-label col-md-2">Organizador:</label>
-                    <div class="col-md-2">
-                        <input type="textarea" class="form-control" readonly="true">
-                    </div>
-                    <div class="col-md-4">
-                        <input type="textarea" class="form-control" readonly="true">
-                    </div>
-                    <div class="col-md-1">
-                        <a class="btn btn-primary" onclick="bucarOrga()">Buscar</a>
-                    </div>
 
-
-                </div>*@
                 <div class="form-group">
                     <label for="organizador" class="control-label col-md-2">Organizador:</label>
                     <div class="col-md-2">
@@ -68,7 +65,7 @@
                 <div class="form-group">
                     <label for="pendiente" class="control-label col-md-2">Pendiente:</label>
                     <div class="col-md-2">
-                        <input type="textarea" class="form-control" id="pendiente" value="600" readonly="true">
+                        <input type="textarea" class="form-control" id="pendiente" value="@pend" readonly="true">
                     </div>
                 </div>
                 <div class="form-group">
@@ -86,48 +83,29 @@
         </div>
     </div>
     <div class="row">
-        <table class="table table-bordered table-hover">
-            <tr class="active">
-                <th>Id</th>
-                <th>Fecha</th>
-                <th>Organizador</th>
-                <th>Monto</th>
-            </tr>
-            <tr>
-                <td>01</td>
-                <td>24/09/2015</td>
-                <td>Juan Perez</td>
-                <td>S./ 50</td>
-            </tr>
-            <tr>
-                <td>02</td>
-                <td>25/09/2015</td>
-                <td>Juan Perez</td>
-                <td>S./ 100</td>
-            </tr>
-            <tr id="fila3" onclick="select()">
-                <td>03</td>
-                <td>23/08/2015</td>
-                <td>Juan Perez</td>
-                <td>S./ 90</td>
-            </tr>
-            <tr>
-                <td>04</td>
-                <td>18/08/2015</td>
-                <td>Juan Perez</td>
-                <td>S./120</td>
-            </tr>
-
-            <tr id="filaAgregada" style="visibility:hidden">
-                <td>05</td>
-                <td id="fecha">a</td>
-                <td id="nombre">d</td>
-                <td id="monto">t</td>
-            </tr>
-
+        <table id="mytable" class="table table-bordered table-hover">
+            <thead>
+                <tr class="thead">
+                    <th>Id</th>
+                    <th>Fecha</th>
+                    <th>Organizador</th>
+                    <th>Monto</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+                @foreach (var row in liP)
+                {
+                    <tr id=@row.codPago onclick="myFunction(this)">
+                        <td>@row.codPago</td>
+                        <td>@row.fecha</td>
+                        <td>@db.Organizador.Find(row.codOrg).nombOrg</td>
+                        <td>@row.monto</td>
+                    </tr>
+                }
+            </tbody>
         </table>
-
     </div>
+
     <div class="modal fade" id="modalBuscarOrganizador">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -200,5 +178,24 @@
             alert("Seleccione un Organizador");
             evento = "";
     }
+    }
+    function registrar() {
+        var monto = $('#monto2').val();
+        var pend = $('#pendiente').val();
+        
+            //alert(monto);
+            $.ajax({
+                url: "@Url.Action("RegistrarPagos","Ventas")",
+                data: { monto: monto},
+            success: function (data) {
+                //alert("Eliminado");
+                window.location.href = '/Ventas/Pago';
+            },
+            error: function () {
+                //alert("Error :(");
+                window.location.href = '/Ventas/Pago';
+            }
+        });
+        
     }
 </script>
