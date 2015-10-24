@@ -26,6 +26,7 @@ namespace WebApplication4.Controllers
         {
             Turno tu = (Turno)Session["TurnoHoy"];
             if (tu == null) return RedirectToAction("Apertura", "Ventas");
+            if (tu.MontoInicioSoles != 0 && tu.MontoInicioSoles != null) return RedirectToAction("Apertura", "Ventas");
             double m1;
             if (double.TryParse(montos, out m1) == false) return RedirectToAction("Apertura", "Ventas");
             double mS = double.Parse(montos);
