@@ -147,6 +147,30 @@ namespace WebApplication4.Controllers
             return RedirectToAction("BuscaCliente", "CuentaUsuario");
         }
 
+        public ActionResult Search2(string usuario,string tipo)
+        {
+            if (tipo == "")
+            {
+                Session["ListaCL"] = null;
+                return RedirectToAction("BuscaCliente", "CuentaUsuario");
+            }
+            int ti = int.Parse(tipo);
+            if (ti == 0)
+            {
+                Session["ListaCL"] = null;
+                return RedirectToAction("BuscaCliente", "CuentaUsuario");
+            }
+            if (usuario == "" || usuario == null)
+            {
+                Session["ListaCL"] = null;
+                return RedirectToAction("BuscaCliente", "CuentaUsuario");
+            }
+            List<CuentaUsuario> listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.tipoDoc == ti && c.codDoc == usuario && c.estado == true && c.codPerfil == 1 && c.puntos>0).ToList();
+            if (listacl != null) Session["ListaCL"] = listacl;
+            else Session["ListaCL"] = null;
+            return RedirectToAction("BuscaCliente", "CuentaUsuario");
+        }
+
         public ActionResult Asignacion()
         {
             return View();

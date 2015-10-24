@@ -6,6 +6,8 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+    var db = new WebApplication4.Models.inf245netsoft();
+    List<WebApplication4.Models.Region> listaSearch = db.Region.AsNoTracking().Where(c => c.idRegPadre == null).ToList();
 }
 
 <div class="container-fluid">
@@ -35,25 +37,26 @@
                 </div>
             </form>
         </div>
-        @*<div class="col-md-2">
-        <select class="form-control" name="" id="">
-            <option value="">Región</option>
-            <option value="">Lima</option>
-            <option value="">Ica</option>
-        </select>
-
-    </div>*@
+        <div class="col-md-2">
+            <select class="form-control" name="" id="comboBusq" onchange="busca2()">
+                <option>Departamento</option>
+                <option value="0">Todos</option>
+                @foreach (var item in listaSearch)
+                {
+                    <option value="@item.idRegion">
+                        @item.nombre
+                    </option>
+                }
+            </select>
+        </div>
 
         <div class="col-md-1">
             <a class="btn btn-danger pull-right" href="@Url.Action("Index2", "Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
         </div>
 
     </div>
-    @*@{
-        Html.RenderPartial("_Search");
-    }*@
+
     @{
-        var db = new WebApplication4.Models.inf245netsoft();
         List<WebApplication4.Models.PuntoVenta> listaPunto = db.PuntoVenta.AsNoTracking().Where(c => c.estaActivo == true).ToList();
         if (Session["ListaP"] == null)
         {
@@ -72,6 +75,8 @@
                     <th>Id</th>
                     <th>Ubicacion</th>
                     <th>Dirección MAC</th>
+                    <th>Provincia</th>
+                    <th>Departamento</th>
                     @*<th></th>*@
                 </tr>
             </thead>
@@ -82,6 +87,8 @@
                         <td>@row.codPuntoVenta</td>
                         <td>@row.ubicacion</td>
                         <td>@row.dirMAC</td>
+                        <td>@db.Region.Find(row.idProvincia).nombre</td>
+                        <td>@db.Region.Find(row.idRegion).nombre</td>
                         @*<td>@Html.ActionLink("Delete", "Delete", new { id = row.codPuntoVenta })</td>
                         <td>@Html.ActionLink("Edit", "Edit", new { id = row.codPuntoVenta })</td>*@
                     </tr>
@@ -169,6 +176,21 @@
             }
         });
     }
+    function busca2() {
+        var region = $('#comboBusq option:selected').val();
+        $.ajax({
+            url: "@Url.Action("Search3", "PuntoVenta")",
+            data: { region: region },
+        success: function (data) {
+            window.location.href = '/PuntoVenta/Index';
+            //alert("Eliminado");
+            //row.remove();
+        },
+        error: function () {
+            alert("Error :(");
+        }
+    });
+    }
     function closewindow() {
         $('#eliminar').modal('hide');
     }
@@ -216,6 +238,45 @@
                                 @Html.ValidationMessageFor(model => model.mac)
                             </div>
                         </div>
+
+
+                        <div class="row form-group">
+                            @Html.LabelFor(model => model.departamento, new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                @{
+                    List<WebApplication4.Models.Region> listaDepartamento = db.Region.AsNoTracking().Where(c => c.idRegPadre == null).ToList();
+                    IEnumerable<SelectListItem> listItems = (from a in listaDepartamento
+                                                             select new SelectListItem
+                                                           {
+                                                               Value = a.idRegion.ToString(),
+                                                               Text = a.nombre,
+                                                               Selected = false
+                                                           });
+                    listItems.First().Selected = true;
+                                }
+                                @Html.DropDownListFor(model => model.departamento, listItems, "Seleccione Departamento")
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            @Html.LabelFor(model => model.provincia, new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                @{
+                    List<WebApplication4.Models.Region> listaProvincia = db.Region.AsNoTracking().Where(c => c.idRegPadre != null).ToList();
+
+                    IEnumerable<SelectListItem> listItems2 = (from a in listaProvincia
+                                                              select new SelectListItem
+                                                            {
+                                                                Value = a.idRegion.ToString(),
+                                                                Text = a.nombre,
+                                                                Selected = false
+                                                            });
+                                }
+                                @Html.DropDownListFor(model => model.provincia, listItems2, "Seleccione Provincia")
+                            </div>
+                        </div>
+
+
 
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">

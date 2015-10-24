@@ -186,17 +186,7 @@
                         <div class="col-md-9">
                             @{            
                                 List<WebApplication4.Models.Region> listaProvincia = db.Region.AsNoTracking().Where(c => c.idRegPadre != null).ToList();
-                                //List<WebApplication4.Models.Region> listaProvincia = db.Region.AsNoTracking().Where(c => c.idRegPadre == 1).ToList();
-                                //List<WebApplication4.Models.Region> listaProvincia;
-                                //int i=(int)ViewData["Region"];
-                                //if (ViewData["Region"] != null)
-                                //{
-                                //    listaProvincia = db.Region.AsNoTracking().Where(c => c.idRegPadre == i).ToList();
-                                //}
-                                //else
-                                //{
-                                //    listaProvincia = db.Region.AsNoTracking().Where(c => c.idRegPadre != null).ToList();
-                                //}                                
+                             
                                     IEnumerable<SelectListItem> listItems2 = (from a in listaProvincia
                                                          select new SelectListItem
                                                        {

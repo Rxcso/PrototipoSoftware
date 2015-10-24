@@ -29,6 +29,8 @@ namespace WebApplication4.Controllers
                 punto.dirMAC = model.mac;
                 punto.estaActivo = true;
                 punto.ubicacion = model.ubicacion;
+                punto.idProvincia = model.provincia;
+                punto.idRegion = model.departamento;
                 db.PuntoVenta.Add(punto);
                 db.SaveChanges();
                 return View("Index");
@@ -86,6 +88,8 @@ namespace WebApplication4.Controllers
                 db.Entry(punto).State = EntityState.Modified;
                 punto.dirMAC = model.mac;
                 punto.ubicacion = model.ubicacion;
+                punto.idRegion = model.departamento;
+                punto.idProvincia = model.provincia;
                 db.SaveChanges();
                 return RedirectToAction("Index", "PuntoVenta");
             }
@@ -118,6 +122,27 @@ namespace WebApplication4.Controllers
             }
             listaP = db.PuntoVenta.AsNoTracking().Where(c => c.ubicacion.StartsWith(punto) && c.estaActivo == true).ToList();
             if (listaP != null) Session["ListaP"] = listaP;
+            else Session["ListaP"] = null;
+            return RedirectToAction("Index", "PuntoVenta");
+        }
+
+        public ActionResult Search3(string region)
+        {
+            int id = int.Parse(region);
+            List<PuntoVenta> listaPunto;
+            if (region == "")
+            {
+                //listaReg = db.Regalo.AsNoTracking().Where(c => c.estado == true).ToList();
+                Session["ListaP"] = null;
+                return RedirectToAction("Index", "PuntoVenta");
+            }
+            if (region == "0")
+            {
+                Session["ListaP"] = db.PuntoVenta.AsNoTracking().Where(c => c.estaActivo == true).ToList();
+                return RedirectToAction("Index", "PuntoVenta");
+            }
+            listaPunto = db.PuntoVenta.AsNoTracking().Where(c => c.idRegion == id && c.estaActivo == true).ToList();
+            if (listaPunto != null) Session["ListaP"] = listaPunto;
             else Session["ListaP"] = null;
             return RedirectToAction("Index", "PuntoVenta");
         }

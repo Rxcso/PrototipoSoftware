@@ -3,6 +3,7 @@
 
 @model PuntoVentaModel
 @{
+    var db = new WebApplication4.Models.inf245netsoft();
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
     PuntoVenta punto = (PuntoVenta)Session["punto"];
@@ -34,6 +35,46 @@
                 <div class="col-md-9">
                     @Html.TextBoxFor(model => model.mac, new { @placeholder = @puntoM.mac })
                     @Html.ValidationMessageFor(model => model.mac)
+                </div>
+            </div>
+
+            <div class="row form-group">
+                @Html.LabelFor(model => model.departamento, new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @{
+        List<WebApplication4.Models.Region> listaDepartamento = db.Region.AsNoTracking().Where(c => c.idRegPadre == null).ToList();
+        IEnumerable<SelectListItem> listItems = (from a in listaDepartamento
+                                                 select new SelectListItem
+                                               {
+                                                   Value = a.idRegion.ToString(),
+                                                   Text = a.nombre,
+                                                   Selected = false
+                                               });
+                    }
+                    @{
+        listItems.First().Selected = true;
+                    }
+                    @Html.DropDownListFor(model => model.departamento, listItems, "Seleccione Departamento")
+                </div>
+            </div>
+
+            <div class="row form-group">
+                @Html.LabelFor(model => model.provincia, new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @{
+        List<WebApplication4.Models.Region> listaProvincia = db.Region.AsNoTracking().Where(c => c.idRegPadre != null).ToList();
+        IEnumerable<SelectListItem> listItems2 = (from a in listaProvincia
+                                                  select new SelectListItem
+                                                {
+                                                    Value = a.idRegion.ToString(),
+                                                    Text = a.nombre,
+                                                    Selected = false
+                                                });
+                    }
+                    @{
+        listItems2.First().Selected = true;
+                    }
+                    @Html.DropDownListFor(model => model.provincia, listItems2, "Seleccione Provincia")
                 </div>
             </div>
 
