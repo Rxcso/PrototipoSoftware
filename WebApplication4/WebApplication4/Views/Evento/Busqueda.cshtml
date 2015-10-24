@@ -3,11 +3,13 @@
 @using WebApplication4.Models;
 
 @model Evento2Model
-
 @{
+    ViewBag.MaximoPaginas = 5;
     ViewBag.Title = "Busqueda";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
 }
+
+
 
 
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
@@ -46,7 +48,7 @@
 
         @using (Html.BeginForm("Busqueda", "Evento", FormMethod.Get, new { id = "adv-search", @class = "form-inline" }))
         {
-
+            @Html.ValidationSummary("", new { @class = "text-danger" })
             <div class="form-group">
                 <div class="form-group ">
                     <div class="input-group">
@@ -58,7 +60,7 @@
 
 
                 <div class="form-group">
-                    <div class="input-group alert alert-danger">
+                    <div class="input-group">
                         <span class="input-group-addon">Hasta:</span>
                         <input id="fech_fin" onchange="changeDate2()" name="fech_fin" type="date" class="form-control">
                     </div>
@@ -143,15 +145,6 @@
     </div>
 </div>
 
-@{
-    var db = new WebApplication4.Models.inf245netsoft();
-    if (ViewBag.Lista == null)
-    {
-        ViewBag.Lista = db.Eventos.AsNoTracking().Where(c => c.estado.Contains("Activo")).ToList();
-
-    }
-
-}
 
 <div class="container-fluid">
     <div class="panel panel-primary">
@@ -178,120 +171,29 @@
                 </div>
 
             }
-
-
-
-            <div class="col-md-2 col-sm-4 col-xs-6">
-                <div class="thumbnail">
-                    <img onclick="verEvento()" class="event" src="http://lorempixel.com/400/250/nightlife/" alt="">
-                    <div class="caption" style="text-align:center">
-                        <div class="row">NOMBRE DEL EVENTO</div>
-                        <div class="row">Fecha: 09-AGO</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-4 col-xs-6">
-                <div class="thumbnail">
-                    <img onclick="verEvento()" class="event" src="http://lorempixel.com/400/250/nightlife/" alt="">
-                    <div class="caption" style="text-align:center">
-                        <div class="row">NOMBRE DEL EVENTO</div>
-                        <div class="row">Fecha: 10-AGO</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-4 col-xs-6">
-                <div class="thumbnail">
-                    <img onclick="verEvento()" class="event" src="http://lorempixel.com/400/250/nightlife/" alt="">
-                    <div class="caption" style="text-align:center">
-                        <div class="row">NOMBRE DEL EVENTO</div>
-                        <div class="row">Fecha: 11-AGO</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-4 col-xs-6">
-                <div class="thumbnail">
-                    <img onclick="verEvento()" class="event" src="http://lorempixel.com/400/250/nightlife/" alt="">
-                    <div class="caption" style="text-align:center">
-                        <div class="row">NOMBRE DEL EVENTO</div>
-                        <div class="row">Fecha: 12-AGO</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-4 col-xs-6">
-                <div class="thumbnail">
-                    <img onclick="verEvento()" class="event" src="http://lorempixel.com/400/250/nightlife/" alt="">
-                    <div class="caption" style="text-align:center">
-                        <div class="row">NOMBRE DEL EVENTO</div>
-                        <div class="row">Fecha: 08-DIC</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-4 col-xs-6">
-                <div class="thumbnail">
-                    <img onclick="verEvento()" class="event" src="http://lorempixel.com/400/250/nightlife/" alt="">
-                    <div class="caption" style="text-align:center">
-                        <div class="row">NOMBRE DEL EVENTO</div>
-                        <div class="row">Fecha: 08-DIC</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-4 col-xs-6">
-                <div class="thumbnail">
-                    <img onclick="verEvento()" class="event" src="http://lorempixel.com/400/250/nightlife/" alt="">
-                    <div class="caption" style="text-align:center">
-                        <div class="row">NOMBRE DEL EVENTO</div>
-                        <div class="row">Fecha: 08-DIC</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-4 col-xs-6">
-                <div class="thumbnail">
-                    <img onclick="verEvento()" class="event" src="http://lorempixel.com/400/250/nightlife/" alt="">
-                    <div class="caption" style="text-align:center">
-                        <div class="row">NOMBRE DEL EVENTO</div>
-                        <div class="row">Fecha: 08-DIC</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-4 col-xs-6">
-                <div class="thumbnail">
-                    <img onclick="verEvento()" class="event" src="http://lorempixel.com/400/250/nightlife/" alt="">
-                    <div class="caption" style="text-align:center">
-                        <div class="row">NOMBRE DEL EVENTO</div>
-                        <div class="row">Fecha: 08-DIC</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-4 col-xs-6">
-                <div class="thumbnail">
-                    <img onclick="verEvento()" class="event" src="http://lorempixel.com/400/250/nightlife/" alt="">
-                    <div class="caption" style="text-align:center">
-                        <div class="row">NOMBRE DEL EVENTO</div>
-                        <div class="row">Fecha: 08-DIC</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-4 col-xs-6">
-                <div class="thumbnail">
-                    <img onclick="verEvento()" class="event" src="http://lorempixel.com/400/250/nightlife/" alt="">
-                    <div class="caption" style="text-align:center">
-                        <div class="row">NOMBRE DEL EVENTO</div>
-                        <div class="row">Fecha: 08-DIC</div>
-                    </div>
-                </div>
-            </div>
         </div>
+
 
         <!--Paginacion-->
         <ul class="pagination pagination-md pull-right">
             <!--lg    md    sm-->
+
+
+
             <li class="disabled"><a href="">&laquo;</a></li>
-            <li class="active"><a href="">1</a></li>
-            <li><a href="">2</a></li>
-            <li><a href="">3</a></li>
-            <li><a href="">4</a></li>
-            <li><a href="">5</a></li>
+
+            @{
+                ViewBag.paginas = ((Model.numeroPaginas - ViewBag.MaximoPaginas) > 0) ? Model.numeroPaginas : ViewBag.MaximoPaginas;
+
+            }
+            @for (int num = 1; num < ViewBag.paginas; num++)
+            {
+                <li><a>@num</a></li>
+
+            }
             <li><a href="">&raquo;</a></li>
+
+
         </ul>
     </div>
 </div>

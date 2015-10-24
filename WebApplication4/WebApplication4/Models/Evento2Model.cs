@@ -48,6 +48,18 @@ namespace WebApplication4.Models
 
         //[Required]
 
+
+
+
+        public int cantidadMaximaMostrar { get; set; }
+
+
+        public int posicionActual { get; set; }
+
+
+        public int numeroPaginas { get; set; }
+
+
         public string descripcion { get; set; }
         //TERMINA DATOS GENERALES
         //public Nullable<double> penalidadXcancelacion { get; set; }
@@ -81,6 +93,27 @@ namespace WebApplication4.Models
             model.descripcion = evento.descripcion;
 
             return model;
+        }
+
+
+        public List<Eventos> ListaEventos { get; set; }
+
+
+        public int cantidadEventos()
+        {
+
+            return ListaEventos.Count();
+
+        }
+
+        public Evento2Model(int maxContenido)
+        {
+
+            this.cantidadMaximaMostrar = maxContenido;
+            this.posicionActual = 1;
+            ListaEventos = new List<Eventos>();
+
+
         }
     }
 }

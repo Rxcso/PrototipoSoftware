@@ -1,0 +1,39 @@
+﻿@using MvcPaging;
+@using WebApplication4.Models;
+
+
+@model IPagedList<Eventos>
+@{
+    ViewBag.Title = "BusquedaPaging";
+    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+}
+
+
+
+    <div class="container">
+        <h1>@ViewBag.Title</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Product name</th>
+                    <th>Category</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in Model)
+                {
+                    <tr>
+                        <td>@product.nombre</td>
+                        <td>@product.lugar</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount).Options(o => o
+            .DisplayTemplate("Bootstrap3Pagination")
+            .MaxNrOfPages(14)
+            .AlwaysAddFirstPageNumber()
+        )
+
+    </div>
+    <!-- /container -->

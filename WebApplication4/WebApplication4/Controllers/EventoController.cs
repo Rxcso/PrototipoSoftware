@@ -4,12 +4,16 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebApplication4.Models;
-
+using MvcPaging;
 namespace WebApplication4.Controllers
 {
     public class EventoController : Controller
     {
         inf245netsoft db = new inf245netsoft();
+        private const int DefaultPageSize = 10;
+
+        
+        Evento2Model modelo = new Evento2Model(12);
         // GET: Evento
         public ActionResult Index()
         {
@@ -96,16 +100,46 @@ namespace WebApplication4.Controllers
 
 
 
-
-        public ActionResult Busqueda(string busqueda = "")
+        public ActionResult BusquedaPaging(int? page)
         {
+
+
+            modelo.ListaEventos = db.Eventos.AsNoTracking().Where(c => c.estado.Contains("Activo")).ToList();
+            IList<Eventos> eventos = modelo.ListaEventos;
+
+
+
+            int currentPageIndex = page.HasValue ? page.Value - 1 : 0;
+           
+            return View(eventos.ToPagedList(currentPageIndex, DefaultPageSize));
+
+
+        }
+        
+
+        public ActionResult Busqueda(string busqueda = "" )
+        {
+
+
+
 
             if (!busqueda.Equals(""))
             {
+                modelo.ListaEventos = db.Eventos.AsNoTracking().Where(c => c.nombre.Contains(busqueda)).ToList();
 
-                var lista = db.Eventos.AsNoTracking().Where(c => c.nombre.Contains(busqueda)).ToList();
-                ViewBag.Lista = lista;
             }
+            else
+            {
+
+                modelo.ListaEventos = db.Eventos.AsNoTracking().Where(c => c.estado.Contains("Activo")).ToList();
+
+
+            }
+
+
+            modelo.numeroPaginas = modelo.ListaEventos.Count / modelo.cantidadMaximaMostrar;
+
+            ViewBag.Lista = modelo.ListaEventos;
 
             var categorias = db.Categoria.AsNoTracking().Where(c => c.nivel == 1);
             ViewBag.categorias = new SelectList(categorias, "idCategoria", "nombre");
@@ -119,22 +153,16 @@ namespace WebApplication4.Controllers
             ViewBag.distritos = new SelectList(listProv, "idProv", "nombre");
             ViewBag.subcategorias = new SelectList(listSubCat, "idSubcat", "nombre");
 
-            return View();
+            return View(modelo);
 
 
         }
-
         [RequireRequestValue(new[] { "fech_ini", "fech_fin", "idCategoria", "idSubCat", "idRegion", "idProv" })]
         public ActionResult Busqueda(DateTime fech_ini, DateTime fech_fin, int idCategoria, int idSubCat, int idRegion, int idProv)
         {
-
-            if (fech_ini.CompareTo(fech_fin) > 0)
-            {
-
-
-
-            }
-
+            /* var data = from obj in db.Eventos
+                        where (obj.idCategoria == idCategoria && obj.idRegion == idRegion && obj. ) 
+  */
 
             ViewBag.Categorias = db.Categoria.AsNoTracking().Where(c => c.nivel == 1);
             ViewBag.Departamentos = db.Region.AsNoTracking().Where(c => c.idRegPadre == null);
