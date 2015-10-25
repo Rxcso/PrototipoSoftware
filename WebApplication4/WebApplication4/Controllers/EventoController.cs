@@ -10,12 +10,7 @@ namespace WebApplication4.Controllers
     public class EventoController : Controller
     {
         inf245netsoft db = new inf245netsoft();
-        private const int DefaultPageSize = 2;
-
-        
-
-        
-        Evento2Model modelo = new Evento2Model(12);
+        const int  maximoPaginas = 2;
         // GET: Evento
         public ActionResult Index()
         {
@@ -108,44 +103,33 @@ namespace WebApplication4.Controllers
 
             
          
-
-
-            modelo.ListaEventos = db.Eventos.AsNoTracking().Where(c => c.estado.Contains("Activo")).ToList();
-            IList<Eventos> eventos = modelo.ListaEventos;
-
-
-
-          int currentPageIndex = page.HasValue ? page.Value - 1 : 0;
            
-            return View(eventos.ToPagedList(currentPageIndex, DefaultPageSize));
+            return View();
 
 
         }
         
 
-        public ActionResult Busqueda(string busqueda = "" )
+        public ActionResult Busqueda(string nombre = "" )
         {
 
 
 
 
-            if (!busqueda.Equals(""))
+            if (!nombre.Equals(""))
             {
-                modelo.ListaEventos = db.Eventos.AsNoTracking().Where(c => c.nombre.Contains(busqueda)).ToList();
+                ViewBag.Lista = db.Eventos.AsNoTracking().Where(c => c.nombre.Contains(nombre)).ToList();
 
             }
             else
             {
 
-                modelo.ListaEventos = db.Eventos.AsNoTracking().Where(c => c.estado.Contains("Activo")).ToList();
+                ViewBag.Lista = db.Eventos.AsNoTracking().Where(c => c.estado.Contains("Activo")).ToList();
 
 
             }
 
 
-           
-
-            ViewBag.Lista = modelo.ListaEventos;
 
             var categorias = db.Categoria.AsNoTracking().Where(c => c.nivel == 1);
             ViewBag.categorias = new SelectList(categorias, "idCategoria", "nombre");
@@ -159,12 +143,12 @@ namespace WebApplication4.Controllers
             ViewBag.distritos = new SelectList(listProv, "idProv", "nombre");
             ViewBag.subcategorias = new SelectList(listSubCat, "idSubcat", "nombre");
 
-            return View(modelo);
+            return View();
 
 
         }
         [RequireRequestValue(new[] { "fech_ini", "fech_fin", "idCategoria", "idSubCat", "idRegion", "idProv" })]
-        public ActionResult Busqueda(DateTime fech_ini, DateTime fech_fin, int idCategoria, int idSubCat, int idRegion, int idProv)
+        public ActionResult Busqueda(DateTime fech_ini, DateTime fech_fin, int idCategoria, int idSubCat, int idRegion, int idProv , string nombre)
         {
             /* var data = from obj in db.Eventos
                         where (obj.idCategoria == idCategoria && obj.idRegion == idRegion && obj. ) 
@@ -177,10 +161,22 @@ namespace WebApplication4.Controllers
                                     obj.idSubcategoria == idSubCat && obj.idRegion == idRegion && obj.idProvincia == idProv)
                                     select new Eventos;
                                     */
-            modelo.ListaEventos = db.Eventos.AsNoTracking().Where(c => (c.fecha_inicio >= fech_ini && c.fecha_inicio <= fech_fin && 
-             c.idCategoria == idCategoria && c.idRegion == idRegion && c.idProvincia == idProv && c.estado.Contains("Activo") )).ToList();
+            if (!nombre.Equals(""))
+            {
+                ViewBag.Lista = db.Eventos.AsNoTracking().Where(c => (c.fecha_inicio >= fech_ini && c.fecha_inicio <= fech_fin &&
+                 c.idCategoria == idCategoria && c.idRegion == idRegion && c.idProvincia == idProv && c.estado.Contains("Activo") && c.nombre.Contains(nombre))).ToList();
 
-            ViewBag.Lista = modelo.ListaEventos;
+
+            }
+            else
+            {
+                ViewBag.Lista = db.Eventos.AsNoTracking().Where(c => (c.fecha_inicio >= fech_ini && c.fecha_inicio <= fech_fin &&
+                  c.idCategoria == idCategoria && c.idRegion == idRegion && c.idProvincia == idProv && c.estado.Contains("Activo"))).ToList();
+
+            }
+            
+           
+    
             var categorias = db.Categoria.AsNoTracking().Where(c => c.nivel == 1);
             ViewBag.categorias = new SelectList(categorias, "idCategoria", "nombre");
             var departamentos = db.Region.AsNoTracking().Where(c => c.idRegPadre == null);
@@ -191,7 +187,7 @@ namespace WebApplication4.Controllers
            ViewBag.distritos = new SelectList(listProv, "idProv", "nombre");
             ViewBag.subcategorias = new SelectList(listSubCat, "idSubcat", "nombre");
 
-            return View(modelo);
+            return View();
 
 
         }

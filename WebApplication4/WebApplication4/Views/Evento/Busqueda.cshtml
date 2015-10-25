@@ -30,8 +30,10 @@
 
             <div class="form-group">
                 <div class="input-group">
-                    @Html.TextBox("busqueda", "", new { placeholder = "INGRESE EVENTO", @class = "form-control" })
+                    @* @Html.TextBoxFor(model => model.nombre, new {placeholder = "INGRESE EVENTO" , @class = "form-control" }); *@
                     @* <input id="textoBusqueda" type="text" class="form-control" placeholder="BUSCAR UN EVENTO">*@
+                   
+                    @Html.TextBox("nombre", "", new { placeholder = "INGRESE EVENTO", @class = "form-control" })
                     <span class="input-group-btn"><a id="btn-search" class="btn btn-primary" onclick="submitSearch()"><span class="glyphicon glyphicon-search"></span></a></span>
                 </div>
             </div>
@@ -147,11 +149,11 @@
     </div>
 </div>
 
-@{IList<Eventos> lista = Model.ListaEventos;
+@{IList<Eventos> lista = ViewBag.Lista;
     if(this.Request.QueryString.Count != 0)
     {
         
-        var valor = this.Request.QueryString.Keys[0];
+    
         if (this.Request.QueryString.AllKeys.Contains("page")){
 
 
@@ -263,7 +265,12 @@
 
 
     function submitAdvSearch() {
+        
 
+        var input = $("<input>")
+                       .attr("type", "hidden")
+                        .attr("name", "Nombre").val(($("#nombre").val() != NaN) ? $("#nombre").val() : "");
+        $("#adv-search").append(input);
         $("#adv-search").submit();
     }
 
