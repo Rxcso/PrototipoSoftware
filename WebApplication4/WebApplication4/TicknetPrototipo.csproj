@@ -181,6 +181,7 @@
     <Compile Include="Controllers\PromocionController.cs" />
     <Compile Include="Controllers\PuntoVentaController.cs" />
     <Compile Include="Controllers\RegaloController.cs" />
+    <Compile Include="Controllers\ServicesController.cs" />
     <Compile Include="Controllers\TipoDeCambioController.cs" />
     <Compile Include="Controllers\VentasController.cs" />
     <Compile Include="Models\AspNetRoles.cs">
@@ -254,6 +255,9 @@
     <Compile Include="Models\Perfiles.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PeriodoVenta.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Promociones.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -272,6 +276,7 @@
     <Compile Include="Models\Region.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\RegistarEventoModel.cs" />
     <Compile Include="Models\RequireRequestValueAttribute.cs" />
     <Compile Include="Models\Tarjeta.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -299,6 +304,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\asientos.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
@@ -420,7 +426,7 @@
     <Content Include="Views\Organizador\Index.cshtml" />
     <Content Include="Views\PuntoVenta\Index.cshtml" />
     <Content Include="Views\Account\IndexEmpleado.cshtml" />
-    <Content Include="Views\Evento\Register.cshtml" />
+    <Content Include="Views\Evento\Register2.cshtml" />
     <Content Include="Views\PuntoVenta\Edit.cshtml" />
     <Content Include="Views\Organizador\Edit.cshtml" />
     <Content Include="Views\Empleado\Edit.cshtml" />
@@ -450,9 +456,17 @@
     <Content Include="Views\Ventas\ReporteDia.cshtml" />
     <Content Include="Views\CuentaUsuario\Asignacion.cshtml" />
     <Content Include="Views\Evento\Distritos.cshtml" />
+    <Content Include="Views\Evento\Register.cshtml" />
+    <Content Include="Views\Evento\DatosGenerales.cshtml" />
+    <Content Include="Views\Services\Provincia.cshtml" />
+    <Content Include="Views\Services\Subcategoria.cshtml" />
+    <Content Include="Views\Evento\Asientos.cshtml" />
+    <Content Include="Views\Evento\BloquesTiempoVenta.cshtml" />
+    <Content Include="Views\Evento\Funciones.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\RegistrarEvento\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -469,6 +483,9 @@
       <Project>{aaf30968-1118-4937-b392-e9863ea8d76d}</Project>
       <Name>MvcPaging</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

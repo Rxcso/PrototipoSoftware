@@ -120,7 +120,7 @@
     <Property Name="estado" Type="text" />
     <Property Name="monto_transferir" Type="float" />
     <Property Name="monto_adeudado" Type="float" />
-    <Property Name="lugar" Type="text" />
+    <Property Name="direccion" Type="text" />
     <Property Name="penalidadXcancelacion" Type="float" />
     <Property Name="penalidadXpostergacion" Type="float" />
     <Property Name="porccomision" Type="float" />
@@ -226,6 +226,15 @@
     <Property Name="codPerfil" Type="int" Nullable="false" />
     <Property Name="nombre" Type="varchar" MaxLength="50" />
     <Property Name="descripcion" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="PeriodoVenta">
+    <Key>
+      <PropertyRef Name="idPerVent" />
+    </Key>
+    <Property Name="idPerVent" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="fechaInicio" Type="datetime" />
+    <Property Name="fechaFin" Type="datetime" />
+    <Property Name="codEvento" Type="int" />
   </EntityType>
   <EntityType Name="Promociones">
     <Key>
@@ -443,6 +452,18 @@
       </Principal>
       <Dependent Role="Eventos">
         <PropertyRef Name="idOrganizador" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_EventoPV">
+    <End Role="Eventos" Type="Self.Eventos" Multiplicity="0..1" />
+    <End Role="PeriodoVenta" Type="Self.PeriodoVenta" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Eventos">
+        <PropertyRef Name="codigo" />
+      </Principal>
+      <Dependent Role="PeriodoVenta">
+        <PropertyRef Name="codEvento" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -752,6 +773,7 @@
     <EntitySet Name="Organizador" EntityType="Self.Organizador" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Pago" EntityType="Self.Pago" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Perfiles" EntityType="Self.Perfiles" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PeriodoVenta" EntityType="Self.PeriodoVenta" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Promociones" EntityType="Self.Promociones" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PuntoVenta" EntityType="Self.PuntoVenta" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Regalo" EntityType="Self.Regalo" Schema="dbo" store:Type="Tables" />
@@ -787,6 +809,10 @@
     <AssociationSet Name="fk_EventoOrg" Association="Self.fk_EventoOrg">
       <End Role="Organizador" EntitySet="Organizador" />
       <End Role="Eventos" EntitySet="Eventos" />
+    </AssociationSet>
+    <AssociationSet Name="fk_EventoPV" Association="Self.fk_EventoPV">
+      <End Role="Eventos" EntitySet="Eventos" />
+      <End Role="PeriodoVenta" EntitySet="PeriodoVenta" />
     </AssociationSet>
     <AssociationSet Name="fk_EventoRegion" Association="Self.fk_EventoRegion">
       <End Role="Region" EntitySet="Region" />

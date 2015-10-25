@@ -52,7 +52,11 @@ namespace WebApplication4.Models
     {
         [Required]
         [DataType(DataType.DateTime)]
-        public DateTime fechaInicio { get; set; }
+        public DateTime fechaFuncion { get; set; }
+
+        [Required]
+        [DataType(DataType.DateTime)]
+        public DateTime horaInicio { get; set; }
         
     }
     public class ExtrasModel

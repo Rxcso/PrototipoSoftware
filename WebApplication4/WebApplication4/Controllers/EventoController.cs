@@ -115,6 +115,11 @@ namespace WebApplication4.Controllers
             }
             return View(model);
         }
+
+        public ActionResult Funciones()
+        {
+            return View();
+        }
         [HttpGet]
         public ActionResult Asientos(string evento)
         {
