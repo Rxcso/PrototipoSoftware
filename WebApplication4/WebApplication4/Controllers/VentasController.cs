@@ -96,6 +96,9 @@ namespace WebApplication4.Controllers
             if (id == "" || id == null) return RedirectToAction("Asignacion", "Ventas");
             string usuario = id.Replace("°", "@");
             CuentaUsuario vend = db.CuentaUsuario.Find(usuario);
+            DateTime hoy = DateTime.Now;
+            List<Turno> listatuvend = db.Turno.AsNoTracking().Where(c => c.usuario == usuario && c.fecha>hoy).ToList();
+            Session["ListaTurnoVendedor"] = listatuvend;
             Session["vendAsig"] = vend;
 
             return RedirectToAction("Asignacion", "Ventas");
