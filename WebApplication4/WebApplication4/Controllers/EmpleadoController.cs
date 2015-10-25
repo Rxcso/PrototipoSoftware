@@ -38,7 +38,9 @@ namespace WebApplication4.Controllers
         {
             string usuario2 = usuario.Replace("°", "@");
             ViewBag.id = usuario2;
+            CuentaUsuario cuenta=db.CuentaUsuario.Find(usuario2);
             TempData["codigoE"] = usuario2;
+            Session["usuarioE"] = cuenta;
             return View("Edit");
         }
 
@@ -61,7 +63,7 @@ namespace WebApplication4.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index", "Empleado");
             }
-            return RedirectToAction("Index", "Empleado");
+            return View("Edit");
         }
 
         [HttpPost]
@@ -93,6 +95,35 @@ namespace WebApplication4.Controllers
             TempData["ListaT"] = null;
             return RedirectToAction("Index", "Empleado");
         }
-        
+
+        public ActionResult Search3(string nombre)
+        {
+            List<CuentaUsuario> listaEmp;
+            if (nombre == "" || nombre ==null)
+            {
+                //listaReg = db.Regalo.AsNoTracking().Where(c => c.estado == true).ToList();
+                Session["ListaV1"] = null;
+                return RedirectToAction("Index", "Empleado");
+            }
+            listaEmp = db.CuentaUsuario.AsNoTracking().Where(c => c.nombre.StartsWith(nombre) && c.estado == true && c.codPerfil == 2).ToList();
+            if (listaEmp != null) Session["ListaV1"] = listaEmp;
+            else Session["ListaV1"] = null;
+            return RedirectToAction("Index", "Empleado");
+        }
+
+        public ActionResult Search4(string nombre)
+        {
+            List<CuentaUsuario> listaEmp;
+            if (nombre == "" || nombre ==null)
+            {
+                //listaReg = db.Regalo.AsNoTracking().Where(c => c.estado == true).ToList();
+                Session["ListaT"] = null;
+                return RedirectToAction("Index", "Empleado");
+            }
+            listaEmp = db.CuentaUsuario.AsNoTracking().Where(c => c.nombre.StartsWith(nombre) && c.estado == true && c.codPerfil == 3).ToList();
+            if (listaEmp != null) Session["ListaT"] = listaEmp;
+            else Session["ListaT"] = null;
+            return RedirectToAction("Index", "Empleado");
+        }
     }
 }

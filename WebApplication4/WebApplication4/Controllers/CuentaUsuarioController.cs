@@ -147,9 +147,52 @@ namespace WebApplication4.Controllers
             return RedirectToAction("BuscaCliente", "CuentaUsuario");
         }
 
+        public ActionResult Search2(string usuario,string tipo)
+        {
+            if (tipo == "")
+            {
+                Session["ListaCL"] = null;
+                return RedirectToAction("BuscaCliente", "CuentaUsuario");
+            }
+            int ti = int.Parse(tipo);
+            if (ti == 0)
+            {
+                Session["ListaCL"] = null;
+                return RedirectToAction("BuscaCliente", "CuentaUsuario");
+            }
+            if (usuario == "" || usuario == null)
+            {
+                Session["ListaCL"] = null;
+                return RedirectToAction("BuscaCliente", "CuentaUsuario");
+            }
+            List<CuentaUsuario> listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.tipoDoc == ti && c.codDoc == usuario && c.estado == true && c.codPerfil == 1 && c.puntos>0).ToList();
+            if (listacl != null) Session["ListaCL"] = listacl;
+            else Session["ListaCL"] = null;
+            return RedirectToAction("BuscaCliente", "CuentaUsuario");
+        }
+
+        public ActionResult Asignacion()
+        {
+            return View();
+        }
+
         public ActionResult ReporteCliente()
         {
             return View();
+        }
+
+        public ActionResult Distritos()
+        {
+
+            return View();
+
+        }
+
+        public ActionResult Punto()
+        {
+
+            return View();
+
         }
 
         public ActionResult ReportePdf()
@@ -205,6 +248,14 @@ namespace WebApplication4.Controllers
             return RedirectToAction("BuscaCliente", "CuentaUsuario");
         }
 
+        public ActionResult Entrega2(string cliente)
+        {
+            string usuario2 = cliente.Replace("°", "@");
+            CuentaUsuario cuenta = db.CuentaUsuario.Find(usuario2);
+            Session["EntregaCl"] = cuenta;
+            return RedirectToAction("BuscaCliente", "CuentaUsuario");
+        }
+
         [HttpPost]
         [AllowAnonymous]
         public ActionResult EntregaRegalo(RegaloListModel regalo)
@@ -218,6 +269,36 @@ namespace WebApplication4.Controllers
                 db.SaveChanges();
                 return RedirectToAction("BuscaCliente", "CuentaUsuario");
             }
+            return RedirectToAction("BuscaCliente", "CuentaUsuario");
+        }
+
+        public ActionResult EntregaRegalo2(string regalo, string cliente)
+        {
+            int idRe = int.Parse(regalo);
+            string usuario2 = cliente.Replace("°", "@");
+            CuentaUsuario cuenta = db.CuentaUsuario.Find(usuario2);
+            Regalo re = db.Regalo.Find(idRe);
+            if (re.puntos <= cuenta.puntos)
+            {
+                db.Entry(cuenta).State = EntityState.Modified;
+                cuenta.puntos = cuenta.puntos - re.puntos;
+                //db.SaveChanges();
+                RegaloXCuenta rc = new RegaloXCuenta();
+                rc.CuentaUsuario = cuenta;
+                rc.fechaRecojo = DateTime.Now;
+                rc.idRegalo = idRe;
+                rc.Regalo = re;
+                rc.usuario = usuario2;
+                db.RegaloXCuenta.Add(rc);
+                db.SaveChanges();
+                return RedirectToAction("BuscaCliente", "CuentaUsuario");
+            }
+            //CuentaUsuario cuenta2 = (CuentaUsuario)TempData["EntregaCl"];
+            //Regalo re = db.Regalo.Find(regalo.id);
+            //if (re.puntos < cuenta2.puntos)
+            //{
+            
+            //}
             return RedirectToAction("BuscaCliente", "CuentaUsuario");
         }
 

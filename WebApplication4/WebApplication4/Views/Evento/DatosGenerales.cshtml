@@ -1,0 +1,244 @@
+﻿@using WebApplication4.Models
+
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+    var db = new inf245netsoft();
+}
+@model DatosGeneralesModel
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li><a href="@Url.Action("Index","Evento")">Mantenimiento de eventos</a></li>
+            <li class="active">Nuevo evento</li>
+        </ol>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <a href="@Url.Action("Index","Evento")" class="btn btn-danger pull-right"><span class="glyphicon glyphicon-hand-left"></span> Regresar</a>
+        </div>
+    </div>
+    <div class="tab-content">
+        @using (Html.BeginForm("DatosGenerales", "Evento", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <div class="tab-pane active  fade in  container" id="generales">
+                @Html.ValidationSummary(true)
+                <br>
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.nombre, new { @class = "control-label col-md-2" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(m => m.nombre, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.nombre)
+                        </div>
+                    </div><br><br>
+                    <div class="form-group">
+                        @Html.LabelFor(c => c.idOrganizador, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <div class="input-group">
+                                @Html.TextBoxFor(c => c.idOrganizador, new { @class = "form-control", @readonly = true, @id = "organizadorNombre" })
+                                <span class="input-group-btn"><a href="#modalBuscarOrganizador" class="btn btn-primary" data-toggle="modal" type="button">Buscar <span class="glyphicon glyphicon-search"></span></a></span>
+                            </div>
+
+                        </div>
+                    </div><br><br>
+                    <div class="form-group">
+                        @Html.LabelFor(c => c.idCategoria, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(c => c.idCategoria, @ViewBag.CatID as SelectList, "Categoria", new { @class = "form-control", @onchange = "cambioCategoria()" })
+                        </div>
+                    </div><br><br>
+                    <div class="form-group">
+                        @Html.LabelFor(c => c.idSubCat, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(c => c.idSubCat, @ViewBag.SubID as SelectList, "Subcategoria", new { @class = "form-control" })
+                        </div>
+                    </div><br><br>
+
+                    <div class="form-group">
+                        @Html.LabelFor(c => c.idLocal, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <div class="input-group">
+                                @Html.TextBoxFor(c => c.idLocal, new { @class = "form-control", @readonly = true, @id = "localNombre" })
+                                <span class="input-group-btn"><a href="#modalBuscarLocal" class="btn btn-primary" data-toggle="modal" type="button">Buscar <span class="glyphicon glyphicon-search"></span></a></span>
+                            </div>
+                        </div>
+                    </div><br><br>
+
+                    <div class="form-group">
+                        @Html.LabelFor(c => c.Direccion, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(c => c.Direccion, new { @class = "form-control", @placeholder = "Solo si no existe local para el evento" })
+                        </div>
+                    </div><br><br>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.idRegion, new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.idRegion, @ViewBag.DepID as SelectList, "Departamento", new { @class = "form-control", @onchange = "cambioDepartamento()" })
+                        </div>
+                        @Html.LabelFor(model => model.idProv, new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.idProv, @ViewBag.ProvID as SelectList, "Provincia", new { @class = "form-control" })
+                        </div>
+                    </div><br><br>
+                    <div class="form-group">
+                        @Html.LabelFor(c => c.descripcion, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(c => c.descripcion, new { @class = "form-control", @rows = 8 })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" style="float: right;">Siguiente   <span class="glyphicon glyphicon-arrow-right"></span></button>
+        }
+    </div>
+    <br />
+</div>
+<!--ventana de buscar local-->
+<div class="modal fade" id="modalBuscarLocal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--ACA VA EL CONTENIDO DEL MODAL-->
+            <!--contenido de la ventana-->
+            <div class="modal-body">
+                <form action="" class="form-horizontal">
+                    <div class="form-group">
+                        @{
+                            List<Local> localList = db.Local.ToList();
+                        }
+                        Seleccione un Local:
+                        <table class="table table-bordered table-hover" id="tablita">
+                            <thsead>
+                                <tr class="thead">
+                                    <th>Id</th>
+                                    <th>Aforo</th>
+                                    <th>Ubicacion</th>
+                                    <th>Seleccionar</th>
+                                </tr>
+                            </thsead>
+                            <tbody>
+                                @foreach (var local in localList)
+                                {
+                                    <tr>
+                                        <td>@local.codLocal</td>
+                                        <td>@local.aforo</td>
+                                        <td>@local.ubicacion</td>
+                                        <td><input type="radio" name="groupL" value="@local.ubicacion"></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+            <!--footer de la ventana-->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="llenaLocal()"><span class="glyphicon glyphicon-ok"></span> Seleccionar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--ventana de buscar organizador-->
+<div class="modal fade" id="modalBuscarOrganizador">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--ACA VA EL CONTENIDO DEL MODAL-->
+            <!--contenido de la ventana-->
+            <div class="modal-body">
+                <form action="" class="form-horizontal">
+                    <div class="form-group">
+                        @{
+                            List<Organizador> orgList = db.Organizador.Where(c => c.estadoOrg == "Activo").ToList();
+                        }
+                        <table class="table table-bordered table-hover" id="tablita">
+                            <thsead>
+                                <tr class="thead">
+                                    <th>Id</th>
+                                    <th>Nombre</th>
+                                    <th>Seleccionar</th>
+                                </tr>
+                            </thsead>
+                            <tbody>
+                                @foreach (var org in orgList)
+                                {
+                                    <tr>
+                                        <td>@org.codOrg</td>
+                                        <td>@org.nombOrg</td>
+                                        <td><input type="radio" name="groupO" value="@org.nombOrg"></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+            <!--footer de la ventana-->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="llenaOrg()"><span class="glyphicon glyphicon-ok"></span> Seleccionar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function cambioDepartamento() {
+        var depId = parseInt($("#idRegion").val());
+        if (!isNaN(depId)) {
+            var ddProv = $("#idProv");
+            ddProv.empty();
+            ddProv.append($("<option></option>").val("").html("Provincia"));
+            $.ajax({
+                url: "@Url.Action("Provincia","Services")",
+                data: { depId: depId },
+                datatype: "json",
+                success: function (data) {
+                    var obj = $.parseJSON(data);
+                    $.each(obj, function (k, v) {
+                        ddProv.append($("<option></option>").val(v.IdRegion).html(v.Nombre));
+                    });
+                },
+                error: function () {
+                    alert("Error :(");
+                }
+            });
+        }
+        ddProv.empty();
+    }
+    function cambioCategoria() {
+        var catId = parseInt($("#idCategoria").val());
+        if (!isNaN(catId)) {
+            var ddProv = $("#idSubCat");
+            ddProv.empty();
+            ddProv.append($("<option></option>").val("").html("Subcategoria"));
+            $.ajax({
+                url: "@Url.Action("Subcategoria","Services")",
+                data: { catId: catId },
+                datatype: "json",
+                success: function (data) {
+                    var obj = $.parseJSON(data);
+                    $.each(obj, function (k, v) {
+                        ddProv.append($("<option></option>").val(v.IdSCategoria).html(v.Nombre));
+                    });
+                },
+                error: function () {
+                    alert("Error :(");
+                }
+            });
+        }
+        ddProv.empty();
+    }
+    function llenaOrg() {
+        var nomb = $('input[name="groupO"]:checked').val();
+        $("#organizadorNombre").val(nomb);
+        $('#modalBuscarOrganizador').modal('hide');
+    }
+    function llenaLocal() {
+        var nomb = $('input[name="groupL"]:checked').val();
+        $("#localNombre").val(nomb);
+        $('#modalBuscarLocal').modal('hide');
+    }
+</script>

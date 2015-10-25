@@ -9,10 +9,17 @@
 
 @{
     var db = new WebApplication4.Models.inf245netsoft();
+    Local local = (Local)Session["local"];
+    LocalModel localM = new LocalModel();
+    localM.aforo = (int)local.aforo;
+    localM.departamento = (int)local.idRegion;
+    localM.descripcion = local.descripcion;
+    localM.provincia = (int)local.idProvincia;
+    localM.ubicacion = local.ubicacion;
 }
 
 @model LocalModel
-@using (Html.BeginForm("EditRegister", "Local", FormMethod.Post, new { }))
+@using (Html.BeginForm("EditRegister", "Local", FormMethod.Post, new {model=localM }))
 {
     @Html.AntiForgeryToken()
 
@@ -22,7 +29,7 @@
         <div class="row form-group">
             @Html.LabelFor(model => model.aforo, new { @class = "control-label col-md-3" })
             <div class="col-md-9">
-                @Html.EditorFor(model => model.aforo)
+                @Html.TextBoxFor(model => model.aforo, new { @placeholder = @localM.aforo })
                 @Html.ValidationMessageFor(model => model.aforo)
             </div>
         </div>
@@ -30,7 +37,7 @@
         <div class="row form-group">
             @Html.LabelFor(model => model.descripcion, new { @class = "control-label col-md-3" })
             <div class="col-md-9">
-                @Html.EditorFor(model => model.descripcion)
+                @Html.TextAreaFor(model => model.descripcion, new { @placeholder = @localM.descripcion })
                 @Html.ValidationMessageFor(model => model.descripcion)
             </div>
         </div>
@@ -38,7 +45,7 @@
         <div class="row form-group">
             @Html.LabelFor(model => model.ubicacion, new { @class = "control-label col-md-3" })
             <div class="col-md-9">
-                @Html.EditorFor(model => model.ubicacion)
+                @Html.TextBoxFor(model => model.ubicacion, new { @placeholder = @localM.ubicacion })
                 @Html.ValidationMessageFor(model => model.ubicacion)
             </div>
         </div>
@@ -55,7 +62,9 @@
                                                Text = a.nombre,
                                                Selected = false
                                            });
-    listItems.First().Selected = true;
+                }
+                @{
+                     listItems.First().Selected=true;
                 }
                 @Html.DropDownListFor(model => model.departamento, listItems, "Seleccione Departamento")
             </div>
@@ -66,17 +75,6 @@
             <div class="col-md-9">
                 @{
     List<WebApplication4.Models.Region> listaProvincia = db.Region.AsNoTracking().Where(c => c.idRegPadre != null).ToList();
-    //List<WebApplication4.Models.Region> listaProvincia = db.Region.AsNoTracking().Where(c => c.idRegPadre == 1).ToList();
-    //List<WebApplication4.Models.Region> listaProvincia;
-    //int i=(int)ViewData["Region"];
-    //if (ViewData["Region"] != null)
-    //{
-    //    listaProvincia = db.Region.AsNoTracking().Where(c => c.idRegPadre == i).ToList();
-    //}
-    //else
-    //{
-    //    listaProvincia = db.Region.AsNoTracking().Where(c => c.idRegPadre != null).ToList();
-    //}
     IEnumerable<SelectListItem> listItems2 = (from a in listaProvincia
                                               select new SelectListItem
                                             {
@@ -85,13 +83,16 @@
                                                 Selected = false
                                             });
                 }
+                @{
+                     listItems2.First().Selected = true;
+                }
                 @Html.DropDownListFor(model => model.provincia, listItems2, "Seleccione Provincia")
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Aceptar" class="btn btn-default" />
+                <input type="submit" value="Editar" class="btn btn-default" />
             </div>
         </div>
     </div>

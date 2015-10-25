@@ -1,0 +1,56 @@
+﻿@using MvcPaging;
+@using WebApplication4.Models;
+
+
+@model IPagedList<Eventos>
+@{
+    ViewBag.Title = "BusquedaPaging";
+    Layout = null;
+    //Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <strong>Resultados: @Model.TotalItemCount </strong>
+        </div>
+
+        <!--Aca iran los eventos en miniatura-->
+        <div class="panel-body">
+
+            @foreach (var evento in Model)
+            {
+
+                <div class="col-md-2 col-sm-4 col-xs-6">
+                    <div class="thumbnail">
+                        <img onclick="verEvento()" class="event" src="@evento.ImagenDestacado" alt="">
+                        <div class="caption" style="text-align:center">
+                            <div class="row">@evento.nombre</div>
+                            <div class="row">@evento.fecha_inicio</div>
+                        </div>
+                    </div>
+                </div>
+
+
+                @*
+
+                    <tr>
+                        <td>@evento.nombre</td>
+                        <td>@evento.lugar</td>
+                    </tr>
+                *@
+            }
+        </div>
+
+
+        <!--Paginacion-->
+
+        @Html.Pager(Model.PageSize, Model.PageNumber, Model.TotalItemCount).Options(o => o
+            .DisplayTemplate("Bootstrap3Pagination")
+            .MaxNrOfPages(14)
+            .AlwaysAddFirstPageNumber()
+        )
+
+    </div>
+</div>
+

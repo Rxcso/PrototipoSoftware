@@ -114,5 +114,20 @@ namespace WebApplication4.Controllers
             return RedirectToAction("Index", "Organizador");
         }
 
+        public ActionResult Search2(string organizador)
+        {
+            List<Organizador> listaOrg;
+            if (organizador == "")
+            {
+                //listaReg = db.Regalo.AsNoTracking().Where(c => c.estado == true).ToList();
+                Session["ListaO"] = null;
+                return RedirectToAction("Index", "Organizador");
+            }
+            listaOrg = db.Organizador.AsNoTracking().Where(c => c.nombOrg.StartsWith(organizador) && c.estadoOrg == "Activo").ToList();
+            if (listaOrg != null) Session["ListaO"] = listaOrg;
+            else Session["ListaO"] = null;
+            return RedirectToAction("Index", "Organizador");
+        }
+
     }
 }

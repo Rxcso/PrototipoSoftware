@@ -9,6 +9,7 @@ namespace WebApplication4.Models
     public class LocalModel
     {
         [Required]
+        [PosNumberAttribute(ErrorMessage = "Debe ser un numero Positivo mayor que cero")]
         [Display(Name = "Aforo: ")]
         public int aforo { get; set; }
 
@@ -35,5 +36,24 @@ namespace WebApplication4.Models
         public string nombre { get; set; }
 
         public int departamento { get; set; }
+    }
+
+    public class PosNumberAttribute2 : ValidationAttribute
+    {
+        public override bool IsValid(object value)
+        {
+            if (value == null)
+            {
+                return true;
+            }
+            int getal;
+            if (int.TryParse(value.ToString(), out getal))
+            {
+
+                if (getal >= 0)
+                    return true;
+            }
+            return false;
+        }
     }
 }

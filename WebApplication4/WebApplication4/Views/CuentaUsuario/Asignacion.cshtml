@@ -1,0 +1,283 @@
+﻿@using Microsoft.AspNet.Identity
+@using WebApplication4.Models
+
+@{
+    ViewBag.Title = "Asignacion";
+    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+    var db = new WebApplication4.Models.inf245netsoft();
+    List<WebApplication4.Models.TurnoSistema> listaTurno = db.TurnoSistema.AsNoTracking().Where(c => c.activo == true).ToList();
+    List<WebApplication4.Models.Region> listaDepart = db.Region.AsNoTracking().Where(c => c.idRegPadre == null).ToList();
+    //List<WebApplication4.Models.Region> listaProv = null;
+    string idvend = "";
+    string nombV = "";
+    if (Session["vendAsig"] != null)
+    {
+        CuentaUsuario vend = (CuentaUsuario)Session["vendAsig"];
+        idvend = vend.usuario;
+        nombV = vend.nombre;
+    }
+    List<Turno> listaTurnoAsig = null;
+
+}
+
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li class="active">Asignar turnos</li>
+        </ol>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <a class="btn btn-primary" href="#nuevaPromocion" data-toggle="modal">Agregar <span class="glyphicon glyphicon-plus"></span></a>
+            <a class="btn btn-primary" href="">Borrar <span class="glyphicon glyphicon-remove"></span></a>
+        </div>
+
+        <div class="col-md-2">
+            <button tyle="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Guardar <span class="glyphicon glyphicon-save"></span> </button>
+        </div>
+
+        <div>
+            <a href="index2.html" class="btn btn-danger pull-right" data-dismiss="modal" aria-hidden="true">Salir <span class="glyphicon glyphicon-log-out"></span> </a><br>
+        </div>
+
+    </div><br>
+
+    <div class="row form-group">
+        <label for="" class="control-label col-md-3">Vendedor:</label>
+        <div class="col-md-3">
+            <input type="text" id="idVend" class="form-control" value="@idvend" readonly="true">
+        </div>
+        <div class="col-md-5">
+            <div class="input-group">
+                <input type="text" class="form-control" id="vendedorNombre" value="@nombV" readonly="true">
+                <span class="input-group-btn"><a href="#modalBuscarVendedor" class="btn btn-primary" data-toggle="modal" type="button">Buscar <span class="glyphicon glyphicon-search"></span></a></span>
+                @*<span class="input-group-btn"><a href="#modalBuscarVendedor" class="btn btn-primary" data-toggle="modal" type="button"><span class="glyphicon glyphicon-search"></span></button></span>*@
+            </div>
+        </div>
+    </div>
+    <div class="row form-group">
+        <label for="nombreEvento" class="control-label col-md-3">Fecha:</label>
+        <div class="col-md-3">
+            <div class="input-group">
+                <span class="input-group-addon">Desde:</span>
+                <input type="date" class="form-control">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="input-group">
+                <span class="input-group-addon">Hasta:</span>
+                <input type="date" class="form-control">
+            </div>
+        </div>
+    </div>
+    <div class="row form-group">
+        <label for="nombreEvento" class="control-label col-md-3">Puntos de venta:</label>
+        <div class="col-md-3">
+            <select name="" id="comboReg" class="form-control" onchange="cambio()">
+                <option value="0">Seleccionar</option>
+                @foreach (var item in listaDepart)
+                {
+                    <option value="@item.idRegion">
+                        @item.nombre
+                    </option>
+                }
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select name="" id="comboProv" onchange="cambio2()" class=" form-control"></select>
+        </div>
+        <div class="col-md-3">
+            <select name="" id="comboPunto" class="form-control"></select>
+        </div>
+    </div>
+
+    <div class="row form-group">
+        <label for="nombreEvento" class="control-label col-md-3">Turno:</label>
+        <div class="col-md-3">
+            <select name="" id="comboBusq" class="form-control">
+                <option value="0">Seleccionar</option>
+                @foreach (var item in listaTurno)
+                {
+                    <option value="@item.codTurnoSis">
+                        @item.horIni - @item.horFin
+                    </option>
+                }
+            </select>
+        </div>
+    </div>
+    <h4>Asignación</h4>
+
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <table class="table table-bordered table-hover">
+                <tr class="active">
+                    <th>Punto de venta</th>
+                    <th>Fecha</th>
+                    <th>Hora Inicio</th>
+                    <th>Hora Fin</th>
+                </tr>
+                <tr>
+                    <td>San borja I</td>
+                    <td>10/12/2015</td>
+                    <td>10:00am</td>
+                    <td>4:00pm</td>
+                </tr>
+                <tr>
+                    <td>Miraflores</td>
+                    <td>11/12/2015</td>
+                    <td>10:00am</td>
+                    <td>4:00pm</td>
+                </tr>
+                <tr>
+                    <td>San isidro I</td>
+                    <td>12/12/2015</td>
+                    <td>10:00am</td>
+                    <td>4:00pm</td>
+                </tr>
+                <tr>
+                    <td>San miguel I</td>
+                    <td>13/12/2015</td>
+                    <td>10:00am</td>
+                    <td>4:00pm</td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+
+</div><!--Fin del container-->
+
+
+<div class="modal fade" id="modalBuscarVendedor">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--ACA VA EL CONTENIDO DEL MODAL-->
+            <!--contenido de la ventana-->
+            <div class="modal-body">
+                <form action="" class="form-horizontal">
+                    <div class="form-group">
+                        @{
+                            List<WebApplication4.Models.CuentaUsuario> vendList = db.CuentaUsuario.Where(c => c.estado == true && c.codPerfil == 2).ToList();
+                        }
+                        <table class="table table-bordered table-hover" id="tablita">
+                            <thsead>
+                                <tr class="thead">
+                                    <th>Id</th>
+                                    <th>Nombre</th>
+                                    <th>Seleccionar</th>
+                                </tr>
+                            </thsead>
+                            <tbody>
+                                @foreach (var vend in vendList)
+                                {
+                                    <tr>
+                                        <td>@vend.usuario.Replace("@", "°")</td>
+                                        <td>@vend.nombre</td>
+                                        <td><input type="radio" name="groupO" value="@vend.usuario.Replace("@", "°")"></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+            <!--footer de la ventana-->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="llenaVend()"><span class="glyphicon glyphicon-ok"></span> Seleccionar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="idVendT" value="" />
+
+<script>
+    function llenaVend() {
+        var id = $('input[name="groupO"]:checked').val();
+        var elem = document.getElementById("idVendT");
+        elem.value = id;
+        if (id != "" && id != null) {
+            $.ajax({
+                url: "@Url.Action("LlenaVend","Ventas")",
+                data: { id: id },
+                success: function (data) {
+                    //alert("Eliminado");
+                    $('#modalBuscarVendedor').modal('hide');
+                    window.location.href = '/CuentaUsuario/Asignacion';
+                },
+                error: function () {
+                    //alert("Error :(");
+                    window.location.href = '/CuentaUsuario/Asignacion';
+                }
+            });
+        } else {
+            alert("Seleccione un Vendedor");
+            evento = "";
+        }
+    }
+    function registrar() {
+        var monto = $('#monto2').val();
+        var pend = $('#pendiente').val();
+        if (monto != "" && monto != null && pend != "" && pend != null) {
+            //alert(monto);
+            $.ajax({
+                url: "@Url.Action("RegistrarPagos","Ventas")",
+                data: { monto: monto },
+                success: function (data) {
+                    //alert("Eliminado");
+                    window.location.href = '/Ventas/Pago';
+                },
+                error: function () {
+                    //alert("Error :(");
+                    window.location.href = '/Ventas/Pago';
+                }
+            });
+        } else {
+            alert("Seleccione un organizador e ingrese un monto");
+        }
+    }
+
+    function cambio() {
+        var depId = parseInt($("#comboReg").val());
+        if (isNaN(depId)) return;
+        $("#comboProv").empty();
+        $("#comboProv").append("<option value=''>Distritos</option>")
+        $.ajax({
+            url: "Distritos",
+            data: { depId: depId },
+            datatype: "json",
+            success: function (data) {
+                var obj = $.parseJSON(data);
+                $.each(obj, function (k, v) {
+                    $("#comboProv").append("<option value='" + v.IdRegion + "'>" + v.Nombre + "</option>");
+                });
+            },
+            error: function () {
+                alert("Error :(");
+            }
+        });
+    }
+    function cambio2() {
+        var depId = parseInt($("#comboProv").val());
+        if (isNaN(depId)) return;
+        $("#comboPunto").empty();
+        $("#comboPunto").append("<option value=''>Punto Venta</option>")
+        $.ajax({
+            url: "Punto",
+            data: { depId: depId },
+            datatype: "json",
+            success: function (data) {
+                var obj = $.parseJSON(data);
+                $.each(obj, function (k, v) {
+                    $("#comboPunto").append("<option value='" + v.IdRegion + "'>" + v.Nombre + "</option>");
+                });
+            },
+            error: function () {
+                alert("Error :(");
+            }
+        });
+    }
+</script>

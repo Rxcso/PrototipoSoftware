@@ -12,11 +12,16 @@ namespace WebApplication4.Models
         public int id { get; set; }
 
         [Required]
-       [Display(AutoGenerateField =false)]
+        [Display(AutoGenerateField = false)]
         public string nombre { get; set; }
 
         //[Required]
-       
+
+        public DateTime fechaInicio { get; set; }
+
+        public DateTime fechaFin { get; set; }
+
+
         public int idOrganizador { get; set; }
 
         //[Required]
@@ -34,14 +39,26 @@ namespace WebApplication4.Models
         public string lugar { get; set; }
 
         //[Required]
-        [Display(Name ="")]
+        [Display(Name = "")]
         public int idRegion { get; set; }
 
         //[Required]
-        [Display(Name="")]
+        [Display(Name = "")]
         public int idProv { get; set; }
 
         //[Required]
+
+
+
+
+        public int cantidadMaximaMostrar { get; set; }
+
+
+        public int posicionActual { get; set; }
+
+
+        public int numeroPaginas { get; set; }
+
 
         public string descripcion { get; set; }
         //TERMINA DATOS GENERALES
@@ -55,19 +72,19 @@ namespace WebApplication4.Models
 
         //public Nullable<int> idPromotor { get; set; }
         [DataType(DataType.Upload)]
-   
+
         public HttpPostedFileBase ImageDestacado { get; set; }
 
         [Required]
         [DataType(DataType.Upload)]
-   
+
         public HttpPostedFileBase ImageEvento { get; set; }
 
         [DataType(DataType.Upload)]
 
         public HttpPostedFileBase ImageSitios { get; set; }
 
-   
+
 
         public static EventoModel getEvento(Eventos evento)
         {
@@ -76,6 +93,27 @@ namespace WebApplication4.Models
             model.descripcion = evento.descripcion;
 
             return model;
+        }
+
+
+        public List<Eventos> ListaEventos { get; set; }
+
+
+        public int cantidadEventos()
+        {
+
+            return ListaEventos.Count();
+
+        }
+
+        public Evento2Model(int maxContenido)
+        {
+
+            this.cantidadMaximaMostrar = maxContenido;
+            this.posicionActual = 1;
+            ListaEventos = new List<Eventos>();
+
+
         }
     }
 }

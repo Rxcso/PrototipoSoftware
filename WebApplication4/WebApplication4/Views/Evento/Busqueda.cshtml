@@ -1,16 +1,22 @@
 ﻿
 @using Microsoft.AspNet.Identity;
 @using WebApplication4.Models;
+@using MvcPaging;
 
 @model Evento2Model
-
 @{
+    int indexPagina  = 0;
+    ViewBag.MaximoPaginas = 5;
     ViewBag.Title = "Busqueda";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
 }
 
 
+
+
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+
 <div id="busqNombre" class="container-fluid">
     <div class="col-md-5">
         <ol class="breadcrumb">
@@ -19,14 +25,16 @@
     </div>
     <div class="col-md-5 col-md-offset-1">
 
-        @using (Html.BeginForm("Buscar", "Evento", FormMethod.Post, new { id = "search" }))
+        @using (Html.BeginForm("Busqueda", "Evento", FormMethod.Get, new { id = "search" }))
         {
 
             <div class="form-group">
                 <div class="input-group">
-                    @Html.TextBox("busqueda", "", new { placeholder = "INGRESE EVENTO", @class = "form-control" })
+                    @* @Html.TextBoxFor(model => model.nombre, new {placeholder = "INGRESE EVENTO" , @class = "form-control" }); *@
                     @* <input id="textoBusqueda" type="text" class="form-control" placeholder="BUSCAR UN EVENTO">*@
-                    <span class="input-group-btn"><a id="btn-search" class="btn btn-primary" href="javascript:document.getElementById('search').submit()"><span class="glyphicon glyphicon-search"></span></a></span>
+                   
+                    @Html.TextBox("nombre", "", new { placeholder = "INGRESE EVENTO", @class = "form-control" })
+                    <span class="input-group-btn"><a id="btn-search" class="btn btn-primary" onclick="submitSearch()"><span class="glyphicon glyphicon-search"></span></a></span>
                 </div>
             </div>
 
@@ -42,22 +50,23 @@
         <!--formulario EN LINEA-->
 
 
-        @using (Html.BeginForm("BusquedaAvanzada", "EventosPrueba", FormMethod.Post, new { id = "adv-search", @class = "form-inline" }))
+        @using (Html.BeginForm("Busqueda", "Evento", FormMethod.Get, new { id = "adv-search", @class = "form-inline" }))
         {
-
-            <div class="form-group ">
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+            <div class="form-group">
                 <div class="form-group ">
                     <div class="input-group">
+
                         <span class="input-group-addon">Desde:</span>
-                        <input type="date" class="form-control">
+                        <input id="fech_ini" name="fech_ini" type="date" class="form-control">
                     </div>
                 </div>
 
 
-                <div class="form-group ">
+                <div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon">Hasta:</span>
-                        <input type="date" class="form-control">
+                        <input id="fech_fin" onchange="changeDate2()" name="fech_fin" type="date" class="form-control">
                     </div>
                 </div>
                 @*       @{
@@ -75,22 +84,22 @@
                 <div class="form-group ">
 
                     @Html.LabelFor(model => model.idCategoria)
-                    @Html.DropDownListFor(model => model.idCategoria, @ViewBag.categorias as SelectList, "Categorias", new { @class = "form-control", onclick= "cambioCat()" })
+                    @Html.DropDownListFor(model => model.idCategoria, @ViewBag.categorias as SelectList, "Categorias", new { @class = "form-control", onclick = "cambioCat()" })
 
 
 
 
                     @*
-    <select name="" id="Tipo" class="form-control col-lg-2">
-        <option value="" disabled selected hidden>Tipo</option>
+                        <select name="" id="Tipo" class="form-control col-lg-2">
+                            <option value="" disabled selected hidden>Tipo</option>
 
 
-        @foreach (var categoria in ViewBag.categorias)
-        {
-            <option value=""> @categoria.nombre</option>
-        }
+                            @foreach (var categoria in ViewBag.categorias)
+                            {
+                                <option value=""> @categoria.nombre</option>
+                            }
 
-    </select>
+                        </select>
 
                     *@
                 </div>
@@ -109,194 +118,165 @@
 
                     @*
 
-    @{
-        var region = new SelectList(ViewBag.departamentos, "idRegion", "nombre");
-    }
+                        @{
+                            var region = new SelectList(ViewBag.departamentos, "idRegion", "nombre");
+                        }
 
 
-    @Html.DropDownList("departamentos", region, "--Dpto--", new { @class = "form-control", onchange = "cambio()" })
+                        @Html.DropDownList("departamentos", region, "--Dpto--", new { @class = "form-control", onchange = "cambio()" })
                     *@
                 </div>
                 <div class="form-group">
 
                     @Html.LabelFor(model => model.idProv)
                     @Html.DropDownListFor(model => model.idProv, @ViewBag.distritos as SelectList, "Distrito", new { @class = "form-control" })
-@*
-    <select name="distritos" id="distritos" class="form-control ">
-        <option value="" disabled hidden>-Dist-</option>
-    </select>
+                    @*
+                        <select name="distritos" id="distritos" class="form-control ">
+                            <option value="" disabled hidden>-Dist-</option>
+                        </select>
 
-*@
+                    *@
 
                 </div>
                 <div class="form-group">
-                    <a href="buscar-evento(vendedor).html" class="btn btn-primary ">Buscar <span class="glyphicon glyphicon-search"></span></a>
+                    <a id="btn-adv-search" onclick="submitAdvSearch() " class="btn btn-primary ">Buscar <span class="glyphicon glyphicon-search"></span></a>
                 </div>
 
             </div>
 
-                        }
+        }
 
     </div>
 </div>
 
-@{
-    var db = new WebApplication4.Models.inf245netsoft();
-    if (ViewBag.Lista == null)
+@{IList<Eventos> lista = ViewBag.Lista;
+    if(this.Request.QueryString.Count != 0)
     {
-        ViewBag.Lista = db.Eventos.AsNoTracking().Where(c => c.estado.Contains("Activo")).ToList();
+        
+    
+        if (this.Request.QueryString.AllKeys.Contains("page")){
+
+
+            indexPagina = this.Request.QueryString["page"].AsInt() - 1;
+
+        }
+
+
 
     }
 
+    Html.RenderPartial("BusquedaPaging", lista.ToPagedList(indexPagina, 2));
+   
+
 }
 
-<div class="container-fluid">
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            <strong>Resultados: @ViewBag.Lista.Count </strong>
-        </div>
-
-        <!--Aca iran los eventos en miniatura-->
-        <div class="panel-body">
 
 
-            @foreach (var evento in ViewBag.Lista)
-            {
 
 
-                <div class="col-md-2 col-sm-4 col-xs-6">
-                    <div class="thumbnail">
-                        <img onclick="verEvento()" class="event" src="@evento.ImagenDestacado" alt="">
-                        <div class="caption" style="text-align:center">
-                            <div class="row">@evento.nombre</div>
-                            <div class="row">@evento.fecha_inicio</div>
+@*
+    @Html.Partial("BusquedaPaging", lista.ToPagedList(0, 2));
+    <div class="container-fluid">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <strong>Resultados: @ViewBag.Lista.Count </strong>
+            </div>
+
+            <!--Aca iran los eventos en miniatura-->
+            <div class="panel-body">
+
+
+                @foreach (var evento in ViewBag.Lista)
+                {
+
+
+                    <div class="col-md-2 col-sm-4 col-xs-6">
+                        <div class="thumbnail">
+                            <img onclick="verEvento()" class="event" src="@evento.ImagenDestacado" alt="">
+                            <div class="caption" style="text-align:center">
+                                <div class="row">@evento.nombre</div>
+                                <div class="row">@evento.fecha_inicio</div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-            }
+                }
+            </div>
+
+
+            <!--Paginacion-->
+            <ul class="pagination pagination-md pull-right">
+                <!--lg    md    sm-->
 
 
 
-            <div class="col-md-2 col-sm-4 col-xs-6">
-                <div class="thumbnail">
-                    <img onclick="verEvento()" class="event" src="http://lorempixel.com/400/250/nightlife/" alt="">
-                    <div class="caption" style="text-align:center">
-                        <div class="row">NOMBRE DEL EVENTO</div>
-                        <div class="row">Fecha: 09-AGO</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-4 col-xs-6">
-                <div class="thumbnail">
-                    <img onclick="verEvento()" class="event" src="http://lorempixel.com/400/250/nightlife/" alt="">
-                    <div class="caption" style="text-align:center">
-                        <div class="row">NOMBRE DEL EVENTO</div>
-                        <div class="row">Fecha: 10-AGO</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-4 col-xs-6">
-                <div class="thumbnail">
-                    <img onclick="verEvento()" class="event" src="http://lorempixel.com/400/250/nightlife/" alt="">
-                    <div class="caption" style="text-align:center">
-                        <div class="row">NOMBRE DEL EVENTO</div>
-                        <div class="row">Fecha: 11-AGO</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-4 col-xs-6">
-                <div class="thumbnail">
-                    <img onclick="verEvento()" class="event" src="http://lorempixel.com/400/250/nightlife/" alt="">
-                    <div class="caption" style="text-align:center">
-                        <div class="row">NOMBRE DEL EVENTO</div>
-                        <div class="row">Fecha: 12-AGO</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-4 col-xs-6">
-                <div class="thumbnail">
-                    <img onclick="verEvento()" class="event" src="http://lorempixel.com/400/250/nightlife/" alt="">
-                    <div class="caption" style="text-align:center">
-                        <div class="row">NOMBRE DEL EVENTO</div>
-                        <div class="row">Fecha: 08-DIC</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-4 col-xs-6">
-                <div class="thumbnail">
-                    <img onclick="verEvento()" class="event" src="http://lorempixel.com/400/250/nightlife/" alt="">
-                    <div class="caption" style="text-align:center">
-                        <div class="row">NOMBRE DEL EVENTO</div>
-                        <div class="row">Fecha: 08-DIC</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-4 col-xs-6">
-                <div class="thumbnail">
-                    <img onclick="verEvento()" class="event" src="http://lorempixel.com/400/250/nightlife/" alt="">
-                    <div class="caption" style="text-align:center">
-                        <div class="row">NOMBRE DEL EVENTO</div>
-                        <div class="row">Fecha: 08-DIC</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-4 col-xs-6">
-                <div class="thumbnail">
-                    <img onclick="verEvento()" class="event" src="http://lorempixel.com/400/250/nightlife/" alt="">
-                    <div class="caption" style="text-align:center">
-                        <div class="row">NOMBRE DEL EVENTO</div>
-                        <div class="row">Fecha: 08-DIC</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-4 col-xs-6">
-                <div class="thumbnail">
-                    <img onclick="verEvento()" class="event" src="http://lorempixel.com/400/250/nightlife/" alt="">
-                    <div class="caption" style="text-align:center">
-                        <div class="row">NOMBRE DEL EVENTO</div>
-                        <div class="row">Fecha: 08-DIC</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-4 col-xs-6">
-                <div class="thumbnail">
-                    <img onclick="verEvento()" class="event" src="http://lorempixel.com/400/250/nightlife/" alt="">
-                    <div class="caption" style="text-align:center">
-                        <div class="row">NOMBRE DEL EVENTO</div>
-                        <div class="row">Fecha: 08-DIC</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-4 col-xs-6">
-                <div class="thumbnail">
-                    <img onclick="verEvento()" class="event" src="http://lorempixel.com/400/250/nightlife/" alt="">
-                    <div class="caption" style="text-align:center">
-                        <div class="row">NOMBRE DEL EVENTO</div>
-                        <div class="row">Fecha: 08-DIC</div>
-                    </div>
-                </div>
-            </div>
+                <li class="disabled"><a href="">&laquo;</a></li>
+
+                @{
+                    ViewBag.paginas = ((Model.numeroPaginas - ViewBag.MaximoPaginas) > 0) ? Model.numeroPaginas : ViewBag.MaximoPaginas;
+
+                }
+                @for (int num = 1; num < ViewBag.paginas; num++)
+                {
+                    <li><a>@num</a></li>
+
+                }
+                <li><a href="">&raquo;</a></li>
+
+
+            </ul>
         </div>
-
-        <!--Paginacion-->
-        <ul class="pagination pagination-md pull-right">
-            <!--lg    md    sm-->
-            <li class="disabled"><a href="">&laquo;</a></li>
-            <li class="active"><a href="">1</a></li>
-            <li><a href="">2</a></li>
-            <li><a href="">3</a></li>
-            <li><a href="">4</a></li>
-            <li><a href="">5</a></li>
-            <li><a href="">&raquo;</a></li>
-        </ul>
-    </div>
-</div>
+    </div>*@
 <script>
+
+    $(document).ready(function () {
+        $.validator.addMethod("greaterThan", function (value, element, params) {
+
+            console.log(element);
+            console.log(value);
+            console.log(params);
+
+               if (!/Invalid|NaN/.test(new Date(value))) {
+                   return new Date(value) > new Date($(params).val());
+               }
+
+               return isNaN(value) && isNaN($(params).val()) || (Number(value) > Number($(params).val()));
+           }, 'Must be greater than {0}.');
+
+    });
+
+
+    function submitSearch() {
+
+
+        $("#search").submit();
+    }
+
+    function changeDate2() {
+
+
+
+        $("#fech_fin").rules('add',{ greaterThan: "#fech_ini"})
+
+
+
+
+    }
+
+
+    function submitAdvSearch() {
+        
+
+        var input = $("<input>")
+                       .attr("type", "hidden")
+                        .attr("name", "Nombre").val(($("#nombre").val() != NaN) ? $("#nombre").val() : "");
+        $("#adv-search").append(input);
+        $("#adv-search").submit();
+    }
 
     function cambio() {
 
-        fillCombo("idProv", $("#idRegion").val(),"Provincia");
+        fillCombo("idProv", $("#idRegion").val(),"Distritos","Distritos");
 
     }
 
@@ -304,15 +284,15 @@
     function cambioCat() {
 
 
-        fillCombo("idSubCat", $("#idCategoria").val(),"Subcategorias");
+        fillCombo("idSubCat", $("#idCategoria").val(),"Subcategorias","Subcategorias");
     }
 
-    function fillCombo(idCombo, value, linkUrl) {
+    function fillCombo(idCombo, value, linkUrl, optlabel) {
 
         $("#" + idCombo).empty();
-        $("#" + idCombo).append("<option val=''>-Dist-</option>")
+        $("#" + idCombo).append("<option value=''>"+ optlabel + "</option>")
 
-       
+
         var depId = parseInt(value);
         if (isNaN(depId)) return;
                 $.ajax({
@@ -322,7 +302,7 @@
                     success: function (data) {
                         var obj = $.parseJSON(data);
                         $.each(obj, function (k, v) {
-                            $("#" + idCombo).append("<option val='" + v.IdRegion + "'>" + v.Nombre + "</option>");
+                            $("#" + idCombo).append("<option value='" + v.IdRegion + "'>" + v.Nombre + "</option>");
                         });
                     },
                     error: function () {

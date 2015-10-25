@@ -2,9 +2,10 @@
     ViewBag.Title = "Asientos";
     int idEvento = int.Parse(ViewBag.idEvento);
 }
-
+<head>
+    <link href="@Url.Content("~/Content/asientos.css")" rel="stylesheet" type="text/css" />
+</head>
 <body>
-    <link href="~/Views/css/asientos.css" rel="stylesheet" />
     <div class="container-fluid">
         <div class="col-md-5">
             <ol class="breadcrumb">
@@ -63,21 +64,24 @@
             </div>
         </div>
     </div>
+        
     <script>
         function generarAsientos() {
+            $("#canvas").empty();
             //Definición del lado
             var d;
-            if ($('#canvas').width() > $('#canvas').height()) {
-                d = $('#canvas').height();
+            if ($("#canvas").width() > $("#canvas").height()) {
+                d = $("#canvas").height();
             } else {
-                d = $('#canvas').width();
+                d = $("#canvas").width();
             }
             d *= 0.99;
-
             //console.log(d);
 
             var cantFilas = $("#filas").val();
             var cantColumnas = $("#columnas").val();
+
+
 
             //BORDE
             $('<div id="grilla-borde"></div>').appendTo('#canvas');
@@ -137,6 +141,8 @@
                 }
             //
 
+
+
             $('body').on('mouseover', '.celdas', function () {
                 var filaN = $(this).parent().attr('class').split('_');
                 var columnaN = $(this).attr('class').split('_');
@@ -144,12 +150,16 @@
                 $('#info').text('Fila: ' + filaN[1] + ' - Columna ' + columnaN[1]);
             });
 
+
             $('body').on('click', '.ficha', function () {
                 $(this).addClass("eliminado");
             });
             $('body').on('dblclick', '.ficha', function () {
                 $(this).removeClass("eliminado")
             });
+
+
         }
+
     </script>
 </body>
