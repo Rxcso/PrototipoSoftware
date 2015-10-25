@@ -91,6 +91,16 @@ namespace WebApplication4.Controllers
             return RedirectToAction("Pago", "Ventas");
         }
 
+        public ActionResult LlenaVend(string id)
+        {
+            if (id == "" || id == null) return RedirectToAction("Asignacion", "Ventas");
+            string usuario = id.Replace("°", "@");
+            CuentaUsuario vend = db.CuentaUsuario.Find(usuario);
+            Session["vendAsig"] = vend;
+
+            return RedirectToAction("Asignacion", "Ventas");
+        }
+
         public ActionResult RegistrarPagos(string monto)
         {
             double m1;

@@ -1,7 +1,23 @@
-﻿
+﻿@using Microsoft.AspNet.Identity
+@using WebApplication4.Models
+
 @{
     ViewBag.Title = "Asignacion";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+    var db = new WebApplication4.Models.inf245netsoft();
+    List<WebApplication4.Models.TurnoSistema> listaTurno = db.TurnoSistema.AsNoTracking().Where(c => c.activo == true).ToList();
+    List<WebApplication4.Models.Region> listaDepart = db.Region.AsNoTracking().Where(c => c.idRegPadre == null).ToList();
+    //List<WebApplication4.Models.Region> listaProv = null;
+    string idvend = "";
+    string nombV = "";
+    if (Session["vendAsig"] != null)
+    {
+        CuentaUsuario vend = (CuentaUsuario)Session["vendAsig"];
+        idvend = vend.usuario;
+        nombV = vend.nombre;
+    }
+    List<Turno> listaTurnoAsig = null;
+
 }
 
 <div class="container-fluid">
@@ -31,13 +47,14 @@
 
     <div class="row form-group">
         <label for="" class="control-label col-md-3">Vendedor:</label>
-        <div class="col-md-1">
-            <input type="text" class="form-control" readonly="true">
+        <div class="col-md-3">
+            <input type="text" id="idVend" class="form-control" value="@idvend" readonly="true">
         </div>
         <div class="col-md-5">
             <div class="input-group">
-                <input type="text" class="form-control" readonly="true">
-                <span class="input-group-btn"><button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
+                <input type="text" class="form-control" id="vendedorNombre" value="@nombV" readonly="true">
+                <span class="input-group-btn"><a href="#modalBuscarVendedor" class="btn btn-primary" data-toggle="modal" type="button">Buscar <span class="glyphicon glyphicon-search"></span></a></span>
+                @*<span class="input-group-btn"><a href="#modalBuscarVendedor" class="btn btn-primary" data-toggle="modal" type="button"><span class="glyphicon glyphicon-search"></span></button></span>*@
             </div>
         </div>
     </div>
@@ -59,48 +76,40 @@
     <div class="row form-group">
         <label for="nombreEvento" class="control-label col-md-3">Puntos de venta:</label>
         <div class="col-md-3">
-            <select name="" class="form-control">
-                <option value="">Departamento</option>
-                <option value="">Lima</option>
-                <option value="">Ayacucho</option>
-                <option value="">Cusco</option>
-                <option value="">Tacna</option>
-                <option value="">Iquitos</option>
+            <select name="" id="comboReg" class="form-control" onchange="cambio()">
+                <option value="0">Seleccionar</option>
+                @foreach (var item in listaDepart)
+                {
+                    <option value="@item.idRegion">
+                        @item.nombre
+                    </option>
+                }
             </select>
         </div>
         <div class="col-md-3">
-            <select name="" class="form-control">
-                <option value="">Provincia</option>
-                <option value="">Lima</option>
-                <option value="">Cañete</option>
-            </select>
+            <select name="" id="comboProv" onchange="cambio2()" class=" form-control"></select>
         </div>
         <div class="col-md-3">
-            <select name="" class="form-control">
-                <option value="">Punto de Venta</option>
-                <option value="">Pueblo libre I</option>
-                <option value="">San borja I</option>
-                <option value="">San miguel I</option>
-                <option value="">Miraflores I</option>
-                <option value="">San isidro I</option>
-            </select>
+            <select name="" id="comboPunto" class="form-control"></select>
         </div>
     </div>
 
     <div class="row form-group">
         <label for="nombreEvento" class="control-label col-md-3">Turno:</label>
         <div class="col-md-3">
-            <select name="" class="form-control">
-                <option value="">Seleccionar</option>
-                <option value="">8:00am - 4:00pm</option>
-                <option value="">9:00am - 5:00pm</option>
-                <option value="">10:00am - 6:00pm</option>
-                <option value="">11:00am - 7:00pm</option>
-                <option value="">12:00am - 8:00pm</option>
+            <select name="" id="comboBusq" class="form-control">
+                <option value="0">Seleccionar</option>
+                @foreach (var item in listaTurno)
+                {
+                    <option value="@item.codTurnoSis">
+                        @item.horIni - @item.horFin
+                    </option>
+                }
             </select>
         </div>
     </div>
     <h4>Asignación</h4>
+
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <table class="table table-bordered table-hover">
@@ -138,6 +147,137 @@
         </div>
 
     </div>
+
 </div><!--Fin del container-->
 
 
+<div class="modal fade" id="modalBuscarVendedor">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--ACA VA EL CONTENIDO DEL MODAL-->
+            <!--contenido de la ventana-->
+            <div class="modal-body">
+                <form action="" class="form-horizontal">
+                    <div class="form-group">
+                        @{
+                            List<WebApplication4.Models.CuentaUsuario> vendList = db.CuentaUsuario.Where(c => c.estado == true && c.codPerfil == 2).ToList();
+                        }
+                        <table class="table table-bordered table-hover" id="tablita">
+                            <thsead>
+                                <tr class="thead">
+                                    <th>Id</th>
+                                    <th>Nombre</th>
+                                    <th>Seleccionar</th>
+                                </tr>
+                            </thsead>
+                            <tbody>
+                                @foreach (var vend in vendList)
+                                {
+                                    <tr>
+                                        <td>@vend.usuario.Replace("@", "°")</td>
+                                        <td>@vend.nombre</td>
+                                        <td><input type="radio" name="groupO" value="@vend.usuario.Replace("@", "°")"></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+            <!--footer de la ventana-->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="llenaVend()"><span class="glyphicon glyphicon-ok"></span> Seleccionar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="idVendT" value="" />
+
+<script>
+    function llenaVend() {
+        var id = $('input[name="groupO"]:checked').val();
+        var elem = document.getElementById("idVendT");
+        elem.value = id;
+        if (id != "" && id != null) {
+            $.ajax({
+                url: "@Url.Action("LlenaVend","Ventas")",
+                data: { id: id },
+                success: function (data) {
+                    //alert("Eliminado");
+                    $('#modalBuscarVendedor').modal('hide');
+                    window.location.href = '/CuentaUsuario/Asignacion';
+                },
+                error: function () {
+                    //alert("Error :(");
+                    window.location.href = '/CuentaUsuario/Asignacion';
+                }
+            });
+        } else {
+            alert("Seleccione un Vendedor");
+            evento = "";
+        }
+    }
+    function registrar() {
+        var monto = $('#monto2').val();
+        var pend = $('#pendiente').val();
+        if (monto != "" && monto != null && pend != "" && pend != null) {
+            //alert(monto);
+            $.ajax({
+                url: "@Url.Action("RegistrarPagos","Ventas")",
+                data: { monto: monto },
+                success: function (data) {
+                    //alert("Eliminado");
+                    window.location.href = '/Ventas/Pago';
+                },
+                error: function () {
+                    //alert("Error :(");
+                    window.location.href = '/Ventas/Pago';
+                }
+            });
+        } else {
+            alert("Seleccione un organizador e ingrese un monto");
+        }
+    }
+
+    function cambio() {
+        var depId = parseInt($("#comboReg").val());
+        if (isNaN(depId)) return;
+        $("#comboProv").empty();
+        $("#comboProv").append("<option value=''>Distritos</option>")
+        $.ajax({
+            url: "Distritos",
+            data: { depId: depId },
+            datatype: "json",
+            success: function (data) {
+                var obj = $.parseJSON(data);
+                $.each(obj, function (k, v) {
+                    $("#comboProv").append("<option value='" + v.IdRegion + "'>" + v.Nombre + "</option>");
+                });
+            },
+            error: function () {
+                alert("Error :(");
+            }
+        });
+    }
+    function cambio2() {
+        var depId = parseInt($("#comboProv").val());
+        if (isNaN(depId)) return;
+        $("#comboPunto").empty();
+        $("#comboPunto").append("<option value=''>Punto Venta</option>")
+        $.ajax({
+            url: "Punto",
+            data: { depId: depId },
+            datatype: "json",
+            success: function (data) {
+                var obj = $.parseJSON(data);
+                $.each(obj, function (k, v) {
+                    $("#comboPunto").append("<option value='" + v.IdRegion + "'>" + v.Nombre + "</option>");
+                });
+            },
+            error: function () {
+                alert("Error :(");
+            }
+        });
+    }
+</script>

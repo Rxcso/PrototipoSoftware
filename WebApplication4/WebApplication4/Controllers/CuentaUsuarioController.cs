@@ -181,6 +181,20 @@ namespace WebApplication4.Controllers
             return View();
         }
 
+        public ActionResult Distritos()
+        {
+
+            return View();
+
+        }
+
+        public ActionResult Punto()
+        {
+
+            return View();
+
+        }
+
         public ActionResult ReportePdf()
         {
             List<WebApplication4.Models.CuentaUsuario> listaCliente = (List<WebApplication4.Models.CuentaUsuario>)TempData["ListaPU"];
