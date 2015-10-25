@@ -3,13 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebApplication4.Models;
 
 namespace WebApplication4.Controllers
 {
     public class HomeController : Controller
     {
+        inf245netsoft db = new inf245netsoft();
+
         public ActionResult Index()
         {
+            List<Eventos> listaDestacados = db.Eventos.AsNoTracking().Where(c => (c.ImagenDestacado != null)).ToList();
+            ViewBag.ListaDestacados = listaDestacados;
             return View();
         }
 
