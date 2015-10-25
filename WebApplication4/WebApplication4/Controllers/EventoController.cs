@@ -19,6 +19,8 @@ namespace WebApplication4.Controllers
         // GET: Evento
         public ActionResult Index()
         {
+            List<Eventos> listaDestacados = db.Eventos.AsNoTracking().Where(c => (c.ImagenDestacado != null)).ToList();
+            ViewBag.ListaDestacados = listaDestacados;
             return View();
           
         }
