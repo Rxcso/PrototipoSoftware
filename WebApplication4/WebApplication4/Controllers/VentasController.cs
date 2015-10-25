@@ -22,6 +22,25 @@ namespace WebApplication4.Controllers
             return View();
         }
 
+        public ActionResult AbrirCaja(string montos,string montod)
+        {
+            Turno tu = (Turno)Session["TurnoHoy"];
+            if (tu == null) return RedirectToAction("Apertura", "Ventas");
+            if (tu.MontoInicioSoles != 0 && tu.MontoInicioSoles != null) return RedirectToAction("Apertura", "Ventas");
+            double m1;
+            if (double.TryParse(montos, out m1) == false) return RedirectToAction("Apertura", "Ventas");
+            double mS = double.Parse(montos);
+            double m2;
+            if (double.TryParse(montod, out m1) == false) return RedirectToAction("Apertura", "Ventas");
+            double mD = double.Parse(montod);
+            db.Entry(tu).State = EntityState.Modified;
+            tu.MontoInicioDolares = mD;
+            tu.MontoInicioSoles = mS;
+            db.SaveChanges();
+            Session["AperturaCompleta"] = 1;
+            return View();
+        }
+
         public ActionResult Cierre()
         {
             return View();

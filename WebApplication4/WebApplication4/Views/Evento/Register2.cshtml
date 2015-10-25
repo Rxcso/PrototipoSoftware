@@ -1,7 +1,7 @@
-@using Microsoft.AspNet.Identity;
+ï»¿@using Microsoft.AspNet.Identity;
 @using WebApplication4.Models;
 
-@model EventoModel
+@model RegistarEventoModel
 
 @{
     ViewBag.Title = "Register";
@@ -27,7 +27,7 @@
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true)
 
-        <!--DECLARAMOS EL TABS Y LA CANTIDAD DE PESTAÑAS QUE TENDRA -->
+        <!--DECLARAMOS EL TABS Y LA CANTIDAD DE PESTAÃ‘AS QUE TENDRA -->
         <ul class="nav nav-tabs">
             <li id="tab_1" class="active"><a href="#generales" data-toggle="tab">Datos Generales</a></li>
             <li id="tab_2"><a href="#bloques_tiempo" data-toggle="tab">Bloques de tiempo de venta</a></li>
@@ -37,17 +37,17 @@
         </ul>
 
 
-        <!--INTRODUCIMOS EL CONTIDO QUE TENDRA CADA PESTAÑA -->
+        <!--INTRODUCIMOS EL CONTIDO QUE TENDRA CADA PESTAÃ‘A -->
         <div class="tab-content">
-            <!--PRIMERA PESTAÑA-->
+            <!--PRIMERA PESTAÃ‘A-->
             <div class="tab-pane active  fade in  container" id="generales">
                 <br>
                 <div class="form-horizontal">
                     <div class="form-group">
-                        @Html.LabelFor(m => m.nombre, new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(m => m.DatosGeneralesModel.nombre, new { @class = "control-label col-md-2" })
                         <div class="col-md-6">
-                            @Html.TextBoxFor(m => m.nombre, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.nombre)
+                            @Html.TextBoxFor(m => m.DatosGeneralesModel.nombre, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.DatosGeneralesModel.nombre)
                         </div>
                     </div><br><br>
                     <div class="form-group">
@@ -61,58 +61,58 @@
                         </div>
                     </div><br><br>
                     <div class="form-group">
-                        @Html.LabelFor(c => c.idCategoria, new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(c => c.DatosGeneralesModel.idCategoria, new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.DropDownListFor(c => c.idCategoria, @ViewBag.CatID as SelectList, "Categoria", new { @class = "form-control", @onchange = "cambioCategoria()" })
+                            @Html.DropDownListFor(c => c.DatosGeneralesModel.idCategoria, @ViewBag.CatID as SelectList, "Categoria", new { @class = "form-control", @onchange = "cambioCategoria()" })
                         </div>
                     </div><br><br>
                     <div class="form-group">
-                        @Html.LabelFor(c => c.idSubCat, new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(c => c.DatosGeneralesModel.idSubCat, new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.DropDownListFor(c => c.idSubCat, @ViewBag.SubID as SelectList, "Subcategoria", new { @class = "form-control" })
+                            @Html.DropDownListFor(c => c.DatosGeneralesModel.idSubCat, @ViewBag.SubID as SelectList, "Subcategoria", new { @class = "form-control" })
                         </div>
                     </div><br><br>
+
                     <div class="form-group">
-                        <label for="organizador" class="control-label col-md-2">Local:</label>
+                        @Html.LabelFor(c => c.DatosGeneralesModel.idLocal)
                         <div class="col-md-10">
                             <div class="input-group">
-
                                 <input type="text" class="form-control" disabled id="localNombre">
                                 <span class="input-group-btn"><a href="#modalBuscarLocal" class="btn btn-primary" data-toggle="modal" type="button">Buscar <span class="glyphicon glyphicon-search"></span></a></span>
                             </div>
+                        </div>
+                    </div><br><br>
 
-                        </div>
-                    </div><br><br>
                     <div class="form-group">
-                        <label for="nombre" class="control-label col-md-2">Dirección:</label>
+                        @Html.LabelFor(c => c.DatosGeneralesModel.Direccion)
                         <div class="col-md-10">
-                            <input type="text" class="form-control" id="nombre" placeholder="Solo si no existe local para el evento">
+                            @Html.TextBoxFor(c => c.DatosGeneralesModel.Direccion, new { @class = "form-control", @placeholder = "Solo si no existe local para el evento" })
                         </div>
                     </div><br><br>
                     <div class="form-group">
-                        @Html.LabelFor(model => model.idRegion, new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.DatosGeneralesModel.idRegion, new { @class = "control-label col-md-2" })
                         <div class="col-md-4">
-                            @Html.DropDownListFor(model => model.idRegion, @ViewBag.DepID as SelectList, "Departamento", new { @class = "form-control", @onchange = "cambioDepartamento()" })
+                            @Html.DropDownListFor(model => model.DatosGeneralesModel.idRegion, @ViewBag.DepID as SelectList, "Departamento", new { @class = "form-control", @onchange = "cambioDepartamento()" })
                         </div>
-                        @Html.LabelFor(model => model.idProv, new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.DatosGeneralesModel.idProv, new { @class = "control-label col-md-2" })
                         <div class="col-md-4">
-                            @Html.DropDownListFor(model => model.idProv, @ViewBag.ProvID as SelectList, "Provincia", new { @class = "form-control" })
+                            @Html.DropDownListFor(model => model.DatosGeneralesModel.idProv, @ViewBag.ProvID as SelectList, "Provincia", new { @class = "form-control" })
                         </div>
                     </div><br><br>
                     <div class="form-group">
-                        <label for="descripcion" class="control-label col-md-2">Descripción:</label>
+                        @Html.LabelFor(c => c.DatosGeneralesModel.descripcion)
                         <div class="col-md-10">
-                            <textarea class="form-control " rows="8" id="descripcion"></textarea>
+                            @Html.TextAreaFor(c => c.DatosGeneralesModel.descripcion, new { @class="form-control" , @rows = 8})
                         </div>
                     </div>
                 </div>
             </div><br /><br />
-            <!--SEGUNDA PESTAÑA-->
+            <!--SEGUNDA PESTAÃ‘A-->
             <div class="tab-pane fade in container" id="bloques_tiempo">
                 <br>
                 <div class="col-md-4">
                     <div class="form-group">
-                        <button id="btnAgregarBloque" type="button" class="btn btn-primary" onclick="nuevoBloque()">Añadir bloque <span class="glyphicon glyphicon-plus"></span></button>
+                        <button id="btnAgregarBloque" type="button" class="btn btn-primary" onclick="nuevoBloque()">AÃ±adir bloque <span class="glyphicon glyphicon-plus"></span></button>
                         <button id="btnQuitarBloque" type="button" class="btn btn-primary" onclick="quitarBloque()">Quitar bloque <span class="glyphicon glyphicon-remove"></span></button>
                     </div>
                 </div>
@@ -127,26 +127,26 @@
                             <tr class="thead">
                                 <td>Desde: </td>
                                 <td>Hasta: </td>
-                                <td>¿Quitar?</td>
+                                <td>Â¿Quitar?</td>
                             </tr>
                         </tshead>
                         <tbody></tbody>
                     </table><br>
                 </div>
             </div>
-            <!--TERCERA PESTAÑA-->
+            <!--TERCERA PESTAÃ‘A-->
             
             <div class="tab-pane fade in container" id="funciones">
                 @Html.Hidden("histFuncion", "0")
                 <br>
                 <div>
-                    <button id="btnAgregarFuncion" type="button" class="btn btn-primary" onclick="agregaFuncion()">Agregar función <span class="glyphicon glyphicon-plus"></span></button>
-                    <button id="btnAgregarFuncion" type="button" class="btn btn-primary" onclick="eliminarFuncion()">Quitar función <span class="glyphicon glyphicon-remove"></span></button>
+                    <button id="btnAgregarFuncion" type="button" class="btn btn-primary" onclick="agregaFuncion()">Agregar funciÃ³n <span class="glyphicon glyphicon-plus"></span></button>
+                    <button id="btnAgregarFuncion" type="button" class="btn btn-primary" onclick="eliminarFuncion()">Quitar funciÃ³n <span class="glyphicon glyphicon-remove"></span></button>
                 </div><br /><br />
                 <div id="funciones" class="container">
                 </div>
             </div>
-            <!--CUARTA PESTAÑA-->
+            <!--CUARTA PESTAÃ‘A-->
             <div class="tab-pane fade in container" id="tarifas">
                 <div class="container">
                     <br>
@@ -160,7 +160,7 @@
                         <table class="table table-bordered table-hover" id="tarifaTabla">
                             <thsead>
                                 <tr class="thead">
-                                    <th>Nº</th>
+                                    <th>NÂº</th>
                                     <th>Tipo de entrada/Zona</th>
                                 </tr>
                             </thsead>
@@ -171,33 +171,33 @@
                     </div>
                 </div>
             </div>
-            <!--QUINTA PESTAÑA no existe, asientos tiene su propia vista-->
-            <!--SEXTA PESTAÑA-->
+            <!--QUINTA PESTAÃ‘A no existe, asientos tiene su propia vista-->
+            <!--SEXTA PESTAÃ‘A-->
             <div class="tab-pane fade in container" id="extras">
                 <div class="container">
                     <br>
                     <div class="row">
                         <div class="form-group">
-                            <label for="nombre" class="control-label col-md-2">Máximo de reservas/ventas permitidas:</label>
+                            @Html.LabelFor(c => c.ExtrasModel.MaxReservas, new { @class = "control-label col-md-2" })
                             <div class="col-md-2">
-                                <input type="number" class="form-control" id="nombre">
+                                @Html.TextBoxFor(c => c.ExtrasModel.MaxReservas, new { @class ="form-control"})
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group">
-                            <label for="nombre" class="control-label col-md-2">Puntos que otorga al cliente:</label>
+                            @Html.LabelFor(c => c.ExtrasModel.PuntosToCliente, new { @class = "control-label col-md-2" })
                             <div class="col-md-2">
-                                <input type="number" class="form-control" id="nombre">
+                                @Html.TextBoxFor(c => c.ExtrasModel.PuntosToCliente, new { @class = "form-control" })
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group">
-                            <label for="nombre" class="control-label col-md-2">Ganancia sobre las ventas: </label>
+                            @Html.LabelFor(c => c.ExtrasModel.Ganancia, new { @class = "control-label col-md-2" })
                             <div class="col-md-2">
                                 <div class="input-group">
-                                    <input type="number" class="form-control" aria-describedby="ganancia">
+                                    @Html.TextBoxFor(c => c.ExtrasModel.PuntosToCliente, new { @class = "form-control" })
                                     <span class="input-group-addon" id="ganancia">%</span>
                                 </div>
                             </div>
@@ -205,72 +205,76 @@
                     </div>
                     <div class="row">
                         <div class="form-group">
-                            <label for="nombre" class="control-label col-md-2">Monto fijo por venta de entradas: </label>
+                            @Html.LabelFor(c => c.ExtrasModel.MontFijoVentEnt, new { @class = "control-label col-md-2" })
                             <div class="col-md-2">
                                 <div class="input-group">
                                     <span class="input-group-addon" id="cancelar">S/.</span>
-                                    <input type="number" class="form-control" aria-describedby="cancelar">
+                                    @Html.TextBoxFor(c => c.ExtrasModel.MontFijoVentEnt, new { @class = "form-control" })
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group">
-                            <label for="nombre" class="control-label col-md-2">Penalidad por cancelación: </label>
+                            @Html.LabelFor(c => c.ExtrasModel.PenCancelacion, new { @class = "control-label col-md-2" })
                             <div class="col-md-2">
                                 <div class="input-group">
                                     <span class="input-group-addon" id="cancelar">S/.</span>
-                                    <input type="number" class="form-control" aria-describedby="cancelar">
+                                    @Html.TextBoxFor(c => c.ExtrasModel.PenCancelacion, new { @class = "form-control" })
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group">
-                            <label for="nombre" class="control-label col-md-2">Penalidad por postergación: </label>
+                            @Html.LabelFor(c => c.ExtrasModel.PenPostergacion, new { @class = "control-label col-md-2" })
                             <div class="col-md-2">
                                 <div class="input-group">
                                     <span class="input-group-addon" id="postergar">S/.</span>
-                                    <input type="number" class="form-control" aria-describedby="postergar">
+                                    @Html.TextBoxFor(c => c.ExtrasModel.PenPostergacion, new { @class = "form-control" })
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group">
-                            @Html.LabelFor(m => m.ImageEvento)
+                            @Html.LabelFor(m => m.ExtrasModel.ImageEvento)
                             <div class="col-md-6">
-                                @Html.TextBoxFor(m => m.ImageEvento, new { type = "file", @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.ImageEvento)
+                                @Html.TextBoxFor(m => m.ExtrasModel.ImageEvento, new { type = "file", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.ExtrasModel.ImageEvento)
                             </div>
 
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group">
-                            @Html.LabelFor(m => m.ImageDestacado)
+                            @Html.LabelFor(m => m.ExtrasModel.ImageDestacado)
                             <div class="col-md-6">
-                                @Html.TextBoxFor(m => m.ImageDestacado, new { type = "file", @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.ImageDestacado)
+                                @Html.TextBoxFor(m => m.ExtrasModel.ImageDestacado, new { type = "file", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.ExtrasModel.ImageDestacado)
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group">
-                            @Html.LabelFor(m => m.ImageSitios)
+                            @Html.LabelFor(m => m.ExtrasModel.ImageSitios)
                             <div class="col-md-6">
-                                @Html.TextBoxFor(m => m.ImageSitios, new { type = "file", @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.ImageSitios)
+                                @Html.TextBoxFor(m => m.ExtrasModel.ImageSitios, new { type = "file", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.ExtrasModel.ImageSitios)
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4 col-md-offset-2">
                             <div class="checkbox">
-                                <label><input type="checkbox" value="">Permitir reservas vía web</label>
+                                @Html.LabelFor(c => c.ExtrasModel.PermitirReservasWeb)
+                                @Html.CheckBoxFor(c => c.ExtrasModel.PermitirReservasWeb)
+                                @*<label><input type="checkbox" value="">Permitir reservas vÃ­a web</label>*@
                             </div>
                             <div class="checkbox">
-                                <label><input type="checkbox" value="">Permitir boleto electrónico</label>
+                                @Html.LabelFor(c => c.ExtrasModel.PermitirBoletoElectronico)
+                                @Html.CheckBoxFor(c => c.ExtrasModel.PermitirBoletoElectronico)
+                                @*<label><input type="checkbox" value="">Permitir boleto electrÃ³nico</label>*@
                             </div>
                         </div>
                     </div>

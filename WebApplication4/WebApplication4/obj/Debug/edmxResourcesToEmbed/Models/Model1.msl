@@ -141,29 +141,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Turno">
-      <EntityTypeMapping TypeName="inf245netsoftModel.Turno">
-        <MappingFragment StoreEntitySet="Turno">
-          <ScalarProperty Name="MontoFin" ColumnName="MontoFin" />
-          <ScalarProperty Name="MontoInicio" ColumnName="MontoInicio" />
-          <ScalarProperty Name="fecha" ColumnName="fecha" />
-          <ScalarProperty Name="usuario" ColumnName="usuario" />
-          <ScalarProperty Name="estado" ColumnName="estado" />
-          <ScalarProperty Name="codTurnoSis" ColumnName="codTurnoSis" />
-          <ScalarProperty Name="codPuntoVenta" ColumnName="codPuntoVenta" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="TurnoSistema">
-      <EntityTypeMapping TypeName="inf245netsoftModel.TurnoSistema">
-        <MappingFragment StoreEntitySet="TurnoSistema">
-          <ScalarProperty Name="activo" ColumnName="activo" />
-          <ScalarProperty Name="horFin" ColumnName="horFin" />
-          <ScalarProperty Name="horIni" ColumnName="horIni" />
-          <ScalarProperty Name="codTurnoSis" ColumnName="codTurnoSis" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Eventos">
       <EntityTypeMapping TypeName="inf245netsoftModel.Eventos">
         <MappingFragment StoreEntitySet="Eventos">
@@ -377,6 +354,31 @@
           <ScalarProperty Name="subtotal" ColumnName="subtotal" />
           <ScalarProperty Name="cantEntradas" ColumnName="cantEntradas" />
           <ScalarProperty Name="codVen" ColumnName="codVen" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Turno">
+      <EntityTypeMapping TypeName="inf245netsoftModel.Turno">
+        <MappingFragment StoreEntitySet="Turno">
+          <ScalarProperty Name="MontoFinDolares" ColumnName="MontoFinDolares" />
+          <ScalarProperty Name="MontoFinSoles" ColumnName="MontoFinSoles" />
+          <ScalarProperty Name="MontoInicioDolares" ColumnName="MontoInicioDolares" />
+          <ScalarProperty Name="MontoInicioSoles" ColumnName="MontoInicioSoles" />
+          <ScalarProperty Name="fecha" ColumnName="fecha" />
+          <ScalarProperty Name="usuario" ColumnName="usuario" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="codTurnoSis" ColumnName="codTurnoSis" />
+          <ScalarProperty Name="codPuntoVenta" ColumnName="codPuntoVenta" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TurnoSistema">
+      <EntityTypeMapping TypeName="inf245netsoftModel.TurnoSistema">
+        <MappingFragment StoreEntitySet="TurnoSistema">
+          <ScalarProperty Name="activo" ColumnName="activo" />
+          <ScalarProperty Name="horFin" ColumnName="horFin" />
+          <ScalarProperty Name="horIni" ColumnName="horIni" />
+          <ScalarProperty Name="codTurnoSis" ColumnName="codTurnoSis" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
