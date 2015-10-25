@@ -232,6 +232,15 @@
           <Property Name="nombre" Type="varchar" MaxLength="50" />
           <Property Name="descripcion" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="PeriodoVenta">
+          <Key>
+            <PropertyRef Name="idPerVent" />
+          </Key>
+          <Property Name="idPerVent" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fechaInicio" Type="datetime" />
+          <Property Name="fechaFin" Type="datetime" />
+          <Property Name="codEvento" Type="int" />
+        </EntityType>
         <EntityType Name="Promociones">
           <Key>
             <PropertyRef Name="codPromo" />
@@ -448,6 +457,18 @@
             </Principal>
             <Dependent Role="Eventos">
               <PropertyRef Name="idOrganizador" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_EventoPV">
+          <End Role="Eventos" Type="Self.Eventos" Multiplicity="0..1" />
+          <End Role="PeriodoVenta" Type="Self.PeriodoVenta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Eventos">
+              <PropertyRef Name="codigo" />
+            </Principal>
+            <Dependent Role="PeriodoVenta">
+              <PropertyRef Name="codEvento" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -757,6 +778,7 @@
           <EntitySet Name="Organizador" EntityType="Self.Organizador" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pago" EntityType="Self.Pago" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Perfiles" EntityType="Self.Perfiles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PeriodoVenta" EntityType="Self.PeriodoVenta" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Promociones" EntityType="Self.Promociones" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PuntoVenta" EntityType="Self.PuntoVenta" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Regalo" EntityType="Self.Regalo" Schema="dbo" store:Type="Tables" />
@@ -792,6 +814,10 @@
           <AssociationSet Name="fk_EventoOrg" Association="Self.fk_EventoOrg">
             <End Role="Organizador" EntitySet="Organizador" />
             <End Role="Eventos" EntitySet="Eventos" />
+          </AssociationSet>
+          <AssociationSet Name="fk_EventoPV" Association="Self.fk_EventoPV">
+            <End Role="Eventos" EntitySet="Eventos" />
+            <End Role="PeriodoVenta" EntitySet="PeriodoVenta" />
           </AssociationSet>
           <AssociationSet Name="fk_EventoRegion" Association="Self.fk_EventoRegion">
             <End Role="Region" EntitySet="Region" />
@@ -1060,6 +1086,11 @@
             <End Role="TurnoSistema" EntitySet="TurnoSistema" />
             <End Role="Turno" EntitySet="Turno" />
           </AssociationSet>
+          <EntitySet Name="PeriodoVenta" EntityType="inf245netsoftModel.PeriodoVenta" />
+          <AssociationSet Name="fk_EventoPV" Association="inf245netsoftModel.fk_EventoPV">
+            <End Role="Eventos" EntitySet="Eventos" />
+            <End Role="PeriodoVenta" EntitySet="PeriodoVenta" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Perfiles">
           <Key>
@@ -1308,6 +1339,7 @@
           <Property Name="idProvincia" Type="Int32" />
           <NavigationProperty Name="Pago" Relationship="inf245netsoftModel.R_18" FromRole="Eventos" ToRole="Pago" />
           <NavigationProperty Name="Funcion" Relationship="inf245netsoftModel.R_43" FromRole="Eventos" ToRole="Funcion" />
+          <NavigationProperty Name="PeriodoVenta" Relationship="inf245netsoftModel.fk_EventoPV" FromRole="Eventos" ToRole="PeriodoVenta" />
         </EntityType>
         <Association Name="fk_EventoRegion">
           <End Type="inf245netsoftModel.Region" Role="Region" Multiplicity="0..1" />
@@ -1765,6 +1797,28 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="PeriodoVenta">
+          <Key>
+            <PropertyRef Name="idPerVent" />
+          </Key>
+          <Property Name="idPerVent" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fechaInicio" Type="DateTime" Precision="3" />
+          <Property Name="fechaFin" Type="DateTime" Precision="3" />
+          <Property Name="codEvento" Type="Int32" />
+          <NavigationProperty Name="Eventos" Relationship="inf245netsoftModel.fk_EventoPV" FromRole="PeriodoVenta" ToRole="Eventos" />
+        </EntityType>
+        <Association Name="fk_EventoPV">
+          <End Type="inf245netsoftModel.Eventos" Role="Eventos" Multiplicity="0..1" />
+          <End Type="inf245netsoftModel.PeriodoVenta" Role="PeriodoVenta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Eventos">
+              <PropertyRef Name="codigo" />
+            </Principal>
+            <Dependent Role="PeriodoVenta">
+              <PropertyRef Name="codEvento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2149,6 +2203,16 @@
                 <ScalarProperty Name="horFin" ColumnName="horFin" />
                 <ScalarProperty Name="horIni" ColumnName="horIni" />
                 <ScalarProperty Name="codTurnoSis" ColumnName="codTurnoSis" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PeriodoVenta">
+            <EntityTypeMapping TypeName="inf245netsoftModel.PeriodoVenta">
+              <MappingFragment StoreEntitySet="PeriodoVenta">
+                <ScalarProperty Name="codEvento" ColumnName="codEvento" />
+                <ScalarProperty Name="fechaFin" ColumnName="fechaFin" />
+                <ScalarProperty Name="fechaInicio" ColumnName="fechaInicio" />
+                <ScalarProperty Name="idPerVent" ColumnName="idPerVent" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -60,6 +60,8 @@
         <AssociationConnector Association="inf245netsoftModel.R_26" />
         <AssociationConnector Association="inf245netsoftModel.R_9" />
         <AssociationConnector Association="inf245netsoftModel.R_12" />
+        <EntityTypeShape EntityType="inf245netsoftModel.PeriodoVenta" Width="1.5" PointX="10.625" PointY="18.125" />
+        <AssociationConnector Association="inf245netsoftModel.fk_EventoPV" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
