@@ -125,7 +125,7 @@
           <Property Name="estado" Type="text" />
           <Property Name="monto_transferir" Type="float" />
           <Property Name="monto_adeudado" Type="float" />
-          <Property Name="lugar" Type="text" />
+          <Property Name="direccion" Type="text" />
           <Property Name="penalidadXcancelacion" Type="float" />
           <Property Name="penalidadXpostergacion" Type="float" />
           <Property Name="porccomision" Type="float" />
@@ -1319,7 +1319,6 @@
           <Property Name="estado" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="monto_transferir" Type="Double" />
           <Property Name="monto_adeudado" Type="Double" />
-          <Property Name="lugar" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="penalidadXcancelacion" Type="Double" />
           <Property Name="penalidadXpostergacion" Type="Double" />
           <Property Name="porccomision" Type="Double" />
@@ -1340,6 +1339,7 @@
           <NavigationProperty Name="Pago" Relationship="inf245netsoftModel.R_18" FromRole="Eventos" ToRole="Pago" />
           <NavigationProperty Name="Funcion" Relationship="inf245netsoftModel.R_43" FromRole="Eventos" ToRole="Funcion" />
           <NavigationProperty Name="PeriodoVenta" Relationship="inf245netsoftModel.fk_EventoPV" FromRole="Eventos" ToRole="PeriodoVenta" />
+          <Property Name="direccion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="fk_EventoRegion">
           <End Type="inf245netsoftModel.Region" Role="Region" Multiplicity="0..1" />
@@ -1968,6 +1968,7 @@
           <EntitySetMapping Name="Eventos">
             <EntityTypeMapping TypeName="inf245netsoftModel.Eventos">
               <MappingFragment StoreEntitySet="Eventos">
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
                 <ScalarProperty Name="idProvincia" ColumnName="idProvincia" />
                 <ScalarProperty Name="idSubcategoria" ColumnName="idSubcategoria" />
                 <ScalarProperty Name="ImagenSitios" ColumnName="ImagenSitios" />
@@ -1983,7 +1984,6 @@
                 <ScalarProperty Name="porccomision" ColumnName="porccomision" />
                 <ScalarProperty Name="penalidadXpostergacion" ColumnName="penalidadXpostergacion" />
                 <ScalarProperty Name="penalidadXcancelacion" ColumnName="penalidadXcancelacion" />
-                <ScalarProperty Name="lugar" ColumnName="lugar" />
                 <ScalarProperty Name="monto_adeudado" ColumnName="monto_adeudado" />
                 <ScalarProperty Name="monto_transferir" ColumnName="monto_transferir" />
                 <ScalarProperty Name="estado" ColumnName="estado" />

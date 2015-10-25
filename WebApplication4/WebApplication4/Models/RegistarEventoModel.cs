@@ -6,13 +6,7 @@ using System.Web;
 
 namespace WebApplication4.Models
 {
-    public class RegistarEventoModel
-    {
-        public DatosGeneralesModel DatosGeneralesModel { get; set; }
-        public BloqueDeTiempoModel BloqueDeTiempoModel { get; set; }
-        public FuncionesModel FuncionesModel { get; set; }
-        public ExtrasModel ExtrasModel { get; set; }
-    }
+
     public class DatosGeneralesModel
     {
         [Required]

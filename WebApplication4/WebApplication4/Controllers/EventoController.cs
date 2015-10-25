@@ -7,6 +7,7 @@ using WebApplication4.Models;
 using MvcPaging;
 namespace WebApplication4.Controllers
 {
+    [Authorize]
     public class EventoController : Controller
     {
         inf245netsoft db = new inf245netsoft();
@@ -14,8 +15,6 @@ namespace WebApplication4.Controllers
         // GET: Evento
         public ActionResult Index()
         {
-            List<Eventos> listaDestacados = db.Eventos.AsNoTracking().Where(c => (c.ImagenDestacado != null)).ToList();
-            ViewBag.ListaDestacados = listaDestacados;
             return View();
           
         }
@@ -63,6 +62,7 @@ namespace WebApplication4.Controllers
             ViewBag.SubID = new SelectList(listSubCat, "idSubCat", "nombre");
             return View();
         }
+
         [HttpPost]
         public ActionResult DatosGenerales(DatosGeneralesModel model)
         {
@@ -73,8 +73,16 @@ namespace WebApplication4.Controllers
                 evento.idOrganizador = model.idOrganizador;
                 evento.idCategoria = model.idCategoria;
                 evento.idSubcategoria = (model.idSubCat == 0) ? 0 : model.idSubCat;
-                
+                //evento.idLocal = (model.idLocal == 0 ) ? 0 : model.idLocal;
+                evento.lugar = string.IsNullOrEmpty(model.Direccion) ? "" : model.Direccion;
+                evento.idRegion = (model.idRegion == 0) ? 0 : model.idRegion;
+                evento.idProvincia = (model.idProv == 0) ? 0 : model.idProv;
+                evento.descripcion = string.IsNullOrEmpty(model.descripcion) ? "" : model.descripcion;
+                evento.fechaRegistro = DateTime.Today;
                 evento.estado = "Activo";
+                db.Eventos.Add(evento);
+                db.SaveChanges();
+                return View();
 
             }
             return View("Register2",model);

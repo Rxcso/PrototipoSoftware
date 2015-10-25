@@ -29,7 +29,6 @@ namespace WebApplication4.Models
         public string estado { get; set; }
         public Nullable<double> monto_transferir { get; set; }
         public Nullable<double> monto_adeudado { get; set; }
-        public string lugar { get; set; }
         public Nullable<double> penalidadXcancelacion { get; set; }
         public Nullable<double> penalidadXpostergacion { get; set; }
         public Nullable<double> porccomision { get; set; }
@@ -45,6 +44,7 @@ namespace WebApplication4.Models
         public string ImagenSitios { get; set; }
         public Nullable<int> idSubcategoria { get; set; }
         public Nullable<int> idProvincia { get; set; }
+        public string direccion { get; set; }
     
         public virtual Region Region { get; set; }
         public virtual Organizador Organizador { get; set; }
