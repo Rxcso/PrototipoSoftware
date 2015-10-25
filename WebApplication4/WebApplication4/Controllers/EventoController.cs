@@ -40,6 +40,51 @@ namespace WebApplication4.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ActionResult Register2()
+        {
+            List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
+            List<Region> listProv = new List<Region>();
+            ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
+            ViewBag.ProvID = new SelectList(listProv, "idProv", "nombre");
+            List<Categoria> listaCat = db.Categoria.Where(c => c.idCatPadre == null).ToList();
+            listaCat = listaCat.Where(c => c.activo == 1).ToList();
+            List<Categoria> listSubCat = new List<Categoria>();
+            ViewBag.CatID = new SelectList(listaCat, "idCategoria", "nombre");
+            ViewBag.SubID = new SelectList(listSubCat, "idSubCat", "nombre");
+            return View();
+        }
+
+        public ActionResult DatosGenerales()
+        {
+            List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
+            List<Region> listProv = new List<Region>();
+            ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
+            ViewBag.ProvID = new SelectList(listProv, "idProv", "nombre");
+            List<Categoria> listaCat = db.Categoria.Where(c => c.idCatPadre == null).ToList();
+            listaCat = listaCat.Where(c => c.activo == 1).ToList();
+            List<Categoria> listSubCat = new List<Categoria>();
+            ViewBag.CatID = new SelectList(listaCat, "idCategoria", "nombre");
+            ViewBag.SubID = new SelectList(listSubCat, "idSubCat", "nombre");
+            return View();
+        }
+        [HttpPost]
+        public ActionResult DatosGenerales(DatosGeneralesModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Eventos evento = new Eventos();
+                evento.nombre = model.nombre;
+                evento.idOrganizador = model.idOrganizador;
+                evento.idCategoria = model.idCategoria;
+                evento.idSubcategoria = (model.idSubCat == 0) ? 0 : model.idSubCat;
+                
+                evento.estado = "Activo";
+
+            }
+            return View("Register2",model);
+        }
+
         
         [HttpGet]
         public ActionResult Asientos(string evento)

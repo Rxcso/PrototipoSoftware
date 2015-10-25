@@ -15,7 +15,7 @@
             <li class="active">Nuevo evento</li>
         </ol>
     </div>
-</div>  
+</div>
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -40,73 +40,80 @@
         <!--INTRODUCIMOS EL CONTIDO QUE TENDRA CADA PESTAÑA -->
         <div class="tab-content">
             <!--PRIMERA PESTAÑA-->
-            <div class="tab-pane active  fade in  container" id="generales">
-                <br>
-                <div class="form-horizontal">
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.DatosGeneralesModel.nombre, new { @class = "control-label col-md-2" })
-                        <div class="col-md-6">
-                            @Html.TextBoxFor(m => m.DatosGeneralesModel.nombre, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.DatosGeneralesModel.nombre)
-                        </div>
-                    </div><br><br>
-                    <div class="form-group">
-                        <label for="organizador" class="control-label col-md-2">Organizador:</label>
-                        <div class="col-md-10">
-                            <div class="input-group">
-                                <input type="text" class="form-control" disabled id="organizadorNombre">
-                                <span class="input-group-btn"><a href="#modalBuscarOrganizador" class="btn btn-primary" data-toggle="modal" type="button">Buscar <span class="glyphicon glyphicon-search"></span></a></span>
+            @using (Html.BeginForm("", "", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <div class="tab-pane active  fade in  container" id="generales">
+                    @Html.ValidationSummary(true)
+                    <br>
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.DatosGeneralesModel.nombre, new { @class = "control-label col-md-2" })
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(m => m.DatosGeneralesModel.nombre, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.DatosGeneralesModel.nombre)
                             </div>
+                        </div><br><br>
+                        <div class="form-group">
+                            @Html.LabelFor(c => c.DatosGeneralesModel.idOrganizador, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div class="input-group">
+                                    @Html.TextBoxFor(c => c.DatosGeneralesModel.idOrganizador, new { @class = "form-control", @readonly = true, @id = "organizadorNombre" })
+                                    <span class="input-group-btn"><a href="#modalBuscarOrganizador" class="btn btn-primary" data-toggle="modal" type="button">Buscar <span class="glyphicon glyphicon-search"></span></a></span>
+                                </div>
 
-                        </div>
-                    </div><br><br>
-                    <div class="form-group">
-                        @Html.LabelFor(c => c.DatosGeneralesModel.idCategoria, new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.DropDownListFor(c => c.DatosGeneralesModel.idCategoria, @ViewBag.CatID as SelectList, "Categoria", new { @class = "form-control", @onchange = "cambioCategoria()" })
-                        </div>
-                    </div><br><br>
-                    <div class="form-group">
-                        @Html.LabelFor(c => c.DatosGeneralesModel.idSubCat, new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.DropDownListFor(c => c.DatosGeneralesModel.idSubCat, @ViewBag.SubID as SelectList, "Subcategoria", new { @class = "form-control" })
-                        </div>
-                    </div><br><br>
-
-                    <div class="form-group">
-                        @Html.LabelFor(c => c.DatosGeneralesModel.idLocal)
-                        <div class="col-md-10">
-                            <div class="input-group">
-                                <input type="text" class="form-control" disabled id="localNombre">
-                                <span class="input-group-btn"><a href="#modalBuscarLocal" class="btn btn-primary" data-toggle="modal" type="button">Buscar <span class="glyphicon glyphicon-search"></span></a></span>
                             </div>
-                        </div>
-                    </div><br><br>
+                        </div><br><br>
+                        <div class="form-group">
+                            @Html.LabelFor(c => c.DatosGeneralesModel.idCategoria, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(c => c.DatosGeneralesModel.idCategoria, @ViewBag.CatID as SelectList, "Categoria", new { @class = "form-control", @onchange = "cambioCategoria()" })
+                            </div>
+                        </div><br><br>
+                        <div class="form-group">
+                            @Html.LabelFor(c => c.DatosGeneralesModel.idSubCat, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(c => c.DatosGeneralesModel.idSubCat, @ViewBag.SubID as SelectList, "Subcategoria", new { @class = "form-control" })
+                            </div>
+                        </div><br><br>
 
-                    <div class="form-group">
-                        @Html.LabelFor(c => c.DatosGeneralesModel.Direccion)
-                        <div class="col-md-10">
-                            @Html.TextBoxFor(c => c.DatosGeneralesModel.Direccion, new { @class = "form-control", @placeholder = "Solo si no existe local para el evento" })
-                        </div>
-                    </div><br><br>
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.DatosGeneralesModel.idRegion, new { @class = "control-label col-md-2" })
-                        <div class="col-md-4">
-                            @Html.DropDownListFor(model => model.DatosGeneralesModel.idRegion, @ViewBag.DepID as SelectList, "Departamento", new { @class = "form-control", @onchange = "cambioDepartamento()" })
-                        </div>
-                        @Html.LabelFor(model => model.DatosGeneralesModel.idProv, new { @class = "control-label col-md-2" })
-                        <div class="col-md-4">
-                            @Html.DropDownListFor(model => model.DatosGeneralesModel.idProv, @ViewBag.ProvID as SelectList, "Provincia", new { @class = "form-control" })
-                        </div>
-                    </div><br><br>
-                    <div class="form-group">
-                        @Html.LabelFor(c => c.DatosGeneralesModel.descripcion)
-                        <div class="col-md-10">
-                            @Html.TextAreaFor(c => c.DatosGeneralesModel.descripcion, new { @class="form-control" , @rows = 8})
+                        <div class="form-group">
+                            @Html.LabelFor(c => c.DatosGeneralesModel.idLocal, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div class="input-group">
+                                    @Html.TextBoxFor(c => c.DatosGeneralesModel.idLocal, new { @class = "form-control", @readonly = true, @id = "localNombre" })
+                                    <span class="input-group-btn"><a href="#modalBuscarLocal" class="btn btn-primary" data-toggle="modal" type="button">Buscar <span class="glyphicon glyphicon-search"></span></a></span>
+                                </div>
+                            </div>
+                        </div><br><br>
+
+                        <div class="form-group">
+                            @Html.LabelFor(c => c.DatosGeneralesModel.Direccion, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextBoxFor(c => c.DatosGeneralesModel.Direccion, new { @class = "form-control", @placeholder = "Solo si no existe local para el evento" })
+                            </div>
+                        </div><br><br>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DatosGeneralesModel.idRegion, new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.DropDownListFor(model => model.DatosGeneralesModel.idRegion, @ViewBag.DepID as SelectList, "Departamento", new { @class = "form-control", @onchange = "cambioDepartamento()" })
+                            </div>
+                            @Html.LabelFor(model => model.DatosGeneralesModel.idProv, new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.DropDownListFor(model => model.DatosGeneralesModel.idProv, @ViewBag.ProvID as SelectList, "Provincia", new { @class = "form-control" })
+                            </div>
+                        </div><br><br>
+                        <div class="form-group">
+                            @Html.LabelFor(c => c.DatosGeneralesModel.descripcion, new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.TextAreaFor(c => c.DatosGeneralesModel.descripcion, new { @class = "form-control", @rows = 8 })
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div><br /><br />
+                <button type="submit" class="btn btn-primary">Siguiente<span class="glyphicon-arrow-right"></span></button>
+            }
+            <br /><br />
             <!--SEGUNDA PESTAÑA-->
             <div class="tab-pane fade in container" id="bloques_tiempo">
                 <br>
@@ -135,7 +142,7 @@
                 </div>
             </div>
             <!--TERCERA PESTAÑA-->
-            
+
             <div class="tab-pane fade in container" id="funciones">
                 @Html.Hidden("histFuncion", "0")
                 <br>
@@ -164,9 +171,7 @@
                                     <th>Tipo de entrada/Zona</th>
                                 </tr>
                             </thsead>
-                            <tbody contenteditable="true">
-
-                            </tbody>
+                            <tbody contenteditable="true"></tbody>
                         </table>
                     </div>
                 </div>
@@ -180,7 +185,7 @@
                         <div class="form-group">
                             @Html.LabelFor(c => c.ExtrasModel.MaxReservas, new { @class = "control-label col-md-2" })
                             <div class="col-md-2">
-                                @Html.TextBoxFor(c => c.ExtrasModel.MaxReservas, new { @class ="form-control"})
+                                @Html.TextBoxFor(c => c.ExtrasModel.MaxReservas, new { @class = "form-control" })
                             </div>
                         </div>
                     </div>

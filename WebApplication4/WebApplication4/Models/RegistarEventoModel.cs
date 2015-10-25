@@ -36,9 +36,6 @@ namespace WebApplication4.Models
         [Display(Name = "Direccion")]
         public string Direccion { get; set; }
 
-        [Display(Name = "Dirección:")]
-        public string lugar { get; set; }
-
         [Display(Name = "Departamento:")]
         public int idRegion { get; set; }
 
