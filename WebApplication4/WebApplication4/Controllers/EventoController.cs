@@ -74,7 +74,7 @@ namespace WebApplication4.Controllers
                 evento.idCategoria = model.idCategoria;
                 evento.idSubcategoria = (model.idSubCat == 0) ? 0 : model.idSubCat;
                 //evento.idLocal = (model.idLocal == 0 ) ? 0 : model.idLocal;
-                evento.lugar = string.IsNullOrEmpty(model.Direccion) ? "" : model.Direccion;
+                evento.direccion = string.IsNullOrEmpty(model.Direccion) ? "" : model.Direccion;
                 evento.idRegion = (model.idRegion == 0) ? 0 : model.idRegion;
                 evento.idProvincia = (model.idProv == 0) ? 0 : model.idProv;
                 evento.descripcion = string.IsNullOrEmpty(model.descripcion) ? "" : model.descripcion;
@@ -82,7 +82,9 @@ namespace WebApplication4.Controllers
                 evento.estado = "Activo";
                 db.Eventos.Add(evento);
                 db.SaveChanges();
-                return View();
+                int id = evento.codigo;
+                TempData["IdEventoCreado"] = id;
+                return View("");
 
             }
             return View("Register2",model);
