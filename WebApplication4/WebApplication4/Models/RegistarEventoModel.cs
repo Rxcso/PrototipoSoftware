@@ -43,19 +43,17 @@ namespace WebApplication4.Models
 
         [Required]
         [DataType(DataType.DateTime)]
-        DateTime fechaInicio { get; set; }
+        public DateTime fechaInicio { get; set; }
         [Required]
         [DataType(DataType.DateTime)]
-        DateTime fechaFin { get; set; }
+        public DateTime fechaFin { get; set; }
     }
     public class FuncionesModel
     {
         [Required]
         [DataType(DataType.DateTime)]
-        DateTime fechaInicio { get; set; }
-        [Required]
-        [DataType(DataType.DateTime)]
-        DateTime fechaFin { get; set; }
+        public DateTime fechaInicio { get; set; }
+        
     }
     public class ExtrasModel
     {

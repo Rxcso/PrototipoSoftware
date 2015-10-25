@@ -73,24 +73,48 @@ namespace WebApplication4.Controllers
                 evento.idOrganizador = model.idOrganizador;
                 evento.idCategoria = model.idCategoria;
                 evento.idSubcategoria = (model.idSubCat == 0) ? 0 : model.idSubCat;
-                //evento.idLocal = (model.idLocal == 0 ) ? 0 : model.idLocal;
                 evento.direccion = string.IsNullOrEmpty(model.Direccion) ? "" : model.Direccion;
                 evento.idRegion = (model.idRegion == 0) ? 0 : model.idRegion;
                 evento.idProvincia = (model.idProv == 0) ? 0 : model.idProv;
                 evento.descripcion = string.IsNullOrEmpty(model.descripcion) ? "" : model.descripcion;
                 evento.fechaRegistro = DateTime.Today;
                 evento.estado = "Activo";
+                evento.monto_adeudado = 0;
+                evento.monto_transferir = 0;
                 db.Eventos.Add(evento);
                 db.SaveChanges();
                 int id = evento.codigo;
                 TempData["IdEventoCreado"] = id;
-                return View("");
+                return View("BloquesTiempoVenta");
 
             }
             return View("Register2",model);
         }
 
-        
+        public ActionResult BloquesTiempoVenta()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult BloquesTiempoVenta(List<BloqueDeTiempoModel> model)
+        {
+            if (TempData["IdEventoCreado"] != null)
+            {
+                int idEvento = (int)TempData["IdEventoCreado"];
+                for (int i = 0; i < model.Count; i++)
+                {
+                    PeriodoVenta perVenta = new PeriodoVenta();
+                    perVenta.codEvento = idEvento;
+                    perVenta.fechaInicio = model[i].fechaInicio;
+                    perVenta.fechaFin = model[i].fechaFin;
+                    db.PeriodoVenta.Add(perVenta);
+                    db.SaveChanges();
+                }
+                return View("Funciones");
+            }
+            return View(model);
+        }
         [HttpGet]
         public ActionResult Asientos(string evento)
         {
