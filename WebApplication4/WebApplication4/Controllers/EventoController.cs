@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebApplication4.Models;
-using MvcPaging;
+using PagedList;
 namespace WebApplication4.Controllers
 {
     [Authorize]
@@ -13,10 +13,79 @@ namespace WebApplication4.Controllers
         inf245netsoft db = new inf245netsoft();
         const int  maximoPaginas = 2;
         // GET: Evento
-        public ActionResult Index()
+        public ActionResult Index(string nombre, string orden, DateTime? fech_ini, DateTime? fech_fin, int? idCategoria, int? idSubCat, int? idRegion, int? page)
         {
-            return View();
-          
+
+
+            var lista = from obj in db.Eventos
+                        select obj;
+
+            if (!String.IsNullOrEmpty(nombre))
+            {
+                lista = lista.Where(s => s.nombre.Contains(nombre));
+            }
+
+            if (fech_ini.HasValue)
+            {
+
+                lista = lista.Where(c => c.fecha_inicio >= fech_ini);
+
+            }
+
+            if (fech_fin.HasValue)
+            {
+
+
+                lista = lista.Where(c => c.fecha_inicio <= fech_fin);
+            }
+
+            if (idCategoria.HasValue)
+            {
+
+                lista = lista.Where(c => c.idCategoria == idCategoria);
+            }
+
+            if (idSubCat.HasValue)
+            {
+                lista = lista.Where(c => c.idSubcategoria == idSubCat);
+            }
+
+            if (idRegion.HasValue)
+            {
+
+                lista = lista.Where(c => c.idRegion == idRegion);
+            }
+
+
+
+
+            switch (orden)
+            {
+
+
+
+
+                default:
+                    lista = lista.OrderBy(s => s.codigo);
+                    break;
+
+            }
+
+
+
+            var categorias = db.Categoria.AsNoTracking().Where(c => c.nivel == 1);
+            ViewBag.categorias = new SelectList(categorias, "idCategoria", "nombre");
+            var departamentos = db.Region.AsNoTracking().Where(c => c.idRegPadre == null);
+            ViewBag.departamentos = new SelectList(departamentos, "idRegion", "nombre");
+            List<Region> listProv = new List<Region>();
+            List<Categoria> listSubCat = new List<Categoria>();
+
+            ViewBag.distritos = new SelectList(listProv, "idProv", "nombre");
+            ViewBag.subcategorias = new SelectList(listSubCat, "idSubcat", "nombre");
+            int pageNumber = (page ?? 1);
+            int pageSize = 3;
+            return View(lista.ToPagedList(pageNumber, pageSize));
+
         }
 
         [HttpGet]
