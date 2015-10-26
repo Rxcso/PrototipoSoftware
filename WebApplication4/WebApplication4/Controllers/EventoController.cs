@@ -229,83 +229,66 @@ namespace WebApplication4.Controllers
             return View();
         }
 
-        /*   
-             [AllowAnonymous]
-             public ActionResult Busqueda(string nombre = "" )
-             {
-                 if (!nombre.Equals(""))
-                 {
-                     ViewBag.Lista = db.Eventos.AsNoTracking().Where(c => c.nombre.Contains(nombre)).ToList();
-
-                 }
-                 else
-                 {
-
-                     ViewBag.Lista = db.Eventos.AsNoTracking().Where(c => c.estado.Contains("Activo")).ToList();
-                 }
-
-                 var categorias = db.Categoria.AsNoTracking().Where(c => c.nivel == 1);
-                 ViewBag.categorias = new SelectList(categorias, "idCategoria", "nombre");
-                 var departamentos = db.Region.AsNoTracking().Where(c => c.idRegPadre == null);
-                 ViewBag.departamentos = new SelectList(departamentos, "idRegion", "nombre");
-                 List<Region> listProv = new List<Region>();
-                 List<Categoria> listSubCat = new List<Categoria>();
-                 ViewBag.distritos = new SelectList(listProv, "idProv", "nombre");
-                 ViewBag.subcategorias = new SelectList(listSubCat, "idSubcat", "nombre");
-                 return View();
-             }
-             */
+  
         [AllowAnonymous]
         // [RequireRequestValue(new[] { "fech_ini", "fech_fin", "idCategoria", "idSubCat", "idRegion", "idProv" })]
         //  [RequireRequestValue(new[] { "nombre"})]
         public ActionResult Busqueda(DateTime? fech_ini, DateTime? fech_fin, int? idCategoria, int? idSubCat, int? idRegion, int? idProv, string nombre = "")
         {
-            List<Eventos> Lista = db.Eventos.AsNoTracking().Where(c => c.estado.Contains("Activo")).ToList();
+
+            var lista = from obj in db.Eventos
+                        where (obj.estado.Contains("Activo") == true)
+                        select obj;
+
             if (!nombre.Equals(""))
             {
-                Lista = Lista.Where(c => c.nombre.Contains(nombre) == true).ToList();
+                lista = lista.Where(c => c.nombre.Contains(nombre) == true);
+
+
             }
+
+
 
             if (fech_ini.HasValue)
             {
-                Lista = Lista.Where(c => c.fecha_inicio >= fech_ini).ToList();
+
+                lista = lista.Where(c => c.fecha_inicio >= fech_ini);
+
             }
 
             if (fech_fin.HasValue)
             {
-                Lista = Lista.Where(c => c.fecha_inicio <= fech_fin).ToList();
+
+
+                lista = lista.Where(c => c.fecha_inicio <= fech_fin);
             }
 
             if (idCategoria.HasValue)
             {
-                Lista = Lista.Where(c => c.idCategoria == idCategoria).ToList();
+
+                lista = lista.Where(c => c.idCategoria == idCategoria);
             }
 
             if (idSubCat.HasValue)
             {
-                Lista = Lista.Where(c => c.idSubcategoria == idSubCat).ToList();
+                lista = lista.Where(c => c.idSubcategoria == idSubCat);
             }
 
             if (idRegion.HasValue)
             {
-                Lista = Lista.Where(c => c.idRegion == idRegion).ToList();
+
+                lista = lista.Where(c => c.idRegion == idRegion);
             }
             if (idProv.HasValue)
             {
-                Lista = Lista.Where(c => c.idProvincia == idProv).ToList();
+                lista = lista.Where(c => c.idProvincia == idProv);
             }
 
-            /* var data = from obj in db.Eventos
-                        where (obj.idCategoria == idCategoria && obj.idRegion == idRegion && obj. ) 
-  */
-            /*
-                        var lista = from obj in db.Eventos
-                                    where (obj.fecha_inicio >= fech_ini && obj.fecha_inicio <= fech_fin && obj.idCategoria == idCategoria &&
-                                    obj.idSubcategoria == idSubCat && obj.idRegion == idRegion && obj.idProvincia == idProv)
-                                    select new Eventos;
-                                    */
-            ViewBag.Lista = Lista;
-            /*
+
+       
+
+
+            ViewBag.Lista = lista.ToList();
 
             if (!nombre.Equals(""))
             {
@@ -318,7 +301,7 @@ namespace WebApplication4.Controllers
                   c.idCategoria == idCategoria && c.idRegion == idRegion && c.idProvincia == idProv && c.estado.Contains("Activo"))).ToList();
             }
             
-           */
+           
 
             var categorias = db.Categoria.AsNoTracking().Where(c => c.nivel == 1);
             ViewBag.categorias = new SelectList(categorias, "idCategoria", "nombre");

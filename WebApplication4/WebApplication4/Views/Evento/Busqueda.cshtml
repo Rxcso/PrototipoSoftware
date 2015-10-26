@@ -7,6 +7,7 @@
 @{
     int indexPagina = 0;
     ViewBag.MaximoPaginas = 5;
+    var nombre = "";
     ViewBag.Title = "Busqueda";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
 }
@@ -52,6 +53,23 @@
 
         @using (Html.BeginForm("Busqueda", "Evento", FormMethod.Get, new { id = "adv-search", @class = "form-inline" }))
         {
+
+            if (this.Request.QueryString.Count != 0)
+            {
+
+                if (this.Request.QueryString.AllKeys.Contains("nombre"))
+                {
+
+                    nombre = this.Request.QueryString["nombre"];
+
+                }
+
+            }
+
+            @Html.Hidden("nombre", nombre, new { id = "adv-nomb" })
+
+
+
             // @Html.ValidationSummary("", new { @class = "text-danger" })
             <div class="form-group">
                 <div class="form-group ">
@@ -298,10 +316,6 @@
     function submitAdvSearch() {
 
 
-        var input = $("<input>")
-                       .attr("type", "hidden")
-                        .attr("name", "nombre").val(($("#nombre").val() != "") ? $("#nombre").val() : "");
-        $("#adv-search").append(input);
         $("#adv-search").submit();
     }
 
