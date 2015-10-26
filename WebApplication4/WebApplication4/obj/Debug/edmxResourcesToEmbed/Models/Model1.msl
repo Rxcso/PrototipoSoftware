@@ -360,6 +360,7 @@
     <EntitySetMapping Name="Turno">
       <EntityTypeMapping TypeName="inf245netsoftModel.Turno">
         <MappingFragment StoreEntitySet="Turno">
+          <ScalarProperty Name="estadoCaja" ColumnName="estadoCaja" />
           <ScalarProperty Name="MontoFinDolares" ColumnName="MontoFinDolares" />
           <ScalarProperty Name="MontoFinSoles" ColumnName="MontoFinSoles" />
           <ScalarProperty Name="MontoInicioDolares" ColumnName="MontoInicioDolares" />

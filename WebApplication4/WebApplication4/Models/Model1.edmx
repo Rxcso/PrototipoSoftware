@@ -350,6 +350,7 @@
           <Property Name="codPuntoVenta" Type="int" Nullable="false" />
           <Property Name="codTurnoSis" Type="int" Nullable="false" />
           <Property Name="estado" Type="varchar" MaxLength="20" />
+          <Property Name="estadoCaja" Type="varchar" MaxLength="20" />
           <Property Name="usuario" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="fecha" Type="datetime" Nullable="false" />
           <Property Name="MontoInicioSoles" Type="float" />
@@ -1826,6 +1827,7 @@
           <NavigationProperty Name="CuentaUsuario" Relationship="inf245netsoftModel.R_26" FromRole="Turno" ToRole="CuentaUsuario" />
           <NavigationProperty Name="PuntoVenta" Relationship="inf245netsoftModel.R_9" FromRole="Turno" ToRole="PuntoVenta" />
           <NavigationProperty Name="TurnoSistema" Relationship="inf245netsoftModel.R_12" FromRole="Turno" ToRole="TurnoSistema" />
+          <Property Name="estadoCaja" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="TurnoSistema">
           <Key>
@@ -2316,6 +2318,7 @@
           <EntitySetMapping Name="Turno">
             <EntityTypeMapping TypeName="inf245netsoftModel.Turno">
               <MappingFragment StoreEntitySet="Turno">
+                <ScalarProperty Name="estadoCaja" ColumnName="estadoCaja" />
                 <ScalarProperty Name="MontoFinDolares" ColumnName="MontoFinDolares" />
                 <ScalarProperty Name="MontoFinSoles" ColumnName="MontoFinSoles" />
                 <ScalarProperty Name="MontoInicioDolares" ColumnName="MontoInicioDolares" />

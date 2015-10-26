@@ -842,6 +842,7 @@
     <NavigationProperty Name="CuentaUsuario" Relationship="inf245netsoftModel.R_26" FromRole="Turno" ToRole="CuentaUsuario" />
     <NavigationProperty Name="PuntoVenta" Relationship="inf245netsoftModel.R_9" FromRole="Turno" ToRole="PuntoVenta" />
     <NavigationProperty Name="TurnoSistema" Relationship="inf245netsoftModel.R_12" FromRole="Turno" ToRole="TurnoSistema" />
+    <Property Name="estadoCaja" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="TurnoSistema">
     <Key>

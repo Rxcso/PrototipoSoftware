@@ -345,6 +345,7 @@
     <Property Name="codPuntoVenta" Type="int" Nullable="false" />
     <Property Name="codTurnoSis" Type="int" Nullable="false" />
     <Property Name="estado" Type="varchar" MaxLength="20" />
+    <Property Name="estadoCaja" Type="varchar" MaxLength="20" />
     <Property Name="usuario" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="fecha" Type="datetime" Nullable="false" />
     <Property Name="MontoInicioSoles" Type="float" />

@@ -123,10 +123,13 @@ namespace WebApplication4.Controllers
                                     }
                                 }
                             }
-                            db.Entry(tu).State = EntityState.Modified;                            
-                            tu.estado = "Asistio";
-                            db.SaveChanges();
-                            db.Entry(tu).State = EntityState.Detached;
+                            if (tu != null)
+                            {
+                                db.Entry(tu).State = EntityState.Modified;
+                                tu.estado = "Asistio";
+                                db.SaveChanges();
+                                db.Entry(tu).State = EntityState.Detached;
+                            }
                         }
                         Session["UsuarioLogueado"] = cuentausuario;
                         return Redirect("~/Home/Index2");
