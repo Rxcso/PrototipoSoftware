@@ -7,6 +7,7 @@
     var db = new WebApplication4.Models.inf245netsoft();
     int idPunto;
     double mS = 0, mD = 0;
+    double mSC = 0, mDC = 0;
     Turno turno = (Turno)Session["TurnoHoy"];
     CuentaUsuario cu=null;
     cu=(CuentaUsuario)Session["UsuarioLogueado"];
@@ -22,6 +23,8 @@
    {
             mS = (double)turno.MontoInicioSoles;
             mD = (double)turno.MontoInicioDolares;
+            mSC = (double)turno.MontoFinSoles;
+            mDC = (double)turno.MontoFinDolares;
             listaVentas = db.Ventas.AsNoTracking().Where(c => c.vendedor == cu.usuario && c.fecha == hoy).ToList();
             double subtotalSE=0;
             double subtotalST=0;
@@ -126,6 +129,24 @@
 
 
         </div>
+    <br><br>
+
+    <div class="form-group">
+        <label for="categoria" class="control-label col-md-2 col-md-offset-2">Monto real:</label>
+        <div class="col-md-2">
+            <div class="input-group">
+                <span class="input-group-addon">S/.</span>
+                <input type="text" id="montoSolesR" value="@mSC" class="form-control" aria-describedby="soles" readonly="true">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="input-group">
+                <span class="input-group-addon">$.</span>
+                <input type="text" id="dolaresR" value="@mDC" class="form-control" aria-describedby="dolares" readonly="true">
+            </div>
+        </div>
+    </div>
+    <br><br>
         }
         else
         {
@@ -200,25 +221,43 @@
 
 
             </div>
+    <br><br>
+
+    <div class="form-group">
+        <label for="categoria" class="control-label col-md-2 col-md-offset-2">Monto real:</label>
+        <div class="col-md-2">
+            <div class="input-group">
+                <span class="input-group-addon">S/.</span>
+                <input type="text" id="" class="form-control" aria-describedby="soles">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="input-group">
+                <span class="input-group-addon">$.</span>
+                <input type="text" id="" class="form-control" aria-describedby="dolares">
+            </div>
+        </div>
+    </div>
+    <br><br>
         }
-        <br><br>
+        @*<br><br>
 
         <div class="form-group">
             <label for="categoria" class="control-label col-md-2 col-md-offset-2">Monto real:</label>
             <div class="col-md-2">
                 <div class="input-group">
-                    <span class="input-group-addon" id="solesR">S/.</span>
-                    <input type="text" class="form-control" aria-describedby="soles">
+                    <span class="input-group-addon" >S/.</span>
+                    <input type="text" id="montoSolesR" class="form-control" aria-describedby="soles">
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="input-group">
-                    <span class="input-group-addon" id="dolaresR">$.</span>
-                    <input type="text" class="form-control" aria-describedby="dolares">
+                    <span class="input-group-addon" >$.</span>
+                    <input type="text" id="dolaresR" class="form-control" aria-describedby="dolares">
                 </div>
             </div>
         </div>
-        <br><br>
+        <br><br>*@
 
         <center>
             @if (turno != null && turno.estadoCaja == "Abierto")
@@ -227,7 +266,7 @@
             }
             else
             {
-
+                @*<button type="button" class="btn btn-primary" onclick="cerrar()">Cerrar caja <span class="glyphicon glyphicon-inbox"></span></button>*@
             }
             <a href="@Url.Action("Index2", "Home")" class="btn btn-danger">Salir <span class="glyphicon glyphicon-log-out"></span></a>
         </center>
@@ -239,8 +278,10 @@
 
 <script>
     function cerrar() {
-        var montos = $('#soleR').val();
+        var montos = $('#montoSolesR').val();
+        //alert(montos);
         var montod = $('#dolaresR').val();
+        //alert(montod);
         if (montos != "" && montos != null && montod != "" && montod != null) {
             //alert(monto);
             $.ajax({

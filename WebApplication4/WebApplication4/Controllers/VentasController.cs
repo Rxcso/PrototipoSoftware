@@ -26,7 +26,7 @@ namespace WebApplication4.Controllers
         {
             Turno turno = (Turno)Session["TurnoHoy"];
             if (turno == null) return RedirectToAction("Apertura", "Ventas");
-            if (turno.estadoCaja=="Pendiente") return RedirectToAction("Apertura", "Ventas");
+            if (turno.estadoCaja!="Pendiente") return RedirectToAction("Apertura", "Ventas");
             double m1;
             if (double.TryParse(montos, out m1) == false) return RedirectToAction("Apertura", "Ventas");
             double mS = double.Parse(montos);
@@ -47,7 +47,7 @@ namespace WebApplication4.Controllers
         {
             Turno turno = (Turno)Session["TurnoHoy"];
             if (turno == null) return RedirectToAction("Cierre", "Ventas");
-            if (turno.estadoCaja=="Abierto") return RedirectToAction("Apertura", "Ventas");
+            if (turno.estadoCaja=="Pendiente") return RedirectToAction("Cierre", "Ventas");
             double m1;
             if (double.TryParse(montos, out m1) == false) return RedirectToAction("Cierre", "Ventas");
             double mS = double.Parse(montos);

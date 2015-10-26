@@ -10,7 +10,7 @@
     Turno turno = (Turno)Session["TurnoHoy"];
     if (turno != null)
     {
-        if (turno.estadoCaja == "Abierto")
+        if (turno.estadoCaja == "Abierto" || turno.estadoCaja == "Cerrado")
         {
             mS = (double)turno.MontoInicioSoles;
             mD = (double)turno.MontoInicioDolares;
@@ -29,7 +29,7 @@
 <div class="container">
     <div class="row">
         <br>
-        @if (turno != null && turno.estadoCaja == "Abierto")
+        @if (turno != null && (turno.estadoCaja == "Abierto" || turno.estadoCaja == "Cerrado"))
         {
             <div class="form-group">
                 <label for="categoria" class="control-label col-md-2 col-md-offset-2">Monto Inicial:</label>
