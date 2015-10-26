@@ -26,7 +26,7 @@ namespace WebApplication4.Controllers
         {
             Turno turno = (Turno)Session["TurnoHoy"];
             if (turno == null) return RedirectToAction("Apertura", "Ventas");
-            if (turno.MontoInicioSoles != 0 && turno.MontoInicioSoles != null) return RedirectToAction("Apertura", "Ventas");
+            if (turno.estadoCaja=="Pendiente") return RedirectToAction("Apertura", "Ventas");
             double m1;
             if (double.TryParse(montos, out m1) == false) return RedirectToAction("Apertura", "Ventas");
             double mS = double.Parse(montos);
@@ -38,7 +38,29 @@ namespace WebApplication4.Controllers
             turno.MontoInicioSoles = mS;
             turno.estadoCaja = "Abierto";
             db.SaveChanges();
+            db.Entry(turno).State = EntityState.Detached;
             Session["AperturaCompleta"] = 1;
+            return View();
+        }
+
+        public ActionResult CerrarCaja(string montos, string montod)
+        {
+            Turno turno = (Turno)Session["TurnoHoy"];
+            if (turno == null) return RedirectToAction("Cierre", "Ventas");
+            if (turno.estadoCaja=="Abierto") return RedirectToAction("Apertura", "Ventas");
+            double m1;
+            if (double.TryParse(montos, out m1) == false) return RedirectToAction("Cierre", "Ventas");
+            double mS = double.Parse(montos);
+            double m2;
+            if (double.TryParse(montod, out m1) == false) return RedirectToAction("Cierre", "Ventas");
+            double mD = double.Parse(montod);
+            db.Entry(turno).State = EntityState.Modified;
+            turno.MontoFinDolares = mD;
+            turno.MontoFinSoles = mS;
+            turno.estadoCaja = "Cerrado";
+            db.SaveChanges();
+            db.Entry(turno).State = EntityState.Detached;
+            Session["CierreCompleta"] = 1;
             return View();
         }
 
