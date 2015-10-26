@@ -6,49 +6,17 @@
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
     var db = new WebApplication4.Models.inf245netsoft();
     int idPunto;
-    //if (Session["PuntoVentaLoguedo"] != null) {
-    //    idPunto = (int)Session["PuntoVentaLoguedo"];
-    //}
-    //else{ 
-    //    idPunto = 1;  
-    //}            
-    //CuentaUsuario cuenta = (CuentaUsuario)Session["UsuarioLogueado"];
-    //TimeSpan da = DateTime.Now.TimeOfDay;
-    //TurnoSistema ts=new TurnoSistema();
-    //List<TurnoSistema> listaturno = db.TurnoSistema.AsNoTracking().Where(c => c.activo == true).ToList();
-    //for(int i=0;i<listaturno.Count;i++){
-    //    if((TimeSpan.Parse(listaturno[i].horIni)<da) && (TimeSpan.Parse(listaturno[i].horFin)>da))
-    //    {
-    //        ts=listaturno[i];
-    //    }
-    //}
-    //Turno tu=null;
-    //List<Turno> liT = new List<Turno>();
-    //DateTime hoy = DateTime.Now;
-    ////List<Turno> liT = db.Turno.AsNoTracking().Where(c => c.codPuntoVenta==idPunto && c.codTurnoSis==ts.codTurnoSis && c.usuario==cuenta.usuario).ToList();
-    //if (cuenta != null)
-    //{
-    //    liT = db.Turno.AsNoTracking().Where(j => j.usuario == cuenta.usuario && j.codPuntoVenta == idPunto && j.codTurnoSis == ts.codTurnoSis).ToList();
-    //}
-    //else{ 
-    //    liT = null;
-    //}
-    //if(liT!=null)
-    //{ 
-    //for (int i = 0; i < liT.Count; i++)
-    //{
-    //    if (liT[i].fecha.Date == hoy.Date){
-    //        tu = liT[i];
-    //        Session["TurnoHoy"] = tu;
-    //        break;
-    //    }
-    //}
-    //}
-    //tu = liT.First();
-    //if (tu == null) {
-    //    tu = new Turno();
-    //    tu.estado = "Error";
-    //}
+    double mS=0,mD=0;
+    Turno turno = (Turno)Session["TurnoHoy"];
+    if (turno != null)
+    {
+        if (turno.estadoCaja == "Abierto")
+        {
+            mS = (double)turno.MontoInicioSoles;
+            mD = (double)turno.MontoInicioDolares;
+        }
+    }
+    
 }
 
 <div class="container-fluid">
@@ -61,6 +29,26 @@
 <div class="container">
     <div class="row">
         <br>
+        @if (turno != null && turno.estadoCaja == "Abierto")
+        {
+            <div class="form-group">
+                <label for="categoria" class="control-label col-md-2 col-md-offset-2">Monto Inicial:</label>
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="soles">S/.</span>
+                        <input type="text" id="montoS" value="@mS" class="form-control" aria-describedby="soles" disabled>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="soles">$.</span>
+                        <input type="text" id="montoD" value="@mD" class="form-control" aria-describedby="soles" disabled>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
         <div class="form-group">
             <label for="categoria" class="control-label col-md-2 col-md-offset-2">Monto Inicial:</label>
             <div class="col-md-2">
@@ -76,16 +64,17 @@
                 </div>
             </div>
         </div>
-
+        }
         <br><br>
 
         <center>
-            @if(Session["AperturaCompleta"]==null){
+            @if (turno != null && turno.estadoCaja != "Abierto")
+            {
                 <button type="button" class="btn btn-primary" onclick="abrir()">Abrir caja <span class="glyphicon glyphicon-inbox"></span></button>
             }
             else
             {
-                <button type="button" class="btn btn-primary" onclick="">Abrir caja <span class="glyphicon glyphicon-inbox"></span></button>
+                @*<button type="button" class="btn btn-primary" onclick="">Abrir caja <span class="glyphicon glyphicon-inbox"></span></button>*@
             }
             <a class="btn btn-danger pull-right" href="@Url.Action("Index2", "Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
         </center>

@@ -36,6 +36,7 @@ namespace WebApplication4.Controllers
             db.Entry(turno).State = EntityState.Modified;
             turno.MontoInicioDolares = mD;
             turno.MontoInicioSoles = mS;
+            turno.estadoCaja = "Abierto";
             db.SaveChanges();
             Session["AperturaCompleta"] = 1;
             return View();

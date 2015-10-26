@@ -125,8 +125,20 @@ namespace WebApplication4.Controllers
                             }
                             if (tu != null)
                             {
+                                int idPol = 4;
+                                int limite = (int)db.Politicas.Find(idPol).valor;
+                                TimeSpan time1 = TimeSpan.FromMinutes(limite);
+                                TimeSpan horalimite=TimeSpan.Parse(ts.horIni);
+                                TimeSpan hora1 = horalimite.Add(time1);
                                 db.Entry(tu).State = EntityState.Modified;
-                                tu.estado = "Asistio";
+                                if (hora1 > da)
+                                {
+                                    tu.estado = "Asistio";
+                                }
+                                else
+                                {
+                                    tu.estado = "Tarde";
+                                }
                                 db.SaveChanges();
                                 db.Entry(tu).State = EntityState.Detached;
                             }
