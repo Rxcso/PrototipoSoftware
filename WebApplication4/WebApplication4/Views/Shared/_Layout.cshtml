@@ -190,15 +190,20 @@ else {
                         }
                         else
                         {
-                            using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "form" }))
-                            {
-                        @Html.AntiForgeryToken()
-
-                            <div class="nav navbar-nav navbar-right">
-                                    <font color="white"> Hola @nombre!</font>
-                                <a  type="button" class="btn btn-default"  href="javascript:document.getElementById('logoutForm').submit()">Salir <span class="glyphicon glyphicon-log-out"></span></a>
-                            </div>
-                            }
+                            <div id="logeado" class="dropdown">
+                                 <button class="btn btn-primary dropdown-toggle" type="button" id="sesion" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">@nombre <span class="glyphicon glyphicon-user"></span> <span class="caret"></span></button>
+                                  <ul class="dropdown-menu" aria-labelledby="sesion">
+                                      <li ><a class="btn btn-default" href="#">Mi cuenta <span class="glyphicon glyphicon-log-in"></span></a></li>
+                                      <li>
+                                          @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "form" }))
+                                          {
+                                          @Html.AntiForgeryToken()
+                                              <a class="btn btn-default" href="javascript:document.getElementById('logoutForm').submit()">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+                                          
+                                          }
+                                      </li>
+                                  </ul>
+                              </div>                             
                         }
                         </div>
                     </div>

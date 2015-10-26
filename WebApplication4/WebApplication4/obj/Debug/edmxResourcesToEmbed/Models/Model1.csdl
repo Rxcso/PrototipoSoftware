@@ -171,6 +171,16 @@
       <End Role="Eventos" EntitySet="Eventos" />
       <End Role="PeriodoVenta" EntitySet="PeriodoVenta" />
     </AssociationSet>
+    <EntitySet Name="Asientos" EntityType="inf245netsoftModel.Asientos" />
+    <EntitySet Name="ZonaEvento" EntityType="inf245netsoftModel.ZonaEvento" />
+    <AssociationSet Name="R_13" Association="inf245netsoftModel.R_13">
+      <End Role="ZonaEvento" EntitySet="ZonaEvento" />
+      <End Role="Asientos" EntitySet="Asientos" />
+    </AssociationSet>
+    <AssociationSet Name="R_21" Association="inf245netsoftModel.R_21">
+      <End Role="Eventos" EntitySet="Eventos" />
+      <End Role="ZonaEvento" EntitySet="ZonaEvento" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Perfiles">
     <Key>
@@ -420,6 +430,7 @@
     <NavigationProperty Name="Funcion" Relationship="inf245netsoftModel.R_43" FromRole="Eventos" ToRole="Funcion" />
     <NavigationProperty Name="PeriodoVenta" Relationship="inf245netsoftModel.fk_EventoPV" FromRole="Eventos" ToRole="PeriodoVenta" />
     <Property Name="direccion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="ZonaEvento" Relationship="inf245netsoftModel.R_21" FromRole="Eventos" ToRole="ZonaEvento" />
   </EntityType>
   <Association Name="fk_EventoRegion">
     <End Type="inf245netsoftModel.Region" Role="Region" Multiplicity="0..1" />
@@ -895,6 +906,54 @@
         <PropertyRef Name="codigo" />
       </Principal>
       <Dependent Role="PeriodoVenta">
+        <PropertyRef Name="codEvento" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Asientos">
+    <Key>
+      <PropertyRef Name="codAsiento" />
+    </Key>
+    <Property Name="fila" Type="Int32" />
+    <Property Name="columna" Type="Int32" />
+    <Property Name="codAsiento" Type="Int32" Nullable="false" />
+    <Property Name="codZona" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="ZonaEvento" Relationship="inf245netsoftModel.R_13" FromRole="Asientos" ToRole="ZonaEvento" />
+  </EntityType>
+  <EntityType Name="ZonaEvento">
+    <Key>
+      <PropertyRef Name="codZona" />
+    </Key>
+    <Property Name="codZona" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="codEvento" Type="Int32" Nullable="false" />
+    <Property Name="nombre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="piso" Type="Int32" />
+    <Property Name="aforo" Type="Int32" />
+    <Property Name="codLocal" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Asientos" Relationship="inf245netsoftModel.R_13" FromRole="ZonaEvento" ToRole="Asientos" />
+    <NavigationProperty Name="Eventos" Relationship="inf245netsoftModel.R_21" FromRole="ZonaEvento" ToRole="Eventos" />
+  </EntityType>
+  <Association Name="R_13">
+    <End Type="inf245netsoftModel.ZonaEvento" Role="ZonaEvento" Multiplicity="1" />
+    <End Type="inf245netsoftModel.Asientos" Role="Asientos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ZonaEvento">
+        <PropertyRef Name="codZona" />
+      </Principal>
+      <Dependent Role="Asientos">
+        <PropertyRef Name="codZona" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_21">
+    <End Type="inf245netsoftModel.Eventos" Role="Eventos" Multiplicity="1" />
+    <End Type="inf245netsoftModel.ZonaEvento" Role="ZonaEvento" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Eventos">
+        <PropertyRef Name="codigo" />
+      </Principal>
+      <Dependent Role="ZonaEvento">
         <PropertyRef Name="codEvento" />
       </Dependent>
     </ReferentialConstraint>

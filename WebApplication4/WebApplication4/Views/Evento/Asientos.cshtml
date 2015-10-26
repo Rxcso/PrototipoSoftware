@@ -33,10 +33,11 @@
         <div class="row form-group">
             @*Sacar las zonas del evento*@
             <select class="form-control" name="" id="">
-                <option value="">VIP</option>
-                <option value="">GENERAL</option>
-                <option value="">ALTA</option>
-                <option value="">PLATEA</option>
+                <option value="">Seleccione</option>
+                
+                 @foreach(var item in ViewBag.listaZonas){
+                     <option value="">@item.nombre</option>
+                 }             
             </select>
         </div>
         <div class="row form-group">

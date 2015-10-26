@@ -127,6 +127,7 @@ namespace WebApplication4.Controllers
             Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();
             ViewBag.nombreEvento = queryEvento.nombre;
             ViewBag.idEvento = evento;
+            ViewBag.listaZonas = db.ZonaEvento.Where(c => c.codEvento == id).ToList();
             return View();
         }
 
