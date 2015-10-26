@@ -301,7 +301,7 @@ namespace WebApplication4.Controllers
                   c.idCategoria == idCategoria && c.idRegion == idRegion && c.idProvincia == idProv && c.estado.Contains("Activo"))).ToList();
             }
             
-           */
+           
 
             var categorias = db.Categoria.AsNoTracking().Where(c => c.nivel == 1);
             ViewBag.categorias = new SelectList(categorias, "idCategoria", "nombre");
