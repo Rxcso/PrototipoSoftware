@@ -19,8 +19,8 @@
         <div class="col-md-11">
             <div class="form-group">
                 <a class="btn btn-primary" href="#formNuevo" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
-                <!--<a class="btn btn-primary" onclick="editar()">Modificar <span class="glyphicon glyphicon-pencil"></span></a>-->
-                <!--<a class="btn btn-primary" onclick="borrar()">Dar de Baja <span class="glyphicon glyphicon-remove"></span></a>-->
+                <a class="btn btn-primary" data-toggle="modal" onclick="redirigeCategoria()">Modificar<span class="glyphicon glyphicon-pencil"></span></a>               
+                <a class="btn btn-primary" href="#eliminar" data-toggle="modal">Borrar<span class="glyphicon glyphicon-remove"></span></a>                
             </div>
         </div>
 
@@ -53,8 +53,6 @@
                     <th>Id Padre</th>
                     <th>Nivel</th>
                     <th>Estado</th>
-                    <th></th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody id="tbody">
@@ -67,14 +65,96 @@
                         <td>@row.idCatPadre</td>
                         <td>@row.nivel</td>
                         <td>@row.activo</td>
-                        <td>@Html.ActionLink("Delete", "Delete", new { id = row.idCategoria })</td>
-                        <td>@Html.ActionLink("Edit", "Edit", new { id = row.idCategoria })</td>
                     </tr>
                 }
             </tbody>
         </table>
     </div>
 </div>
+
+<input type="hidden" id="idCategoria" value="" />
+<script>
+    function myFunction(x) {
+        if (document.getElementsByClassName("trselected").length > 0) {
+            var element = document.getElementsByClassName("trselected");
+            //element.item[0].cells[0].innerText;
+            element[0].className = "";
+        }
+        //var tabla = document.getElementById("mytable");
+        //alert(x);
+        //var y = x.getCells();
+        var elem = document.getElementById("idCategoria");
+        elem.value = x.cells[0].innerHTML;
+        //alert(x.cells[0].innerHTML);
+        //ViewBag.P = x.cells[0].innerHTML;
+        x.className = "trselected";
+
+        //<a class="btn btn-primary" href="javascript:document.getElementsByClassName('trselected').submit()">Borrar<span class="glyphicon glyphicon-pencil"></span></a>
+        //idProm = x.codp;
+    }
+    function borrar() {
+        var categoria = $('#idCategoria').val();
+        var el = document.getElementById(categoria);
+        var row = $(el).closest('tr');
+        //alert(evento);
+        //alert(promocion);
+        if (categoria != "" && categoria != null) {
+            $.ajax({
+                url: "@Url.Action("Delete","Categoria")",
+                data: { categoria: categoria },
+                success: function (data) {
+                    //alert("Eliminado");
+                    $('#eliminar').modal('hide');
+                    row.remove();
+                    window.location.href = '/Categoria/Index';
+                },
+                error: function () {
+                    alert("Error :(");
+                }
+            });
+        } else {
+            alert("Seleccione una Categoria ");
+            evento = "";
+        }
+    }
+    function redirigeCategoria() {
+        var categoria = $('#idCategoria').val();
+        if (categoria != "") {
+            window.location.href = '/Categoria/Edit?categoria=' + categoria;
+        } else {
+            alert("Seleccione una Categoria");
+            evento = "";
+        }
+        //$.post('/Regalo/Edit/' + regalo);
+    }    
+    function modificar() {
+        var categoria = $('#idCategoria').val();
+        //var el = document.getElementById(regalo);
+        //var row = $(el).closest('tr');
+        //alert(evento);
+        //alert(promocion);
+        $.ajax({
+            url: "@Url.Action("Edit","Categoria")",
+            data: { categoria: categoria },
+            success: function (data) {
+                //alert("Eliminado");
+                //row.remove();
+            },
+            error: function () {
+                alert("Error :(");
+            }
+        });
+    }
+    function closewindow() {
+        $('#eliminar').modal('hide');
+    }
+</script>
+
+<style>
+    .trselected {
+        background: gray;
+    }
+</style>
 
 
 
@@ -99,30 +179,47 @@
                             <input type="text" class="form-control" id="nombre" placeholder="Nombre del tipo">
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label for="direccion" class="control-label col-md-2">Descripción:</label>
                         <div class="col-md-10">
                             <input type="textarea" class="form-control" id="direccion" placeholder="Descripción">
-
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label for="direccion" class="control-label col-md-2">Id Padre:</label>
                         <div class="col-md-10">
                             <input type="textarea" class="form-control" id="idPadre" placeholder="Id Padre">
-
                         </div>
                     </div>
-
-
                 </form>
             </div>
             <!--footer de la ventana-->
             <div class="modal-footer">
-
                 <button type="button" onclick="registrar()" data-dismiss="modal" aria-hidden="true" class="btn btn-primary">Agregar <span class="glyphicon glyphicon-ok"></span></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="eliminar">
+    <!--esta div pondra la pantalla oscura al presionar el boton-->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--ACA VA EL CONTENIDO DEL MODAL-->
+            <!--header de la ventana-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+                <h4 class="modal-title">Aviso</h4>
+            </div>
+            <!--contenido de la ventana-->
+            <div class="modal-body">
+                ¿Está seguro que quiere dar de baja el registro?
+                <p>*Se eliminaran las categorías que dependan de este registro</p>                
+            </div>
+            <!--footer de la ventana-->
+            <div class="modal-footer">
+                <button type="button" onclick="borrar()" class="btn btn-primary">Aceptar <span class="glyphicon glyphicon-ok"></span></button>
+                <button type="button" onclick="return closewindow();" class="btn btn-danger">Cancelar <span class="glyphicon glyphicon-remove"></span></button>
             </div>
         </div>
     </div>

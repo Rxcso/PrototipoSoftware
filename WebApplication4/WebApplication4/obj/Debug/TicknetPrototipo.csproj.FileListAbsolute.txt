@@ -1073,3 +1073,5 @@ C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplicatio
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\obj\Debug\TicknetPrototipo.csprojResolveAssemblyReference.cache
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\obj\Debug\WebApplication4.dll
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\obj\Debug\WebApplication4.pdb
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\MvcPaging.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\MvcPaging.pdb
