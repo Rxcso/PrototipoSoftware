@@ -171,6 +171,10 @@ namespace WebApplication4.Controllers
             return RedirectToAction("BuscaCliente", "CuentaUsuario");
         }
 
+        public ActionResult Politicas()
+        {
+            return View();
+        }
 
         public ActionResult MiCuenta()
         {

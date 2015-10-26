@@ -171,6 +171,7 @@
       <End Role="Eventos" EntitySet="Eventos" />
       <End Role="PeriodoVenta" EntitySet="PeriodoVenta" />
     </AssociationSet>
+    <EntitySet Name="Politicas" EntityType="inf245netsoftModel.Politicas" />
   </EntityContainer>
   <EntityType Name="Perfiles">
     <Key>
@@ -899,4 +900,12 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="Politicas">
+    <Key>
+      <PropertyRef Name="codigo" />
+    </Key>
+    <Property Name="codigo" Type="Int32" Nullable="false" />
+    <Property Name="valor" Type="Int32" />
+    <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
 </Schema>
