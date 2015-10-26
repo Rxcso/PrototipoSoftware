@@ -1,10 +1,18 @@
 ﻿@using Microsoft.AspNet.Identity
 @using WebApplication4.Models
 
-@model CategoriaModel
+@model CategoriaEditModel
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+
+    Categoria c = (Categoria)Session["categoria"];
+    CategoriaEditModel cem = new CategoriaEditModel();
+    cem.nombre = c.nombre;
+    cem.descripcion = c.descripcion;
+    cem.idCatPadre = (int)c.idCatPadre;
+    cem.activo = (int)c.activo;
+}
 }
 <h2>Editar Registro</h2>
 
@@ -19,14 +27,14 @@
             <div class="row form-group">
                 @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })
                 <div class="col-md-9">
-                    @Html.EditorFor(model => model.nombre, new { @placeholder = "Nombre" })
+                    @Html.TextBoxFor(model => model.nombre, new { @placeholder = @c.nombre })
                     @Html.ValidationMessageFor(model => model.nombre)
                 </div>
             </div>
             <div class="row form-group">
                 @Html.LabelFor(model => model.descripcion, new { @class = "control-label col-md-3" })
                 <div class="col-md-9">
-                    @Html.EditorFor(model => model.descripcion)
+                    @Html.TextBoxFor(model => model.descripcion, new { @placeholder = @c.descripcion })
                     @Html.ValidationMessageFor(model => model.descripcion)
                 </div>
             </div>
@@ -34,10 +42,22 @@
             <div class="row form-group">
                 @Html.LabelFor(model => model.idCatPadre, new { @class = "control-label col-md-3" })
                 <div class="col-md-9">
-                    @Html.EditorFor(model => model.idCatPadre)
+                    @Html.TextBoxFor(model => model.idCatPadre, new { @placeholder = @c.idCatPadre })
                     @Html.ValidationMessageFor(model => model.idCatPadre)
                 </div>
             </div>
+            @{if (cem.activo == 0)
+            {
+                <div class="row form-group">
+                    @Html.LabelFor(model => model.activo, new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.TextBoxFor(model => model.activo, new { @placeholder = @c.activo })
+                        @Html.ValidationMessageFor(model => model.idCatPadre)
+                    </div>
+                </div>
+            }
+            }
+
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <input type="submit" value="Aceptar" class="btn btn-default" />
