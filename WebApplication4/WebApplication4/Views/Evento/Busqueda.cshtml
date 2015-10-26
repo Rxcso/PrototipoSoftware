@@ -5,7 +5,7 @@
 
 @model Evento2Model
 @{
-    int indexPagina  = 0;
+    int indexPagina = 0;
     ViewBag.MaximoPaginas = 5;
     ViewBag.Title = "Busqueda";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
@@ -32,7 +32,7 @@
                 <div class="input-group">
                     @* @Html.TextBoxFor(model => model.nombre, new {placeholder = "INGRESE EVENTO" , @class = "form-control" }); *@
                     @* <input id="textoBusqueda" type="text" class="form-control" placeholder="BUSCAR UN EVENTO">*@
-                   
+
                     @Html.TextBox("nombre", "", new { placeholder = "INGRESE EVENTO", @class = "form-control" })
                     <span class="input-group-btn"><a id="btn-search" class="btn btn-primary" onclick="submitSearch()"><span class="glyphicon glyphicon-search"></span></a></span>
                 </div>
@@ -52,7 +52,7 @@
 
         @using (Html.BeginForm("Busqueda", "Evento", FormMethod.Get, new { id = "adv-search", @class = "form-inline" }))
         {
-            @Html.ValidationSummary("", new { @class = "text-danger" })
+            // @Html.ValidationSummary("", new { @class = "text-danger" })
             <div class="form-group">
                 <div class="form-group ">
                     <div class="input-group">
@@ -83,37 +83,67 @@
 
                 <div class="form-group ">
 
-                    @Html.LabelFor(model => model.idCategoria)
-                    @Html.DropDownListFor(model => model.idCategoria, @ViewBag.categorias as SelectList, "Categorias", new { @class = "form-control", onclick = "cambioCat()" })
-
-
-
 
                     @*
-                        <select name="" id="Tipo" class="form-control col-lg-2">
-                            <option value="" disabled selected hidden>Tipo</option>
-
-
-                            @foreach (var categoria in ViewBag.categorias)
-                            {
-                                <option value=""> @categoria.nombre</option>
-                            }
-
-                        </select>
-
+                        @Html.LabelFor(model => model.idCategoria)
+                        @Html.DropDownListFor(model => model.idCategoria, @ViewBag.categorias as SelectList, "Categorias", new { @class = "form-control", onclick = "cambioCat()" })
                     *@
+
+
+
+
+                    <select name="idCategoria" id="idCategoria" data-val="true" onchange="cambioCat()" class="form-control col-lg-2">
+                        <option value="">Categorias</option>
+
+
+                        @foreach (var categoria in ViewBag.categorias)
+                        {
+                            <option value=@categoria.Value> @categoria.Text</option>
+                        }
+
+                    </select>
+
+
                 </div>
                 <div class="form-group ">
-                    @Html.LabelFor(model => model.idSubCat)
-                    @Html.DropDownListFor(model => model.idSubCat, @ViewBag.subcategorias as SelectList, "SubCategorias", new { @class = "form-control" })
+                    @*
+                        @Html.LabelFor(model => model.idSubCat)
+                        @Html.DropDownListFor(model => model.idSubCat, @ViewBag.subcategorias as SelectList, "SubCategorias", new { @class = "form-control" })
+                    *@
+
+                    <select name="idSubCat" id="idSubCat" data-val="true" class="form-control col-lg-2">
+                        <option value="">Subcategoria</option>
+
+
+
+                    </select>
+
+
+
+
+
+
 
 
 
                 </div>
                 <div class="form-group">
+                    @*
+                        @Html.LabelFor(model => model.idRegion)
+                        @Html.DropDownListFor(model => model.idRegion, @ViewBag.departamentos as SelectList, "Departamentos", new { @class = "form-control", @onchange = "cambio()" })
+                    *@
 
-                    @Html.LabelFor(model => model.idRegion)
-                    @Html.DropDownListFor(model => model.idRegion, @ViewBag.departamentos as SelectList, "Departamentos", new { @class = "form-control", @onchange = "cambio()" })
+                    <select name="idRegion" id="idRegion" data-val="true" class="form-control col-lg-2" onchange="cambio()">
+                        <option value="">Departamentos</option>
+
+                        @foreach (var departamento in ViewBag.departamentos)
+                        {
+                            <option value=@departamento.Value> @departamento.Text</option>
+                        }
+
+                    </select>
+
+
 
 
                     @*
@@ -127,15 +157,15 @@
                     *@
                 </div>
                 <div class="form-group">
-
-                    @Html.LabelFor(model => model.idProv)
-                    @Html.DropDownListFor(model => model.idProv, @ViewBag.distritos as SelectList, "Distrito", new { @class = "form-control" })
                     @*
-                        <select name="distritos" id="distritos" class="form-control ">
-                            <option value="" disabled hidden>-Dist-</option>
-                        </select>
-
+                        @Html.LabelFor(model => model.idProv)
+                        @Html.DropDownListFor(model => model.idProv, @ViewBag.distritos as SelectList, "Distrito", new { @class = "form-control" })
                     *@
+                    <select name="idProv" id="idProv" data-val="true" class="form-control ">
+                        <option value="">Distrito</option>
+                    </select>
+
+
 
                 </div>
                 <div class="form-group">
@@ -150,11 +180,12 @@
 </div>
 
 @{IList<Eventos> lista = ViewBag.Lista;
-    if(this.Request.QueryString.Count != 0)
+    if (this.Request.QueryString.Count != 0)
     {
-        
-    
-        if (this.Request.QueryString.AllKeys.Contains("page")){
+
+
+        if (this.Request.QueryString.AllKeys.Contains("page"))
+        {
 
 
             indexPagina = this.Request.QueryString["page"].AsInt() - 1;
@@ -166,7 +197,7 @@
     }
 
     Html.RenderPartial("BusquedaPaging", lista.ToPagedList(indexPagina, 2));
-   
+
 
 }
 
@@ -265,11 +296,11 @@
 
 
     function submitAdvSearch() {
-        
+
 
         var input = $("<input>")
                        .attr("type", "hidden")
-                        .attr("name", "Nombre").val(($("#nombre").val() != NaN) ? $("#nombre").val() : "");
+                        .attr("name", "nombre").val(($("#nombre").val() != "") ? $("#nombre").val() : "");
         $("#adv-search").append(input);
         $("#adv-search").submit();
     }

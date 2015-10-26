@@ -217,48 +217,103 @@ namespace WebApplication4.Controllers
 
 
         }
-        
 
-        public ActionResult Busqueda(string nombre = "" )
+        /*   
+             [AllowAnonymous]
+             public ActionResult Busqueda(string nombre = "" )
+             {
+
+
+
+
+                 if (!nombre.Equals(""))
+                 {
+                     ViewBag.Lista = db.Eventos.AsNoTracking().Where(c => c.nombre.Contains(nombre)).ToList();
+
+                 }
+                 else
+                 {
+
+                     ViewBag.Lista = db.Eventos.AsNoTracking().Where(c => c.estado.Contains("Activo")).ToList();
+
+
+                 }
+
+
+
+                 var categorias = db.Categoria.AsNoTracking().Where(c => c.nivel == 1);
+                 ViewBag.categorias = new SelectList(categorias, "idCategoria", "nombre");
+                 var departamentos = db.Region.AsNoTracking().Where(c => c.idRegPadre == null);
+                 ViewBag.departamentos = new SelectList(departamentos, "idRegion", "nombre");
+                 List<Region> listProv = new List<Region>();
+                 List<Categoria> listSubCat = new List<Categoria>();
+
+
+
+                 ViewBag.distritos = new SelectList(listProv, "idProv", "nombre");
+                 ViewBag.subcategorias = new SelectList(listSubCat, "idSubcat", "nombre");
+
+                 return View();
+
+
+             }
+             */
+        [AllowAnonymous]
+        // [RequireRequestValue(new[] { "fech_ini", "fech_fin", "idCategoria", "idSubCat", "idRegion", "idProv" })]
+        //  [RequireRequestValue(new[] { "nombre"})]
+        public ActionResult Busqueda(DateTime? fech_ini, DateTime? fech_fin, int? idCategoria, int? idSubCat, int? idRegion, int? idProv, string nombre = "")
         {
 
 
 
+
+            List<Eventos> Lista = db.Eventos.AsNoTracking().Where(c => c.estado.Contains("Activo")).ToList();
 
             if (!nombre.Equals(""))
             {
-                ViewBag.Lista = db.Eventos.AsNoTracking().Where(c => c.nombre.Contains(nombre)).ToList();
+                Lista = Lista.Where(c => c.nombre.Contains(nombre) == true).ToList();
+
 
             }
-            else
+
+
+
+            if (fech_ini.HasValue)
             {
 
-                ViewBag.Lista = db.Eventos.AsNoTracking().Where(c => c.estado.Contains("Activo")).ToList();
-
+                Lista = Lista.Where(c => c.fecha_inicio >= fech_ini).ToList();
 
             }
 
+            if (fech_fin.HasValue)
+            {
 
 
-            var categorias = db.Categoria.AsNoTracking().Where(c => c.nivel == 1);
-            ViewBag.categorias = new SelectList(categorias, "idCategoria", "nombre");
-            var departamentos = db.Region.AsNoTracking().Where(c => c.idRegPadre == null);
-            ViewBag.departamentos = new SelectList(departamentos, "idRegion", "nombre");
-            List<Region> listProv = new List<Region>();
-            List<Categoria> listSubCat = new List<Categoria>();
+                Lista = Lista.Where(c => c.fecha_inicio <= fech_fin).ToList();
+            }
+
+            if (idCategoria.HasValue)
+            {
+
+                Lista = Lista.Where(c => c.idCategoria == idCategoria).ToList();
+            }
+
+            if (idSubCat.HasValue)
+            {
+                Lista = Lista.Where(c => c.idSubcategoria == idSubCat).ToList();
+            }
+
+            if (idRegion.HasValue)
+            {
+
+                Lista = Lista.Where(c => c.idRegion == idRegion).ToList();
+            }
+            if (idProv.HasValue)
+            {
+                Lista = Lista.Where(c => c.idProvincia == idProv).ToList();
+            }
 
 
-
-            ViewBag.distritos = new SelectList(listProv, "idProv", "nombre");
-            ViewBag.subcategorias = new SelectList(listSubCat, "idSubcat", "nombre");
-
-            return View();
-
-
-        }
-        [RequireRequestValue(new[] { "fech_ini", "fech_fin", "idCategoria", "idSubCat", "idRegion", "idProv" })]
-        public ActionResult Busqueda(DateTime fech_ini, DateTime fech_fin, int idCategoria, int idSubCat, int idRegion, int idProv , string nombre)
-        {
             /* var data = from obj in db.Eventos
                         where (obj.idCategoria == idCategoria && obj.idRegion == idRegion && obj. ) 
   */
@@ -270,6 +325,11 @@ namespace WebApplication4.Controllers
                                     obj.idSubcategoria == idSubCat && obj.idRegion == idRegion && obj.idProvincia == idProv)
                                     select new Eventos;
                                     */
+
+
+            ViewBag.Lista = Lista;
+            /*
+
             if (!nombre.Equals(""))
             {
                 ViewBag.Lista = db.Eventos.AsNoTracking().Where(c => (c.fecha_inicio >= fech_ini && c.fecha_inicio <= fech_fin &&
@@ -284,16 +344,16 @@ namespace WebApplication4.Controllers
 
             }
             
-           
-    
+           */
+
             var categorias = db.Categoria.AsNoTracking().Where(c => c.nivel == 1);
             ViewBag.categorias = new SelectList(categorias, "idCategoria", "nombre");
             var departamentos = db.Region.AsNoTracking().Where(c => c.idRegPadre == null);
             ViewBag.departamentos = new SelectList(departamentos, "idRegion", "nombre");
-           List<Region> listProv = new List<Region>();
-          List<Categoria> listSubCat = new List<Categoria>();
+            List<Region> listProv = new List<Region>();
+            List<Categoria> listSubCat = new List<Categoria>();
 
-           ViewBag.distritos = new SelectList(listProv, "idProv", "nombre");
+            ViewBag.distritos = new SelectList(listProv, "idProv", "nombre");
             ViewBag.subcategorias = new SelectList(listSubCat, "idSubcat", "nombre");
 
             return View();
@@ -301,6 +361,8 @@ namespace WebApplication4.Controllers
 
         }
 
+
+        [AllowAnonymous]
         public ActionResult Subcategorias()
         {
 
@@ -308,6 +370,8 @@ namespace WebApplication4.Controllers
 
         }
 
+
+        [AllowAnonymous]
         public ActionResult Distritos()
         {
 
@@ -315,7 +379,8 @@ namespace WebApplication4.Controllers
 
         }
 
-        
+
+
 
 
 
