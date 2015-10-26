@@ -80,6 +80,7 @@ namespace WebApplication4.Controllers
         [HttpPost]
         public ActionResult BloquesTiempoVenta(BloqueTiempoListModel model)
         {
+            
             int i = 0;
             while (i++ < 5)
             {
