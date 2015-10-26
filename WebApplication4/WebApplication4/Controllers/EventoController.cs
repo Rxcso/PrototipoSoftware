@@ -142,6 +142,7 @@ namespace WebApplication4.Controllers
         {
             return View("FuncionesRow", new FuncionesModel());
         }
+        
         [HttpGet]
         public ActionResult Asientos(string evento)
         {
