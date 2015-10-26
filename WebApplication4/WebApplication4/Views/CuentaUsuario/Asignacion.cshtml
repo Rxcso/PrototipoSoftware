@@ -17,6 +17,10 @@
         nombV = vend.nombre;
     }
     List<Turno> listaTurnoAsig = null;
+    if (Session["ListaTurnoVendedor"] != null)
+    {
+        listaTurnoAsig = (List<Turno>)Session["ListaTurnoVendedor"];        
+    }
 
 }
 
@@ -111,41 +115,30 @@
     <h4>Asignación</h4>
 
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <table class="table table-bordered table-hover">
-                <tr class="active">
-                    <th>Punto de venta</th>
+        <table id="mytable" class="table table-bordered table-hover">
+            <thead>
+                <tr class="thead">
+                    <th>Punto de Venta</th>
                     <th>Fecha</th>
                     <th>Hora Inicio</th>
                     <th>Hora Fin</th>
+                    @*<th></th>*@
                 </tr>
-                <tr>
-                    <td>San borja I</td>
-                    <td>10/12/2015</td>
-                    <td>10:00am</td>
-                    <td>4:00pm</td>
-                </tr>
-                <tr>
-                    <td>Miraflores</td>
-                    <td>11/12/2015</td>
-                    <td>10:00am</td>
-                    <td>4:00pm</td>
-                </tr>
-                <tr>
-                    <td>San isidro I</td>
-                    <td>12/12/2015</td>
-                    <td>10:00am</td>
-                    <td>4:00pm</td>
-                </tr>
-                <tr>
-                    <td>San miguel I</td>
-                    <td>13/12/2015</td>
-                    <td>10:00am</td>
-                    <td>4:00pm</td>
-                </tr>
-            </table>
-        </div>
-
+            </thead>
+            <tbody id="tbody">
+                @if (listaTurnoAsig != null){ 
+                foreach (var row in listaTurnoAsig)
+                {
+                    <tr id=@row.usuario onclick="myFunction(this)">
+                        <td>@db.PuntoVenta.Find(@row.codPuntoVenta).ubicacion</td>
+                        <td>@row.fecha</td>
+                        <td>@row.TurnoSistema.horIni</td>
+                        <td>@row.TurnoSistema.horFin</td>
+                    </tr>
+                }
+                }
+            </tbody>
+        </table>
     </div>
 
 </div><!--Fin del container-->
@@ -218,6 +211,16 @@
             evento = "";
         }
     }
+
+    function myFunction(x) {
+        if (document.getElementsByClassName("trselected").length > 0) {
+            var element = document.getElementsByClassName("trselected");
+            element[0].className = "";
+        }
+        var elem = document.getElementById("idVendT");
+        elem.value = x.cells[0].innerHTML;
+        x.className = "trselected";
+    }
     function registrar() {
         var monto = $('#monto2').val();
         var pend = $('#pendiente').val();
@@ -281,3 +284,9 @@
         });
     }
 </script>
+
+<style>
+    .trselected {
+        background: gray;
+    }
+</style>

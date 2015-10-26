@@ -171,7 +171,28 @@ namespace WebApplication4.Controllers
             return RedirectToAction("BuscaCliente", "CuentaUsuario");
         }
 
+
+        public ActionResult MiCuenta()
+        {
+            return View();
+        }
+
         public ActionResult Asignacion()
+        {
+            return View();
+        }
+
+        public ActionResult MisReservas()
+        {
+            return View();
+        }
+
+        public ActionResult MisCompras()
+        {
+            return View();
+        }
+
+        public ActionResult Carrito()
         {
             return View();
         }

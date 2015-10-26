@@ -38,7 +38,7 @@ namespace WebApplication4.Controllers
             }
         }
 
-        public ActionResult Delete(int id)
+        public ActionResult Delete2(int id)
         {            
             //borrar categoría padre
             Categoria categoria = db.Categoria.Find(id);
@@ -48,6 +48,20 @@ namespace WebApplication4.Controllers
             //borrar arbol de la categoría padre
             borrar(id);                        
             //return RedirectToAction("Index", "Evento");
+            return View("Index");
+        }
+
+        public ActionResult Delete(string categoria)
+        {
+            //if (regalo == "" || regalo == null) return View("Index");
+            int idQ = int.Parse(categoria);
+            Categoria categoriaM = db.Categoria.Find(idQ);
+            //db.Regalo.Remove(regalo);
+            db.Entry(categoriaM).State = EntityState.Modified;
+            categoriaM.activo = 0;
+            db.SaveChanges();
+            //return RedirectToAction("Index", "Evento");
+            borrar(idQ); 
             return View("Index");
         }
 
@@ -63,7 +77,16 @@ namespace WebApplication4.Controllers
             TempData["ListaC"] = null;
             return RedirectToAction("Index", "Categoria");
         }
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string categoria)
+        {
+            int id = int.Parse(categoria);
+            ViewBag.id = id;
+            TempData["codigo"] = id;
+            Session["categoria"] = db.Categoria.Find(id);
+            return View("Edit");
+        }
+
+        public ActionResult Edit2(int id)
         {
             ViewBag.id = id;
             TempData["codigo"] = id;
