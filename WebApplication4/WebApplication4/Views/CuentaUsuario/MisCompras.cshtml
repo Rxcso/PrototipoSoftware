@@ -1,0 +1,164 @@
+﻿@using Microsoft.AspNet.Identity
+@using WebApplication4.Models
+
+@{
+    ViewBag.Title = "MisCompras";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var db = new WebApplication4.Models.inf245netsoft();
+
+}
+
+<div class="container-fluid">
+    <ol class="breadcrumb">
+        <li class=""><a href="@Url.Action("MiCuenta", "CuentaUsuario")">Mi cuenta</a></li>
+        <li class="active">Mis reservas</li>
+    </ol>
+</div>
+
+<div class="container">
+    <div class="row">
+        <!--LA PARTE IMPORTANTE-->
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Mis Compras Pasadas:</h4>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <tr class="active">
+                            <th>Cód. reserva</th>
+                            <th>Evento</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Cantidad Boletos</th>
+                            <th>Monto (S/.)</th>
+                            <th>Eliminar</th>
+
+                        </tr>
+                        <tr>
+                            <td>105060</td>
+                            <td><a href="ver_evento.html">Circo de Kiko</a></td>
+                            <td>04/12/2015</td>
+                            <td>14:00</td>
+                            <td>4</td>
+                            <td>180.00</td>
+                            <td>
+                                <center>
+                                    <button type="button" class="btn btn-primary btn-sm">
+                                        Eliminar
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                </center>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>102040</td>
+                            <td><a href="ver_evento.html">La Tarumba</a></td>
+                            <td>12/12/2015</td>
+                            <td>12:22</td>
+                            <td>2</td>
+                            <td>45.50</td>
+                            <td>
+                                <center>
+                                    <button type="button" class="btn btn-primary btn-sm">
+                                        Eliminar
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                </center>
+                            </td>
+                        </tr>
+                        <tr id="fila3" onclick="select()">
+                            <td>105060</td>
+                            <td><a href="ver_evento.html">Circo de Kiko</a></td>
+                            <td>04/12/2015</td>
+                            <td>14:00</td>
+                            <td>4</td>
+                            <td>180.00</td>
+                            <td>
+                                <center>
+                                    <button type="button" class="btn btn-primary btn-sm">
+                                        Eliminar
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+                                </center>
+                            </td>
+
+                        </tr>
+
+                    </table>
+                </div>
+
+            </div>
+
+            <br>
+        </div>
+        <!--LOS EVENTOS DESTACADOS-->
+        <div class="col-md-4">
+            <div class="headDestacados">
+                EVENTOS DESTACADOS
+            </div>
+            <div id="carousel-1" class="carousel slide" data-ride="carousel">
+                <!--indicadores primero-->
+                <ol class="carousel-indicators">
+                    <!--
+                                      <li data-target="#carousel-1" data-slide-to="0" class="active"></li>
+                                      <li data-target="#carousel-1" data-slide-to="1"></li>
+                                      <li data-target="#carousel-1" data-slide-to="2"></li>
+                                      <li data-target="#carousel-1" data-slide-to="3"></li>
+                                      <li data-target="#carousel-1" data-slide-to="4"></li>
+                                      <li data-target="#carousel-1" data-slide-to="5"></li>
+                    -->
+                </ol>
+                <!--Contenedor de los slide-->
+                <div class="carousel-inner" role="listbox">
+                    <div class="item active">
+                        <a href="verEvento.html"><img src="images/destacados/img1.jpg" width="1200px" class="img-responsive" alt=""></a>
+                    </div>
+                    <div class="item">
+                        <a href="verEvento.html"><img src="images/destacados/image2.jpg" width="1200px" class="img-responsive" alt=""></a>
+                    </div>
+                    <div class="item">
+                        <a href="verEvento.html"><img src="images/destacados/img3.jpg" width="1200px" class="img-responsive" alt=""></a>
+                    </div>
+                    <div class="item">
+                        <a href="verEvento.html"><img src="images/destacados/img4.jpg" width="1200px" class="img-responsive" alt=""></a>
+                    </div>
+                    <div class="item">
+                        <a href="verEvento.html"><img src="images/destacados/img5.jpg" width="1200px" class="img-responsive" alt=""></a>
+                    </div>
+                    <div class="item">
+                        <a href="verEvento.html"><img src="images/destacados/img6.jpg" width="1200px" class="img-responsive" alt=""></a>
+                    </div>
+                </div>
+                <!--Controles-->
+                <a href="#carousel-1" class="left carousel-control" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                </a>
+                <a href="#carousel-1" class="right carousel-control" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div><!--Fin del container-->
+
+<script>
+        function verEvento(){
+            window.open("ver_evento.html", "_self");
+        }
+        function buscar(){
+            window.open("index1.html", "_self");
+        }
+        function ingresar(){
+            window.open("mi_cuenta.html", "_self");
+        }
+</script>
+
+<script>
+       function select(){
+           document.getElementById("fila3").style.backgroundColor="#ddd";
+       }
+</script>

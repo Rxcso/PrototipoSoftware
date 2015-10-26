@@ -1,0 +1,97 @@
+﻿
+@{
+    ViewBag.Title = "BuscaReserva";
+    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li class="active">Reservas de clientes</li>
+        </ol>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row ">
+        <div class="col-md-1">
+            <label for="dni" class="control-label">Tipo Doc:</label>
+        </div>
+        <div class="col-md-2">
+            <select for="" class="form-control">
+                <option value="">DNI</option>
+                <option value="">Pasaporte</option>
+                <option value="">Carnet Extranjería</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label for="dni" class="control-label">N° Documento:</label>
+        </div>
+        <div class="col-md-2">
+            <div class="input-group">
+                <input id="dni" type="text" class="form-control">
+                <span class="input-group-btn"><button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
+            </div>
+        </div>
+
+        <div class="col-md-3 ">
+            <a href="carrito_compras.html" class="btn btn-primary pull-right">Pagar reserva <span class="glyphicon glyphicon-usd"></span></a>
+        </div>
+        <div class="col-md-2">
+            <a href="index2.html" class="btn btn-danger pull-right">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+        </div>
+    </div>
+
+
+
+
+
+    <div class="row">
+        <h4>Resultados:</h4><br>
+        <table class="table table-bordered table-hover">
+            <tr class="active">
+                <th>Código Reserva</th>
+                <th>Nombre</th>
+                <th>N° Doc</th>
+                <th>Evento</th>
+                <th>Cantidad Entradas</th>
+                <th>Monto</th>
+                <th>Moneda</th>
+            </tr>
+            <tr>
+                <td>105060</td>
+                <td>Espinoza Torres Henry Antonio</td>
+                <td>46618582</td>
+                <td>Circo de Kiko</td>
+                <td>4</td>
+                <td>180.00</td>
+                <td>Soles</td>
+            </tr>
+            <tr>
+                <td>102040</td>
+                <td>Espinoza Torres Henry Antonio</td>
+                <td>46618582</td>
+                <td>La Tarumba</td>
+                <td>2</td>
+                <td>45.50</td>
+                <td>Dolares</td>
+            </tr>
+            <tr id="fila3" onclick="select()">
+                <td>708090</td>
+                <td>Espinoza Torres Henry Antonio</td>
+                <td>46618582</td>
+                <td>Los 3 Chiflados</td>
+                <td>2</td>
+                <td>60.00</td>
+                <td>Soles</td>
+            </tr>
+        </table>
+    </div><br>
+
+
+
+
+    <br><br>
+
+
+</div><!--Fin del container-->

@@ -191,6 +191,11 @@ namespace WebApplication4.Controllers
             return View();
         }
 
+        public ActionResult BuscaReserva()
+        {
+            return View();
+        }
+
         public ActionResult MisCompras()
         {
             return View();
