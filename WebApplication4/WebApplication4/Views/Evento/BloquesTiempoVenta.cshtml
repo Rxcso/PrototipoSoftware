@@ -2,7 +2,6 @@
 @model BloqueTiempoListModel
 @{
     ViewBag.Title = "Register";
-    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
     List<VerificacionBTV> listaResultados = ViewBag.Resultados as List<VerificacionBTV>;
     int cantResultado = (listaResultados == null) ? 0 : listaResultados.Count;
 }
@@ -46,6 +45,7 @@
                         <table class="table table-bordered table-hover" id="bloqueDeTiempo">
                             <thead>
                                 <tr>
+                                    <td>N°</td>
                                     <td>Desde: </td>
                                     <td>Hasta: </td>
                                     <td>¿Quitar?</td>
@@ -57,6 +57,7 @@
                                     for (var i = 0; i < listaResultados.Count; i++)
                                     {
                                         <tr data-fechainicio="@listaResultados[i].fechaInicio.ToString("yyyy-MM-dd")" data-fechafin="@listaResultados[i].fechaFin.ToString("yyyy-MM-dd")">
+                                            <td>@(i+1)</td>
                                             <td>@listaResultados[i].fechaInicio.ToString("yyyy-MM-dd")</td>
                                             <td>@listaResultados[i].fechaFin.ToString("yyyy-MM-dd")</td>
                                             <td><input type="radio" name="groupBloquedeVenta" value="@(i+1)"></td>

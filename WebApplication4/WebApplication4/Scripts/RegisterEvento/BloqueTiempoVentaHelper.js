@@ -57,11 +57,13 @@ function nuevoBloque() {
                 row.setAttribute("data-fechaInicio", fechaInicio);
                 row.setAttribute("data-fechaFin", fechaFin);
                 row.id = rowId;
-                var cell1 = row.insertCell(0);//desde
+                var cell0 = row.insertCell(0);
+                cell0.innerHTML = row.id +1;
+                var cell1 = row.insertCell(1);//desde
                 cell1.innerHTML = fechaInicio;
-                var cell2 = row.insertCell(1);//hasta
+                var cell2 = row.insertCell(2);//hasta
                 cell2.innerHTML = fechaFin;
-                var cell3 = row.insertCell(2);
+                var cell3 = row.insertCell(3);
                 cell3.align = "center";
                 cell3.innerHTML = '<input type="radio" name="groupBloquedeVenta" value="' + (parseInt(row.id)) + '">';
 
@@ -82,6 +84,8 @@ function quitarBloque() {
     var fila = $('input[name="groupBloquedeVenta"]:checked').val();
     var row = document.getElementById(parseInt(fila));
     row.parentNode.removeChild(row);
+    var cantidad = parseInt($('#histBloque').val());
+    $("#histBloque").val(cantidad - 1);
 }
 function guardarBloques() {
     var nombreLista = "ListaBTM";

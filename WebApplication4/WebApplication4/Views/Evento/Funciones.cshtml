@@ -1,7 +1,6 @@
 ﻿@using WebApplication4.Models
 @{
     ViewBag.Title = "Register";
-    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
 }
 @model FuncionesListModel
 <div class="container-fluid">
@@ -13,33 +12,43 @@
     </div>
 </div>
 <div class="tab-pane fade in container" id="funciones">
-    <h3>Funciones del Evento</h3>
+    <h2>Funciones del Evento</h2><br />
     <div class="form-group col-md-10">
-        @Html.LabelFor(c => c.ListaFunciones[0].fechaFuncion, new { @class = "control-label col-md-2" })
+        @Html.LabelFor(c => c.ListaFunciones[0].fechaFuncion, new { @class = "control-label col-md-1" })
         <div class="col-md-4">
-            <input id="fechaInicioInput" class="form-control" type="date" required>
+            <input id="fechaFuncion" class="form-control" type="datetime-local" required>
         </div>
-        @Html.LabelFor(c => c.ListaFunciones[0].horaInicio, new { @class = "control-label col-md-2" })
+        @*@Html.LabelFor(c => c.ListaFunciones[0].horaInicio, new { @class = "control-label col-md-1" })
         <div class="col-md-4">
-            <input id="fechaFinInput" class="form-control" type="date" required>
-        </div>
+            <input id="horaFuncion" class="form-control" type="time" required>
+        </div>*@
     </div>
     @Html.Hidden("histFuncion", "0")
     <br>
-    <div>
-        <input id="btnAgregarFuncion" type="button" class="btn btn-primary" onclick="agregaFuncion()">Agregar función <span class="glyphicon glyphicon-plus"></span>
-        <button id="btnAgregarFuncion" type="button" class="btn btn-primary" onclick="eliminarFuncion()">Quitar función <span class="glyphicon glyphicon-remove"></span></button>
-    </div><br /><br />
-    @using (Html.BeginForm("Funciones", "Evento", FormMethod.Post))
+
+    @using (Html.BeginForm("Funciones", "Evento", FormMethod.Post, new { @id="formPost"}))
     {
+        <div class="form-group col-md-12">
+            <button id="btnAgregarFuncion" type="button" class="btn btn-primary" onclick="agregaFuncion()">Agregar función<span class="glyphicon glyphicon-plus"></span></button>
+            <button id="btnAgregarFuncion" type="button" class="btn btn-primary" onclick="eliminarFuncion()">Quitar función <span class="glyphicon glyphicon-remove"></span></button>
+            <button type="submit" class="btn btn-primary" style="float: right;" onclick="guardarFunciones()">Siguiente   <span class="glyphicon glyphicon-arrow-right"></span></button>
+        </div><br /><br />
+
         <div id="funciones" class="container">
+            <div class="row">
+                <table class="table table-bordered table-hover" id="bloqueFuncion">
+                    <thead>
+                        <tr>
+                            <td>N°</td>
+                            <td>Fecha:</td>
+                            <td>Hora:</td>
+                            <td>¿Quitar?</td>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
         </div>
     }
+    <script type="text/javascript" src="@Url.Content("/Scripts/RegisterEvento/FuncionesHelper.js")"></script>
 </div>
-<script>
-    function agregaFuncion() {
-        var cantFuncion = parseInt($("#histFuncion").val());
-        $('<div id="funcion_' + (cantFuncion + 1) + '" class="row" ><div class="col-md-1 col-md-offset-1"><label for="">Fecha:</label></div><div class="col-md-2"><input class="form-control" type="date"></div><div class="col-md-1 col-md-offset-1"><label for="">Hora:</label></div><div class="col-md-2"><input class="form-control" type="time"></div><div class="col-md-1"><input type="radio" name="groupFunciones" value="' + (cantFuncion + 1) + '"></div></div><br>').appendTo("#funciones");
-        $("#histFuncion").val(cantFuncion + 1);
-    }
-</script>

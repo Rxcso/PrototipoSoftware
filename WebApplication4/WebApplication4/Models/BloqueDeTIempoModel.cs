@@ -8,26 +8,19 @@ namespace WebApplication4.Models
 {
     public class BloqueDeTiempoModel
     {
-        [Required]
-        [Display(Name = "Fecha Inicio:")]
-        public string fechaInicio { get; set; }
-
-        [Required]
-        [Display(Name = "Fecha Fin:")]
-        public string fechaFin { get; set; }
-    }
-
-    public class VerificacionBTV
-    {
-        public VerificacionBTV()
+        public BloqueDeTiempoModel()
         {
             esCorrecto = true;
         }
+        [Required]
+        [Display(Name = "Fecha Inicio:")]
         public DateTime fechaInicio { get; set; }
+
+        [Required]
+        [Display(Name = "Fecha Fin:")]
         public DateTime fechaFin { get; set; }
         public bool esCorrecto { get; set; }
         public string razon { get; set; }
-
     }
 
     public class BloqueTiempoListModel

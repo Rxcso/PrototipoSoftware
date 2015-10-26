@@ -30,7 +30,6 @@ namespace WebApplication4.Controllers
             double m1;
             if (double.TryParse(montos, out m1) == false) return RedirectToAction("Apertura", "Ventas");
             double mS = double.Parse(montos);
-            double m2;
             if (double.TryParse(montod, out m1) == false) return RedirectToAction("Apertura", "Ventas");
             double mD = double.Parse(montod);
             db.Entry(turno).State = EntityState.Modified;
@@ -51,7 +50,6 @@ namespace WebApplication4.Controllers
             double m1;
             if (double.TryParse(montos, out m1) == false) return RedirectToAction("Cierre", "Ventas");
             double mS = double.Parse(montos);
-            double m2;
             if (double.TryParse(montod, out m1) == false) return RedirectToAction("Cierre", "Ventas");
             double mD = double.Parse(montod);
             db.Entry(turno).State = EntityState.Modified;

@@ -127,7 +127,7 @@ namespace WebApplication4.Controllers
             return View();
         }
 
-        private bool checkResultado(List<VerificacionBTV> lst)
+        private bool checkResultado(List<BloqueDeTiempoModel> lst)
         {
             for (int i = 0; i < lst.Count; i++)
                 if (lst[i].esCorrecto == false) return false;
@@ -137,7 +137,7 @@ namespace WebApplication4.Controllers
         [HttpPost]
         public ActionResult BloquesTiempoVenta(BloqueTiempoListModel model)
         {
-            List<VerificacionBTV> listaVerificacion = Validaciones.ValidarBloquesDeTiempoDeVenta(model);
+            List<BloqueDeTiempoModel> listaVerificacion = Validaciones.ValidarBloquesDeTiempoDeVenta(model);
             int idEvento = (int)TempData["idEventoCreado"];
             if (checkResultado(listaVerificacion))
             {
@@ -159,7 +159,7 @@ namespace WebApplication4.Controllers
         }
 
         [HttpPost]
-        public ActionResult Funciones(IEnumerable<FuncionesModel> funcionCI)
+        public ActionResult Funciones(FuncionesListModel model)
         {
             return View();
         }
