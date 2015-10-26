@@ -1,11 +1,10 @@
 ﻿@using WebApplication4.Models
+@model BloqueTiempoListModel
 @{
     ViewBag.Title = "Register";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
-    List<BloqueDeTiempoModel> listaBT = ViewBag.ListaBloqueTiempo as List<BloqueDeTiempoModel>;
 }
 
-@model List<BloqueDeTiempoModel>
 <div class="container-fluid">
     <div class="col-md-5">
         <ol class="breadcrumb">
@@ -21,55 +20,87 @@
             <button id="btnQuitarBloque" type="button" class="btn btn-primary" onclick="quitarBloque()">Quitar bloque <span class="glyphicon glyphicon-remove"></span></button>
         </div>
     </div>
-
+    <div class="col-md-2">
+        <label for="">Bloques de tiempo:</label>
+    </div><br />
     <div id="bloques" class="container">
-        <div class="col-md-2">
-            <label for="">Bloques de tiempo:</label>
+
+        <div class="form-group col-md-10">
+            @Html.LabelFor(c => c.ListaBTM[0].fechaInicio, new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                <input id="fechaInicioInput" class="form-control" type="date" required>
+            </div>
+            @Html.LabelFor(c => c.ListaBTM[0].fechaFin, new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                <input id="fechaFinInput" class="form-control" type="date" required>
+            </div>
         </div>
         @Html.Hidden("histBloque", "0")
-        @using (@Html.BeginForm("BloquesTiempoVenta", "Evento", FormMethod.Post))
+        @using (@Html.BeginForm("BloquesTiempoVenta", "Evento", FormMethod.Post, new { @id = "formPost" }))
         {
-            <table class="table table-bordered table-hover" id="bloqueDeTiempo">
-                <tshead>
-                    <tr class="thead">
-                        <td>Desde: </td>
-                        <td>Hasta: </td>
-                        <td>¿Quitar?</td>
-                    </tr>
-                </tshead>
-                <tbody>
-                    @for (int i = 0; i < Model.Count ;i++ )
-                    {
-                        <tr id="@i">
-                            <td>@Html.TextBoxFor(c => c[i].fechaInicio, new {@class="form-control", @type="date" })</td>
-                            <td>@Html.TextBoxFor(c => c[i].fechaFin, new { @class = "form-control", @type = "date" })</td>
-                        </tr>
-                        
-                    }
-                </tbody>
-            </table><br>
-            <button type="submit" class="btn btn-primary" style="float: right;" onclick="return confirm('¿Esta seguro?')">Siguiente   <span class="glyphicon glyphicon-arrow-right"></span></button>
+            <div class="container" id="bloques_tiempo">
+                <br>
+                <div id="bloques" class="container">
+                    <div id="bloque_1" class="row">
+                        <table class="table table-bordered table-hover" id="bloqueDeTiempo">
+                            <thead>
+                                <tr>
+                                    <td>Desde: </td>
+                                    <td>Hasta: </td>
+                                    <td>¿Quitar?</td>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table><br>
+                    </div><br>
+                    <button type="submit" class="btn btn-primary" style="float: right;" onclick="guardarBloques()">Siguiente   <span class="glyphicon glyphicon-arrow-right"></span></button>
+                </div>
+            </div>
         }
     </div>
 </div>
-
 <script>
     function nuevoBloque() {
-        var table = document.getElementById("bloqueDeTiempo");
-        var row = table.insertRow();
-        row.id = $("#histBloque").val();
-        var cell1 = row.insertCell(0);//desde
-        cell1.innerHTML = '<input  type="date" class="form-control" id="fechaInicio" name="fechaInicio">';
-        var cell2 = row.insertCell(1);//hasta
-        cell2.innerHTML = '<input  type="date" class="form-control" id="fechaFin" name="fechaFin">';
-        var cell3 = row.insertCell(2);
-        cell3.align = "center";
-        cell3.innerHTML = '<input type="radio" name="groupBloquedeVenta" value="' + (parseInt(row.id)) + '">';
-        $("#histBloque").val(parseInt(row.id) + 1);
+        var fechaInicio = $("#fechaInicioInput").val();
+        var fechaFin = $("#fechaFinInput").val();
+        //tiene que poner las fechas si o si
+        if (fechaInicio && fechaFin) {
+            //verificar fechas antes de hacer algo(que sea mayor o igual al año actual, fecha inicio < fecha fin)
+            var rowId = $("#histBloque").val();
+
+            var table = document.getElementById("bloqueDeTiempo");
+            var row = table.insertRow();
+            row.setAttribute("data-fechaInicio", fechaInicio);
+            row.setAttribute("data-fechaFin", fechaFin);
+            row.id = rowId;
+            var cell1 = row.insertCell(0);//desde
+            cell1.innerHTML = fechaInicio;
+            var cell2 = row.insertCell(1);//hasta
+            cell2.innerHTML = fechaFin;
+            var cell3 = row.insertCell(2);
+            cell3.align = "center";
+            cell3.innerHTML = '<input type="radio" name="groupBloquedeVenta" value="' + (parseInt(row.id)) + '">';
+
+            $("#fechaInicioInput").val('');
+            $("#fechaFinInput").val('');
+
+            $("#fechaInicioInput").focus();
+            $("#histBloque").val(parseInt(row.id) + 1);
+        }
     }
     function quitarBloque() {
         var fila = $('input[name="groupBloquedeVenta"]:checked').val();
         var row = document.getElementById(parseInt(fila));
         row.parentNode.removeChild(row);
+    }
+    function guardarBloques() {
+        var nombreLista = "ListaBTM";
+        var tableBTV = document.getElementById("bloqueDeTiempo");
+        for (var i = 1; i < tableBTV.rows.length; i++) {
+            var fechaInicio = tableBTV.rows[i].getAttribute("data-fechaInicio");
+            var fechaFin = tableBTV.rows[i].getAttribute("data-fechaFin");
+            $("#formPost").prepend("<input type='hidden' name='" + nombreLista + "[" + (i - 1) + "].fechaInicio' value='" + fechaInicio + "'>");
+            $("#formPost").prepend("<input type='hidden' name='" + nombreLista + "[" + (i - 1) + "].fechaFin' value='" + fechaFin + "'>");
+        }
     }
 </script>

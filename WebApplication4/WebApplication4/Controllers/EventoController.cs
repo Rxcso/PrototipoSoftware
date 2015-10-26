@@ -20,36 +20,6 @@ namespace WebApplication4.Controllers
         }
 
         [HttpGet]
-        public ActionResult Register()
-        {
-            List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
-            List<Region> listProv = new List<Region>();
-            ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
-            ViewBag.ProvID = new SelectList(listProv, "idProv", "nombre");
-            List<Categoria> listaCat = db.Categoria.Where(c => c.idCatPadre == null).ToList();
-            listaCat = listaCat.Where(c => c.activo == 1).ToList();
-            List<Categoria> listSubCat = new List<Categoria>();
-            ViewBag.CatID = new SelectList(listaCat, "idCategoria", "nombre");
-            ViewBag.SubID = new SelectList(listSubCat, "idSubCat", "nombre");
-            return View();
-        }
-
-        [HttpGet]
-        public ActionResult Register2()
-        {
-            List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
-            List<Region> listProv = new List<Region>();
-            ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
-            ViewBag.ProvID = new SelectList(listProv, "idProv", "nombre");
-            List<Categoria> listaCat = db.Categoria.Where(c => c.idCatPadre == null).ToList();
-            listaCat = listaCat.Where(c => c.activo == 1).ToList();
-            List<Categoria> listSubCat = new List<Categoria>();
-            ViewBag.CatID = new SelectList(listaCat, "idCategoria", "nombre");
-            ViewBag.SubID = new SelectList(listSubCat, "idSubCat", "nombre");
-            return View();
-        }
-
-        [HttpGet]
         public ActionResult DatosGenerales()
         {
             List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
@@ -82,7 +52,7 @@ namespace WebApplication4.Controllers
                 evento.estado = "Activo";
                 evento.monto_adeudado = 0;
                 evento.monto_transferir = 0;
-                evento.ImagenDestacado = "Soy un dummy :v";
+                evento.ImagenDestacado = "/Doesnt/Exists/Yet";
                 db.Eventos.Add(evento);
                 db.SaveChanges();
                 int id = evento.codigo;
@@ -104,27 +74,19 @@ namespace WebApplication4.Controllers
 
         public ActionResult BloquesTiempoVenta()
         {
-            List<BloqueDeTiempoModel> listaBloqueTiempo = new List<BloqueDeTiempoModel>();
-            return View(listaBloqueTiempo);
+            return View();
         }
 
         [HttpPost]
-        public ActionResult BloquesTiempoVenta(List<BloqueDeTiempoModel> model)
+        public ActionResult BloquesTiempoVenta(BloqueTiempoListModel model)
         {
-            //if (TempData["IdEventoCreado"] != null)
-            //{
-                int idEvento = 9;
-                for (int i = 0; i < model.Count; i++)
-                {
-                    PeriodoVenta perVenta = new PeriodoVenta();
-                    perVenta.codEvento = idEvento;
-                    perVenta.fechaInicio = model[i].fechaInicio;
-                    perVenta.fechaFin = model[i].fechaFin;
-                    db.PeriodoVenta.Add(perVenta);
-                    db.SaveChanges();
-                }
-                return View("Index","Evento");
-            //}
+            int i = 0;
+            while (i++ < 5)
+            {
+                string a = model.ListaBTM[i].fechaInicio;
+                string b = model.ListaBTM[i].fechaFin;
+            }
+            return View();
         }
 
         public ActionResult Funciones()
@@ -138,11 +100,6 @@ namespace WebApplication4.Controllers
             return View();
         }
 
-        public ViewResult Add()
-        {
-            return View("FuncionesRow", new FuncionesModel());
-        }
-        
         [HttpGet]
         public ActionResult Asientos(string evento)
         {

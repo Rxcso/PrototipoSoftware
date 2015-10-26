@@ -8,12 +8,16 @@ namespace WebApplication4.Models
 {
     public class BloqueDeTiempoModel
     {
-
         [Required]
-        [DataType(DataType.DateTime)]
-        public DateTime fechaInicio { get; set; }
+        [Display(Name="Fecha Inicio:")]
+        public string fechaInicio { get; set; }
+        
         [Required]
-        [DataType(DataType.DateTime)]
-        public DateTime fechaFin { get; set; }
+        [Display(Name = "Fecha Fin:")]
+        public string fechaFin { get; set; }
+    }
+    public class BloqueTiempoListModel
+    {
+        public List<BloqueDeTiempoModel> ListaBTM { get; set; }
     }
 }
