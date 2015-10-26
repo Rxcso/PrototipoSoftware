@@ -49,6 +49,7 @@ namespace WebApplication4.Controllers
             return View();
         }
 
+        [HttpGet]
         public ActionResult DatosGenerales()
         {
             List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
@@ -81,6 +82,7 @@ namespace WebApplication4.Controllers
                 evento.estado = "Activo";
                 evento.monto_adeudado = 0;
                 evento.monto_transferir = 0;
+                evento.ImagenDestacado = "Soy un dummy :v";
                 db.Eventos.Add(evento);
                 db.SaveChanges();
                 int id = evento.codigo;
@@ -88,20 +90,30 @@ namespace WebApplication4.Controllers
                 return View("BloquesTiempoVenta");
 
             }
-            return View("Register2",model);
+            List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
+            List<Region> listProv = new List<Region>();
+            ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
+            ViewBag.ProvID = new SelectList(listProv, "idProv", "nombre");
+            List<Categoria> listaCat = db.Categoria.Where(c => c.idCatPadre == null).ToList();
+            listaCat = listaCat.Where(c => c.activo == 1).ToList();
+            List<Categoria> listSubCat = new List<Categoria>();
+            ViewBag.CatID = new SelectList(listaCat, "idCategoria", "nombre");
+            ViewBag.SubID = new SelectList(listSubCat, "idSubCat", "nombre");
+            return View(model);
         }
 
         public ActionResult BloquesTiempoVenta()
         {
-            return View();
+            List<BloqueDeTiempoModel> listaBloqueTiempo = new List<BloqueDeTiempoModel>();
+            return View(listaBloqueTiempo);
         }
 
         [HttpPost]
         public ActionResult BloquesTiempoVenta(List<BloqueDeTiempoModel> model)
         {
-            if (TempData["IdEventoCreado"] != null)
-            {
-                int idEvento = (int)TempData["IdEventoCreado"];
+            //if (TempData["IdEventoCreado"] != null)
+            //{
+                int idEvento = 9;
                 for (int i = 0; i < model.Count; i++)
                 {
                     PeriodoVenta perVenta = new PeriodoVenta();
@@ -111,14 +123,24 @@ namespace WebApplication4.Controllers
                     db.PeriodoVenta.Add(perVenta);
                     db.SaveChanges();
                 }
-                return View("Funciones");
-            }
-            return View(model);
+                return View("Index","Evento");
+            //}
         }
 
         public ActionResult Funciones()
         {
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult Funciones(IEnumerable<FuncionesModel> funcionCI)
+        {
+            return View();
+        }
+
+        public ViewResult Add()
+        {
+            return View("FuncionesRow", new FuncionesModel());
         }
         [HttpGet]
         public ActionResult Asientos(string evento)

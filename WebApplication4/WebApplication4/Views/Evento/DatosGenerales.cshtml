@@ -2,7 +2,6 @@
 
 @{
     ViewBag.Title = "Register";
-    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
     var db = new inf245netsoft();
 }
 @model DatosGeneralesModel
@@ -21,7 +20,7 @@
         </div>
     </div>
     <div class="tab-content">
-        @using (Html.BeginForm("DatosGenerales", "Evento", FormMethod.Post))
+        @using (Html.BeginForm("DatosGenerales", "Evento", FormMethod.Post, new { }))
         {
             @Html.AntiForgeryToken()
             <div class="tab-pane active  fade in  container" id="generales">
@@ -39,7 +38,8 @@
                         @Html.LabelFor(c => c.idOrganizador, new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
                             <div class="input-group">
-                                @Html.TextBoxFor(c => c.idOrganizador, new { @class = "form-control", @readonly = true, @id = "organizadorNombre" })
+                                <input type="text" class="form-control" id="organizadorNombre" readonly/>
+                                @Html.HiddenFor(c => c.idOrganizador, new { @id="valOrganizador"})
                                 <span class="input-group-btn"><a href="#modalBuscarOrganizador" class="btn btn-primary" data-toggle="modal" type="button">Buscar <span class="glyphicon glyphicon-search"></span></a></span>
                             </div>
 
@@ -62,7 +62,8 @@
                         @Html.LabelFor(c => c.idLocal, new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
                             <div class="input-group">
-                                @Html.TextBoxFor(c => c.idLocal, new { @class = "form-control", @readonly = true, @id = "localNombre" })
+                                <input class="form-control" id="localNombre" readonly/>
+                                @Html.HiddenFor(c => c.idLocal, new { @id = "valLocal" })
                                 <span class="input-group-btn"><a href="#modalBuscarLocal" class="btn btn-primary" data-toggle="modal" type="button">Buscar <span class="glyphicon glyphicon-search"></span></a></span>
                             </div>
                         </div>
@@ -92,7 +93,7 @@
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary" style="float: right;">Siguiente   <span class="glyphicon glyphicon-arrow-right"></span></button>
+            <input type="submit" value="Siguiente" class="btn btn-default btn-primary" />
         }
     </div>
     <br />
@@ -126,7 +127,7 @@
                                         <td>@local.codLocal</td>
                                         <td>@local.aforo</td>
                                         <td>@local.ubicacion</td>
-                                        <td><input type="radio" name="groupL" value="@local.ubicacion"></td>
+                                        <td><input type="radio" id="@local.codLocal" name="groupL" value="@local.ubicacion"></td>
                                     </tr>
                                 }
                             </tbody>
@@ -168,7 +169,7 @@
                                     <tr>
                                         <td>@org.codOrg</td>
                                         <td>@org.nombOrg</td>
-                                        <td><input type="radio" name="groupO" value="@org.nombOrg"></td>
+                                        <td><input type="radio" id="@org.codOrg" name="groupO" value="@org.nombOrg"></td>
                                     </tr>
                                 }
                             </tbody>
@@ -233,12 +234,16 @@
     }
     function llenaOrg() {
         var nomb = $('input[name="groupO"]:checked').val();
+        var ids = $('input[name="groupO"]:checked').attr('id');
         $("#organizadorNombre").val(nomb);
+        $('#valOrganizador').val(ids);
         $('#modalBuscarOrganizador').modal('hide');
     }
     function llenaLocal() {
         var nomb = $('input[name="groupL"]:checked').val();
+        var idl = $('input[name="groupL"]:checked').attr('id');
         $("#localNombre").val(nomb);
+        $('#valLocal').val(idl);
         $('#modalBuscarLocal').modal('hide');
     }
 </script>
