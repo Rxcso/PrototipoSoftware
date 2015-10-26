@@ -6,44 +6,44 @@
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
     var db = new WebApplication4.Models.inf245netsoft();
     int idPunto;
-    if (Session["PuntoVentaLoguedo"] != null) {
-        idPunto = (int)Session["PuntoVentaLoguedo"];
-    }
-    else{ 
-        idPunto = 1;  
-    }            
-    CuentaUsuario cuenta = (CuentaUsuario)Session["UsuarioLogueado"];
-    TimeSpan da = DateTime.Now.TimeOfDay;
-    TurnoSistema ts=new TurnoSistema();
-    List<TurnoSistema> listaturno = db.TurnoSistema.AsNoTracking().Where(c => c.activo == true).ToList();
-    for(int i=0;i<listaturno.Count;i++){
-        if((TimeSpan.Parse(listaturno[i].horIni)<da) && (TimeSpan.Parse(listaturno[i].horFin)>da))
-        {
-            ts=listaturno[i];
-        }
-    }
-    Turno tu=null;
-    List<Turno> liT = new List<Turno>();
-    DateTime hoy = DateTime.Now;
-    //List<Turno> liT = db.Turno.AsNoTracking().Where(c => c.codPuntoVenta==idPunto && c.codTurnoSis==ts.codTurnoSis && c.usuario==cuenta.usuario).ToList();
-    if (cuenta != null)
-    {
-        liT = db.Turno.AsNoTracking().Where(j => j.usuario == cuenta.usuario && j.codPuntoVenta == idPunto && j.codTurnoSis == ts.codTurnoSis).ToList();
-    }
-    else{ 
-        liT = null;
-    }
-    if(liT!=null)
-    { 
-    for (int i = 0; i < liT.Count; i++)
-    {
-        if (liT[i].fecha.Date == hoy.Date){
-            tu = liT[i];
-            Session["TurnoHoy"] = tu;
-            break;
-        }
-    }
-    }
+    //if (Session["PuntoVentaLoguedo"] != null) {
+    //    idPunto = (int)Session["PuntoVentaLoguedo"];
+    //}
+    //else{ 
+    //    idPunto = 1;  
+    //}            
+    //CuentaUsuario cuenta = (CuentaUsuario)Session["UsuarioLogueado"];
+    //TimeSpan da = DateTime.Now.TimeOfDay;
+    //TurnoSistema ts=new TurnoSistema();
+    //List<TurnoSistema> listaturno = db.TurnoSistema.AsNoTracking().Where(c => c.activo == true).ToList();
+    //for(int i=0;i<listaturno.Count;i++){
+    //    if((TimeSpan.Parse(listaturno[i].horIni)<da) && (TimeSpan.Parse(listaturno[i].horFin)>da))
+    //    {
+    //        ts=listaturno[i];
+    //    }
+    //}
+    //Turno tu=null;
+    //List<Turno> liT = new List<Turno>();
+    //DateTime hoy = DateTime.Now;
+    ////List<Turno> liT = db.Turno.AsNoTracking().Where(c => c.codPuntoVenta==idPunto && c.codTurnoSis==ts.codTurnoSis && c.usuario==cuenta.usuario).ToList();
+    //if (cuenta != null)
+    //{
+    //    liT = db.Turno.AsNoTracking().Where(j => j.usuario == cuenta.usuario && j.codPuntoVenta == idPunto && j.codTurnoSis == ts.codTurnoSis).ToList();
+    //}
+    //else{ 
+    //    liT = null;
+    //}
+    //if(liT!=null)
+    //{ 
+    //for (int i = 0; i < liT.Count; i++)
+    //{
+    //    if (liT[i].fecha.Date == hoy.Date){
+    //        tu = liT[i];
+    //        Session["TurnoHoy"] = tu;
+    //        break;
+    //    }
+    //}
+    //}
     //tu = liT.First();
     //if (tu == null) {
     //    tu = new Turno();

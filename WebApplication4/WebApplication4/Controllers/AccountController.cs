@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using WebApplication4.Models;
+using System.Collections.Generic;
+using System.Data.Entity;
 
 namespace WebApplication4.Controllers
 {
@@ -91,7 +93,41 @@ namespace WebApplication4.Controllers
                         return Redirect("~/Home/Index");
                     else
                     {
-                        Session["PuntoVentaLoguedo"] = 1;
+                        if (cuentausuario.codPerfil == 2)
+                        {
+                            Turno tu = null;
+                            DateTime hoy = DateTime.Now;
+                            int idPunto = 1;
+                            TimeSpan da = DateTime.Now.TimeOfDay;
+                            TurnoSistema ts = new TurnoSistema();
+                            List<TurnoSistema> listaturno = db.TurnoSistema.AsNoTracking().Where(c => c.activo == true).ToList();
+                            for (int i = 0; i < listaturno.Count; i++)
+                            {
+                                if ((TimeSpan.Parse(listaturno[i].horIni) < da) && (TimeSpan.Parse(listaturno[i].horFin) > da))
+                                {
+                                    ts = listaturno[i];
+                                }
+                            }
+                            List<Turno> liT = new List<Turno>();
+                            liT = db.Turno.AsNoTracking().Where(j => j.usuario == cuentausuario.usuario && j.codPuntoVenta == idPunto && j.codTurnoSis == ts.codTurnoSis).ToList();
+                            Session["PuntoVentaLoguedo"] = idPunto;
+                            if (liT != null)
+                            {
+                                for (int i = 0; i < liT.Count; i++)
+                                {
+                                    if (liT[i].fecha.Date == hoy.Date)
+                                    {
+                                        tu = liT[i];
+                                        Session["TurnoHoy"] = tu;
+                                        break;
+                                    }
+                                }
+                            }
+                            db.Entry(tu).State = EntityState.Modified;                            
+                            tu.estado = "Asistio";
+                            db.SaveChanges();
+                            db.Entry(tu).State = EntityState.Detached;
+                        }
                         Session["UsuarioLogueado"] = cuentausuario;
                         return Redirect("~/Home/Index2");
                     }
