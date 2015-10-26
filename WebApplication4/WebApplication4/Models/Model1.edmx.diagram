@@ -63,6 +63,10 @@
         <EntityTypeShape EntityType="inf245netsoftModel.PeriodoVenta" Width="1.5" PointX="10.625" PointY="18.125" />
         <AssociationConnector Association="inf245netsoftModel.fk_EventoPV" />
         <EntityTypeShape EntityType="inf245netsoftModel.Politicas" Width="1.5" PointX="14.375" PointY="0.75" />
+        <EntityTypeShape EntityType="inf245netsoftModel.Asientos" Width="1.5" PointX="13.25" PointY="21.25" />
+        <EntityTypeShape EntityType="inf245netsoftModel.ZonaEvento" Width="1.5" PointX="11" PointY="20.875" />
+        <AssociationConnector Association="inf245netsoftModel.R_13" />
+        <AssociationConnector Association="inf245netsoftModel.R_21" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -10,6 +10,15 @@
     <Property Name="Model" Type="varbinary(max)" Nullable="false" />
     <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
   </EntityType>
+  <EntityType Name="Asientos">
+    <Key>
+      <PropertyRef Name="codAsiento" />
+    </Key>
+    <Property Name="fila" Type="int" />
+    <Property Name="columna" Type="int" />
+    <Property Name="codAsiento" Type="int" Nullable="false" />
+    <Property Name="codZona" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="AspNetRoles">
     <Key>
       <PropertyRef Name="Id" />
@@ -383,6 +392,18 @@
     <Property Name="total" Type="float" />
     <Property Name="codFuncion" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="ZonaEvento">
+    <Key>
+      <PropertyRef Name="codZona" />
+    </Key>
+    <Property Name="codZona" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="codEvento" Type="int" Nullable="false" />
+    <Property Name="nombre" Type="varchar" MaxLength="20" />
+    <Property Name="descripcion" Type="varchar" MaxLength="50" />
+    <Property Name="piso" Type="int" />
+    <Property Name="aforo" Type="int" />
+    <Property Name="codLocal" Type="int" Nullable="false" />
+  </EntityType>
   <Association Name="FK__RegaloXCu__usuar__4BAC3F29">
     <End Role="CuentaUsuario" Type="Self.CuentaUsuario" Multiplicity="1" />
     <End Role="RegaloXCuenta" Type="Self.RegaloXCuenta" Multiplicity="*" />
@@ -499,6 +520,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="R_13">
+    <End Role="ZonaEvento" Type="Self.ZonaEvento" Multiplicity="1" />
+    <End Role="Asientos" Type="Self.Asientos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ZonaEvento">
+        <PropertyRef Name="codZona" />
+      </Principal>
+      <Dependent Role="Asientos">
+        <PropertyRef Name="codZona" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="R_18">
     <End Role="Eventos" Type="Self.Eventos" Multiplicity="1" />
     <End Role="Pago" Type="Self.Pago" Multiplicity="*" />
@@ -532,6 +565,18 @@
       </Principal>
       <Dependent Role="Local">
         <PropertyRef Name="idProvincia" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_21">
+    <End Role="Eventos" Type="Self.Eventos" Multiplicity="1" />
+    <End Role="ZonaEvento" Type="Self.ZonaEvento" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Eventos">
+        <PropertyRef Name="codigo" />
+      </Principal>
+      <Dependent Role="ZonaEvento">
+        <PropertyRef Name="codEvento" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -765,6 +810,7 @@
   </Association>
   <EntityContainer Name="inf245netsoftModelStoreContainer">
     <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Asientos" EntityType="Self.Asientos" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
@@ -795,6 +841,7 @@
     <EntitySet Name="TurnoSistema" EntityType="Self.TurnoSistema" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Ventas" EntityType="Self.Ventas" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="VentasXFuncion" EntityType="Self.VentasXFuncion" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ZonaEvento" EntityType="Self.ZonaEvento" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK__RegaloXCu__usuar__4BAC3F29" Association="Self.FK__RegaloXCu__usuar__4BAC3F29">
       <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
       <End Role="RegaloXCuenta" EntitySet="RegaloXCuenta" />
@@ -831,6 +878,10 @@
       <End Role="TurnoSistema" EntitySet="TurnoSistema" />
       <End Role="Turno" EntitySet="Turno" />
     </AssociationSet>
+    <AssociationSet Name="R_13" Association="Self.R_13">
+      <End Role="ZonaEvento" EntitySet="ZonaEvento" />
+      <End Role="Asientos" EntitySet="Asientos" />
+    </AssociationSet>
     <AssociationSet Name="R_18" Association="Self.R_18">
       <End Role="Eventos" EntitySet="Eventos" />
       <End Role="Pago" EntitySet="Pago" />
@@ -842,6 +893,10 @@
     <AssociationSet Name="R_20" Association="Self.R_20">
       <End Role="Region" EntitySet="Region" />
       <End Role="Local" EntitySet="Local" />
+    </AssociationSet>
+    <AssociationSet Name="R_21" Association="Self.R_21">
+      <End Role="Eventos" EntitySet="Eventos" />
+      <End Role="ZonaEvento" EntitySet="ZonaEvento" />
     </AssociationSet>
     <AssociationSet Name="R_26" Association="Self.R_26">
       <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />

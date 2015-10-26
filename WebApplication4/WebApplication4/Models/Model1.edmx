@@ -15,6 +15,15 @@
           <Property Name="Model" Type="varbinary(max)" Nullable="false" />
           <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
         </EntityType>
+        <EntityType Name="Asientos">
+          <Key>
+            <PropertyRef Name="codAsiento" />
+          </Key>
+          <Property Name="fila" Type="int" />
+          <Property Name="columna" Type="int" />
+          <Property Name="codAsiento" Type="int" Nullable="false" />
+          <Property Name="codZona" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -388,6 +397,18 @@
           <Property Name="total" Type="float" />
           <Property Name="codFuncion" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="ZonaEvento">
+          <Key>
+            <PropertyRef Name="codZona" />
+          </Key>
+          <Property Name="codZona" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="codEvento" Type="int" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="20" />
+          <Property Name="descripcion" Type="varchar" MaxLength="50" />
+          <Property Name="piso" Type="int" />
+          <Property Name="aforo" Type="int" />
+          <Property Name="codLocal" Type="int" Nullable="false" />
+        </EntityType>
         <Association Name="FK__RegaloXCu__usuar__4BAC3F29">
           <End Role="CuentaUsuario" Type="Self.CuentaUsuario" Multiplicity="1" />
           <End Role="RegaloXCuenta" Type="Self.RegaloXCuenta" Multiplicity="*" />
@@ -504,6 +525,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="R_13">
+          <End Role="ZonaEvento" Type="Self.ZonaEvento" Multiplicity="1" />
+          <End Role="Asientos" Type="Self.Asientos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZonaEvento">
+              <PropertyRef Name="codZona" />
+            </Principal>
+            <Dependent Role="Asientos">
+              <PropertyRef Name="codZona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="R_18">
           <End Role="Eventos" Type="Self.Eventos" Multiplicity="1" />
           <End Role="Pago" Type="Self.Pago" Multiplicity="*" />
@@ -537,6 +570,18 @@
             </Principal>
             <Dependent Role="Local">
               <PropertyRef Name="idProvincia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_21">
+          <End Role="Eventos" Type="Self.Eventos" Multiplicity="1" />
+          <End Role="ZonaEvento" Type="Self.ZonaEvento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Eventos">
+              <PropertyRef Name="codigo" />
+            </Principal>
+            <Dependent Role="ZonaEvento">
+              <PropertyRef Name="codEvento" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -770,6 +815,7 @@
         </Association>
         <EntityContainer Name="inf245netsoftModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Asientos" EntityType="Self.Asientos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
@@ -800,6 +846,7 @@
           <EntitySet Name="TurnoSistema" EntityType="Self.TurnoSistema" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ventas" EntityType="Self.Ventas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="VentasXFuncion" EntityType="Self.VentasXFuncion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ZonaEvento" EntityType="Self.ZonaEvento" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__RegaloXCu__usuar__4BAC3F29" Association="Self.FK__RegaloXCu__usuar__4BAC3F29">
             <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
             <End Role="RegaloXCuenta" EntitySet="RegaloXCuenta" />
@@ -836,6 +883,10 @@
             <End Role="TurnoSistema" EntitySet="TurnoSistema" />
             <End Role="Turno" EntitySet="Turno" />
           </AssociationSet>
+          <AssociationSet Name="R_13" Association="Self.R_13">
+            <End Role="ZonaEvento" EntitySet="ZonaEvento" />
+            <End Role="Asientos" EntitySet="Asientos" />
+          </AssociationSet>
           <AssociationSet Name="R_18" Association="Self.R_18">
             <End Role="Eventos" EntitySet="Eventos" />
             <End Role="Pago" EntitySet="Pago" />
@@ -847,6 +898,10 @@
           <AssociationSet Name="R_20" Association="Self.R_20">
             <End Role="Region" EntitySet="Region" />
             <End Role="Local" EntitySet="Local" />
+          </AssociationSet>
+          <AssociationSet Name="R_21" Association="Self.R_21">
+            <End Role="Eventos" EntitySet="Eventos" />
+            <End Role="ZonaEvento" EntitySet="ZonaEvento" />
           </AssociationSet>
           <AssociationSet Name="R_26" Association="Self.R_26">
             <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
@@ -1101,6 +1156,16 @@
             <End Role="PeriodoVenta" EntitySet="PeriodoVenta" />
           </AssociationSet>
           <EntitySet Name="Politicas" EntityType="inf245netsoftModel.Politicas" />
+          <EntitySet Name="Asientos" EntityType="inf245netsoftModel.Asientos" />
+          <EntitySet Name="ZonaEvento" EntityType="inf245netsoftModel.ZonaEvento" />
+          <AssociationSet Name="R_13" Association="inf245netsoftModel.R_13">
+            <End Role="ZonaEvento" EntitySet="ZonaEvento" />
+            <End Role="Asientos" EntitySet="Asientos" />
+          </AssociationSet>
+          <AssociationSet Name="R_21" Association="inf245netsoftModel.R_21">
+            <End Role="Eventos" EntitySet="Eventos" />
+            <End Role="ZonaEvento" EntitySet="ZonaEvento" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Perfiles">
           <Key>
@@ -1350,6 +1415,7 @@
           <NavigationProperty Name="Funcion" Relationship="inf245netsoftModel.R_43" FromRole="Eventos" ToRole="Funcion" />
           <NavigationProperty Name="PeriodoVenta" Relationship="inf245netsoftModel.fk_EventoPV" FromRole="Eventos" ToRole="PeriodoVenta" />
           <Property Name="direccion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ZonaEvento" Relationship="inf245netsoftModel.R_21" FromRole="Eventos" ToRole="ZonaEvento" />
         </EntityType>
         <Association Name="fk_EventoRegion">
           <End Type="inf245netsoftModel.Region" Role="Region" Multiplicity="0..1" />
@@ -1837,6 +1903,54 @@
           <Property Name="valor" Type="Int32" />
           <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="Asientos">
+          <Key>
+            <PropertyRef Name="codAsiento" />
+          </Key>
+          <Property Name="fila" Type="Int32" />
+          <Property Name="columna" Type="Int32" />
+          <Property Name="codAsiento" Type="Int32" Nullable="false" />
+          <Property Name="codZona" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ZonaEvento" Relationship="inf245netsoftModel.R_13" FromRole="Asientos" ToRole="ZonaEvento" />
+        </EntityType>
+        <EntityType Name="ZonaEvento">
+          <Key>
+            <PropertyRef Name="codZona" />
+          </Key>
+          <Property Name="codZona" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="codEvento" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="piso" Type="Int32" />
+          <Property Name="aforo" Type="Int32" />
+          <Property Name="codLocal" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Asientos" Relationship="inf245netsoftModel.R_13" FromRole="ZonaEvento" ToRole="Asientos" />
+          <NavigationProperty Name="Eventos" Relationship="inf245netsoftModel.R_21" FromRole="ZonaEvento" ToRole="Eventos" />
+        </EntityType>
+        <Association Name="R_13">
+          <End Type="inf245netsoftModel.ZonaEvento" Role="ZonaEvento" Multiplicity="1" />
+          <End Type="inf245netsoftModel.Asientos" Role="Asientos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZonaEvento">
+              <PropertyRef Name="codZona" />
+            </Principal>
+            <Dependent Role="Asientos">
+              <PropertyRef Name="codZona" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_21">
+          <End Type="inf245netsoftModel.Eventos" Role="Eventos" Multiplicity="1" />
+          <End Type="inf245netsoftModel.ZonaEvento" Role="ZonaEvento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Eventos">
+              <PropertyRef Name="codigo" />
+            </Principal>
+            <Dependent Role="ZonaEvento">
+              <PropertyRef Name="codEvento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2240,6 +2354,29 @@
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
                 <ScalarProperty Name="valor" ColumnName="valor" />
                 <ScalarProperty Name="codigo" ColumnName="codigo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Asientos">
+            <EntityTypeMapping TypeName="inf245netsoftModel.Asientos">
+              <MappingFragment StoreEntitySet="Asientos">
+                <ScalarProperty Name="codZona" ColumnName="codZona" />
+                <ScalarProperty Name="codAsiento" ColumnName="codAsiento" />
+                <ScalarProperty Name="columna" ColumnName="columna" />
+                <ScalarProperty Name="fila" ColumnName="fila" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ZonaEvento">
+            <EntityTypeMapping TypeName="inf245netsoftModel.ZonaEvento">
+              <MappingFragment StoreEntitySet="ZonaEvento">
+                <ScalarProperty Name="codLocal" ColumnName="codLocal" />
+                <ScalarProperty Name="aforo" ColumnName="aforo" />
+                <ScalarProperty Name="piso" ColumnName="piso" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="codEvento" ColumnName="codEvento" />
+                <ScalarProperty Name="codZona" ColumnName="codZona" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

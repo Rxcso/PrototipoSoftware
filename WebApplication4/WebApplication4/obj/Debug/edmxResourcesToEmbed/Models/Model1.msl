@@ -401,5 +401,28 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Asientos">
+      <EntityTypeMapping TypeName="inf245netsoftModel.Asientos">
+        <MappingFragment StoreEntitySet="Asientos">
+          <ScalarProperty Name="codZona" ColumnName="codZona" />
+          <ScalarProperty Name="codAsiento" ColumnName="codAsiento" />
+          <ScalarProperty Name="columna" ColumnName="columna" />
+          <ScalarProperty Name="fila" ColumnName="fila" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ZonaEvento">
+      <EntityTypeMapping TypeName="inf245netsoftModel.ZonaEvento">
+        <MappingFragment StoreEntitySet="ZonaEvento">
+          <ScalarProperty Name="codLocal" ColumnName="codLocal" />
+          <ScalarProperty Name="aforo" ColumnName="aforo" />
+          <ScalarProperty Name="piso" ColumnName="piso" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="codEvento" ColumnName="codEvento" />
+          <ScalarProperty Name="codZona" ColumnName="codZona" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

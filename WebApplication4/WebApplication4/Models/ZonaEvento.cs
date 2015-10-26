@@ -12,22 +12,22 @@ namespace WebApplication4.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class PuntoVenta
+    public partial class ZonaEvento
     {
-        public PuntoVenta()
+        public ZonaEvento()
         {
-            this.Turno = new HashSet<Turno>();
+            this.Asientos = new HashSet<Asientos>();
         }
     
-        public int codPuntoVenta { get; set; }
-        public string ubicacion { get; set; }
-        public Nullable<bool> estaActivo { get; set; }
-        public string dirMAC { get; set; }
-        public Nullable<int> idProvincia { get; set; }
-        public Nullable<int> idRegion { get; set; }
+        public int codZona { get; set; }
+        public int codEvento { get; set; }
+        public string nombre { get; set; }
+        public string descripcion { get; set; }
+        public Nullable<int> piso { get; set; }
+        public Nullable<int> aforo { get; set; }
+        public int codLocal { get; set; }
     
-        public virtual Region Region { get; set; }
-        public virtual Region Region1 { get; set; }
-        public virtual ICollection<Turno> Turno { get; set; }
+        public virtual ICollection<Asientos> Asientos { get; set; }
+        public virtual Eventos Eventos { get; set; }
     }
 }
