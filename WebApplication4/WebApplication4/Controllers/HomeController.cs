@@ -13,7 +13,7 @@ namespace WebApplication4.Controllers
 
         public ActionResult Index()
         {
-            List<Eventos> listaDestacados = db.Eventos.AsNoTracking().Where(c => (c.ImagenDestacado != null) && (c.ImagenDestacado != MagicHelpers.NuevoEvento)).ToList();
+            List<Eventos> listaDestacados = db.Eventos.AsNoTracking().Where(c => (c.ImagenDestacado != null)).ToList();
             ViewBag.ListaDestacados = listaDestacados;
             return View();
         }
