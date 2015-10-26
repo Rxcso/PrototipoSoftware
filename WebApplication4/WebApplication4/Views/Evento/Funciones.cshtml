@@ -3,7 +3,7 @@
     ViewBag.Title = "Register";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
 }
-@model FuncionesModel
+@model FuncionesListModel
 <div class="container-fluid">
     <div class="col-md-5">
         <ol class="breadcrumb">
@@ -14,6 +14,16 @@
 </div>
 <div class="tab-pane fade in container" id="funciones">
     <h3>Funciones del Evento</h3>
+    <div class="form-group col-md-10">
+        @Html.LabelFor(c => c.ListaFunciones[0].fechaFuncion, new { @class = "control-label col-md-2" })
+        <div class="col-md-4">
+            <input id="fechaInicioInput" class="form-control" type="date" required>
+        </div>
+        @Html.LabelFor(c => c.ListaFunciones[0].horaInicio, new { @class = "control-label col-md-2" })
+        <div class="col-md-4">
+            <input id="fechaFinInput" class="form-control" type="date" required>
+        </div>
+    </div>
     @Html.Hidden("histFuncion", "0")
     <br>
     <div>

@@ -19,4 +19,8 @@ namespace WebApplication4.Models
         public DateTime horaInicio { get; set; }
 
     }
+    public class FuncionesListModel
+    {
+        public List<FuncionesModel> ListaFunciones { get; set; }
+    }
 }
