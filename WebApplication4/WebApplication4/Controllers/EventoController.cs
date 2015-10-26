@@ -77,16 +77,29 @@ namespace WebApplication4.Controllers
             return View();
         }
 
+        private bool checkResultado(List<VerificacionBTV> lst)
+        {
+            for (int i = 0; i < lst.Count; i++)
+                if (lst[i].esCorrecto == false) return false;
+            return true;
+        }
         [HttpPost]
         public ActionResult BloquesTiempoVenta(BloqueTiempoListModel model)
         {
-            
-            int i = 0;
-            while (i++ < 5)
+            List<VerificacionBTV> listaVerificacion = Validaciones.ValidarBloquesDeTiempoDeVenta(model);
+            int idEvento = (int)TempData["idEventoCreado"];
+            if (checkResultado(listaVerificacion))
             {
-                string a = model.ListaBTM[i].fechaInicio;
-                string b = model.ListaBTM[i].fechaFin;
+                
+                for (int i = 0; i < listaVerificacion.Count; i++)
+                {
+                    PeriodoVenta periodoVenta = new PeriodoVenta();
+                    periodoVenta.fechaInicio = listaVerificacion[i].fechaInicio;
+                    periodoVenta.fechaFin = listaVerificacion[i].fechaFin;
+                    periodoVenta.codEvento = idEvento;
+                }
             }
+            ViewBag.Resultados = listaVerificacion;
             return View();
         }
 
