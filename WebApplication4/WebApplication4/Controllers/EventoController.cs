@@ -76,7 +76,7 @@ namespace WebApplication4.Controllers
             List<Region> listProv = new List<Region>();
             ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
             ViewBag.ProvID = new SelectList(listProv, "idProv", "nombre");
-            List<Categoria> listaCat = db.Categoria.Where(c => c.idCatPadre == null).ToList();
+            List<Categoria> listaCat = db.Categoria.Where(c => c.idCatPadre == MagicHelpers.Categorias).ToList();
             listaCat = listaCat.Where(c => c.activo == 1).ToList();
             List<Categoria> listSubCat = new List<Categoria>();
             ViewBag.CatID = new SelectList(listaCat, "idCategoria", "nombre");
@@ -102,7 +102,7 @@ namespace WebApplication4.Controllers
                 evento.estado = "Activo";
                 evento.monto_adeudado = 0;
                 evento.monto_transferir = 0;
-                evento.ImagenDestacado = "/Doesnt/Exists/Yet";
+                evento.ImagenDestacado = MagicHelpers.NuevoEvento;
                 db.Eventos.Add(evento);
                 db.SaveChanges();
                 int id = evento.codigo;
@@ -114,7 +114,7 @@ namespace WebApplication4.Controllers
             List<Region> listProv = new List<Region>();
             ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
             ViewBag.ProvID = new SelectList(listProv, "idProv", "nombre");
-            List<Categoria> listaCat = db.Categoria.Where(c => c.idCatPadre == null).ToList();
+            List<Categoria> listaCat = db.Categoria.Where(c => c.idCatPadre == MagicHelpers.Categorias).ToList();
             listaCat = listaCat.Where(c => c.activo == 1).ToList();
             List<Categoria> listSubCat = new List<Categoria>();
             ViewBag.CatID = new SelectList(listaCat, "idCategoria", "nombre");
