@@ -1,0 +1,36 @@
+﻿@using WebApplication4.Models
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+}
+@model FuncionesModel
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li><a href="@Url.Action("Index","Evento")">Mantenimiento de eventos</a></li>
+            <li class="active">Nuevo evento</li>
+        </ol>
+    </div>
+</div>
+<div class="tab-pane fade in container" id="funciones">
+    <h3>Funciones del Evento</h3>
+    @Html.Hidden("histFuncion", "0")
+    <br>
+    <div>
+    
+        <input id="btnAgregarFuncion" type="button" class="btn btn-primary" onclick="agregaFuncion()">Agregar función <span class="glyphicon glyphicon-plus"></span>
+        <button id="btnAgregarFuncion" type="button" class="btn btn-primary" onclick="eliminarFuncion()">Quitar función <span class="glyphicon glyphicon-remove"></span></button>
+    </div><br /><br />
+    @using (Html.BeginForm("Funciones", "Evento", FormMethod.Post))
+    {
+        <div id="funciones" class="container">
+        </div>
+    }
+</div>
+<script>
+    function agregaFuncion() {
+        var cantFuncion = parseInt($("#histFuncion").val());
+        $('<div id="funcion_' + (cantFuncion + 1) + '" class="row" ><div class="col-md-1 col-md-offset-1"><label for="">Fecha:</label></div><div class="col-md-2"><input class="form-control" type="date"></div><div class="col-md-1 col-md-offset-1"><label for="">Hora:</label></div><div class="col-md-2"><input class="form-control" type="time"></div><div class="col-md-1"><input type="radio" name="groupFunciones" value="' + (cantFuncion + 1) + '"></div></div><br>').appendTo("#funciones");
+        $("#histFuncion").val(cantFuncion + 1);
+    }
+</script>

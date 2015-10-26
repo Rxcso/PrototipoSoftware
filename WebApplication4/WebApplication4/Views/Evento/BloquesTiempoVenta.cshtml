@@ -1,0 +1,75 @@
+﻿@using WebApplication4.Models
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+    List<BloqueDeTiempoModel> listaBT = ViewBag.ListaBloqueTiempo as List<BloqueDeTiempoModel>;
+}
+
+@model List<BloqueDeTiempoModel>
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li><a href="@Url.Action("Index","Evento")">Mantenimiento de eventos</a></li>
+            <li class="active">Nuevo evento</li>
+        </ol>
+    </div>
+</div>
+<div class="container" id="bloques_tiempo">
+    <div class="col-md-4">
+        <div class="form-group">
+            <button id="btnAgregarBloque" type="button" class="btn btn-primary" onclick="nuevoBloque()">Añadir bloque <span class="glyphicon glyphicon-plus"></span></button>
+            <button id="btnQuitarBloque" type="button" class="btn btn-primary" onclick="quitarBloque()">Quitar bloque <span class="glyphicon glyphicon-remove"></span></button>
+        </div>
+    </div>
+
+    <div id="bloques" class="container">
+        <div class="col-md-2">
+            <label for="">Bloques de tiempo:</label>
+        </div>
+        @Html.Hidden("histBloque", "0")
+        @using (@Html.BeginForm("BloquesTiempoVenta", "Evento", FormMethod.Post))
+        {
+            <table class="table table-bordered table-hover" id="bloqueDeTiempo">
+                <tshead>
+                    <tr class="thead">
+                        <td>Desde: </td>
+                        <td>Hasta: </td>
+                        <td>¿Quitar?</td>
+                    </tr>
+                </tshead>
+                <tbody>
+                    @for (int i = 0; i < Model.Count ;i++ )
+                    {
+                        <tr id="@i">
+                            <td>@Html.TextBoxFor(c => c[i].fechaInicio, new {@class="form-control", @type="date" })</td>
+                            <td>@Html.TextBoxFor(c => c[i].fechaFin, new { @class = "form-control", @type = "date" })</td>
+                        </tr>
+                        
+                    }
+                </tbody>
+            </table><br>
+            <button type="submit" class="btn btn-primary" style="float: right;" onclick="return confirm('¿Esta seguro?')">Siguiente   <span class="glyphicon glyphicon-arrow-right"></span></button>
+        }
+    </div>
+</div>
+
+<script>
+    function nuevoBloque() {
+        var table = document.getElementById("bloqueDeTiempo");
+        var row = table.insertRow();
+        row.id = $("#histBloque").val();
+        var cell1 = row.insertCell(0);//desde
+        cell1.innerHTML = '<input  type="date" class="form-control" id="fechaInicio" name="fechaInicio">';
+        var cell2 = row.insertCell(1);//hasta
+        cell2.innerHTML = '<input  type="date" class="form-control" id="fechaFin" name="fechaFin">';
+        var cell3 = row.insertCell(2);
+        cell3.align = "center";
+        cell3.innerHTML = '<input type="radio" name="groupBloquedeVenta" value="' + (parseInt(row.id)) + '">';
+        $("#histBloque").val(parseInt(row.id) + 1);
+    }
+    function quitarBloque() {
+        var fila = $('input[name="groupBloquedeVenta"]:checked').val();
+        var row = document.getElementById(parseInt(fila));
+        row.parentNode.removeChild(row);
+    }
+</script>

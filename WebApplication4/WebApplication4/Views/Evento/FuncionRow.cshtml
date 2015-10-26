@@ -1,0 +1,26 @@
+﻿@using WebApplication4.Models
+@model FuncionesModel
+<div>
+    @using (Html.BeginForm("funcionCI"))
+    {
+        <div class="row">
+            <div class="col-md-1 col-md-offset-1">
+                @Html.LabelFor(c => c.fechaFuncion)
+            </div>
+            <div class="col-md-2">
+                @Html.TextBoxFor(c => c.fechaFuncion, new { @class = "form-control", @type = "date" })
+            </div>
+            <div class="col-md-1 col-md-offset-1">
+                @Html.LabelFor(c => c.horaInicio)
+            </div>
+            <div class="col-md-2">
+                @Html.TextBoxFor(c => c.horaInicio, new { @class = "form-control", @type = "time" })
+            </div>
+            <div class="col-md-1">
+                <input type="radio" name="groupFunciones" value="' + (cantFuncion + 1) + '">
+            </div>
+        </div>
+        <a href="#" class="deleteRow">delete</a>
+        <br>
+    }
+</div>
