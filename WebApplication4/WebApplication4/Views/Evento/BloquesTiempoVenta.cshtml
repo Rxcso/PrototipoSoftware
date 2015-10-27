@@ -1,0 +1,76 @@
+﻿@using WebApplication4.Models
+@model BloqueTiempoListModel
+@{
+    ViewBag.Title = "Register";
+    List<BloqueDeTiempoModel> listaResultados = ViewBag.Resultados as List<BloqueDeTiempoModel>;
+    int cantResultado = (listaResultados == null) ? 0 : listaResultados.Count;
+}
+
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li><a href="@Url.Action("Index","Evento")">Mantenimiento de eventos</a></li>
+            <li class="active">Nuevo evento</li>
+        </ol>
+    </div>
+</div>
+<div class="container" id="bloques_tiempo">
+    <div class="col-md-4">
+        <div class="form-group">
+            <button id="btnAgregarBloque" type="button" class="btn btn-primary" onclick="nuevoBloque()">Añadir bloque <span class="glyphicon glyphicon-plus"></span></button>
+            <button id="btnQuitarBloque" type="button" class="btn btn-primary" onclick="quitarBloque()">Quitar bloque <span class="glyphicon glyphicon-remove"></span></button>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <label for="">Bloques de tiempo:</label>
+    </div><br />
+    <div id="bloques" class="container">
+        <div class="form-group col-md-10">
+            @Html.LabelFor(c => c.ListaBTM[0].fechaInicio, new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                <input id="fechaInicioInput" class="form-control" type="date" required>
+            </div>
+            @Html.LabelFor(c => c.ListaBTM[0].fechaFin, new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                <input id="fechaFinInput" class="form-control" type="date" required>
+            </div>
+        </div>
+        @Html.Hidden("histBloque", "" + cantResultado)
+        @using (@Html.BeginForm("BloquesTiempoVenta", "Evento", FormMethod.Post, new { @id = "formPost" }))
+        {
+            <div class="container" id="bloques_tiempo">
+                <br>
+                <div id="bloques" class="container">
+                    <div id="bloque_1" class="row">
+                        <table class="table table-bordered table-hover" id="bloqueDeTiempo">
+                            <thead>
+                                <tr>
+                                    <td>N°</td>
+                                    <td>Desde: </td>
+                                    <td>Hasta: </td>
+                                    <td>¿Quitar?</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (listaResultados != null)
+                                {
+                                    for (var i = 0; i < listaResultados.Count; i++)
+                                    {
+                                        <tr data-fechainicio="@listaResultados[i].fechaInicio.ToString("yyyy-MM-dd")" data-fechafin="@listaResultados[i].fechaFin.ToString("yyyy-MM-dd")">
+                                            <td>@(i+1)</td>
+                                            <td>@listaResultados[i].fechaInicio.ToString("yyyy-MM-dd")</td>
+                                            <td>@listaResultados[i].fechaFin.ToString("yyyy-MM-dd")</td>
+                                            <td><input type="radio" name="groupBloquedeVenta" value="@(i+1)"></td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table><br>
+                    </div><br>
+                    <button type="submit" class="btn btn-primary" style="float: right;" onclick="guardarBloques()">Siguiente   <span class="glyphicon glyphicon-arrow-right"></span></button>
+                </div>
+            </div>
+        }
+    </div>
+    <script type="text/javascript" src="@Url.Content("/Scripts/RegisterEvento/BloqueTiempoVentaHelper.js")"></script>
+</div>

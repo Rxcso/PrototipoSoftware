@@ -50,9 +50,9 @@
                                 Módulo de venta <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="buscar-evento(vendedor).html">Buscar eventos</a></li>
+                                <li><a href="@Url.Action("Busqueda", "Evento")">Buscar eventos</a></li>
                                 <li><a href="@Url.Action("Entrega", "Ventas")">Entregar boletos</a></li>
-                                <li><a href="pagar_reserva(vendedor).html">Buscar reserva</a></li>
+                                <li><a href="@Url.Action("BuscaReserva","CuentaUsuario")">Buscar reserva</a></li>
                                 <li><a href="@Url.Action("Devolucion", "Ventas")">Devolución</a></li>
                                 <li class="divider"></li>
                                 <li><a href="@Url.Action("BuscaCliente", "CuentaUsuario")">Buscar cliente</a></li>
@@ -69,7 +69,7 @@
                             <ul class="dropdown-menu">
                                 <!--Administrador-->
                                 <li><a href="@Url.Action("Asignacion", "CuentaUsuario")">Asignar turnos y puntos de venta</a></li>
-                                <li><a href="mantener_politicas.html">Políticas de la empresa</a></li>
+                                <li><a href="@Url.Action("Politicas", "CuentaUsuario")">Políticas de la empresa</a></li>
                                 <li><a href="@Url.Action("Index", "TipoDeCambio")">Tipo de cambio</a></li>
                                 <li><a href="@Url.Action("Pago", "Ventas")">Registrar pagos</a></li>
                             </ul>

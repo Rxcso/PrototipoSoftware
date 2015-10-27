@@ -3,304 +3,303 @@
 
 @{
     var esIntranet = 0;
-    var nombre ="";
+    var nombre = "";
     if (Request.IsAuthenticated)
     {
         var act = User.Identity.GetUserName();
-        var cuenta=new CuentaUsuario();
+        var cuenta = new CuentaUsuario();
         inf245netsoft db = new inf245netsoft();
-        if (db != null) { 
+        if (db != null)
+        {
             cuenta = db.CuentaUsuario.Find(act);
-            if (cuenta!=null && cuenta.codPerfil != 1){
-                esIntranet = 1;    
+            if (cuenta != null && cuenta.codPerfil != 1)
+            {
+                esIntranet = 1;
+                nombre = cuenta.nombre;
             }
         }
-        nombre = cuenta.nombre;
-    }    
+    }
 }
 
 @{
     ViewBag.ReturnUrl = "Index";
 }
 
-@if (esIntranet==1)
-{    
-    
-<!DOCTYPE html>
-<html>
-<head>
+@if (esIntranet == 1)
+{
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>@ViewBag.Title</title>
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    </head>
+    <body>
+        <header>
+            <nav style="margin-bottom:0" class="navbar navbar-static-top navbar-inverse " role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navegacion">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a href="@Url.Action("Index2", "Home")" class="navbar-brand">TICKNET </a><!--nos redirige a la pag principal-->
+                    </div>
+                    <!--inicia el MENU-->
+                    <div class="collapse navbar-collapse" id="navegacion">
+                        <!--menu desplegable -->
+                        <ul class="nav navbar-nav">
+                            <li class="dropdown">
+                                <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                                    Módulo de venta <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="buscar-evento(vendedor).html">Buscar eventos</a></li>
+                                    <li><a href="entregar_boletos(vendedor).html">Entregar boletos</a></li>
+                                    <li><a href="@Url.Action("BuscarReservas", "CuentaUsuario")">Buscar reserva</a></li>
+                                    <li><a href="devolucion_entradas.html">Devolución</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="@Url.Action("BuscaCliente", "CuentaUsuario")">Buscar cliente</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="@Url.Action("ReporteDia", "Ventas")">Reporte de ventas</a></li>
+                                    <li><a href="@Url.Action("Apertura", "Ventas")">Apertura de caja</a></li>
+                                    <li><a href="@Url.Action("Cierre", "Ventas")">Cierre de caja</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                                    Procesos <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <!--Administrador-->
+                                    <li><a href="@Url.Action("Asignacion", "CuentaUsuario")">Asignar turnos y puntos de venta</a></li>
+                                    <li><a href="@Url.Action("Politicas", "CuentaUsuario")">Políticas de la empresa</a></li>
+                                    <li><a href="@Url.Action("Index", "TipoDeCambio")">Tipo de cambio</a></li>
+                                    <li><a href="@Url.Action("Pago", "Ventas")">Registrar pagos</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                                    Mantenimientos <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <!--Administrador del negocio-->
+                                    <li><a href="@Url.Action("Index", "Categoria")">Categorías de eventos</a></li>
+                                    <li><a href="@Url.Action("Index", "Empleado")">Empleados</a></li>
+                                    <li><a href="@Url.Action("Index", "PuntoVenta")">Puntos de venta</a></li>
+                                    <li><a href="@Url.Action("Index", "Regalo")">Regalos</a></li>
+
+                                    <!--Promotor-->
+                                    <li class="divider"></li>
+                                    <li><a href="@Url.Action("Index", "Organizador")">Organizadores</a></li>
+                                    <li><a href="@Url.Action("Index", "Local")">Locales</a></li>
+                                    <li><a href="@Url.Action("Index", "Evento")">Eventos</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                                    Reportes <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="repVentas.html">Ventas</a></li>
+                                    <li><a href="reporte_eventos.html">Eventos</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="Reporte_Asignacion_de_Vendedores.html">Asignación de vendedores</a></li>
+                                    <li><a href="reporte_asistencia_vendedores.html">Asistencia</a></li>
+                                    <li><a href="ReporteCliente.html">Clientes</a></li>
+                                </ul>
+                            </li>
+
+                        </ul>
+                        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="nav navbar-nav navbar-right">
+                                <font color="white" onclick="redirige()"> Hola @nombre!</font>
+                                <a type="button" class="btn btn-default" href="javascript:document.getElementById('logoutForm').submit()">Cerrar Sesion <span class="glyphicon glyphicon-log-out"></span></a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <div class="container">
+            <div class="@TempData["tipo"]">
+                @(TempData["message"])
+            </div>
+        </div>
+
+        @RenderBody()
+
+        @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+    </body>
+</html>
+
+
+}
+else
+{
+
+    <!DOCTYPE html>
+    <html>
     <meta charset="UTF-8">
     <title>@ViewBag.Title</title>
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-</head>
-<body>
-    <header>
-        <nav style="margin-bottom:0" class="navbar navbar-static-top navbar-inverse " role="navigation">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navegacion">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a href="@Url.Action("Index2", "Home")" class="navbar-brand">TICKNET </a><!--nos redirige a la pag principal-->
-                </div>
-                <!--inicia el MENU-->
-                <div class="collapse navbar-collapse" id="navegacion">
-                    <!--menu desplegable -->
-                    <ul class="nav navbar-nav">
-                        <li class="dropdown">
-                            <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                                Módulo de venta <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="buscar-evento(vendedor).html">Buscar eventos</a></li>
-                                <li><a href="entregar_boletos(vendedor).html">Entregar boletos</a></li>
-                                <li><a href="pagar_reserva(vendedor).html">Buscar reserva</a></li>
-                                <li><a href="devolucion_entradas.html">Devolución</a></li>
-                                <li class="divider"></li>
-                                <li><a href="ver_cliente.html">Buscar cliente</a></li>
-                                <li class="divider"></li>
-                                <li><a href="repVentasDia.html">Reporte de ventas</a></li>
-                                <li><a href="abrir_caja.html">Apertura de caja</a></li>
-                                <li><a href="cerrar_caja.html">Cierre de caja</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                                Procesos <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <!--Administrador-->
-                                <li><a href="asignar_turnos.html">Asignar turnos y puntos de venta</a></li>
-                                <li><a href="mantener_politicas.html">Políticas de la empresa</a></li>
-                                <li><a href="tipo_cambio.html">Tipo de cambio</a></li>
-                                <li><a href="registrar_pagos.html">Registrar pagos</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                                Mantenimientos <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <!--Administrador del negocio-->
-                                <li><a href="@Url.Action("Index", "Categoria")">Categorías de eventos</a></li>
-                                <li><a href="@Url.Action("Index", "Empleado")">Empleados</a></li>
-                                <li><a href="@Url.Action("Index", "PuntoVenta")">Puntos de venta</a></li>
-                                <li><a href="@Url.Action("Index", "Regalo")">Regalos</a></li>
+    <link rel="stylesheet" href="~/css/estilos-index1.css">
 
-                                <!--Promotor-->
-                                <li class="divider"></li>
-                                <li><a href="@Url.Action("Index", "Organizador")">Organizadores</a></li>
-                                <li><a href="@Url.Action("Index", "Local")">Locales</a></li>
-                                <li><a href="@Url.Action("Index", "Evento")">Eventos</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                                Reportes <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="repVentas.html">Ventas</a></li>
-                                <li><a href="reporte_eventos.html">Eventos</a></li>
-                                <li class="divider"></li>
-                                <li><a href="Reporte_Asignacion_de_Vendedores.html">Asignación de vendedores</a></li>
-                                <li><a href="reporte_asistencia_vendedores.html">Asistencia</a></li>
-                                <li><a href="ReporteCliente.html">Clientes</a></li>
-                            </ul>
-                        </li>
 
-                    </ul>
-                    @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "form" }))
-                    {
-                    @Html.AntiForgeryToken()
-
-                    <div class="nav navbar-nav navbar-right">
-                        <font color="white" onclick="redirige()"> Hola @nombre!</font>
-                        <a type="button" class="btn btn-default" href="javascript:document.getElementById('logoutForm').submit()">Cerrar Sesion <span class="glyphicon glyphicon-log-out"></span></a>
+    <body>
+        <header class="container-fluid ">
+            <nav style="margin-bottom:0" class="navbar navbar-static-top navbar-inverse " role="navigation">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navegacion">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a href="@Url.Action("Index", "Home")" class="navbar-brand">TICKNET </a><!--nos redirige a la pag principal-->
                     </div>
-                    }
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <div class="container">
-        <div class="@TempData["tipo"]">
-            @(TempData["message"])
-        </div>
-    </div>
-
-    @RenderBody()
-
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
-</body>
-</html>
-
-    
-}
-else { 
-
-<!DOCTYPE html>
-<html>
-<meta charset="UTF-8">
-<title>@ViewBag.Title</title>
-<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<link rel="stylesheet" href="~/css/estilos-index1.css">
-
-
-<body>
-    <header class="container-fluid ">
-        <nav style="margin-bottom:0" class="navbar navbar-static-top navbar-inverse " role="navigation">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navegacion">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a href="@Url.Action("Index", "Home")" class="navbar-brand">TICKNET </a><!--nos redirige a la pag principal-->
-                </div>
-                <!--inicia el MENU-->
-                <div class="collapse navbar-collapse" id="navegacion">
-                    <!--menu desplegable -->
-                    <form action="" class="navbar-form navbar-left" role="search">
-                        <div class="form-group">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="BUSCAR UN EVENTO">
-                                <span class="input-group-btn"><button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
+                    <!--inicia el MENU-->
+                    <div class="collapse navbar-collapse" id="navegacion">
+                        <!--menu desplegable -->
+                        <form action="" class="navbar-form navbar-left" role="search">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="BUSCAR UN EVENTO">
+                                    <span class="input-group-btn"><button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
+                                </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
 
 
                         <form id="busqueda" action="" class="navbar-form navbar-right">
                             <a class="btn btn-info" href="#busqAvanzada" data-toggle="collapse">Búsqueda Avanzada <span class="glyphicon glyphicon-tasks"></span></a>
                         </form>
 
-                    <div class="navbar-form navbar-right">
-                        @if (!Request.IsAuthenticated) {
-                            <a id="logIn" href="#logInCliente" class="btn btn-primary" data-toggle="modal">Iniciar Sesión <span class="glyphicon glyphicon-user"></span> </a>
-                        }
-                        else
-                        {
-                            <div id="logeado" class="dropdown">
-                                 <button class="btn btn-primary dropdown-toggle" type="button" id="sesion" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">@nombre <span class="glyphicon glyphicon-user"></span> <span class="caret"></span></button>
-                                  <ul class="dropdown-menu" aria-labelledby="sesion">
-                                      <li ><a class="btn btn-default" href="#">Mi cuenta <span class="glyphicon glyphicon-log-in"></span></a></li>
-                                      <li>
-                                          @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "form" }))
+                        <div class="navbar-form navbar-right">
+                            @if (!Request.IsAuthenticated)
                             {
-                        @Html.AntiForgeryToken()
-                                              <a class="btn btn-default" href="javascript:document.getElementById('logoutForm').submit()">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+                                <a id="logIn" href="#logInCliente" class="btn btn-primary" data-toggle="modal">Iniciar Sesión <span class="glyphicon glyphicon-user"></span> </a>
+                            }
+                            else
+                            {
+                                using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "form" }))
+                                {
+                                    @Html.AntiForgeryToken()
 
-                            <div class="nav navbar-nav navbar-right">
-                                <font color="white" onclick="redirige()"> Hola @nombre!</font>
-                                <a  type="button" class="btn btn-default"  href="javascript:document.getElementById('logoutForm').submit()">Salir <span class="glyphicon glyphicon-log-out"></span></a>
-                            </div>
+                                    <div class="nav navbar-nav navbar-right">
+                                        <font color="white" onclick="redirige()"> Hola @nombre!</font>
+                                        <a type="button" class="btn btn-default" href="javascript:document.getElementById('logoutForm').submit()">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+                                    </div>
+                                }
                             }
                         </div>
-                        }
                     </div>
-            </div>
-        </nav>
-
-
-
-
-        <div id="busqAvanzada" class="collapse container">
-            <!--formulario EN LINEA-->
-            <form id="search" action="" class="form-inline">
-                <div class="form-group ">
-                    <div class="form-group ">
-                        <div class="input-group">
-                            <span class="input-group-addon">Desde:</span>
-                            <input type="date" class="form-control">
-                        </div>
-                    </div>
-
-                    <div class="form-group ">
-                        <div class="input-group">
-                            <span class="input-group-addon">Hasta:</span>
-                            <input type="date" class="form-control">
-                        </div>
-                    </div>
-
-
-                    <div class="form-group ">
-                        <select name="" id="Tipo" class="form-control col-lg-2">
-                            <option value="">Evento</option>
-                            <option value="">Teatro</option>
-                            <option value="">Actividad</option>
-                            <option value="">Cine</option>
-                        </select>
-                    </div>
-                    <div class="form-group ">
-                        <select name="" id="Categoria" class="form-control col-lg-2">
-                            <option value="">Entretenimiento</option>
-                            <option value="">Comedia</option>
-                            <option value="">Deporte</option>
-                            <option value="">Salud</option>
-                            <option value="">Música</option>
-                            <option value="">Romance</option>
-                        </select>
-                    </div>
-
-
-                    <div class="form-group">
-                        <select name="" id="lugares" class="form-control ">
-                            <option value="">Lima</option>
-                            <option value="">Piura</option>
-                            <option value="">Juliaca</option>
-                            <option value="">Trujillo</option>
-                            <option value="">Loreto</option>
-                            <option value="">Ica</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <a href="@Url.Action("Index", "Home")" class="btn btn-primary ">Buscar <span class="glyphicon glyphicon-search"></span></a>
-                    </div>
-
                 </div>
-            </form>
+            </nav>
+
+
+
+
+            <div id="busqAvanzada" class="collapse container">
+                <!--formulario EN LINEA-->
+                <form id="search" action="" class="form-inline">
+                    <div class="form-group ">
+                        <div class="form-group ">
+                            <div class="input-group">
+                                <span class="input-group-addon">Desde:</span>
+                                <input type="date" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group ">
+                            <div class="input-group">
+                                <span class="input-group-addon">Hasta:</span>
+                                <input type="date" class="form-control">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group ">
+                            <select name="" id="Tipo" class="form-control col-lg-2">
+                                <option value="">Evento</option>
+                                <option value="">Teatro</option>
+                                <option value="">Actividad</option>
+                                <option value="">Cine</option>
+                            </select>
+                        </div>
+                        <div class="form-group ">
+                            <select name="" id="Categoria" class="form-control col-lg-2">
+                                <option value="">Entretenimiento</option>
+                                <option value="">Comedia</option>
+                                <option value="">Deporte</option>
+                                <option value="">Salud</option>
+                                <option value="">Música</option>
+                                <option value="">Romance</option>
+                            </select>
+                        </div>
+
+
+                        <div class="form-group">
+                            <select name="" id="lugares" class="form-control ">
+                                <option value="">Lima</option>
+                                <option value="">Piura</option>
+                                <option value="">Juliaca</option>
+                                <option value="">Trujillo</option>
+                                <option value="">Loreto</option>
+                                <option value="">Ica</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <a href="@Url.Action("Index", "Home")" class="btn btn-primary ">Buscar <span class="glyphicon glyphicon-search"></span></a>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+
+
+
+
+
+            @{
+    try
+    {
+        Html.RenderPartial("_LoginPartial", new LoginViewModel());
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex);
+    }
+            }
+
+
+        </header>
+
+        <div class="container">
+            <div class="@TempData["tipo"]">
+                @(TempData["message"])
+            </div>
         </div>
 
-        
+        @RenderBody()
 
-
-       
-        @{
-            try { 
-            Html.RenderPartial("_LoginPartial", new LoginViewModel() );
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
-         }
-
-
-    </header>
-
-    <div class="container">
-        <div class="@TempData["tipo"]">
-            @(TempData["message"])
-        </div>
-    </div>
-
-    @RenderBody()
-
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
-</body>
+        @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+    </body>
 </html>
 
 
@@ -309,5 +308,5 @@ else {
 <script>
     function redirige() {
         window.location.href = '/CuentaUsuario/MiCuenta';
-}
+    }
 </script>

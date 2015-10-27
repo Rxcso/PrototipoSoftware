@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using WebApplication4.Models;
+using System.Collections.Generic;
+using System.Data.Entity;
 
 namespace WebApplication4.Controllers
 {
@@ -88,10 +90,62 @@ namespace WebApplication4.Controllers
                     TempData["tipo"] = "alert alert-success";
                     TempData["message"] = "Logueado Correctamente";
                     if (cuentausuario.codPerfil == 1)
+                    {
+                        Session["UsuarioLogueado"] = cuentausuario;
                         return Redirect("~/Home/Index");
+                    }
                     else
                     {
-                        Session["PuntoVentaLoguedo"] = 1;
+                        if (cuentausuario.codPerfil == 2)
+                        {
+                            Turno tu = null;
+                            DateTime hoy = DateTime.Now;
+                            int idPunto = 1;
+                            TimeSpan da = DateTime.Now.TimeOfDay;
+                            TurnoSistema ts = new TurnoSistema();
+                            List<TurnoSistema> listaturno = db.TurnoSistema.AsNoTracking().Where(c => c.activo == true).ToList();
+                            for (int i = 0; i < listaturno.Count; i++)
+                            {
+                                if ((TimeSpan.Parse(listaturno[i].horIni) < da) && (TimeSpan.Parse(listaturno[i].horFin) > da))
+                                {
+                                    ts = listaturno[i];
+                                }
+                            }
+                            List<Turno> liT = new List<Turno>();
+                            liT = db.Turno.AsNoTracking().Where(j => j.usuario == cuentausuario.usuario && j.codPuntoVenta == idPunto && j.codTurnoSis == ts.codTurnoSis).ToList();
+                            Session["PuntoVentaLoguedo"] = idPunto;
+                            if (liT != null)
+                            {
+                                for (int i = 0; i < liT.Count; i++)
+                                {
+                                    if (liT[i].fecha.Date == hoy.Date)
+                                    {
+                                        tu = liT[i];
+                                        Session["TurnoHoy"] = tu;
+                                        break;
+                                    }
+                                }
+                            }
+                            if (tu != null && tu.estado=="Pendiente")
+                            {
+                                int idPol = 4;
+                                int limite = (int)db.Politicas.Find(idPol).valor;
+                                TimeSpan time1 = TimeSpan.FromMinutes(limite);
+                                TimeSpan horalimite = TimeSpan.Parse(ts.horIni);
+                                TimeSpan hora1 = horalimite.Add(time1);
+                                db.Entry(tu).State = EntityState.Modified;
+                                if (hora1 > da)
+                                {
+                                    tu.estado = "Asistio";
+                                }
+                                else
+                                {
+                                    tu.estado = "Tarde";
+                                }
+                                db.SaveChanges();
+                                db.Entry(tu).State = EntityState.Detached;
+                            }
+                        }
                         Session["UsuarioLogueado"] = cuentausuario;
                         return Redirect("~/Home/Index2");
                     }

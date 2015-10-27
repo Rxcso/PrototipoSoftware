@@ -8,12 +8,16 @@
 
 # Build results
 
-[Dd]ebug/
-[Rr]elease/
+Debug/
+debug/
+Release/
+release/
 x64/
 build/
-[Bb]in/
-[Oo]bj/
+Bin/
+bin/
+Obj/
+obj/
 
 # Enable "build/" folder in the NuGet Packages folder since NuGet packages use it for MSBuild targets
 !packages/*/build/
@@ -159,4 +163,3 @@ $RECYCLE.BIN/
 /WebApplication4/packages/iTextSharp.5.5.7/AGPL.txt
 /WebApplication4/packages/iTextSharp.5.5.7/iTextSharp.5.5.7.nupkg
 /WebApplication4/packages/iTextSharp.5.5.7/notice.txt
-/WebApplication4

@@ -245,6 +245,14 @@
     <Property Name="fechaFin" Type="datetime" />
     <Property Name="codEvento" Type="int" />
   </EntityType>
+  <EntityType Name="Politicas">
+    <Key>
+      <PropertyRef Name="codigo" />
+    </Key>
+    <Property Name="codigo" Type="int" Nullable="false" />
+    <Property Name="valor" Type="int" />
+    <Property Name="nombre" Type="varchar" MaxLength="50" />
+  </EntityType>
   <EntityType Name="Promociones">
     <Key>
       <PropertyRef Name="codPromo" />
@@ -337,6 +345,7 @@
     <Property Name="codPuntoVenta" Type="int" Nullable="false" />
     <Property Name="codTurnoSis" Type="int" Nullable="false" />
     <Property Name="estado" Type="varchar" MaxLength="20" />
+    <Property Name="estadoCaja" Type="varchar" MaxLength="20" />
     <Property Name="usuario" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="fecha" Type="datetime" Nullable="false" />
     <Property Name="MontoInicioSoles" Type="float" />
@@ -359,18 +368,19 @@
     </Key>
     <Property Name="codVen" Type="int" Nullable="false" />
     <Property Name="fecha" Type="datetime" />
-    <Property Name="montoDolares" Type="float" />
     <Property Name="cantAsientos" Type="int" />
-    <Property Name="montoSoles" Type="float" />
+    <Property Name="montoEfectivoSoles" Type="float" />
+    <Property Name="montoEfectivoDolares" Type="float" />
+    <Property Name="montoCreditoSoles" Type="float" />
+    <Property Name="montoCreditoDolares" Type="float" />
     <Property Name="modalidad" Type="varchar" MaxLength="100" />
-    <Property Name="montoEfectivo" Type="float" />
-    <Property Name="montoCredito" Type="float" />
     <Property Name="tipoDoc" Type="int" />
     <Property Name="codDoc" Type="varchar" MaxLength="100" />
     <Property Name="cliente" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="vendedor" Type="varchar" MaxLength="100" />
-    <Property Name="Estado" Type="bit" Nullable="false" />
-    <Property Name="MontoTotal" Type="float" />
+    <Property Name="Estado" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="MontoTotalSoles" Type="float" />
+    <Property Name="MontoTotalDolares" Type="float" />
   </EntityType>
   <EntityType Name="VentasXFuncion">
     <Key>
@@ -820,6 +830,7 @@
     <EntitySet Name="Pago" EntityType="Self.Pago" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Perfiles" EntityType="Self.Perfiles" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PeriodoVenta" EntityType="Self.PeriodoVenta" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Politicas" EntityType="Self.Politicas" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Promociones" EntityType="Self.Promociones" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PuntoVenta" EntityType="Self.PuntoVenta" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Regalo" EntityType="Self.Regalo" Schema="dbo" store:Type="Tables" />

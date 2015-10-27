@@ -325,26 +325,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Ventas">
-      <EntityTypeMapping TypeName="inf245netsoftModel.Ventas">
-        <MappingFragment StoreEntitySet="Ventas">
-          <ScalarProperty Name="MontoTotal" ColumnName="MontoTotal" />
-          <ScalarProperty Name="Estado" ColumnName="Estado" />
-          <ScalarProperty Name="vendedor" ColumnName="vendedor" />
-          <ScalarProperty Name="cliente" ColumnName="cliente" />
-          <ScalarProperty Name="codDoc" ColumnName="codDoc" />
-          <ScalarProperty Name="tipoDoc" ColumnName="tipoDoc" />
-          <ScalarProperty Name="montoCredito" ColumnName="montoCredito" />
-          <ScalarProperty Name="montoEfectivo" ColumnName="montoEfectivo" />
-          <ScalarProperty Name="modalidad" ColumnName="modalidad" />
-          <ScalarProperty Name="montoSoles" ColumnName="montoSoles" />
-          <ScalarProperty Name="cantAsientos" ColumnName="cantAsientos" />
-          <ScalarProperty Name="montoDolares" ColumnName="montoDolares" />
-          <ScalarProperty Name="fecha" ColumnName="fecha" />
-          <ScalarProperty Name="codVen" ColumnName="codVen" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="VentasXFuncion">
       <EntityTypeMapping TypeName="inf245netsoftModel.VentasXFuncion">
         <MappingFragment StoreEntitySet="VentasXFuncion">
@@ -360,6 +340,7 @@
     <EntitySetMapping Name="Turno">
       <EntityTypeMapping TypeName="inf245netsoftModel.Turno">
         <MappingFragment StoreEntitySet="Turno">
+          <ScalarProperty Name="estadoCaja" ColumnName="estadoCaja" />
           <ScalarProperty Name="MontoFinDolares" ColumnName="MontoFinDolares" />
           <ScalarProperty Name="MontoFinSoles" ColumnName="MontoFinSoles" />
           <ScalarProperty Name="MontoInicioDolares" ColumnName="MontoInicioDolares" />
@@ -392,6 +373,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Politicas">
+      <EntityTypeMapping TypeName="inf245netsoftModel.Politicas">
+        <MappingFragment StoreEntitySet="Politicas">
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="valor" ColumnName="valor" />
+          <ScalarProperty Name="codigo" ColumnName="codigo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Asientos">
       <EntityTypeMapping TypeName="inf245netsoftModel.Asientos">
         <MappingFragment StoreEntitySet="Asientos">
@@ -412,6 +402,27 @@
           <ScalarProperty Name="nombre" ColumnName="nombre" />
           <ScalarProperty Name="codEvento" ColumnName="codEvento" />
           <ScalarProperty Name="codZona" ColumnName="codZona" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Ventas">
+      <EntityTypeMapping TypeName="inf245netsoftModel.Ventas">
+        <MappingFragment StoreEntitySet="Ventas">
+          <ScalarProperty Name="MontoTotalDolares" ColumnName="MontoTotalDolares" />
+          <ScalarProperty Name="MontoTotalSoles" ColumnName="MontoTotalSoles" />
+          <ScalarProperty Name="Estado" ColumnName="Estado" />
+          <ScalarProperty Name="vendedor" ColumnName="vendedor" />
+          <ScalarProperty Name="cliente" ColumnName="cliente" />
+          <ScalarProperty Name="codDoc" ColumnName="codDoc" />
+          <ScalarProperty Name="tipoDoc" ColumnName="tipoDoc" />
+          <ScalarProperty Name="modalidad" ColumnName="modalidad" />
+          <ScalarProperty Name="montoCreditoDolares" ColumnName="montoCreditoDolares" />
+          <ScalarProperty Name="montoCreditoSoles" ColumnName="montoCreditoSoles" />
+          <ScalarProperty Name="montoEfectivoDolares" ColumnName="montoEfectivoDolares" />
+          <ScalarProperty Name="montoEfectivoSoles" ColumnName="montoEfectivoSoles" />
+          <ScalarProperty Name="cantAsientos" ColumnName="cantAsientos" />
+          <ScalarProperty Name="fecha" ColumnName="fecha" />
+          <ScalarProperty Name="codVen" ColumnName="codVen" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

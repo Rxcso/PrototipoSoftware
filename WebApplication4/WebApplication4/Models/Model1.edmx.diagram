@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="9f5a5b25d4a3465ebca948c0c7a5a8c7" Name="Diagram1" ZoomLevel="100">
+      <Diagram DiagramId="9f5a5b25d4a3465ebca948c0c7a5a8c7" Name="Diagram1" ZoomLevel="74">
         <EntityTypeShape EntityType="inf245netsoftModel.CuentaUsuario" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="inf245netsoftModel.Perfiles" Width="1.5" PointX="3.625" PointY="0.5" />
         <EntityTypeShape EntityType="inf245netsoftModel.Banco" Width="1.5" PointX="3.375" PointY="5.25" />
@@ -42,17 +42,13 @@
         <EntityTypeShape EntityType="inf245netsoftModel.Funcion" Width="1.5" PointX="3" PointY="19.25" />
         <EntityTypeShape EntityType="inf245netsoftModel.Pago" Width="1.5" PointX="10.625" PointY="14.75" />
         <EntityTypeShape EntityType="inf245netsoftModel.Tarjeta" Width="1.5" PointX="12.625" PointY="6.375" />
-        <EntityTypeShape EntityType="inf245netsoftModel.Ventas" Width="1.5" PointX="3" PointY="14.125" />
         <EntityTypeShape EntityType="inf245netsoftModel.VentasXFuncion" Width="1.5" PointX="5.25" PointY="17" />
         <AssociationConnector Association="inf245netsoftModel.R_4" />
-        <AssociationConnector Association="inf245netsoftModel.R_30" />
-        <AssociationConnector Association="inf245netsoftModel.R_34" />
         <AssociationConnector Association="inf245netsoftModel.R_18" />
         <AssociationConnector Association="inf245netsoftModel.R_76" />
         <AssociationConnector Association="inf245netsoftModel.R_28" />
         <AssociationConnector Association="inf245netsoftModel.R_75" />
         <AssociationConnector Association="inf245netsoftModel.R_47" />
-        <AssociationConnector Association="inf245netsoftModel.R_38" />
         <AssociationConnector Association="inf245netsoftModel.R_43" />
         <AssociationConnector Association="inf245netsoftModel.R_19" />
         <EntityTypeShape EntityType="inf245netsoftModel.Turno" Width="1.5" PointX="15.625" PointY="5.375" />
@@ -62,10 +58,15 @@
         <AssociationConnector Association="inf245netsoftModel.R_12" />
         <EntityTypeShape EntityType="inf245netsoftModel.PeriodoVenta" Width="1.5" PointX="10.625" PointY="18.125" />
         <AssociationConnector Association="inf245netsoftModel.fk_EventoPV" />
-        <EntityTypeShape EntityType="inf245netsoftModel.Asientos" Width="1.5" PointX="12.875" PointY="21.25" />
-        <EntityTypeShape EntityType="inf245netsoftModel.ZonaEvento" Width="1.5" PointX="10.625" PointY="20.875" />
+        <EntityTypeShape EntityType="inf245netsoftModel.Politicas" Width="1.5" PointX="14.375" PointY="0.75" />
+        <EntityTypeShape EntityType="inf245netsoftModel.Asientos" Width="1.5" PointX="13.25" PointY="21.25" />
+        <EntityTypeShape EntityType="inf245netsoftModel.ZonaEvento" Width="1.5" PointX="11" PointY="20.875" />
         <AssociationConnector Association="inf245netsoftModel.R_13" />
         <AssociationConnector Association="inf245netsoftModel.R_21" />
+        <EntityTypeShape EntityType="inf245netsoftModel.Ventas" Width="1.5" PointX="3" PointY="23" />
+        <AssociationConnector Association="inf245netsoftModel.R_30" />
+        <AssociationConnector Association="inf245netsoftModel.R_34" />
+        <AssociationConnector Association="inf245netsoftModel.R_38" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

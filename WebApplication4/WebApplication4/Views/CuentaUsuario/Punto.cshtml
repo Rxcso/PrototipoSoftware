@@ -1,0 +1,11 @@
+﻿@{
+    Layout = null;
+    var db = new WebApplication4.Models.inf245netsoft();
+    int depId = int.Parse(Request["depId"]);
+    var data = from obj in db.PuntoVenta
+               where obj.idProvincia == depId && obj.estaActivo == true
+               select new { IdRegion = obj.idRegion, Nombre = obj.ubicacion };
+    Json.Write(data, Response.Output);
+}
+
+

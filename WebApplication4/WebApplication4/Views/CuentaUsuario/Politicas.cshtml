@@ -1,0 +1,155 @@
+﻿@using Microsoft.AspNet.Identity;
+@using WebApplication4.Models;
+
+@{
+    ViewBag.Title = "Politicas";
+    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+    var db = new WebApplication4.Models.inf245netsoft();
+    
+}
+
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li class="active">Mantenimiento de políticas</li>
+        </ol>
+    </div>
+</div>
+<div class="container">
+    <form action="" class="">
+        <!--DECLARAMOS EL TABS Y LA CANTIDAD DE PESTAÑAS QUE TENDRA -->
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#dias" data-toggle="tab">Reservas/Compras</a></li>
+            <li><a href="#tardanza" data-toggle="tab">Asistencia</a></li>
+        </ul>
+
+        <!--INTRODUCIMOS EL CONTIDO QUE TENDRA CADA PESTAÑA -->
+        <div class="tab-content">
+            <!--boton de salir arriba-->
+            <div class="row">
+                <div class="container">
+                    <br>
+                    <a href="@Url.Action("Index2", "Home")" class="btn btn-danger pull-right">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+                </div>
+            </div>
+            <!--PRIMAERA PESTAÑA-->
+            <div class="tab-pane fade active in" id="dias">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-3 col-md-offset-1">
+                            <label for="">Duración de reserva: </label>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <input id="durR" type="number" class="form-control" aria-describedby="reserva">
+                                <span class="input-group-addon" id="reserva">días</span>
+                            </div>
+                        </div>
+
+                    </div> <br>
+                    <div class="row">
+                        <div class="col-md-3 col-md-offset-1">
+                            <label for="">Máximo de reservas/compras por evento:</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input id="maxC" type="number" class="form-control">
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-md-3 col-md-offset-1">
+                            <label for="">Monto mín para pago con tarjeta:</label>
+
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="min">S/.</span>
+                                <input id="monT" type="number" class="form-control" aria-describedby="min">
+                            </div>
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-md-3 col-md-offset-5">
+                            <button type="button" onclick="registrar()" class="btn btn-primary">Registrar <span class="glyphicon glyphicon-ok"></span></button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!--SEGUNDA PESTAÑA-->
+            <div class="tab-pane fade" id="tardanza">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-3 col-md-offset-1">
+                            <label for="">Tolerancia tardanza:</label>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <input id="tol" type="number" class="form-control" aria-describedby="min">
+                                <span class="input-group-addon" id="min">minutos</span>
+                            </div>
+                        </div>
+
+                    </div><br>
+                    <div class="row">
+                        <div class="col-md-3 col-md-offset-5">
+                            <button type="button" onclick="registrar2()" class="btn btn-primary">Registrar <span class="glyphicon glyphicon-ok"></span></button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+<script>
+		function registrar(){
+		    var dur = $('#durR').val();
+		    var mx = $('#maxC').val();
+		    var mt = $('#monT').val();
+		    //alert(dur);
+		    //alert(mx);
+		    //alert(mt);
+		    if (mx!=null || dur!=null || mt!=null) {
+		        $.ajax({
+		            url: "@Url.Action("RegistraPoliticas", "CuentaUsuario")",
+		            data: { dur:dur,mx:mx,mt:mt },
+		        success: function (data) {
+		            //alert("Desactivado");
+		            window.location.href = '/CuentaUsuario/Politicas';
+		            //window.location.href = 'Promocion/Index?evento='+evento;
+		            //row.remove();
+		        },
+		        error: function () {
+		            //alert("Error :(");
+		        }
+		    });
+        } else {
+		        alert("Ingrese un valor a Registrar");
+        }
+       }
+		function registrar2(){
+		    var tolerancia = $('#tol').val();
+		    if (tolerancia != "" && tolerancia != null) {
+		        $.ajax({
+		            url: "@Url.Action("RegistraTolerancia","CuentaUsuario")",
+		            data: { tolerancia:tolerancia},
+		        success: function (data) {
+		            //alert("Desactivado");
+		            window.location.href = '/CuentaUsuario/Politicas';
+		            //window.location.href = 'Promocion/Index?evento='+evento;
+		            //row.remove();
+		        },
+		        error: function () {
+		            //alert("Error :(");
+		        }
+		    });
+        } else {
+            alert("Ingrese tiempo de tolerancia");
+        }
+       }
+</script>
+
+

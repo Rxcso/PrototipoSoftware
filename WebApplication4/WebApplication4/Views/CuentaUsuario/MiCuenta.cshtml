@@ -1,0 +1,133 @@
+﻿
+@{
+    ViewBag.Title = "MiCuenta";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div id="busqAvanzada" class="collapse container">
+    <!--formulario EN LINEA-->
+    <form id="search" action="" class="form-inline">
+        <div class="form-group ">
+            <div class="form-group ">
+                <div class="input-group">
+                    <span class="input-group-addon">Desde:</span>
+                    <input type="date" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-group ">
+                <div class="input-group">
+                    <span class="input-group-addon">Hasta:</span>
+                    <input type="date" class="form-control">
+                </div>
+            </div>
+
+
+            <div class="form-group ">
+                <select name="" id="Tipo" class="form-control col-lg-2">
+                    <option value="">Evento</option>
+                    <option value="">Teatro</option>
+                    <option value="">Actividad</option>
+                    <option value="">Cine</option>
+                </select>
+            </div>
+            <div class="form-group ">
+                <select name="" id="Categoria" class="form-control col-lg-2">
+                    <option value="">Entretenimiento</option>
+                    <option value="">Comedia</option>
+                    <option value="">Deporte</option>
+                    <option value="">Salud</option>
+                    <option value="">Música</option>
+                    <option value="">Romance</option>
+                </select>
+            </div>
+
+
+            <div class="form-group">
+                <select name="" id="lugares" class="form-control ">
+                    <option value="">Lima</option>
+                    <option value="">Piura</option>
+                    <option value="">Juliaca</option>
+                    <option value="">Trujillo</option>
+                    <option value="">Loreto</option>
+                    <option value="">Ica</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <a href="index1.html" class="btn btn-primary ">Buscar <span class="glyphicon glyphicon-search"></span></a>
+            </div>
+
+        </div>
+    </form>
+</div>
+    </header>
+<div class="container-fluid">
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index", "Home")">Inicio</a></li>
+        <li class="active">Mi cuenta</li>
+    </ol>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <form action="" class="form-horizontal ">
+                <ol id="pref" class="navbar " style="font-size:20px;">
+                    <li><a href="modificar_Datos.html">Actualizar mi datos/preferencias </a>
+                    <li><a href="cambiar_correo.html">Cambiar mi dirección de correo electrónico</a>
+                    <li><a href="cambiar_contrasena.html">Cambiar mi contraseña</a>
+                    <li><a href="@Url.Action("MisReservas", "CuentaUsuario")">Ver mis reservas</a>
+                    <li><a href="@Url.Action("MisCompras", "CuentaUsuario")">Ver mis Compras</a>
+                    <li><a href="">Ver carrito</a>
+                </ol>
+            </form>
+        </div>
+        <div class="col-md-4">
+            <div class="headDestacados">
+                EVENTOS DESTACADOS
+            </div>
+            <div id="carousel-1" class="carousel slide" data-ride="carousel">
+                <!--indicadores primero-->
+                <ol class="carousel-indicators">
+                    <!--
+                                      <li data-target="#carousel-1" data-slide-to="0" class="active"></li>
+                                      <li data-target="#carousel-1" data-slide-to="1"></li>
+                                      <li data-target="#carousel-1" data-slide-to="2"></li>
+                                      <li data-target="#carousel-1" data-slide-to="3"></li>
+                                      <li data-target="#carousel-1" data-slide-to="4"></li>
+                                      <li data-target="#carousel-1" data-slide-to="5"></li>
+                    -->
+                </ol>
+                <!--Contenedor de los slide-->
+                <div class="carousel-inner" role="listbox">
+                    <div class="item active">
+                        <a href="verEvento.html"><img src="images/destacados/img1.jpg" width="1200px" class="img-responsive" alt=""></a>
+                    </div>
+                    <div class="item">
+                        <a href="verEvento.html"><img src="images/destacados/image2.jpg" width="1200px" class="img-responsive" alt=""></a>
+                    </div>
+                    <div class="item">
+                        <a href="verEvento.html"><img src="images/destacados/img3.jpg" width="1200px" class="img-responsive" alt=""></a>
+                    </div>
+                    <div class="item">
+                        <a href="verEvento.html"><img src="images/destacados/img4.jpg" width="1200px" class="img-responsive" alt=""></a>
+                    </div>
+                    <div class="item">
+                        <a href="verEvento.html"><img src="images/destacados/img5.jpg" width="1200px" class="img-responsive" alt=""></a>
+                    </div>
+                    <div class="item">
+                        <a href="verEvento.html"><img src="images/destacados/img6.jpg" width="1200px" class="img-responsive" alt=""></a>
+                    </div>
+                </div>
+                <!--Controles-->
+                <a href="#carousel-1" class="left carousel-control" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                </a>
+                <a href="#carousel-1" class="right carousel-control" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+

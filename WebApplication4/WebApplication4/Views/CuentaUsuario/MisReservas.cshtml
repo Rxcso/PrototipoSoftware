@@ -1,0 +1,157 @@
+﻿@using Microsoft.AspNet.Identity;
+@using WebApplication4.Models;
+
+@{
+    ViewBag.Title = "MisReservas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var db = new WebApplication4.Models.inf245netsoft();
+    CuentaUsuario cu = null;
+    cu = (CuentaUsuario)Session["UsuarioLogueado"];
+    DateTime hoy = DateTime.Now;
+    List<Ventas> listaventas = null;
+    List<VentasXFuncion> listvxf = new List<VentasXFuncion>();
+    if (cu != null)
+    {
+        listaventas = db.Ventas.Where(r => r.Estado == "Reservado" && r.cliente == cu.usuario).ToList();
+        for (int i = 0; i < listaventas.Count; i++)
+        {
+            Ventas vent = listaventas[i];
+            List<VentasXFuncion> lv = db.VentasXFuncion.Where(c => c.codVen == vent.codVen).ToList();
+            for (int j = 0; j < lv.Count; j++)
+            {
+                listvxf.Add(lv[j]);
+            }
+        }
+    }
+
+}
+
+<div class="container-fluid">
+    <ol class="breadcrumb">
+        <li class=""><a href="@Url.Action("MiCuenta", "CuentaUsuario")">Mi cuenta</a></li>
+        <li class="active">Mis reservas</li>
+    </ol>
+</div>
+
+<div class="container">
+    <div class="row">
+        <!--LA PARTE IMPORTANTE-->
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Mis reservas vigentes:</h4>
+                </div>
+                <div class="col-md-6">
+                    <a href="mi_carrito_compras.html" class="btn btn-primary pull-right">Pagar reserva <span class="glyphicon glyphicon-usd"></span></a>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <table id="mytable" class="table table-bordered table-hover">
+                    <thead>
+                        <tr class="thead">
+                            <th>Codigo</th>
+                            <th>Evento</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Cantidad de Boletos</th>
+                            <th>Monto (S/.)</th>
+                            <th>Eliminar</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody">
+                        @if (listaventas != null)
+                        {
+                            if (listvxf != null) {
+                            foreach (var row in listvxf)
+                            {
+                                <tr id=@row.codVen onclick="myFunction(this)">
+                                    <td>@row.codVen</td>
+                                    @{Funcion fu = db.Funcion.Find(row.codFuncion);
+                                       }
+                                    <td>@db.Eventos.Find(fu.codEvento).nombre</td>
+                                    <td>@fu.fecha.Value.ToString("dd/MM/yyyy")</td>
+                                    <td>@fu.horaIni.Value.TimeOfDay - @fu.horaFin.Value.TimeOfDay</td>
+                                    <td>@row.cantEntradas</td>
+                                    <td>@row.total</td>
+                                    <td><a href="@Url.Action("DeleteReserva", "CuentaUsuario", new { codE = row.codVen, codF = row.codFuncion })" class="btn btn-primary">Borrar <span class="glyphicon glyphicon-remove"></span></a></td>
+                                </tr>
+                            }
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <br>
+        </div>
+        <!--LOS EVENTOS DESTACADOS-->
+        @*<div class="col-md-4">
+                <div class="headDestacados">
+                    EVENTOS DESTACADOS
+                </div>
+                <div id="carousel-1" class="carousel slide" data-ride="carousel">
+                    <!--indicadores primero-->
+                    <ol class="carousel-indicators">
+                        <!--
+                                          <li data-target="#carousel-1" data-slide-to="0" class="active"></li>
+                                          <li data-target="#carousel-1" data-slide-to="1"></li>
+                                          <li data-target="#carousel-1" data-slide-to="2"></li>
+                                          <li data-target="#carousel-1" data-slide-to="3"></li>
+                                          <li data-target="#carousel-1" data-slide-to="4"></li>
+                                          <li data-target="#carousel-1" data-slide-to="5"></li>
+                        -->
+                    </ol>
+                    <!--Contenedor de los slide-->
+                    <div class="carousel-inner" role="listbox">
+                        <div class="item active">
+                            <a href="verEvento.html"><img src="images/destacados/img1.jpg" width="1200px" class="img-responsive" alt=""></a>
+                        </div>
+                        <div class="item">
+                            <a href="verEvento.html"><img src="images/destacados/image2.jpg" width="1200px" class="img-responsive" alt=""></a>
+                        </div>
+                        <div class="item">
+                            <a href="verEvento.html"><img src="images/destacados/img3.jpg" width="1200px" class="img-responsive" alt=""></a>
+                        </div>
+                        <div class="item">
+                            <a href="verEvento.html"><img src="images/destacados/img4.jpg" width="1200px" class="img-responsive" alt=""></a>
+                        </div>
+                        <div class="item">
+                            <a href="verEvento.html"><img src="images/destacados/img5.jpg" width="1200px" class="img-responsive" alt=""></a>
+                        </div>
+                        <div class="item">
+                            <a href="verEvento.html"><img src="images/destacados/img6.jpg" width="1200px" class="img-responsive" alt=""></a>
+                        </div>
+                    </div>
+                    <!--Controles-->
+                    <a href="#carousel-1" class="left carousel-control" role="button" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    </a>
+                    <a href="#carousel-1" class="right carousel-control" role="button" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    </a>
+                </div>
+            </div>*@
+
+    </div>
+</div><!--Fin del container-->
+
+<script>
+    function verEvento() {
+        window.open("ver_evento.html", "_self");
+    }
+    function buscar() {
+        window.open("index1.html", "_self");
+    }
+    function ingresar() {
+        window.open("mi_cuenta.html", "_self");
+    }
+</script>
+
+<script>
+    function select() {
+        document.getElementById("fila3").style.backgroundColor = "#ddd";
+    }
+</script>
+
