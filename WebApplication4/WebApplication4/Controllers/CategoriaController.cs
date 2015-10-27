@@ -110,6 +110,63 @@ namespace WebApplication4.Controllers
             }
             return RedirectToAction("Index", "Categoria");
         }
+
+        //no me mires
+        private void activar(int id)
+        {
+            List<Categoria> listaCategoria = null;
+            while (true)
+            {
+                listaCategoria = db.Categoria.Where(c => c.idCatPadre == id).ToList();
+                if (listaCategoria.Count == 0) return;
+                else
+                {
+                    for (int i = 0; i < listaCategoria.Count; i++)
+                    {
+                        db.Entry(listaCategoria[i]).State = EntityState.Modified;
+                        listaCategoria[i].activo = 1;
+                        db.SaveChanges();
+                        activar(listaCategoria[i].idCategoria);
+                    }
+                    return;
+                }
+
+            }
+        }
+
+
+        public ActionResult ActivateTree(string categoria)
+        {
+            //if (regalo == "" || regalo == null) return View("Index");
+            int idQ = int.Parse(categoria);
+            Categoria categoriaM = db.Categoria.Find(idQ);
+            if (categoriaM.activo == 0)
+            {
+                //db.Regalo.Remove(regalo);
+                db.Entry(categoriaM).State = EntityState.Modified;
+                categoriaM.activo = 1;
+                db.SaveChanges();
+                //return RedirectToAction("Index", "Evento");
+                activar(idQ);
+            }
+            return View("Index");
+        }
+
+
+        public ActionResult Activate(string categoria)
+        {
+            //if (regalo == "" || regalo == null) return View("Index");
+            int idQ = int.Parse(categoria);
+            Categoria categoriaM = db.Categoria.Find(idQ);
+            if (categoriaM.activo == 0) {
+                //db.Regalo.Remove(regalo);
+                db.Entry(categoriaM).State = EntityState.Modified;
+                categoriaM.activo = 1;
+                db.SaveChanges();
+                //return RedirectToAction("Index", "Evento");
+            }            
+            return View("Index");
+        }
     }
 
     

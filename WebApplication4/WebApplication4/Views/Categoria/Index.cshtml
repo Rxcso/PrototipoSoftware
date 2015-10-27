@@ -21,6 +21,7 @@
                 <a class="btn btn-primary" href="#formNuevo" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
                 <a class="btn btn-primary" data-toggle="modal" onclick="redirigeCategoria()">Modificar<span class="glyphicon glyphicon-pencil"></span></a>               
                 <a class="btn btn-primary" href="#eliminar" data-toggle="modal">Borrar<span class="glyphicon glyphicon-remove"></span></a>                
+                <a class="btn btn-primary" href="#activar" data-toggle="modal">Activar<span class="glyphicon glyphicon-ok"></span></a>                
             </div>
         </div>
 
@@ -37,6 +38,7 @@
         if (TempData["ListaC"] == null)
         {
             listaCategoria = db.Categoria.AsNoTracking().Where(c => c.activo == 1).ToList();
+            //listaCategoria = db.Categoria.AsNoTracking().ToList();
         }
         else
         {
@@ -73,83 +75,7 @@
 </div>
 
 <input type="hidden" id="idCategoria" value="" />
-<script>
-    function myFunction(x) {
-        if (document.getElementsByClassName("trselected").length > 0) {
-            var element = document.getElementsByClassName("trselected");
-            //element.item[0].cells[0].innerText;
-            element[0].className = "";
-        }
-        //var tabla = document.getElementById("mytable");
-        //alert(x);
-        //var y = x.getCells();
-        var elem = document.getElementById("idCategoria");
-        elem.value = x.cells[0].innerHTML;
-        //alert(x.cells[0].innerHTML);
-        //ViewBag.P = x.cells[0].innerHTML;
-        x.className = "trselected";
-
-        //<a class="btn btn-primary" href="javascript:document.getElementsByClassName('trselected').submit()">Borrar<span class="glyphicon glyphicon-pencil"></span></a>
-        //idProm = x.codp;
-    }
-    function borrar() {
-        var categoria = $('#idCategoria').val();
-        var el = document.getElementById(categoria);
-        var row = $(el).closest('tr');
-        //alert(evento);
-        //alert(promocion);
-        if (categoria != "" && categoria != null) {
-            $.ajax({
-                url: "@Url.Action("Delete","Categoria")",
-                data: { categoria: categoria },
-                success: function (data) {
-                    //alert("Eliminado");
-                    $('#eliminar').modal('hide');
-                    row.remove();
-                    window.location.href = '/Categoria/Index';
-                },
-                error: function () {
-                    alert("Error :(");
-                }
-            });
-        } else {
-            alert("Seleccione una Categoria ");
-            evento = "";
-        }
-    }
-    function redirigeCategoria() {
-        var categoria = $('#idCategoria').val();
-        if (categoria != "") {
-            window.location.href = '/Categoria/Edit?categoria=' + categoria;
-        } else {
-            alert("Seleccione una Categoria");
-            evento = "";
-        }
-        //$.post('/Regalo/Edit/' + regalo);
-    }    
-    function modificar() {
-        var categoria = $('#idCategoria').val();
-        //var el = document.getElementById(regalo);
-        //var row = $(el).closest('tr');
-        //alert(evento);
-        //alert(promocion);
-        $.ajax({
-            url: "@Url.Action("Edit","Categoria")",
-            data: { categoria: categoria },
-            success: function (data) {
-                //alert("Eliminado");
-                //row.remove();
-            },
-            error: function () {
-                alert("Error :(");
-            }
-        });
-    }
-    function closewindow() {
-        $('#eliminar').modal('hide');
-    }
-</script>
-
+<script type="text/javascript" src="@Url.Content("/Scripts/CategoriaEvento/BorrarCategoriaEvento.js")"></script>
 <style>
     .trselected {
         background: gray;
@@ -219,7 +145,55 @@
             <!--footer de la ventana-->
             <div class="modal-footer">
                 <button type="button" onclick="borrar()" class="btn btn-primary">Aceptar <span class="glyphicon glyphicon-ok"></span></button>
-                <button type="button" onclick="return closewindow();" class="btn btn-danger">Cancelar <span class="glyphicon glyphicon-remove"></span></button>
+                <button type="button" onclick="return closewindowEli();" class="btn btn-danger">Cancelar <span class="glyphicon glyphicon-remove"></span></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="activar">
+    <!--esta div pondra la pantalla oscura al presionar el boton-->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--ACA VA EL CONTENIDO DEL MODAL-->
+            <!--header de la ventana-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+                <h4 class="modal-title">Aviso</h4>
+            </div>
+            <!--contenido de la ventana-->
+            <div class="modal-body">
+                ¿Está seguro que quiere activar el registro?
+            </div>
+            <!--footer de la ventana-->
+            <div class="modal-footer"> 
+                <a class="btn btn-primary" href="#opcionActivar" data-toggle="modal">Aceptar <span class="glyphicon glyphicon-ok"></span></a>                               
+                <!--<button type="button" href="#opcionActivar" class="btn btn-primary">Aceptar <span class="glyphicon glyphicon-ok"></span></button>-->
+                <a class="btn btn-primary" data-toggle="modal" onclick="return closewindowAct()">Cancelar<span class="glyphicon glyphicon-pencil"></span></a>               
+                <!--<button type="button" onclick="return closewindow();" class="btn btn-danger">Cancelar <span class="glyphicon glyphicon-remove"></span></button>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="opcionActivar">
+    <!--esta div pondra la pantalla oscura al presionar el boton-->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--ACA VA EL CONTENIDO DEL MODAL-->
+            <!--header de la ventana-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+                <h4 class="modal-title">Aviso</h4>
+            </div>
+            <!--contenido de la ventana-->
+            <div class="modal-body">
+                ¿Desea restaurar todos los registros anteriormente asociados?
+            </div>
+            <!--footer de la ventana-->
+            <div class="modal-footer">
+                <button type="button" onclick="activarArbol()" class="btn btn-primary">Si <span class="glyphicon glyphicon-ok"></span></button>
+                <button type="button" onclick="activarRegistro()" class="btn btn-danger">No <span class="glyphicon glyphicon-remove"></span></button>
             </div>
         </div>
     </div>
