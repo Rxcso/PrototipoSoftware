@@ -162,43 +162,21 @@
                             @Html.ValidationMessageFor(model => model.ubicacion)
                         </div>
                     </div>
+                    
+                    <div class="row form-group">
+                        @Html.LabelFor(model => model.idRegion, new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.idRegion, @ViewBag.DepID as SelectList, "Departamento", new { @class = "form-control", @onchange = "cambioDepartamento()" })
+                        </div>
+                    </div>
 
                     <div class="row form-group">
-                        @Html.LabelFor(model => model.departamento, new { @class = "control-label col-md-3" })
-                        <div class="col-md-9">
-                            @{                
-                                List<WebApplication4.Models.Region> listaDepartamento = db.Region.AsNoTracking().Where(c => c.idRegPadre == null).ToList();
-                                IEnumerable<SelectListItem> listItems = (from a in listaDepartamento
-                                                         select new SelectListItem
-                                                       {
-                                                           Value = a.idRegion.ToString(),
-                                                           Text = a.nombre,
-                                                           Selected = false
-                                                       });
-                                listItems.First().Selected = true;                     
-                            }
-                            @Html.DropDownListFor(model => model.departamento, listItems, "Seleccione Departamento")
+                        @Html.LabelFor(model => model.idProv, new { @class = "control-label col-md-2" })
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(model => model.idProv, @ViewBag.ProvID as SelectList, "Provincia", new { @class = "form-control" })
                         </div>
                     </div>
                     
-                    <div class="row form-group">
-                        @Html.LabelFor(model => model.provincia, new { @class = "control-label col-md-3" })
-                        <div class="col-md-9">
-                            @{            
-                                List<WebApplication4.Models.Region> listaProvincia = db.Region.AsNoTracking().Where(c => c.idRegPadre != null).ToList();
-                             
-                                    IEnumerable<SelectListItem> listItems2 = (from a in listaProvincia
-                                                         select new SelectListItem
-                                                       {
-                                                           Value = a.idRegion.ToString(),
-                                                           Text = a.nombre,
-                                                           Selected = false
-                                                       });
-                            }
-                            @Html.DropDownListFor(model => model.provincia, listItems2, "Seleccione Provincia")
-                        </div>
-                    </div>
-
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
                             <input type="submit" value="Agregar" class="btn btn-primary" />
@@ -233,6 +211,57 @@
 
         //<a class="btn btn-primary" href="javascript:document.getElementsByClassName('trselected').submit()">Borrar<span class="glyphicon glyphicon-pencil"></span></a>
         //idProm = x.codp;
+    }
+    function cambio() {
+
+        fillCombo("idProv", $("#idRegion").val(), "Distritos", "Distritos");
+
+    }
+    function fillCombo(idCombo, value, linkUrl, optlabel) {
+
+        $("#" + idCombo).empty();
+        $("#" + idCombo).append("<option value=''>" + optlabel + "</option>")
+
+
+        var depId = parseInt(value);
+        if (isNaN(depId)) return;
+        $.ajax({
+            url: linkUrl,
+            data: { depId: depId },
+            datatype: "json",
+            success: function (data) {
+                var obj = $.parseJSON(data);
+                $.each(obj, function (k, v) {
+                    $("#" + idCombo).append("<option value='" + v.IdRegion + "'>" + v.Nombre + "</option>");
+                });
+            },
+            error: function () {
+                alert("Error :(");
+            }
+        });
+    }
+    function cambioDepartamento() {
+        var depId = parseInt($("#idRegion").val());
+        if (!isNaN(depId)) {
+            var ddProv = $("#idProv");
+            ddProv.empty();
+            ddProv.append($("<option></option>").val("").html("Provincia"));
+            $.ajax({
+                url: "@Url.Action("Provincia","Services")",
+                data: { depId: depId },
+            datatype: "json",
+            success: function (data) {
+                var obj = $.parseJSON(data);
+                $.each(obj, function (k, v) {
+                    ddProv.append($("<option></option>").val(v.IdRegion).html(v.Nombre));
+                });
+            },
+            error: function () {
+                alert("Error :(");
+            }
+        });
+    }
+    ddProv.empty();
     }
     function borrar() {
         var local = $('#idLocalT').val();
