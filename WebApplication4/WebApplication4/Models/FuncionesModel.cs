@@ -18,9 +18,11 @@ namespace WebApplication4.Models
         [Display(Name = "Hora:")]
         public DateTime horaInicio { get; set; }
 
+        public string razon { get; set; }
     }
     public class FuncionesListModel
     {
         public List<FuncionesModel> ListaFunciones { get; set; }
+        public bool esCorrecto { get; set; }
     }
 }

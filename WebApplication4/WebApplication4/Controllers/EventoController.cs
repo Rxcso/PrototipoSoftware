@@ -154,13 +154,37 @@ namespace WebApplication4.Controllers
 
         public ActionResult Funciones()
         {
+            ViewBag.MensajeError = "";
             return View();
         }
 
         [HttpPost]
         public ActionResult Funciones(FuncionesListModel model)
         {
-
+            List<FuncionesModel> listaVerificacion = null;
+            int idEvento;
+            if (TempData["IdEventoCreado"] != null)
+            {
+                if (int.TryParse(TempData["IdEventoCreado"].ToString(), out idEvento))
+                {
+                    listaVerificacion = Validaciones.ValidarFunciones(model);
+                    if (model.esCorrecto)
+                    {
+                        for (int i = 0; i < listaVerificacion.Count; i++)
+                        {
+                            Funcion funcion = new Funcion();
+                            funcion.codEvento = idEvento;
+                            funcion.fecha = listaVerificacion[i].fechaFuncion;
+                            funcion.horaIni = listaVerificacion[i].horaInicio;
+                            db.Funcion.Add(funcion);
+                            db.SaveChanges();
+                        }
+                    }
+                    ViewBag.MensajeError = "Funciones Repetidas en el mismo dia";
+                    ViewBag.Resultados = listaVerificacion;
+                }
+            }
+            ViewBag.MensajeError = "No hay un proceso de registro de evento activo.";
             return View();
         }
 

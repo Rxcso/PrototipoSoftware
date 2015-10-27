@@ -1,6 +1,8 @@
 ﻿@using WebApplication4.Models
 @{
     ViewBag.Title = "Register";
+    List<FuncionesModel> listaResultado = ViewBag.Resultados as List<FuncionesModel>;
+    int cantidad = (listaResultado == null) ? 0 : listaResultado.Count;
 }
 @model FuncionesListModel
 <div class="container-fluid">
@@ -11,6 +13,7 @@
         </ol>
     </div>
 </div>
+<h3>@ViewBag.MensajeError</h3>
 <div class="tab-pane fade in container" id="funciones">
     <h2>Funciones del Evento</h2><br />
     <div class="form-group col-md-10">
@@ -19,14 +22,13 @@
             <input id="fechaFuncion" class="form-control" type="datetime-local" required>
         </div>
         @*@Html.LabelFor(c => c.ListaFunciones[0].horaInicio, new { @class = "control-label col-md-1" })
-        <div class="col-md-4">
-            <input id="horaFuncion" class="form-control" type="time" required>
-        </div>*@
+            <div class="col-md-4">
+                <input id="horaFuncion" class="form-control" type="time" required>
+            </div>*@
     </div>
-    @Html.Hidden("histFuncion", "0")
+    @Html.Hidden("histFuncion", ""+cantidad)
     <br>
-
-    @using (Html.BeginForm("Funciones", "Evento", FormMethod.Post, new { @id="formPost"}))
+    @using (Html.BeginForm("Funciones", "Evento", FormMethod.Post, new { @id = "formPost" }))
     {
         <div class="form-group col-md-12">
             <button id="btnAgregarFuncion" type="button" class="btn btn-primary" onclick="agregaFuncion()">Agregar función<span class="glyphicon glyphicon-plus"></span></button>
@@ -45,7 +47,20 @@
                             <td>¿Quitar?</td>
                         </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                        @if (listaResultado != null)
+                        {
+                            for (int i = 0; i < listaResultado.Count; i++)
+                            {
+                                <tr data-fecha="@listaResultado[i].fechaFuncion.ToString("yyyy-MM-dd")" data-hora="@String.Format("{0:t}",listaResultado[i].horaInicio)">
+                                    <td>@(i+1)</td>
+                                    <td>@listaResultado[i].fechaFuncion.ToString("yyyy-MM-dd")</td>
+                                    <td>@String.Format("{0:t}", listaResultado[i].horaInicio)</td>
+                                    <td><input type="radio" name="groupFunciones" value="@(i+1)"></td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
                 </table>
             </div>
         </div>
