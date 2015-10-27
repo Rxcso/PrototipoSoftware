@@ -8,7 +8,12 @@ namespace WebApplication4.Models
 {
     public class TarifaModel
     {
-        [Required]
-        int id { get; set; }
+        public double Precio { get; set; }
+    }
+    public class ZonaEventoModel
+    {
+        public string Nombre { get; set; }
+        public int Aforo { get; set; }
+        public List<TarifaModel> ListaTarifas { get; set; }
     }
 }

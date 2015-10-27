@@ -157,6 +157,24 @@ namespace WebApplication4.Controllers
             return View();
         }
 
+        public ActionResult Tarifas()
+        {
+            //int idEvento = int.Parse(TempData["idEventoCreado"].ToString());
+            int idEvento = 9;
+            List<PeriodoVenta> listaPV = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
+            List<string> nombresPV = new List<string>();
+            foreach(PeriodoVenta p in listaPV){
+                nombresPV.Add("Del " + String.Format("{0:dd/MM/yyyy}", p.fechaInicio) + " hasta: " + String.Format("{0:dd/MM/yyyy}", p.fechaFin));  
+            }
+            ViewBag.NombrePV = nombresPV;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Tarifas(ZonaEvento model)
+        {
+            return View();
+        }
         [HttpGet]
         public ActionResult Asientos(string evento)
         {
