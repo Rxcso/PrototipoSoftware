@@ -5,6 +5,7 @@
     ViewBag.Title = "Asignacion";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
     var db = new WebApplication4.Models.inf245netsoft();
+    //string mensaje = "";
     List<WebApplication4.Models.TurnoSistema> listaTurno = db.TurnoSistema.AsNoTracking().Where(c => c.activo == true).ToList();
     List<WebApplication4.Models.Region> listaDepart = db.Region.AsNoTracking().Where(c => c.idRegPadre == null).ToList();
     //List<WebApplication4.Models.Region> listaProv = null;
@@ -35,7 +36,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-3">
-            <a class="btn btn-primary" href="" data-toggle="modal">Agregar <span class="glyphicon glyphicon-plus"></span></a>
+            <a class="btn btn-primary" onclick="registrar()" href="" data-toggle="modal">Agregar <span class="glyphicon glyphicon-plus"></span></a>
             <a class="btn btn-primary" onclick="borrarT()" href="">Borrar <span class="glyphicon glyphicon-remove"></span></a>
         </div>
 
@@ -67,13 +68,13 @@
         <div class="col-md-3">
             <div class="input-group">
                 <span class="input-group-addon">Desde:</span>
-                <input type="date" class="form-control">
+                <input id="fini" type="date" class="form-control">
             </div>
         </div>
         <div class="col-md-3">
             <div class="input-group">
                 <span class="input-group-addon">Hasta:</span>
-                <input type="date" class="form-control">
+                <input id="ffin" type="date" class="form-control">
             </div>
         </div>
     </div>
@@ -113,7 +114,12 @@
         </div>
     </div>
     <h4>Asignación</h4>
-
+    @*@if (Session["ErrorAsignacion"] != null)
+    {
+        mensaje = (string)Session["ErrorAsignacion"];
+        <h1>@mensaje</h1>
+    }
+    <h1>@mensaje</h1>*@
     <div class="row">
         <table id="mytable" class="table table-bordered table-hover">
             <thead>
@@ -134,8 +140,8 @@
                         <td>@db.PuntoVenta.Find(@row.codPuntoVenta).codPuntoVenta</td>
                         <td>@db.PuntoVenta.Find(@row.codPuntoVenta).ubicacion</td>
                         <td>@row.fecha.ToString("dd/MM/yyyy")</td>
-                        <td>@row.TurnoSistema.horIni</td>
-                        <td>@row.TurnoSistema.horFin</td>
+                        <td>@db.TurnoSistema.Find(@row.codTurnoSis).horIni</td>
+                        <td>@db.TurnoSistema.Find(@row.codTurnoSis).horFin</td>
                     </tr>
                 }
                 }
@@ -233,12 +239,13 @@
             success: function (data) {
                 //alert("Desactivado");
                 //window.location.href = '/CuentaUsuario/Asignacion';
-                //window.location.href = 'Promocion/Index?evento='+evento;
-                //row.remove();
+                window.location.href = '/CuentaUsuario/Asignacion';
+                row.remove();
             },
             error: function () {
-                alert("Error :(");
-                //row.remove();
+                //alert("Error :(");
+                window.location.href = '/CuentaUsuario/Asignacion';
+                row.remove();
             }
         });
     } else {
@@ -261,24 +268,34 @@
     }
 
     function registrar() {
-        var monto = $('#monto2').val();
-        var pend = $('#pendiente').val();
-        if (monto != "" && monto != null && pend != "" && pend != null) {
+        var turno = parseInt($("#comboBusq").val());
+        var punto = parseInt($("#comboPunto").val());
+        var idV = $('#idVend').val();
+        var ini = $('#fini').val();
+        var fin = $('#ffin').val();
+        //if (isNaN(punto)) return;
+        //alert(isNaN(punto));
+        //alert(idV);
+        //alert(ini);
+        //alert(fin);
+        //alert(punto);
+        //alert(turno);
+        if (turno != "0" && isNaN(punto)==false && idV != null && ini != "" && fin != "") {
             //alert(monto);
             $.ajax({
-                url: "@Url.Action("RegistrarPagos","Ventas")",
-                data: { monto: monto },
+                url: "@Url.Action("RegistrarAsignacion","CuentaUsuario")",
+                data: { turno:turno,punto:punto,idV:idV,ini:ini,fin:fin },
                 success: function (data) {
                     //alert("Eliminado");
-                    window.location.href = '/Ventas/Pago';
+                    window.location.href = '/CuentaUsuario/Asignacion';
                 },
                 error: function () {
                     //alert("Error :(");
-                    window.location.href = '/Ventas/Pago';
+                    window.location.href = '/CuentaUsuario/Asignacion';
                 }
             });
         } else {
-            alert("Seleccione un organizador e ingrese un monto");
+            alert("Seleccione un vendedor e ingrese los datos del turno a asignar");
         }
     }
 
@@ -314,7 +331,7 @@
             success: function (data) {
                 var obj = $.parseJSON(data);
                 $.each(obj, function (k, v) {
-                    $("#comboPunto").append("<option value='" + v.IdRegion + "'>" + v.Nombre + "</option>");
+                    $("#comboPunto").append("<option value='" + v.IdPunto + "'>" + v.Nombre + "</option>");
                 });
             },
             error: function () {
