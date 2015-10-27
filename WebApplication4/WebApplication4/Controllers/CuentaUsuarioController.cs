@@ -191,6 +191,12 @@ namespace WebApplication4.Controllers
             return View();
         }
 
+        public ActionResult DeleteReserva(int codE,int codF)
+        {
+            int nu = 0;
+            return View();
+        }
+
         public ActionResult BuscaReserva()
         {
             return View();
