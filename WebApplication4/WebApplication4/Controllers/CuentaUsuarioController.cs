@@ -307,6 +307,28 @@ namespace WebApplication4.Controllers
             return View();
         }
 
+        public ActionResult DeleteTurno(string turno,string fecha,string horai)
+        {
+            string m1;
+            CuentaUsuario vend;
+            int cpv;
+            if (Session["vendAsig"] != null)
+            {
+                vend = (CuentaUsuario)Session["vendAsig"];
+                m1 = vend.usuario;
+            }
+            else return RedirectToAction("Asignacion", "CuentaUsuario");
+            List<TurnoSistema> lts = db.TurnoSistema.Where(c => c.horIni==horai).ToList();
+            int cs = lts.First().codTurnoSis;
+            DateTime dt1 = DateTime.Parse(fecha);
+            cpv = int.Parse(turno);
+            List<Turno> ltur = db.Turno.Where(s => s.codPuntoVenta == cpv && s.codTurnoSis == cs && s.usuario==m1 && s.fecha==dt1).ToList();
+            Turno tur = ltur.First();
+            db.Turno.Remove(tur);
+            db.SaveChanges();
+            return View();
+        }
+
         public ActionResult MisCompras()
         {
             return View();
