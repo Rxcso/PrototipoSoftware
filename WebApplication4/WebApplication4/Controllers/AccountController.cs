@@ -126,7 +126,7 @@ namespace WebApplication4.Controllers
                                     }
                                 }
                             }
-                            if (tu != null)
+                            if (tu != null && tu.estado=="Pendiente")
                             {
                                 int idPol = 4;
                                 int limite = (int)db.Politicas.Find(idPol).valor;

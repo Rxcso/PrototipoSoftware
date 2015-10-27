@@ -193,7 +193,66 @@ namespace WebApplication4.Controllers
 
         public ActionResult DeleteReserva(int codE,int codF)
         {
-            int nu = 0;
+            Ventas v = db.Ventas.Find(codE);
+            db.Entry(v).State = EntityState.Modified;
+            v.Estado = "Cancelado";
+            db.SaveChanges();
+            db.Entry(v).State = EntityState.Detached;
+            //Session["listaReservaClientes"]=db.
+            return RedirectToAction("MisReservas", "CuentaUsuario");
+        }
+
+        public ActionResult RegistraPoliticas(string dur,string mx,string mt)
+        {
+            int m1,m2,m3;
+            if (int.TryParse(dur, out m1) == true)
+            {
+                int val = int.Parse(dur);
+                int t = 1;
+                Politicas p = db.Politicas.Find(t);
+                db.Entry(p).State = EntityState.Modified;
+                p.valor = val;
+                db.SaveChanges();
+                db.Entry(p).State = EntityState.Detached;
+            }
+            if (int.TryParse(mx, out m2) == true)
+            {
+                int val1 = int.Parse(mx);
+                int t = 2;
+                Politicas p = db.Politicas.Find(t);
+                db.Entry(p).State = EntityState.Modified;
+                p.valor = val1;
+                db.SaveChanges();
+                db.Entry(p).State = EntityState.Detached;
+            }
+            if (int.TryParse(mt, out m3) == true)
+            {
+                int val2 = int.Parse(mt);
+                int t = 3;
+                Politicas p = db.Politicas.Find(t);
+                db.Entry(p).State = EntityState.Modified;
+                p.valor = val2;
+                db.SaveChanges();
+                db.Entry(p).State = EntityState.Detached;
+            }
+            return View();
+        }
+
+        public ActionResult RegistraTolerancia(String tolerancia)
+        {
+            if (tolerancia == "" || tolerancia == null) return View();
+            //double m1;
+            int m1;
+            if (int.TryParse(tolerancia, out m1) == false) return View();
+            //double m = double.Parse(tolerancia);
+            //int val = (int)m;
+            int val = int.Parse(tolerancia);
+            int t = 4;
+            Politicas p = db.Politicas.Find(t);
+            db.Entry(p).State = EntityState.Modified;
+            p.valor = val;
+            db.SaveChanges();
+            db.Entry(p).State = EntityState.Detached;
             return View();
         }
 
@@ -233,21 +292,21 @@ namespace WebApplication4.Controllers
 
         public ActionResult ReportePdf()
         {
-            List<WebApplication4.Models.CuentaUsuario> listaCliente = (List<WebApplication4.Models.CuentaUsuario>)TempData["ListaPU"];
-            Document document = new Document();
-            PdfWriter.GetInstance(document, new FileStream("F://ReporteVentas.pdf", FileMode.OpenOrCreate));
-            document.Open();
-            DateTime d1 = DateTime.Now;
-            document.Add(new Paragraph(""));
-            document.Add(new Paragraph("                                                            Reporte de Clientes"));
-            document.Add(new Paragraph("            Fecha:               " + d1.Date + "                     "));
-            document.Add(new Paragraph("                     Usuario        Nombre y Apellido             Codigo Documento       Puntos"));
-            for (int i = 0; i < listaCliente.Count(); i++)
-            {
-                document.Add(new Paragraph("                     " + listaCliente[i].usuario + "                 " + listaCliente[i].nombre + "  " + listaCliente[i].apellido + "             " + listaCliente[i].codDoc + "        " + listaCliente[i].puntos));
+            //List<WebApplication4.Models.CuentaUsuario> listaCliente = (List<WebApplication4.Models.CuentaUsuario>)TempData["ListaPU"];
+            //Document document = new Document();
+            //PdfWriter.GetInstance(document, new FileStream("F://ReporteVentas.pdf", FileMode.OpenOrCreate));
+            //document.Open();
+            //DateTime d1 = DateTime.Now;
+            //document.Add(new Paragraph(""));
+            //document.Add(new Paragraph("                                                            Reporte de Clientes"));
+            //document.Add(new Paragraph("            Fecha:               " + d1.Date + "                     "));
+            //document.Add(new Paragraph("                     Usuario        Nombre y Apellido             Codigo Documento       Puntos"));
+            //for (int i = 0; i < listaCliente.Count(); i++)
+            //{
+            //    document.Add(new Paragraph("                     " + listaCliente[i].usuario + "                 " + listaCliente[i].nombre + "  " + listaCliente[i].apellido + "             " + listaCliente[i].codDoc + "        " + listaCliente[i].puntos));
 
-            }
-            document.Close();
+            //}
+            //document.Close();
             //String htmlText = html.ToString();
             //Document document = new Document();
             //string filePath = HostingEnvironment.MapPath("~/Content/Pdf/");

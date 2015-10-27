@@ -1,7 +1,11 @@
-﻿
+﻿@using Microsoft.AspNet.Identity;
+@using WebApplication4.Models;
+
 @{
     ViewBag.Title = "Politicas";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+    var db = new WebApplication4.Models.inf245netsoft();
+    
 }
 
 <div class="container-fluid">
@@ -25,7 +29,7 @@
             <div class="row">
                 <div class="container">
                     <br>
-                    <a href="index2.html" class="btn btn-danger pull-right">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+                    <a href="@Url.Action("Index2", "Home")" class="btn btn-danger pull-right">Salir <span class="glyphicon glyphicon-log-out"></span></a>
                 </div>
             </div>
             <!--PRIMAERA PESTAÑA-->
@@ -37,7 +41,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="input-group">
-                                <input type="number" class="form-control" aria-describedby="reserva">
+                                <input id="durR" type="number" class="form-control" aria-describedby="reserva">
                                 <span class="input-group-addon" id="reserva">días</span>
                             </div>
                         </div>
@@ -48,7 +52,7 @@
                             <label for="">Máximo de reservas/compras por evento:</label>
                         </div>
                         <div class="col-md-3">
-                            <input type="number" class="form-control">
+                            <input id="maxC" type="number" class="form-control">
                         </div>
                     </div><br>
                     <div class="row">
@@ -59,7 +63,7 @@
                         <div class="col-md-3">
                             <div class="input-group">
                                 <span class="input-group-addon" id="min">S/.</span>
-                                <input type="number" class="form-control" aria-describedby="min">
+                                <input id="monT" type="number" class="form-control" aria-describedby="min">
                             </div>
                         </div>
                     </div><br>
@@ -81,7 +85,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="input-group">
-                                <input type="number" class="form-control" aria-describedby="min">
+                                <input id="tol" type="number" class="form-control" aria-describedby="min">
                                 <span class="input-group-addon" id="min">minutos</span>
                             </div>
                         </div>
@@ -89,7 +93,7 @@
                     </div><br>
                     <div class="row">
                         <div class="col-md-3 col-md-offset-5">
-                            <button type="button" onclick="registrar()" class="btn btn-primary">Registrar <span class="glyphicon glyphicon-ok"></span></button>
+                            <button type="button" onclick="registrar2()" class="btn btn-primary">Registrar <span class="glyphicon glyphicon-ok"></span></button>
                         </div>
 
                     </div>
@@ -102,16 +106,49 @@
 
 <script>
 		function registrar(){
-        	document.getElementById("tipocambio").innerHTML="3";
-        	document.getElementById("filaAgregar").style.visibility="visible";
+		    var dur = $('#durR').val();
+		    var mx = $('#maxC').val();
+		    var mt = $('#monT').val();
+		    //alert(dur);
+		    //alert(mx);
+		    //alert(mt);
+		    if (mx!=null || dur!=null || mt!=null) {
+		        $.ajax({
+		            url: "@Url.Action("RegistraPoliticas", "CuentaUsuario")",
+		            data: { dur:dur,mx:mx,mt:mt },
+		        success: function (data) {
+		            //alert("Desactivado");
+		            window.location.href = '/CuentaUsuario/Politicas';
+		            //window.location.href = 'Promocion/Index?evento='+evento;
+		            //row.remove();
+		        },
+		        error: function () {
+		            //alert("Error :(");
+		        }
+		    });
+        } else {
+		        alert("Ingrese un valor a Registrar");
+        }
        }
 		function registrar2(){
-        	document.getElementById("fecha").innerHTML="25/09/2015";
-        	document.getElementById("montoR").innerHTML= document.getElementById("montomin").value;
-       }
-		function registrar3(){
-        	document.getElementById("fecha2").innerHTML="25/09/2015";
-        	document.getElementById("diasR").innerHTML= document.getElementById("cantdias").value;
+		    var tolerancia = $('#tol').val();
+		    if (tolerancia != "" && tolerancia != null) {
+		        $.ajax({
+		            url: "@Url.Action("RegistraTolerancia","CuentaUsuario")",
+		            data: { tolerancia:tolerancia},
+		        success: function (data) {
+		            //alert("Desactivado");
+		            window.location.href = '/CuentaUsuario/Politicas';
+		            //window.location.href = 'Promocion/Index?evento='+evento;
+		            //row.remove();
+		        },
+		        error: function () {
+		            //alert("Error :(");
+		        }
+		    });
+        } else {
+            alert("Ingrese tiempo de tolerancia");
+        }
        }
 </script>
 
