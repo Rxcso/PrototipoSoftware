@@ -11,6 +11,7 @@ using Microsoft.Owin.Security;
 using WebApplication4.Models;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Net.NetworkInformation;
 
 namespace WebApplication4.Controllers
 {
@@ -98,6 +99,16 @@ namespace WebApplication4.Controllers
                     {
                         if (cuentausuario.codPerfil == 2)
                         {
+                            string macAddresses = "";
+
+                            foreach (NetworkInterface nic in NetworkInterface.GetAllNetworkInterfaces())
+                            {
+                                if (nic.OperationalStatus == OperationalStatus.Up)
+                                {
+                                    macAddresses += nic.GetPhysicalAddress().ToString();
+                                    break;
+                                }
+                            }
                             Turno tu = null;
                             DateTime hoy = DateTime.Now;
                             int idPunto = 1;
