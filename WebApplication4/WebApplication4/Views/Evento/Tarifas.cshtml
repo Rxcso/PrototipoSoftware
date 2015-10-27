@@ -1,6 +1,6 @@
-﻿@model WebApplication4.Models.ZonaEventoModel
+﻿@model WebApplication4.Models.ZonaEventoListModel
 @{
-    List<string> nombresHeaderTabla = ViewBag.NombresPV as List<string>;
+    List<string> nombresHeaderTabla = ViewBag.NombrePV as List<string>;
 }
 
 <div class="tab-pane fade in container" id="tarifas">
@@ -8,36 +8,50 @@
         <br>
         <div class="row">
             <div class="col-md-3 col-md-offset-9">
-                <button class="btn btn-primary ">Agregar fila <span class="glyphicon glyphicon-plus"></span></button>
-                <button class="btn btn-primary ">Quitar fila <span class="glyphicon glyphicon-remove"></span></button>
+                <button class="btn btn-primary" onclick="agregaFila()">Agregar fila <span class="glyphicon glyphicon-plus"></span></button>
+                <button class="btn btn-primary">Quitar fila <span class="glyphicon glyphicon-remove"></span></button>
             </div>
 
         </div><br>
+        @Html.Hidden("nHeaders", "" + (nombresHeaderTabla.Count + 3))
+        @Html.Hidden("nZonas", "0")
         <div class="row">
-            <table class="table table-bordered table-hover" contenteditable="true">
-                <tr class="active">
-                    <th>Nº</th>
-                    <th>Tipo de entrada/Zona</th>
-                    <th>Del 1/1/2016 al 1/2/2016</th>
-                    <th>Del 2/2/2016 al 16/2/2016</th>
-                    <th>Cantidad de entradas</th>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-
-            </table>
+            @using (Html.BeginForm("Tarifas", "Evento", FormMethod.Post, new { @id = "formPost" }))
+            {
+                <table class="table table-bordered table-hover" id="tarifario" draggable="false">
+                    <thead>
+                        <tr class="active">
+                            <th>Nº</th>
+                            <th>Tipo de entrada/Zona</th>
+                            @for (int i = 0; i < nombresHeaderTabla.Count; i++)
+                            {
+                                <th>@nombresHeaderTabla[i]</th>
+                            }
+                            <th>Cantidad de entradas</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <button type="submit" class="btn btn-primary" style="float: right;">Siguiente   <span class="glyphicon glyphicon-arrow-right"></span></button>
+            }
         </div>
     </div>
 </div>
+<script>
+    function agregaFila() {
+        var nZonas = parseInt($('#nZonas').val());
+        var table = document.getElementById("tarifario");
+        var row = table.insertRow();
+        row.setAttribute("contentEditable", "true");
+        var nCeldas = parseInt($('#nHeaders').val());
+        for (var i = 0; i < nCeldas; i++) {
+            var cell = row.insertCell(i);
+            cell.setAttribute("draggable", "flase");
+            if (i == 0) {
+                cell.setAttribute("contentEditable", "false");
+                cell.innerHTML = (nZonas + 1);
+            }
+        }
+        $('#nZonas').val((nZonas + 1));
+    }
+</script>

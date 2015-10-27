@@ -160,12 +160,13 @@ namespace WebApplication4.Controllers
         public ActionResult Tarifas()
         {
             //int idEvento = int.Parse(TempData["idEventoCreado"].ToString());
-            int idEvento = 9;
-            List<PeriodoVenta> listaPV = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
+            //int idEvento = 9;
+            //List<PeriodoVenta> listaPV = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
             List<string> nombresPV = new List<string>();
-            foreach(PeriodoVenta p in listaPV){
+            nombresPV.Add("bloque 1"); nombresPV.Add("bloque 2"); nombresPV.Add("bloque 3");
+            /*foreach(PeriodoVenta p in listaPV){
                 nombresPV.Add("Del " + String.Format("{0:dd/MM/yyyy}", p.fechaInicio) + " hasta: " + String.Format("{0:dd/MM/yyyy}", p.fechaFin));  
-            }
+            }*/
             ViewBag.NombrePV = nombresPV;
             return View();
         }
