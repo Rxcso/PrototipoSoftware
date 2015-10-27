@@ -78,7 +78,6 @@ function guardarFunciones() {
     for (var i = 1; i < tableBTV.rows.length; i++) {
         var fecha = tableBTV.rows[i].getAttribute("data-fecha");
         var hora = tableBTV.rows[i].getAttribute("data-hora");
-        alert(fecha + " - " + hora);
         $("#formPost").prepend("<input type='hidden' name='" + nombreLista + "[" + (i - 1) + "].fechaFuncion' value='" + fecha + "'>");
         $("#formPost").prepend("<input type='hidden' name='" + nombreLista + "[" + (i - 1) + "].horaInicio' value='" + hora + "'>");
     }

@@ -203,7 +203,7 @@ namespace WebApplication4.Controllers
         }
 
         [HttpPost]
-        public ActionResult Tarifas(ZonaEvento model)
+        public ActionResult Tarifas(ZonaEventoListModel model)
         {
             return View();
         }
