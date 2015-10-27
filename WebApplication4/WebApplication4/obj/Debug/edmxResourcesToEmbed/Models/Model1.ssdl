@@ -378,7 +378,7 @@
     <Property Name="codDoc" Type="varchar" MaxLength="100" />
     <Property Name="cliente" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="vendedor" Type="varchar" MaxLength="100" />
-    <Property Name="Estado" Type="bit" Nullable="false" />
+    <Property Name="Estado" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="MontoTotal" Type="float" />
   </EntityType>
   <EntityType Name="VentasXFuncion">
