@@ -11,7 +11,7 @@ namespace WebApplication4.Controllers
     public class EventoController : Controller
     {
         inf245netsoft db = new inf245netsoft();
-        const int  maximoPaginas = 2;
+        const int maximoPaginas = 2;
         // GET: Evento
         public ActionResult Index(string nombre, string orden, DateTime? fech_ini, DateTime? fech_fin, int? idCategoria, int? idSubCat, int? idRegion, int? page)
         {
@@ -130,16 +130,22 @@ namespace WebApplication4.Controllers
         [HttpPost]
         public ActionResult BloquesTiempoVenta(BloqueTiempoListModel model)
         {
-            List<BloqueDeTiempoModel> listaVerificacion = Validaciones.ValidarBloquesDeTiempoDeVenta(model);
-            int idEvento = (int)TempData["idEventoCreado"];
-            if (model.esCorrecto)
+            int idEvento;
+            List<BloqueDeTiempoModel> listaVerificacion = null;
+            if (int.TryParse(TempData["IdEventoCreado"].ToString(), out idEvento))
             {
-                for (int i = 0; i < listaVerificacion.Count; i++)
+                listaVerificacion = Validaciones.ValidarBloquesDeTiempoDeVenta(model);
+                if (model.esCorrecto)
                 {
-                    PeriodoVenta periodoVenta = new PeriodoVenta();
-                    periodoVenta.fechaInicio = listaVerificacion[i].fechaInicio;
-                    periodoVenta.fechaFin = listaVerificacion[i].fechaFin;
-                    periodoVenta.codEvento = idEvento;
+                    for (int i = 0; i < listaVerificacion.Count; i++)
+                    {
+                        PeriodoVenta periodoVenta = new PeriodoVenta();
+                        periodoVenta.fechaInicio = listaVerificacion[i].fechaInicio;
+                        periodoVenta.fechaFin = listaVerificacion[i].fechaFin;
+                        periodoVenta.codEvento = idEvento;
+                        db.PeriodoVenta.Add(periodoVenta);
+                        db.SaveChanges();
+                    }
                 }
             }
             ViewBag.Resultados = listaVerificacion;
@@ -154,6 +160,7 @@ namespace WebApplication4.Controllers
         [HttpPost]
         public ActionResult Funciones(FuncionesListModel model)
         {
+
             return View();
         }
 
@@ -194,12 +201,12 @@ namespace WebApplication4.Controllers
             var evento = db.Eventos.Find(id);
             if (evento == null)
             {
-                ModelState.AddModelError( string.Empty, "No hay Evento" );   
+                ModelState.AddModelError(string.Empty, "No hay Evento");
                 return Redirect("~/Home/Index");
 
             }
 
-            return View(evento); 
+            return View(evento);
         }
 
         [HttpPost]
@@ -209,28 +216,29 @@ namespace WebApplication4.Controllers
         {
 
             //System.Console.WriteLine("gg");
-            if (model.ImageEvento == null || model.ImageEvento.ContentLength == 0){
+            if (model.ImageEvento == null || model.ImageEvento.ContentLength == 0)
+            {
                 ModelState.AddModelError("ImageEvento", "Se necesita la Imagen del Evento");
             }
 
             if (ModelState.IsValid)
             {
-                var eventp = new Eventos();	
-                if (model.ImageDestacado != null && model.ImageDestacado.ContentLength > 0)		
-                {		
+                var eventp = new Eventos();
+                if (model.ImageDestacado != null && model.ImageDestacado.ContentLength > 0)
+                {
                     var uploadDir = "/Images/";
                     eventp.ImagenDestacado = uploadDir + "destacado" + model.ImageDestacado.FileName;
-                    model.ImageDestacado.SaveAs(Server.MapPath("~/Images/" + "destacado" + model.ImageDestacado.FileName));                   
-                }		
-               	
-               eventp.nombre = model.nombre;
-               eventp.idOrganizador = 1;
-               eventp.idRegion = 1;
+                    model.ImageDestacado.SaveAs(Server.MapPath("~/Images/" + "destacado" + model.ImageDestacado.FileName));
+                }
 
-               db.Eventos.Add(eventp);	
-               db.SaveChanges();
+                eventp.nombre = model.nombre;
+                eventp.idOrganizador = 1;
+                eventp.idRegion = 1;
 
-                return Redirect("~/Home/Index2");               
+                db.Eventos.Add(eventp);
+                db.SaveChanges();
+
+                return Redirect("~/Home/Index2");
             }
 
             return View(model);
@@ -241,7 +249,7 @@ namespace WebApplication4.Controllers
             return View();
         }
 
-  
+
         [AllowAnonymous]
         // [RequireRequestValue(new[] { "fech_ini", "fech_fin", "idCategoria", "idSubCat", "idRegion", "idProv" })]
         //  [RequireRequestValue(new[] { "nombre"})]
@@ -297,7 +305,7 @@ namespace WebApplication4.Controllers
             }
 
 
-       
+
 
 
             ViewBag.Lista = lista.ToList();
@@ -312,8 +320,8 @@ namespace WebApplication4.Controllers
                 ViewBag.Lista = db.Eventos.AsNoTracking().Where(c => (c.fecha_inicio >= fech_ini && c.fecha_inicio <= fech_fin &&
                   c.idCategoria == idCategoria && c.idRegion == idRegion && c.idProvincia == idProv && c.estado.Contains("Activo"))).ToList();
             }
-            
-           
+
+
 
             var categorias = db.Categoria.AsNoTracking().Where(c => c.nivel == 1);
             ViewBag.categorias = new SelectList(categorias, "idCategoria", "nombre");
