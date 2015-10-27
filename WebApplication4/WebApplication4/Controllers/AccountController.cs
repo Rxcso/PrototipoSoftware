@@ -90,7 +90,10 @@ namespace WebApplication4.Controllers
                     TempData["tipo"] = "alert alert-success";
                     TempData["message"] = "Logueado Correctamente";
                     if (cuentausuario.codPerfil == 1)
+                    {
+                        Session["UsuarioLogueado"] = cuentausuario;
                         return Redirect("~/Home/Index");
+                    }
                     else
                     {
                         if (cuentausuario.codPerfil == 2)
@@ -128,7 +131,7 @@ namespace WebApplication4.Controllers
                                 int idPol = 4;
                                 int limite = (int)db.Politicas.Find(idPol).valor;
                                 TimeSpan time1 = TimeSpan.FromMinutes(limite);
-                                TimeSpan horalimite=TimeSpan.Parse(ts.horIni);
+                                TimeSpan horalimite = TimeSpan.Parse(ts.horIni);
                                 TimeSpan hora1 = horalimite.Add(time1);
                                 db.Entry(tu).State = EntityState.Modified;
                                 if (hora1 > da)
