@@ -32,10 +32,10 @@
             double subtotalDE=0;    
         for (int i = 0; i < listaVentas.Count; i++)            
         {
-            subtotalSE = (double)listaVentas[i].montoEfectivo;
-            subtotalST = 0;
-            subtotalDE = (double)listaVentas[i].montoDolares;
-            subtotalDT = (double)listaVentas[i].montoCredito;
+            subtotalSE = (double)listaVentas[i].montoEfectivoSoles;
+            subtotalST = (double)listaVentas[i].montoCreditoSoles;
+            subtotalDE = (double)listaVentas[i].montoEfectivoDolares;
+            subtotalDT = (double)listaVentas[i].montoCreditoDolares;
             totalSE += subtotalSE;
             totalST += subtotalST;
             totalS += (totalSE + totalST);

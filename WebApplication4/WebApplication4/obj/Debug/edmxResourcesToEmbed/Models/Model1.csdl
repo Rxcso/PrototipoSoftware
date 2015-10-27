@@ -916,18 +916,19 @@
     </Key>
     <Property Name="codVen" Type="Int32" Nullable="false" />
     <Property Name="fecha" Type="DateTime" Precision="3" />
-    <Property Name="montoDolares" Type="Double" />
     <Property Name="cantAsientos" Type="Int32" />
-    <Property Name="montoSoles" Type="Double" />
+    <Property Name="montoEfectivoSoles" Type="Double" />
+    <Property Name="montoEfectivoDolares" Type="Double" />
+    <Property Name="montoCreditoSoles" Type="Double" />
+    <Property Name="montoCreditoDolares" Type="Double" />
     <Property Name="modalidad" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="montoEfectivo" Type="Double" />
-    <Property Name="montoCredito" Type="Double" />
     <Property Name="tipoDoc" Type="Int32" />
     <Property Name="codDoc" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
     <Property Name="cliente" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
     <Property Name="vendedor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
     <Property Name="Estado" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="MontoTotal" Type="Double" />
+    <Property Name="MontoTotalSoles" Type="Double" />
+    <Property Name="MontoTotalDolares" Type="Double" />
     <NavigationProperty Name="CuentaUsuario" Relationship="inf245netsoftModel.R_30" FromRole="Ventas" ToRole="CuentaUsuario" />
     <NavigationProperty Name="CuentaUsuario1" Relationship="inf245netsoftModel.R_34" FromRole="Ventas" ToRole="CuentaUsuario" />
     <NavigationProperty Name="VentasXFuncion" Relationship="inf245netsoftModel.R_38" FromRole="Ventas" ToRole="VentasXFuncion" />

@@ -63,7 +63,7 @@
         <EntityTypeShape EntityType="inf245netsoftModel.ZonaEvento" Width="1.5" PointX="11" PointY="20.875" />
         <AssociationConnector Association="inf245netsoftModel.R_13" />
         <AssociationConnector Association="inf245netsoftModel.R_21" />
-        <EntityTypeShape EntityType="inf245netsoftModel.Ventas" Width="1.5" PointX="3" PointY="14.125" />
+        <EntityTypeShape EntityType="inf245netsoftModel.Ventas" Width="1.5" PointX="3" PointY="23" />
         <AssociationConnector Association="inf245netsoftModel.R_30" />
         <AssociationConnector Association="inf245netsoftModel.R_34" />
         <AssociationConnector Association="inf245netsoftModel.R_38" />

@@ -21,18 +21,19 @@ namespace WebApplication4.Models
     
         public int codVen { get; set; }
         public Nullable<System.DateTime> fecha { get; set; }
-        public Nullable<double> montoDolares { get; set; }
         public Nullable<int> cantAsientos { get; set; }
-        public Nullable<double> montoSoles { get; set; }
+        public Nullable<double> montoEfectivoSoles { get; set; }
+        public Nullable<double> montoEfectivoDolares { get; set; }
+        public Nullable<double> montoCreditoSoles { get; set; }
+        public Nullable<double> montoCreditoDolares { get; set; }
         public string modalidad { get; set; }
-        public Nullable<double> montoEfectivo { get; set; }
-        public Nullable<double> montoCredito { get; set; }
         public Nullable<int> tipoDoc { get; set; }
         public string codDoc { get; set; }
         public string cliente { get; set; }
         public string vendedor { get; set; }
         public string Estado { get; set; }
-        public Nullable<double> MontoTotal { get; set; }
+        public Nullable<double> MontoTotalSoles { get; set; }
+        public Nullable<double> MontoTotalDolares { get; set; }
     
         public virtual CuentaUsuario CuentaUsuario { get; set; }
         public virtual CuentaUsuario CuentaUsuario1 { get; set; }
