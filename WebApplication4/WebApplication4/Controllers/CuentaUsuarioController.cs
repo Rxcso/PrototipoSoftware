@@ -171,6 +171,52 @@ namespace WebApplication4.Controllers
             return RedirectToAction("BuscaCliente", "CuentaUsuario");
         }
 
+        public ActionResult SearchReserva(string usuario, string tipo)
+        {
+            if (tipo == "")
+            {
+                Session["ReservaBusca"] = null;
+                return RedirectToAction("BuscaReserva", "CuentaUsuario");
+            }
+            int ti = int.Parse(tipo);
+            if (ti == 0)
+            {
+                Session["ReservaBusca"] = null;
+                return RedirectToAction("BuscaReserva", "CuentaUsuario");
+            }
+            if (usuario == "" || usuario == null)
+            {
+                Session["ReservaBusca"] = null;
+                return RedirectToAction("BuscaReserva", "CuentaUsuario");
+            }
+            List<CuentaUsuario> listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.tipoDoc == ti && c.codDoc == usuario && c.estado == true && c.codPerfil == 1).ToList();
+            if (listacl == null) return RedirectToAction("BuscaReserva", "CuentaUsuario");
+
+            List<Ventas> listareservas = new List<Ventas>();
+            for (int i = 0; i < listacl.Count; i++)
+            {
+                string us=listacl[i].usuario;
+                List<Ventas> lv = db.Ventas.Where(c => c.cliente == us && c.Estado=="Reservado").ToList();
+                for (int j = 0; j < lv.Count; j++)
+                {
+                    listareservas.Add(lv[j]);
+                }
+            }
+            List<VentasXFuncion> listaRxF = new List<VentasXFuncion>();
+            for (int i = 0; i < listareservas.Count; i++)
+            {
+                int cov = listareservas[i].codVen;
+                List<VentasXFuncion> lvf = db.VentasXFuncion.Where(c => c.codVen == cov).ToList();
+                for (int j = 0; j < lvf.Count; j++)
+                {
+                    listaRxF.Add(lvf[j]);
+                }
+            }
+            if (listaRxF != null) Session["ReservaBusca"] = listaRxF;
+            else Session["ReservaBusca"] = null;
+            return RedirectToAction("BuscaReserva", "CuentaUsuario");
+        }
+
         public ActionResult Politicas()
         {
             return View();
@@ -183,6 +229,18 @@ namespace WebApplication4.Controllers
 
         public ActionResult Asignacion()
         {
+            //if (Session["nError"] != null)
+            //{
+            //    int ner=(int)Session["nError"];
+            //    if (Session["ErrorAsignacion"] != null)
+            //    {
+            //        if (ner > 1) {
+            //            Session["ErrorAsignacion"] = null;
+            //            Session["nError"] = 0;
+            //        }
+            //        Session["nError"] = ner + 1;
+            //    }
+            //}
             return View();
         }
 
@@ -195,7 +253,7 @@ namespace WebApplication4.Controllers
         {
             Ventas v = db.Ventas.Find(codE);
             db.Entry(v).State = EntityState.Modified;
-            v.Estado = "Cancelado";
+            v.Estado = "Anulado";
             db.SaveChanges();
             db.Entry(v).State = EntityState.Detached;
             //Session["listaReservaClientes"]=db.
@@ -259,6 +317,84 @@ namespace WebApplication4.Controllers
         public ActionResult BuscaReserva()
         {
             return View();
+        }
+
+        public ActionResult DeleteTurno(string turno,string fecha,string horai)
+        {
+            string m1;
+            CuentaUsuario vend;
+            int cpv;
+            if (Session["vendAsig"] != null)
+            {
+                vend = (CuentaUsuario)Session["vendAsig"];
+                m1 = vend.usuario;
+            }
+            else return RedirectToAction("Asignacion", "CuentaUsuario");
+            List<TurnoSistema> lts = db.TurnoSistema.Where(c => c.horIni==horai).ToList();
+            int cs = lts.First().codTurnoSis;
+            DateTime dt1 = DateTime.Parse(fecha);
+            cpv = int.Parse(turno);
+            List<Turno> ltur = db.Turno.Where(s => s.codPuntoVenta == cpv && s.codTurnoSis == cs && s.usuario==m1 && s.fecha==dt1).ToList();
+            Turno tur = ltur.First();
+            db.Turno.Remove(tur);
+            db.SaveChanges();
+            DateTime hoy = DateTime.Now;
+            List<Turno> listatuvend = db.Turno.AsNoTracking().Where(c => c.usuario == m1 && c.fecha > hoy).ToList();
+            Session["ListaTurnoVendedor"] = listatuvend;
+            return View();
+        }
+
+        public ActionResult RegistrarAsignacion(string turno, string punto, string idV, string ini,string fin)
+        {
+            //if (Session["ErrorAsignacion"] != null) Session["ErrorAsignacion"] = null;
+            string m1;
+            CuentaUsuario vend;
+            int cpv;
+            DateTime dt1 = DateTime.Parse(ini);
+            DateTime dt2 = DateTime.Parse(fin);
+            DateTime di=dt1;
+            DateTime dai = dt1;
+            int idt = int.Parse(turno);
+            int idp = int.Parse(punto);
+            TimeSpan ts = dt2.Subtract(dt1);
+            int nd = (int)ts.Days;
+            nd=nd+1;
+            if (dt1 <= DateTime.Now) return RedirectToAction("Asignacion", "CuentaUsuario");
+            if (dt1 > dt2) return RedirectToAction("Asignacion", "CuentaUsuario");
+            //int cruce = 0;            
+            for (int j = 0; j < nd; j++)
+            {
+                List<Turno> ltur = db.Turno.Where(c => c.codPuntoVenta == idp && c.codTurnoSis == idt && di==c.fecha).ToList();
+                if (ltur.Count != 0)
+                {
+                    //Session["nError"] = 1;
+                    //TempData["ErrorAsignacion"] = "Cruce con el usuario " + ltur.First().usuario + " para el dia " + di;
+                    return RedirectToAction("Asignacion", "CuentaUsuario");
+                }
+                di=di.AddDays(1);
+            }
+            //int cruce1 = 0;
+            for (int j = 0; j < nd; j++)
+            {
+                Turno ntur = new Turno();
+                ntur.codPuntoVenta = idp;
+                ntur.codTurnoSis = idt;
+                ntur.estado = "Pendiente";
+                ntur.estadoCaja = "Pendiente";
+                ntur.fecha = dai;
+                ntur.MontoFinDolares = 0;
+                ntur.MontoFinSoles = 0;
+                ntur.MontoInicioDolares = 0;
+                ntur.MontoInicioSoles = 0;
+                ntur.usuario = idV;
+                db.Turno.Add(ntur);
+                db.SaveChanges();
+                dai=dai.AddDays(1);
+            }
+            DateTime hoy = DateTime.Now;
+            List<Turno> listatuvend = db.Turno.AsNoTracking().Where(c => c.usuario == idV && c.fecha > hoy).ToList();
+            Session["ListaTurnoVendedor"] = listatuvend;
+                return View();
         }
 
         public ActionResult MisCompras()

@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNet.Identity;
+﻿@using Microsoft.AspNet.Identity;
 @using WebApplication4.Models;
 
 @{
     ViewBag.Title = "BuscaReserva";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
     var db = new WebApplication4.Models.inf245netsoft();
-    List<Ventas> listaReserva = null;
+    List<VentasXFuncion> listaReserva = null;
     if (Session["ReservaBusca"] != null)
     {
-        listaReserva = (List<WebApplication4.Models.Ventas>)Session["ReservaBusca"];
+        listaReserva = (List<WebApplication4.Models.VentasXFuncion>)Session["ReservaBusca"];
     }
 }
 
@@ -26,10 +26,10 @@
             <label for="dni" class="control-label">Tipo Doc:</label>
         </div>
         <div class="col-md-2">
-            <select for="" class="form-control">
-                <option value="">DNI</option>
-                <option value="">Pasaporte</option>
-                <option value="">Carnet Extranjería</option>
+            <select class="form-control" name="" id="comboBusq">
+                <option value="0">Tipo</option>
+                <option value="1">DNI</option>
+                <option value="2">Pasaporte</option>
             </select>
         </div>
         <div class="col-md-2">
@@ -37,8 +37,8 @@
         </div>
         <div class="col-md-2">
             <div class="input-group">
-                <input id="dni" type="text" class="form-control">
-                <span class="input-group-btn"><button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
+                <input id="idBusq" type="text" class="form-control">
+                <span class="input-group-btn"><button onclick="busca()" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
             </div>
         </div>
 
@@ -76,59 +76,20 @@
                         {
                             <tr id=@row.codVen onclick="myFunction(this)">
                                 <td>@row.codVen</td>
-                                <td>@db.CuentaUsuario.Find(row.cliente).nombre</td>
-                                <td>@row.codDoc</td>
-                                @*@{Funcion fu = db.Funcion.Find(row.codFuncion);
+                                @{
+                                    Ventas ve=db.Ventas.Find(row.codVen);
+                                    Funcion fu=db.Funcion.Find(row.codFuncion);
                                 }
+                                <td>@db.CuentaUsuario.Find(ve.cliente).nombre</td>
+                                <td>@ve.codDoc</td>
                                 <td>@db.Eventos.Find(fu.codEvento).nombre</td>
-                                <td>@fu.horaIni.Value.TimeOfDay - @fu.horaFin.Value.TimeOfDay</td>
-                                <td>@row.cantAsientos</td>*@
+                                <td>@row.cantEntradas</td>
                             </tr>
                         }
                     }
                 </tbody>
             </table>
         </div>
-
-        @*<table class="table table-bordered table-hover">
-            <tr class="active">
-                <th>Código Reserva</th>
-                <th>Nombre</th>
-                <th>N° Doc</th>
-                <th>Evento</th>
-                <th>Cantidad Entradas</th>
-                <th>Monto</th>
-                <th>Moneda</th>
-            </tr>
-            <tr>
-                <td>105060</td>
-                <td>Espinoza Torres Henry Antonio</td>
-                <td>46618582</td>
-                <td>Circo de Kiko</td>
-                <td>4</td>
-                <td>180.00</td>
-                <td>Soles</td>
-            </tr>
-            <tr>
-                <td>102040</td>
-                <td>Espinoza Torres Henry Antonio</td>
-                <td>46618582</td>
-                <td>La Tarumba</td>
-                <td>2</td>
-                <td>45.50</td>
-                <td>Dolares</td>
-            </tr>
-            <tr id="fila3" onclick="select()">
-                <td>708090</td>
-                <td>Espinoza Torres Henry Antonio</td>
-                <td>46618582</td>
-                <td>Los 3 Chiflados</td>
-                <td>2</td>
-                <td>60.00</td>
-                <td>Soles</td>
-            </tr>
-        </table>*@
-
     </div><br>
 
 
@@ -138,3 +99,30 @@
 
 
 </div><!--Fin del container-->
+
+<script>
+    function busca() {
+        var usuario = $('#idBusq').val();
+        var tipo = $('#comboBusq option:selected').val();
+        //var el = document.getElementById(regalo);
+        //var row = $(el).closest('tr');
+        //alert(evento);
+        //alert(promocion);
+        //if (usuario != "" && tipo != "" && usuario != null && tipo != null) {
+        $.ajax({
+            url: "@Url.Action("SearchReserva", "CuentaUsuario")",
+            data: { usuario: usuario, tipo: tipo },
+            success: function (data) {
+                window.location.href = '/CuentaUsuario/BuscaReserva';
+                //alert("Eliminado");
+                //row.remove();
+            },
+            error: function () {
+                alert("Error :(");
+            }
+        });
+        //} else {
+        //    alert("Ingrese todos los campos de busqueda");
+        //}
+    }
+</script>

@@ -63,6 +63,7 @@
                     <tbody id="tbody">
                         @if (listaventas != null)
                         {
+                            if (listvxf != null) {
                             foreach (var row in listvxf)
                             {
                                 <tr id=@row.codVen onclick="myFunction(this)">
@@ -70,12 +71,13 @@
                                     @{Funcion fu = db.Funcion.Find(row.codFuncion);
                                        }
                                     <td>@db.Eventos.Find(fu.codEvento).nombre</td>
-                                    <td>@fu.fecha</td>
+                                    <td>@fu.fecha.Value.ToString("dd/MM/yyyy")</td>
                                     <td>@fu.horaIni.Value.TimeOfDay - @fu.horaFin.Value.TimeOfDay</td>
                                     <td>@row.cantEntradas</td>
                                     <td>@row.total</td>
                                     <td><a href="@Url.Action("DeleteReserva", "CuentaUsuario", new { codE = row.codVen, codF = row.codFuncion })" class="btn btn-primary">Borrar <span class="glyphicon glyphicon-remove"></span></a></td>
                                 </tr>
+                            }
                             }
                         }
                     </tbody>

@@ -7,7 +7,9 @@ namespace WebApplication4.Controllers
 {
     public class MagicHelpers
     {
-        public const  int Categorias = 15;
+        //Padre de todas las categorias
+        public const  int Categorias = 1;
+        //Identificador de un evento nuevo
         public const string NuevoEvento = "/Doesnt/Exists/Yet";
     }
 }
