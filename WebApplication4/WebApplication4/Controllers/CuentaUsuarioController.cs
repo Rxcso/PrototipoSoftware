@@ -171,6 +171,52 @@ namespace WebApplication4.Controllers
             return RedirectToAction("BuscaCliente", "CuentaUsuario");
         }
 
+        public ActionResult SearchReserva(string usuario, string tipo)
+        {
+            if (tipo == "")
+            {
+                Session["ReservaBusca"] = null;
+                return RedirectToAction("BuscaReserva", "CuentaUsuario");
+            }
+            int ti = int.Parse(tipo);
+            if (ti == 0)
+            {
+                Session["ReservaBusca"] = null;
+                return RedirectToAction("BuscaReserva", "CuentaUsuario");
+            }
+            if (usuario == "" || usuario == null)
+            {
+                Session["ReservaBusca"] = null;
+                return RedirectToAction("BuscaReserva", "CuentaUsuario");
+            }
+            List<CuentaUsuario> listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.tipoDoc == ti && c.codDoc == usuario && c.estado == true && c.codPerfil == 1).ToList();
+            if (listacl == null) return RedirectToAction("BuscaReserva", "CuentaUsuario");
+
+            List<Ventas> listareservas = new List<Ventas>();
+            for (int i = 0; i < listacl.Count; i++)
+            {
+                string us=listacl[i].usuario;
+                List<Ventas> lv = db.Ventas.Where(c => c.cliente == us && c.Estado=="Reservado").ToList();
+                for (int j = 0; j < lv.Count; j++)
+                {
+                    listareservas.Add(lv[j]);
+                }
+            }
+            List<VentasXFuncion> listaRxF = new List<VentasXFuncion>();
+            for (int i = 0; i < listareservas.Count; i++)
+            {
+                int cov = listareservas[i].codVen;
+                List<VentasXFuncion> lvf = db.VentasXFuncion.Where(c => c.codVen == cov).ToList();
+                for (int j = 0; j < lvf.Count; j++)
+                {
+                    listaRxF.Add(lvf[j]);
+                }
+            }
+            if (listaRxF != null) Session["ReservaBusca"] = listaRxF;
+            else Session["ReservaBusca"] = null;
+            return RedirectToAction("BuscaReserva", "CuentaUsuario");
+        }
+
         public ActionResult Politicas()
         {
             return View();
@@ -195,7 +241,7 @@ namespace WebApplication4.Controllers
         {
             Ventas v = db.Ventas.Find(codE);
             db.Entry(v).State = EntityState.Modified;
-            v.Estado = "Cancelado";
+            v.Estado = "Anulado";
             db.SaveChanges();
             db.Entry(v).State = EntityState.Detached;
             //Session["listaReservaClientes"]=db.
