@@ -8,10 +8,6 @@ namespace WebApplication4.Models
 {
     public class BloqueDeTiempoModel
     {
-        public BloqueDeTiempoModel()
-        {
-            esCorrecto = true;
-        }
         [Required]
         [Display(Name = "Fecha Inicio:")]
         public DateTime fechaInicio { get; set; }
@@ -19,12 +15,12 @@ namespace WebApplication4.Models
         [Required]
         [Display(Name = "Fecha Fin:")]
         public DateTime fechaFin { get; set; }
-        public bool esCorrecto { get; set; }
         public string razon { get; set; }
     }
 
     public class BloqueTiempoListModel
     {
         public List<BloqueDeTiempoModel> ListaBTM { get; set; }
+        public bool esCorrecto { get; set; }
     }
 }

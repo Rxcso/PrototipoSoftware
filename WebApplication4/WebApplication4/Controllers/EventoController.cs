@@ -127,19 +127,12 @@ namespace WebApplication4.Controllers
             return View();
         }
 
-        private bool checkResultado(List<BloqueDeTiempoModel> lst)
-        {
-            for (int i = 0; i < lst.Count; i++)
-                if (lst[i].esCorrecto == false) return false;
-            return true;
-        }
-
         [HttpPost]
         public ActionResult BloquesTiempoVenta(BloqueTiempoListModel model)
         {
             List<BloqueDeTiempoModel> listaVerificacion = Validaciones.ValidarBloquesDeTiempoDeVenta(model);
             int idEvento = (int)TempData["idEventoCreado"];
-            if (checkResultado(listaVerificacion))
+            if (model.esCorrecto)
             {
                 for (int i = 0; i < listaVerificacion.Count; i++)
                 {

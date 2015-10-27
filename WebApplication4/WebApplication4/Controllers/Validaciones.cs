@@ -16,23 +16,23 @@ namespace WebApplication4.Controllers
 
     public class Validaciones
     {
-
         public static List<BloqueDeTiempoModel> ValidarBloquesDeTiempoDeVenta(BloqueTiempoListModel model)
         {
             //bloquetiempolistmodel tiene los datos en string, hay que crearlo ahora con date
-            //List<VerificacionBTV> listaVer = DateValidationMethods.GetVericationFormat(model);
             List<BloqueDeTiempoModel> listaVer = model.ListaBTM;
+            bool esCorrecto = true;
             for (int i = 0; i < listaVer.Count - 1; i++)
             {
                 for (int j = i + 1; j < listaVer.Count; j++)
                 {
                     if (DateValidationMethods.VerifyOverlapDates(listaVer[i].fechaInicio, listaVer[i].fechaFin, listaVer[j].fechaInicio, listaVer[j].fechaFin))
                     {
-                        listaVer[i].esCorrecto = false;
+                        esCorrecto = false;
                         listaVer[i].razon = "Cruce con bloque de tiempo de venta #" + (j+1);
                     }
                 }
             }
+            model.esCorrecto = esCorrecto;
             return listaVer;
         }
     }

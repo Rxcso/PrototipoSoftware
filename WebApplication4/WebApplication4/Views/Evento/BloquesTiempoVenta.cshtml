@@ -2,7 +2,7 @@
 @model BloqueTiempoListModel
 @{
     ViewBag.Title = "Register";
-    List<VerificacionBTV> listaResultados = ViewBag.Resultados as List<VerificacionBTV>;
+    List<BloqueDeTiempoModel> listaResultados = ViewBag.Resultados as List<BloqueDeTiempoModel>;
     int cantResultado = (listaResultados == null) ? 0 : listaResultados.Count;
 }
 

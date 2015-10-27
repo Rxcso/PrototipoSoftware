@@ -58,7 +58,7 @@ function nuevoBloque() {
                 row.setAttribute("data-fechaFin", fechaFin);
                 row.id = rowId;
                 var cell0 = row.insertCell(0);
-                cell0.innerHTML = row.id +1;
+                cell0.innerHTML = parseInt(row.id) +1;
                 var cell1 = row.insertCell(1);//desde
                 cell1.innerHTML = fechaInicio;
                 var cell2 = row.insertCell(2);//hasta
