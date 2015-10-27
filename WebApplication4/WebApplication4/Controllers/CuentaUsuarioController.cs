@@ -326,6 +326,9 @@ namespace WebApplication4.Controllers
             Turno tur = ltur.First();
             db.Turno.Remove(tur);
             db.SaveChanges();
+            DateTime hoy = DateTime.Now;
+            List<Turno> listatuvend = db.Turno.AsNoTracking().Where(c => c.usuario == m1 && c.fecha > hoy).ToList();
+            Session["ListaTurnoVendedor"] = listatuvend;
             return View();
         }
 
@@ -336,24 +339,47 @@ namespace WebApplication4.Controllers
             int cpv;
             DateTime dt1 = DateTime.Parse(ini);
             DateTime dt2 = DateTime.Parse(fin);
+            DateTime di=dt1;
+            DateTime dai = dt1;
+            int idt = int.Parse(turno);
+            int idp = int.Parse(punto);
+            TimeSpan ts = dt2.Subtract(dt1);
+            int nd = (int)ts.Days;
+            nd=nd+1;
             if (dt1 <= DateTime.Now) return RedirectToAction("Asignacion", "CuentaUsuario");
             if (dt1 > dt2) return RedirectToAction("Asignacion", "CuentaUsuario");
-
-            //if (Session["vendAsig"] != null)
-            //{
-            //    vend = (CuentaUsuario)Session["vendAsig"];
-            //    m1 = vend.usuario;
-            //}
-            //else return RedirectToAction("Asignacion", "CuentaUsuario");
-            //List<TurnoSistema> lts = db.TurnoSistema.Where(c => c.horIni == horai).ToList();
-            //int cs = lts.First().codTurnoSis;
-            //DateTime dt1 = DateTime.Parse(fecha);
-            //cpv = int.Parse(turno);
-            //List<Turno> ltur = db.Turno.Where(s => s.codPuntoVenta == cpv && s.codTurnoSis == cs && s.usuario == m1 && s.fecha == dt1).ToList();
-            //Turno tur = ltur.First();
-            //db.Turno.Remove(tur);
-            //db.SaveChanges();
-            return View();
+            //int cruce = 0;            
+            for (int j = 0; j < nd; j++)
+            {
+                List<Turno> ltur = db.Turno.Where(c => c.codPuntoVenta == idp && c.codTurnoSis == idt && di==c.fecha).ToList();
+                if (ltur.Count != 0)
+                {
+                    return RedirectToAction("Asignacion", "CuentaUsuario");
+                }
+                di=di.AddDays(1);
+            }
+            //int cruce1 = 0;
+            for (int j = 0; j < nd; j++)
+            {
+                Turno ntur = new Turno();
+                ntur.codPuntoVenta = idp;
+                ntur.codTurnoSis = idt;
+                ntur.estado = "Pendiente";
+                ntur.estadoCaja = "Pendiente";
+                ntur.fecha = dai;
+                ntur.MontoFinDolares = 0;
+                ntur.MontoFinSoles = 0;
+                ntur.MontoInicioDolares = 0;
+                ntur.MontoInicioSoles = 0;
+                ntur.usuario = idV;
+                db.Turno.Add(ntur);
+                db.SaveChanges();
+                dai=dai.AddDays(1);
+            }
+            DateTime hoy = DateTime.Now;
+            List<Turno> listatuvend = db.Turno.AsNoTracking().Where(c => c.usuario == idV && c.fecha > hoy).ToList();
+            Session["ListaTurnoVendedor"] = listatuvend;
+                return View();
         }
 
         public ActionResult MisCompras()

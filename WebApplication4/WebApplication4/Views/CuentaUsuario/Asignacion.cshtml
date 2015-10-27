@@ -134,8 +134,8 @@
                         <td>@db.PuntoVenta.Find(@row.codPuntoVenta).codPuntoVenta</td>
                         <td>@db.PuntoVenta.Find(@row.codPuntoVenta).ubicacion</td>
                         <td>@row.fecha.ToString("dd/MM/yyyy")</td>
-                        <td>@row.TurnoSistema.horIni</td>
-                        <td>@row.TurnoSistema.horFin</td>
+                        <td>@db.TurnoSistema.Find(@row.codTurnoSis).horIni</td>
+                        <td>@db.TurnoSistema.Find(@row.codTurnoSis).horFin</td>
                     </tr>
                 }
                 }
@@ -233,12 +233,13 @@
             success: function (data) {
                 //alert("Desactivado");
                 //window.location.href = '/CuentaUsuario/Asignacion';
-                //window.location.href = 'Promocion/Index?evento='+evento;
-                //row.remove();
+                window.location.href = '/CuentaUsuario/Asignacion';
+                row.remove();
             },
             error: function () {
-                alert("Error :(");
-                //row.remove();
+                //alert("Error :(");
+                window.location.href = '/CuentaUsuario/Asignacion';
+                row.remove();
             }
         });
     } else {
