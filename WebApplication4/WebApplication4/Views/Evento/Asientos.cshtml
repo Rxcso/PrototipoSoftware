@@ -16,151 +16,289 @@
     </div>
     <div class="container">
         <div class="row form-group">
-            <label for="idEvento" class="control-label col-md-4">ID Evento:</label>
-            <div class="col-md-8">
+            <label for="idEvento" class="control-label col-md-2">ID Evento:</label>
+            <div class="col-md-4">
                 <input id="eventoP" type="text" class="form-control" value=@idEvento disabled>
             </div>
-        </div>
-
-        <div class="row form-group">
-            <label for="nombreEvento" class="control-label col-md-4">Nombre Evento:</label>
-            <div class="col-md-8">
+            <label for="nombreEvento" class="control-label col-md-2">Nombre Evento:</label>
+            <div class="col-md-4">
                 <input type="text" class="form-control" placeholder="@ViewBag.nombreEvento" disabled>
             </div>
         </div>
     </div>
     <div id="cont" class="container">
         <div class="row form-group">
-            @*Sacar las zonas del evento*@
-            <select class="form-control" name="" id="">
-                <option value="">Seleccione</option>
-                
-                 @foreach(var item in ViewBag.listaZonas){
-                     <option value="">@item.nombre</option>
-                 }             
-            </select>
-        </div>
-        <div class="row form-group">
-            <label for="nombre" class="control-label col-md-2 col-sm-2">N° filas:</label>
-            <div class="col-md-1 col-sm-1">
-                <input type="number" class="form-control" id="filas">
+            <label for="nombreEvento" class="control-label col-md-2">Zonas:</label>
+            <div class="col-md-4">
+                @*Sacar las zonas del evento*@
+                <select class="form-control" name="" id="zonas">
+                    <option id="0" value="0">Seleccione la zona</option>
+                    @foreach (var item in ViewBag.listaZonas)
+                    {
+                        <option id="@item.codZona" value="@item.codZona">@item.nombre</option>
+                    }
+                </select>
             </div>
-            <label for="nombre" class="control-label col-md-2 col-md-offset-2 col-sm-2">N° Columnas:</label>
-            <div class="col-md-1 col-sm-1">
-                <input type="number" class="form-control" id="columnas">
+            <label for="nombreEvento" class="control-label col-md-2">Aforo:</label>
+            <div class="col-md-2">
+                <select class="form-control" name="" id="aforos" disabled>
+                    <option id="0" value="0">-</option>
+                    @foreach (var item in ViewBag.listaZonas)
+                    {
+                        <option id="@item.codZona" value="@item.aforo">@item.aforo</option>
+                    }
+                </select>
             </div>
-            <div class="col-md-2 col-sm-2">
-                <button id="generar" class="btn btn-primary" onclick="generarAsientos()">Generar</button>
-            </div>
-            <div class="col-md-2 col-sm-2">
-                <button id="guardar" class="btn btn-primary">Guardar Distribución <span class="glyphicon glyphicon-save"></span> </button>
+            <div class="col-md-2">
+                <select class="form-control" name="" id="asignados" disabled>
+                    <option id="0" value="0">-</option>
+                    @foreach (var item in ViewBag.listaZonas)
+                    {
+                        int flag = 0;
+                        string indicador = "No asignado";
+                        if (@item.tieneAsientos)
+                        {
+                            flag = 1;
+                            indicador = "Asignado";
+                        }
+                        <option id="@item.codZona" value="@flag">@indicador</option>
+                    }
+                </select>
             </div>
         </div>
         <div class="row">
-            <div id="canvas" class="col-md-12">
+            <div class="col-md-3">
+                <div class="row form-group">
+                    <label for="nombre" class="control-label col-md-8">N° filas:</label>
+                    <div class="col-md-4">
+                        <input type="number" class="form-control" id="filas">
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label for="nombre" class="control-label col-md-8">N° Columnas:</label>
+                    <div class="col-md-4">
+                        <input   type="number" class="form-control" id="columnas">
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-2 col-md-offset-4">
+                        <button id="generar" class="btn btn-primary" onclick="generarAsientos()">Generar <span class="glyphicon glyphicon-share-alt"></span></button>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-3 col-md-offset-2">
+                        <button id="guardar" class="btn btn-success" onclick="guardarAsientos()">Guardar Distribución <span class="glyphicon glyphicon-save"></span> </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="aux" class="col-md-10 col-md-offset-1 ">
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="row form-group">
+                    <div class="col-md-3 col-md-offset-2">
+                        <button id="borrar" class="btn btn-danger" onclick="borrarAsientos()">Eliminar distribución <span class="glyphicon glyphicon-remove"></span></button>
+                    </div>
+                </div><br />
+            </div>
+            <div id="canvas" class="col-md-9">
             </div>
         </div>
-        <div class="row">
-            <div id="aux" class="col-md-12">
-            </div>
-        </div>
+
     </div>
+    @section scripts{
 
-    <script>
-        function generarAsientos() {
-            $("#canvas").empty();
-            //Definición del lado
-            var d;
-            if ($("#canvas").width() > $("#canvas").height()) {
-                d = $("#canvas").height();
-            } else {
-                d = $("#canvas").width();
+        <script>
+            var cantFilas;
+            var cantColumnas;
+
+            function generarAsientos() {
+                $("#canvas").empty();
+                //Definición del lado
+                var d;
+                if ($("#canvas").width() > $("#canvas").height()) {
+                    d = $("#canvas").height();
+                } else {
+                    d = $("#canvas").width();
+                }
+                d *= 0.99;
+
+                cantFilas = $("#filas").val();
+                cantColumnas = $("#columnas").val();
+
+                //validacion de filas y columnas
+                if ((cantFilas <= 0)  || (cantColumnas <= 0) ) {
+                    alert("Filas y columnas deben ser enteros mayores a cero");
+                    return;
+                }
+
+
+                //BORDE
+                $('<div id="grilla-borde"></div>').appendTo('#canvas');
+                $('#grilla-borde').css('width', d + 'px');
+                $('#grilla-borde').css('height', d + 'px');
+                //
+
+                //INTERIOR
+                $('<div id="grilla-interna"></div>').appendTo('#grilla-borde');
+                $('#grilla-interna').css('width', 96 + '%');
+                $('#grilla-interna').css('height', 96 + '%');
+                $('#grilla-interna').css('margin', 2 + '%');
+                //
+
+                //ABAJO
+                $('<div id="info" style="text-align:center; font-size:18px;"></div>').appendTo('#aux');
+                //
+
+                //FILAS
+                var altoFilas = 0.9 * 100 / cantFilas;
+                var marginTopFilas = 0.1 * 100 / (cantFilas - 1);
+                var anchoFilas = 100 / 1;
+
+                for (var i = 0 ; i < cantFilas ; i++) {
+                    $('<div class="filas ' + 'fila_' + (i + 1) + '"></div>').appendTo('#grilla-interna');
+                }
+
+                $('.filas').each(function () {
+                    $(this).css('width', anchoFilas + '%');
+                    $(this).css('height', altoFilas + '%');
+                    if (!$(this).is(':first-child')) {
+                        $(this).css('margin-top', marginTopFilas + '%');
+                    }
+                });
+                //
+
+                //CELDAS
+                var altoCeldas = 100 / 1;
+                var anchoCeldas = 0.9 * 100 / cantColumnas;
+                var leftCeldas = 0.1 * 100 / (cantColumnas - 1);
+
+                for (var i = 0 ; i < cantColumnas ; i++)
+                    for (var j = 1 ; j <= cantFilas ; j++) {
+                        $('<div class="celdas ' + 'columna_' + (i + 1) + ' "></div>').appendTo('#grilla-interna .filas:nth-child(' + j + ')');
+                    }
+
+                $('.celdas').each(function () {
+                    $(this).css('width', anchoCeldas + '%'); $(this).css('height', altoCeldas + '%');
+                    if (!$(this).is(':first-child')) { $(this).css('margin-left', leftCeldas + '%'); }
+                });
+                //
+
+                //LLENAR
+                for (var i = 1 ; i <= cantFilas ; i++)
+                    for (var j = 1 ; j <= cantColumnas ; j++) {
+                        $('<div class="ficha"></div>').appendTo('.filas:nth-child(' + i + ') .celdas:nth-child(' + j + ')');
+                    }
+                //
+
+
+
+                $('body').on('mouseover', '.celdas', function () {
+                    var filaN = $(this).parent().attr('class').split('_');
+                    var columnaN = $(this).attr('class').split('_');
+
+                    $('#info').text('Fila: ' + filaN[1] + ' - Columna ' + columnaN[1]);
+                });
+
+
+                $('body').on('click', '.ficha', function () {
+                    $(this).addClass("eliminado");
+                });
+                $('body').on('dblclick', '.ficha', function () {
+                    $(this).removeClass("eliminado")
+                });
+
+
             }
-            d *= 0.99;
-            //console.log(d);
 
-            var cantFilas = $("#filas").val();
-            var cantColumnas = $("#columnas").val();
+            function borrarAsientos() {
+                var id = $("#zonas").val();
 
+                if (id == "0") {
+                    alert("Seleccione una Zona");
+                }
+                else if ($("#asignados").val() == "0") {//si la zona no tiene asientos, no se podra borrar
+                    alert("La zona elegida aún no tiene asientos asignados");
+                }
+                else {
+                    if (confirm("¿Esta seguro que desea borrar los asientos de esta zona?")) {
+                        var num = parseInt(id);
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("Asientos", "Evento")",
+                            data: { idZona: num },
 
-
-            //BORDE
-            $('<div id="grilla-borde"></div>').appendTo('#canvas');
-            $('#grilla-borde').css('width', d + 'px');
-            $('#grilla-borde').css('height', d + 'px');
-            //
-
-            //INTERIOR
-            $('<div id="grilla-interna"></div>').appendTo('#grilla-borde');
-            $('#grilla-interna').css('width', 96 + '%');
-            $('#grilla-interna').css('height', 96 + '%');
-            $('#grilla-interna').css('margin', 2 + '%');
-            //
-
-            //ABAJO
-            $('<div id="info" style="text-align:center; font-size:18px;"></div>').appendTo('#aux');
-            //
-
-            //FILAS
-            var altoFilas = 0.9 * 100 / cantFilas;
-            var marginTopFilas = 0.1 * 100 / (cantFilas - 1);
-            var anchoFilas = 100 / 1;
-
-            for (var i = 0 ; i < cantFilas ; i++) {
-                $('<div class="filas ' + 'fila_' + (i + 1) + '"></div>').appendTo('#grilla-interna');
+                            success: alert(response),
+                        });
+                        //$.post("@Url.Action("Asientos", "Evento")", { idZona: num }, $("body").html(result) );
+                        alert("¡Se eliminaron todos los asientos de la zona satisfactoriamente!");
+                    }
+                }
             }
 
-            $('.filas').each(function () {
-                $(this).css('width', anchoFilas + '%');
-                $(this).css('height', altoFilas + '%');
-                if (!$(this).is(':first-child')) {
-                    $(this).css('margin-top', marginTopFilas + '%');
-                }
-            });
-            //
+            function guardarAsientos() {
+                var F = new Array();
+                var C = new Array();
+                var cantAsientos = 0;
 
-            //CELDAS
-            var altoCeldas = 100 / 1;
-            var anchoCeldas = 0.9 * 100 / cantColumnas;
-            var leftCeldas = 0.1 * 100 / (cantColumnas - 1);
-
-            for (var i = 0 ; i < cantColumnas ; i++)
-                for (var j = 1 ; j <= cantFilas ; j++) {
-                    $('<div class="celdas ' + 'columna_' + (i + 1) + ' "></div>').appendTo('#grilla-interna .filas:nth-child(' + j + ')');
+                if ($("#zonas").val() == "0") {
+                    alert("Seleccione una zona primero");
+                    return;
                 }
 
-            $('.celdas').each(function () {
-                $(this).css('width', anchoCeldas + '%'); $(this).css('height', altoCeldas + '%');
-                if (!$(this).is(':first-child')) { $(this).css('margin-left', leftCeldas + '%'); }
-            });
-            //
+                for (var i = 1 ; i <= cantFilas ; i++)
+                    for (var j = 1 ; j <= cantColumnas ; j++) {
+                        if (!$('.filas:nth-child(' + i + ') .celdas:nth-child(' + j + ') .ficha:nth-child(1)').hasClass('eliminado')) {
+                            cantAsientos++;
+                            F.push(i);
+                            C.push(j);
+                        }
+                    }
 
-            //LLENAR
-            for (var i = 1 ; i <= cantFilas ; i++)
-                for (var j = 1 ; j <= cantColumnas ; j++) {
-                    $('<div class="ficha"></div>').appendTo('.filas:nth-child(' + i + ') .celdas:nth-child(' + j + ')');
+                if (cantAsientos != parseInt($("#aforos").val())) {
+                    alert("La cantidad de asientos de la zona debe coincidir con el aforo: " + cantAsientos + "!=" + $("#aforos").val());
+                    return;
                 }
-            //
+                var requestData = {};
+                requestData.idZona = parseInt($("#zonas").val());
+                requestData.filas = parseInt(cantFilas);
+                requestData.columnas = parseInt(cantColumnas);
+                requestData.posFila = F;
+                requestData.posCol = C;
 
+                $.ajax({
+                    url: "/Evento/GenerarAsientos",
+                    type: "POST",
+                    contentType: 'application/json;',
+                    dataType: 'json',
+                    data: JSON.stringify(requestData)
+                });
+                alert("Se agregó la distribución correctamente");
+            }
 
+            $("#zonas").change(function () {
+                //cambia el aforo cuando se cambia la zona
+                var index = $("#zonas").val();
+                $("#aforos #" + index).prop('selected', true);
+                $("#asignados #" + index).prop('selected', true);
 
-            $('body').on('mouseover', '.celdas', function () {
-                var filaN = $(this).parent().attr('class').split('_');
-                var columnaN = $(this).attr('class').split('_');
-
-                $('#info').text('Fila: ' + filaN[1] + ' - Columna ' + columnaN[1]);
+                //Aca iria el seteo de las filas y columnas
             });
 
+            function limitarCambio() {
+                if ($(this).val() > 100) {
+                    $(this).val(100);
+                }
+                else if ($(this).val() < 1) {
+                    $(this).val(1);
+                }
+            }
 
-            $('body').on('click', '.ficha', function () {
-                $(this).addClass("eliminado");
-            });
-            $('body').on('dblclick', '.ficha', function () {
-                $(this).removeClass("eliminado")
-            });
+           $("#filas").change(limitarCambio);
+           $("#columnas").change(limitarCambio);
 
+        </script>
 
-        }
-
-    </script>
+    }
 </body>

@@ -13,7 +13,7 @@
     cem.idCatPadre = (int)c.idCatPadre;
     cem.activo = (int)c.activo;
 }
-}
+
 <h2>Editar Registro</h2>
 
 <div class="modal-body">
@@ -39,25 +39,19 @@
                 </div>
             </div>
             <br>
-            <div class="row form-group">
+            <!--<div class="row form-group">
                 @Html.LabelFor(model => model.idCatPadre, new { @class = "control-label col-md-3" })
                 <div class="col-md-9">
                     @Html.TextBoxFor(model => model.idCatPadre, new { @placeholder = @c.idCatPadre })
                     @Html.ValidationMessageFor(model => model.idCatPadre)
                 </div>
-            </div>
-            @{if (cem.activo == 0)
-            {
-                <div class="row form-group">
-                    @Html.LabelFor(model => model.activo, new { @class = "control-label col-md-3" })
-                    <div class="col-md-9">
-                        @Html.TextBoxFor(model => model.activo, new { @placeholder = @c.activo })
-                        @Html.ValidationMessageFor(model => model.idCatPadre)
-                    </div>
+            </div>-->
+            <div class="form-group">
+                @Html.LabelFor(model => model.idCatPadre, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.idCatPadre, @ViewBag.CatID as SelectList, "Categoria", new { @class = "form-control" })
                 </div>
-            }
-            }
-
+            </div><br><br>
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <input type="submit" value="Aceptar" class="btn btn-default" />
@@ -66,3 +60,4 @@
         </div>
     }
 </div>
+<script type="text/javascript" src="@Url.Content("/Scripts/CategoriaEvento/EditCategoriaEvento.js")"></script>

@@ -15,6 +15,20 @@ namespace WebApplication4.Controllers
         // GET: Local
         public ActionResult Index()
         {
+            List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
+            List<Region> listProv = new List<Region>();
+            ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
+            ViewBag.ProvID = new SelectList(listProv, "idProv", "nombre");
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult RegisterLocal()
+        {
+            List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
+            List<Region> listProv = new List<Region>();
+            ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
+            ViewBag.ProvID = new SelectList(listProv, "idProv", "nombre");
             return View();
         }
 
@@ -30,12 +44,16 @@ namespace WebApplication4.Controllers
                 local.descripcion = model.descripcion;
                 local.aforo = model.aforo;
                 local.ubicacion = model.ubicacion;
-                local.idProvincia = model.provincia;
-                local.idRegion = model.departamento;
+                local.idProvincia = model.idProv;
+                local.idRegion = model.idRegion;
                 db.Local.Add(local);
                 db.SaveChanges();
                 return View("Index");
             }
+            List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
+            List<Region> listProv = new List<Region>();
+            ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
+            ViewBag.ProvID = new SelectList(listProv, "idProv", "nombre");
             return View("Index");
         }
 
@@ -62,6 +80,11 @@ namespace WebApplication4.Controllers
 
         public ActionResult Edit(string local)
         {
+            List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
+            List<Region> listProv = new List<Region>();
+            ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
+            ViewBag.ProvID = new SelectList(listProv, "idProv", "nombre");
+
             int id=int.Parse(local);
             ViewBag.id = id;
             TempData["codigol"] = id;
@@ -76,20 +99,30 @@ namespace WebApplication4.Controllers
             return View("Edit");
         }
 
+        [HttpGet]
+        public ActionResult EditRegister()
+        {
+            List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
+            List<Region> listProv = new List<Region>();
+            ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
+            ViewBag.ProvID = new SelectList(listProv, "idProv", "nombre");
+            return View();
+        }
+
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult EditRegister(LocalModel model)
+        public ActionResult EditRegister(LocalEditModel model)
         {
             if (ModelState.IsValid)
             {
                 var o = ViewBag.id;
                 Local local = db.Local.Find(TempData["codigol"]);
-                db.Entry(local).State = EntityState.Modified;
+                db.Entry(local).State = EntityState.Modified;                
                 local.aforo = model.aforo;
-                local.descripcion = model.descripcion;
+                if(model.descripcion!=null)local.descripcion = model.descripcion;
                 local.ubicacion = model.ubicacion;
-                local.idProvincia = model.provincia;
-                local.idRegion = model.departamento;
+                local.idProvincia = model.idProv;
+                local.idRegion = model.idRegion;
                 db.SaveChanges();
                 return RedirectToAction("Index", "Local");
             }

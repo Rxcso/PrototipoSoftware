@@ -12,13 +12,15 @@ namespace WebApplication4.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Asientos
+    public partial class Comentarios
     {
-        public Nullable<int> fila { get; set; }
-        public Nullable<int> columna { get; set; }
-        public int codAsiento { get; set; }
-        public int codZona { get; set; }
+        public int codComentario { get; set; }
+        public string contenido { get; set; }
+        public Nullable<System.DateTime> fecha { get; set; }
+        public int codEvento { get; set; }
+        public string usuario { get; set; }
     
-        public virtual ZonaEvento ZonaEvento { get; set; }
+        public virtual Eventos Eventos { get; set; }
+        public virtual CuentaUsuario CuentaUsuario { get; set; }
     }
 }
