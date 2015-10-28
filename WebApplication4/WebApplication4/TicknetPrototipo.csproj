@@ -278,6 +278,9 @@
     <Compile Include="Models\Politicas.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PrecioEvento.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Promociones.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -387,6 +390,7 @@
     </Content>
     <Content Include="Log4Net.config" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\CategoriaEvento\BorrarCategoriaEvento.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
