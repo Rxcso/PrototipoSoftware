@@ -8,6 +8,7 @@ using WebApplication4.Models;
 
 namespace WebApplication4.Controllers
 {
+    [Authorize]
     public class CategoriaController : Controller
     {
         private inf245netsoft db = new inf245netsoft();
@@ -77,12 +78,48 @@ namespace WebApplication4.Controllers
             TempData["ListaC"] = null;
             return RedirectToAction("Index", "Categoria");
         }
-        public ActionResult Edit(string categoria)
+
+        //probando
+        /*private List<int> borrar(int id)
         {
+            List<Categoria> listaCategoria = null;
+            while (true)
+            {
+                listaCategoria = db.Categoria.Where(c => c.idCatPadre == id).ToList();
+                if (listaCategoria.Count == 0) return;
+                else
+                {
+                    for (int i = 0; i < listaCategoria.Count; i++)
+                    {
+                        db.Entry(listaCategoria[i]).State = EntityState.Modified;
+                        listaCategoria[i].activo = 0;
+                        db.SaveChanges();
+                        borrar(listaCategoria[i].idCategoria);
+                    }
+                    return;
+                }
+
+            }
+        }*/
+
+
+        private List<int> sacaDependientes(int id){
+            List<int> lista = null;
+
+            return lista;
+        }
+
+        public ActionResult Edit(string categoria)
+        {            
             int id = int.Parse(categoria);
             ViewBag.id = id;
             TempData["codigo"] = id;
             Session["categoria"] = db.Categoria.Find(id);
+
+            List<Categoria> listaCat = db.Categoria.Where(c => c.activo == 1).ToList();
+            ViewBag.CatID = new SelectList(listaCat, "idCategoria", "nombre");
+
+            List<int> ids = sacaDependientes(id);
             return View("Edit");
         }
 
@@ -103,12 +140,71 @@ namespace WebApplication4.Controllers
                 Categoria categoria = db.Categoria.Find(TempData["codigo"]);
                 db.Entry(categoria).State = EntityState.Modified;
                 categoria.nombre = model.nombre;
-                categoria.descripcion = model.descripcion;
+                categoria.descripcion = model.descripcion;                  
                 categoria.idCatPadre = model.idCatPadre;
+                List<Categoria> cat = db.Categoria.Where(c => c.idCategoria == model.idCatPadre).ToList();
+                categoria.nivel = cat[0].nivel+1;
                 db.SaveChanges();
                 return RedirectToAction("Index", "Categoria");
             }
             return RedirectToAction("Index", "Categoria");
+        }
+
+        //no me mires
+        private void activar(int id)
+        {
+            List<Categoria> listaCategoria = null;
+            while (true)
+            {
+                listaCategoria = db.Categoria.Where(c => c.idCatPadre == id).ToList();
+                if (listaCategoria.Count == 0) return;
+                else
+                {
+                    for (int i = 0; i < listaCategoria.Count; i++)
+                    {
+                        db.Entry(listaCategoria[i]).State = EntityState.Modified;
+                        listaCategoria[i].activo = 1;
+                        db.SaveChanges();
+                        activar(listaCategoria[i].idCategoria);
+                    }
+                    return;
+                }
+
+            }
+        }
+
+
+        public ActionResult ActivateTree(string categoria)
+        {
+            //if (regalo == "" || regalo == null) return View("Index");
+            int idQ = int.Parse(categoria);
+            Categoria categoriaM = db.Categoria.Find(idQ);
+            if (categoriaM.activo == 0)
+            {
+                //db.Regalo.Remove(regalo);
+                db.Entry(categoriaM).State = EntityState.Modified;
+                categoriaM.activo = 1;
+                db.SaveChanges();
+                //return RedirectToAction("Index", "Evento");
+                activar(idQ);
+            }
+            return View("Index");
+        }
+
+
+        public ActionResult Activate(string categoria)
+        {
+            //if (regalo == "" || regalo == null) return View("Index");
+            int idQ = int.Parse(categoria);
+            Categoria categoriaM = db.Categoria.Find(idQ);
+            if (categoriaM.activo == 0) {
+                //db.Regalo.Remove(regalo);
+                db.Entry(categoriaM).State = EntityState.Modified;
+                categoriaM.activo = 1;
+                db.SaveChanges();
+                //return RedirectToAction("Index", "Evento");
+            }            
+            return View("Index");
         }
     }
 

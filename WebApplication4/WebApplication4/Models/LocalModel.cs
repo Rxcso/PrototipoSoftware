@@ -23,11 +23,35 @@ namespace WebApplication4.Models
 
         [Required]
         [Display(Name = "Provincia: ")]
-        public int provincia { get; set; }
+        public int idProv { get; set; }
 
         [Required]
         [Display(Name = "Departamento: ")]
-        public int departamento { get; set; }
+        public int idRegion { get; set; }
+    }
+
+    public class LocalEditModel
+    {
+        [Required]
+        [PosNumberAttribute(ErrorMessage = "Debe ser un numero Positivo mayor que cero")]
+        [Display(Name = "Aforo: ")]
+        public int aforo { get; set; }
+
+
+        [Display(Name = "Descripcion: ")]
+        public string descripcion { get; set; }
+
+        [Required]
+        [Display(Name = "Ubicacion: ")]
+        public String ubicacion { get; set; }
+
+        [Required]
+        [Display(Name = "Provincia: ")]
+        public int idProv { get; set; }
+
+        [Required]
+        [Display(Name = "Departamento: ")]
+        public int idRegion { get; set; }
     }
 
     public class LocalSearchModel

@@ -229,6 +229,18 @@ namespace WebApplication4.Controllers
 
         public ActionResult Asignacion()
         {
+            //if (Session["nError"] != null)
+            //{
+            //    int ner=(int)Session["nError"];
+            //    if (Session["ErrorAsignacion"] != null)
+            //    {
+            //        if (ner > 1) {
+            //            Session["ErrorAsignacion"] = null;
+            //            Session["nError"] = 0;
+            //        }
+            //        Session["nError"] = ner + 1;
+            //    }
+            //}
             return View();
         }
 
@@ -334,6 +346,7 @@ namespace WebApplication4.Controllers
 
         public ActionResult RegistrarAsignacion(string turno, string punto, string idV, string ini,string fin)
         {
+            //if (Session["ErrorAsignacion"] != null) Session["ErrorAsignacion"] = null;
             string m1;
             CuentaUsuario vend;
             int cpv;
@@ -354,6 +367,8 @@ namespace WebApplication4.Controllers
                 List<Turno> ltur = db.Turno.Where(c => c.codPuntoVenta == idp && c.codTurnoSis == idt && di==c.fecha).ToList();
                 if (ltur.Count != 0)
                 {
+                    //Session["nError"] = 1;
+                    //TempData["ErrorAsignacion"] = "Cruce con el usuario " + ltur.First().usuario + " para el dia " + di;
                     return RedirectToAction("Asignacion", "CuentaUsuario");
                 }
                 di=di.AddDays(1);

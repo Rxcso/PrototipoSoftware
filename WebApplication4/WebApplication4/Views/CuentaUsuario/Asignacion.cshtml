@@ -5,6 +5,7 @@
     ViewBag.Title = "Asignacion";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
     var db = new WebApplication4.Models.inf245netsoft();
+    //string mensaje = "";
     List<WebApplication4.Models.TurnoSistema> listaTurno = db.TurnoSistema.AsNoTracking().Where(c => c.activo == true).ToList();
     List<WebApplication4.Models.Region> listaDepart = db.Region.AsNoTracking().Where(c => c.idRegPadre == null).ToList();
     //List<WebApplication4.Models.Region> listaProv = null;
@@ -113,7 +114,12 @@
         </div>
     </div>
     <h4>Asignación</h4>
-
+    @*@if (Session["ErrorAsignacion"] != null)
+    {
+        mensaje = (string)Session["ErrorAsignacion"];
+        <h1>@mensaje</h1>
+    }
+    <h1>@mensaje</h1>*@
     <div class="row">
         <table id="mytable" class="table table-bordered table-hover">
             <thead>
@@ -325,7 +331,7 @@
             success: function (data) {
                 var obj = $.parseJSON(data);
                 $.each(obj, function (k, v) {
-                    $("#comboPunto").append("<option value='" + v.IdRegion + "'>" + v.Nombre + "</option>");
+                    $("#comboPunto").append("<option value='" + v.IdPunto + "'>" + v.Nombre + "</option>");
                 });
             },
             error: function () {

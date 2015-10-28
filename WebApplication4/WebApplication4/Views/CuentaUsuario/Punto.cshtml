@@ -4,7 +4,7 @@
     int depId = int.Parse(Request["depId"]);
     var data = from obj in db.PuntoVenta
                where obj.idProvincia == depId && obj.estaActivo == true
-               select new { IdRegion = obj.idRegion, Nombre = obj.ubicacion };
+               select new { IdPunto = obj.codPuntoVenta, Nombre = obj.ubicacion };
     Json.Write(data, Response.Output);
 }
 

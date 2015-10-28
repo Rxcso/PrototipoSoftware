@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using WebApplication4.Models;
 using PagedList;
+using System.Data.Entity;
 namespace WebApplication4.Controllers
 {
     [Authorize]
@@ -106,7 +107,7 @@ namespace WebApplication4.Controllers
                 db.Eventos.Add(evento);
                 db.SaveChanges();
                 int id = evento.codigo;
-                TempData["IdEventoCreado"] = id;
+                Session["IdEventoCreado"] = id;
                 return View("BloquesTiempoVenta");
 
             }
@@ -132,7 +133,7 @@ namespace WebApplication4.Controllers
         {
             int idEvento;
             List<BloqueDeTiempoModel> listaVerificacion = null;
-            if (int.TryParse(TempData["IdEventoCreado"].ToString(), out idEvento))
+            if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento))
             {
                 listaVerificacion = Validaciones.ValidarBloquesDeTiempoDeVenta(model);
                 if (model.esCorrecto)
@@ -146,6 +147,7 @@ namespace WebApplication4.Controllers
                         db.PeriodoVenta.Add(periodoVenta);
                         db.SaveChanges();
                     }
+                    return RedirectToAction("Funciones");
                 }
             }
             ViewBag.Resultados = listaVerificacion;
@@ -163,9 +165,9 @@ namespace WebApplication4.Controllers
         {
             List<FuncionesModel> listaVerificacion = null;
             int idEvento;
-            if (TempData["IdEventoCreado"] != null)
+            if (Session["IdEventoCreado"] != null)
             {
-                if (int.TryParse(TempData["IdEventoCreado"].ToString(), out idEvento))
+                if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento))
                 {
                     listaVerificacion = Validaciones.ValidarFunciones(model);
                     if (model.esCorrecto)
@@ -179,34 +181,100 @@ namespace WebApplication4.Controllers
                             db.Funcion.Add(funcion);
                             db.SaveChanges();
                         }
+                        return RedirectToAction("Tarifas");
                     }
                     ViewBag.MensajeError = "Funciones Repetidas en el mismo dia";
                     ViewBag.Resultados = listaVerificacion;
+                    return View();
                 }
             }
             ViewBag.MensajeError = "No hay un proceso de registro de evento activo.";
             return View();
         }
-
+        [HttpGet]
         public ActionResult Tarifas()
         {
-            //int idEvento = int.Parse(TempData["idEventoCreado"].ToString());
-            //int idEvento = 9;
-            //List<PeriodoVenta> listaPV = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
-            List<string> nombresPV = new List<string>();
-            nombresPV.Add("bloque 1"); nombresPV.Add("bloque 2"); nombresPV.Add("bloque 3");
-            /*foreach(PeriodoVenta p in listaPV){
-                nombresPV.Add("Del " + String.Format("{0:dd/MM/yyyy}", p.fechaInicio) + " hasta: " + String.Format("{0:dd/MM/yyyy}", p.fechaFin));  
-            }*/
-            ViewBag.NombrePV = nombresPV;
+            int idEvento = 20;
+            if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento))
+            {
+                List<PeriodoVenta> listaPV = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
+                List<string> nombresPV = new List<string>();
+                foreach (PeriodoVenta p in listaPV)
+                {
+                    nombresPV.Add("Del " + String.Format("{0:dd/MM/yyyy}", p.fechaInicio) + " hasta: " + String.Format("{0:dd/MM/yyyy}", p.fechaFin));
+                }
+                ViewBag.NombrePV = nombresPV;
+            }
+            ViewBag.MensajeError = "";
             return View();
         }
 
         [HttpPost]
         public ActionResult Tarifas(ZonaEventoListModel model)
         {
+            int idEvento = 0;
+            if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento))
+            {
+                List<PeriodoVenta> listaPV = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
+                List<ZonaEventoModel> list = model.ListaZEM;
+                foreach (ZonaEventoModel zona in list)
+                {
+                    //guardamos la zona del evento
+                    ZonaEvento zonaEvento = new ZonaEvento();
+                    zonaEvento.aforo = zona.Aforo;
+                    zonaEvento.nombre = zona.Nombre;
+                    zonaEvento.codEvento = idEvento;
+                    db.ZonaEvento.Add(zonaEvento);
+                    db.SaveChanges();
+                    int idZona = zonaEvento.codZona;
+                    List<TarifaModel> funciones = zona.ListaTarifas;
+                    for (int i = 0; i < funciones.Count; i++)
+                    {
+                        PrecioEvento precioEvento = new PrecioEvento();
+                        precioEvento.codPeriodoVenta = listaPV[i].idPerVent;
+                        precioEvento.codZonaEvento = idZona;
+                        precioEvento.precio = funciones[i].Precio;
+                        db.PrecioEvento.Add(precioEvento);
+                        db.SaveChanges();
+                    }
+                }
+            }
+            return RedirectToAction("ExtrasEvento");
+        }
+
+        public ActionResult ExtrasEvento()
+        {
             return View();
         }
+
+        [HttpPost]
+        public ActionResult ExtrasEvento(ExtrasModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                int idEvento = int.Parse(Session["IdEventoCreado"].ToString());
+                var evento = db.Eventos.Find(idEvento);
+                evento.porccomision = model.Ganancia;
+                evento.ImagenDestacado = "/Images/destacado.png";
+                evento.ImagenEvento = "/Images/destacado.png";
+                evento.ImagenSitios = "/Images/destacado.png";
+                evento.maxReservas = model.MaxReservas;
+                evento.montoFijoVentaEntrada = model.MontFijoVentEnt;
+                evento.penalidadXcancelacion = model.PenCancelacion;
+                evento.penalidadXpostergacion = model.PenPostergacion;
+                evento.tieneBoletoElectronico = model.PermitirBoletoElectronico;
+                evento.permiteReserva = model.PermitirReservasWeb;
+                evento.puntosAlCliente = model.PuntosToCliente;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
+
+
+
+
+
         [HttpGet]
         public ActionResult Asientos(string evento)
         {
@@ -215,7 +283,66 @@ namespace WebApplication4.Controllers
             ViewBag.nombreEvento = queryEvento.nombre;
             ViewBag.idEvento = evento;
             ViewBag.listaZonas = db.ZonaEvento.Where(c => c.codEvento == id).ToList();
+
             return View();
+        }
+
+        //Borrar Asientos
+        [HttpPost]
+        public ActionResult Asientos(int idZona)
+        {
+
+            ZonaEvento queryZona = db.ZonaEvento.Where(c => c.codZona == idZona).First();
+            db.Entry(queryZona).State = EntityState.Modified;
+            queryZona.tieneAsientos = false;
+            db.SaveChanges();
+            db.Asientos.RemoveRange(db.Asientos.Where(x => (x.codZona == idZona)));
+            db.SaveChanges();
+
+            int id = queryZona.codEvento;
+
+            Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();
+            ViewBag.nombreEvento = queryEvento.nombre;
+            ViewBag.idEvento = id + "";
+            ViewBag.listaZonas = db.ZonaEvento.Where(c => c.codEvento == id).ToList();
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult GenerarAsientos(ZonaModel zona)
+        {
+
+            ZonaEvento zonaE = db.ZonaEvento.Where(c => c.codZona == zona.idZona).First();
+            
+            Asientos(zona.idZona);
+
+            db.Entry(zonaE).State = EntityState.Modified;
+            zonaE.cantFilas = zona.filas;
+            zonaE.cantColumnas = zona.columnas;
+            zonaE.tieneAsientos = true;
+            db.SaveChanges();
+
+            int k = zona.posFila.Count;
+
+            Asientos asiento = new Asientos();
+            asiento.codZona = zona.idZona;
+            for (int i = 0; i < k; i++)
+            {
+                asiento.fila = zona.posFila[i];
+                asiento.columna = zona.posCol[i];
+                db.Asientos.Add(asiento); //Insertar asientos
+                db.SaveChanges();
+            }
+
+
+            int id = zonaE.codEvento;
+            Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();
+            ViewBag.nombreEvento = queryEvento.nombre;
+            ViewBag.idEvento = "" + queryEvento.codigo;
+            ViewBag.listaZonas = db.ZonaEvento.Where(c => c.codEvento == id).ToList();
+
+            return Redirect("~/Evento/Asientos/?evento=" + id);
         }
 
 
