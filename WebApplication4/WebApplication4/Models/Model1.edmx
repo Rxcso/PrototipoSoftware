@@ -196,7 +196,7 @@
           <Key>
             <PropertyRef Name="codFuncion" />
           </Key>
-          <Property Name="codFuncion" Type="int" Nullable="false" />
+          <Property Name="codFuncion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="horaIni" Type="datetime" />
           <Property Name="horaFin" Type="datetime" />
           <Property Name="fecha" Type="datetime" />

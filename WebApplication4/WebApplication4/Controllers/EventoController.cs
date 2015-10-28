@@ -83,7 +83,7 @@ namespace WebApplication4.Controllers
             ViewBag.SubID = new SelectList(listSubCat, "idSubCat", "nombre");
             return View();
         }
-
+        
         [HttpPost]
         public ActionResult DatosGenerales(DatosGeneralesModel model)
         {
