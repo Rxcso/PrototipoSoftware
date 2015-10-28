@@ -402,6 +402,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="obj\BloqueTiempoVentaHelper.js" />
+    <Content Include="Scripts\RegisterEvento\BloqueTiempoVentaHelper.js" />
     <Content Include="Scripts\RegisterEvento\DatosGeneralesHelper.js" />
     <Content Include="Scripts\RegisterEvento\FuncionesHelper.js" />
     <Content Include="Scripts\respond.js" />
@@ -507,6 +508,7 @@
     <Content Include="Views\CuentaUsuario\MisReservas.cshtml" />
     <Content Include="Views\CuentaUsuario\Politicas.cshtml" />
     <Content Include="Views\Evento\Tarifas.cshtml" />
+    <Content Include="Views\Evento\ExtrasEvento.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
