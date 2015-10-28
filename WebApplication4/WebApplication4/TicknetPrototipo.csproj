@@ -279,7 +279,9 @@
     <Compile Include="Models\Politicas.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\PrecioEvento.cs" />
+    <Compile Include="Models\PrecioEvento.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Promociones.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

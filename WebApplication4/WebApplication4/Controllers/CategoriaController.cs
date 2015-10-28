@@ -8,6 +8,7 @@ using WebApplication4.Models;
 
 namespace WebApplication4.Controllers
 {
+    [Authorize]
     public class CategoriaController : Controller
     {
         private inf245netsoft db = new inf245netsoft();
@@ -77,6 +78,30 @@ namespace WebApplication4.Controllers
             TempData["ListaC"] = null;
             return RedirectToAction("Index", "Categoria");
         }
+
+        //probando
+        /*private List<int> borrar(int id)
+        {
+            List<Categoria> listaCategoria = null;
+            while (true)
+            {
+                listaCategoria = db.Categoria.Where(c => c.idCatPadre == id).ToList();
+                if (listaCategoria.Count == 0) return;
+                else
+                {
+                    for (int i = 0; i < listaCategoria.Count; i++)
+                    {
+                        db.Entry(listaCategoria[i]).State = EntityState.Modified;
+                        listaCategoria[i].activo = 0;
+                        db.SaveChanges();
+                        borrar(listaCategoria[i].idCategoria);
+                    }
+                    return;
+                }
+
+            }
+        }*/
+
 
         private List<int> sacaDependientes(int id){
             List<int> lista = null;
