@@ -146,7 +146,7 @@ namespace WebApplication4.Controllers
                         db.PeriodoVenta.Add(periodoVenta);
                         db.SaveChanges();
                     }
-                    return View("Funciones");
+                    return RedirectToAction("Funciones");
                 }
             }
             ViewBag.Resultados = listaVerificacion;
@@ -184,6 +184,7 @@ namespace WebApplication4.Controllers
                     }
                     ViewBag.MensajeError = "Funciones Repetidas en el mismo dia";
                     ViewBag.Resultados = listaVerificacion;
+                    return View();
                 }
             }
             ViewBag.MensajeError = "No hay un proceso de registro de evento activo.";
@@ -193,16 +194,16 @@ namespace WebApplication4.Controllers
         public ActionResult Tarifas()
         {
             int idEvento = 20;
-            //if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento))
-            //{
-            List<PeriodoVenta> listaPV = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
-            List<string> nombresPV = new List<string>();
-            foreach (PeriodoVenta p in listaPV)
+            if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento))
             {
-                nombresPV.Add("Del " + String.Format("{0:dd/MM/yyyy}", p.fechaInicio) + " hasta: " + String.Format("{0:dd/MM/yyyy}", p.fechaFin));
+                List<PeriodoVenta> listaPV = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
+                List<string> nombresPV = new List<string>();
+                foreach (PeriodoVenta p in listaPV)
+                {
+                    nombresPV.Add("Del " + String.Format("{0:dd/MM/yyyy}", p.fechaInicio) + " hasta: " + String.Format("{0:dd/MM/yyyy}", p.fechaFin));
+                }
+                ViewBag.NombrePV = nombresPV;
             }
-            ViewBag.NombrePV = nombresPV;
-            //}
             ViewBag.MensajeError = "";
             return View();
         }
@@ -210,9 +211,9 @@ namespace WebApplication4.Controllers
         [HttpPost]
         public ActionResult Tarifas(ZonaEventoListModel model)
         {
-            int idEvento = 20;
-            //if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento))
-            //{
+            int idEvento = 0;
+            if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento))
+            {
                 List<PeriodoVenta> listaPV = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
                 List<ZonaEventoModel> list = model.ListaZEM;
                 foreach (ZonaEventoModel zona in list)
@@ -232,10 +233,12 @@ namespace WebApplication4.Controllers
                         precioEvento.codPeriodoVenta = listaPV[i].idPerVent;
                         precioEvento.codZonaEvento = idZona;
                         precioEvento.precio = funciones[i].Precio;
+                        db.PrecioEvento.Add(precioEvento);
+                        db.SaveChanges();
                     }
                 }
-            //}
-            return View("ExtrasEvento");
+            }
+            return RedirectToAction("ExtrasEvento");
         }
 
         public ActionResult ExtrasEvento()
@@ -248,12 +251,12 @@ namespace WebApplication4.Controllers
         {
             if (ModelState.IsValid)
             {
-                //int idEvento = int.Parse(Session["IdEventoCreado"].ToString());
-                var evento = db.Eventos.Find(20);
+                int idEvento = int.Parse(Session["IdEventoCreado"].ToString());
+                var evento = db.Eventos.Find(idEvento);
                 evento.porccomision = model.Ganancia;
                 evento.ImagenDestacado = "/Images/destacado.png";
-                evento.ImagenEvento = model.ImageEvento.ToString();
-                evento.ImagenSitios = model.ImageSitios.ToString();
+                evento.ImagenEvento = "/Images/destacado.png";
+                evento.ImagenSitios = "/Images/destacado.png";
                 evento.maxReservas = model.MaxReservas;
                 evento.montoFijoVentaEntrada = model.MontFijoVentEnt;
                 evento.penalidadXcancelacion = model.PenCancelacion;
@@ -262,7 +265,7 @@ namespace WebApplication4.Controllers
                 evento.permiteReserva = model.PermitirReservasWeb;
                 evento.puntosAlCliente = model.PuntosToCliente;
                 db.SaveChanges();
-                return View("Index", "Evento");
+                return RedirectToAction("Index");
             }
             return View();
         }
