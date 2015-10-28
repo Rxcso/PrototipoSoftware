@@ -77,15 +77,24 @@ namespace WebApplication4.Controllers
             TempData["ListaC"] = null;
             return RedirectToAction("Index", "Categoria");
         }
-        public ActionResult Edit(string categoria)
-        {
-            List<Categoria> listaCat = db.Categoria.Where(c => c.activo == 1).ToList();
-            ViewBag.CatID = new SelectList(listaCat, "idCategoria", "nombre");
 
+        private List<int> sacaDependientes(int id){
+            List<int> lista = null;
+
+            return lista;
+        }
+
+        public ActionResult Edit(string categoria)
+        {            
             int id = int.Parse(categoria);
             ViewBag.id = id;
             TempData["codigo"] = id;
             Session["categoria"] = db.Categoria.Find(id);
+
+            List<Categoria> listaCat = db.Categoria.Where(c => c.activo == 1).ToList();
+            ViewBag.CatID = new SelectList(listaCat, "idCategoria", "nombre");
+
+            List<int> ids = sacaDependientes(id);
             return View("Edit");
         }
 
