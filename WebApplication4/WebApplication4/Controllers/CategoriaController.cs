@@ -8,7 +8,7 @@ using WebApplication4.Models;
 
 namespace WebApplication4.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class CategoriaController : Controller
     {
         private inf245netsoft db = new inf245netsoft();
@@ -80,33 +80,52 @@ namespace WebApplication4.Controllers
         }
 
         //probando
-        /*private List<int> borrar(int id)
+        private List<int> sacaListaDependientes(int id)
         {
+            List<int> listaID = new List<int>();
             List<Categoria> listaCategoria = null;
             while (true)
             {
                 listaCategoria = db.Categoria.Where(c => c.idCatPadre == id).ToList();
-                if (listaCategoria.Count == 0) return;
+                if (listaCategoria.Count == 0) return listaID;
                 else
                 {
                     for (int i = 0; i < listaCategoria.Count; i++)
                     {
-                        db.Entry(listaCategoria[i]).State = EntityState.Modified;
-                        listaCategoria[i].activo = 0;
-                        db.SaveChanges();
-                        borrar(listaCategoria[i].idCategoria);
+                        listaID.Add(listaCategoria[i].idCategoria);
+                        listaID.AddRange(sacaListaDependientes(listaCategoria[i].idCategoria));
                     }
-                    return;
+                    return listaID;
                 }
 
             }
-        }*/
+        }
 
 
-        private List<int> sacaDependientes(int id){
-            List<int> lista = null;
+        private void sacaDependientes(List<Categoria>listaCat,int id){
+            List<int> lista = new List<int>();
+            lista.AddRange(sacaListaDependientes(id));
 
-            return lista;
+            for (int i = 0; i < lista.Count; i++) {
+                for (int j = 0; j < listaCat.Count; j++) {
+                    if (listaCat[j].nivel == 0)//Código chancho
+                    {
+                        listaCat.RemoveAt(j);
+                        break;
+                    }
+                    if (listaCat[j].idCategoria == id)//Código chancho
+                    {
+                        listaCat.RemoveAt(j);
+                        break;
+                    }
+                    if (listaCat[j].idCategoria == lista[i])
+                    {
+                        listaCat.RemoveAt(j);
+                        break;
+                    }
+                }
+
+            }
         }
 
         public ActionResult Edit(string categoria)
@@ -119,7 +138,7 @@ namespace WebApplication4.Controllers
             List<Categoria> listaCat = db.Categoria.Where(c => c.activo == 1).ToList();
             ViewBag.CatID = new SelectList(listaCat, "idCategoria", "nombre");
 
-            List<int> ids = sacaDependientes(id);
+            sacaDependientes(listaCat,id);
             return View("Edit");
         }
 
@@ -134,20 +153,23 @@ namespace WebApplication4.Controllers
         [AllowAnonymous]
         public ActionResult EditRegister(CategoriaModel model)
         {
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
                 var o = ViewBag.id;
                 Categoria categoria = db.Categoria.Find(TempData["codigo"]);
                 db.Entry(categoria).State = EntityState.Modified;
-                categoria.nombre = model.nombre;
-                categoria.descripcion = model.descripcion;                  
-                categoria.idCatPadre = model.idCatPadre;
-                List<Categoria> cat = db.Categoria.Where(c => c.idCategoria == model.idCatPadre).ToList();
-                categoria.nivel = cat[0].nivel+1;
+                if(model.nombre!=""&&model.nombre!=null) categoria.nombre = model.nombre;
+                if (model.descripcion != "" && model.descripcion != null) categoria.descripcion = model.descripcion;
+                if (model.idCatPadre != 0)
+                {
+                    categoria.idCatPadre = model.idCatPadre;
+                    List<Categoria> cat = db.Categoria.Where(c => c.idCategoria == model.idCatPadre).ToList();
+                    categoria.nivel = cat[0].nivel + 1;
+                } 
                 db.SaveChanges();
                 return RedirectToAction("Index", "Categoria");
-            }
-            return RedirectToAction("Index", "Categoria");
+            //}
+            //return RedirectToAction("Index", "Categoria");
         }
 
         //no me mires
