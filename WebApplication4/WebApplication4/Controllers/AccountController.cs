@@ -109,6 +109,14 @@ namespace WebApplication4.Controllers
                                     break;
                                 }
                             }
+                            PuntoVenta punt = new PuntoVenta();
+                            if (macAddresses != "")
+                            {
+                                List<PuntoVenta> lpu = db.PuntoVenta.Where(c => c.dirMAC == macAddresses).ToList();
+                                punt = lpu.First();
+                            }
+                            else { punt.codPuntoVenta = 1; }
+                            
                             Turno tu = null;
                             DateTime hoy = DateTime.Now;
                             int idPunto = 1;
@@ -123,7 +131,7 @@ namespace WebApplication4.Controllers
                                 }
                             }
                             List<Turno> liT = new List<Turno>();
-                            liT = db.Turno.AsNoTracking().Where(j => j.usuario == cuentausuario.usuario && j.codPuntoVenta == idPunto && j.codTurnoSis == ts.codTurnoSis).ToList();
+                            liT = db.Turno.AsNoTracking().Where(j => j.usuario == cuentausuario.usuario && j.codPuntoVenta == punt.codPuntoVenta && j.codTurnoSis == ts.codTurnoSis).ToList();
                             Session["PuntoVentaLoguedo"] = idPunto;
                             if (liT != null)
                             {
