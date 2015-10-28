@@ -130,16 +130,8 @@
 
                         </div>
                         <div class="form-group ">
-
-
                             <select name="idSubCat" id="idSubCat" data-val="true" class="form-control col-lg-2">
-                                <option value="">Subcategoria</option>
-
-
-
                             </select>
-
-
                         </div>
                         <div class="form-group">
 
@@ -282,9 +274,7 @@
 
 
     function cambioCat() {
-
-
-        fillCombo("idSubCat", $("#idCategoria").val(), "Subcategorias", "Subcategorias");
+        fillCombo("idSubCat", $("#idCategoria").val(), "/Services/Subcategoria/", "Subcategorias");
     }
 
     function fillCombo(idCombo, value, linkUrl, optlabel) {
@@ -292,17 +282,19 @@
         $("#" + idCombo).empty();
         $("#" + idCombo).append("<option value=''>" + optlabel + "</option>")
 
-
-        var depId = parseInt(value);
+        var ddProv = $("#idSubCat");
+        var catId = parseInt($("#idCategoria").val());
+        alert(catId);
         if (isNaN(depId)) return;
         $.ajax({
-            url: "" + linkUrl,
-            data: { depId: depId },
+            url: '/Services/Subcategoria/',
+            data: { catId: catId },
             datatype: "json",
             success: function (data) {
                 var obj = $.parseJSON(data);
                 $.each(obj, function (k, v) {
-                    $("#" + idCombo).append("<option value='" + v.IdRegion + "'>" + v.Nombre + "</option>");
+                    alert(v.IdSCategoria + " - " + v.Nombre);
+                    ddProv.append($("<option></option>").val(v.IdSCategoria).html(v.Nombre));
                 });
             },
             error: function () {
