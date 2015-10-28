@@ -12,19 +12,14 @@ namespace WebApplication4.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class PeriodoVenta
+    public partial class PrecioEvento
     {
-        public PeriodoVenta()
-        {
-            this.PrecioEvento = new HashSet<PrecioEvento>();
-        }
+        public int codPrecioEvento { get; set; }
+        public Nullable<double> precio { get; set; }
+        public Nullable<int> codPeriodoVenta { get; set; }
+        public Nullable<int> codZonaEvento { get; set; }
     
-        public int idPerVent { get; set; }
-        public Nullable<System.DateTime> fechaInicio { get; set; }
-        public Nullable<System.DateTime> fechaFin { get; set; }
-        public Nullable<int> codEvento { get; set; }
-    
-        public virtual Eventos Eventos { get; set; }
-        public virtual ICollection<PrecioEvento> PrecioEvento { get; set; }
+        public virtual PeriodoVenta PeriodoVenta { get; set; }
+        public virtual ZonaEvento ZonaEvento { get; set; }
     }
 }

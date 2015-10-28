@@ -19,7 +19,6 @@ namespace WebApplication4.Models
             this.Pago = new HashSet<Pago>();
             this.Funcion = new HashSet<Funcion>();
             this.PeriodoVenta = new HashSet<PeriodoVenta>();
-            this.Comentarios = new HashSet<Comentarios>();
             this.ZonaEvento = new HashSet<ZonaEvento>();
         }
     
@@ -47,13 +46,17 @@ namespace WebApplication4.Models
         public Nullable<int> idSubcategoria { get; set; }
         public Nullable<int> idProvincia { get; set; }
         public string direccion { get; set; }
+        public Nullable<int> maxReservas { get; set; }
+        public Nullable<double> montoFijoVentaEntrada { get; set; }
+        public Nullable<bool> tieneBoletoElectronico { get; set; }
+        public Nullable<bool> permiteReserva { get; set; }
+        public Nullable<int> puntosAlCliente { get; set; }
     
         public virtual Region Region { get; set; }
         public virtual Organizador Organizador { get; set; }
         public virtual ICollection<Pago> Pago { get; set; }
         public virtual ICollection<Funcion> Funcion { get; set; }
         public virtual ICollection<PeriodoVenta> PeriodoVenta { get; set; }
-        public virtual ICollection<Comentarios> Comentarios { get; set; }
         public virtual ICollection<ZonaEvento> ZonaEvento { get; set; }
     }
 }

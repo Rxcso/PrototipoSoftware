@@ -17,6 +17,7 @@ namespace WebApplication4.Models
         public ZonaEvento()
         {
             this.Asientos = new HashSet<Asientos>();
+            this.PrecioEvento = new HashSet<PrecioEvento>();
         }
     
         public int codZona { get; set; }
@@ -29,5 +30,6 @@ namespace WebApplication4.Models
     
         public virtual ICollection<Asientos> Asientos { get; set; }
         public virtual Eventos Eventos { get; set; }
+        public virtual ICollection<PrecioEvento> PrecioEvento { get; set; }
     }
 }

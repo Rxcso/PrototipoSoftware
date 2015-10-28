@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="inf245netsoftModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="inf245netsoftModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -101,18 +101,6 @@
           <Property Name="usuario" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="idCategoria" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="Comentarios">
-          <Key>
-            <PropertyRef Name="codComentario" />
-            <PropertyRef Name="codEvento" />
-            <PropertyRef Name="usuario" />
-          </Key>
-          <Property Name="codComentario" Type="int" Nullable="false" />
-          <Property Name="contenido" Type="varchar" MaxLength="100" />
-          <Property Name="fecha" Type="datetime" />
-          <Property Name="codEvento" Type="int" Nullable="false" />
-          <Property Name="usuario" Type="varchar" MaxLength="100" Nullable="false" />
-        </EntityType>
         <EntityType Name="CuentaUsuario">
           <Key>
             <PropertyRef Name="usuario" />
@@ -162,6 +150,11 @@
           <Property Name="ImagenEvento" Type="text" />
           <Property Name="ImagenDestacado" Type="text" Nullable="false" />
           <Property Name="ImagenSitios" Type="text" />
+          <Property Name="maxReservas" Type="int" />
+          <Property Name="montoFijoVentaEntrada" Type="float" />
+          <Property Name="tieneBoletoElectronico" Type="bit" />
+          <Property Name="permiteReserva" Type="bit" />
+          <Property Name="puntosAlCliente" Type="int" />
         </EntityType>
         <EntityType Name="EventosPrueba">
           <Key>
@@ -203,7 +196,7 @@
           <Key>
             <PropertyRef Name="codFuncion" />
           </Key>
-          <Property Name="codFuncion" Type="int" Nullable="false" />
+          <Property Name="codFuncion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="horaIni" Type="datetime" />
           <Property Name="horaFin" Type="datetime" />
           <Property Name="fecha" Type="datetime" />
@@ -269,6 +262,15 @@
           <Property Name="codigo" Type="int" Nullable="false" />
           <Property Name="valor" Type="int" />
           <Property Name="nombre" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="PrecioEvento">
+          <Key>
+            <PropertyRef Name="codPrecioEvento" />
+          </Key>
+          <Property Name="codPrecioEvento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="precio" Type="float" />
+          <Property Name="codPeriodoVenta" Type="int" />
+          <Property Name="codZonaEvento" Type="int" />
         </EntityType>
         <EntityType Name="Promociones">
           <Key>
@@ -527,6 +529,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_PerVenta">
+          <End Role="PeriodoVenta" Type="Self.PeriodoVenta" Multiplicity="0..1" />
+          <End Role="PrecioEvento" Type="Self.PrecioEvento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PeriodoVenta">
+              <PropertyRef Name="idPerVent" />
+            </Principal>
+            <Dependent Role="PrecioEvento">
+              <PropertyRef Name="codPeriodoVenta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ZonaEvent">
+          <End Role="ZonaEvento" Type="Self.ZonaEvento" Multiplicity="0..1" />
+          <End Role="PrecioEvento" Type="Self.PrecioEvento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZonaEvento">
+              <PropertyRef Name="codZona" />
+            </Principal>
+            <Dependent Role="PrecioEvento">
+              <PropertyRef Name="codZonaEvento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="R_12">
           <End Role="TurnoSistema" Type="Self.TurnoSistema" Multiplicity="1" />
           <End Role="Turno" Type="Self.Turno" Multiplicity="*" />
@@ -644,30 +670,6 @@
             </Principal>
             <Dependent Role="Ventas">
               <PropertyRef Name="cliente" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="R_31">
-          <End Role="Eventos" Type="Self.Eventos" Multiplicity="1" />
-          <End Role="Comentarios" Type="Self.Comentarios" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Eventos">
-              <PropertyRef Name="codigo" />
-            </Principal>
-            <Dependent Role="Comentarios">
-              <PropertyRef Name="codEvento" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="R_32">
-          <End Role="CuentaUsuario" Type="Self.CuentaUsuario" Multiplicity="1" />
-          <End Role="Comentarios" Type="Self.Comentarios" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CuentaUsuario">
-              <PropertyRef Name="usuario" />
-            </Principal>
-            <Dependent Role="Comentarios">
-              <PropertyRef Name="usuario" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -862,7 +864,6 @@
           <EntitySet Name="Banco" EntityType="Self.Banco" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Categoria" EntityType="Self.Categoria" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CategoriasXUsuario" EntityType="Self.CategoriasXUsuario" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Comentarios" EntityType="Self.Comentarios" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CuentaUsuario" EntityType="Self.CuentaUsuario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Eventos" EntityType="Self.Eventos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EventosPrueba" EntityType="Self.EventosPrueba" Schema="dbo" store:Type="Tables" />
@@ -873,6 +874,7 @@
           <EntitySet Name="Perfiles" EntityType="Self.Perfiles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PeriodoVenta" EntityType="Self.PeriodoVenta" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Politicas" EntityType="Self.Politicas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PrecioEvento" EntityType="Self.PrecioEvento" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Promociones" EntityType="Self.Promociones" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PuntoVenta" EntityType="Self.PuntoVenta" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Regalo" EntityType="Self.Regalo" Schema="dbo" store:Type="Tables" />
@@ -918,6 +920,14 @@
             <End Role="Region" EntitySet="Region" />
             <End Role="Eventos" EntitySet="Eventos" />
           </AssociationSet>
+          <AssociationSet Name="fk_PerVenta" Association="Self.fk_PerVenta">
+            <End Role="PeriodoVenta" EntitySet="PeriodoVenta" />
+            <End Role="PrecioEvento" EntitySet="PrecioEvento" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ZonaEvent" Association="Self.fk_ZonaEvent">
+            <End Role="ZonaEvento" EntitySet="ZonaEvento" />
+            <End Role="PrecioEvento" EntitySet="PrecioEvento" />
+          </AssociationSet>
           <AssociationSet Name="R_12" Association="Self.R_12">
             <End Role="TurnoSistema" EntitySet="TurnoSistema" />
             <End Role="Turno" EntitySet="Turno" />
@@ -957,14 +967,6 @@
           <AssociationSet Name="R_30" Association="Self.R_30">
             <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
             <End Role="Ventas" EntitySet="Ventas" />
-          </AssociationSet>
-          <AssociationSet Name="R_31" Association="Self.R_31">
-            <End Role="Eventos" EntitySet="Eventos" />
-            <End Role="Comentarios" EntitySet="Comentarios" />
-          </AssociationSet>
-          <AssociationSet Name="R_32" Association="Self.R_32">
-            <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
-            <End Role="Comentarios" EntitySet="Comentarios" />
           </AssociationSet>
           <AssociationSet Name="R_34" Association="Self.R_34">
             <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
@@ -1056,7 +1058,6 @@
           <NavigationProperty Name="Turno" Relationship="inf245netsoftModel.R_26" FromRole="CuentaUsuario" ToRole="Turno" />
           <NavigationProperty Name="Ventas" Relationship="inf245netsoftModel.R_30" FromRole="CuentaUsuario" ToRole="Ventas" />
           <NavigationProperty Name="Ventas1" Relationship="inf245netsoftModel.R_34" FromRole="CuentaUsuario" ToRole="Ventas" />
-          <NavigationProperty Name="Comentarios" Relationship="inf245netsoftModel.R_32" FromRole="CuentaUsuario" ToRole="Comentarios" />
           </EntityType>
         <EntityContainer Name="inf245netsoft" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="CuentaUsuario" EntityType="Self.CuentaUsuario" />
@@ -1191,6 +1192,7 @@
             <End Role="PeriodoVenta" EntitySet="PeriodoVenta" />
           </AssociationSet>
           <EntitySet Name="Politicas" EntityType="inf245netsoftModel.Politicas" />
+          <EntitySet Name="Asientos" EntityType="inf245netsoftModel.Asientos" />
           <EntitySet Name="Ventas" EntityType="inf245netsoftModel.Ventas" />
           <AssociationSet Name="R_30" Association="inf245netsoftModel.R_30">
             <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
@@ -1204,16 +1206,11 @@
             <End Role="Ventas" EntitySet="Ventas" />
             <End Role="VentasXFuncion" EntitySet="VentasXFuncion" />
           </AssociationSet>
-          <EntitySet Name="Comentarios" EntityType="inf245netsoftModel.Comentarios" />
-          <AssociationSet Name="R_31" Association="inf245netsoftModel.R_31">
-            <End Role="Eventos" EntitySet="Eventos" />
-            <End Role="Comentarios" EntitySet="Comentarios" />
+          <EntitySet Name="PrecioEvento" EntityType="inf245netsoftModel.PrecioEvento" />
+          <AssociationSet Name="fk_PerVenta" Association="inf245netsoftModel.fk_PerVenta">
+            <End Role="PeriodoVenta" EntitySet="PeriodoVenta" />
+            <End Role="PrecioEvento" EntitySet="PrecioEvento" />
           </AssociationSet>
-          <AssociationSet Name="R_32" Association="inf245netsoftModel.R_32">
-            <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
-            <End Role="Comentarios" EntitySet="Comentarios" />
-          </AssociationSet>
-          <EntitySet Name="Asientos" EntityType="inf245netsoftModel.Asientos" />
           <EntitySet Name="ZonaEvento" EntityType="inf245netsoftModel.ZonaEvento" />
           <AssociationSet Name="R_13" Association="inf245netsoftModel.R_13">
             <End Role="ZonaEvento" EntitySet="ZonaEvento" />
@@ -1222,6 +1219,10 @@
           <AssociationSet Name="R_21" Association="inf245netsoftModel.R_21">
             <End Role="Eventos" EntitySet="Eventos" />
             <End Role="ZonaEvento" EntitySet="ZonaEvento" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ZonaEvent" Association="inf245netsoftModel.fk_ZonaEvent">
+            <End Role="ZonaEvento" EntitySet="ZonaEvento" />
+            <End Role="PrecioEvento" EntitySet="PrecioEvento" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Perfiles">
@@ -1472,8 +1473,12 @@
           <NavigationProperty Name="Funcion" Relationship="inf245netsoftModel.R_43" FromRole="Eventos" ToRole="Funcion" />
           <NavigationProperty Name="PeriodoVenta" Relationship="inf245netsoftModel.fk_EventoPV" FromRole="Eventos" ToRole="PeriodoVenta" />
           <Property Name="direccion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Comentarios" Relationship="inf245netsoftModel.R_31" FromRole="Eventos" ToRole="Comentarios" />
           <NavigationProperty Name="ZonaEvento" Relationship="inf245netsoftModel.R_21" FromRole="Eventos" ToRole="ZonaEvento" />
+          <Property Name="maxReservas" Type="Int32" />
+          <Property Name="montoFijoVentaEntrada" Type="Double" />
+          <Property Name="tieneBoletoElectronico" Type="Boolean" />
+          <Property Name="permiteReserva" Type="Boolean" />
+          <Property Name="puntosAlCliente" Type="Int32" />
         </EntityType>
         <Association Name="fk_EventoRegion">
           <End Type="inf245netsoftModel.Region" Role="Region" Multiplicity="0..1" />
@@ -1883,6 +1888,7 @@
           <Property Name="fechaFin" Type="DateTime" Precision="3" />
           <Property Name="codEvento" Type="Int32" />
           <NavigationProperty Name="Eventos" Relationship="inf245netsoftModel.fk_EventoPV" FromRole="PeriodoVenta" ToRole="Eventos" />
+          <NavigationProperty Name="PrecioEvento" Relationship="inf245netsoftModel.fk_PerVenta" FromRole="PeriodoVenta" ToRole="PrecioEvento" />
         </EntityType>
         <Association Name="fk_EventoPV">
           <End Type="inf245netsoftModel.Eventos" Role="Eventos" Multiplicity="0..1" />
@@ -1903,6 +1909,16 @@
           <Property Name="codigo" Type="Int32" Nullable="false" />
           <Property Name="valor" Type="Int32" />
           <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Asientos">
+          <Key>
+            <PropertyRef Name="codAsiento" />
+          </Key>
+          <Property Name="fila" Type="Int32" />
+          <Property Name="columna" Type="Int32" />
+          <Property Name="codAsiento" Type="Int32" Nullable="false" />
+          <Property Name="codZona" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ZonaEvento" Relationship="inf245netsoftModel.R_13" FromRole="Asientos" ToRole="ZonaEvento" />
         </EntityType>
         <EntityType Name="Ventas">
           <Key>
@@ -1963,54 +1979,29 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Comentarios">
+        <EntityType Name="PrecioEvento">
           <Key>
-            <PropertyRef Name="codComentario" />
-            <PropertyRef Name="codEvento" />
-            <PropertyRef Name="usuario" />
+            <PropertyRef Name="codPrecioEvento" />
           </Key>
-          <Property Name="codComentario" Type="Int32" Nullable="false" />
-          <Property Name="contenido" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="fecha" Type="DateTime" Precision="3" />
-          <Property Name="codEvento" Type="Int32" Nullable="false" />
-          <Property Name="usuario" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Eventos" Relationship="inf245netsoftModel.R_31" FromRole="Comentarios" ToRole="Eventos" />
-          <NavigationProperty Name="CuentaUsuario" Relationship="inf245netsoftModel.R_32" FromRole="Comentarios" ToRole="CuentaUsuario" />
+          <Property Name="codPrecioEvento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="precio" Type="Double" />
+          <Property Name="codPeriodoVenta" Type="Int32" />
+          <Property Name="codZonaEvento" Type="Int32" />
+          <NavigationProperty Name="PeriodoVenta" Relationship="inf245netsoftModel.fk_PerVenta" FromRole="PrecioEvento" ToRole="PeriodoVenta" />
+          <NavigationProperty Name="ZonaEvento" Relationship="inf245netsoftModel.fk_ZonaEvent" FromRole="PrecioEvento" ToRole="ZonaEvento" />
         </EntityType>
-        <Association Name="R_31">
-          <End Type="inf245netsoftModel.Eventos" Role="Eventos" Multiplicity="1" />
-          <End Type="inf245netsoftModel.Comentarios" Role="Comentarios" Multiplicity="*" />
+        <Association Name="fk_PerVenta">
+          <End Type="inf245netsoftModel.PeriodoVenta" Role="PeriodoVenta" Multiplicity="0..1" />
+          <End Type="inf245netsoftModel.PrecioEvento" Role="PrecioEvento" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Eventos">
-              <PropertyRef Name="codigo" />
+            <Principal Role="PeriodoVenta">
+              <PropertyRef Name="idPerVent" />
             </Principal>
-            <Dependent Role="Comentarios">
-              <PropertyRef Name="codEvento" />
+            <Dependent Role="PrecioEvento">
+              <PropertyRef Name="codPeriodoVenta" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="R_32">
-          <End Type="inf245netsoftModel.CuentaUsuario" Role="CuentaUsuario" Multiplicity="1" />
-          <End Type="inf245netsoftModel.Comentarios" Role="Comentarios" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CuentaUsuario">
-              <PropertyRef Name="usuario" />
-            </Principal>
-            <Dependent Role="Comentarios">
-              <PropertyRef Name="usuario" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Asientos">
-          <Key>
-            <PropertyRef Name="codAsiento" />
-          </Key>
-          <Property Name="fila" Type="Int32" />
-          <Property Name="columna" Type="Int32" />
-          <Property Name="codAsiento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="codZona" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ZonaEvento" Relationship="inf245netsoftModel.R_13" FromRole="Asientos" ToRole="ZonaEvento" />
-        </EntityType>
         <EntityType Name="ZonaEvento">
           <Key>
             <PropertyRef Name="codZona" />
@@ -2024,6 +2015,7 @@
           <Property Name="cantColumnas" Type="Int32" />
           <NavigationProperty Name="Asientos" Relationship="inf245netsoftModel.R_13" FromRole="ZonaEvento" ToRole="Asientos" />
           <NavigationProperty Name="Eventos" Relationship="inf245netsoftModel.R_21" FromRole="ZonaEvento" ToRole="Eventos" />
+          <NavigationProperty Name="PrecioEvento" Relationship="inf245netsoftModel.fk_ZonaEvent" FromRole="ZonaEvento" ToRole="PrecioEvento" />
         </EntityType>
         <Association Name="R_13">
           <End Type="inf245netsoftModel.ZonaEvento" Role="ZonaEvento" Multiplicity="1" />
@@ -2046,6 +2038,18 @@
             </Principal>
             <Dependent Role="ZonaEvento">
               <PropertyRef Name="codEvento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ZonaEvent">
+          <End Type="inf245netsoftModel.ZonaEvento" Role="ZonaEvento" Multiplicity="0..1" />
+          <End Type="inf245netsoftModel.PrecioEvento" Role="PrecioEvento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZonaEvento">
+              <PropertyRef Name="codZona" />
+            </Principal>
+            <Dependent Role="PrecioEvento">
+              <PropertyRef Name="codZonaEvento" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2198,6 +2202,11 @@
           <EntitySetMapping Name="Eventos">
             <EntityTypeMapping TypeName="inf245netsoftModel.Eventos">
               <MappingFragment StoreEntitySet="Eventos">
+                <ScalarProperty Name="puntosAlCliente" ColumnName="puntosAlCliente" />
+                <ScalarProperty Name="permiteReserva" ColumnName="permiteReserva" />
+                <ScalarProperty Name="tieneBoletoElectronico" ColumnName="tieneBoletoElectronico" />
+                <ScalarProperty Name="montoFijoVentaEntrada" ColumnName="montoFijoVentaEntrada" />
+                <ScalarProperty Name="maxReservas" ColumnName="maxReservas" />
                 <ScalarProperty Name="direccion" ColumnName="direccion" />
                 <ScalarProperty Name="idProvincia" ColumnName="idProvincia" />
                 <ScalarProperty Name="idSubcategoria" ColumnName="idSubcategoria" />
@@ -2436,6 +2445,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Asientos">
+            <EntityTypeMapping TypeName="inf245netsoftModel.Asientos">
+              <MappingFragment StoreEntitySet="Asientos">
+                <ScalarProperty Name="codZona" ColumnName="codZona" />
+                <ScalarProperty Name="codAsiento" ColumnName="codAsiento" />
+                <ScalarProperty Name="columna" ColumnName="columna" />
+                <ScalarProperty Name="fila" ColumnName="fila" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Ventas">
             <EntityTypeMapping TypeName="inf245netsoftModel.Ventas">
               <MappingFragment StoreEntitySet="Ventas">
@@ -2457,24 +2476,13 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Comentarios">
-            <EntityTypeMapping TypeName="inf245netsoftModel.Comentarios">
-              <MappingFragment StoreEntitySet="Comentarios">
-                <ScalarProperty Name="usuario" ColumnName="usuario" />
-                <ScalarProperty Name="codEvento" ColumnName="codEvento" />
-                <ScalarProperty Name="fecha" ColumnName="fecha" />
-                <ScalarProperty Name="contenido" ColumnName="contenido" />
-                <ScalarProperty Name="codComentario" ColumnName="codComentario" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Asientos">
-            <EntityTypeMapping TypeName="inf245netsoftModel.Asientos">
-              <MappingFragment StoreEntitySet="Asientos">
-                <ScalarProperty Name="codZona" ColumnName="codZona" />
-                <ScalarProperty Name="codAsiento" ColumnName="codAsiento" />
-                <ScalarProperty Name="columna" ColumnName="columna" />
-                <ScalarProperty Name="fila" ColumnName="fila" />
+          <EntitySetMapping Name="PrecioEvento">
+            <EntityTypeMapping TypeName="inf245netsoftModel.PrecioEvento">
+              <MappingFragment StoreEntitySet="PrecioEvento">
+                <ScalarProperty Name="codZonaEvento" ColumnName="codZonaEvento" />
+                <ScalarProperty Name="codPeriodoVenta" ColumnName="codPeriodoVenta" />
+                <ScalarProperty Name="precio" ColumnName="precio" />
+                <ScalarProperty Name="codPrecioEvento" ColumnName="codPrecioEvento" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
