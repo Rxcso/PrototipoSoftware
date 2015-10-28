@@ -390,7 +390,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\RegisterEvento\BloqueTiempoVentaHelper.js" />
+    <Content Include="obj\BloqueTiempoVentaHelper.js" />
     <Content Include="Scripts\RegisterEvento\DatosGeneralesHelper.js" />
     <Content Include="Scripts\RegisterEvento\FuncionesHelper.js" />
     <Content Include="Scripts\respond.js" />
