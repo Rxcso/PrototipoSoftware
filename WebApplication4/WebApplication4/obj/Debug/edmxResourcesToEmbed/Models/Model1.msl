@@ -144,6 +144,7 @@
     <EntitySetMapping Name="Eventos">
       <EntityTypeMapping TypeName="inf245netsoftModel.Eventos">
         <MappingFragment StoreEntitySet="Eventos">
+          <ScalarProperty Name="codZonaEvento" ColumnName="codZonaEvento" />
           <ScalarProperty Name="puntosAlCliente" ColumnName="puntosAlCliente" />
           <ScalarProperty Name="permiteReserva" ColumnName="permiteReserva" />
           <ScalarProperty Name="tieneBoletoElectronico" ColumnName="tieneBoletoElectronico" />

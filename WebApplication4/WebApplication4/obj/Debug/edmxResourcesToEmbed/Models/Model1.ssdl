@@ -150,6 +150,7 @@
     <Property Name="tieneBoletoElectronico" Type="bit" />
     <Property Name="permiteReserva" Type="bit" />
     <Property Name="puntosAlCliente" Type="int" />
+    <Property Name="codZonaEvento" Type="int" />
   </EntityType>
   <EntityType Name="EventosPrueba">
     <Key>
@@ -548,6 +549,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="fk_ZonaEvento">
+    <End Role="ZonaEvento" Type="Self.ZonaEvento" Multiplicity="0..1" />
+    <End Role="Eventos" Type="Self.Eventos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ZonaEvento">
+        <PropertyRef Name="codZona" />
+      </Principal>
+      <Dependent Role="Eventos">
+        <PropertyRef Name="codZonaEvento" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="R_12">
     <End Role="TurnoSistema" Type="Self.TurnoSistema" Multiplicity="1" />
     <End Role="Turno" Type="Self.Turno" Multiplicity="*" />
@@ -922,6 +935,10 @@
     <AssociationSet Name="fk_ZonaEvent" Association="Self.fk_ZonaEvent">
       <End Role="ZonaEvento" EntitySet="ZonaEvento" />
       <End Role="PrecioEvento" EntitySet="PrecioEvento" />
+    </AssociationSet>
+    <AssociationSet Name="fk_ZonaEvento" Association="Self.fk_ZonaEvento">
+      <End Role="ZonaEvento" EntitySet="ZonaEvento" />
+      <End Role="Eventos" EntitySet="Eventos" />
     </AssociationSet>
     <AssociationSet Name="R_12" Association="Self.R_12">
       <End Role="TurnoSistema" EntitySet="TurnoSistema" />

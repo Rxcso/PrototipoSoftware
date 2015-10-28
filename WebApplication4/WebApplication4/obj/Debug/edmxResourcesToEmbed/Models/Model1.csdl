@@ -191,6 +191,10 @@
       <End Role="ZonaEvento" EntitySet="ZonaEvento" />
       <End Role="PrecioEvento" EntitySet="PrecioEvento" />
     </AssociationSet>
+    <AssociationSet Name="fk_ZonaEvento" Association="inf245netsoftModel.fk_ZonaEvento">
+      <End Role="ZonaEvento" EntitySet="ZonaEvento" />
+      <End Role="Eventos" EntitySet="Eventos" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Perfiles">
     <Key>
@@ -446,6 +450,8 @@
     <Property Name="tieneBoletoElectronico" Type="Boolean" />
     <Property Name="permiteReserva" Type="Boolean" />
     <Property Name="puntosAlCliente" Type="Int32" />
+    <Property Name="codZonaEvento" Type="Int32" />
+    <NavigationProperty Name="ZonaEvento1" Relationship="inf245netsoftModel.fk_ZonaEvento" FromRole="Eventos" ToRole="ZonaEvento" />
   </EntityType>
   <Association Name="fk_EventoRegion">
     <End Type="inf245netsoftModel.Region" Role="Region" Multiplicity="0..1" />
@@ -983,6 +989,7 @@
     <NavigationProperty Name="Asientos" Relationship="inf245netsoftModel.R_13" FromRole="ZonaEvento" ToRole="Asientos" />
     <NavigationProperty Name="Eventos" Relationship="inf245netsoftModel.R_21" FromRole="ZonaEvento" ToRole="Eventos" />
     <NavigationProperty Name="PrecioEvento" Relationship="inf245netsoftModel.fk_ZonaEvent" FromRole="ZonaEvento" ToRole="PrecioEvento" />
+    <NavigationProperty Name="Eventos1" Relationship="inf245netsoftModel.fk_ZonaEvento" FromRole="ZonaEvento" ToRole="Eventos" />
   </EntityType>
   <Association Name="R_13">
     <End Type="inf245netsoftModel.ZonaEvento" Role="ZonaEvento" Multiplicity="1" />
@@ -1016,6 +1023,18 @@
         <PropertyRef Name="codZona" />
       </Principal>
       <Dependent Role="PrecioEvento">
+        <PropertyRef Name="codZonaEvento" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_ZonaEvento">
+    <End Type="inf245netsoftModel.ZonaEvento" Role="ZonaEvento" Multiplicity="0..1" />
+    <End Type="inf245netsoftModel.Eventos" Role="Eventos" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ZonaEvento">
+        <PropertyRef Name="codZona" />
+      </Principal>
+      <Dependent Role="Eventos">
         <PropertyRef Name="codZonaEvento" />
       </Dependent>
     </ReferentialConstraint>
