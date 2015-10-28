@@ -95,8 +95,7 @@
                             </select>
                         </div>
                         <div class="form-group ">
-                            <select name="idSubCat" id="idSubCat" data-val="true" class="form-control col-lg-2">
-                            </select>
+                            <select name="idSubCat" id="idSubCat" data-val="true" class="form-control col-lg-2"></select>
                         </div>
                         <div class="form-group">
                             <select name="idRegion" id="idRegion" data-val="true" class="form-control col-lg-2" onchange="cambio()">
@@ -149,19 +148,19 @@
                             <td>@evento.codigo</td>
                             <td>@evento.nombre</td>
                             @{
-                                Categoria cat = db.Categoria.Where(c => c.idCategoria == @evento.idCategoria).First();
+                        Categoria cat = db.Categoria.Where(c => c.idCategoria == @evento.idCategoria).First();
                             }
 
                             <td>@cat.nombre</td>
                             <td>@evento.idCategoria</td>
                             @{
 
-                                WebApplication4.Models.Organizador org = db.Organizador.Where(mod => mod.codOrg == @evento.idOrganizador).First();
+                        WebApplication4.Models.Organizador org = db.Organizador.Where(mod => mod.codOrg == @evento.idOrganizador).First();
                             }
                             <td>@org.nombOrg</td>
                             <td>@evento.estado</td>
                         </tr>
-                                }
+                    }
                 </tbody>
             </table>
             Pagina @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
