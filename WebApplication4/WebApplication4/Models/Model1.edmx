@@ -150,6 +150,11 @@
           <Property Name="ImagenEvento" Type="text" />
           <Property Name="ImagenDestacado" Type="text" Nullable="false" />
           <Property Name="ImagenSitios" Type="text" />
+          <Property Name="maxReservas" Type="int" />
+          <Property Name="montoFijoVentaEntrada" Type="float" />
+          <Property Name="tieneBoletoElectronico" Type="bit" />
+          <Property Name="permiteReserva" Type="bit" />
+          <Property Name="puntosAlCliente" Type="int" />
         </EntityType>
         <EntityType Name="EventosPrueba">
           <Key>
@@ -1469,6 +1474,11 @@
           <NavigationProperty Name="PeriodoVenta" Relationship="inf245netsoftModel.fk_EventoPV" FromRole="Eventos" ToRole="PeriodoVenta" />
           <Property Name="direccion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="ZonaEvento" Relationship="inf245netsoftModel.R_21" FromRole="Eventos" ToRole="ZonaEvento" />
+          <Property Name="maxReservas" Type="Int32" />
+          <Property Name="montoFijoVentaEntrada" Type="Double" />
+          <Property Name="tieneBoletoElectronico" Type="Boolean" />
+          <Property Name="permiteReserva" Type="Boolean" />
+          <Property Name="puntosAlCliente" Type="Int32" />
         </EntityType>
         <Association Name="fk_EventoRegion">
           <End Type="inf245netsoftModel.Region" Role="Region" Multiplicity="0..1" />
@@ -2192,6 +2202,11 @@
           <EntitySetMapping Name="Eventos">
             <EntityTypeMapping TypeName="inf245netsoftModel.Eventos">
               <MappingFragment StoreEntitySet="Eventos">
+                <ScalarProperty Name="puntosAlCliente" ColumnName="puntosAlCliente" />
+                <ScalarProperty Name="permiteReserva" ColumnName="permiteReserva" />
+                <ScalarProperty Name="tieneBoletoElectronico" ColumnName="tieneBoletoElectronico" />
+                <ScalarProperty Name="montoFijoVentaEntrada" ColumnName="montoFijoVentaEntrada" />
+                <ScalarProperty Name="maxReservas" ColumnName="maxReservas" />
                 <ScalarProperty Name="direccion" ColumnName="direccion" />
                 <ScalarProperty Name="idProvincia" ColumnName="idProvincia" />
                 <ScalarProperty Name="idSubcategoria" ColumnName="idSubcategoria" />

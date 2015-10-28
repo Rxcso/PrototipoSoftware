@@ -46,6 +46,11 @@ namespace WebApplication4.Models
         public Nullable<int> idSubcategoria { get; set; }
         public Nullable<int> idProvincia { get; set; }
         public string direccion { get; set; }
+        public Nullable<int> maxReservas { get; set; }
+        public Nullable<double> montoFijoVentaEntrada { get; set; }
+        public Nullable<bool> tieneBoletoElectronico { get; set; }
+        public Nullable<bool> permiteReserva { get; set; }
+        public Nullable<int> puntosAlCliente { get; set; }
     
         public virtual Region Region { get; set; }
         public virtual Organizador Organizador { get; set; }

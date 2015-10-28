@@ -240,6 +240,22 @@ namespace WebApplication4.Controllers
         [HttpPost]
         public ActionResult ExtrasEvento(ExtrasModel model)
         {
+            if (ModelState.IsValid)
+            {
+                int idEvento = int.Parse(TempData["IdEventoCreado"].ToString());
+                Eventos evento = db.Eventos.Where(c => c.codigo == idEvento).First();
+                evento.porccomision = model.Ganancia;
+                evento.ImagenDestacado = model.ImageDestacado.ToString();
+                evento.ImagenEvento = model.ImageEvento.ToString();
+                evento.ImagenSitios = model.ImageSitios.ToString();
+                //evento.maxReservas = model.MaxReservas;
+                //evento.montoFijoVentaEntrada = model.MontFijoVentEnt;
+                evento.penalidadXcancelacion = model.PenCancelacion;
+                evento.penalidadXpostergacion = model.PenPostergacion;
+                //evento.tieneBoletoElectronico = model.PermitirBoletoElectronico;
+                //evento.permiteReserva = model.PermitirReservasWeb;
+                //evento.puntosAlCliente = model.PuntosToCliente;
+            }
             return View();
         }
         [HttpGet]
