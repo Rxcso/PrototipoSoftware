@@ -83,7 +83,7 @@ namespace WebApplication4.Controllers
             ViewBag.SubID = new SelectList(listSubCat, "idSubCat", "nombre");
             return View();
         }
-        
+
         [HttpPost]
         public ActionResult DatosGenerales(DatosGeneralesModel model)
         {
@@ -180,59 +180,61 @@ namespace WebApplication4.Controllers
                             db.Funcion.Add(funcion);
                             db.SaveChanges();
                         }
-                        return View("Tarifas");
-
+                        return RedirectToAction("Tarifas");
                     }
                     ViewBag.MensajeError = "Funciones Repetidas en el mismo dia";
                     ViewBag.Resultados = listaVerificacion;
-
                 }
             }
             ViewBag.MensajeError = "No hay un proceso de registro de evento activo.";
             return View();
         }
-
+        [HttpGet]
         public ActionResult Tarifas()
         {
-            int idEvento = 0;
-            if (int.TryParse(Session["idEventoCreado"].ToString(), out idEvento))
+            int idEvento = 20;
+            //if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento))
+            //{
+            List<PeriodoVenta> listaPV = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
+            List<string> nombresPV = new List<string>();
+            foreach (PeriodoVenta p in listaPV)
             {
-                List<PeriodoVenta> listaPV = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
-                List<string> nombresPV = new List<string>();
-                foreach (PeriodoVenta p in listaPV)
-                {
-                    nombresPV.Add("Del " + String.Format("{0:dd/MM/yyyy}", p.fechaInicio) + " hasta: " + String.Format("{0:dd/MM/yyyy}", p.fechaFin));
-                }
-                ViewBag.NombrePV = nombresPV;
+                nombresPV.Add("Del " + String.Format("{0:dd/MM/yyyy}", p.fechaInicio) + " hasta: " + String.Format("{0:dd/MM/yyyy}", p.fechaFin));
             }
-            ViewBag.MensajeError = "Ningun Eeento en proceso de creacion. Vuelva al Inicio";
+            ViewBag.NombrePV = nombresPV;
+            //}
+            ViewBag.MensajeError = "";
             return View();
         }
 
         [HttpPost]
         public ActionResult Tarifas(ZonaEventoListModel model)
         {
-            List<PeriodoVenta> listaPV = db.PeriodoVenta.Where(c => c.codEvento == 9).ToList();
-            List<ZonaEventoModel> list = model.ListaZEM;
-            foreach (ZonaEventoModel zona in list)
-            {
-                //guardamos la zoan del evento
-                ZonaEvento zonaEvento = new ZonaEvento();
-                zonaEvento.aforo = zona.Aforo;
-                zonaEvento.nombre = zona.Nombre;
-                //zonaEvento.codEvento = idEvento;
-                db.ZonaEvento.Add(zonaEvento);
-                db.SaveChanges();
-                int idZona = zonaEvento.codZona;
-                List<TarifaModel> funciones = zona.ListaTarifas;
-                for (int i = 0; i < funciones.Count; i++)
+            int idEvento = 20;
+            //if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento))
+            //{
+                List<PeriodoVenta> listaPV = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
+                List<ZonaEventoModel> list = model.ListaZEM;
+                foreach (ZonaEventoModel zona in list)
                 {
-                    PrecioEvento precioEvento = new PrecioEvento();
-                    precioEvento.codPeriodoVenta = listaPV[i].idPerVent;
-                    precioEvento.codZonaEvento = idZona;
-                    precioEvento.precio = funciones[i].Precio;
+                    //guardamos la zona del evento
+                    ZonaEvento zonaEvento = new ZonaEvento();
+                    zonaEvento.aforo = zona.Aforo;
+                    zonaEvento.nombre = zona.Nombre;
+                    zonaEvento.codEvento = idEvento;
+                    db.ZonaEvento.Add(zonaEvento);
+                    db.SaveChanges();
+                    int idZona = zonaEvento.codZona;
+                    List<TarifaModel> funciones = zona.ListaTarifas;
+                    for (int i = 0; i < funciones.Count; i++)
+                    {
+                        PrecioEvento precioEvento = new PrecioEvento();
+                        precioEvento.codPeriodoVenta = listaPV[i].idPerVent;
+                        precioEvento.codZonaEvento = idZona;
+                        precioEvento.precio = funciones[i].Precio;
+                    }
                 }
-            }
+            //}
             return View("ExtrasEvento");
         }
 
@@ -246,8 +248,8 @@ namespace WebApplication4.Controllers
         {
             if (ModelState.IsValid)
             {
-                int idEvento = int.Parse(Session["IdEventoCreado"].ToString());
-                var evento = db.Eventos.Find(idEvento);
+                //int idEvento = int.Parse(Session["IdEventoCreado"].ToString());
+                var evento = db.Eventos.Find(20);
                 evento.porccomision = model.Ganancia;
                 evento.ImagenDestacado = "/Images/destacado.png";
                 evento.ImagenEvento = model.ImageEvento.ToString();
@@ -260,7 +262,7 @@ namespace WebApplication4.Controllers
                 evento.permiteReserva = model.PermitirReservasWeb;
                 evento.puntosAlCliente = model.PuntosToCliente;
                 db.SaveChanges();
-                return View("Index","Evento");
+                return View("Index", "Evento");
             }
             return View();
         }

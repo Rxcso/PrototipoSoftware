@@ -70,6 +70,7 @@
         <AssociationConnector Association="inf245netsoftModel.R_13" />
         <AssociationConnector Association="inf245netsoftModel.R_21" />
         <AssociationConnector Association="inf245netsoftModel.fk_ZonaEvent" />
+        <AssociationConnector Association="inf245netsoftModel.fk_ZonaEvento" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
