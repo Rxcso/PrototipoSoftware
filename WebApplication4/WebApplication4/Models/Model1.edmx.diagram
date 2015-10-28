@@ -67,6 +67,9 @@
         <AssociationConnector Association="inf245netsoftModel.R_30" />
         <AssociationConnector Association="inf245netsoftModel.R_34" />
         <AssociationConnector Association="inf245netsoftModel.R_38" />
+        <EntityTypeShape EntityType="inf245netsoftModel.PrecioEvento" Width="1.5" PointX="13.625" PointY="18.125" />
+        <AssociationConnector Association="inf245netsoftModel.fk_PerVenta" />
+        <AssociationConnector Association="inf245netsoftModel.fk_ZonaEvent" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -21,7 +21,7 @@
           </Key>
           <Property Name="fila" Type="int" />
           <Property Name="columna" Type="int" />
-          <Property Name="codAsiento" Type="int" Nullable="false" />
+          <Property Name="codAsiento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="codZona" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="AspNetRoles">
@@ -258,6 +258,15 @@
           <Property Name="valor" Type="int" />
           <Property Name="nombre" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="PrecioEvento">
+          <Key>
+            <PropertyRef Name="codPrecioEvento" />
+          </Key>
+          <Property Name="codPrecioEvento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="precio" Type="float" />
+          <Property Name="codPeriodoVenta" Type="int" />
+          <Property Name="codZonaEvento" Type="int" />
+        </EntityType>
         <EntityType Name="Promociones">
           <Key>
             <PropertyRef Name="codPromo" />
@@ -405,11 +414,11 @@
           </Key>
           <Property Name="codZona" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="codEvento" Type="int" Nullable="false" />
-          <Property Name="nombre" Type="varchar" MaxLength="20" />
-          <Property Name="descripcion" Type="varchar" MaxLength="50" />
-          <Property Name="piso" Type="int" />
-          <Property Name="aforo" Type="int" />
-          <Property Name="codLocal" Type="int" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="aforo" Type="int" Nullable="false" />
+          <Property Name="tieneAsientos" Type="bit" Nullable="false" />
+          <Property Name="cantFilas" Type="int" />
+          <Property Name="cantColumnas" Type="int" />
         </EntityType>
         <Association Name="FK__RegaloXCu__usuar__4BAC3F29">
           <End Role="CuentaUsuario" Type="Self.CuentaUsuario" Multiplicity="1" />
@@ -512,6 +521,30 @@
             </Principal>
             <Dependent Role="Eventos">
               <PropertyRef Name="idRegion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_PerVenta">
+          <End Role="PeriodoVenta" Type="Self.PeriodoVenta" Multiplicity="0..1" />
+          <End Role="PrecioEvento" Type="Self.PrecioEvento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PeriodoVenta">
+              <PropertyRef Name="idPerVent" />
+            </Principal>
+            <Dependent Role="PrecioEvento">
+              <PropertyRef Name="codPeriodoVenta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ZonaEvent">
+          <End Role="ZonaEvento" Type="Self.ZonaEvento" Multiplicity="0..1" />
+          <End Role="PrecioEvento" Type="Self.PrecioEvento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZonaEvento">
+              <PropertyRef Name="codZona" />
+            </Principal>
+            <Dependent Role="PrecioEvento">
+              <PropertyRef Name="codZonaEvento" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -836,6 +869,7 @@
           <EntitySet Name="Perfiles" EntityType="Self.Perfiles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PeriodoVenta" EntityType="Self.PeriodoVenta" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Politicas" EntityType="Self.Politicas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PrecioEvento" EntityType="Self.PrecioEvento" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Promociones" EntityType="Self.Promociones" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PuntoVenta" EntityType="Self.PuntoVenta" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Regalo" EntityType="Self.Regalo" Schema="dbo" store:Type="Tables" />
@@ -880,6 +914,14 @@
           <AssociationSet Name="fk_EventoRegion" Association="Self.fk_EventoRegion">
             <End Role="Region" EntitySet="Region" />
             <End Role="Eventos" EntitySet="Eventos" />
+          </AssociationSet>
+          <AssociationSet Name="fk_PerVenta" Association="Self.fk_PerVenta">
+            <End Role="PeriodoVenta" EntitySet="PeriodoVenta" />
+            <End Role="PrecioEvento" EntitySet="PrecioEvento" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ZonaEvent" Association="Self.fk_ZonaEvent">
+            <End Role="ZonaEvento" EntitySet="ZonaEvento" />
+            <End Role="PrecioEvento" EntitySet="PrecioEvento" />
           </AssociationSet>
           <AssociationSet Name="R_12" Association="Self.R_12">
             <End Role="TurnoSistema" EntitySet="TurnoSistema" />
@@ -1167,6 +1209,15 @@
           <AssociationSet Name="R_38" Association="inf245netsoftModel.R_38">
             <End Role="Ventas" EntitySet="Ventas" />
             <End Role="VentasXFuncion" EntitySet="VentasXFuncion" />
+          </AssociationSet>
+          <EntitySet Name="PrecioEvento" EntityType="inf245netsoftModel.PrecioEvento" />
+          <AssociationSet Name="fk_PerVenta" Association="inf245netsoftModel.fk_PerVenta">
+            <End Role="PeriodoVenta" EntitySet="PeriodoVenta" />
+            <End Role="PrecioEvento" EntitySet="PrecioEvento" />
+          </AssociationSet>
+          <AssociationSet Name="fk_ZonaEvent" Association="inf245netsoftModel.fk_ZonaEvent">
+            <End Role="ZonaEvento" EntitySet="ZonaEvento" />
+            <End Role="PrecioEvento" EntitySet="PrecioEvento" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Perfiles">
@@ -1827,6 +1878,7 @@
           <Property Name="fechaFin" Type="DateTime" Precision="3" />
           <Property Name="codEvento" Type="Int32" />
           <NavigationProperty Name="Eventos" Relationship="inf245netsoftModel.fk_EventoPV" FromRole="PeriodoVenta" ToRole="Eventos" />
+          <NavigationProperty Name="PrecioEvento" Relationship="inf245netsoftModel.fk_PerVenta" FromRole="PeriodoVenta" ToRole="PrecioEvento" />
         </EntityType>
         <Association Name="fk_EventoPV">
           <End Type="inf245netsoftModel.Eventos" Role="Eventos" Multiplicity="0..1" />
@@ -1864,13 +1916,17 @@
           </Key>
           <Property Name="codZona" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="codEvento" Type="Int32" Nullable="false" />
-          <Property Name="nombre" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="piso" Type="Int32" />
-          <Property Name="aforo" Type="Int32" />
+          <Property Name="aforo" Type="Int32" Nullable="false" />
           <Property Name="codLocal" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Asientos" Relationship="inf245netsoftModel.R_13" FromRole="ZonaEvento" ToRole="Asientos" />
           <NavigationProperty Name="Eventos" Relationship="inf245netsoftModel.R_21" FromRole="ZonaEvento" ToRole="Eventos" />
+          <Property Name="tieneAsientos" Type="Boolean" Nullable="false" />
+          <Property Name="cantFilas" Type="Int32" />
+          <Property Name="cantColumnas" Type="Int32" />
+          <NavigationProperty Name="PrecioEvento" Relationship="inf245netsoftModel.fk_ZonaEvent" FromRole="ZonaEvento" ToRole="PrecioEvento" />
         </EntityType>
         <Association Name="R_13">
           <End Type="inf245netsoftModel.ZonaEvento" Role="ZonaEvento" Multiplicity="1" />
@@ -1952,6 +2008,41 @@
             </Principal>
             <Dependent Role="VentasXFuncion">
               <PropertyRef Name="codVen" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PrecioEvento">
+          <Key>
+            <PropertyRef Name="codPrecioEvento" />
+          </Key>
+          <Property Name="codPrecioEvento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="precio" Type="Double" />
+          <Property Name="codPeriodoVenta" Type="Int32" />
+          <Property Name="codZonaEvento" Type="Int32" />
+          <NavigationProperty Name="PeriodoVenta" Relationship="inf245netsoftModel.fk_PerVenta" FromRole="PrecioEvento" ToRole="PeriodoVenta" />
+          <NavigationProperty Name="ZonaEvento" Relationship="inf245netsoftModel.fk_ZonaEvent" FromRole="PrecioEvento" ToRole="ZonaEvento" />
+        </EntityType>
+        <Association Name="fk_PerVenta">
+          <End Type="inf245netsoftModel.PeriodoVenta" Role="PeriodoVenta" Multiplicity="0..1" />
+          <End Type="inf245netsoftModel.PrecioEvento" Role="PrecioEvento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PeriodoVenta">
+              <PropertyRef Name="idPerVent" />
+            </Principal>
+            <Dependent Role="PrecioEvento">
+              <PropertyRef Name="codPeriodoVenta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_ZonaEvent">
+          <End Type="inf245netsoftModel.ZonaEvento" Role="ZonaEvento" Multiplicity="0..1" />
+          <End Type="inf245netsoftModel.PrecioEvento" Role="PrecioEvento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ZonaEvento">
+              <PropertyRef Name="codZona" />
+            </Principal>
+            <Dependent Role="PrecioEvento">
+              <PropertyRef Name="codZonaEvento" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2355,10 +2446,10 @@
           <EntitySetMapping Name="ZonaEvento">
             <EntityTypeMapping TypeName="inf245netsoftModel.ZonaEvento">
               <MappingFragment StoreEntitySet="ZonaEvento">
-                <ScalarProperty Name="codLocal" ColumnName="codLocal" />
+                <ScalarProperty Name="cantColumnas" ColumnName="cantColumnas" />
+                <ScalarProperty Name="cantFilas" ColumnName="cantFilas" />
+                <ScalarProperty Name="tieneAsientos" ColumnName="tieneAsientos" />
                 <ScalarProperty Name="aforo" ColumnName="aforo" />
-                <ScalarProperty Name="piso" ColumnName="piso" />
-                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
                 <ScalarProperty Name="codEvento" ColumnName="codEvento" />
                 <ScalarProperty Name="codZona" ColumnName="codZona" />
@@ -2383,6 +2474,16 @@
                 <ScalarProperty Name="cantAsientos" ColumnName="cantAsientos" />
                 <ScalarProperty Name="fecha" ColumnName="fecha" />
                 <ScalarProperty Name="codVen" ColumnName="codVen" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PrecioEvento">
+            <EntityTypeMapping TypeName="inf245netsoftModel.PrecioEvento">
+              <MappingFragment StoreEntitySet="PrecioEvento">
+                <ScalarProperty Name="codZonaEvento" ColumnName="codZonaEvento" />
+                <ScalarProperty Name="codPeriodoVenta" ColumnName="codPeriodoVenta" />
+                <ScalarProperty Name="precio" ColumnName="precio" />
+                <ScalarProperty Name="codPrecioEvento" ColumnName="codPrecioEvento" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

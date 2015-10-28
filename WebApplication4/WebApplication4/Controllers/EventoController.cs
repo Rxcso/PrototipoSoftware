@@ -205,6 +205,25 @@ namespace WebApplication4.Controllers
         [HttpPost]
         public ActionResult Tarifas(ZonaEventoListModel model)
         {
+            List<PeriodoVenta> listaPV = db.PeriodoVenta.Where(c => c.codEvento == 9).ToList();
+            List<string> nombresPV = new List<string>();
+            nombresPV.Add("bloque 1"); nombresPV.Add("bloque 2"); nombresPV.Add("bloque 3");
+            ViewBag.NombrePV = nombresPV;
+            List<ZonaEventoModel> list = model.ListaZEM;
+            foreach (ZonaEventoModel zona in list)
+            {
+                ZonaEvento zonaEvento = new ZonaEvento();
+                zonaEvento.aforo = zona.Aforo;
+                //zonaEvento.codEvento = idEvento;
+                List<TarifaModel> funciones = zona.ListaTarifas;
+                foreach (TarifaModel funcion in funciones)
+                {
+                    foreach (PeriodoVenta perVenta in listaPV)
+                    {
+
+                    }
+                }
+            }
             return View();
         }
         [HttpGet]
