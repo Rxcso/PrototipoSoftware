@@ -1079,3 +1079,9 @@ C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplicatio
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\PagedList.Mvc.dll
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\PagedList.xml
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\PagedList.Mvc.xml
+C:\temp\PrototipoSoftware\WebApplication4\WebApplication4\bin\MvcPaging.dll
+C:\temp\PrototipoSoftware\WebApplication4\WebApplication4\bin\PagedList.dll
+C:\temp\PrototipoSoftware\WebApplication4\WebApplication4\bin\PagedList.Mvc.dll
+C:\temp\PrototipoSoftware\WebApplication4\WebApplication4\bin\MvcPaging.pdb
+C:\temp\PrototipoSoftware\WebApplication4\WebApplication4\bin\PagedList.xml
+C:\temp\PrototipoSoftware\WebApplication4\WebApplication4\bin\PagedList.Mvc.xml

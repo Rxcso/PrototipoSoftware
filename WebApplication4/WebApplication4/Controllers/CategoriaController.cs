@@ -79,6 +79,9 @@ namespace WebApplication4.Controllers
         }
         public ActionResult Edit(string categoria)
         {
+            List<Categoria> listaCat = db.Categoria.Where(c => c.activo == 1).ToList();
+            ViewBag.CatID = new SelectList(listaCat, "idCategoria", "nombre");
+
             int id = int.Parse(categoria);
             ViewBag.id = id;
             TempData["codigo"] = id;
@@ -103,8 +106,10 @@ namespace WebApplication4.Controllers
                 Categoria categoria = db.Categoria.Find(TempData["codigo"]);
                 db.Entry(categoria).State = EntityState.Modified;
                 categoria.nombre = model.nombre;
-                categoria.descripcion = model.descripcion;
+                categoria.descripcion = model.descripcion;                  
                 categoria.idCatPadre = model.idCatPadre;
+                List<Categoria> cat = db.Categoria.Where(c => c.idCategoria == model.idCatPadre).ToList();
+                categoria.nivel = cat[0].nivel+1;
                 db.SaveChanges();
                 return RedirectToAction("Index", "Categoria");
             }

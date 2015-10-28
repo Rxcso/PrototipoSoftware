@@ -32,11 +32,12 @@
     <div id="cont" class="container">
         <div class="row form-group">
             @*Sacar las zonas del evento*@
-            <select class="form-control" name="" id="">
-                <option value="">VIP</option>
-                <option value="">GENERAL</option>
-                <option value="">ALTA</option>
-                <option value="">PLATEA</option>
+            <select class="form-control" name="" id="zonas">
+                <option value="0">Seleccione</option>
+                
+                 @foreach(var item in ViewBag.listaZonas){
+                     <option value="@item.codZona">@item.nombre</option>
+                 }             
             </select>
         </div>
         <div class="row form-group">
@@ -44,15 +45,18 @@
             <div class="col-md-1 col-sm-1">
                 <input type="number" class="form-control" id="filas">
             </div>
-            <label for="nombre" class="control-label col-md-2 col-md-offset-2 col-sm-2">N° Columnas:</label>
+            <label for="nombre" class="control-label col-md-2 col-sm-2">N° Columnas:</label>
             <div class="col-md-1 col-sm-1">
                 <input type="number" class="form-control" id="columnas">
+            </div>
+            <div class="col-md-2 col-sm-2">
+                <button id="borrar" class="btn btn-primary" onclick="borrarAsientos()" >Borrar <span class="glyphicon glyphicon-remove"></span></button>
             </div>
             <div class="col-md-2 col-sm-2">
                 <button id="generar" class="btn btn-primary" onclick="generarAsientos()">Generar</button>
             </div>
             <div class="col-md-2 col-sm-2">
-                <button id="guardar" class="btn btn-primary">Guardar Distribución <span class="glyphicon glyphicon-save"></span> </button>
+                <button id="guardar" class="btn btn-primary" onclick="guardarAsientos()">Guardar Distribución <span class="glyphicon glyphicon-save"></span> </button>
             </div>
         </div>
         <div class="row">
@@ -66,6 +70,10 @@
     </div>
 
     <script>
+
+        var cantFilas;
+        var cantColumnas;
+
         function generarAsientos() {
             $("#canvas").empty();
             //Definición del lado
@@ -78,8 +86,8 @@
             d *= 0.99;
             //console.log(d);
 
-            var cantFilas = $("#filas").val();
-            var cantColumnas = $("#columnas").val();
+            cantFilas = $("#filas").val();
+            cantColumnas = $("#columnas").val();
 
 
 
@@ -159,6 +167,58 @@
             });
 
 
+        }
+
+
+
+
+        function borrarAsientos() {
+
+            var id = $("#zonas").val();
+
+            if( id == "0" ){
+                alert( "Seleccione una Zona" );
+            }
+            else {
+                if (confirm("Esta seguro que desea borrar los asientos de esta zona")) {
+                    var num = parseInt(id);
+                    $.post("@Url.Action("Asientos", "Evento")", { idZona: num });
+                }
+                
+            }
+
+        };
+
+
+        function guardarAsientos() {
+
+            var F = new Array();
+            var C = new Array();
+
+            for (var i = 1 ; i <= cantFilas ; i++)
+                for (var j = 1 ; j <= cantColumnas ; j++) {
+                    if (!$('.filas:nth-child(' + i + ') .celdas:nth-child(' + j + ') .ficha:nth-child(1)').hasClass('eliminado')) {
+                        F.push(i);
+                        C.push(j);
+                    }
+                }
+
+
+
+            var requestData = {};
+            requestData.idZona = parseInt($("#zonas").val());
+            requestData.filas = parseInt(cantFilas);
+            requestData.columnas = parseInt(cantColumnas);
+            requestData.posFila = F;
+            requestData.posCol = C;
+
+            $.ajax({
+                url: "/Evento/GenerarAsientos",
+                type: "POST",
+                contentType: 'application/json;',
+                dataType: 'json',
+                data: JSON.stringify(requestData)
+            });
         }
 
     </script>
