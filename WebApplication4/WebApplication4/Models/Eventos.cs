@@ -19,7 +19,6 @@ namespace WebApplication4.Models
             this.Pago = new HashSet<Pago>();
             this.Funcion = new HashSet<Funcion>();
             this.PeriodoVenta = new HashSet<PeriodoVenta>();
-            this.Comentarios = new HashSet<Comentarios>();
             this.ZonaEvento = new HashSet<ZonaEvento>();
         }
     
@@ -53,7 +52,6 @@ namespace WebApplication4.Models
         public virtual ICollection<Pago> Pago { get; set; }
         public virtual ICollection<Funcion> Funcion { get; set; }
         public virtual ICollection<PeriodoVenta> PeriodoVenta { get; set; }
-        public virtual ICollection<Comentarios> Comentarios { get; set; }
         public virtual ICollection<ZonaEvento> ZonaEvento { get; set; }
     }
 }

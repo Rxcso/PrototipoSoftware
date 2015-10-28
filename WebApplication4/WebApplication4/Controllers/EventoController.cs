@@ -190,15 +190,18 @@ namespace WebApplication4.Controllers
 
         public ActionResult Tarifas()
         {
-            //int idEvento = int.Parse(TempData["idEventoCreado"].ToString());
-            //int idEvento = 9;
-            //List<PeriodoVenta> listaPV = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
-            List<string> nombresPV = new List<string>();
-            nombresPV.Add("bloque 1"); nombresPV.Add("bloque 2"); nombresPV.Add("bloque 3");
-            /*foreach(PeriodoVenta p in listaPV){
-                nombresPV.Add("Del " + String.Format("{0:dd/MM/yyyy}", p.fechaInicio) + " hasta: " + String.Format("{0:dd/MM/yyyy}", p.fechaFin));  
-            }*/
-            ViewBag.NombrePV = nombresPV;
+            int idEvento = 0;
+            if (int.TryParse(TempData["idEventoCreado"].ToString(), out idEvento))
+            {
+                List<PeriodoVenta> listaPV = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
+                List<string> nombresPV = new List<string>();
+                foreach (PeriodoVenta p in listaPV)
+                {
+                    nombresPV.Add("Del " + String.Format("{0:dd/MM/yyyy}", p.fechaInicio) + " hasta: " + String.Format("{0:dd/MM/yyyy}", p.fechaFin));
+                }
+                ViewBag.NombrePV = nombresPV;
+            }
+            ViewBag.MensajeError = "Ningun Eeento en proceso de creacion. Vuelva al Inicio";
             return View();
         }
 
@@ -206,28 +209,39 @@ namespace WebApplication4.Controllers
         public ActionResult Tarifas(ZonaEventoListModel model)
         {
             List<PeriodoVenta> listaPV = db.PeriodoVenta.Where(c => c.codEvento == 9).ToList();
-            List<string> nombresPV = new List<string>();
-            nombresPV.Add("bloque 1"); nombresPV.Add("bloque 2"); nombresPV.Add("bloque 3");
-            ViewBag.NombrePV = nombresPV;
             List<ZonaEventoModel> list = model.ListaZEM;
             foreach (ZonaEventoModel zona in list)
             {
+                //guardamos la zoan del evento
                 ZonaEvento zonaEvento = new ZonaEvento();
                 zonaEvento.aforo = zona.Aforo;
+                zonaEvento.nombre = zona.Nombre;
                 //zonaEvento.codEvento = idEvento;
+                db.ZonaEvento.Add(zonaEvento);
+                db.SaveChanges();
+                int idZona = zonaEvento.codZona;
                 List<TarifaModel> funciones = zona.ListaTarifas;
-                foreach (TarifaModel funcion in funciones)
+                for (int i = 0; i < funciones.Count; i++)
                 {
-                    foreach (PeriodoVenta perVenta in listaPV)
-                    {
-
-                    }
+                    PrecioEvento precioEvento = new PrecioEvento();
+                    precioEvento.codPeriodoVenta = listaPV[i].idPerVent;
+                    precioEvento.codZonaEvento = idZona;
+                    precioEvento.precio = funciones[i].Precio;
                 }
             }
+            return View("Index", "Evento");
+        }
+
+        public ActionResult ExtrasEvento()
+        {
             return View();
         }
 
-
+        [HttpPost]
+        public ActionResult ExtrasEvento(ExtrasModel model)
+        {
+            return View();
+        }
         [HttpGet]
         public ActionResult Asientos(string evento)
         {
@@ -239,7 +253,7 @@ namespace WebApplication4.Controllers
 
             return View();
         }
-        
+
         //Borrar Asientos
         [HttpPost]
         public ActionResult Asientos(int idZona)
@@ -247,14 +261,14 @@ namespace WebApplication4.Controllers
 
             ZonaEvento queryZona = db.ZonaEvento.Where(c => c.codZona == idZona).First();
 
-            db.Asientos.RemoveRange(db.Asientos.Where(x => (x.codZona  == idZona) ));
+            db.Asientos.RemoveRange(db.Asientos.Where(x => (x.codZona == idZona)));
             db.SaveChanges();
 
             int id = queryZona.codEvento;
 
             Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();
             ViewBag.nombreEvento = queryEvento.nombre;
-            ViewBag.idEvento = id+"";
+            ViewBag.idEvento = id + "";
             ViewBag.listaZonas = db.ZonaEvento.Where(c => c.codEvento == id).ToList();
 
             return View();
@@ -274,16 +288,16 @@ namespace WebApplication4.Controllers
 
             int k = zona.posFila.Count;
 
-            Asientos asiento=new Asientos();
+            Asientos asiento = new Asientos();
             asiento.codZona = zona.idZona;
             for (int i = 0; i < k; i++)
             {
                 asiento.fila = zona.posFila[i];
                 asiento.columna = zona.posCol[i];
-                db.Asientos.Add(  asiento ); //Insertar asientos
+                db.Asientos.Add(asiento); //Insertar asientos
                 db.SaveChanges();
             }
-            
+
 
             int id = zonaE.codEvento;
             Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();
@@ -291,7 +305,7 @@ namespace WebApplication4.Controllers
             ViewBag.idEvento = "" + queryEvento.codigo;
             ViewBag.listaZonas = db.ZonaEvento.Where(c => c.codEvento == id).ToList();
 
-            return Redirect("~/Evento/Asientos/?evento="+id);
+            return Redirect("~/Evento/Asientos/?evento=" + id);
         }
 
 

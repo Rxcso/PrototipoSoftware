@@ -23,10 +23,7 @@ namespace WebApplication4.Models
         public int codZona { get; set; }
         public int codEvento { get; set; }
         public string nombre { get; set; }
-        public string descripcion { get; set; }
-        public Nullable<int> piso { get; set; }
         public int aforo { get; set; }
-        public int codLocal { get; set; }
         public bool tieneAsientos { get; set; }
         public Nullable<int> cantFilas { get; set; }
         public Nullable<int> cantColumnas { get; set; }
