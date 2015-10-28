@@ -194,7 +194,9 @@
     <Compile Include="Controllers\TipoDeCambioController.cs" />
     <Compile Include="Controllers\Validaciones.cs" />
     <Compile Include="Controllers\VentasController.cs" />
-    <Compile Include="Models\Asientos.cs" />
+    <Compile Include="Models\Asientos.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\AspNetRoles.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -215,6 +217,7 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CategoriaModel.cs" />
+    <Compile Include="Models\Comentarios.cs" />
     <Compile Include="Models\CuentaUsuario.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -273,7 +276,9 @@
     <Compile Include="Models\PeriodoVenta.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Politicas.cs" />
+    <Compile Include="Models\Politicas.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Promociones.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -317,7 +322,10 @@
     <Compile Include="Models\VentasXFuncion.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ZonaEvento.cs" />
+    <Compile Include="Models\ZonaEvento.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ZonaModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -381,7 +389,6 @@
     </Content>
     <Content Include="Log4Net.config" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\CategoriaEvento\BorrarCategoriaEvento.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -490,11 +497,15 @@
     <Content Include="Views\Evento\Asientos.cshtml" />
     <Content Include="Views\Evento\BloquesTiempoVenta.cshtml" />
     <Content Include="Views\Evento\Funciones.cshtml" />
-    <Content Include="Views\Evento\FuncionRow.cshtml" />
+    <Content Include="Views\CuentaUsuario\BuscaReserva.cshtml" />
+    <Content Include="Views\CuentaUsuario\MiCuenta.cshtml" />
+    <Content Include="Views\CuentaUsuario\MisCompras.cshtml" />
+    <Content Include="Views\CuentaUsuario\MisReservas.cshtml" />
+    <Content Include="Views\CuentaUsuario\Politicas.cshtml" />
+    <Content Include="Views\Evento\Tarifas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\RegistrarEvento\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -207,6 +207,8 @@ namespace WebApplication4.Controllers
         {
             return View();
         }
+
+
         [HttpGet]
         public ActionResult Asientos(string evento)
         {
@@ -214,7 +216,63 @@ namespace WebApplication4.Controllers
             Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();
             ViewBag.nombreEvento = queryEvento.nombre;
             ViewBag.idEvento = evento;
+            ViewBag.listaZonas = db.ZonaEvento.Where(c => c.codEvento == id).ToList();
+
             return View();
+        }
+        
+        //Borrar Asientos
+        [HttpPost]
+        public ActionResult Asientos(int idZona)
+        {
+
+            ZonaEvento queryZona = db.ZonaEvento.Where(c => c.codZona == idZona).First();
+
+            db.Asientos.RemoveRange(db.Asientos.Where(x => (x.codZona  == idZona) ));
+            db.SaveChanges();
+
+            int id = queryZona.codEvento;
+
+            Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();
+            ViewBag.nombreEvento = queryEvento.nombre;
+            ViewBag.idEvento = id+"";
+            ViewBag.listaZonas = db.ZonaEvento.Where(c => c.codEvento == id).ToList();
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult GenerarAsientos(ZonaModel zona)
+        {
+
+            ZonaEvento zonaE = db.ZonaEvento.Where(c => c.codZona == zona.idZona).First();
+
+            zonaE.cantFilas = zona.filas;
+            zonaE.cantColumnas = zona.columnas;
+            zonaE.tieneAsientos = true;
+
+            Asientos(zona.idZona);
+
+            int k = zona.posFila.Count;
+
+            Asientos asiento=new Asientos();
+            asiento.codZona = zona.idZona;
+            for (int i = 0; i < k; i++)
+            {
+                asiento.fila = zona.posFila[i];
+                asiento.columna = zona.posCol[i];
+                db.Asientos.Add(  asiento ); //Insertar asientos
+                db.SaveChanges();
+            }
+            
+
+            int id = zonaE.codEvento;
+            Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();
+            ViewBag.nombreEvento = queryEvento.nombre;
+            ViewBag.idEvento = "" + queryEvento.codigo;
+            ViewBag.listaZonas = db.ZonaEvento.Where(c => c.codEvento == id).ToList();
+
+            return Redirect("~/Evento/Asientos/?evento="+id);
         }
 
 
