@@ -144,6 +144,11 @@
     <EntitySetMapping Name="Eventos">
       <EntityTypeMapping TypeName="inf245netsoftModel.Eventos">
         <MappingFragment StoreEntitySet="Eventos">
+          <ScalarProperty Name="puntosAlCliente" ColumnName="puntosAlCliente" />
+          <ScalarProperty Name="permiteReserva" ColumnName="permiteReserva" />
+          <ScalarProperty Name="tieneBoletoElectronico" ColumnName="tieneBoletoElectronico" />
+          <ScalarProperty Name="montoFijoVentaEntrada" ColumnName="montoFijoVentaEntrada" />
+          <ScalarProperty Name="maxReservas" ColumnName="maxReservas" />
           <ScalarProperty Name="direccion" ColumnName="direccion" />
           <ScalarProperty Name="idProvincia" ColumnName="idProvincia" />
           <ScalarProperty Name="idSubcategoria" ColumnName="idSubcategoria" />

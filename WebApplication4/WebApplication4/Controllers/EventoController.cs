@@ -106,7 +106,7 @@ namespace WebApplication4.Controllers
                 db.Eventos.Add(evento);
                 db.SaveChanges();
                 int id = evento.codigo;
-                TempData["IdEventoCreado"] = id;
+                Session["IdEventoCreado"] = id;
                 return View("BloquesTiempoVenta");
 
             }
@@ -132,7 +132,7 @@ namespace WebApplication4.Controllers
         {
             int idEvento;
             List<BloqueDeTiempoModel> listaVerificacion = null;
-            if (int.TryParse(TempData["IdEventoCreado"].ToString(), out idEvento))
+            if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento))
             {
                 listaVerificacion = Validaciones.ValidarBloquesDeTiempoDeVenta(model);
                 if (model.esCorrecto)
@@ -146,6 +146,7 @@ namespace WebApplication4.Controllers
                         db.PeriodoVenta.Add(periodoVenta);
                         db.SaveChanges();
                     }
+                    return View("Funciones");
                 }
             }
             ViewBag.Resultados = listaVerificacion;
@@ -163,9 +164,9 @@ namespace WebApplication4.Controllers
         {
             List<FuncionesModel> listaVerificacion = null;
             int idEvento;
-            if (TempData["IdEventoCreado"] != null)
+            if (Session["IdEventoCreado"] != null)
             {
-                if (int.TryParse(TempData["IdEventoCreado"].ToString(), out idEvento))
+                if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento))
                 {
                     listaVerificacion = Validaciones.ValidarFunciones(model);
                     if (model.esCorrecto)
@@ -179,9 +180,12 @@ namespace WebApplication4.Controllers
                             db.Funcion.Add(funcion);
                             db.SaveChanges();
                         }
+                        return View("Tarifas");
+
                     }
                     ViewBag.MensajeError = "Funciones Repetidas en el mismo dia";
                     ViewBag.Resultados = listaVerificacion;
+
                 }
             }
             ViewBag.MensajeError = "No hay un proceso de registro de evento activo.";
@@ -191,7 +195,7 @@ namespace WebApplication4.Controllers
         public ActionResult Tarifas()
         {
             int idEvento = 0;
-            if (int.TryParse(TempData["idEventoCreado"].ToString(), out idEvento))
+            if (int.TryParse(Session["idEventoCreado"].ToString(), out idEvento))
             {
                 List<PeriodoVenta> listaPV = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
                 List<string> nombresPV = new List<string>();
@@ -229,7 +233,7 @@ namespace WebApplication4.Controllers
                     precioEvento.precio = funciones[i].Precio;
                 }
             }
-            return View("Index", "Evento");
+            return View("ExtrasEvento");
         }
 
         public ActionResult ExtrasEvento()
@@ -242,19 +246,21 @@ namespace WebApplication4.Controllers
         {
             if (ModelState.IsValid)
             {
-                int idEvento = int.Parse(TempData["IdEventoCreado"].ToString());
-                Eventos evento = db.Eventos.Where(c => c.codigo == idEvento).First();
+                int idEvento = int.Parse(Session["IdEventoCreado"].ToString());
+                var evento = db.Eventos.Find(idEvento);
                 evento.porccomision = model.Ganancia;
-                evento.ImagenDestacado = model.ImageDestacado.ToString();
+                evento.ImagenDestacado = "/Images/destacado.png";
                 evento.ImagenEvento = model.ImageEvento.ToString();
                 evento.ImagenSitios = model.ImageSitios.ToString();
-                //evento.maxReservas = model.MaxReservas;
-                //evento.montoFijoVentaEntrada = model.MontFijoVentEnt;
+                evento.maxReservas = model.MaxReservas;
+                evento.montoFijoVentaEntrada = model.MontFijoVentEnt;
                 evento.penalidadXcancelacion = model.PenCancelacion;
                 evento.penalidadXpostergacion = model.PenPostergacion;
-                //evento.tieneBoletoElectronico = model.PermitirBoletoElectronico;
-                //evento.permiteReserva = model.PermitirReservasWeb;
-                //evento.puntosAlCliente = model.PuntosToCliente;
+                evento.tieneBoletoElectronico = model.PermitirBoletoElectronico;
+                evento.permiteReserva = model.PermitirReservasWeb;
+                evento.puntosAlCliente = model.PuntosToCliente;
+                db.SaveChanges();
+                return View("Index","Evento");
             }
             return View();
         }

@@ -145,6 +145,11 @@
     <Property Name="ImagenEvento" Type="text" />
     <Property Name="ImagenDestacado" Type="text" Nullable="false" />
     <Property Name="ImagenSitios" Type="text" />
+    <Property Name="maxReservas" Type="int" />
+    <Property Name="montoFijoVentaEntrada" Type="float" />
+    <Property Name="tieneBoletoElectronico" Type="bit" />
+    <Property Name="permiteReserva" Type="bit" />
+    <Property Name="puntosAlCliente" Type="int" />
   </EntityType>
   <EntityType Name="EventosPrueba">
     <Key>

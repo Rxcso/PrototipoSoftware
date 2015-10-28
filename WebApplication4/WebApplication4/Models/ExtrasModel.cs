@@ -40,16 +40,16 @@ namespace WebApplication4.Models
 
         
         [Display(Name = "Imagen para destacado: ")]
-        public HttpPostedFileBase ImageDestacado { get; set; }
+        public string ImageDestacado { get; set; }
 
         [Required(ErrorMessage = "Este campo es obligatorio.")]
         [DataType(DataType.Upload)]
         [Display(Name = "Imagen para Evento: ")]
-        public HttpPostedFileBase ImageEvento { get; set; }
+        public string ImageEvento { get; set; }
 
         [DataType(DataType.Upload)]
         [Display(Name = "Imagen para la distribución: ")]
-        public HttpPostedFileBase ImageSitios { get; set; }
+        public string ImageSitios { get; set; }
 
         [Display(Name = "Permitir reservas vía web")]
         public bool PermitirReservasWeb { get; set; }

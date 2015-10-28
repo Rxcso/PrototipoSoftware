@@ -441,6 +441,11 @@
     <NavigationProperty Name="PeriodoVenta" Relationship="inf245netsoftModel.fk_EventoPV" FromRole="Eventos" ToRole="PeriodoVenta" />
     <Property Name="direccion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="ZonaEvento" Relationship="inf245netsoftModel.R_21" FromRole="Eventos" ToRole="ZonaEvento" />
+    <Property Name="maxReservas" Type="Int32" />
+    <Property Name="montoFijoVentaEntrada" Type="Double" />
+    <Property Name="tieneBoletoElectronico" Type="Boolean" />
+    <Property Name="permiteReserva" Type="Boolean" />
+    <Property Name="puntosAlCliente" Type="Int32" />
   </EntityType>
   <Association Name="fk_EventoRegion">
     <End Type="inf245netsoftModel.Region" Role="Region" Multiplicity="0..1" />
