@@ -46,6 +46,29 @@
     @{
         var db = new WebApplication4.Models.inf245netsoft();
         List<WebApplication4.Models.Categoria> listaCategoria;
+        if (Session["Ina"] == null) {
+            if (Session["Bus"] == null)
+            {
+                if (Session["ListaC"] == null)
+                {
+                    listaCategoria = db.Categoria.AsNoTracking().Where(c => c.activo == 1).ToList();
+                }
+                else
+                {
+                    listaCategoria = (List<WebApplication4.Models.Categoria>)Session["ListaC"];
+                    Session["ListaC"] = null;}
+                }
+            else
+            {
+                listaCategoria = (List<WebApplication4.Models.Categoria>)Session["Bus"];
+                //Session["Bus"] = null;
+            }
+        }
+        else
+        {
+            listaCategoria = (List<WebApplication4.Models.Categoria>)Session["Ina"];
+            Session["Ina"] = null;
+        }/*
         if (Session["ListaC"] == null)
         {
             listaCategoria = db.Categoria.AsNoTracking().Where(c => c.activo == 1).ToList();
@@ -53,7 +76,8 @@
         else
         {
             listaCategoria = (List<WebApplication4.Models.Categoria>)Session["ListaC"];
-        }
+            Session["ListaC"] = null;
+        }*/
     }
 
     <div class="row">

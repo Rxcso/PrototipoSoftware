@@ -19,7 +19,7 @@ namespace WebApplication4.Controllers
         }
         //no me mires
         private void borrar(int id)
-        {
+        {            
             List<Categoria> listaCategoria = null;
             while (true)
             {
@@ -133,8 +133,8 @@ namespace WebApplication4.Controllers
             List<Categoria> listaCat;
 
             listaCat = db.Categoria.AsNoTracking().Where(c => c.activo == 0).ToList();
-            if (listaCat != null) Session["ListaC"] = listaCat;
-            else Session["ListaC"] = null;
+            if (listaCat != null) Session["Ina"] = listaCat;
+            else Session["Ina"] = null;
             return RedirectToAction("Index", "Categoria");
         }
 
@@ -165,12 +165,12 @@ namespace WebApplication4.Controllers
             if (categoria == "")
             {
                 //listaReg = db.Regalo.AsNoTracking().Where(c => c.estado == true).ToList();
-                Session["ListaC"] = null;
+                Session["Bus"] = null;
                 return RedirectToAction("Index", "Categoria");
             }
             listaCat = db.Categoria.AsNoTracking().Where(c => c.nombre.StartsWith(categoria) && c.activo == 1).ToList();
-            if (listaCat != null) Session["ListaC"] = listaCat;
-            else Session["ListaC"] = null;
+            if (listaCat != null) Session["Bus"] = listaCat;
+            else Session["Bus"] = null;
             return RedirectToAction("Index", "Categoria");
         }
 
