@@ -8,6 +8,7 @@ using WebApplication4.Models;
 
 namespace WebApplication4.Controllers
 {
+    [Authorize]
     public class RegaloController : Controller
     {
 
