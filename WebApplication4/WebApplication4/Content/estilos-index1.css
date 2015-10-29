@@ -1,0 +1,9 @@
+*{}
+#busqAvanzada{text-align: center; margin-top: 10px;}
+header{margin-bottom: 10px}
+#barra{background-color: #337ab7; color: white }
+#seccionPrincipal{}
+#carousel-1{margin-bottom: 10px}
+#footer{background: #101010;height: 100px;color: white;text-align: center}
+.event{cursor: pointer}
+#logeado{display: none}

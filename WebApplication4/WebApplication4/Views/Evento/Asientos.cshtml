@@ -1,6 +1,8 @@
 ﻿@{
     ViewBag.Title = "Asientos";
     int idEvento = int.Parse(ViewBag.idEvento);
+    string status = ViewBag.estado?"disabled":"";
+    Boolean flagBool = ViewBag.estado?false:true;
 }
 <head>
     <link href="@Url.Content("~/Content/asientos.css")" rel="stylesheet" type="text/css" />
@@ -31,7 +33,7 @@
             <label for="nombreEvento" class="control-label col-md-2">Zonas:</label>
             <div class="col-md-4">
                 @*Sacar las zonas del evento*@
-                <select class="form-control" name="" id="zonas">
+                <select class="form-control" name="" id="zonas" >
                     <option id="0" value="0">Seleccione la zona</option>
                     @foreach (var item in ViewBag.listaZonas)
                     {
@@ -71,23 +73,23 @@
                 <div class="row form-group">
                     <label for="nombre" class="control-label col-md-8">N° filas:</label>
                     <div class="col-md-4">
-                        <input type="number" class="form-control" id="filas">
+                        <input type="number" class="form-control" id="filas" @status>
                     </div>
                 </div>
                 <div class="row form-group">
                     <label for="nombre" class="control-label col-md-8">N° Columnas:</label>
                     <div class="col-md-4">
-                        <input   type="number" class="form-control" id="columnas">
+                        <input type="number" class="form-control" id="columnas" @status>
                     </div>
                 </div>
                 <div class="row form-group">
                     <div class="col-md-2 col-md-offset-4">
-                        <button id="generar" class="btn btn-primary" onclick="generarAsientos()">Generar <span class="glyphicon glyphicon-share-alt"></span></button>
+                        <button id="generar" class="btn btn-primary" @status onclick="generarAsientos()">Generar <span class="glyphicon glyphicon-share-alt"></span></button>
                     </div>
                 </div>
                 <div class="row form-group">
                     <div class="col-md-3 col-md-offset-2">
-                        <button id="guardar" class="btn btn-success" onclick="guardarAsientos()">Guardar Distribución <span class="glyphicon glyphicon-save"></span> </button>
+                        <button id="guardar" class="btn btn-success" @status onclick="guardarAsientos()">Guardar Distribución <span class="glyphicon glyphicon-save"></span> </button>
                     </div>
                 </div>
                 <div class="row">
@@ -98,7 +100,7 @@
                 <br />
                 <div class="row form-group">
                     <div class="col-md-3 col-md-offset-2">
-                        <button id="borrar" class="btn btn-danger" onclick="borrarAsientos()">Eliminar distribución <span class="glyphicon glyphicon-remove"></span></button>
+                        <button id="borrar" class="btn btn-danger" @status onclick="borrarAsientos()">Eliminar distribución <span class="glyphicon glyphicon-remove"></span></button>
                     </div>
                 </div><br />
             </div>
@@ -110,134 +112,258 @@
     @section scripts{
 
         <script>
-            var cantFilas;
-            var cantColumnas;
+    var cantFilas;
+    var cantColumnas;
 
-            function generarAsientos() {
-                $("#canvas").empty();
-                //Definición del lado
-                var d;
-                if ($("#canvas").width() > $("#canvas").height()) {
-                    d = $("#canvas").height();
-                } else {
-                    d = $("#canvas").width();
-                }
-                d *= 0.99;
+        @{
+            <text>
 
-                cantFilas = $("#filas").val();
-                cantColumnas = $("#columnas").val();
+            var x="@ViewBag.myObject";
 
-                //validacion de filas y columnas
-                if ((cantFilas <= 0)  || (cantColumnas <= 0) ) {
-                    alert("Filas y columnas deben ser enteros mayores a cero");
-                    return;
-                }
+            </text>
+        }
+            var y = x.replace(/&quot;/g, "\"");
+            var listaAsientos = JSON.parse(y);
 
+    function generarAsientos() {
+        $("#canvas").empty();
+        //Definición del lado
+        var d;
+        if ($("#canvas").width() > $("#canvas").height()) {
+            d = $("#canvas").height();
+        } else {
+            d = $("#canvas").width();
+        }
+        d *= 0.99;
 
-                //BORDE
-                $('<div id="grilla-borde"></div>').appendTo('#canvas');
-                $('#grilla-borde').css('width', d + 'px');
-                $('#grilla-borde').css('height', d + 'px');
-                //
+        cantFilas = $("#filas").val();
+        cantColumnas = $("#columnas").val();
 
-                //INTERIOR
-                $('<div id="grilla-interna"></div>').appendTo('#grilla-borde');
-                $('#grilla-interna').css('width', 96 + '%');
-                $('#grilla-interna').css('height', 96 + '%');
-                $('#grilla-interna').css('margin', 2 + '%');
-                //
+        if (cantFilas * cantColumnas > 10000) {
+            alert("Demasiados asientos para una zona!!!");
+            return;
+        }
 
-                //ABAJO
-                $('<div id="info" style="text-align:center; font-size:18px;"></div>').appendTo('#aux');
-                //
-
-                //FILAS
-                var altoFilas = 0.9 * 100 / cantFilas;
-                var marginTopFilas = 0.1 * 100 / (cantFilas - 1);
-                var anchoFilas = 100 / 1;
-
-                for (var i = 0 ; i < cantFilas ; i++) {
-                    $('<div class="filas ' + 'fila_' + (i + 1) + '"></div>').appendTo('#grilla-interna');
-                }
-
-                $('.filas').each(function () {
-                    $(this).css('width', anchoFilas + '%');
-                    $(this).css('height', altoFilas + '%');
-                    if (!$(this).is(':first-child')) {
-                        $(this).css('margin-top', marginTopFilas + '%');
-                    }
-                });
-                //
-
-                //CELDAS
-                var altoCeldas = 100 / 1;
-                var anchoCeldas = 0.9 * 100 / cantColumnas;
-                var leftCeldas = 0.1 * 100 / (cantColumnas - 1);
-
-                for (var i = 0 ; i < cantColumnas ; i++)
-                    for (var j = 1 ; j <= cantFilas ; j++) {
-                        $('<div class="celdas ' + 'columna_' + (i + 1) + ' "></div>').appendTo('#grilla-interna .filas:nth-child(' + j + ')');
-                    }
-
-                $('.celdas').each(function () {
-                    $(this).css('width', anchoCeldas + '%'); $(this).css('height', altoCeldas + '%');
-                    if (!$(this).is(':first-child')) { $(this).css('margin-left', leftCeldas + '%'); }
-                });
-                //
-
-                //LLENAR
-                for (var i = 1 ; i <= cantFilas ; i++)
-                    for (var j = 1 ; j <= cantColumnas ; j++) {
-                        $('<div class="ficha"></div>').appendTo('.filas:nth-child(' + i + ') .celdas:nth-child(' + j + ')');
-                    }
-                //
+        //validacion de filas y columnas
+        if ((cantFilas <= 0) || (cantColumnas <= 0) || (cantFilas%1 !== 0) || (cantColumnas%1 !== 0)) {
+            alert("Filas y columnas deben ser enteros mayores a cero");
+            return;
+        }
 
 
+        //BORDE
+        $('<div id="grilla-borde"></div>').appendTo('#canvas');
+        $('#grilla-borde').css('width', d + 'px');
+        $('#grilla-borde').css('height', d + 'px');
+        //
 
-                $('body').on('mouseover', '.celdas', function () {
-                    var filaN = $(this).parent().attr('class').split('_');
-                    var columnaN = $(this).attr('class').split('_');
+        //INTERIOR
+        $('<div id="grilla-interna"></div>').appendTo('#grilla-borde');
+        $('#grilla-interna').css('width', 96 + '%');
+        $('#grilla-interna').css('height', 96 + '%');
+        $('#grilla-interna').css('margin', 2 + '%');
+        //
 
-                    $('#info').text('Fila: ' + filaN[1] + ' - Columna ' + columnaN[1]);
-                });
+        //ABAJO
+        $('<div id="info" style="text-align:center; font-size:18px;"></div>').appendTo('#aux');
+        //
 
+        //FILAS
+        var altoFilas = 0.9 * 100 / cantFilas;
+        var marginTopFilas = 0.1 * 100 / (cantFilas - 1);
+        var anchoFilas = 100 / 1;
 
-                $('body').on('click', '.ficha', function () {
-                    $(this).addClass("eliminado");
-                });
-                $('body').on('dblclick', '.ficha', function () {
-                    $(this).removeClass("eliminado")
-                });
+        for (var i = 0 ; i < cantFilas ; i++) {
+            $('<div class="filas ' + 'fila_' + (i + 1) + '"></div>').appendTo('#grilla-interna');
+        }
 
+        $('.filas').each(function () {
+            $(this).css('width', anchoFilas + '%');
+            $(this).css('height', altoFilas + '%');
+            if (!$(this).is(':first-child')) {
+                $(this).css('margin-top', marginTopFilas + '%');
+            }
+        });
+        //
 
+        //CELDAS
+        var altoCeldas = 100 / 1;
+        var anchoCeldas = 0.9 * 100 / cantColumnas;
+        var leftCeldas = 0.1 * 100 / (cantColumnas - 1);
+
+        for (var i = 0 ; i < cantColumnas ; i++)
+            for (var j = 1 ; j <= cantFilas ; j++) {
+                $('<div class="celdas ' + 'columna_' + (i + 1) + ' "></div>').appendTo('#grilla-interna .filas:nth-child(' + j + ')');
             }
 
-            function borrarAsientos() {
-                var id = $("#zonas").val();
+        $('.celdas').each(function () {
+            $(this).css('width', anchoCeldas + '%'); $(this).css('height', altoCeldas + '%');
+            if (!$(this).is(':first-child')) { $(this).css('margin-left', leftCeldas + '%'); }
+        });
+        //
 
-                if (id == "0") {
-                    alert("Seleccione una Zona");
-                }
-                else if ($("#asignados").val() == "0") {//si la zona no tiene asientos, no se podra borrar
-                    alert("La zona elegida aún no tiene asientos asignados");
+        //LLENAR
+        for (var i = 1 ; i <= cantFilas ; i++)
+            for (var j = 1 ; j <= cantColumnas ; j++) {
+                $('<div class="ficha"></div>').appendTo('.filas:nth-child(' + i + ') .celdas:nth-child(' + j + ')');
+            }
+        //
+
+
+
+        $('body').on('mouseover', '.celdas', function () {
+            var filaN = $(this).parent().attr('class').split('_');
+            var columnaN = $(this).attr('class').split('_');
+
+            $('#info').text('Fila: ' + filaN[1] + ' - Columna ' + columnaN[1]);
+        });
+
+
+        $('body').on('click', '.ficha', function () {
+            $(this).addClass("eliminado");
+        });
+        $('body').on('dblclick', '.ficha', function () {
+            $(this).removeClass("eliminado")
+        });
+
+
+    }
+
+
+    function sacar(arrFilas, arrColumnas) {
+        $("#canvas").empty();
+
+
+        var d;
+        if ($("#canvas").width() > $("#canvas").height()) {
+            d = $("#canvas").height();
+        } else {
+            d = $("#canvas").width();
+        }
+        d *= 0.99;
+
+        var cantFilas = Math.max.apply(false, arrFilas);
+        var cantColumnas = Math.max.apply(false, arrColumnas);
+
+        //BORDE	
+        $('<div id="grilla-borde"></div>').appendTo('#canvas');
+        $('#grilla-borde').css('width', d + 'px');
+        $('#grilla-borde').css('height', d + 'px');
+        //
+
+        //INTERIOR
+        $('<div id="grilla-interna"></div>').appendTo('#grilla-borde');
+        $('#grilla-interna').css('width', 96 + '%');
+        $('#grilla-interna').css('height', 96 + '%');
+        $('#grilla-interna').css('margin', 2 + '%');
+        //
+
+        //ABAJO 
+        $('<div id="info" style="text-align:center; font-size:18px;"></div>').appendTo('#aux');
+        //
+
+        //FILAS
+        var altoFilas = 0.9 * 100 / cantFilas;
+        var marginTopFilas = 0.1 * 100 / (cantFilas - 1);
+        var anchoFilas = 100 / 1;
+
+        for (var i = 0 ; i < cantFilas ; i++) {
+            $('<div class="filas ' + 'fila_' + (i + 1) + '"></div>').appendTo('#grilla-interna');
+        }
+
+        $('.filas').each(function () {
+            $(this).css('width', anchoFilas + '%');
+            $(this).css('height', altoFilas + '%');
+            if (!$(this).is(':first-child')) {
+                $(this).css('margin-top', marginTopFilas + '%');
+            }
+        });
+        //
+
+        //CELDAS
+        var altoCeldas = 100 / 1;
+        var anchoCeldas = 0.9 * 100 / cantColumnas;
+        var leftCeldas = 0.1 * 100 / (cantColumnas - 1);
+
+        for (var i = 0 ; i < cantColumnas ; i++)
+            for (var j = 1 ; j <= cantFilas ; j++) {
+                $('<div class="celdas ' + 'columna_' + (i + 1) + ' "></div>').appendTo('#grilla-interna .filas:nth-child(' + j + ')');
+            }
+
+        $('.celdas').each(function () {
+            $(this).css('width', anchoCeldas + '%'); $(this).css('height', altoCeldas + '%');
+            if (!$(this).is(':first-child')) { $(this).css('margin-left', leftCeldas + '%'); }
+        });
+        //	
+
+        //LLENAR
+        var recorrido = 0;
+        for (var i = 1 ; i <= cantFilas ; i++)
+            for (var j = 1 ; j <= cantColumnas ; j++) {
+                $('<div class="ficha"></div>').appendTo('.filas:nth-child(' + i + ') .celdas:nth-child(' + j + ')');
+                if (i != arrFilas[recorrido] || j != arrColumnas[recorrido]) {
+                    $('.filas:nth-child(' + i + ') .celdas:nth-child(' + j + ') div').addClass("eliminado");
                 }
                 else {
-                    if (confirm("¿Esta seguro que desea borrar los asientos de esta zona?")) {
-                        var num = parseInt(id);
-                        $.ajax({
-                            type: "POST",
-                            url: "@Url.Action("Asientos", "Evento")",
-                            data: { idZona: num },
+                    recorrido++;
+                }
+            }
+        //
 
-                            success: alert(response),
-                        });
-                        //$.post("@Url.Action("Asientos", "Evento")", { idZona: num }, $("body").html(result) );
+
+        $('body').on('mouseover', '.celdas', function () {
+            var filaN = $(this).parent().attr('class').split('_');
+            var columnaN = $(this).attr('class').split('_');
+
+            $('#info').text('Fila: ' + filaN[1] + ' - Columna ' + columnaN[1]);
+        });
+
+        @if( flagBool ){
+            <text>$('body').on('click', '.ficha', function () {
+                $(this).addClass("eliminado");
+            });
+            $('body').on('dblclick', '.ficha', function () {
+                $(this).removeClass("eliminado")
+            });</text>
+        }
+    }
+
+
+    function borrarAsientos() {
+        var id = $("#zonas").val();
+
+
+
+
+        if (id == "0") {
+            alert("Seleccione una Zona");
+        }
+        else if ($("#asignados").val() == "0") {//si la zona no tiene asientos, no se podra borrar
+            alert("La zona elegida aún no tiene asientos asignados");
+        }
+        else {
+            if (confirm("¿Esta seguro que desea borrar los asientos de esta zona?")) {
+                var num = parseInt(id);
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Asientos", "Evento")",
+                    data: { idZona: num },
+
+                    success: function (data) {
+                        window.location.href = '/Evento/Asientos/?evento='+"@ViewBag.idEvento";
                         alert("¡Se eliminaron todos los asientos de la zona satisfactoriamente!");
+                    },
+                    error: function(xhr, textStatus, error) {
+                        alert("Ooops... Ocurrió algo inesperado");
+                    },
+                });
+                //$.post("@Url.Action("Asientos", "Evento")", { idZona: num }, $("body").html(result) );
+
                     }
                 }
             }
 
-            function guardarAsientos() {
+            function guardarAsientos(){
                 var F = new Array();
                 var C = new Array();
                 var cantAsientos = 0;
@@ -271,19 +397,46 @@
                     url: "/Evento/GenerarAsientos",
                     type: "POST",
                     contentType: 'application/json;',
-                    dataType: 'json',
-                    data: JSON.stringify(requestData)
+                    
+                    data: JSON.stringify(requestData),
+                    success: function (data) {
+                                window.location.href = '/Evento/Asientos/?evento='+"@ViewBag.idEvento";
+                                alert("¡Se guardaron los asientos corrrectamente!");
+                    },
+                    error: function(xhr, textStatus, error) {
+                          alert("Ooops... Ocurrió algo inesperado");
+                    },
                 });
-                alert("Se agregó la distribución correctamente");
+
             }
 
             $("#zonas").change(function () {
                 //cambia el aforo cuando se cambia la zona
-                var index = $("#zonas").val();
-                $("#aforos #" + index).prop('selected', true);
-                $("#asignados #" + index).prop('selected', true);
+                var indice = $("#zonas").val();
+                $("#aforos #" + indice).prop('selected', true);
+                $("#asignados #" + indice).prop('selected', true);
 
                 //Aca iria el seteo de las filas y columnas
+                var index=-1;
+      
+                for (var i = 0; i < listaAsientos.length; i++) {
+                    if (listaAsientos[i].index == indice) index = i;
+                }
+
+                    if (index>=0 && listaAsientos[index ].tieneAsientos) {
+                        sacar(listaAsientos[index ].posFila, listaAsientos[index ].posColumna)
+                        cantFilas = listaAsientos[index ].filas;
+                        cantColumnas = listaAsientos[index ].columnas;
+                        $("#filas").val(cantFilas);
+                        $("#columnas").val(cantColumnas);
+                    }
+                    else {
+                        $("#canvas").empty();
+                        $("#filas").val("");
+                        $("#columnas").val("");
+                    }
+                    
+                
             });
 
             function limitarCambio() {
@@ -295,8 +448,8 @@
                 }
             }
 
-           $("#filas").change(limitarCambio);
-           $("#columnas").change(limitarCambio);
+           //$("#filas").change(limitarCambio);
+           //$("#columnas").change(limitarCambio);
 
         </script>
 

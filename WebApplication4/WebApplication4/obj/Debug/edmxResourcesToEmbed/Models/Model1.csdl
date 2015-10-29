@@ -160,19 +160,6 @@
     </AssociationSet>
     <EntitySet Name="Politicas" EntityType="inf245netsoftModel.Politicas" />
     <EntitySet Name="Asientos" EntityType="inf245netsoftModel.Asientos" />
-    <EntitySet Name="Ventas" EntityType="inf245netsoftModel.Ventas" />
-    <AssociationSet Name="R_30" Association="inf245netsoftModel.R_30">
-      <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
-      <End Role="Ventas" EntitySet="Ventas" />
-    </AssociationSet>
-    <AssociationSet Name="R_34" Association="inf245netsoftModel.R_34">
-      <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
-      <End Role="Ventas" EntitySet="Ventas" />
-    </AssociationSet>
-    <AssociationSet Name="R_38" Association="inf245netsoftModel.R_38">
-      <End Role="Ventas" EntitySet="Ventas" />
-      <End Role="VentasXFuncion" EntitySet="VentasXFuncion" />
-    </AssociationSet>
     <EntitySet Name="PrecioEvento" EntityType="inf245netsoftModel.PrecioEvento" />
     <AssociationSet Name="fk_PerVenta" Association="inf245netsoftModel.fk_PerVenta">
       <End Role="PeriodoVenta" EntitySet="PeriodoVenta" />
@@ -194,6 +181,27 @@
     <AssociationSet Name="fk_ZonaEvento" Association="inf245netsoftModel.fk_ZonaEvento">
       <End Role="ZonaEvento" EntitySet="ZonaEvento" />
       <End Role="Eventos" EntitySet="Eventos" />
+    </AssociationSet>
+    <EntitySet Name="Ventas" EntityType="inf245netsoftModel.Ventas" />
+    <AssociationSet Name="R_30" Association="inf245netsoftModel.R_30">
+      <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
+      <End Role="Ventas" EntitySet="Ventas" />
+    </AssociationSet>
+    <AssociationSet Name="R_34" Association="inf245netsoftModel.R_34">
+      <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
+      <End Role="Ventas" EntitySet="Ventas" />
+    </AssociationSet>
+    <AssociationSet Name="fk_PrecioEventoPV" Association="inf245netsoftModel.fk_PrecioEventoPV">
+      <End Role="PrecioEvento" EntitySet="PrecioEvento" />
+      <End Role="PeriodoVenta" EntitySet="PeriodoVenta" />
+    </AssociationSet>
+    <AssociationSet Name="fk_PrecioEv" Association="inf245netsoftModel.fk_PrecioEv">
+      <End Role="PrecioEvento" EntitySet="PrecioEvento" />
+      <End Role="ZonaEvento" EntitySet="ZonaEvento" />
+    </AssociationSet>
+    <AssociationSet Name="R_38" Association="inf245netsoftModel.R_38">
+      <End Role="Ventas" EntitySet="Ventas" />
+      <End Role="VentasXFuncion" EntitySet="VentasXFuncion" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Perfiles">
@@ -862,6 +870,8 @@
     <Property Name="codEvento" Type="Int32" />
     <NavigationProperty Name="Eventos" Relationship="inf245netsoftModel.fk_EventoPV" FromRole="PeriodoVenta" ToRole="Eventos" />
     <NavigationProperty Name="PrecioEvento" Relationship="inf245netsoftModel.fk_PerVenta" FromRole="PeriodoVenta" ToRole="PrecioEvento" />
+    <Property Name="idPrecioEvento" Type="Int32" />
+    <NavigationProperty Name="PrecioEvento1" Relationship="inf245netsoftModel.fk_PrecioEventoPV" FromRole="PeriodoVenta" ToRole="PrecioEvento" />
   </EntityType>
   <Association Name="fk_EventoPV">
     <End Type="inf245netsoftModel.Eventos" Role="Eventos" Multiplicity="0..1" />
@@ -893,65 +903,6 @@
     <Property Name="codZona" Type="Int32" Nullable="false" />
     <NavigationProperty Name="ZonaEvento" Relationship="inf245netsoftModel.R_13" FromRole="Asientos" ToRole="ZonaEvento" />
   </EntityType>
-  <EntityType Name="Ventas">
-    <Key>
-      <PropertyRef Name="codVen" />
-    </Key>
-    <Property Name="codVen" Type="Int32" Nullable="false" />
-    <Property Name="fecha" Type="DateTime" Precision="3" />
-    <Property Name="cantAsientos" Type="Int32" />
-    <Property Name="montoEfectivoSoles" Type="Double" />
-    <Property Name="montoEfectivoDolares" Type="Double" />
-    <Property Name="montoCreditoSoles" Type="Double" />
-    <Property Name="montoCreditoDolares" Type="Double" />
-    <Property Name="modalidad" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="tipoDoc" Type="Int32" />
-    <Property Name="codDoc" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="cliente" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="vendedor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="Estado" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="MontoTotalSoles" Type="Double" />
-    <Property Name="MontoTotalDolares" Type="Double" />
-    <NavigationProperty Name="CuentaUsuario" Relationship="inf245netsoftModel.R_30" FromRole="Ventas" ToRole="CuentaUsuario" />
-    <NavigationProperty Name="CuentaUsuario1" Relationship="inf245netsoftModel.R_34" FromRole="Ventas" ToRole="CuentaUsuario" />
-    <NavigationProperty Name="VentasXFuncion" Relationship="inf245netsoftModel.R_38" FromRole="Ventas" ToRole="VentasXFuncion" />
-  </EntityType>
-  <Association Name="R_30">
-    <End Type="inf245netsoftModel.CuentaUsuario" Role="CuentaUsuario" Multiplicity="1" />
-    <End Type="inf245netsoftModel.Ventas" Role="Ventas" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="CuentaUsuario">
-        <PropertyRef Name="usuario" />
-      </Principal>
-      <Dependent Role="Ventas">
-        <PropertyRef Name="cliente" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="R_34">
-    <End Type="inf245netsoftModel.CuentaUsuario" Role="CuentaUsuario" Multiplicity="0..1" />
-    <End Type="inf245netsoftModel.Ventas" Role="Ventas" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="CuentaUsuario">
-        <PropertyRef Name="usuario" />
-      </Principal>
-      <Dependent Role="Ventas">
-        <PropertyRef Name="vendedor" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="R_38">
-    <End Type="inf245netsoftModel.Ventas" Role="Ventas" Multiplicity="1" />
-    <End Type="inf245netsoftModel.VentasXFuncion" Role="VentasXFuncion" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Ventas">
-        <PropertyRef Name="codVen" />
-      </Principal>
-      <Dependent Role="VentasXFuncion">
-        <PropertyRef Name="codVen" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <EntityType Name="PrecioEvento">
     <Key>
       <PropertyRef Name="codPrecioEvento" />
@@ -962,6 +913,8 @@
     <Property Name="codZonaEvento" Type="Int32" />
     <NavigationProperty Name="PeriodoVenta" Relationship="inf245netsoftModel.fk_PerVenta" FromRole="PrecioEvento" ToRole="PeriodoVenta" />
     <NavigationProperty Name="ZonaEvento" Relationship="inf245netsoftModel.fk_ZonaEvent" FromRole="PrecioEvento" ToRole="ZonaEvento" />
+    <NavigationProperty Name="PeriodoVenta1" Relationship="inf245netsoftModel.fk_PrecioEventoPV" FromRole="PrecioEvento" ToRole="PeriodoVenta" />
+    <NavigationProperty Name="ZonaEvento1" Relationship="inf245netsoftModel.fk_PrecioEv" FromRole="PrecioEvento" ToRole="ZonaEvento" />
   </EntityType>
   <Association Name="fk_PerVenta">
     <End Type="inf245netsoftModel.PeriodoVenta" Role="PeriodoVenta" Multiplicity="0..1" />
@@ -990,6 +943,8 @@
     <NavigationProperty Name="Eventos" Relationship="inf245netsoftModel.R_21" FromRole="ZonaEvento" ToRole="Eventos" />
     <NavigationProperty Name="PrecioEvento" Relationship="inf245netsoftModel.fk_ZonaEvent" FromRole="ZonaEvento" ToRole="PrecioEvento" />
     <NavigationProperty Name="Eventos1" Relationship="inf245netsoftModel.fk_ZonaEvento" FromRole="ZonaEvento" ToRole="Eventos" />
+    <Property Name="idPrecioEvento" Type="Int32" />
+    <NavigationProperty Name="PrecioEvento1" Relationship="inf245netsoftModel.fk_PrecioEv" FromRole="ZonaEvento" ToRole="PrecioEvento" />
   </EntityType>
   <Association Name="R_13">
     <End Type="inf245netsoftModel.ZonaEvento" Role="ZonaEvento" Multiplicity="1" />
@@ -1036,6 +991,87 @@
       </Principal>
       <Dependent Role="Eventos">
         <PropertyRef Name="codZonaEvento" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Ventas">
+    <Key>
+      <PropertyRef Name="codVen" />
+    </Key>
+    <Property Name="codVen" Type="Int32" Nullable="false" />
+    <Property Name="fecha" Type="DateTime" Precision="3" />
+    <Property Name="cantAsientos" Type="Int32" />
+    <Property Name="montoEfectivoSoles" Type="Double" />
+    <Property Name="montoEfectivoDolares" Type="Double" />
+    <Property Name="montoCreditoSoles" Type="Double" />
+    <Property Name="modalidad" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="tipoDoc" Type="Int32" />
+    <Property Name="codDoc" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="cliente" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="vendedor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Estado" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="MontoTotalSoles" Type="Double" />
+    <NavigationProperty Name="CuentaUsuario" Relationship="inf245netsoftModel.R_30" FromRole="Ventas" ToRole="CuentaUsuario" />
+    <NavigationProperty Name="CuentaUsuario1" Relationship="inf245netsoftModel.R_34" FromRole="Ventas" ToRole="CuentaUsuario" />
+    <NavigationProperty Name="VentasXFuncion" Relationship="inf245netsoftModel.R_38" FromRole="Ventas" ToRole="VentasXFuncion" />
+  </EntityType>
+  <Association Name="R_30">
+    <End Type="inf245netsoftModel.CuentaUsuario" Role="CuentaUsuario" Multiplicity="1" />
+    <End Type="inf245netsoftModel.Ventas" Role="Ventas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CuentaUsuario">
+        <PropertyRef Name="usuario" />
+      </Principal>
+      <Dependent Role="Ventas">
+        <PropertyRef Name="cliente" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_34">
+    <End Type="inf245netsoftModel.CuentaUsuario" Role="CuentaUsuario" Multiplicity="0..1" />
+    <End Type="inf245netsoftModel.Ventas" Role="Ventas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CuentaUsuario">
+        <PropertyRef Name="usuario" />
+      </Principal>
+      <Dependent Role="Ventas">
+        <PropertyRef Name="vendedor" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_PrecioEventoPV">
+    <End Type="inf245netsoftModel.PrecioEvento" Role="PrecioEvento" Multiplicity="0..1" />
+    <End Type="inf245netsoftModel.PeriodoVenta" Role="PeriodoVenta" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PrecioEvento">
+        <PropertyRef Name="codPrecioEvento" />
+      </Principal>
+      <Dependent Role="PeriodoVenta">
+        <PropertyRef Name="idPrecioEvento" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_PrecioEv">
+    <End Type="inf245netsoftModel.PrecioEvento" Role="PrecioEvento" Multiplicity="0..1" />
+    <End Type="inf245netsoftModel.ZonaEvento" Role="ZonaEvento" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PrecioEvento">
+        <PropertyRef Name="codPrecioEvento" />
+      </Principal>
+      <Dependent Role="ZonaEvento">
+        <PropertyRef Name="idPrecioEvento" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_38">
+    <End Type="inf245netsoftModel.Ventas" Role="Ventas" Multiplicity="1" />
+    <End Type="inf245netsoftModel.VentasXFuncion" Role="VentasXFuncion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Ventas">
+        <PropertyRef Name="codVen" />
+      </Principal>
+      <Dependent Role="VentasXFuncion">
+        <PropertyRef Name="codVen" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
