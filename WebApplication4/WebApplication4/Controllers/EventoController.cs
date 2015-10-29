@@ -9,7 +9,7 @@ using System.Data.Entity;
 using System.Web.Script.Serialization;
 namespace WebApplication4.Controllers
 {
-
+    [Authorize]
     public class EventoController : Controller
     {
         inf245netsoft db = new inf245netsoft();
@@ -87,7 +87,7 @@ namespace WebApplication4.Controllers
             ViewBag.MensajeExtra = "";
             return View();
         }
-        
+
         [HttpPost]
         public ActionResult DatosGenerales(DatosGeneralesModel model)
         {
@@ -171,7 +171,8 @@ namespace WebApplication4.Controllers
             return View();
         }
 
-        private List<DateTime> ObtenerFechaInicioyFin(List<FuncionesModel> listFunciones){
+        private List<DateTime> ObtenerFechaInicioyFin(List<FuncionesModel> listFunciones)
+        {
             List<DateTime> funciones = new List<DateTime>();
             foreach (FuncionesModel funcion in listFunciones)
             {
@@ -195,7 +196,7 @@ namespace WebApplication4.Controllers
                 if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento))
                 {
                     listaVerificacion = Validaciones.ValidarFunciones(model);
-                    
+
                     if (model.esCorrecto)
                     {
                         //calculamos las fecha de inicio y de fin del evento
@@ -322,10 +323,10 @@ namespace WebApplication4.Controllers
 
             foreach (ZonaEvento zona in ViewBag.listaZonas)
             {
-                List<Asientos> listaAsientos = db.Asientos.Where(xx =>xx.codZona == zona.codZona).ToList();
+                List<Asientos> listaAsientos = db.Asientos.Where(xx => xx.codZona == zona.codZona).ToList();
 
-                var posF = new int[ listaAsientos.Count ];
-                var posC = new int[ listaAsientos.Count ];
+                var posF = new int[listaAsientos.Count];
+                var posC = new int[listaAsientos.Count];
                 int cnt = 0;
                 foreach (var asiento in listaAsientos)
                 {
@@ -334,19 +335,20 @@ namespace WebApplication4.Controllers
                     cnt++;
                 }
 
-                
-                var actZona = new {
-                    filas =  (int)zona.cantFilas,
+
+                var actZona = new
+                {
+                    filas = (int)zona.cantFilas,
                     columnas = (int)zona.cantColumnas,
-                    posFila= posF,
-                    posColumna= posC,
-                    tieneAsientos= zona.tieneAsientos,
+                    posFila = posF,
+                    posColumna = posC,
+                    tieneAsientos = zona.tieneAsientos,
                     index = zona.codZona,
                 };
 
                 myObject.Add(actZona);
             }
-            
+
             ViewBag.myObject = serializer.Serialize(myObject);
 
             return View();
@@ -381,7 +383,7 @@ namespace WebApplication4.Controllers
         {
 
             ZonaEvento zonaE = db.ZonaEvento.Where(c => c.codZona == zona.idZona).First();
-            
+
             Asientos(zona.idZona);
 
             db.Entry(zonaE).State = EntityState.Modified;
@@ -464,11 +466,11 @@ namespace WebApplication4.Controllers
             return View(model);
         }
 
+        [AllowAnonymous]
         public ActionResult BusquedaPaging(int? page)
         {
             return View();
         }
-
 
         [AllowAnonymous]
         // [RequireRequestValue(new[] { "fech_ini", "fech_fin", "idCategoria", "idSubCat", "idRegion", "idProv" })]
@@ -483,23 +485,15 @@ namespace WebApplication4.Controllers
             if (!nombre.Equals(""))
             {
                 lista = lista.Where(c => c.nombre.Contains(nombre) == true);
-
-
             }
-
-
 
             if (fech_ini.HasValue)
             {
-
                 lista = lista.Where(c => c.fecha_inicio >= fech_ini);
-
             }
 
             if (fech_fin.HasValue)
             {
-
-
                 lista = lista.Where(c => c.fecha_inicio <= fech_fin);
             }
 
@@ -519,14 +513,11 @@ namespace WebApplication4.Controllers
 
                 lista = lista.Where(c => c.idRegion == idRegion);
             }
+
             if (idProv.HasValue)
             {
                 lista = lista.Where(c => c.idProvincia == idProv);
             }
-
-
-
-
 
             ViewBag.Lista = lista.ToList();
 
@@ -540,9 +531,6 @@ namespace WebApplication4.Controllers
                 ViewBag.Lista = db.Eventos.AsNoTracking().Where(c => (c.fecha_inicio >= fech_ini && c.fecha_inicio <= fech_fin &&
                   c.idCategoria == idCategoria && c.idRegion == idRegion && c.idProvincia == idProv && c.estado.Contains("Activo"))).ToList();
             }
-
-
-
             var categorias = db.Categoria.AsNoTracking().Where(c => c.nivel == 1);
             ViewBag.categorias = new SelectList(categorias, "idCategoria", "nombre");
             var departamentos = db.Region.AsNoTracking().Where(c => c.idRegPadre == null);
@@ -556,7 +544,6 @@ namespace WebApplication4.Controllers
             return View();
         }
 
-
         [AllowAnonymous]
         public ActionResult Subcategorias()
         {
@@ -564,27 +551,19 @@ namespace WebApplication4.Controllers
 
         }
 
-
         [AllowAnonymous]
         public ActionResult Distritos()
         {
             return View();
         }
 
-
-
-
-
-
-
-
-
         /*
          *POSTERGAR EVENTO 
          * 
         */
         [HttpGet]
-        public ActionResult PostergarEvento(){
+        public ActionResult PostergarEvento()
+        {
             return View();
         }
 
