@@ -509,6 +509,7 @@
     <Content Include="Views\CuentaUsuario\Politicas.cshtml" />
     <Content Include="Views\Evento\Tarifas.cshtml" />
     <Content Include="Views\Evento\ExtrasEvento.cshtml" />
+    <Content Include="Views\Evento\PostergarEvento.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

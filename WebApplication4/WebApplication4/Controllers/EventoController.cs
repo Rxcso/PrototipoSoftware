@@ -537,5 +537,24 @@ namespace WebApplication4.Controllers
         {
             return View();
         }
+
+
+
+
+
+
+
+
+
+        /*
+         *POSTERGAR EVENTO 
+         * 
+        */
+        [HttpGet]
+        public ActionResult PostergarEvento(){
+            return View();
+        }
+
+
     }
 }
