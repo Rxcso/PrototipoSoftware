@@ -52,6 +52,7 @@ namespace WebApplication4.Models
         public Nullable<bool> permiteReserva { get; set; }
         public Nullable<int> puntosAlCliente { get; set; }
         public Nullable<int> codZonaEvento { get; set; }
+        public Nullable<int> idLocal { get; set; }
     
         public virtual Region Region { get; set; }
         public virtual Organizador Organizador { get; set; }

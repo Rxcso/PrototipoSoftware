@@ -83,35 +83,45 @@ namespace WebApplication4.Controllers
             List<Categoria> listSubCat = new List<Categoria>();
             ViewBag.CatID = new SelectList(listaCat, "idCategoria", "nombre");
             ViewBag.SubID = new SelectList(listSubCat, "idSubCat", "nombre");
+            Session["modelEvento"] = new DatosGeneralesModel();
+            ViewBag.MensajeExtra = "";
             return View();
         }
-
+        
         [HttpPost]
         public ActionResult DatosGenerales(DatosGeneralesModel model)
         {
-            if (ModelState.IsValid)
+            Session["modelEvento"] = model;
+            if (Validaciones.VerificaEventoDG(model))
             {
-                Eventos evento = new Eventos();
-                evento.nombre = model.nombre;
-                evento.idOrganizador = model.idOrganizador;
-                evento.idCategoria = model.idCategoria;
-                evento.idSubcategoria = (model.idSubCat == 0) ? 0 : model.idSubCat;
-                evento.direccion = string.IsNullOrEmpty(model.Direccion) ? "" : model.Direccion;
-                evento.idRegion = (model.idRegion == 0) ? 0 : model.idRegion;
-                evento.idProvincia = (model.idProv == 0) ? 0 : model.idProv;
-                evento.descripcion = string.IsNullOrEmpty(model.descripcion) ? "" : model.descripcion;
-                evento.fechaRegistro = DateTime.Today;
-                evento.estado = "Activo";
-                evento.monto_adeudado = 0;
-                evento.monto_transferir = 0;
-                evento.ImagenDestacado = MagicHelpers.NuevoEvento;
-                db.Eventos.Add(evento);
-                db.SaveChanges();
-                int id = evento.codigo;
-                Session["IdEventoCreado"] = id;
-                return View("BloquesTiempoVenta");
+                if (ModelState.IsValid)
+                {
+                    Eventos evento = new Eventos();
+                    evento.nombre = model.nombre;
+                    evento.idOrganizador = model.idOrganizador;
+                    evento.idCategoria = model.idCategoria;
+                    evento.idSubcategoria = (model.idSubCat == 0) ? 0 : model.idSubCat;
+                    evento.idLocal = (model.Local == 0) ? 0 : model.Local;
+                    evento.direccion = string.IsNullOrEmpty(model.Direccion) ? "" : model.Direccion;
+                    evento.idRegion = (model.idRegion == 0) ? 0 : model.idRegion;
+                    evento.idProvincia = (model.idProv == 0) ? 0 : model.idProv;
+                    evento.descripcion = string.IsNullOrEmpty(model.descripcion) ? "" : model.descripcion;
+                    evento.fechaRegistro = DateTime.Today;
+                    evento.estado = "Activo";
+                    evento.monto_adeudado = 0;
+                    evento.monto_transferir = 0;
+                    evento.ImagenDestacado = MagicHelpers.NuevoEvento;
+                    db.Eventos.Add(evento);
+                    db.SaveChanges();
+                    int id = evento.codigo;
+                    Session["IdEventoCreado"] = id;
+                    return RedirectToAction("BloquesTiempoVenta");
 
+                }
             }
+            ViewBag.MensajeExtra = "Valores de organizador y local guardados, puede cambiarlos si desea.";
+            ModelState.AddModelError("idLocal", "Se necesita un local o una direccion para el evento");
+            ModelState.AddModelError("Direccion", "Se necesita un local o una direccion para el evento");
             List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
             List<Region> listProv = new List<Region>();
             ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
@@ -161,6 +171,20 @@ namespace WebApplication4.Controllers
             return View();
         }
 
+        private List<DateTime> ObtenerFechaInicioyFin(List<FuncionesModel> listFunciones){
+            List<DateTime> funciones = new List<DateTime>();
+            foreach (FuncionesModel funcion in listFunciones)
+            {
+                funciones.Add(funcion.fechaFuncion);
+            }
+            List<DateTime> resultados = new List<DateTime>();
+            funciones.Sort((a, b) => a.CompareTo(b));
+            //si solo hay una funcion. La fecha inicio y fin son iguales
+            resultados.Add(funciones.First()); //fecha inicio
+            resultados.Add(funciones.Last()); //fecha fin
+            return resultados;
+        }
+
         [HttpPost]
         public ActionResult Funciones(FuncionesListModel model)
         {
@@ -171,8 +195,17 @@ namespace WebApplication4.Controllers
                 if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento))
                 {
                     listaVerificacion = Validaciones.ValidarFunciones(model);
+                    
                     if (model.esCorrecto)
                     {
+                        //calculamos las fecha de inicio y de fin del evento
+                        List<DateTime> fechas = ObtenerFechaInicioyFin(listaVerificacion);
+                        Eventos evento = db.Eventos.Find(idEvento);
+                        evento.fecha_inicio = fechas[0];
+                        evento.fecha_fin = fechas[1];
+                        //si solo tiene una funcion, es un evento unico
+                        evento.esUnico = model.ListaFunciones.Count == 1;
+                        db.SaveChanges();
                         for (int i = 0; i < listaVerificacion.Count; i++)
                         {
                             Funcion funcion = new Funcion();

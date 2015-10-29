@@ -9,27 +9,25 @@ namespace WebApplication4.Models
 {
     public class DatosGeneralesModel
     {
-        [Required]
+        [Required(ErrorMessage="El evento debe tener un nombre.")]
         [Display(Name = "Nombre:")]
         public string nombre { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El evento debe tener un organizador.")]
         [Display(Name = "Organizador:")]
         public int idOrganizador { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El evento debe ser de un tipo.")]
         [Display(Name = "Tipo:")]
         public int idCategoria { get; set; }
 
         [Display(Name = "Categoría:")]
         public int idSubCat { get; set; }
-        
-        [Display(Name = "Local:")]
-        public int idLocal { get; set; }
 
         [Display(Name = "Direccion")]
         public string Direccion { get; set; }
 
+        [Required(ErrorMessage = "El evento debe tener una ubicacion.")]
         [Display(Name = "Departamento:")]
         public int idRegion { get; set; }
 
@@ -38,5 +36,8 @@ namespace WebApplication4.Models
 
         [Display(Name = "Descripcion:")]
         public string descripcion { get; set; }
+
+        [Display(Name = "Local:")]
+        public int Local;
     }
 }
