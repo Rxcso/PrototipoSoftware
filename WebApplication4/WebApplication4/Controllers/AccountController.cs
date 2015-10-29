@@ -80,10 +80,40 @@ namespace WebApplication4.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             CuentaUsuario cuentausuario = db.CuentaUsuario.Find(model.Email);
+            PuntoVenta punt = new PuntoVenta();
+            try
+            {
+                if (cuentausuario.codPerfil == 2)
+                {
+                    string macAddresses = "";
+
+                    foreach (NetworkInterface nic in NetworkInterface.GetAllNetworkInterfaces())
+                    {
+                        if (nic.OperationalStatus == OperationalStatus.Up)
+                        {
+                            macAddresses += nic.GetPhysicalAddress().ToString();
+                            break;
+                        }
+                    }
+                    if (macAddresses != "")
+                    {
+                        List<PuntoVenta> lpu = db.PuntoVenta.Where(c => c.dirMAC == macAddresses).ToList();
+                        punt = lpu.First();
+                    }
+                    else { punt.codPuntoVenta = 1; }
+                }
+                     
+            }
+            catch (Exception ex)
+            {
+                return Redirect("~/Home/Index");
+            }
+            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            
             TempData["tipo"] = "alert alert-warning";
             TempData["message"] = "Logueo Incorrecto";
+
             switch (result)
             {
 
@@ -98,24 +128,7 @@ namespace WebApplication4.Controllers
                     else
                     {
                         if (cuentausuario.codPerfil == 2)
-                        {
-                            string macAddresses = "";
-
-                            foreach (NetworkInterface nic in NetworkInterface.GetAllNetworkInterfaces())
-                            {
-                                if (nic.OperationalStatus == OperationalStatus.Up)
-                                {
-                                    macAddresses += nic.GetPhysicalAddress().ToString();
-                                    break;
-                                }
-                            }
-                            PuntoVenta punt = new PuntoVenta();
-                            if (macAddresses != "")
-                            {
-                                List<PuntoVenta> lpu = db.PuntoVenta.Where(c => c.dirMAC == macAddresses).ToList();
-                                punt = lpu.First();
-                            }
-                            else { punt.codPuntoVenta = 1; }
+                        {                           
 
                             Turno tu = null;
                             DateTime hoy = DateTime.Now;
