@@ -130,12 +130,13 @@
                 data: { evento: evento, promocion: promocion },
                 success: function (data) {
                     //alert("Desactivado");
+                    alert(data);
                     window.location.href = '/Promocion/Index?evento=' + evento;
                     //window.location.href = 'Promocion/Index?evento='+evento;
                     //row.remove();
                 },
-                error: function () {
-                    alert("Error :(");
+                error: function (data) {
+                    alert(data);
                 }
             });
         } else {
