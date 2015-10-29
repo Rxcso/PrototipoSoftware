@@ -13,37 +13,33 @@
     cu=(CuentaUsuario)Session["UsuarioLogueado"];
     List<Ventas> listaVentas;
     DateTime hoy = DateTime.Now;
-    double totalST=0;
-    double totalS=0;
-    double totalD=0;
-    double totalDE=0;
-    double totalDT=0;
-    double totalSE=0;
-    if (turno!=null && turno.estadoCaja == "Cerrado")
-   {
-            mS = (double)turno.MontoInicioSoles;
-            mD = (double)turno.MontoInicioDolares;
-            mSC = (double)turno.MontoFinSoles;
-            mDC = (double)turno.MontoFinDolares;
-            listaVentas = db.Ventas.AsNoTracking().Where(c => c.vendedor == cu.usuario && c.fecha == hoy).ToList();
-            double subtotalSE=0;
-            double subtotalST=0;
-            double subtotalDT=0; 
-            double subtotalDE=0;    
-        for (int i = 0; i < listaVentas.Count; i++)            
+    double totalST = 0;
+    double totalS = 0;
+    double totalD = 0;
+    double totalDE = 0;
+    double totalDT = 0;
+    double totalSE = 0;
+    if (turno != null && turno.estadoCaja == "Cerrado")
+    {
+        mS = (double)turno.MontoInicioSoles;
+        mD = (double)turno.MontoInicioDolares;
+        mSC = (double)turno.MontoFinSoles;
+        mDC = (double)turno.MontoFinDolares;
+        listaVentas = db.Ventas.AsNoTracking().Where(c => c.vendedor == cu.usuario && c.fecha == hoy).ToList();
+        double subtotalSE = 0;
+        double subtotalST = 0;
+        double subtotalDE = 0;
+        for (int i = 0; i < listaVentas.Count; i++)
         {
             subtotalSE = (double)listaVentas[i].montoEfectivoSoles;
             subtotalST = (double)listaVentas[i].montoCreditoSoles;
             subtotalDE = (double)listaVentas[i].montoEfectivoDolares;
-            subtotalDT = (double)listaVentas[i].montoCreditoDolares;
             totalSE += subtotalSE;
             totalST += subtotalST;
-            totalS += (totalSE + totalST);
             totalDE += subtotalDE;
-            totalDT += subtotalDT;
-            totalD += (totalDE + totalDT);
         }
-        
+        totalS = totalSE + totalST + mS;
+        totalD = totalDE + mD;
     }
         
 }

@@ -23,8 +23,10 @@ namespace WebApplication4.Models
         public Nullable<System.DateTime> fechaInicio { get; set; }
         public Nullable<System.DateTime> fechaFin { get; set; }
         public Nullable<int> codEvento { get; set; }
+        public Nullable<int> idPrecioEvento { get; set; }
     
         public virtual Eventos Eventos { get; set; }
         public virtual ICollection<PrecioEvento> PrecioEvento { get; set; }
+        public virtual PrecioEvento PrecioEvento1 { get; set; }
     }
 }

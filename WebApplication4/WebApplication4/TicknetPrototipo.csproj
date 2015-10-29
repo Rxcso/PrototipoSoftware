@@ -336,6 +336,7 @@
     <Content Include="Content\asientos.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\estilos-index1.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -509,6 +510,7 @@
     <Content Include="Views\CuentaUsuario\Politicas.cshtml" />
     <Content Include="Views\Evento\Tarifas.cshtml" />
     <Content Include="Views\Evento\ExtrasEvento.cshtml" />
+    <Content Include="Views\Evento\PostergarEvento.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

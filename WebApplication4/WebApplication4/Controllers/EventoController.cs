@@ -5,9 +5,11 @@ using System.Web;
 using System.Web.Mvc;
 using WebApplication4.Models;
 using PagedList;
+using System.Data.Entity;
+using System.Web.Script.Serialization;
 namespace WebApplication4.Controllers
 {
-    [Authorize]
+
     public class EventoController : Controller
     {
         inf245netsoft db = new inf245netsoft();
@@ -269,6 +271,8 @@ namespace WebApplication4.Controllers
             }
             return View();
         }
+
+
         [HttpGet]
         public ActionResult Asientos(string evento)
         {
@@ -277,9 +281,44 @@ namespace WebApplication4.Controllers
             ViewBag.nombreEvento = queryEvento.nombre;
             ViewBag.idEvento = evento;
             ViewBag.listaZonas = db.ZonaEvento.Where(c => c.codEvento == id).ToList();
+            ViewBag.estado = (queryEvento.fecha_fin > DateTime.Today);
+
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+
+            dynamic myObject = new List<dynamic>();
+
+            foreach (ZonaEvento zona in ViewBag.listaZonas)
+            {
+                List<Asientos> listaAsientos = db.Asientos.Where(xx =>xx.codZona == zona.codZona).ToList();
+
+                var posF = new int[ listaAsientos.Count ];
+                var posC = new int[ listaAsientos.Count ];
+                int cnt = 0;
+                foreach (var asiento in listaAsientos)
+                {
+                    posF[cnt] = (int)asiento.fila;
+                    posC[cnt] = (int)asiento.columna;
+                    cnt++;
+                }
+
+                
+                var actZona = new {
+                    filas =  (int)zona.cantFilas,
+                    columnas = (int)zona.cantColumnas,
+                    posFila= posF,
+                    posColumna= posC,
+                    tieneAsientos= zona.tieneAsientos,
+                    index = zona.codZona,
+                };
+
+                myObject.Add(actZona);
+            }
+            
+            ViewBag.myObject = serializer.Serialize(myObject);
 
             return View();
         }
+
 
         //Borrar Asientos
         [HttpPost]
@@ -287,13 +326,16 @@ namespace WebApplication4.Controllers
         {
 
             ZonaEvento queryZona = db.ZonaEvento.Where(c => c.codZona == idZona).First();
-
+            db.Entry(queryZona).State = EntityState.Modified;
+            queryZona.tieneAsientos = false;
+            db.SaveChanges();
             db.Asientos.RemoveRange(db.Asientos.Where(x => (x.codZona == idZona)));
             db.SaveChanges();
 
             int id = queryZona.codEvento;
 
             Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();
+            ViewBag.estado = (queryEvento.fecha_fin > DateTime.Today);
             ViewBag.nombreEvento = queryEvento.nombre;
             ViewBag.idEvento = id + "";
             ViewBag.listaZonas = db.ZonaEvento.Where(c => c.codEvento == id).ToList();
@@ -306,12 +348,14 @@ namespace WebApplication4.Controllers
         {
 
             ZonaEvento zonaE = db.ZonaEvento.Where(c => c.codZona == zona.idZona).First();
+            
+            Asientos(zona.idZona);
 
+            db.Entry(zonaE).State = EntityState.Modified;
             zonaE.cantFilas = zona.filas;
             zonaE.cantColumnas = zona.columnas;
             zonaE.tieneAsientos = true;
-
-            Asientos(zona.idZona);
+            db.SaveChanges();
 
             int k = zona.posFila.Count;
 
@@ -328,11 +372,12 @@ namespace WebApplication4.Controllers
 
             int id = zonaE.codEvento;
             Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();
+            ViewBag.estado = (queryEvento.fecha_fin > DateTime.Today);
             ViewBag.nombreEvento = queryEvento.nombre;
             ViewBag.idEvento = "" + queryEvento.codigo;
             ViewBag.listaZonas = db.ZonaEvento.Where(c => c.codEvento == id).ToList();
 
-            return Redirect("~/Evento/Asientos/?evento=" + id);
+            return View("Asientos", new { evento = "" + queryEvento.codigo });
         }
 
 
@@ -492,5 +537,24 @@ namespace WebApplication4.Controllers
         {
             return View();
         }
+
+
+
+
+
+
+
+
+
+        /*
+         *POSTERGAR EVENTO 
+         * 
+        */
+        [HttpGet]
+        public ActionResult PostergarEvento(){
+            return View();
+        }
+
+
     }
 }

@@ -32,7 +32,7 @@
                 @Html.Hidden("idEventoT")
                 <a class="btn btn-primary" onclick="redirigePromocion()">Agregar Promoción <span class="glyphicon glyphicon-tags"></span></a>
                 <a class="btn btn-primary" href="reservar_organizador.html">Reservar Entradas <span class="glyphicon glyphicon-flag"></span></a>
-                <a class="btn btn-warning" href="postergar_evento.html">Postergar <span class="glyphicon glyphicon-calendar"></span></a>
+                <a class="btn btn-warning" onclick="redirigePostergar()">Postergar <span class="glyphicon glyphicon-calendar"></span></a>
                 <a class="btn btn-warning" href="cancelar_evento.html">Cancelar <span class="glyphicon glyphicon-remove-sign"></span></a>
             </div>
         </div>
@@ -251,6 +251,16 @@
         var evento = $('#idEventoT').val();
         if (evento != "") {
             window.location.href = '/Evento/Asientos?evento=' + evento;
+        } else {
+            alert("Seleccione un evento");
+            evento = "";
+        }
+    }
+
+    function redirigePostergar() {
+        var evento = $('#idEventoT').val();
+        if (evento != "") {
+            window.location.href = '/Evento/PostergarEvento?evento='+evento;
         } else {
             alert("Seleccione un evento");
             evento = "";

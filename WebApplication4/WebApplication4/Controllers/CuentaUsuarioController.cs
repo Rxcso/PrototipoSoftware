@@ -13,6 +13,7 @@ using WebApplication4.Models;
 
 namespace WebApplication4.Controllers
 {
+    [Authorize]
     public class CuentaUsuarioController : Controller
     {
         private inf245netsoft db = new inf245netsoft();
@@ -344,7 +345,7 @@ namespace WebApplication4.Controllers
             return View();
         }
 
-        public ActionResult RegistrarAsignacion(string turno, string punto, string idV, string ini,string fin)
+        public JsonResult RegistrarAsignacion(string turno, string punto, string idV, string ini, string fin)
         {
             //if (Session["ErrorAsignacion"] != null) Session["ErrorAsignacion"] = null;
             string m1;
@@ -352,26 +353,29 @@ namespace WebApplication4.Controllers
             int cpv;
             DateTime dt1 = DateTime.Parse(ini);
             DateTime dt2 = DateTime.Parse(fin);
-            DateTime di=dt1;
+            DateTime di = dt1;
             DateTime dai = dt1;
             int idt = int.Parse(turno);
             int idp = int.Parse(punto);
             TimeSpan ts = dt2.Subtract(dt1);
             int nd = (int)ts.Days;
-            nd=nd+1;
-            if (dt1 <= DateTime.Now) return RedirectToAction("Asignacion", "CuentaUsuario");
-            if (dt1 > dt2) return RedirectToAction("Asignacion", "CuentaUsuario");
+            nd = nd + 1;
+            if (dt1 <= DateTime.Now) return Json("la fecha debe ser superior de hoy", JsonRequestBehavior.AllowGet);
+            if (dt1 > dt2) return Json("Fecha inicio debe ser menor que fecha fin", JsonRequestBehavior.AllowGet);
             //int cruce = 0;            
             for (int j = 0; j < nd; j++)
             {
-                List<Turno> ltur = db.Turno.Where(c => c.codPuntoVenta == idp && c.codTurnoSis == idt && di==c.fecha).ToList();
+                List<Turno> ltur = db.Turno.Where(c => c.codPuntoVenta == idp && c.codTurnoSis == idt && di == c.fecha).ToList();
                 if (ltur.Count != 0)
                 {
                     //Session["nError"] = 1;
                     //TempData["ErrorAsignacion"] = "Cruce con el usuario " + ltur.First().usuario + " para el dia " + di;
-                    return RedirectToAction("Asignacion", "CuentaUsuario");
+                    //return RedirectToAction("Asignacion", "CuentaUsuario");
+                    string mensaje = "Cruce con el usuario " + ltur.First().usuario + " para el dia " + di;
+
+                    return Json(mensaje, JsonRequestBehavior.AllowGet);
                 }
-                di=di.AddDays(1);
+                di = di.AddDays(1);
             }
             //int cruce1 = 0;
             for (int j = 0; j < nd; j++)
@@ -389,12 +393,12 @@ namespace WebApplication4.Controllers
                 ntur.usuario = idV;
                 db.Turno.Add(ntur);
                 db.SaveChanges();
-                dai=dai.AddDays(1);
+                dai = dai.AddDays(1);
             }
             DateTime hoy = DateTime.Now;
             List<Turno> listatuvend = db.Turno.AsNoTracking().Where(c => c.usuario == idV && c.fecha > hoy).ToList();
             Session["ListaTurnoVendedor"] = listatuvend;
-                return View();
+            return Json("Registro Correcto", JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult MisCompras()

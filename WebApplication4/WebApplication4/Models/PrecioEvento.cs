@@ -14,6 +14,12 @@ namespace WebApplication4.Models
     
     public partial class PrecioEvento
     {
+        public PrecioEvento()
+        {
+            this.PeriodoVenta1 = new HashSet<PeriodoVenta>();
+            this.ZonaEvento1 = new HashSet<ZonaEvento>();
+        }
+    
         public int codPrecioEvento { get; set; }
         public Nullable<double> precio { get; set; }
         public Nullable<int> codPeriodoVenta { get; set; }
@@ -21,5 +27,7 @@ namespace WebApplication4.Models
     
         public virtual PeriodoVenta PeriodoVenta { get; set; }
         public virtual ZonaEvento ZonaEvento { get; set; }
+        public virtual ICollection<PeriodoVenta> PeriodoVenta1 { get; set; }
+        public virtual ICollection<ZonaEvento> ZonaEvento1 { get; set; }
     }
 }

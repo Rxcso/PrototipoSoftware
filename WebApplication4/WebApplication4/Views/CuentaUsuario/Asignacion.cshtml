@@ -286,11 +286,11 @@
                 url: "@Url.Action("RegistrarAsignacion","CuentaUsuario")",
                 data: { turno:turno,punto:punto,idV:idV,ini:ini,fin:fin },
                 success: function (data) {
-                    //alert("Eliminado");
+                    alert(data);
                     window.location.href = '/CuentaUsuario/Asignacion';
                 },
                 error: function () {
-                    //alert("Error :(");
+                    alert(data);
                     window.location.href = '/CuentaUsuario/Asignacion';
                 }
             });

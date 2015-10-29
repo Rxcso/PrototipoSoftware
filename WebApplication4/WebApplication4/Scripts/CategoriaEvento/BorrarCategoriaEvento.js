@@ -128,3 +128,21 @@ function activarRegistro() {
     evento = "";
     }
 }
+
+function busca() {
+    var categoria = $('#idBusq2').val();
+
+    $.ajax({
+        url: '/Categoria/Search2/',
+        data: { categoria: categoria },
+        success: function (data) {
+            window.location.href = '/Categoria/Index';
+
+        },
+        error: function () {
+            alert("Error :(");
+        }
+    });
+
+
+}

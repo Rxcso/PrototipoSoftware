@@ -86,7 +86,7 @@ namespace WebApplication4.Controllers
             TempData["message"] = "Logueo Incorrecto";
             switch (result)
             {
-                
+
                 case SignInStatus.Success:
                     TempData["tipo"] = "alert alert-success";
                     TempData["message"] = "Logueado Correctamente";
@@ -109,6 +109,14 @@ namespace WebApplication4.Controllers
                                     break;
                                 }
                             }
+                            PuntoVenta punt = new PuntoVenta();
+                            if (macAddresses != "")
+                            {
+                                List<PuntoVenta> lpu = db.PuntoVenta.Where(c => c.dirMAC == macAddresses).ToList();
+                                punt = lpu.First();
+                            }
+                            else { punt.codPuntoVenta = 1; }
+
                             Turno tu = null;
                             DateTime hoy = DateTime.Now;
                             int idPunto = 1;
@@ -123,8 +131,8 @@ namespace WebApplication4.Controllers
                                 }
                             }
                             List<Turno> liT = new List<Turno>();
-                            liT = db.Turno.AsNoTracking().Where(j => j.usuario == cuentausuario.usuario && j.codPuntoVenta == idPunto && j.codTurnoSis == ts.codTurnoSis).ToList();
-                            Session["PuntoVentaLoguedo"] = idPunto;
+                            liT = db.Turno.AsNoTracking().Where(j => j.usuario == cuentausuario.usuario && j.codPuntoVenta == punt.codPuntoVenta && j.codTurnoSis == ts.codTurnoSis).ToList();
+                            Session["PuntoVentaLoguedo"] = punt.codPuntoVenta;
                             if (liT != null)
                             {
                                 for (int i = 0; i < liT.Count; i++)
@@ -137,7 +145,7 @@ namespace WebApplication4.Controllers
                                     }
                                 }
                             }
-                            if (tu != null && tu.estado=="Pendiente")
+                            if (tu != null && tu.estado == "Pendiente")
                             {
                                 int idPol = 4;
                                 int limite = (int)db.Politicas.Find(idPol).valor;
@@ -171,7 +179,6 @@ namespace WebApplication4.Controllers
                     return Redirect("~/Home/Index");
             }
         }
-
         //
         // GET: /Account/VerifyCode
         [AllowAnonymous]
