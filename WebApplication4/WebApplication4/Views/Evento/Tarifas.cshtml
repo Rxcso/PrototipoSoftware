@@ -45,7 +45,6 @@
         var nZonas = parseInt($('#nZonas').val());
         var table = document.getElementById("tarifario");
         var row = table.insertRow();
-        row.setAttribute("contentEditable", "true");
         row.id = nZonas;
         var nCeldas = parseInt($('#nHeaders').val());
         var cell0 = row.insertCell(0);
@@ -54,7 +53,7 @@
         cell1.innerHTML = '<input type="text" class="form-control" required/>';
         for (var i = 2; i < nCeldas; i++) {
             var cell = row.insertCell(i);
-            cell.innerHTML = '<input type="number" class="form-control" name="cantidad" min = "1" required/>';
+            cell.innerHTML = '<input type="number" class="form-control" name="cantidad" min = "0" required/>';
         }
         var cell = row.insertCell();
         cell.innerHTML = '<input type="radio" name="groupTarifas" value="' + (parseInt(row.id)) + '">';
@@ -69,9 +68,9 @@
         $("#nZonas").val(cantidad - 1);
     }
     function agregaTarifas() {
+        var tableBTV = document.getElementById("tarifario");
         if (tableBTV.rows.length == 1) { alert("Tabla vacía. Ingrese datos."); return false; }
         var nCeldas = parseInt($('#nHeaders').val());
-        var tableBTV = document.getElementById("tarifario");
         var nombreLista = "ListaZEM";
         var nombreSubLista = "ListaTarifas";
         for (var i = 1, row; row = tableBTV.rows[i]; i++) {
@@ -84,6 +83,5 @@
                 $("#formPost").prepend("<input type='hidden' name='" + nombreLista + "[" + (i - 1) + "]." + nombreSubLista + "[" + (j - 2) + "].Precio' value='" + precio + "'>");
             }
         }
-        return true;
     }
 </script>

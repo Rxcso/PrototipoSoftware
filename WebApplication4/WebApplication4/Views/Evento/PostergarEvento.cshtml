@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewBag.Title = "PostergarEvento";
+}
+
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li><a href="mantener_eventos.html">Mantenimiento de Eventos</a></li>
+            <li class="active">Postergar evento</li>
+        </ol>
+    </div>
+</div>
+<div class="container">
+    <div class="row form-group">
+        <label for="codigo" class="control-label col-md-4">ID Evento:</label>
+        <div class="col-md-8">
+            <input id="codigo" type="text" class="form-control" placeholder="10201040" disabled>
+        </div>
+    </div>
+    <div class="row form-group">
+        <label for="nombreEvento" class="control-label col-md-4">Nombre Evento:</label>
+        <div class="col-md-8">
+            <input id="nombreEvento" type="text" class="form-control" placeholder="CALLA LOCA" disabled>
+        </div>
+    </div>
+    <div class="row form-group">
+        <label for="organizador" class="control-label col-md-4">Organizador del Evento:</label>
+        <div class="col-md-8">
+            <input id="organizador" type="text" class="form-control" placeholder="ERTB Entertainment" disabled>
+        </div>
+    </div>
+
+    <div class="row form-group">
+        <label for="fecha" class="control-label col-md-4">Seleccione la fecha - hora:</label>
+        <div class="col-md-3">
+            <select class="form-control">
+                <option> Seleccione </option>
+                <option>12/10/15 - 10:00 a.m.</option>
+                <option>15/10/15 - 10:00 a.m.</option>
+            </select>
+        </div>
+    </div>
+
+
+
+    <div class="row form-group">
+        <label for="fecha" class="control-label col-md-4">Seleccione la nueva fecha del evento:</label>
+        <div class="col-md-3">
+            <input type="date" class="form-control">
+        </div>
+    </div>
+
+    <div class="row form-group">
+        <label for="fecha" class="control-label col-md-4">Seleccione la nueva hora del evento:</label>
+        <div class="col-md-3">
+            <input type="time" class="form-control">
+        </div>
+    </div>
+
+    <div style="text-align: center">
+        <button type="button" class="btn btn-primary" onclick="msjConfirmacion1()"> Registrar Postergación  <span class="glyphicon glyphicon-ok-sign"></span></button>
+        <a href="mantener_eventos.html" class="btn btn-danger">Salir <span class="glyphicon glyphicon-log-out"></span> </a>
+    </div>
+
+
+    <script>
+        function msjConfirmacion1() {
+            alert("Evento Postergado");
+            window.location.href = 'mantener_eventos.html';
+        }
+    </script>
+

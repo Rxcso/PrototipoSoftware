@@ -80,13 +80,45 @@ namespace WebApplication4.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             CuentaUsuario cuentausuario = db.CuentaUsuario.Find(model.Email);
+            PuntoVenta punt = new PuntoVenta();
+            try
+            {
+                if (cuentausuario.codPerfil == 2)
+                {
+                    string macAddresses = "";
+
+                    foreach (NetworkInterface nic in NetworkInterface.GetAllNetworkInterfaces())
+                    {
+                        if (nic.OperationalStatus == OperationalStatus.Up)
+                        {
+                            macAddresses += nic.GetPhysicalAddress().ToString();
+                            break;
+                        }
+                    }
+                    if (macAddresses != "")
+                    {
+                        List<PuntoVenta> lpu = db.PuntoVenta.Where(c => c.dirMAC == macAddresses).ToList();
+                        punt = lpu.First();
+                    }
+                    else { punt.codPuntoVenta = 1; }
+                }
+                     
+            }
+            catch (Exception ex)
+            {
+                TempData["tipo"] = "alert alert-warning";
+                TempData["message"] = "Iniciar Sesión desde un punto de venta registrado.";
+                return Redirect("~/Home/Index");
+            }
+            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            
             TempData["tipo"] = "alert alert-warning";
             TempData["message"] = "Logueo Incorrecto";
+
             switch (result)
             {
-                
+
                 case SignInStatus.Success:
                     TempData["tipo"] = "alert alert-success";
                     TempData["message"] = "Logueado Correctamente";
@@ -98,17 +130,8 @@ namespace WebApplication4.Controllers
                     else
                     {
                         if (cuentausuario.codPerfil == 2)
-                        {
-                            string macAddresses = "";
+                        {                           
 
-                            foreach (NetworkInterface nic in NetworkInterface.GetAllNetworkInterfaces())
-                            {
-                                if (nic.OperationalStatus == OperationalStatus.Up)
-                                {
-                                    macAddresses += nic.GetPhysicalAddress().ToString();
-                                    break;
-                                }
-                            }
                             Turno tu = null;
                             DateTime hoy = DateTime.Now;
                             int idPunto = 1;
@@ -123,8 +146,8 @@ namespace WebApplication4.Controllers
                                 }
                             }
                             List<Turno> liT = new List<Turno>();
-                            liT = db.Turno.AsNoTracking().Where(j => j.usuario == cuentausuario.usuario && j.codPuntoVenta == idPunto && j.codTurnoSis == ts.codTurnoSis).ToList();
-                            Session["PuntoVentaLoguedo"] = idPunto;
+                            liT = db.Turno.AsNoTracking().Where(j => j.usuario == cuentausuario.usuario && j.codPuntoVenta == punt.codPuntoVenta && j.codTurnoSis == ts.codTurnoSis).ToList();
+                            Session["PuntoVentaLoguedo"] = punt.codPuntoVenta;
                             if (liT != null)
                             {
                                 for (int i = 0; i < liT.Count; i++)
@@ -137,7 +160,7 @@ namespace WebApplication4.Controllers
                                     }
                                 }
                             }
-                            if (tu != null && tu.estado=="Pendiente")
+                            if (tu != null && tu.estado == "Pendiente")
                             {
                                 int idPol = 4;
                                 int limite = (int)db.Politicas.Find(idPol).valor;
@@ -171,7 +194,6 @@ namespace WebApplication4.Controllers
                     return Redirect("~/Home/Index");
             }
         }
-
         //
         // GET: /Account/VerifyCode
         [AllowAnonymous]

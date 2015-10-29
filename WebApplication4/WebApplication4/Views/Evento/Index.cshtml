@@ -1,16 +1,7 @@
-﻿
-@using WebApplication4.Models;
+﻿@using WebApplication4.Models;
 @using PagedList;
-
 @using PagedList.Mvc;
-
-
-
-
-
-
 @model PagedList.IPagedList<Eventos>
-
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
@@ -31,8 +22,8 @@
     <div class="row">
         <div class="col-md-4 col-sm-12">
             <div class="form-group">
-                <a class="btn btn-primary" href="@Url.Action("DatosGenerales","Evento")">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
-                <a class="btn btn-primary" href="modificar_evento.html">Modificar <span class="glyphicon glyphicon-pencil"></span></a>
+                <a class="btn btn-primary" href="@Url.Action("DatosGenerales", "Evento")">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
+                <a class="btn btn-primary" onclick="modificaEvento()">Modificar <span class="glyphicon glyphicon-pencil"></span></a>
                 <a class="btn btn-primary" onclick="redirigeAsiento()">Asientos <span class="glyphicon glyphicon-equalizer"></span></a>
             </div>
         </div>
@@ -41,7 +32,7 @@
                 @Html.Hidden("idEventoT")
                 <a class="btn btn-primary" onclick="redirigePromocion()">Agregar Promoción <span class="glyphicon glyphicon-tags"></span></a>
                 <a class="btn btn-primary" href="reservar_organizador.html">Reservar Entradas <span class="glyphicon glyphicon-flag"></span></a>
-                <a class="btn btn-warning" href="postergar_evento.html">Postergar <span class="glyphicon glyphicon-calendar"></span></a>
+                <a class="btn btn-warning" onclick="redirigePostergar()">Postergar <span class="glyphicon glyphicon-calendar"></span></a>
                 <a class="btn btn-warning" href="cancelar_evento.html">Cancelar <span class="glyphicon glyphicon-remove-sign"></span></a>
             </div>
         </div>
@@ -55,18 +46,13 @@
 
                 @using (Html.BeginForm("Index", "Evento", FormMethod.Get, new { id = "search" }))
                 {
-
                     <div class="form-group">
                         <div class="input-group">
-
                             @Html.TextBox("nombre", "", new { placeholder = "INGRESE EVENTO", @class = "form-control" })
                             <span class="input-group-btn"><a id="btn-search" class="btn btn-primary" onclick="submitSearch()"><span class="glyphicon glyphicon-search"></span></a></span>
                         </div>
                     </div>
-
-
                 }
-
             </div>
         </div>
     </div>
@@ -77,23 +63,14 @@
                 <!--formulario EN LINEA-->
                 @using (Html.BeginForm("Index", "Evento", FormMethod.Get, new { id = "adv-search", @class = "form-inline" }))
                 {
-
                     if (this.Request.QueryString.Count != 0)
                     {
-
                         if (this.Request.QueryString.AllKeys.Contains("nombre"))
                         {
-
                             nombre = this.Request.QueryString["nombre"];
-
                         }
-
                     }
-
                     @Html.Hidden("nombre", nombre, new { id = "adv-nomb" });
-
-
-
                     <div class="form-group ">
                         <div class="form-group ">
                             <div class="input-group">
@@ -102,47 +79,25 @@
                                 <input id="fech_ini" name="fech_ini" type="date" class="form-control">
                             </div>
                         </div>
-
-
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon">Hasta:</span>
                                 <input id="fech_fin" onchange="changeDate2()" name="fech_fin" type="date" class="form-control">
                             </div>
                         </div>
-
-
-
-
                         <div class="form-group ">
-
                             <select name="idCategoria" id="idCategoria" data-val="true" onchange="cambioCat()" class="form-control col-lg-2">
                                 <option value="">Categorias</option>
-
-
                                 @foreach (var categoria in ViewBag.categorias)
                                 {
                                     <option value=@categoria.Value> @categoria.Text</option>
                                 }
-
                             </select>
-
-
                         </div>
                         <div class="form-group ">
-
-
-                            <select name="idSubCat" id="idSubCat" data-val="true" class="form-control col-lg-2">
-                                <option value="">Subcategoria</option>
-
-
-
-                            </select>
-
-
+                            <select name="idSubCat" id="idSubCat" data-val="true" class="form-control col-lg-2"></select>
                         </div>
                         <div class="form-group">
-
                             <select name="idRegion" id="idRegion" data-val="true" class="form-control col-lg-2" onchange="cambio()">
                                 <option value="">Departamentos</option>
 
@@ -150,18 +105,15 @@
                                 {
                                     <option value=@departamento.Value> @departamento.Text</option>
                                 }
-
                             </select>
                             <div class="form-group">
                                 <a id="btn-adv-search" onclick="submitAdvSearch() " class="btn btn-primary ">Buscar <span class="glyphicon glyphicon-search"></span></a>
                             </div>
-
                         </div>
                     </div>
                 }
             </div>
         </div>
-
     </div>
     <br>
 
@@ -179,14 +131,10 @@
                             @Html.ActionLink("Tipo", "Index", new { orden = ViewBag.orden, filtro = ViewBag.filtro })
                         </th>
                         <th>
-
                             @Html.ActionLink("Categoria", "Index", new { categoria = ViewBag.orden, filtro = ViewBag.filtro })
-
                         </th>
                         <th>
-
                             @Html.ActionLink("Organizador", "Index", new { organizador = ViewBag.orden, filtro = ViewBag.filtro })
-
                         </th>
                         <th>
                             Estado
@@ -196,82 +144,53 @@
                 <tbody>
                     @foreach (var evento in Model)
                     {
-
                         <tr id="@evento.codigo" onclick="seleccionaFilaTabla(this)">
                             <td>@evento.codigo</td>
                             <td>@evento.nombre</td>
-
                             @{
-                                Categoria cat = db.Categoria.Where(c => c.idCategoria == @evento.idCategoria).First();
-
-
+                        Categoria cat = db.Categoria.Where(c => c.idCategoria == @evento.idCategoria).First();
                             }
 
                             <td>@cat.nombre</td>
                             <td>@evento.idCategoria</td>
                             @{
 
-                                WebApplication4.Models.Organizador org = db.Organizador.Where(mod => mod.codOrg == @evento.idOrganizador).First();
+                        WebApplication4.Models.Organizador org = db.Organizador.Where(mod => mod.codOrg == @evento.idOrganizador).First();
                             }
                             <td>@org.nombOrg</td>
                             <td>@evento.estado</td>
                         </tr>
-                                }
+                    }
                 </tbody>
             </table>
-
             Pagina @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
             @Html.PagedListPager(Model, page => Url.Action("Index", new { page, orden = ViewBag.ordenActual, filtroActual = ViewBag.filtroActual }));
 
-
-
         </div>
-
-
     </div>
-
 </div>
 <script>
-
     $(document).ready(function () {
         $.validator.addMethod("greaterThan", function (value, element, params) {
-
             console.log(element);
             console.log(value);
             console.log(params);
-
             if (!/Invalid|NaN/.test(new Date(value))) {
                 return new Date(value) > new Date($(params).val());
             }
-
             return isNaN(value) && isNaN($(params).val()) || (Number(value) > Number($(params).val()));
         }, 'Must be greater than {0}.');
-
     });
 
-
     function changeDate2() {
-
-
-
         $("#fech_fin").rules('add', { greaterThan: "#fech_ini" })
-
-
-
-
     }
 
-
     function submitSearch() {
-
-
         $("#search").submit();
     }
 
-
     function submitAdvSearch() {
-
-
         /*var input = $("<input>")
                        .attr("type", "hidden")
                         .attr("name", "nombre").val(($("#nombre").val() != "") ? $("#nombre").val() : "");
@@ -279,30 +198,27 @@
         $("#adv-search").submit();
     }
 
-
-
     function cambioCat() {
-
-
-        fillCombo("idSubCat", $("#idCategoria").val(), "Subcategorias", "Subcategorias");
+        fillCombo("idSubCat", $("#idCategoria").val(), "/Services/Subcategoria/", "Subcategorias");
     }
 
     function fillCombo(idCombo, value, linkUrl, optlabel) {
-
         $("#" + idCombo).empty();
         $("#" + idCombo).append("<option value=''>" + optlabel + "</option>")
 
-
-        var depId = parseInt(value);
+        var ddProv = $("#idSubCat");
+        var catId = parseInt($("#idCategoria").val());
+        alert(catId);
         if (isNaN(depId)) return;
         $.ajax({
-            url: "" + linkUrl,
-            data: { depId: depId },
+            url: '/Services/Subcategoria/',
+            data: { catId: catId },
             datatype: "json",
             success: function (data) {
                 var obj = $.parseJSON(data);
                 $.each(obj, function (k, v) {
-                    $("#" + idCombo).append("<option value='" + v.IdRegion + "'>" + v.Nombre + "</option>");
+                    alert(v.IdSCategoria + " - " + v.Nombre);
+                    ddProv.append($("<option></option>").val(v.IdSCategoria).html(v.Nombre));
                 });
             },
             error: function () {
@@ -310,9 +226,6 @@
             }
         });
     }
-
-
-
 
     function seleccionaFilaTabla(x) {
         if (document.getElementsByClassName("trselected").length > 0) {
@@ -323,6 +236,7 @@
         elem.value = x.cells[0].innerHTML;
         x.className = "trselected";
     }
+
     function redirigePromocion() {
         var evento = $('#idEventoT').val();
         if (evento != "") {
@@ -332,10 +246,30 @@
             evento = "";
         }
     }
+
     function redirigeAsiento() {
         var evento = $('#idEventoT').val();
         if (evento != "") {
             window.location.href = '/Evento/Asientos?evento=' + evento;
+        } else {
+            alert("Seleccione un evento");
+            evento = "";
+        }
+    }
+
+    function redirigePostergar() {
+        var evento = $('#idEventoT').val();
+        if (evento != "") {
+            window.location.href = '/Evento/PostergarEvento?evento='+evento;
+        } else {
+            alert("Seleccione un evento");
+            evento = "";
+        }
+    }
+    function modificaEvento() {
+        var evento = $('#idEventoT').val();
+        if (evento != "") {
+            window.location.href = '/Evento/DatosGenerales?evento=' + evento;
         } else {
             alert("Seleccione un evento");
             evento = "";

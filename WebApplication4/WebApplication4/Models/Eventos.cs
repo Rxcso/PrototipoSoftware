@@ -51,6 +51,8 @@ namespace WebApplication4.Models
         public Nullable<bool> tieneBoletoElectronico { get; set; }
         public Nullable<bool> permiteReserva { get; set; }
         public Nullable<int> puntosAlCliente { get; set; }
+        public Nullable<int> codZonaEvento { get; set; }
+        public Nullable<int> idLocal { get; set; }
     
         public virtual Region Region { get; set; }
         public virtual Organizador Organizador { get; set; }
@@ -58,5 +60,6 @@ namespace WebApplication4.Models
         public virtual ICollection<Funcion> Funcion { get; set; }
         public virtual ICollection<PeriodoVenta> PeriodoVenta { get; set; }
         public virtual ICollection<ZonaEvento> ZonaEvento { get; set; }
+        public virtual ZonaEvento ZonaEvento1 { get; set; }
     }
 }

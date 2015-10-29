@@ -118,29 +118,34 @@
         //idProm = x.codp;
     }
     function borrar() {
-        var evento = $('#eventoP').val();
-        var promocion = $('#idPromocionT').val();
-        var el = document.getElementById(promocion);
-        var row = $(el).closest('tr');
-        //alert(evento);
-        //alert(promocion);
-        if (promocion != "" && promocion != null) {
-            $.ajax({
-                url: "@Url.Action("Delete","Promocion")",
-                data: { evento: evento, promocion: promocion },
-                success: function (data) {
-                    //alert("Desactivado");
-                    window.location.href = '/Promocion/Index?evento=' + evento;
-                    //window.location.href = 'Promocion/Index?evento='+evento;
-                    //row.remove();
-                },
-                error: function () {
-                    alert("Error :(");
-                }
-            });
+        if (confirm("Estas seguro que deseas desactivar la promocion?")) {
+            var evento = $('#eventoP').val();
+            var promocion = $('#idPromocionT').val();
+            var el = document.getElementById(promocion);
+            var row = $(el).closest('tr');
+            //alert(evento);
+            //alert(promocion);
+            if (promocion != "" && promocion != null) {
+                $.ajax({
+                    url: "@Url.Action("Delete","Promocion")",
+                    data: { evento: evento, promocion: promocion },
+                    success: function (data) {
+                        //alert("Desactivado");
+                        alert(data);
+                        window.location.href = '/Promocion/Index?evento=' + evento;
+                        //window.location.href = 'Promocion/Index?evento='+evento;
+                        //row.remove();
+                    },
+                    error: function (data) {
+                        alert(data);
+                    }
+                });
+            } else {
+                alert("Seleccione una promocion");
+                promocion = "";
+            }
         } else {
-            alert("Seleccione una promocion");
-            promocion = "";
+
         }
     }
 </script>

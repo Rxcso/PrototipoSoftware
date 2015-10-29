@@ -60,16 +60,19 @@
         <AssociationConnector Association="inf245netsoftModel.fk_EventoPV" />
         <EntityTypeShape EntityType="inf245netsoftModel.Politicas" Width="1.5" PointX="14.375" PointY="0.75" />
         <EntityTypeShape EntityType="inf245netsoftModel.Asientos" Width="1.5" PointX="13.25" PointY="21.25" />
-        <EntityTypeShape EntityType="inf245netsoftModel.Ventas" Width="1.5" PointX="3" PointY="23" />
-        <AssociationConnector Association="inf245netsoftModel.R_30" />
-        <AssociationConnector Association="inf245netsoftModel.R_34" />
-        <AssociationConnector Association="inf245netsoftModel.R_38" />
         <EntityTypeShape EntityType="inf245netsoftModel.PrecioEvento" Width="1.5" PointX="13.625" PointY="18.125" />
         <AssociationConnector Association="inf245netsoftModel.fk_PerVenta" />
         <EntityTypeShape EntityType="inf245netsoftModel.ZonaEvento" Width="1.5" PointX="10.625" PointY="21.75" />
         <AssociationConnector Association="inf245netsoftModel.R_13" />
         <AssociationConnector Association="inf245netsoftModel.R_21" />
         <AssociationConnector Association="inf245netsoftModel.fk_ZonaEvent" />
+        <AssociationConnector Association="inf245netsoftModel.fk_ZonaEvento" />
+        <AssociationConnector Association="inf245netsoftModel.fk_PrecioEventoPV" />
+        <AssociationConnector Association="inf245netsoftModel.fk_PrecioEv" />
+        <EntityTypeShape EntityType="inf245netsoftModel.Ventas" Width="1.5" PointX="3" PointY="14.25" />
+        <AssociationConnector Association="inf245netsoftModel.R_30" />
+        <AssociationConnector Association="inf245netsoftModel.R_34" />
+        <AssociationConnector Association="inf245netsoftModel.R_38" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

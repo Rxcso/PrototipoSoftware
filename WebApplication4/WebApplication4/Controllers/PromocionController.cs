@@ -77,6 +77,7 @@ namespace WebApplication4.Controllers
                     db.Promociones.Add(promocion);
                     db.SaveChanges();
                 }
+                return View("Index");
                 
             }
             else //En caso de promocion por entradas
@@ -108,20 +109,20 @@ namespace WebApplication4.Controllers
             return View("Index");
         }
 
-        public ActionResult Delete(string evento, string promocion)
+        public JsonResult Delete(string evento, string promocion)
         {
-            if (promocion == "" || promocion == null) return View("Index");
+            if (promocion == "" || promocion == null) return Json("Error:debe seleccionar una promocion", JsonRequestBehavior.AllowGet);
             int idQ = int.Parse(evento);
             int ideQ = int.Parse(promocion);
             //ViewBag.idEvento = idQ;
             Promociones prom = db.Promociones.Find(ideQ, idQ);
-            if (prom.estado == false) return View("Index");
+            if (prom.estado == false) return Json("Error: La promocion seleccionada ya esta desactivada", JsonRequestBehavior.AllowGet);
             //db.Promociones.Remove(prom);
             db.Entry(prom).State = EntityState.Modified;
             prom.estado = false;
             db.SaveChanges();
             //return RedirectToAction("Index", "Promocion");
-            return View("Index");
+            return Json("La Promocion ha sido descativada con exito", JsonRequestBehavior.AllowGet);
         }
 
     }

@@ -25,7 +25,6 @@ namespace WebApplication4.Models
         public Nullable<double> montoEfectivoSoles { get; set; }
         public Nullable<double> montoEfectivoDolares { get; set; }
         public Nullable<double> montoCreditoSoles { get; set; }
-        public Nullable<double> montoCreditoDolares { get; set; }
         public string modalidad { get; set; }
         public Nullable<int> tipoDoc { get; set; }
         public string codDoc { get; set; }
@@ -33,7 +32,6 @@ namespace WebApplication4.Models
         public string vendedor { get; set; }
         public string Estado { get; set; }
         public Nullable<double> MontoTotalSoles { get; set; }
-        public Nullable<double> MontoTotalDolares { get; set; }
     
         public virtual CuentaUsuario CuentaUsuario { get; set; }
         public virtual CuentaUsuario CuentaUsuario1 { get; set; }

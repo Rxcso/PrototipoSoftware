@@ -58,3 +58,4 @@ function llenaLocal() {
     $('#valLocal').val(idl);
     $('#modalBuscarLocal').modal('hide');
 }
+
