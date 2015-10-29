@@ -107,6 +107,8 @@ namespace WebApplication4.Controllers
             }
             catch (Exception ex)
             {
+                TempData["tipo"] = "alert alert-warning";
+                TempData["message"] = "Iniciar Sesión desde un punto de venta registrado.";
                 return Redirect("~/Home/Index");
             }
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
