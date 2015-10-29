@@ -1264,6 +1264,14 @@
             <End Role="ZonaEvento" EntitySet="ZonaEvento" />
             <End Role="Eventos" EntitySet="Eventos" />
           </AssociationSet>
+          <AssociationSet Name="fk_PrecioEventoPV" Association="inf245netsoftModel.fk_PrecioEventoPV">
+            <End Role="PrecioEvento" EntitySet="PrecioEvento" />
+            <End Role="PeriodoVenta" EntitySet="PeriodoVenta" />
+          </AssociationSet>
+          <AssociationSet Name="fk_PrecioEv" Association="inf245netsoftModel.fk_PrecioEv">
+            <End Role="PrecioEvento" EntitySet="PrecioEvento" />
+            <End Role="ZonaEvento" EntitySet="ZonaEvento" />
+          </AssociationSet>
           <EntitySet Name="Ventas" EntityType="inf245netsoftModel.Ventas" />
           <AssociationSet Name="R_30" Association="inf245netsoftModel.R_30">
             <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
@@ -1272,14 +1280,6 @@
           <AssociationSet Name="R_34" Association="inf245netsoftModel.R_34">
             <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
             <End Role="Ventas" EntitySet="Ventas" />
-          </AssociationSet>
-          <AssociationSet Name="fk_PrecioEventoPV" Association="inf245netsoftModel.fk_PrecioEventoPV">
-            <End Role="PrecioEvento" EntitySet="PrecioEvento" />
-            <End Role="PeriodoVenta" EntitySet="PeriodoVenta" />
-          </AssociationSet>
-          <AssociationSet Name="fk_PrecioEv" Association="inf245netsoftModel.fk_PrecioEv">
-            <End Role="PrecioEvento" EntitySet="PrecioEvento" />
-            <End Role="ZonaEvento" EntitySet="ZonaEvento" />
           </AssociationSet>
           <AssociationSet Name="R_38" Association="inf245netsoftModel.R_38">
             <End Role="Ventas" EntitySet="Ventas" />
@@ -2076,6 +2076,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_PrecioEventoPV">
+          <End Type="inf245netsoftModel.PrecioEvento" Role="PrecioEvento" Multiplicity="0..1" />
+          <End Type="inf245netsoftModel.PeriodoVenta" Role="PeriodoVenta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PrecioEvento">
+              <PropertyRef Name="codPrecioEvento" />
+            </Principal>
+            <Dependent Role="PeriodoVenta">
+              <PropertyRef Name="idPrecioEvento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_PrecioEv">
+          <End Type="inf245netsoftModel.PrecioEvento" Role="PrecioEvento" Multiplicity="0..1" />
+          <End Type="inf245netsoftModel.ZonaEvento" Role="ZonaEvento" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PrecioEvento">
+              <PropertyRef Name="codPrecioEvento" />
+            </Principal>
+            <Dependent Role="ZonaEvento">
+              <PropertyRef Name="idPrecioEvento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityType Name="Ventas">
           <Key>
             <PropertyRef Name="codVen" />
@@ -2118,30 +2142,6 @@
             </Principal>
             <Dependent Role="Ventas">
               <PropertyRef Name="vendedor" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_PrecioEventoPV">
-          <End Type="inf245netsoftModel.PrecioEvento" Role="PrecioEvento" Multiplicity="0..1" />
-          <End Type="inf245netsoftModel.PeriodoVenta" Role="PeriodoVenta" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PrecioEvento">
-              <PropertyRef Name="codPrecioEvento" />
-            </Principal>
-            <Dependent Role="PeriodoVenta">
-              <PropertyRef Name="idPrecioEvento" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_PrecioEv">
-          <End Type="inf245netsoftModel.PrecioEvento" Role="PrecioEvento" Multiplicity="0..1" />
-          <End Type="inf245netsoftModel.ZonaEvento" Role="ZonaEvento" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PrecioEvento">
-              <PropertyRef Name="codPrecioEvento" />
-            </Principal>
-            <Dependent Role="ZonaEvento">
-              <PropertyRef Name="idPrecioEvento" />
             </Dependent>
           </ReferentialConstraint>
         </Association>

@@ -18,7 +18,9 @@ namespace WebApplication4.Models
         
         [Required]
         [Display(Name = "Id Padre: ")]
-        public int idCatPadre { get; set; }       
+        public int idCatPadre { get; set; }
+
+        public int nivel { get; set; }
     }
 
     public class CategoriaSearchModel
@@ -27,6 +29,10 @@ namespace WebApplication4.Models
         [Required]
         [Display(Name = "Nombre: ")]
         public string nombre { get; set; }
+    }
+
+    public class CategoriaViewInaModel
+    {
     }
 
     public class CategoriaListModel
