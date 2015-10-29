@@ -1149,3 +1149,5 @@ C:\Users\escri\OneDrive\2015-2 INGENIERIA DE SOFTWARE\Proyecto 2\WebApplication4
 C:\Users\escri\OneDrive\2015-2 INGENIERIA DE SOFTWARE\Proyecto 2\WebApplication4\WebApplication4\obj\Debug\TicknetPrototipo.csprojResolveAssemblyReference.cache
 C:\Users\escri\OneDrive\2015-2 INGENIERIA DE SOFTWARE\Proyecto 2\WebApplication4\WebApplication4\obj\Debug\WebApplication4.dll
 C:\Users\escri\OneDrive\2015-2 INGENIERIA DE SOFTWARE\Proyecto 2\WebApplication4\WebApplication4\obj\Debug\WebApplication4.pdb
+C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\MVC Foolproof Validation.dll
+C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\Antlr3.Runtime.pdb
