@@ -1,0 +1,27 @@
+﻿
+@using Microsoft.AspNet.Identity
+@using WebApplication4.Models
+@model CategoriaViewInaModel
+<br>
+@using (Html.BeginForm("ViewIna", "Categoria", FormMethod.Post, new { }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true)
+        <br>
+        <div class="col-md-4">
+
+            <div class="form-group">
+                <div class="input-group">
+
+                    <input type="submit" value="Ver Inactivos" class="btn btn-primary" />
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+}
+

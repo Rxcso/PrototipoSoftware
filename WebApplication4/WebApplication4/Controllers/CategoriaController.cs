@@ -128,6 +128,52 @@ namespace WebApplication4.Controllers
             }
         }
 
+        public ActionResult ViewIna(CategoriaViewInaModel categoria)
+        {
+            List<Categoria> listaCat;
+
+            listaCat = db.Categoria.AsNoTracking().Where(c => c.activo == 0).ToList();
+            if (listaCat != null) Session["ListaC"] = listaCat;
+            else Session["ListaC"] = null;
+            return RedirectToAction("Index", "Categoria");
+        }
+
+        public ActionResult RegisterCategoria(CategoriaModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Categoria categoria = new Categoria();
+                Categoria categoriaL = db.Categoria.ToList().Last();
+                categoria.idCategoria = categoriaL.idCategoria + 1;
+                categoria.nombre = model.nombre;
+                categoria.activo = 1;
+                categoria.descripcion = model.descripcion;
+                categoria.idCatPadre = model.idCatPadre;
+                List<Categoria> cat = db.Categoria.Where(c => c.idCategoria == model.idCatPadre).ToList();
+                categoria.nivel = cat[0].nivel + 1;
+
+                db.Categoria.Add(categoria);
+                db.SaveChanges();
+                return View("Index");
+            }
+            return View("Index");
+        }
+
+        public ActionResult Search2(string categoria)
+        {
+            List<Categoria> listaCat;
+            if (categoria == "")
+            {
+                //listaReg = db.Regalo.AsNoTracking().Where(c => c.estado == true).ToList();
+                Session["ListaC"] = null;
+                return RedirectToAction("Index", "Categoria");
+            }
+            listaCat = db.Categoria.AsNoTracking().Where(c => c.nombre.StartsWith(categoria) && c.activo == 1).ToList();
+            if (listaCat != null) Session["ListaC"] = listaCat;
+            else Session["ListaC"] = null;
+            return RedirectToAction("Index", "Categoria");
+        }
+
         public ActionResult Edit(string categoria)
         {            
             int id = int.Parse(categoria);

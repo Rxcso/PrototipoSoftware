@@ -16,7 +16,7 @@
 </div>
 <div class="container">
     <div class="row">
-        <div class="col-md-11">
+        <div class="col-md-6">
             <div class="form-group">
                 <a class="btn btn-primary" href="#formNuevo" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
                 <a class="btn btn-primary" data-toggle="modal" onclick="redirigeCategoria()">Modificar<span class="glyphicon glyphicon-pencil"></span></a>               
@@ -25,26 +25,37 @@
             </div>
         </div>
 
-        <div class="col-md-1">
-            <a class="btn btn-danger" href="index2.html">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+        <div class="col-md-4">
+            <form action="" class="" role="search">
+                <div class="form-group">
+                    <div class="input-group">
+                        <input id="idBusq2" type="text" class="form-control" placeholder="BUSCAR UNA CATEGORÍA DE EVENTO">
+                        <span class="input-group-btn"><button onclick="busca()" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-md-2">
+            <a class="btn btn-danger pull-right" href="@Url.Action("Index2", "Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
         </div>
     </div>
     @{
-        Html.RenderPartial("_Search");
+        Html.RenderPartial("_ViewIna");
     }
     @{
         var db = new WebApplication4.Models.inf245netsoft();
         List<WebApplication4.Models.Categoria> listaCategoria;
-        if (TempData["ListaC"] == null)
+        if (Session["ListaC"] == null)
         {
             listaCategoria = db.Categoria.AsNoTracking().Where(c => c.activo == 1).ToList();
-            //listaCategoria = db.Categoria.AsNoTracking().ToList();
         }
         else
         {
-            listaCategoria = (List<WebApplication4.Models.Categoria>)TempData["ListaC"];
+            listaCategoria = (List<WebApplication4.Models.Categoria>)Session["ListaC"];
         }
     }
+
     <div class="row">
         <table id="mytable" class="table table-bordered table-hover">
             <thead>
@@ -75,7 +86,157 @@
 </div>
 
 <input type="hidden" id="idCategoria" value="" />
-<script type="text/javascript" src="@Url.Content("/Scripts/CategoriaEvento/BorrarCategoriaEvento.js")"></script>
+<script>
+    function myFunction(x) {
+        if (document.getElementsByClassName("trselected").length > 0) {
+            var element = document.getElementsByClassName("trselected");
+            //element.item[0].cells[0].innerText;
+            element[0].className = "";
+        }
+        //var tabla = document.getElementById("mytable");
+        //alert(x);
+        //var y = x.getCells();
+        var elem = document.getElementById("idCategoria");
+        elem.value = x.cells[0].innerHTML;
+        //alert(x.cells[0].innerHTML);
+        //ViewBag.P = x.cells[0].innerHTML;
+        x.className = "trselected";
+
+        //<a class="btn btn-primary" href="javascript:document.getElementsByClassName('trselected').submit()">Borrar<span class="glyphicon glyphicon-pencil"></span></a>
+        //idProm = x.codp;
+    }
+    function borrar() {
+        var categoria = $('#idCategoria').val();
+        var el = document.getElementById(categoria);
+        var row = $(el).closest('tr');
+        //alert(evento);
+        //alert(promocion);
+        if (categoria != "" && categoria != null) {
+            $.ajax({
+                url: '/Categoria/Delete/',
+                data: { categoria: categoria },
+                success: function (data) {
+                    //alert("Eliminado");
+                    $('#eliminar').modal('hide');
+                    row.remove();
+                    window.location.href = '/Categoria/Index';
+                },
+                error: function () {
+                    alert("Error :(");
+                }
+            });
+        } else {
+            alert("Seleccione una Categoria ");
+            evento = "";
+        }
+    }
+    function redirigeCategoria() {
+        var categoria = $('#idCategoria').val();
+        if (categoria != "") {
+            window.location.href = '/Categoria/Edit?categoria=' + categoria;
+        } else {
+            alert("Seleccione una Categoria");
+            evento = "";
+        }
+        //$.post('/Regalo/Edit/' + regalo);
+    }
+    function modificar() {
+        var categoria = $('#idCategoria').val();
+        //var el = document.getElementById(regalo);
+        //var row = $(el).closest('tr');
+        //alert(evento);
+        //alert(promocion);
+        $.ajax({
+            url: '/Categoria/Edit/',
+            data: { categoria: categoria },
+            success: function (data) {
+                //alert("Eliminado");
+                //row.remove();
+            },
+            error: function () {
+                alert("Error :(");
+            }
+        });
+    }
+    function closewindowEli() {
+        $('#eliminar').modal('hide');
+    }
+    function closewindowAct() {
+        $('#activar').modal('hide');
+    }
+
+    function activarArbol() {
+        var categoria = $('#idCategoria').val();
+        var el = document.getElementById(categoria);
+        var row = $(el).closest('tr');
+        //alert(evento);
+        //alert(promocion);            
+        if (categoria != "" && categoria != null) {
+            $.ajax({
+                url: '/Categoria/ActivateTree/',
+                data: { categoria: categoria },
+                success: function (data) {
+                    //alert("Eliminado");
+                    $('#opcionActivar').modal('hide');
+                    $('#activar').modal('hide');
+                    row.add();
+                    window.location.href = '/Categoria/Index';
+                },
+                error: function () {
+                    alert("Error :(");
+                }
+            });
+        } else {
+            alert("Seleccione una Categoria ");
+            evento = "";
+        }
+    }
+    function activarRegistro() {
+        var categoria = $('#idCategoria').val();
+        var el = document.getElementById(categoria);
+        var row = $(el).closest('tr');
+        //alert(evento);
+        //alert(promocion);            
+        if (categoria != "" && categoria != null) {
+            $.ajax({
+                url: '/Categoria/Activate/',
+                data: { categoria: categoria },
+                success: function (data) {
+                    //alert("Eliminado");
+                    $('#opcionActivar').modal('hide');
+                    $('#activar').modal('hide');
+                    row.add();
+                    window.location.href = '/Categoria/Index';
+                },
+                error: function () {
+                    alert("Error :(");
+                }
+            });
+        } else {
+            alert("Seleccione una Categoria ");
+            evento = "";
+        }
+    }
+
+    function busca() {
+        var categoria = $('#idBusq2').val();
+        //alert(categoria);
+        $.ajax({
+            url: '/Categoria/Search2/',
+            data: { categoria: categoria },
+            success: function (data) {
+                window.location.href = '/Categoria/Index';
+
+            },
+            error: function () {
+                alert("Error :(");
+            }
+        });
+
+
+    }
+</script>
+<!--<script type="text/javascript" src="@Url.Content("/Scripts/CategoriaEvento/BorrarCategoriaEvento.js")"></script>-->
 <style>
     .trselected {
         background: gray;
@@ -94,35 +255,90 @@
             <!--header de la ventana-->
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
-                <h4 class="modal-title">Nuevo tipo</h4>
+                <h4 class="modal-title">Nueva Categoria</h4>
             </div>
-            <!--contenido de la ventana-->
+
             <div class="modal-body">
-                <form action="" class="form-horizontal">
-                    <div class="form-group">
-                        <label for="nombre" class="control-label col-md-2">Nombre:</label>
-                        <div class="col-md-10">
-                            <input type="text" class="form-control" id="nombre" placeholder="Nombre del tipo">
+                @using (Html.BeginForm("RegisterCategoria", "Categoria", FormMethod.Post, new { }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true)
+                        <br>
+                        <div class="row form-group">
+                            @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.nombre)
+                                @Html.ValidationMessageFor(model => model.nombre)
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            @Html.LabelFor(model => model.descripcion, new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.descripcion)
+                                @Html.ValidationMessageFor(model => model.descripcion)
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            @Html.LabelFor(model => model.idCatPadre, new { @class = "control-label col-md-3" })
+                            <div class="col-md-9">
+                                @{
+                    List<WebApplication4.Models.Categoria> listaCat = db.Categoria.AsNoTracking().Where(c => c.activo == 1).ToList();
+                    IEnumerable<SelectListItem> listItems = (from a in listaCat
+                                                             select new SelectListItem
+                                                           {
+                                                               Value = a.idCategoria.ToString(),
+                                                               Text = a.nombre,
+                                                               Selected = false
+                                                           });
+                    listItems.First().Selected = true;
+                                }
+                                @Html.DropDownListFor(model => model.idCatPadre, listItems, "Seleccione Categoria")
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Agregar" class="btn btn-primary" />
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="direccion" class="control-label col-md-2">Descripción:</label>
-                        <div class="col-md-10">
-                            <input type="textarea" class="form-control" id="direccion" placeholder="Descripción">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="direccion" class="control-label col-md-2">Id Padre:</label>
-                        <div class="col-md-10">
-                            <input type="textarea" class="form-control" id="idPadre" placeholder="Id Padre">
-                        </div>
-                    </div>
-                </form>
+                }
+
             </div>
-            <!--footer de la ventana-->
-            <div class="modal-footer">
-                <button type="button" onclick="registrar()" data-dismiss="modal" aria-hidden="true" class="btn btn-primary">Agregar <span class="glyphicon glyphicon-ok"></span></button>
-            </div>
+            <!--<div class="modal-body">
+                 <form action="" class="form-horizontal">
+                     <div class="form-group">
+                         <label for="nombre" class="control-label col-md-2">Nombre:</label>
+                         <div class="col-md-10">
+                             <input type="text" class="form-control" id="nombre" placeholder="Nombre del tipo">
+                         </div>
+                     </div>
+
+                     <div class="form-group">
+                         <label for="direccion" class="control-label col-md-2">Descripción:</label>
+                         <div class="col-md-10">
+                             <input type="textarea" class="form-control" id="direccion" placeholder="Descripción">
+
+                         </div>
+                     </div>
+
+                     <div class="form-group">
+                         <label for="direccion" class="control-label col-md-2">Id Padre:</label>
+                         <div class="col-md-10">
+                             <input type="textarea" class="form-control" id="idPadre" placeholder="Id Padre">
+
+                         </div>
+                     </div>
+
+
+                 </form>
+             </div>
+             <!--footer de la ventana-->
         </div>
     </div>
 </div>
