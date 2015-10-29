@@ -108,11 +108,6 @@ namespace WebApplication4.Controllers
 
             for (int i = 0; i < lista.Count; i++) {
                 for (int j = 0; j < listaCat.Count; j++) {
-                    if (listaCat[j].nivel == 0)//Código chancho
-                    {
-                        listaCat.RemoveAt(j);
-                        break;
-                    }
                     if (listaCat[j].idCategoria == id)//Código chancho
                     {
                         listaCat.RemoveAt(j);
@@ -168,7 +163,7 @@ namespace WebApplication4.Controllers
                 Session["Bus"] = null;
                 return RedirectToAction("Index", "Categoria");
             }
-            listaCat = db.Categoria.AsNoTracking().Where(c => c.nombre.StartsWith(categoria) && c.activo == 1).ToList();
+            listaCat = db.Categoria.AsNoTracking().Where(c => c.nombre.StartsWith(categoria) && c.activo == 1 && c.nivel!=0).ToList();
             if (listaCat != null) Session["Bus"] = listaCat;
             else Session["Bus"] = null;
             return RedirectToAction("Index", "Categoria");

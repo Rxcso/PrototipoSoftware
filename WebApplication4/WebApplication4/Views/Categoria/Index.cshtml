@@ -51,7 +51,7 @@
             {
                 if (Session["ListaC"] == null)
                 {
-                    listaCategoria = db.Categoria.AsNoTracking().Where(c => c.activo == 1).ToList();
+                    listaCategoria = db.Categoria.AsNoTracking().Where(c => c.activo == 1 && c.nivel!=0).ToList();
                 }
                 else
                 {
