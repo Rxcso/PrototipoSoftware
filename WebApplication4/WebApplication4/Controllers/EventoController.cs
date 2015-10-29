@@ -78,7 +78,7 @@ namespace WebApplication4.Controllers
             List<Region> listProv = new List<Region>();
             ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
             ViewBag.ProvID = new SelectList(listProv, "idProv", "nombre");
-            List<Categoria> listaCat = db.Categoria.Where(c => c.idCatPadre == MagicHelpers.Categorias).ToList();
+            List<Categoria> listaCat = db.Categoria.Where(c => c.idCatPadre == MagicHelpers.Categorias && c.activo == 1).ToList();
             listaCat = listaCat.Where(c => c.activo == 1).ToList();
             List<Categoria> listSubCat = new List<Categoria>();
             ViewBag.CatID = new SelectList(listaCat, "idCategoria", "nombre");
@@ -126,7 +126,7 @@ namespace WebApplication4.Controllers
             List<Region> listProv = new List<Region>();
             ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
             ViewBag.ProvID = new SelectList(listProv, "idProv", "nombre");
-            List<Categoria> listaCat = db.Categoria.Where(c => c.idCatPadre == MagicHelpers.Categorias).ToList();
+            List<Categoria> listaCat = db.Categoria.Where(c => c.idCatPadre == MagicHelpers.Categorias && c.activo == 1).ToList();
             listaCat = listaCat.Where(c => c.activo == 1).ToList();
             List<Categoria> listSubCat = new List<Categoria>();
             ViewBag.CatID = new SelectList(listaCat, "idCategoria", "nombre");
