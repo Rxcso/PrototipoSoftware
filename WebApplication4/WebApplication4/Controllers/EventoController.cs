@@ -602,10 +602,17 @@ namespace WebApplication4.Controllers
                 evento.permiteReserva = model.PermitirReservasWeb;
                 evento.puntosAlCliente = model.PuntosToCliente;
                 db.SaveChanges();
+                TempData["tipo"] = "alert alert-success";
+                if (Session["IdEventoCreado"] != null)
+                    TempData["message"] = "No hay evento en proceso de creación o modificación.";
+                if (Session["IdEventoModificadp"] != null)
+                    TempData["message"] = "No hay evento en proceso de creación o modificación.";
                 Session["IdEventoModificado"] = null;
                 Session["IdEventoCreado"] = null;
                 return RedirectToAction("Index");
             }
+
+
             return View();
         }
 
