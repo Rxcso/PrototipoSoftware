@@ -311,30 +311,31 @@ namespace WebApplication4.Controllers
         [HttpPost]
         public ActionResult BloquesTiempoVenta(BloqueTiempoListModel model)
         {
-            int idEvento;
+            int idEvento = 0;
             List<BloqueDeTiempoModel> listaVerificacion = null;
-            if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento) || int.TryParse(Session["IdEventoModificado"].ToString(), out idEvento))
+            if (Session["IdEventoCreado"] != null)
+                idEvento = int.Parse(Session["IdEventoCreado"].ToString());
+            if (Session["IdEventoModificado"] != null)
+                idEvento = int.Parse(Session["IdEventoModificado"].ToString());
+            listaVerificacion = Validaciones.ValidarBloquesDeTiempoDeVenta(model);
+            if (model.esCorrecto)
             {
-                listaVerificacion = Validaciones.ValidarBloquesDeTiempoDeVenta(model);
-                if (model.esCorrecto)
+                ObtenerFechaInicioyFin(listaVerificacion, idEvento);
+                if (Session["IdEventoModificado"] != null)
                 {
-                    ObtenerFechaInicioyFin(listaVerificacion, idEvento);
-                    if (Session["IdEventoModificado"] != null)
-                    {
-                        FiltraBloques(listaVerificacion, idEvento);
-                        return RedirectToAction("Funciones");
-                    }
-                    for (int i = 0; i < listaVerificacion.Count; i++)
-                    {
-                        PeriodoVenta periodoVenta = new PeriodoVenta();
-                        periodoVenta.fechaInicio = listaVerificacion[i].fechaInicio;
-                        periodoVenta.fechaFin = listaVerificacion[i].fechaFin;
-                        periodoVenta.codEvento = idEvento;
-                        db.PeriodoVenta.Add(periodoVenta);
-                        db.SaveChanges();
-                    }
+                    FiltraBloques(listaVerificacion, idEvento);
                     return RedirectToAction("Funciones");
                 }
+                for (int i = 0; i < listaVerificacion.Count; i++)
+                {
+                    PeriodoVenta periodoVenta = new PeriodoVenta();
+                    periodoVenta.fechaInicio = listaVerificacion[i].fechaInicio;
+                    periodoVenta.fechaFin = listaVerificacion[i].fechaFin;
+                    periodoVenta.codEvento = idEvento;
+                    db.PeriodoVenta.Add(periodoVenta);
+                    db.SaveChanges();
+                }
+                return RedirectToAction("Funciones");
                 ViewBag.Resultados = listaVerificacion;
                 return View();
             }
@@ -823,7 +824,7 @@ namespace WebApplication4.Controllers
             ViewBag.idEvento = evento;
             ViewBag.organizadorEvento = db.Organizador.Where(c => c.codOrg == idOrganizador).First().nombOrg;
 
-            ViewBag.listaFunciones = db.Funcion.Where(c => c.codEvento == id && c.estado!="CANCELADO").ToList();
+            ViewBag.listaFunciones = db.Funcion.Where(c => c.codEvento == id && c.estado != "CANCELADO").ToList();
 
             //lo bravo
 
@@ -832,13 +833,14 @@ namespace WebApplication4.Controllers
         }
 
         [HttpPost]
-        public ActionResult PostergarEvento( PostergarModel evento ){
+        public ActionResult PostergarEvento(PostergarModel evento)
+        {
 
-            Funcion funcionAPostergar = db.Funcion.Where( c=> (c.codFuncion== evento.idFuncion) ).First();
+            Funcion funcionAPostergar = db.Funcion.Where(c => (c.codFuncion == evento.idFuncion)).First();
             db.Entry(funcionAPostergar).State = EntityState.Modified;
-            
-            funcionAPostergar.fecha =  evento.proximaFecha;
-            funcionAPostergar.horaIni =  evento.proximaHora;
+
+            funcionAPostergar.fecha = evento.proximaFecha;
+            funcionAPostergar.horaIni = evento.proximaHora;
             funcionAPostergar.estado = "POSTERGADO";
 
             db.SaveChanges();
@@ -853,15 +855,16 @@ namespace WebApplication4.Controllers
 
             ViewBag.listaFunciones = db.Funcion.Where(c => c.codEvento == id && c.estado != "CANCELADO").ToList();
 
-            return View(); 
+            return View();
         }
-        
+
         /*
          *CANCELAR EVENTO 
          * 
         */
         [HttpGet]
-        public ActionResult CancelarEvento(string evento){
+        public ActionResult CancelarEvento(string evento)
+        {
 
             int id = int.Parse(evento);
             Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();
@@ -881,19 +884,20 @@ namespace WebApplication4.Controllers
         {
 
             List<int> listaF = evento.listIdFuncion;
-            for (int i =0; i<listaF.Count; i++)
-            if( evento.seCancela[i] ){
-                Funcion funcion = db.Funcion.Where(x => (x.codFuncion == listaF[i]) ).First();
-                db.Entry( funcion ).State = EntityState.Modified;
+            for (int i = 0; i < listaF.Count; i++)
+                if (evento.seCancela[i])
+                {
+                    Funcion funcion = db.Funcion.Where(x => (x.codFuncion == listaF[i])).First();
+                    db.Entry(funcion).State = EntityState.Modified;
 
-                funcion.FechaDevolucion = evento.fechaRecojo;
-                funcion.estado = "ELIMINADO";
-                funcion.cantDiasDevolucion = evento.diasRecojo;
+                    funcion.FechaDevolucion = evento.fechaRecojo;
+                    funcion.estado = "ELIMINADO";
+                    funcion.cantDiasDevolucion = evento.diasRecojo;
 
-                db.SaveChanges();    
-            }
+                    db.SaveChanges();
+                }
 
-            return View("CancelarEvento", new { evento = "" + evento.idEvento});
+            return View("CancelarEvento", new { evento = "" + evento.idEvento });
         }
 
 
