@@ -74,6 +74,12 @@ namespace WebApplication4.Controllers
         [HttpGet]
         public ActionResult ModificarEvento(int evento)
         {
+            Eventos EventoUp = db.Eventos.Find(evento);
+            if(EventoUp.fecha_inicio >= DateTime.Today){
+                TempData["tipo"] = "alert alert-warning";
+                TempData["message"] = "El evento ya empezó. No se puede modificar. En caso desee modificarlo consulte con un administrador.";
+                return RedirectToAction("Index");
+            }
             //Carga de datos
             List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
             List<Region> listProv = new List<Region>();
@@ -83,7 +89,6 @@ namespace WebApplication4.Controllers
             DatosGeneralesModel model = new DatosGeneralesModel();
             ViewBag.MensajeExtra = "Modificación de Evento";
             //Buscamos el evento
-            Eventos EventoUp = db.Eventos.Find(evento);
             Session["IdEventoModificado"] = EventoUp.codigo;
             model.descripcion = EventoUp.descripcion;
             model.Direccion = EventoUp.direccion;
@@ -96,8 +101,8 @@ namespace WebApplication4.Controllers
             model.nombre = EventoUp.nombre;
             ViewBag.ProvID = new SelectList(listProv, "idProv", "nombre");
             ViewBag.SubID = new SelectList(listSubCat, "idSubCat", "nombre");
-            ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre",model.idRegion);
-            ViewBag.CatID = new SelectList(listaCat, "idCategoria", "nombre",model.idCategoria);
+            ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre", model.idRegion);
+            ViewBag.CatID = new SelectList(listaCat, "idCategoria", "nombre", model.idCategoria);
             ViewBag.NombreOrganizador = db.Organizador.Find(model.idOrganizador).nombOrg;
             ViewBag.NombreLocal = "";
             Local p = new Local();
@@ -115,7 +120,26 @@ namespace WebApplication4.Controllers
         [HttpPost]
         public ActionResult ModificarEvento(DatosGeneralesModel model)
         {
-            return View();
+            int idEvento = 0;
+            if (ModelState.IsValid)
+            {
+                if (int.TryParse(Session["IdEventoModificado"].ToString(), out idEvento))
+                {
+                    Eventos modificado = db.Eventos.Find(idEvento);
+                    modificado.descripcion = model.descripcion;
+                    modificado.direccion = model.Direccion;
+                    modificado.idCategoria = model.idCategoria;
+                    modificado.idOrganizador = model.idOrganizador;
+                    modificado.idProvincia = model.idProv;
+                    modificado.idRegion = model.idRegion;
+                    modificado.idSubcategoria = model.idSubCat;
+                    modificado.idLocal = model.Local;
+                    modificado.nombre = model.nombre;
+                    db.SaveChanges();
+                    return RedirectToAction("BloquesTiempoVenta");
+                }
+            }
+            return View(model);
         }
 
         [HttpGet]
@@ -183,19 +207,52 @@ namespace WebApplication4.Controllers
 
         public ActionResult BloquesTiempoVenta()
         {
+            List<BloqueDeTiempoModel> listaResultado = new List<BloqueDeTiempoModel>();
+            if (Session["IdEventoModificado"] != null)
+            {
+                int idEvento = int.Parse(Session["IdEventoModificado"].ToString());
+                BloqueTiempoListModel model = new BloqueTiempoListModel();
+                model.esCorrecto = true;
+                List<PeriodoVenta> listaPer = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
+                listaResultado = new List<BloqueDeTiempoModel>();
+                foreach (PeriodoVenta pventa in listaPer)
+                {
+                    BloqueDeTiempoModel bloque = new BloqueDeTiempoModel();
+                    bloque.fechaFin = (DateTime)pventa.fechaFin;
+                    bloque.fechaInicio = (DateTime)pventa.fechaInicio;
+                    listaResultado.Add(bloque);
+                }
+            }
+            ViewBag.Resultados = listaResultado;
             return View();
         }
-
+        private List<BloqueDeTiempoModel> YaExiste(List<BloqueDeTiempoModel> lista, int idEvento)
+        {
+            List<BloqueDeTiempoModel> resultado = new List<BloqueDeTiempoModel>();
+            for (int i = 0; i < lista.Count; i++)
+            {
+                PeriodoVenta pEncontrado = db.PeriodoVenta.Where(c => c.codEvento == idEvento && c.fechaInicio == lista[i].fechaInicio && c.fechaFin == lista[i].fechaFin).First();
+                if (pEncontrado != null)
+                    lista.Remove(lista[i]);
+            }
+            return resultado;
+        }
+        private void EliminaExistentes(int idEvento)
+        {
+            
+        }
         [HttpPost]
         public ActionResult BloquesTiempoVenta(BloqueTiempoListModel model)
         {
             int idEvento;
             List<BloqueDeTiempoModel> listaVerificacion = null;
-            if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento))
+            if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento) || int.TryParse(Session["IdEventoModificado"].ToString(),out idEvento))
             {
                 listaVerificacion = Validaciones.ValidarBloquesDeTiempoDeVenta(model);
                 if (model.esCorrecto)
                 {
+                    if (Session["IdEventoModificado"] != null)
+                        listaVerificacion = YaExiste(listaVerificacion, idEvento);
                     for (int i = 0; i < listaVerificacion.Count; i++)
                     {
                         PeriodoVenta periodoVenta = new PeriodoVenta();
@@ -215,6 +272,13 @@ namespace WebApplication4.Controllers
         public ActionResult Funciones()
         {
             ViewBag.MensajeError = "";
+            List<FuncionesModel> listaVerificacion = new List<FuncionesModel>();
+            if (Session["IdEventoModificado"] != null)
+            {
+                int idEvento = int.Parse(Session["IdEventoModificado"].ToString());
+                Eventos modif = db.Eventos.Find(idEvento);
+                List<Funcion> funciones = db.Funcion.Where(c => c.codEvento == modif.codigo);
+            }
             return View();
         }
 
