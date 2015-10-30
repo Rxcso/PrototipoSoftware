@@ -11,6 +11,7 @@ namespace WebApplication4.Models
     {
         [Required(ErrorMessage = "El evento debe tener un nombre.")]
         [Display(Name = "Nombre:")]
+        [StringLength(100)]
         public string nombre { get; set; }
 
         [Required(ErrorMessage = "El evento debe tener un organizador.")]
