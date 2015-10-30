@@ -192,9 +192,18 @@ namespace WebApplication4.Controllers
 
                 }
             }
-            ViewBag.MensajeExtra = "Valores de organizador y local guardados, puede cambiarlos si desea.";
-            ModelState.AddModelError("idLocal", "Se necesita un local o una direccion para el evento");
-            ModelState.AddModelError("Direccion", "Se necesita un local o una direccion para el evento");
+            if (model.idOrganizador == 0 && model.Local == 0)
+                ViewBag.MensajeExtra = "Ingrese valores de organizador y local.";
+            else
+            {
+                if (model.idOrganizador == 0)
+                    ViewBag.MensajeExtra = "Ingrese valores de organizador";
+                else
+                    if (model.Local == 0)
+                        ViewBag.MensajeExtra = "Ingrese valores de local.";
+                    else
+                        ViewBag.MensajeExtra = "Valores de organizador y local guardados, puede cambiarlos si desea.";
+            }
             List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
             List<Region> listProv = new List<Region>();
             ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
@@ -525,7 +534,7 @@ namespace WebApplication4.Controllers
             if (ModelState.IsValid)
             {
                 int idEvento;
-                if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento) || int.TryParse(Session["IdEventoModificado"].ToString(),out idEvento))
+                if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento) || int.TryParse(Session["IdEventoModificado"].ToString(), out idEvento))
                 {
                     var evento = db.Eventos.Find(idEvento);
                     evento.porccomision = model.Ganancia;
