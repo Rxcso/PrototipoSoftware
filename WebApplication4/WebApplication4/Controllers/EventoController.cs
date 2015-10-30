@@ -9,7 +9,7 @@ using System.Data.Entity;
 using System.Web.Script.Serialization;
 namespace WebApplication4.Controllers
 {
-    [Authorize]
+   
     public class EventoController : Controller
     {
         inf245netsoft db = new inf245netsoft();
@@ -433,11 +433,14 @@ namespace WebApplication4.Controllers
             TempData["message"] = "No hay evento en proceso de creación o modificación.";
             return RedirectToAction("Index");
         }
+
+
         [HttpGet]
         public ActionResult Tarifas()
         {
-            int idEvento = 20;
-            if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento))
+            int idEvento;
+            //Si un evento se modifica, las tarifas se crean desde 0
+            if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento) || int.TryParse(Session["IdEventoModificado"].ToString(), out idEvento))
             {
                 List<PeriodoVenta> listaPV = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
                 List<string> nombresPV = new List<string>();
@@ -446,16 +449,19 @@ namespace WebApplication4.Controllers
                     nombresPV.Add("Del " + String.Format("{0:dd/MM/yyyy}", p.fechaInicio) + " hasta: " + String.Format("{0:dd/MM/yyyy}", p.fechaFin));
                 }
                 ViewBag.NombrePV = nombresPV;
+                ViewBag.MensajeError = "";
+                return View();
             }
-            ViewBag.MensajeError = "";
-            return View();
+            TempData["tipo"] = "alert alert-warning";
+            TempData["message"] = "No hay evento en proceso de creación o modificación.";
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
         public ActionResult Tarifas(ZonaEventoListModel model)
         {
             int idEvento = 0;
-            if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento))
+            if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento) || int.TryParse(Session["IdEventoModificado"].ToString(), out idEvento))
             {
                 List<PeriodoVenta> listaPV = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
                 List<ZonaEventoModel> list = model.ListaZEM;
@@ -480,13 +486,37 @@ namespace WebApplication4.Controllers
                         db.SaveChanges();
                     }
                 }
+                return RedirectToAction("ExtrasEvento");
             }
-            return RedirectToAction("ExtrasEvento");
+            TempData["tipo"] = "alert alert-warning";
+            TempData["message"] = "No hay evento en proceso de creación o modificación.";
+            return RedirectToAction("Index");
         }
 
         public ActionResult ExtrasEvento()
         {
-            return View();
+            if (Session["IdEventoModificado"] != null)
+            {
+                int idEvento = int.Parse(Session["IdEventoModificado"].ToString());
+                ExtrasModel model = new ExtrasModel();
+                Eventos evento = db.Eventos.Find(idEvento);
+                model.Ganancia = (double)evento.porccomision;
+                model.ImageDestacado = "";
+                model.ImageEvento = "";
+                model.ImageSitios = "";
+                model.MaxReservas = (int)evento.maxReservas;
+                model.MontFijoVentEnt = (double)evento.montoFijoVentaEntrada;
+                model.PenCancelacion = (double)evento.penalidadXcancelacion;
+                model.PenPostergacion = (double)evento.penalidadXpostergacion;
+                model.PermitirBoletoElectronico = false;
+                model.PermitirReservasWeb = false;
+                model.PuntosToCliente = (int)evento.puntosAlCliente;
+            }
+            if (Session["IdEventoCreado"] != null)
+                return View();
+            TempData["tipo"] = "alert alert-warning";
+            TempData["message"] = "No hay evento en proceso de creación o modificación.";
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -764,15 +794,41 @@ namespace WebApplication4.Controllers
             return View();
         }
 
+
         /*
          *POSTERGAR EVENTO 
          * 
         */
         [HttpGet]
-        public ActionResult PostergarEvento()
+        public ActionResult PostergarEvento(string evento)
+        {
+            int id = int.Parse(evento);
+            Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();
+            ViewBag.nombreEvento = queryEvento.nombre;
+            int idOrganizador = (int)queryEvento.idOrganizador;
+            ViewBag.idEvento = evento;
+            ViewBag.organizadorEvento = db.Organizador.Where(c => c.codOrg == idOrganizador).First().nombOrg;
+
+            ViewBag.listaFunciones = db.Funcion.Where(c => c.codEvento == id).ToList();
+
+
+
+
+
+
+            return View();
+        }
+
+        /*
+         *CANCELAR EVENTO 
+         * 
+        */
+        [HttpGet]
+        public ActionResult CancelarEvento()
         {
             return View();
         }
+
 
 
     }
