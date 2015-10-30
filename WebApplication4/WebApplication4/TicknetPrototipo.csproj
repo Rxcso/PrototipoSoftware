@@ -217,6 +217,7 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\BloqueDeTIempoModel.cs" />
+    <Compile Include="Models\CancelarModel.cs" />
     <Compile Include="Models\Categoria.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -283,6 +284,7 @@
     <Compile Include="Models\Politicas.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PostergarModel.cs" />
     <Compile Include="Models\PrecioEvento.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -338,14 +340,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\asientos.css" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\estilos-index1.css" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\Site.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
     <Content Include="Images\arjona.jpg" />
     <Content Include="Images\bruta.jpg" />
     <Content Include="Images\chino.jpg" />
@@ -400,6 +404,9 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
@@ -522,6 +529,8 @@
     <Content Include="Views\Evento\ExtrasEvento.cshtml" />
     <Content Include="Views\Evento\PostergarEvento.cshtml" />
     <Content Include="Views\Evento\ModificarEvento.cshtml" />
+    <Content Include="Views\Categoria\_ViewIna.cshtml" />
+    <Content Include="Views\Evento\CancelarEvento.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
