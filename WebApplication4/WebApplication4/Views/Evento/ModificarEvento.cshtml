@@ -21,7 +21,7 @@
         </div>
     </div>
     <div class="tab-content">
-        @using (Html.BeginForm("DatosGenerales", "Evento", FormMethod.Post, new { model = Model }))
+        @using (Html.BeginForm("ModificarEvento", "Evento", FormMethod.Post, new { model = Model }))
         {
             @Html.AntiForgeryToken()
             <div class="tab-pane active  fade in  container" id="generales">

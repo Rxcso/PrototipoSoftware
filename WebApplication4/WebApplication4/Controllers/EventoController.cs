@@ -9,7 +9,7 @@ using System.Data.Entity;
 using System.Web.Script.Serialization;
 namespace WebApplication4.Controllers
 {
-   
+
     public class EventoController : Controller
     {
         inf245netsoft db = new inf245netsoft();
@@ -165,7 +165,6 @@ namespace WebApplication4.Controllers
         [HttpPost]
         public ActionResult DatosGenerales(DatosGeneralesModel model)
         {
-            Session["modelEvento"] = model;
             if (Validaciones.VerificaEventoDG(model))
             {
                 if (ModelState.IsValid)
@@ -193,9 +192,18 @@ namespace WebApplication4.Controllers
 
                 }
             }
-            ViewBag.MensajeExtra = "Valores de organizador y local guardados, puede cambiarlos si desea.";
-            ModelState.AddModelError("idLocal", "Se necesita un local o una direccion para el evento");
-            ModelState.AddModelError("Direccion", "Se necesita un local o una direccion para el evento");
+            if (model.idOrganizador == 0 && model.Local == 0)
+                ViewBag.MensajeExtra = "Ingrese valores de organizador y local.";
+            else
+            {
+                if (model.idOrganizador == 0)
+                    ViewBag.MensajeExtra = "Ingrese valores de organizador";
+                else
+                    if (model.Local == 0)
+                        ViewBag.MensajeExtra = "Ingrese valores de local.";
+                    else
+                        ViewBag.MensajeExtra = "Valores de organizador y local guardados, puede cambiarlos si desea.";
+            }
             List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
             List<Region> listProv = new List<Region>();
             ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
@@ -511,6 +519,7 @@ namespace WebApplication4.Controllers
                 model.PermitirBoletoElectronico = false;
                 model.PermitirReservasWeb = false;
                 model.PuntosToCliente = (int)evento.puntosAlCliente;
+                return View(model);
             }
             if (Session["IdEventoCreado"] != null)
                 return View();
@@ -524,21 +533,24 @@ namespace WebApplication4.Controllers
         {
             if (ModelState.IsValid)
             {
-                int idEvento = int.Parse(Session["IdEventoCreado"].ToString());
-                var evento = db.Eventos.Find(idEvento);
-                evento.porccomision = model.Ganancia;
-                evento.ImagenDestacado = "/Images/destacado.png";
-                evento.ImagenEvento = "/Images/destacado.png";
-                evento.ImagenSitios = "/Images/destacado.png";
-                evento.maxReservas = model.MaxReservas;
-                evento.montoFijoVentaEntrada = model.MontFijoVentEnt;
-                evento.penalidadXcancelacion = model.PenCancelacion;
-                evento.penalidadXpostergacion = model.PenPostergacion;
-                evento.tieneBoletoElectronico = model.PermitirBoletoElectronico;
-                evento.permiteReserva = model.PermitirReservasWeb;
-                evento.puntosAlCliente = model.PuntosToCliente;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                int idEvento;
+                if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento) || int.TryParse(Session["IdEventoModificado"].ToString(), out idEvento))
+                {
+                    var evento = db.Eventos.Find(idEvento);
+                    evento.porccomision = model.Ganancia;
+                    evento.ImagenDestacado = "/Images/destacado.png";
+                    evento.ImagenEvento = "/Images/destacado.png";
+                    evento.ImagenSitios = "/Images/destacado.png";
+                    evento.maxReservas = model.MaxReservas;
+                    evento.montoFijoVentaEntrada = model.MontFijoVentEnt;
+                    evento.penalidadXcancelacion = model.PenCancelacion;
+                    evento.penalidadXpostergacion = model.PenPostergacion;
+                    evento.tieneBoletoElectronico = model.PermitirBoletoElectronico;
+                    evento.permiteReserva = model.PermitirReservasWeb;
+                    evento.puntosAlCliente = model.PuntosToCliente;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
             return View();
         }
