@@ -9,7 +9,7 @@ namespace WebApplication4.Models
 {
     public class DatosGeneralesModel
     {
-        [Required(ErrorMessage="El evento debe tener un nombre.")]
+        [Required(ErrorMessage = "El evento debe tener un nombre.")]
         [Display(Name = "Nombre:")]
         public string nombre { get; set; }
 
@@ -38,6 +38,6 @@ namespace WebApplication4.Models
         public string descripcion { get; set; }
 
         [Display(Name = "Local:")]
-        public int Local;
+        public int Local { get; set; }
     }
 }
