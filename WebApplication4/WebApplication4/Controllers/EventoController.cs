@@ -434,11 +434,13 @@ namespace WebApplication4.Controllers
             return RedirectToAction("Index");
         }
 
+
         [HttpGet]
         public ActionResult Tarifas()
         {
-            int idEvento = 20;
-            if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento))
+            int idEvento;
+            //Si un evento se modifica, las tarifas se crean desde 0
+            if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento) || int.TryParse(Session["IdEventoModificado"].ToString(), out idEvento))
             {
                 List<PeriodoVenta> listaPV = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
                 List<string> nombresPV = new List<string>();
@@ -459,7 +461,7 @@ namespace WebApplication4.Controllers
         public ActionResult Tarifas(ZonaEventoListModel model)
         {
             int idEvento = 0;
-            if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento))
+            if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento) || int.TryParse(Session["IdEventoModificado"].ToString(), out idEvento))
             {
                 List<PeriodoVenta> listaPV = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
                 List<ZonaEventoModel> list = model.ListaZEM;
@@ -484,13 +486,37 @@ namespace WebApplication4.Controllers
                         db.SaveChanges();
                     }
                 }
+                return RedirectToAction("ExtrasEvento");
             }
-            return RedirectToAction("ExtrasEvento");
+            TempData["tipo"] = "alert alert-warning";
+            TempData["message"] = "No hay evento en proceso de creación o modificación.";
+            return RedirectToAction("Index");
         }
 
         public ActionResult ExtrasEvento()
         {
-            return View();
+            if (Session["IdEventoModificado"] != null)
+            {
+                int idEvento = int.Parse(Session["IdEventoModificado"].ToString());
+                ExtrasModel model = new ExtrasModel();
+                Eventos evento = db.Eventos.Find(idEvento);
+                model.Ganancia = (double)evento.porccomision;
+                model.ImageDestacado = "";
+                model.ImageEvento = "";
+                model.ImageSitios = "";
+                model.MaxReservas = (int)evento.maxReservas;
+                model.MontFijoVentEnt = (double)evento.montoFijoVentaEntrada;
+                model.PenCancelacion = (double)evento.penalidadXcancelacion;
+                model.PenPostergacion = (double)evento.penalidadXpostergacion;
+                model.PermitirBoletoElectronico = false;
+                model.PermitirReservasWeb = false;
+                model.PuntosToCliente = (int)evento.puntosAlCliente;
+            }
+            if (Session["IdEventoCreado"] != null)
+                return View();
+            TempData["tipo"] = "alert alert-warning";
+            TempData["message"] = "No hay evento en proceso de creación o modificación.";
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
