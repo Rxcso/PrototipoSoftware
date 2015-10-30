@@ -72,20 +72,67 @@ namespace WebApplication4.Controllers
         }
 
         [HttpGet]
+        public ActionResult ModificarEvento(int evento)
+        {
+            //Carga de datos
+            List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
+            List<Region> listProv = new List<Region>();
+            List<Categoria> listaCat = db.Categoria.Where(c => c.idCatPadre == MagicHelpers.Categorias && c.activo == 1).ToList();
+            listaCat = listaCat.Where(c => c.activo == 1).ToList();
+            List<Categoria> listSubCat = new List<Categoria>();
+            DatosGeneralesModel model = new DatosGeneralesModel();
+            ViewBag.MensajeExtra = "Modificación de Evento";
+            //Buscamos el evento
+            Eventos EventoUp = db.Eventos.Find(evento);
+            Session["IdEventoModificado"] = EventoUp.codigo;
+            model.descripcion = EventoUp.descripcion;
+            model.Direccion = EventoUp.direccion;
+            model.idCategoria = (int)EventoUp.idCategoria;
+            model.idSubCat = (EventoUp.idSubcategoria == null) ? 0 : (int)EventoUp.idSubcategoria;
+            model.idOrganizador = (int)EventoUp.idOrganizador;
+            model.idRegion = (int)EventoUp.idRegion;
+            model.idProv = (EventoUp.idProvincia == null) ? 0 : (int)EventoUp.idProvincia;
+            model.Local = (EventoUp.idLocal == null) ? 0 : (int)EventoUp.idLocal;
+            model.nombre = EventoUp.nombre;
+            ViewBag.ProvID = new SelectList(listProv, "idProv", "nombre");
+            ViewBag.SubID = new SelectList(listSubCat, "idSubCat", "nombre");
+            ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre",model.idRegion);
+            ViewBag.CatID = new SelectList(listaCat, "idCategoria", "nombre",model.idCategoria);
+            ViewBag.NombreOrganizador = db.Organizador.Find(model.idOrganizador).nombOrg;
+            ViewBag.NombreLocal = "";
+            Local p = new Local();
+            try
+            {
+                p = db.Local.Find(model.Local);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.NombreLocal = p.ubicacion;
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult ModificarEvento(DatosGeneralesModel model)
+        {
+            return View();
+        }
+
+        [HttpGet]
         public ActionResult DatosGenerales()
         {
             List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
             List<Region> listProv = new List<Region>();
-            ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
-            ViewBag.ProvID = new SelectList(listProv, "idProv", "nombre");
             List<Categoria> listaCat = db.Categoria.Where(c => c.idCatPadre == MagicHelpers.Categorias && c.activo == 1).ToList();
             listaCat = listaCat.Where(c => c.activo == 1).ToList();
             List<Categoria> listSubCat = new List<Categoria>();
-            ViewBag.CatID = new SelectList(listaCat, "idCategoria", "nombre");
+            DatosGeneralesModel model = new DatosGeneralesModel();
+            ViewBag.ProvID = new SelectList(listProv, "idProv", "nombre");
             ViewBag.SubID = new SelectList(listSubCat, "idSubCat", "nombre");
-            Session["modelEvento"] = new DatosGeneralesModel();
-            ViewBag.MensajeExtra = "";
-            return View();
+            ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
+            ViewBag.CatID = new SelectList(listaCat, "idCategoria", "nombre");
+            ViewBag.MensajeExtra = "Nuevo Evento: Datos Generales";
+            return View(model);
         }
 
         [HttpPost]
