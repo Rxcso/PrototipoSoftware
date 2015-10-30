@@ -1,73 +1,76 @@
 ﻿
+
 @{
-    ViewBag.Title = "PostergarEvento";
+    ViewBag.Title = "Postergar Evento";
+    int idEvento = int.Parse(ViewBag.idEvento);
 }
-
-<div class="container-fluid">
-    <div class="col-md-5">
-        <ol class="breadcrumb">
-            <li><a href="mantener_eventos.html">Mantenimiento de Eventos</a></li>
-            <li class="active">Postergar evento</li>
-        </ol>
-    </div>
-</div>
-<div class="container">
-    <div class="row form-group">
-        <label for="codigo" class="control-label col-md-4">ID Evento:</label>
-        <div class="col-md-8">
-            <input id="codigo" type="text" class="form-control" placeholder="10201040" disabled>
+<head>
+    <link href="" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="col-md-5">
+            <ol class="breadcrumb">
+                <li><a href="@Url.Action("Index","Evento")">Mantenimiento de Eventos</a></li>
+                <li class="active">Postergar evento</li>
+            </ol>
         </div>
     </div>
-    <div class="row form-group">
-        <label for="nombreEvento" class="control-label col-md-4">Nombre Evento:</label>
-        <div class="col-md-8">
-            <input id="nombreEvento" type="text" class="form-control" placeholder="CALLA LOCA" disabled>
+    <div class="container">
+        <div class="row form-group">
+            <!--label for="idEvento" class="control-label col-md-1">Id:</!--label>
+            <div class="col-md-1">
+                <input id="eventoP" type="text" class="form-control" value=@idEvento disabled>
+            </div-->
+            <label for="nombreEvento" class="control-label col-md-2">Nombre Evento:</label>
+            <div class="col-md-4">
+                <input type="text" class="form-control" placeholder="@ViewBag.nombreEvento" disabled>
+            </div>
+            <label for="organizador" class="control-label col-md-2">Organizador:</label>
+            <div class="col-md-4">
+                <input id="organizador" type="text" class="form-control" placeholder="@ViewBag.organizadorEvento" disabled>
+            </div>
         </div>
-    </div>
-    <div class="row form-group">
-        <label for="organizador" class="control-label col-md-4">Organizador del Evento:</label>
-        <div class="col-md-8">
-            <input id="organizador" type="text" class="form-control" placeholder="ERTB Entertainment" disabled>
+
+
+        <div class="row form-group">
+            <label for="fecha" class="control-label col-md-3 col-md-offset-3">Fecha - hora:</label>
+            <div class="col-md-3 ">
+                <select id="fechaHora" class="form-control">
+                    <option id="0" value="0"> Seleccione </option>
+                    @foreach (var item in ViewBag.listaFunciones)
+                    {
+                        <option id="@item.codFuncion" value="@item.codFuncion"> @item.fecha.ToString("dd/MM/yyyy") - @item.horaIni.ToString("hh:mm tt")</option>
+                    }
+                </select>
+            </div>
         </div>
-    </div>
 
-    <div class="row form-group">
-        <label for="fecha" class="control-label col-md-4">Seleccione la fecha - hora:</label>
-        <div class="col-md-3">
-            <select class="form-control">
-                <option> Seleccione </option>
-                <option>12/10/15 - 10:00 a.m.</option>
-                <option>15/10/15 - 10:00 a.m.</option>
-            </select>
+        <div class="row form-group">
+            <label for="fecha" class="control-label col-md-3 col-md-offset-3">Nueva fecha del evento:</label>
+            <div class="col-md-3">
+                <input id="fecha" type="date" class="form-control">
+            </div>
         </div>
-    </div>
 
-
-
-    <div class="row form-group">
-        <label for="fecha" class="control-label col-md-4">Seleccione la nueva fecha del evento:</label>
-        <div class="col-md-3">
-            <input type="date" class="form-control">
+        <div class="row form-group">
+            <label for="fecha" class="control-label col-md-3 col-md-offset-3">Nueva hora del evento:</label>
+            <div class="col-md-3">
+                <input id="hora" type="time" class="form-control">
+            </div>
         </div>
-    </div>
 
-    <div class="row form-group">
-        <label for="fecha" class="control-label col-md-4">Seleccione la nueva hora del evento:</label>
-        <div class="col-md-3">
-            <input type="time" class="form-control">
+        <div style="text-align: center">
+            <button type="submit" class="btn btn-primary" onclick="msjConfirmacion1()"> Registrar Postergación  <span class="glyphicon glyphicon-ok-sign"></span></button>
+            <a href="@Url.Action("Index","Evento")" class="btn btn-danger">Salir <span class="glyphicon glyphicon-log-out"></span> </a>
         </div>
-    </div>
 
-    <div style="text-align: center">
-        <button type="button" class="btn btn-primary" onclick="msjConfirmacion1()"> Registrar Postergación  <span class="glyphicon glyphicon-ok-sign"></span></button>
-        <a href="mantener_eventos.html" class="btn btn-danger">Salir <span class="glyphicon glyphicon-log-out"></span> </a>
-    </div>
+        <script>
+            function msjConfirmacion1() {
+                alert("Evento Postergado");
+                window.location.href = 'mantener_eventos.html';
+            }
+        </script>
 
 
-    <script>
-        function msjConfirmacion1() {
-            alert("Evento Postergado");
-            window.location.href = 'mantener_eventos.html';
-        }
-    </script>
-
+</body>
