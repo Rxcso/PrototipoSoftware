@@ -433,6 +433,7 @@ namespace WebApplication4.Controllers
             TempData["message"] = "No hay evento en proceso de creación o modificación.";
             return RedirectToAction("Index");
         }
+
         [HttpGet]
         public ActionResult Tarifas()
         {
@@ -446,9 +447,12 @@ namespace WebApplication4.Controllers
                     nombresPV.Add("Del " + String.Format("{0:dd/MM/yyyy}", p.fechaInicio) + " hasta: " + String.Format("{0:dd/MM/yyyy}", p.fechaFin));
                 }
                 ViewBag.NombrePV = nombresPV;
+                ViewBag.MensajeError = "";
+                return View();
             }
-            ViewBag.MensajeError = "";
-            return View();
+            TempData["tipo"] = "alert alert-warning";
+            TempData["message"] = "No hay evento en proceso de creación o modificación.";
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
