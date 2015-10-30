@@ -15,7 +15,17 @@ namespace WebApplication4.Controllers
         // GET: Categoria
         public ActionResult Index()
         {
+            //Session["Ina"] = null; 
+            /*if(Session["Bus"] != null){
+                Session["ListaC"]=Session["Bus"];
+                Session["Bus"]=null;
+                return View();
+            }else{
+                List<Categoria> listaCategoria = null;
+                listaCategoria=db.Categoria.Where(c=>c.activo==1 && c.nivel!=0).ToList();
+                Session["ListaC"] = listaCategoria;*/
             return View();
+            //}
         }
         //no me mires
         private void borrar(int id)
@@ -126,7 +136,7 @@ namespace WebApplication4.Controllers
         public ActionResult ViewIna(CategoriaViewInaModel categoria)
         {
             List<Categoria> listaCat;
-
+            //Session["Bus"] = null;
             listaCat = db.Categoria.AsNoTracking().Where(c => c.activo == 0).ToList();
             if (listaCat != null) Session["Ina"] = listaCat;
             else Session["Ina"] = null;
@@ -170,7 +180,8 @@ namespace WebApplication4.Controllers
         }
 
         public ActionResult Edit(string categoria)
-        {            
+        {
+            //Session["Bus"] = null;
             int id = int.Parse(categoria);
             ViewBag.id = id;
             TempData["codigo"] = id;
@@ -199,8 +210,8 @@ namespace WebApplication4.Controllers
                 var o = ViewBag.id;
                 Categoria categoria = db.Categoria.Find(TempData["codigo"]);
                 db.Entry(categoria).State = EntityState.Modified;
-                if(model.nombre!=""&&model.nombre!=null) categoria.nombre = model.nombre;
-                if (model.descripcion != "" && model.descripcion != null) categoria.descripcion = model.descripcion;
+                if (!String.IsNullOrEmpty(model.nombre) ) categoria.nombre = model.nombre;
+                if (!String.IsNullOrEmpty(model.descripcion)) categoria.descripcion = model.descripcion;
                 if (model.idCatPadre != 0)
                 {
                     categoria.idCatPadre = model.idCatPadre;
