@@ -174,7 +174,7 @@ namespace WebApplication4.Controllers
         {
             if (Validaciones.VerificaEventoDG(model))
             {
-                if (ModelState.IsValid)
+                if (ModelState.IsValid && model.idOrganizador != 0)
                 {
                     Eventos evento = new Eventos();
                     evento.nombre = model.nombre;
@@ -199,7 +199,7 @@ namespace WebApplication4.Controllers
 
                 }
             }
-            if (model.idOrganizador == 0 && model.Local == 0)
+            if (model.idOrganizador == 0 && ((model.Local == 0) ^ (model.Direccion == null)))
                 ViewBag.MensajeExtra = "Ingrese valores de organizador y local.";
             else
             {
@@ -265,10 +265,25 @@ namespace WebApplication4.Controllers
             //Por cada bloque nuevo, verifico si tengo que agregarlo o si ya existe
             for (int i = 0; i < lista.Count; i++)
             {
-                PeriodoVenta pventa = periodo.Where(c => c.fechaInicio == lista[i].fechaInicio && c.fechaFin == lista[i].fechaFin).First();
+                PeriodoVenta pventa = new PeriodoVenta();
+                try
+                {
+                    pventa = periodo.Where(c => c.fechaInicio == lista[i].fechaInicio && c.fechaFin == lista[i].fechaFin).First();
+                }
+                catch (Exception ex)
+                {
+                    pventa = null;
+                }
+
                 //si no exite lo tengo que agregar
                 if (pventa == null)
-                    agregar.Add(pventa);
+                {
+                    PeriodoVenta agregarPV = new PeriodoVenta();
+                    agregarPV.fechaFin = lista[i].fechaFin;
+                    agregarPV.fechaInicio = lista[i].fechaInicio;
+                    agregar.Add(agregarPV);
+                }
+                    
                 //si existe, no le tengo que hacer nada
                 existentes.Add(pventa);
             }
@@ -285,7 +300,8 @@ namespace WebApplication4.Controllers
             for (int i = 0; i < periodo.Count; i++)
             {
                 //busco las tarfias asociadas al bloque de venta
-                List<PrecioEvento> tarifas = db.PrecioEvento.Where(c => c.codPeriodoVenta == periodo[i].idPerVent).ToList();
+                int idPeriodo = periodo[i].idPerVent;
+                List<PrecioEvento> tarifas = db.PrecioEvento.Where(c => c.codPeriodoVenta == idPeriodo).ToList();
                 //elimino cada una de las tarifas
                 for (int j = 0; j < tarifas.Count; j++)
                 {
@@ -309,7 +325,7 @@ namespace WebApplication4.Controllers
             inicio.Sort((a, b) => a.CompareTo(b));
             fin.Select((a, b) => b.CompareTo(a));
             DateTime fechaInicio = inicio.First();
-            DateTime fechaFin = inicio.First();
+            DateTime fechaFin = fin.First();
             Eventos evento = db.Eventos.Find(idEvento);
             evento.fecha_inicio = fechaInicio;
             evento.fecha_fin = fechaFin;
@@ -320,29 +336,32 @@ namespace WebApplication4.Controllers
         {
             int idEvento = 0;
             List<BloqueDeTiempoModel> listaVerificacion = null;
-            if (Session["IdEventoCreado"] != null)
-                idEvento = int.Parse(Session["IdEventoCreado"].ToString());
-            if (Session["IdEventoModificado"] != null)
-                idEvento = int.Parse(Session["IdEventoModificado"].ToString());
-            listaVerificacion = Validaciones.ValidarBloquesDeTiempoDeVenta(model);
-            if (model.esCorrecto)
+            if (Session["IdEventoCreado"] == null || Session["IdEventoModificado"] == null)
             {
-                ObtenerFechaInicioyFin(listaVerificacion, idEvento);
+                if (Session["IdEventoCreado"] != null)
+                    idEvento = int.Parse(Session["IdEventoCreado"].ToString());
                 if (Session["IdEventoModificado"] != null)
+                    idEvento = int.Parse(Session["IdEventoModificado"].ToString());
+                listaVerificacion = Validaciones.ValidarBloquesDeTiempoDeVenta(model);
+                if (model.esCorrecto)
                 {
-                    FiltraBloques(listaVerificacion, idEvento);
+                    ObtenerFechaInicioyFin(listaVerificacion, idEvento);
+                    if (Session["IdEventoModificado"] != null)
+                    {
+                        FiltraBloques(listaVerificacion, idEvento);
+                        return RedirectToAction("Funciones");
+                    }
+                    for (int i = 0; i < listaVerificacion.Count; i++)
+                    {
+                        PeriodoVenta periodoVenta = new PeriodoVenta();
+                        periodoVenta.fechaInicio = listaVerificacion[i].fechaInicio;
+                        periodoVenta.fechaFin = listaVerificacion[i].fechaFin;
+                        periodoVenta.codEvento = idEvento;
+                        db.PeriodoVenta.Add(periodoVenta);
+                        db.SaveChanges();
+                    }
                     return RedirectToAction("Funciones");
                 }
-                for (int i = 0; i < listaVerificacion.Count; i++)
-                {
-                    PeriodoVenta periodoVenta = new PeriodoVenta();
-                    periodoVenta.fechaInicio = listaVerificacion[i].fechaInicio;
-                    periodoVenta.fechaFin = listaVerificacion[i].fechaFin;
-                    periodoVenta.codEvento = idEvento;
-                    db.PeriodoVenta.Add(periodoVenta);
-                    db.SaveChanges();
-                }
-                return RedirectToAction("Funciones");
                 ViewBag.Resultados = listaVerificacion;
                 return View();
             }
@@ -815,7 +834,7 @@ namespace WebApplication4.Controllers
             ViewBag.subcategorias = new SelectList(listSubCat, "idSubcat", "nombre");
 
             return View();
-            
+
         }
 
         [AllowAnonymous]
