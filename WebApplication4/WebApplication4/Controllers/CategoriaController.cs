@@ -143,6 +143,8 @@ namespace WebApplication4.Controllers
             return RedirectToAction("Index", "Categoria");
         }
 
+        [HttpPost]
+        [AllowAnonymous]
         public ActionResult RegisterCategoria(CategoriaModel model)
         {
             if (ModelState.IsValid)
