@@ -9,7 +9,11 @@
     inf245netsoft db = new inf245netsoft();
 }
 
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery-2.1.4.min.js"></script>
+
+<!--
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>    
+-->
 
 <div class="container-fluid">
     <div class="col-md-5">
@@ -164,7 +168,7 @@
                 </tbody>
             </table>
             Pagina @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, orden = ViewBag.ordenActual, filtroActual = ViewBag.filtroActual }));
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, nombre = ViewBag.nombre, fech_ini = ViewBag.fech_ini, fech_fin = ViewBag.fech_fin, idCategoria = ViewBag.idCategoria, idSubCat = ViewBag.idSubCat }));
 
         </div>
     </div>
