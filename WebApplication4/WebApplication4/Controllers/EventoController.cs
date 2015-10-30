@@ -277,7 +277,7 @@ namespace WebApplication4.Controllers
             {
                 int idEvento = int.Parse(Session["IdEventoModificado"].ToString());
                 Eventos modif = db.Eventos.Find(idEvento);
-                List<Funcion> funciones = db.Funcion.Where(c => c.codEvento == modif.codigo);
+                List<Funcion> funciones = db.Funcion.Where(c => c.codEvento == modif.codigo).ToList();
             }
             return View();
         }
