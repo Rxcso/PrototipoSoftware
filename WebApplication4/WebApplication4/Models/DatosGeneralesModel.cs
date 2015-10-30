@@ -11,6 +11,7 @@ namespace WebApplication4.Models
     {
         [Required(ErrorMessage = "El evento debe tener un nombre.")]
         [Display(Name = "Nombre:")]
+        [StringLength(100)]
         public string nombre { get; set; }
 
         [Required(ErrorMessage = "El evento debe tener un organizador.")]
@@ -25,6 +26,7 @@ namespace WebApplication4.Models
         public int idSubCat { get; set; }
 
         [Display(Name = "Direccion")]
+        [StringLength(100)]
         public string Direccion { get; set; }
 
         [Required(ErrorMessage = "El evento debe tener una ubicacion.")]
@@ -34,7 +36,9 @@ namespace WebApplication4.Models
         [Display(Name = "Provincia:")]
         public int idProv { get; set; }
 
+        [Required]
         [Display(Name = "Descripcion:")]
+        [StringLength(200)]
         public string descripcion { get; set; }
 
         [Display(Name = "Local:")]

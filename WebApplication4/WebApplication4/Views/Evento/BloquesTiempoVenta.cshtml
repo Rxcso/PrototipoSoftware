@@ -56,11 +56,13 @@
                                 {
                                     for (var i = 0; i < listaResultados.Count; i++)
                                     {
-                                        <tr data-fechainicio="@listaResultados[i].fechaInicio.ToString("yyyy-MM-dd")" data-fechafin="@listaResultados[i].fechaFin.ToString("yyyy-MM-dd")">
-                                            <td>@(i+1)</td>
+                                        <tr data-fechainicio="@listaResultados[i].fechaInicio.ToString("yyyy-MM-dd")" data-fechafin="@listaResultados[i].fechaFin.ToString("yyyy-MM-dd")" id="@(i+1)">
+                                            <td>@(i + 1)</td>
                                             <td>@listaResultados[i].fechaInicio.ToString("yyyy-MM-dd")</td>
                                             <td>@listaResultados[i].fechaFin.ToString("yyyy-MM-dd")</td>
-                                            <td><input type="radio" name="groupBloquedeVenta" value="@(i+1)"></td>
+                                            <td>
+                                                <input type="radio" name="groupBloquedeVenta" value="@(i+1)">
+                                            </td>
                                         </tr>
                                     }
                                 }
