@@ -552,7 +552,7 @@ namespace WebApplication4.Controllers
             ViewBag.nombreEvento = queryEvento.nombre;
             ViewBag.idEvento = evento;
             ViewBag.listaZonas = db.ZonaEvento.Where(c => c.codEvento == id).ToList();
-            ViewBag.estado = (queryEvento.fecha_fin > DateTime.Today);
+            ViewBag.yaVencio = (queryEvento.fecha_inicio < DateTime.Today);
 
             JavaScriptSerializer serializer = new JavaScriptSerializer();
 
@@ -607,7 +607,7 @@ namespace WebApplication4.Controllers
             int id = queryZona.codEvento;
 
             Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();
-            ViewBag.estado = (queryEvento.fecha_fin > DateTime.Today);
+            ViewBag.yaVencio = (queryEvento.fecha_inicio < DateTime.Today);
             ViewBag.nombreEvento = queryEvento.nombre;
             ViewBag.idEvento = id + "";
             ViewBag.listaZonas = db.ZonaEvento.Where(c => c.codEvento == id).ToList();
@@ -644,7 +644,7 @@ namespace WebApplication4.Controllers
 
             int id = zonaE.codEvento;
             Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();
-            ViewBag.estado = (queryEvento.fecha_fin > DateTime.Today);
+            ViewBag.yaVencio = (queryEvento.fecha_inicio < DateTime.Today);
             ViewBag.nombreEvento = queryEvento.nombre;
             ViewBag.idEvento = "" + queryEvento.codigo;
             ViewBag.listaZonas = db.ZonaEvento.Where(c => c.codEvento == id).ToList();
@@ -809,24 +809,77 @@ namespace WebApplication4.Controllers
             ViewBag.idEvento = evento;
             ViewBag.organizadorEvento = db.Organizador.Where(c => c.codOrg == idOrganizador).First().nombOrg;
 
-            ViewBag.listaFunciones = db.Funcion.Where(c => c.codEvento == id).ToList();
+            ViewBag.listaFunciones = db.Funcion.Where(c => c.codEvento == id && c.estado!="CANCELADO").ToList();
 
-
-
-
+            //lo bravo
 
 
             return View();
         }
 
+        [HttpPost]
+        public ActionResult PostergarEvento( PostergarModel evento ){
+
+            Funcion funcionAPostergar = db.Funcion.Where( c=> (c.codFuncion== evento.idFuncion) ).First();
+            db.Entry(funcionAPostergar).State = EntityState.Modified;
+            
+            funcionAPostergar.fecha =  evento.proximaFecha;
+            funcionAPostergar.horaIni =  evento.proximaHora;
+            funcionAPostergar.estado = "POSTERGADO";
+
+            db.SaveChanges();
+
+
+            int id = evento.idEvento;
+            Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();
+            ViewBag.nombreEvento = queryEvento.nombre;
+            int idOrganizador = (int)queryEvento.idOrganizador;
+            ViewBag.idEvento = "" + id;
+            ViewBag.organizadorEvento = db.Organizador.Where(c => c.codOrg == idOrganizador).First().nombOrg;
+
+            ViewBag.listaFunciones = db.Funcion.Where(c => c.codEvento == id && c.estado != "CANCELADO").ToList();
+
+            return View(); 
+        }
+        
         /*
          *CANCELAR EVENTO 
          * 
         */
         [HttpGet]
-        public ActionResult CancelarEvento()
-        {
+        public ActionResult CancelarEvento(string evento){
+
+            int id = int.Parse(evento);
+            Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();
+            ViewBag.nombreEvento = queryEvento.nombre;
+            int idOrganizador = (int)queryEvento.idOrganizador;
+            ViewBag.idEvento = evento;
+            ViewBag.organizadorEvento = db.Organizador.Where(c => c.codOrg == idOrganizador).First().nombOrg;
+
+            ViewBag.listaFunciones = db.Funcion.Where(c => c.codEvento == id && c.estado != "CANCELADO").ToList();
+
             return View();
+        }
+
+
+        [HttpPost]
+        public ActionResult CancelarEvento(CancelarModel evento)
+        {
+
+            List<int> listaF = evento.listIdFuncion;
+            for (int i =0; i<listaF.Count; i++)
+            if( evento.seCancela[i] ){
+                Funcion funcion = db.Funcion.Where(x => (x.codFuncion == listaF[i]) ).First();
+                db.Entry( funcion ).State = EntityState.Modified;
+
+                funcion.FechaDevolucion = evento.fechaRecojo;
+                funcion.estado = "ELIMINADO";
+                funcion.cantDiasDevolucion = evento.diasRecojo;
+
+                db.SaveChanges();    
+            }
+
+            return View("CancelarEvento", new { evento = "" + evento.idEvento});
         }
 
 

@@ -654,6 +654,9 @@
     <Property Name="codEvento" Type="Int32" Nullable="false" />
     <NavigationProperty Name="VentasXFuncion" Relationship="inf245netsoftModel.R_76" FromRole="Funcion" ToRole="VentasXFuncion" />
     <NavigationProperty Name="Eventos" Relationship="inf245netsoftModel.R_43" FromRole="Funcion" ToRole="Eventos" />
+    <Property Name="estado" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="FechaDevolucion" Type="DateTime" Precision="0" />
+    <Property Name="cantDiasDevolucion" Type="Int32" />
   </EntityType>
   <EntityType Name="Pago">
     <Key>

@@ -1,8 +1,8 @@
 ﻿@{
     ViewBag.Title = "Asientos";
     int idEvento = int.Parse(ViewBag.idEvento);
-    string status = ViewBag.estado?"disabled":"";
-    Boolean flagBool = ViewBag.estado?false:true;
+    string status = ViewBag.yaVencio?"disabled":"";
+    Boolean flagBool = ViewBag.yaVencio?false:true;
 }
 <head>
     <link href="@Url.Content("~/Content/asientos.css")" rel="stylesheet" type="text/css" />

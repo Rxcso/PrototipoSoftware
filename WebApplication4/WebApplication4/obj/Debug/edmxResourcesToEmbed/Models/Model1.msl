@@ -301,6 +301,9 @@
     <EntitySetMapping Name="Funcion">
       <EntityTypeMapping TypeName="inf245netsoftModel.Funcion">
         <MappingFragment StoreEntitySet="Funcion">
+          <ScalarProperty Name="cantDiasDevolucion" ColumnName="cantDiasDevolucion" />
+          <ScalarProperty Name="FechaDevolucion" ColumnName="FechaDevolucion" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
           <ScalarProperty Name="codEvento" ColumnName="codEvento" />
           <ScalarProperty Name="fecha" ColumnName="fecha" />
           <ScalarProperty Name="horaFin" ColumnName="horaFin" />
