@@ -75,7 +75,9 @@ namespace WebApplication4.Controllers
         public ActionResult ModificarEvento(int evento)
         {
             Eventos EventoUp = db.Eventos.Find(evento);
-            if(EventoUp.fecha_inicio >= DateTime.Today){
+            //verifico que no haya empezado la venta aun
+            if (EventoUp.fecha_inicio >= DateTime.Today)
+            {
                 TempData["tipo"] = "alert alert-warning";
                 TempData["message"] = "El evento ya empezó. No se puede modificar. En caso desee modificarlo consulte con un administrador.";
                 return RedirectToAction("Index");
@@ -135,6 +137,7 @@ namespace WebApplication4.Controllers
                     modificado.idSubcategoria = model.idSubCat;
                     modificado.idLocal = model.Local;
                     modificado.nombre = model.nombre;
+                    modificado.fechaUltModificacion = DateTime.Today;
                     db.SaveChanges();
                     return RedirectToAction("BloquesTiempoVenta");
                 }
@@ -208,6 +211,7 @@ namespace WebApplication4.Controllers
         public ActionResult BloquesTiempoVenta()
         {
             List<BloqueDeTiempoModel> listaResultado = new List<BloqueDeTiempoModel>();
+            //IdEventoCreado
             if (Session["IdEventoModificado"] != null)
             {
                 int idEvento = int.Parse(Session["IdEventoModificado"].ToString());
@@ -222,37 +226,96 @@ namespace WebApplication4.Controllers
                     bloque.fechaInicio = (DateTime)pventa.fechaInicio;
                     listaResultado.Add(bloque);
                 }
+                ViewBag.Resultados = listaResultado;
+                return View();
             }
-            ViewBag.Resultados = listaResultado;
-            return View();
+            else
+            {
+                //Verifico si hay un evento creado en progeso
+                if (Session["IdEventoCreado"] != null) return View();
+            }
+            TempData["tipo"] = "alert alert-warning";
+            TempData["message"] = "No hay evento en proceso de creación o modificación";
+            return RedirectToAction("Index");
         }
-        private List<BloqueDeTiempoModel> YaExiste(List<BloqueDeTiempoModel> lista, int idEvento)
+
+        private void FiltraBloques(List<BloqueDeTiempoModel> lista, int idEvento)
         {
-            List<BloqueDeTiempoModel> resultado = new List<BloqueDeTiempoModel>();
+            //agregar nuevos bloques de venta
+            List<PeriodoVenta> agregar = new List<PeriodoVenta>();
+            //no agregar los ya existentes
+            List<PeriodoVenta> existentes = new List<PeriodoVenta>();
+            //busco todos los periodos de venta del evento
+            List<PeriodoVenta> periodo = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
+            //Por cada bloque nuevo, verifico si tengo que agregarlo o si ya existe
             for (int i = 0; i < lista.Count; i++)
             {
-                PeriodoVenta pEncontrado = db.PeriodoVenta.Where(c => c.codEvento == idEvento && c.fechaInicio == lista[i].fechaInicio && c.fechaFin == lista[i].fechaFin).First();
-                if (pEncontrado != null)
-                    lista.Remove(lista[i]);
+                PeriodoVenta pventa = periodo.Where(c => c.fechaInicio == lista[i].fechaInicio && c.fechaFin == lista[i].fechaFin).First();
+                //si no exite lo tengo que agregar
+                if (pventa == null)
+                    agregar.Add(pventa);
+                //si existe, no le tengo que hacer nada
+                existentes.Add(pventa);
             }
-            return resultado;
+            for (int i = 0; i < agregar.Count; i++)
+            {
+                //los agrego a la base de datos
+                db.PeriodoVenta.Add(agregar[i]);
+                db.SaveChanges();
+            }
+            //remuevo los que ya existen
+            for (int i = 0; i < existentes.Count; i++)
+                periodo.Remove(existentes[i]);
+            //Al final me quedan los que debo eliminar
+            for (int i = 0; i < periodo.Count; i++)
+            {
+                //busco las tarfias asociadas al bloque de venta
+                List<PrecioEvento> tarifas = db.PrecioEvento.Where(c => c.codPeriodoVenta == periodo[i].idPerVent).ToList();
+                //elimino cada una de las tarifas
+                for (int j = 0; j < tarifas.Count; j++)
+                {
+                    db.PrecioEvento.Remove(tarifas[j]);
+                    db.SaveChanges();
+                }
+                //elimino el bloque
+                db.PeriodoVenta.Remove(periodo[i]);
+                db.SaveChanges();
+            }
         }
-        private void EliminaExistentes(int idEvento)
+        private void ObtenerFechaInicioyFin(List<BloqueDeTiempoModel> bloques, int idEvento)
         {
-            
+            List<DateTime> inicio = new List<DateTime>();
+            List<DateTime> fin = new List<DateTime>();
+            foreach (BloqueDeTiempoModel bloque in bloques)
+            {
+                inicio.Add(bloque.fechaInicio);
+                fin.Add(bloque.fechaFin);
+            }
+            inicio.Sort((a, b) => a.CompareTo(b));
+            fin.Select((a, b) => b.CompareTo(a));
+            DateTime fechaInicio = inicio.First();
+            DateTime fechaFin = inicio.First();
+            Eventos evento = db.Eventos.Find(idEvento);
+            evento.fecha_inicio = fechaInicio;
+            evento.fecha_fin = fechaFin;
+            db.SaveChanges();
         }
         [HttpPost]
         public ActionResult BloquesTiempoVenta(BloqueTiempoListModel model)
         {
             int idEvento;
             List<BloqueDeTiempoModel> listaVerificacion = null;
-            if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento) || int.TryParse(Session["IdEventoModificado"].ToString(),out idEvento))
+            if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento) || int.TryParse(Session["IdEventoModificado"].ToString(), out idEvento))
             {
                 listaVerificacion = Validaciones.ValidarBloquesDeTiempoDeVenta(model);
                 if (model.esCorrecto)
                 {
+                    ObtenerFechaInicioyFin(listaVerificacion, idEvento);
                     if (Session["IdEventoModificado"] != null)
-                        listaVerificacion = YaExiste(listaVerificacion, idEvento);
+                    {
+                        FiltraBloques(listaVerificacion, idEvento);
+                        return RedirectToAction("Funciones");
+                    }
                     for (int i = 0; i < listaVerificacion.Count; i++)
                     {
                         PeriodoVenta periodoVenta = new PeriodoVenta();
@@ -264,9 +327,12 @@ namespace WebApplication4.Controllers
                     }
                     return RedirectToAction("Funciones");
                 }
+                ViewBag.Resultados = listaVerificacion;
+                return View();
             }
-            ViewBag.Resultados = listaVerificacion;
-            return View();
+            TempData["tipo"] = "alert alert-warning";
+            TempData["message"] = "No hay evento en proceso de creación o modificación.";
+            return RedirectToAction("Index");
         }
 
         public ActionResult Funciones()
@@ -276,48 +342,77 @@ namespace WebApplication4.Controllers
             if (Session["IdEventoModificado"] != null)
             {
                 int idEvento = int.Parse(Session["IdEventoModificado"].ToString());
-                Eventos modif = db.Eventos.Find(idEvento);
-                List<Funcion> funciones = db.Funcion.Where(c => c.codEvento == modif.codigo).ToList();
+                //busco todos las funciones del evento
+                List<Funcion> funciones = db.Funcion.Where(c => c.codEvento == idEvento).ToList();
+                //preparo mi model
+                List<FuncionesModel> funcionesModel = new List<FuncionesModel>();
+                foreach (Funcion func in funciones)
+                {
+                    FuncionesModel model = new FuncionesModel();
+                    model.fechaFuncion = (DateTime)func.fecha;
+                    model.horaInicio = (DateTime)func.horaIni;
+                    funcionesModel.Add(model);
+                }
+                ViewBag.Resultados = funcionesModel;
             }
             return View();
         }
 
-        private List<DateTime> ObtenerFechaInicioyFin(List<FuncionesModel> listFunciones)
+        private void FiltrarFunciones(List<FuncionesModel> lista, int idEvento)
         {
-            List<DateTime> funciones = new List<DateTime>();
-            foreach (FuncionesModel funcion in listFunciones)
+            //agregar nuevas funciones
+            List<Funcion> agregar = new List<Funcion>();
+            //no agregar los ya existentes
+            List<Funcion> existentes = new List<Funcion>();
+            //busco todas las funciones del evento
+            List<Funcion> funciones = db.Funcion.Where(c => c.codEvento == idEvento).ToList();
+            //Por cada bloque nuevo, verifico si tengo que agregarlo o si ya existe
+            for (int i = 0; i < lista.Count; i++)
             {
-                funciones.Add(funcion.fechaFuncion);
+                Funcion funcion = funciones.Where(c => c.fecha == lista[i].fechaFuncion && c.horaIni == lista[i].horaInicio).First();
+                //si no exite lo tengo que agregar
+                if (funcion == null)
+                    agregar.Add(funcion);
+                //si existe, no le tengo que hacer nada
+                existentes.Add(funcion);
             }
-            List<DateTime> resultados = new List<DateTime>();
-            funciones.Sort((a, b) => a.CompareTo(b));
-            //si solo hay una funcion. La fecha inicio y fin son iguales
-            resultados.Add(funciones.First()); //fecha inicio
-            resultados.Add(funciones.Last()); //fecha fin
-            return resultados;
+            for (int i = 0; i < agregar.Count; i++)
+            {
+                //los agrego a la base de datos
+                db.Funcion.Add(agregar[i]);
+                db.SaveChanges();
+            }
+            //remuevo los que ya existen
+            for (int i = 0; i < existentes.Count; i++)
+                funciones.Remove(existentes[i]);
+            //Al final me quedan los que debo eliminar
+            for (int i = 0; i < funciones.Count; i++)
+            {
+                db.Funcion.Remove(funciones[i]);
+                db.SaveChanges();
+            }
         }
-
         [HttpPost]
         public ActionResult Funciones(FuncionesListModel model)
         {
             List<FuncionesModel> listaVerificacion = null;
             int idEvento;
-            if (Session["IdEventoCreado"] != null)
+            if (Session["IdEventoCreado"] != null && Session["IdEventoModificado"] != null)
             {
-                if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento))
+                if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento) || int.TryParse(Session["IdEventoModificado"].ToString(), out idEvento))
                 {
                     listaVerificacion = Validaciones.ValidarFunciones(model);
-
                     if (model.esCorrecto)
                     {
-                        //calculamos las fecha de inicio y de fin del evento
-                        List<DateTime> fechas = ObtenerFechaInicioyFin(listaVerificacion);
-                        Eventos evento = db.Eventos.Find(idEvento);
-                        evento.fecha_inicio = fechas[0];
-                        evento.fecha_fin = fechas[1];
                         //si solo tiene una funcion, es un evento unico
+                        Eventos evento = db.Eventos.Find(idEvento);
                         evento.esUnico = model.ListaFunciones.Count == 1;
                         db.SaveChanges();
+                        if (Session["IdEventoModificado"] != null)
+                        {
+                            FiltrarFunciones(listaVerificacion, idEvento);
+                            return RedirectToAction("Tarifas");
+                        }
                         for (int i = 0; i < listaVerificacion.Count; i++)
                         {
                             Funcion funcion = new Funcion();
@@ -334,8 +429,9 @@ namespace WebApplication4.Controllers
                     return View();
                 }
             }
-            ViewBag.MensajeError = "No hay un proceso de registro de evento activo.";
-            return View();
+            TempData["tipo"] = "alert alert-warning";
+            TempData["message"] = "No hay evento en proceso de creación o modificación.";
+            return RedirectToAction("Index");
         }
         [HttpGet]
         public ActionResult Tarifas()
