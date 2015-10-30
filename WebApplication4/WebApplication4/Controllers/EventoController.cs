@@ -281,9 +281,10 @@ namespace WebApplication4.Controllers
                     PeriodoVenta agregarPV = new PeriodoVenta();
                     agregarPV.fechaFin = lista[i].fechaFin;
                     agregarPV.fechaInicio = lista[i].fechaInicio;
+                    agregarPV.codEvento = idEvento;
                     agregar.Add(agregarPV);
                 }
-                    
+
                 //si existe, no le tengo que hacer nada
                 existentes.Add(pventa);
             }
@@ -404,10 +405,24 @@ namespace WebApplication4.Controllers
             //Por cada bloque nuevo, verifico si tengo que agregarlo o si ya existe
             for (int i = 0; i < lista.Count; i++)
             {
-                Funcion funcion = funciones.Where(c => c.fecha == lista[i].fechaFuncion && c.horaIni == lista[i].horaInicio).First();
+                Funcion funcion = new Funcion();
+                try
+                {
+                    funcion = funciones.Where(c => ((DateTime)c.fecha).Date == lista[i].fechaFuncion.Date && TimeSpan.Compare(((DateTime)c.horaIni).TimeOfDay, lista[i].horaInicio.TimeOfDay) == 0).First();
+                }
+                catch (Exception ex)
+                {
+                    funcion = null;
+                }
+
                 //si no exite lo tengo que agregar
                 if (funcion == null)
-                    agregar.Add(funcion);
+                {
+                    Funcion fAgr = new Funcion();
+                    fAgr.fecha = lista[i].fechaFuncion;
+                    fAgr.horaIni = lista[i].horaInicio;
+                    agregar.Add(fAgr);
+                }
                 //si existe, no le tengo que hacer nada
                 existentes.Add(funcion);
             }
@@ -431,38 +446,39 @@ namespace WebApplication4.Controllers
         public ActionResult Funciones(FuncionesListModel model)
         {
             List<FuncionesModel> listaVerificacion = null;
-            int idEvento;
-            if (Session["IdEventoCreado"] != null && Session["IdEventoModificado"] != null)
+            int idEvento = 0;
+            if (Session["IdEventoCreado"] != null || Session["IdEventoModificado"] != null)
             {
-                if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento) || int.TryParse(Session["IdEventoModificado"].ToString(), out idEvento))
+                if (Session["IdEventoCreado"] != null)
+                    idEvento = int.Parse(Session["IdEventoCreado"].ToString());
+                if (Session["IdEventoModificado"] != null)
+                    idEvento = int.Parse(Session["IdEventoModificado"].ToString());
+                listaVerificacion = Validaciones.ValidarFunciones(model);
+                if (model.esCorrecto)
                 {
-                    listaVerificacion = Validaciones.ValidarFunciones(model);
-                    if (model.esCorrecto)
+                    //si solo tiene una funcion, es un evento unico
+                    Eventos evento = db.Eventos.Find(idEvento);
+                    evento.esUnico = model.ListaFunciones.Count == 1;
+                    db.SaveChanges();
+                    if (Session["IdEventoModificado"] != null)
                     {
-                        //si solo tiene una funcion, es un evento unico
-                        Eventos evento = db.Eventos.Find(idEvento);
-                        evento.esUnico = model.ListaFunciones.Count == 1;
-                        db.SaveChanges();
-                        if (Session["IdEventoModificado"] != null)
-                        {
-                            FiltrarFunciones(listaVerificacion, idEvento);
-                            return RedirectToAction("Tarifas");
-                        }
-                        for (int i = 0; i < listaVerificacion.Count; i++)
-                        {
-                            Funcion funcion = new Funcion();
-                            funcion.codEvento = idEvento;
-                            funcion.fecha = listaVerificacion[i].fechaFuncion;
-                            funcion.horaIni = listaVerificacion[i].horaInicio;
-                            db.Funcion.Add(funcion);
-                            db.SaveChanges();
-                        }
+                        FiltrarFunciones(listaVerificacion, idEvento);
                         return RedirectToAction("Tarifas");
                     }
-                    ViewBag.MensajeError = "Funciones Repetidas en el mismo dia";
-                    ViewBag.Resultados = listaVerificacion;
-                    return View();
+                    for (int i = 0; i < listaVerificacion.Count; i++)
+                    {
+                        Funcion funcion = new Funcion();
+                        funcion.codEvento = idEvento;
+                        funcion.fecha = listaVerificacion[i].fechaFuncion;
+                        funcion.horaIni = listaVerificacion[i].horaInicio;
+                        db.Funcion.Add(funcion);
+                        db.SaveChanges();
+                    }
+                    return RedirectToAction("Tarifas");
                 }
+                ViewBag.MensajeError = "Funciones Repetidas en el mismo dia";
+                ViewBag.Resultados = listaVerificacion;
+                return View();
             }
             TempData["tipo"] = "alert alert-warning";
             TempData["message"] = "No hay evento en proceso de creación o modificación.";
@@ -473,10 +489,14 @@ namespace WebApplication4.Controllers
         [HttpGet]
         public ActionResult Tarifas()
         {
-            int idEvento;
+            int idEvento = 0;
             //Si un evento se modifica, las tarifas se crean desde 0
-            if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento) || int.TryParse(Session["IdEventoModificado"].ToString(), out idEvento))
+            if (Session["IdEventoModificado"] != null || Session["IdEventoCreado"] != null)
             {
+                if (Session["IdEventoCreado"] != null)
+                    idEvento = int.Parse(Session["IdEventoCreado"].ToString());
+                if (Session["IdEventoModificado"] != null)
+                    idEvento = int.Parse(Session["IdEventoModificado"].ToString());
                 List<PeriodoVenta> listaPV = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
                 List<string> nombresPV = new List<string>();
                 foreach (PeriodoVenta p in listaPV)
@@ -496,8 +516,12 @@ namespace WebApplication4.Controllers
         public ActionResult Tarifas(ZonaEventoListModel model)
         {
             int idEvento = 0;
-            if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento) || int.TryParse(Session["IdEventoModificado"].ToString(), out idEvento))
+            if (Session["IdEventoModificado"] != null || Session["IdEventoCreado"] != null)
             {
+                if (Session["IdEventoCreado"] != null)
+                    idEvento = int.Parse(Session["IdEventoCreado"].ToString());
+                if (Session["IdEventoModificado"] != null)
+                    idEvento = int.Parse(Session["IdEventoModificado"].ToString());
                 List<PeriodoVenta> listaPV = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
                 List<ZonaEventoModel> list = model.ListaZEM;
                 foreach (ZonaEventoModel zona in list)
@@ -520,8 +544,8 @@ namespace WebApplication4.Controllers
                         db.PrecioEvento.Add(precioEvento);
                         db.SaveChanges();
                     }
+                    return RedirectToAction("ExtrasEvento");
                 }
-                return RedirectToAction("ExtrasEvento");
             }
             TempData["tipo"] = "alert alert-warning";
             TempData["message"] = "No hay evento en proceso de creación o modificación.";
@@ -560,26 +584,27 @@ namespace WebApplication4.Controllers
         {
             if (ModelState.IsValid)
             {
-                int idEvento;
-                if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento) || int.TryParse(Session["IdEventoModificado"].ToString(), out idEvento))
-                {
-                    var evento = db.Eventos.Find(idEvento);
-                    evento.porccomision = model.Ganancia;
-                    evento.ImagenDestacado = "/Images/destacado.png";
-                    evento.ImagenEvento = "/Images/destacado.png";
-                    evento.ImagenSitios = "/Images/destacado.png";
-                    evento.maxReservas = model.MaxReservas;
-                    evento.montoFijoVentaEntrada = model.MontFijoVentEnt;
-                    evento.penalidadXcancelacion = model.PenCancelacion;
-                    evento.penalidadXpostergacion = model.PenPostergacion;
-                    evento.tieneBoletoElectronico = model.PermitirBoletoElectronico;
-                    evento.permiteReserva = model.PermitirReservasWeb;
-                    evento.puntosAlCliente = model.PuntosToCliente;
-                    db.SaveChanges();
-                    Session["IdEventoModificado"] = null;
-                    Session["IdEventoCreado"] = null;
-                    return RedirectToAction("Index");
-                }
+                int idEvento = 0;
+                if (Session["IdEventoCreado"] != null)
+                    idEvento = int.Parse(Session["IdEventoCreado"].ToString());
+                if (Session["IdEventoModificado"] != null)
+                    idEvento = int.Parse(Session["IdEventoModificado"].ToString());
+                var evento = db.Eventos.Find(idEvento);
+                evento.porccomision = model.Ganancia;
+                evento.ImagenDestacado = "/Images/destacado.png";
+                evento.ImagenEvento = "/Images/destacado.png";
+                evento.ImagenSitios = "/Images/destacado.png";
+                evento.maxReservas = model.MaxReservas;
+                evento.montoFijoVentaEntrada = model.MontFijoVentEnt;
+                evento.penalidadXcancelacion = model.PenCancelacion;
+                evento.penalidadXpostergacion = model.PenPostergacion;
+                evento.tieneBoletoElectronico = model.PermitirBoletoElectronico;
+                evento.permiteReserva = model.PermitirReservasWeb;
+                evento.puntosAlCliente = model.PuntosToCliente;
+                db.SaveChanges();
+                Session["IdEventoModificado"] = null;
+                Session["IdEventoCreado"] = null;
+                return RedirectToAction("Index");
             }
             return View();
         }
