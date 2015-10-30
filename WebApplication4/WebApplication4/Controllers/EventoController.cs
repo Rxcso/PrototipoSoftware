@@ -76,7 +76,7 @@ namespace WebApplication4.Controllers
         {
             Eventos EventoUp = db.Eventos.Find(evento);
             //verifico que no haya empezado la venta aun
-            if (EventoUp.fecha_inicio >= DateTime.Today)
+            if (EventoUp.fecha_inicio <= DateTime.Today)
             {
                 TempData["tipo"] = "alert alert-warning";
                 TempData["message"] = "El evento ya empezó. No se puede modificar. En caso desee modificarlo consulte con un administrador.";
@@ -549,6 +549,8 @@ namespace WebApplication4.Controllers
                     evento.permiteReserva = model.PermitirReservasWeb;
                     evento.puntosAlCliente = model.PuntosToCliente;
                     db.SaveChanges();
+                    Session["IdEventoModificado"] = null;
+                    Session["IdEventoCreado"] = null;
                     return RedirectToAction("Index");
                 }
             }
