@@ -36,6 +36,7 @@ namespace WebApplication4.Models
         [Display(Name = "Provincia:")]
         public int idProv { get; set; }
 
+        [Required]
         [Display(Name = "Descripcion:")]
         [StringLength(200)]
         public string descripcion { get; set; }
