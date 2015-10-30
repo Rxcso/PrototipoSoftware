@@ -9,7 +9,7 @@ using System.Data.Entity;
 using System.Web.Script.Serialization;
 namespace WebApplication4.Controllers
 {
-    [Authorize]
+   
     public class EventoController : Controller
     {
         inf245netsoft db = new inf245netsoft();
@@ -764,15 +764,41 @@ namespace WebApplication4.Controllers
             return View();
         }
 
+
         /*
          *POSTERGAR EVENTO 
          * 
         */
         [HttpGet]
-        public ActionResult PostergarEvento()
+        public ActionResult PostergarEvento(string evento)
+        {
+            int id = int.Parse(evento);
+            Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();
+            ViewBag.nombreEvento = queryEvento.nombre;
+            int idOrganizador = (int)queryEvento.idOrganizador;
+            ViewBag.idEvento = evento;
+            ViewBag.organizadorEvento = db.Organizador.Where(c => c.codOrg == idOrganizador).First().nombOrg;
+
+            ViewBag.listaFunciones = db.Funcion.Where(c => c.codEvento == id).ToList();
+
+
+
+
+
+
+            return View();
+        }
+
+        /*
+         *CANCELAR EVENTO 
+         * 
+        */
+        [HttpGet]
+        public ActionResult CancelarEvento()
         {
             return View();
         }
+
 
 
     }
