@@ -50,13 +50,13 @@ namespace WebApplication4.Controllers
         [HttpPost]
         public ActionResult RegisterPromocion(PromocionModel model)
         {
-            
+            int ev = 0;
             Promociones promocion = new Promociones();
             Promociones promocionL = db.Promociones.ToList().Last();
             promocion.codPromo = promocionL.codPromo + 1;
             if (Session["idEvento"] != null)
             {
-                int ev =(int)Session["idEvento"];
+                ev =(int)Session["idEvento"];
                 if (ev == 0) return RedirectToAction("Index", "Evento");
                 promocion.codEvento = (int)Session["idEvento"];
             }
@@ -76,6 +76,7 @@ namespace WebApplication4.Controllers
                     promocion.descripcion = db.Banco.Find(model.codBanco).nombre + " " + db.TipoTarjeta.Find(model.codTipoTarjeta).nombre + " " + model.descuento + "%";
                     db.Promociones.Add(promocion);
                     db.SaveChanges();
+                    return Redirect("~/Promocion/Index?evento=" + ev);
                 }
                 return View("Index");
                 
@@ -92,6 +93,7 @@ namespace WebApplication4.Controllers
                     promocion.descripcion = model.cantAdq + "X" + model.cantComp;
                     db.Promociones.Add(promocion);
                     db.SaveChanges();
+                    return Redirect("~/Promocion/Index?evento=" + ev);
                 }
             }
             return View("Index");
