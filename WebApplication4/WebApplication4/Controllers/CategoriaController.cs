@@ -8,7 +8,7 @@ using WebApplication4.Models;
 
 namespace WebApplication4.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class CategoriaController : Controller
     {
         private inf245netsoft db = new inf245netsoft();
