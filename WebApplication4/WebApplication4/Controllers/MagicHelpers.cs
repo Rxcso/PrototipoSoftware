@@ -10,6 +10,8 @@ namespace WebApplication4.Controllers
         //Padre de todas las categorias
         public const  int Categorias = 1;
         //Identificador de un evento nuevo
-        public const string NuevoEvento = "/Doesnt/Exists/Yet";
+        public const string NuevoEventoImagen = "/Doesnt/Exists/Yet";
+        //crear evento
+        public const string NuevoEvento = "Nuevo Evento";
     }
 }

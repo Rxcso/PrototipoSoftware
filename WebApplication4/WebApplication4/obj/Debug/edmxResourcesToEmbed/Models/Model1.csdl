@@ -460,6 +460,7 @@
     <Property Name="puntosAlCliente" Type="Int32" />
     <Property Name="codZonaEvento" Type="Int32" />
     <NavigationProperty Name="ZonaEvento1" Relationship="inf245netsoftModel.fk_ZonaEvento" FromRole="Eventos" ToRole="ZonaEvento" />
+    <Property Name="idLocal" Type="Int32" />
   </EntityType>
   <Association Name="fk_EventoRegion">
     <End Type="inf245netsoftModel.Region" Role="Region" Multiplicity="0..1" />

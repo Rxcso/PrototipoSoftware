@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="inf245netsoftModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="inf245netsoftModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -156,6 +156,7 @@
           <Property Name="permiteReserva" Type="bit" />
           <Property Name="puntosAlCliente" Type="int" />
           <Property Name="codZonaEvento" Type="int" />
+          <Property Name="idLocal" Type="int" />
         </EntityType>
         <EntityType Name="EventosPrueba">
           <Key>
@@ -1542,6 +1543,7 @@
           <Property Name="puntosAlCliente" Type="Int32" />
           <Property Name="codZonaEvento" Type="Int32" />
           <NavigationProperty Name="ZonaEvento1" Relationship="inf245netsoftModel.fk_ZonaEvento" FromRole="Eventos" ToRole="ZonaEvento" />
+          <Property Name="idLocal" Type="Int32" />
         </EntityType>
         <Association Name="fk_EventoRegion">
           <End Type="inf245netsoftModel.Region" Role="Region" Multiplicity="0..1" />
@@ -2306,6 +2308,7 @@
           <EntitySetMapping Name="Eventos">
             <EntityTypeMapping TypeName="inf245netsoftModel.Eventos">
               <MappingFragment StoreEntitySet="Eventos">
+                <ScalarProperty Name="idLocal" ColumnName="idLocal" />
                 <ScalarProperty Name="codZonaEvento" ColumnName="codZonaEvento" />
                 <ScalarProperty Name="puntosAlCliente" ColumnName="puntosAlCliente" />
                 <ScalarProperty Name="permiteReserva" ColumnName="permiteReserva" />

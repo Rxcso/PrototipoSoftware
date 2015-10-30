@@ -22,8 +22,8 @@
     <div class="row">
         <div class="col-md-4 col-sm-12">
             <div class="form-group">
-                <a class="btn btn-primary" href="@Url.Action("DatosGenerales","Evento")">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
-                <a class="btn btn-primary" href="modificar_evento.html">Modificar <span class="glyphicon glyphicon-pencil"></span></a>
+                <a class="btn btn-primary" href="@Url.Action("DatosGenerales", "Evento")">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
+                <a class="btn btn-primary" onclick="modificaEvento()">Modificar <span class="glyphicon glyphicon-pencil"></span></a>
                 <a class="btn btn-primary" onclick="redirigeAsiento()">Asientos <span class="glyphicon glyphicon-equalizer"></span></a>
             </div>
         </div>
@@ -261,6 +261,15 @@
         var evento = $('#idEventoT').val();
         if (evento != "") {
             window.location.href = '/Evento/PostergarEvento?evento='+evento;
+        } else {
+            alert("Seleccione un evento");
+            evento = "";
+        }
+    }
+    function modificaEvento() {
+        var evento = $('#idEventoT').val();
+        if (evento != "") {
+            window.location.href = '/Evento/ModificarEvento?evento=' + evento;
         } else {
             alert("Seleccione un evento");
             evento = "";

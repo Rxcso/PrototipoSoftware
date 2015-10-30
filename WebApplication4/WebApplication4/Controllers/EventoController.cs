@@ -9,7 +9,7 @@ using System.Data.Entity;
 using System.Web.Script.Serialization;
 namespace WebApplication4.Controllers
 {
-
+    [Authorize]
     public class EventoController : Controller
     {
         inf245netsoft db = new inf245netsoft();
@@ -72,51 +72,135 @@ namespace WebApplication4.Controllers
         }
 
         [HttpGet]
+        public ActionResult ModificarEvento(int evento)
+        {
+            Eventos EventoUp = db.Eventos.Find(evento);
+            //verifico que no haya empezado la venta aun
+            if (EventoUp.fecha_inicio >= DateTime.Today)
+            {
+                TempData["tipo"] = "alert alert-warning";
+                TempData["message"] = "El evento ya empezó. No se puede modificar. En caso desee modificarlo consulte con un administrador.";
+                return RedirectToAction("Index");
+            }
+            //Carga de datos
+            List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
+            List<Region> listProv = new List<Region>();
+            List<Categoria> listaCat = db.Categoria.Where(c => c.idCatPadre == MagicHelpers.Categorias && c.activo == 1).ToList();
+            listaCat = listaCat.Where(c => c.activo == 1).ToList();
+            List<Categoria> listSubCat = new List<Categoria>();
+            DatosGeneralesModel model = new DatosGeneralesModel();
+            ViewBag.MensajeExtra = "Modificación de Evento";
+            //Buscamos el evento
+            Session["IdEventoModificado"] = EventoUp.codigo;
+            model.descripcion = EventoUp.descripcion;
+            model.Direccion = EventoUp.direccion;
+            model.idCategoria = (int)EventoUp.idCategoria;
+            model.idSubCat = (EventoUp.idSubcategoria == null) ? 0 : (int)EventoUp.idSubcategoria;
+            model.idOrganizador = (int)EventoUp.idOrganizador;
+            model.idRegion = (int)EventoUp.idRegion;
+            model.idProv = (EventoUp.idProvincia == null) ? 0 : (int)EventoUp.idProvincia;
+            model.Local = (EventoUp.idLocal == null) ? 0 : (int)EventoUp.idLocal;
+            model.nombre = EventoUp.nombre;
+            ViewBag.ProvID = new SelectList(listProv, "idProv", "nombre");
+            ViewBag.SubID = new SelectList(listSubCat, "idSubCat", "nombre");
+            ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre", model.idRegion);
+            ViewBag.CatID = new SelectList(listaCat, "idCategoria", "nombre", model.idCategoria);
+            ViewBag.NombreOrganizador = db.Organizador.Find(model.idOrganizador).nombOrg;
+            ViewBag.NombreLocal = "";
+            Local p = new Local();
+            try
+            {
+                p = db.Local.Find(model.Local);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.NombreLocal = p.ubicacion;
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult ModificarEvento(DatosGeneralesModel model)
+        {
+            int idEvento = 0;
+            if (ModelState.IsValid)
+            {
+                if (int.TryParse(Session["IdEventoModificado"].ToString(), out idEvento))
+                {
+                    Eventos modificado = db.Eventos.Find(idEvento);
+                    modificado.descripcion = model.descripcion;
+                    modificado.direccion = model.Direccion;
+                    modificado.idCategoria = model.idCategoria;
+                    modificado.idOrganizador = model.idOrganizador;
+                    modificado.idProvincia = model.idProv;
+                    modificado.idRegion = model.idRegion;
+                    modificado.idSubcategoria = model.idSubCat;
+                    modificado.idLocal = model.Local;
+                    modificado.nombre = model.nombre;
+                    modificado.fechaUltModificacion = DateTime.Today;
+                    db.SaveChanges();
+                    return RedirectToAction("BloquesTiempoVenta");
+                }
+            }
+            return View(model);
+        }
+
+        [HttpGet]
         public ActionResult DatosGenerales()
         {
             List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
             List<Region> listProv = new List<Region>();
-            ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
-            ViewBag.ProvID = new SelectList(listProv, "idProv", "nombre");
-            List<Categoria> listaCat = db.Categoria.Where(c => c.idCatPadre == MagicHelpers.Categorias).ToList();
+            List<Categoria> listaCat = db.Categoria.Where(c => c.idCatPadre == MagicHelpers.Categorias && c.activo == 1).ToList();
             listaCat = listaCat.Where(c => c.activo == 1).ToList();
             List<Categoria> listSubCat = new List<Categoria>();
-            ViewBag.CatID = new SelectList(listaCat, "idCategoria", "nombre");
+            DatosGeneralesModel model = new DatosGeneralesModel();
+            ViewBag.ProvID = new SelectList(listProv, "idProv", "nombre");
             ViewBag.SubID = new SelectList(listSubCat, "idSubCat", "nombre");
-            return View();
+            ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
+            ViewBag.CatID = new SelectList(listaCat, "idCategoria", "nombre");
+            ViewBag.MensajeExtra = "Nuevo Evento: Datos Generales";
+            return View(model);
         }
 
         [HttpPost]
         public ActionResult DatosGenerales(DatosGeneralesModel model)
         {
-            if (ModelState.IsValid)
+            Session["modelEvento"] = model;
+            if (Validaciones.VerificaEventoDG(model))
             {
-                Eventos evento = new Eventos();
-                evento.nombre = model.nombre;
-                evento.idOrganizador = model.idOrganizador;
-                evento.idCategoria = model.idCategoria;
-                evento.idSubcategoria = (model.idSubCat == 0) ? 0 : model.idSubCat;
-                evento.direccion = string.IsNullOrEmpty(model.Direccion) ? "" : model.Direccion;
-                evento.idRegion = (model.idRegion == 0) ? 0 : model.idRegion;
-                evento.idProvincia = (model.idProv == 0) ? 0 : model.idProv;
-                evento.descripcion = string.IsNullOrEmpty(model.descripcion) ? "" : model.descripcion;
-                evento.fechaRegistro = DateTime.Today;
-                evento.estado = "Activo";
-                evento.monto_adeudado = 0;
-                evento.monto_transferir = 0;
-                evento.ImagenDestacado = MagicHelpers.NuevoEvento;
-                db.Eventos.Add(evento);
-                db.SaveChanges();
-                int id = evento.codigo;
-                Session["IdEventoCreado"] = id;
-                return View("BloquesTiempoVenta");
+                if (ModelState.IsValid)
+                {
+                    Eventos evento = new Eventos();
+                    evento.nombre = model.nombre;
+                    evento.idOrganizador = model.idOrganizador;
+                    evento.idCategoria = model.idCategoria;
+                    evento.idSubcategoria = (model.idSubCat == 0) ? 0 : model.idSubCat;
+                    evento.idLocal = (model.Local == 0) ? 0 : model.Local;
+                    evento.direccion = string.IsNullOrEmpty(model.Direccion) ? "" : model.Direccion;
+                    evento.idRegion = (model.idRegion == 0) ? 0 : model.idRegion;
+                    evento.idProvincia = (model.idProv == 0) ? 0 : model.idProv;
+                    evento.descripcion = string.IsNullOrEmpty(model.descripcion) ? "" : model.descripcion;
+                    evento.fechaRegistro = DateTime.Today;
+                    evento.estado = "Activo";
+                    evento.monto_adeudado = 0;
+                    evento.monto_transferir = 0;
+                    evento.ImagenDestacado = MagicHelpers.NuevoEvento;
+                    db.Eventos.Add(evento);
+                    db.SaveChanges();
+                    int id = evento.codigo;
+                    Session["IdEventoCreado"] = id;
+                    return RedirectToAction("BloquesTiempoVenta");
 
+                }
             }
+            ViewBag.MensajeExtra = "Valores de organizador y local guardados, puede cambiarlos si desea.";
+            ModelState.AddModelError("idLocal", "Se necesita un local o una direccion para el evento");
+            ModelState.AddModelError("Direccion", "Se necesita un local o una direccion para el evento");
             List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
             List<Region> listProv = new List<Region>();
             ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
             ViewBag.ProvID = new SelectList(listProv, "idProv", "nombre");
-            List<Categoria> listaCat = db.Categoria.Where(c => c.idCatPadre == MagicHelpers.Categorias).ToList();
+            List<Categoria> listaCat = db.Categoria.Where(c => c.idCatPadre == MagicHelpers.Categorias && c.activo == 1).ToList();
             listaCat = listaCat.Where(c => c.activo == 1).ToList();
             List<Categoria> listSubCat = new List<Categoria>();
             ViewBag.CatID = new SelectList(listaCat, "idCategoria", "nombre");
@@ -126,19 +210,112 @@ namespace WebApplication4.Controllers
 
         public ActionResult BloquesTiempoVenta()
         {
-            return View();
+            List<BloqueDeTiempoModel> listaResultado = new List<BloqueDeTiempoModel>();
+            //IdEventoCreado
+            if (Session["IdEventoModificado"] != null)
+            {
+                int idEvento = int.Parse(Session["IdEventoModificado"].ToString());
+                BloqueTiempoListModel model = new BloqueTiempoListModel();
+                model.esCorrecto = true;
+                List<PeriodoVenta> listaPer = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
+                listaResultado = new List<BloqueDeTiempoModel>();
+                foreach (PeriodoVenta pventa in listaPer)
+                {
+                    BloqueDeTiempoModel bloque = new BloqueDeTiempoModel();
+                    bloque.fechaFin = (DateTime)pventa.fechaFin;
+                    bloque.fechaInicio = (DateTime)pventa.fechaInicio;
+                    listaResultado.Add(bloque);
+                }
+                ViewBag.Resultados = listaResultado;
+                return View();
+            }
+            else
+            {
+                //Verifico si hay un evento creado en progeso
+                if (Session["IdEventoCreado"] != null) return View();
+            }
+            TempData["tipo"] = "alert alert-warning";
+            TempData["message"] = "No hay evento en proceso de creación o modificación";
+            return RedirectToAction("Index");
         }
 
+        private void FiltraBloques(List<BloqueDeTiempoModel> lista, int idEvento)
+        {
+            //agregar nuevos bloques de venta
+            List<PeriodoVenta> agregar = new List<PeriodoVenta>();
+            //no agregar los ya existentes
+            List<PeriodoVenta> existentes = new List<PeriodoVenta>();
+            //busco todos los periodos de venta del evento
+            List<PeriodoVenta> periodo = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
+            //Por cada bloque nuevo, verifico si tengo que agregarlo o si ya existe
+            for (int i = 0; i < lista.Count; i++)
+            {
+                PeriodoVenta pventa = periodo.Where(c => c.fechaInicio == lista[i].fechaInicio && c.fechaFin == lista[i].fechaFin).First();
+                //si no exite lo tengo que agregar
+                if (pventa == null)
+                    agregar.Add(pventa);
+                //si existe, no le tengo que hacer nada
+                existentes.Add(pventa);
+            }
+            for (int i = 0; i < agregar.Count; i++)
+            {
+                //los agrego a la base de datos
+                db.PeriodoVenta.Add(agregar[i]);
+                db.SaveChanges();
+            }
+            //remuevo los que ya existen
+            for (int i = 0; i < existentes.Count; i++)
+                periodo.Remove(existentes[i]);
+            //Al final me quedan los que debo eliminar
+            for (int i = 0; i < periodo.Count; i++)
+            {
+                //busco las tarfias asociadas al bloque de venta
+                List<PrecioEvento> tarifas = db.PrecioEvento.Where(c => c.codPeriodoVenta == periodo[i].idPerVent).ToList();
+                //elimino cada una de las tarifas
+                for (int j = 0; j < tarifas.Count; j++)
+                {
+                    db.PrecioEvento.Remove(tarifas[j]);
+                    db.SaveChanges();
+                }
+                //elimino el bloque
+                db.PeriodoVenta.Remove(periodo[i]);
+                db.SaveChanges();
+            }
+        }
+        private void ObtenerFechaInicioyFin(List<BloqueDeTiempoModel> bloques, int idEvento)
+        {
+            List<DateTime> inicio = new List<DateTime>();
+            List<DateTime> fin = new List<DateTime>();
+            foreach (BloqueDeTiempoModel bloque in bloques)
+            {
+                inicio.Add(bloque.fechaInicio);
+                fin.Add(bloque.fechaFin);
+            }
+            inicio.Sort((a, b) => a.CompareTo(b));
+            fin.Select((a, b) => b.CompareTo(a));
+            DateTime fechaInicio = inicio.First();
+            DateTime fechaFin = inicio.First();
+            Eventos evento = db.Eventos.Find(idEvento);
+            evento.fecha_inicio = fechaInicio;
+            evento.fecha_fin = fechaFin;
+            db.SaveChanges();
+        }
         [HttpPost]
         public ActionResult BloquesTiempoVenta(BloqueTiempoListModel model)
         {
             int idEvento;
             List<BloqueDeTiempoModel> listaVerificacion = null;
-            if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento))
+            if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento) || int.TryParse(Session["IdEventoModificado"].ToString(), out idEvento))
             {
                 listaVerificacion = Validaciones.ValidarBloquesDeTiempoDeVenta(model);
                 if (model.esCorrecto)
                 {
+                    ObtenerFechaInicioyFin(listaVerificacion, idEvento);
+                    if (Session["IdEventoModificado"] != null)
+                    {
+                        FiltraBloques(listaVerificacion, idEvento);
+                        return RedirectToAction("Funciones");
+                    }
                     for (int i = 0; i < listaVerificacion.Count; i++)
                     {
                         PeriodoVenta periodoVenta = new PeriodoVenta();
@@ -150,29 +327,92 @@ namespace WebApplication4.Controllers
                     }
                     return RedirectToAction("Funciones");
                 }
+                ViewBag.Resultados = listaVerificacion;
+                return View();
             }
-            ViewBag.Resultados = listaVerificacion;
-            return View();
+            TempData["tipo"] = "alert alert-warning";
+            TempData["message"] = "No hay evento en proceso de creación o modificación.";
+            return RedirectToAction("Index");
         }
 
         public ActionResult Funciones()
         {
             ViewBag.MensajeError = "";
+            List<FuncionesModel> listaVerificacion = new List<FuncionesModel>();
+            if (Session["IdEventoModificado"] != null)
+            {
+                int idEvento = int.Parse(Session["IdEventoModificado"].ToString());
+                //busco todos las funciones del evento
+                List<Funcion> funciones = db.Funcion.Where(c => c.codEvento == idEvento).ToList();
+                //preparo mi model
+                List<FuncionesModel> funcionesModel = new List<FuncionesModel>();
+                foreach (Funcion func in funciones)
+                {
+                    FuncionesModel model = new FuncionesModel();
+                    model.fechaFuncion = (DateTime)func.fecha;
+                    model.horaInicio = (DateTime)func.horaIni;
+                    funcionesModel.Add(model);
+                }
+                ViewBag.Resultados = funcionesModel;
+            }
             return View();
         }
 
+        private void FiltrarFunciones(List<FuncionesModel> lista, int idEvento)
+        {
+            //agregar nuevas funciones
+            List<Funcion> agregar = new List<Funcion>();
+            //no agregar los ya existentes
+            List<Funcion> existentes = new List<Funcion>();
+            //busco todas las funciones del evento
+            List<Funcion> funciones = db.Funcion.Where(c => c.codEvento == idEvento).ToList();
+            //Por cada bloque nuevo, verifico si tengo que agregarlo o si ya existe
+            for (int i = 0; i < lista.Count; i++)
+            {
+                Funcion funcion = funciones.Where(c => c.fecha == lista[i].fechaFuncion && c.horaIni == lista[i].horaInicio).First();
+                //si no exite lo tengo que agregar
+                if (funcion == null)
+                    agregar.Add(funcion);
+                //si existe, no le tengo que hacer nada
+                existentes.Add(funcion);
+            }
+            for (int i = 0; i < agregar.Count; i++)
+            {
+                //los agrego a la base de datos
+                db.Funcion.Add(agregar[i]);
+                db.SaveChanges();
+            }
+            //remuevo los que ya existen
+            for (int i = 0; i < existentes.Count; i++)
+                funciones.Remove(existentes[i]);
+            //Al final me quedan los que debo eliminar
+            for (int i = 0; i < funciones.Count; i++)
+            {
+                db.Funcion.Remove(funciones[i]);
+                db.SaveChanges();
+            }
+        }
         [HttpPost]
         public ActionResult Funciones(FuncionesListModel model)
         {
             List<FuncionesModel> listaVerificacion = null;
             int idEvento;
-            if (Session["IdEventoCreado"] != null)
+            if (Session["IdEventoCreado"] != null && Session["IdEventoModificado"] != null)
             {
-                if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento))
+                if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento) || int.TryParse(Session["IdEventoModificado"].ToString(), out idEvento))
                 {
                     listaVerificacion = Validaciones.ValidarFunciones(model);
                     if (model.esCorrecto)
                     {
+                        //si solo tiene una funcion, es un evento unico
+                        Eventos evento = db.Eventos.Find(idEvento);
+                        evento.esUnico = model.ListaFunciones.Count == 1;
+                        db.SaveChanges();
+                        if (Session["IdEventoModificado"] != null)
+                        {
+                            FiltrarFunciones(listaVerificacion, idEvento);
+                            return RedirectToAction("Tarifas");
+                        }
                         for (int i = 0; i < listaVerificacion.Count; i++)
                         {
                             Funcion funcion = new Funcion();
@@ -189,8 +429,9 @@ namespace WebApplication4.Controllers
                     return View();
                 }
             }
-            ViewBag.MensajeError = "No hay un proceso de registro de evento activo.";
-            return View();
+            TempData["tipo"] = "alert alert-warning";
+            TempData["message"] = "No hay evento en proceso de creación o modificación.";
+            return RedirectToAction("Index");
         }
         [HttpGet]
         public ActionResult Tarifas()
@@ -289,10 +530,10 @@ namespace WebApplication4.Controllers
 
             foreach (ZonaEvento zona in ViewBag.listaZonas)
             {
-                List<Asientos> listaAsientos = db.Asientos.Where(xx =>xx.codZona == zona.codZona).ToList();
+                List<Asientos> listaAsientos = db.Asientos.Where(xx => xx.codZona == zona.codZona).ToList();
 
-                var posF = new int[ listaAsientos.Count ];
-                var posC = new int[ listaAsientos.Count ];
+                var posF = new int[listaAsientos.Count];
+                var posC = new int[listaAsientos.Count];
                 int cnt = 0;
                 foreach (var asiento in listaAsientos)
                 {
@@ -301,19 +542,20 @@ namespace WebApplication4.Controllers
                     cnt++;
                 }
 
-                
-                var actZona = new {
-                    filas =  (int)zona.cantFilas,
+
+                var actZona = new
+                {
+                    filas = (int)zona.cantFilas,
                     columnas = (int)zona.cantColumnas,
-                    posFila= posF,
-                    posColumna= posC,
-                    tieneAsientos= zona.tieneAsientos,
+                    posFila = posF,
+                    posColumna = posC,
+                    tieneAsientos = zona.tieneAsientos,
                     index = zona.codZona,
                 };
 
                 myObject.Add(actZona);
             }
-            
+
             ViewBag.myObject = serializer.Serialize(myObject);
 
             return View();
@@ -348,7 +590,7 @@ namespace WebApplication4.Controllers
         {
 
             ZonaEvento zonaE = db.ZonaEvento.Where(c => c.codZona == zona.idZona).First();
-            
+
             Asientos(zona.idZona);
 
             db.Entry(zonaE).State = EntityState.Modified;
@@ -431,11 +673,11 @@ namespace WebApplication4.Controllers
             return View(model);
         }
 
+        [AllowAnonymous]
         public ActionResult BusquedaPaging(int? page)
         {
             return View();
         }
-
 
         [AllowAnonymous]
         // [RequireRequestValue(new[] { "fech_ini", "fech_fin", "idCategoria", "idSubCat", "idRegion", "idProv" })]
@@ -450,23 +692,15 @@ namespace WebApplication4.Controllers
             if (!nombre.Equals(""))
             {
                 lista = lista.Where(c => c.nombre.Contains(nombre) == true);
-
-
             }
-
-
 
             if (fech_ini.HasValue)
             {
-
                 lista = lista.Where(c => c.fecha_inicio >= fech_ini);
-
             }
 
             if (fech_fin.HasValue)
             {
-
-
                 lista = lista.Where(c => c.fecha_inicio <= fech_fin);
             }
 
@@ -486,14 +720,11 @@ namespace WebApplication4.Controllers
 
                 lista = lista.Where(c => c.idRegion == idRegion);
             }
+
             if (idProv.HasValue)
             {
                 lista = lista.Where(c => c.idProvincia == idProv);
             }
-
-
-
-
 
             ViewBag.Lista = lista.ToList();
 
@@ -507,9 +738,6 @@ namespace WebApplication4.Controllers
                 ViewBag.Lista = db.Eventos.AsNoTracking().Where(c => (c.fecha_inicio >= fech_ini && c.fecha_inicio <= fech_fin &&
                   c.idCategoria == idCategoria && c.idRegion == idRegion && c.idProvincia == idProv && c.estado.Contains("Activo"))).ToList();
             }
-
-
-
             var categorias = db.Categoria.AsNoTracking().Where(c => c.nivel == 1);
             ViewBag.categorias = new SelectList(categorias, "idCategoria", "nombre");
             var departamentos = db.Region.AsNoTracking().Where(c => c.idRegPadre == null);
@@ -523,7 +751,6 @@ namespace WebApplication4.Controllers
             return View();
         }
 
-
         [AllowAnonymous]
         public ActionResult Subcategorias()
         {
@@ -531,27 +758,19 @@ namespace WebApplication4.Controllers
 
         }
 
-
         [AllowAnonymous]
         public ActionResult Distritos()
         {
             return View();
         }
 
-
-
-
-
-
-
-
-
         /*
          *POSTERGAR EVENTO 
          * 
         */
         [HttpGet]
-        public ActionResult PostergarEvento(){
+        public ActionResult PostergarEvento()
+        {
             return View();
         }
 

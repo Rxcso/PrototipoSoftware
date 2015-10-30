@@ -40,7 +40,7 @@ namespace WebApplication4.Controllers
             return listaVer;
         }
 
-        internal static List<FuncionesModel> ValidarFunciones(FuncionesListModel model)
+        public static List<FuncionesModel> ValidarFunciones(FuncionesListModel model)
         {
             List<FuncionesModel> listaVer = model.ListaFunciones;
             bool esCorrecto = true;
@@ -68,6 +68,11 @@ namespace WebApplication4.Controllers
             }
             model.esCorrecto = esCorrecto;
             return listaVer;
+        }
+
+        public static bool VerificaEventoDG(DatosGeneralesModel model)
+        {
+            return (model.Local == 0) ^ (model.Direccion == null);
         }
     }
 
