@@ -17,6 +17,13 @@ namespace WebApplication4.Controllers
         // GET: Evento
         public ActionResult Index(string nombre, string orden, DateTime? fech_ini, DateTime? fech_fin, int? idCategoria, int? idSubCat, int? idRegion, int? page)
         {
+            ViewBag.nombre = nombre;
+            ViewBag.fech_ini = fech_ini;
+            ViewBag.fech_fin = fech_fin;
+            ViewBag.idCategoria = idCategoria;
+            ViewBag.idSubCat = idSubCat;
+
+
             var lista = from obj in db.Eventos
                         select obj;
 
@@ -729,50 +736,62 @@ namespace WebApplication4.Controllers
         //  [RequireRequestValue(new[] { "nombre"})]
         public ActionResult Busqueda(DateTime? fech_ini, DateTime? fech_fin, int? idCategoria, int? idSubCat, int? idRegion, int? idProv, string nombre = "")
         {
-
+            /*
             var lista = from obj in db.Eventos
                         where (obj.estado.Contains("Activo") == true)
                         select obj;
 
+
+            */
+            var arreglo = from obj in db.Eventos
+                          select obj;
+
+
+            List<Eventos> lista = arreglo.ToList();
+            lista = lista.Where(c => c.estado.Equals("Activo") == true).ToList();
+
+
+
             if (!nombre.Equals(""))
             {
-                lista = lista.Where(c => c.nombre.Contains(nombre) == true);
+                lista = lista.Where(c => c.nombre.Contains(nombre) == true).ToList();
             }
 
             if (fech_ini.HasValue)
             {
-                lista = lista.Where(c => c.fecha_inicio >= fech_ini);
+                lista = lista.Where(c => c.fecha_inicio >= fech_ini).ToList();
             }
 
             if (fech_fin.HasValue)
             {
-                lista = lista.Where(c => c.fecha_inicio <= fech_fin);
+                lista = lista.Where(c => c.fecha_inicio <= fech_fin).ToList();
             }
 
             if (idCategoria.HasValue)
             {
 
-                lista = lista.Where(c => c.idCategoria == idCategoria);
+                lista = lista.Where(c => c.idCategoria == idCategoria).ToList();
             }
 
             if (idSubCat.HasValue)
             {
-                lista = lista.Where(c => c.idSubcategoria == idSubCat);
+                lista = lista.Where(c => c.idSubcategoria == idSubCat).ToList();
             }
 
             if (idRegion.HasValue)
             {
 
-                lista = lista.Where(c => c.idRegion == idRegion);
+                lista = lista.Where(c => c.idRegion == idRegion).ToList();
             }
 
             if (idProv.HasValue)
             {
-                lista = lista.Where(c => c.idProvincia == idProv);
+                lista = lista.Where(c => c.idProvincia == idProv).ToList();
             }
 
-            ViewBag.Lista = lista.ToList();
 
+            ViewBag.Lista = lista;
+            /*
             if (!nombre.Equals(""))
             {
                 ViewBag.Lista = db.Eventos.AsNoTracking().Where(c => (c.fecha_inicio >= fech_ini && c.fecha_inicio <= fech_fin &&
@@ -783,6 +802,8 @@ namespace WebApplication4.Controllers
                 ViewBag.Lista = db.Eventos.AsNoTracking().Where(c => (c.fecha_inicio >= fech_ini && c.fecha_inicio <= fech_fin &&
                   c.idCategoria == idCategoria && c.idRegion == idRegion && c.idProvincia == idProv && c.estado.Contains("Activo"))).ToList();
             }
+            */
+
             var categorias = db.Categoria.AsNoTracking().Where(c => c.nivel == 1);
             ViewBag.categorias = new SelectList(categorias, "idCategoria", "nombre");
             var departamentos = db.Region.AsNoTracking().Where(c => c.idRegPadre == null);
@@ -794,6 +815,7 @@ namespace WebApplication4.Controllers
             ViewBag.subcategorias = new SelectList(listSubCat, "idSubcat", "nombre");
 
             return View();
+            
         }
 
         [AllowAnonymous]

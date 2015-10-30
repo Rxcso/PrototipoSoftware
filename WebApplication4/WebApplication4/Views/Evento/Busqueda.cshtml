@@ -12,10 +12,13 @@
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
 }
 
+<script src="~/Scripts/jquery-2.1.4.min.js"></script>
 
+<!--
+   
+<script src="~/Scripts/jquery-1.10.2.min.js"></script> 
 
-
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+-->
 
 
 <div id="busqNombre" class="container-fluid">
@@ -214,7 +217,7 @@
 
     }
 
-    Html.RenderPartial("BusquedaPaging", lista.ToPagedList(indexPagina, 2));
+    Html.RenderPartial("BusquedaPaging", lista.ToPagedList(indexPagina, 5));
 
 
 }
