@@ -174,7 +174,7 @@ namespace WebApplication4.Controllers
         {
             if (Validaciones.VerificaEventoDG(model))
             {
-                if (ModelState.IsValid)
+                if (ModelState.IsValid && model.idOrganizador != 0)
                 {
                     Eventos evento = new Eventos();
                     evento.nombre = model.nombre;
@@ -199,7 +199,7 @@ namespace WebApplication4.Controllers
 
                 }
             }
-            if (model.idOrganizador == 0 && model.Local == 0)
+            if (model.idOrganizador == 0 && ((model.Local == 0) ^ (model.Direccion == null)))
                 ViewBag.MensajeExtra = "Ingrese valores de organizador y local.";
             else
             {
@@ -265,10 +265,26 @@ namespace WebApplication4.Controllers
             //Por cada bloque nuevo, verifico si tengo que agregarlo o si ya existe
             for (int i = 0; i < lista.Count; i++)
             {
-                PeriodoVenta pventa = periodo.Where(c => c.fechaInicio == lista[i].fechaInicio && c.fechaFin == lista[i].fechaFin).First();
+                PeriodoVenta pventa = new PeriodoVenta();
+                try
+                {
+                    pventa = periodo.Where(c => c.fechaInicio == lista[i].fechaInicio && c.fechaFin == lista[i].fechaFin).First();
+                }
+                catch (Exception ex)
+                {
+                    pventa = null;
+                }
+
                 //si no exite lo tengo que agregar
                 if (pventa == null)
-                    agregar.Add(pventa);
+                {
+                    PeriodoVenta agregarPV = new PeriodoVenta();
+                    agregarPV.fechaFin = lista[i].fechaFin;
+                    agregarPV.fechaInicio = lista[i].fechaInicio;
+                    agregarPV.codEvento = idEvento;
+                    agregar.Add(agregarPV);
+                }
+
                 //si existe, no le tengo que hacer nada
                 existentes.Add(pventa);
             }
@@ -285,7 +301,8 @@ namespace WebApplication4.Controllers
             for (int i = 0; i < periodo.Count; i++)
             {
                 //busco las tarfias asociadas al bloque de venta
-                List<PrecioEvento> tarifas = db.PrecioEvento.Where(c => c.codPeriodoVenta == periodo[i].idPerVent).ToList();
+                int idPeriodo = periodo[i].idPerVent;
+                List<PrecioEvento> tarifas = db.PrecioEvento.Where(c => c.codPeriodoVenta == idPeriodo).ToList();
                 //elimino cada una de las tarifas
                 for (int j = 0; j < tarifas.Count; j++)
                 {
@@ -309,7 +326,7 @@ namespace WebApplication4.Controllers
             inicio.Sort((a, b) => a.CompareTo(b));
             fin.Select((a, b) => b.CompareTo(a));
             DateTime fechaInicio = inicio.First();
-            DateTime fechaFin = inicio.First();
+            DateTime fechaFin = fin.First();
             Eventos evento = db.Eventos.Find(idEvento);
             evento.fecha_inicio = fechaInicio;
             evento.fecha_fin = fechaFin;
@@ -318,10 +335,14 @@ namespace WebApplication4.Controllers
         [HttpPost]
         public ActionResult BloquesTiempoVenta(BloqueTiempoListModel model)
         {
-            int idEvento;
+            int idEvento = 0;
             List<BloqueDeTiempoModel> listaVerificacion = null;
-            if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento) || int.TryParse(Session["IdEventoModificado"].ToString(), out idEvento))
+            if (Session["IdEventoCreado"] == null || Session["IdEventoModificado"] == null)
             {
+                if (Session["IdEventoCreado"] != null)
+                    idEvento = int.Parse(Session["IdEventoCreado"].ToString());
+                if (Session["IdEventoModificado"] != null)
+                    idEvento = int.Parse(Session["IdEventoModificado"].ToString());
                 listaVerificacion = Validaciones.ValidarBloquesDeTiempoDeVenta(model);
                 if (model.esCorrecto)
                 {
@@ -384,10 +405,24 @@ namespace WebApplication4.Controllers
             //Por cada bloque nuevo, verifico si tengo que agregarlo o si ya existe
             for (int i = 0; i < lista.Count; i++)
             {
-                Funcion funcion = funciones.Where(c => c.fecha == lista[i].fechaFuncion && c.horaIni == lista[i].horaInicio).First();
+                Funcion funcion = new Funcion();
+                try
+                {
+                    funcion = funciones.Where(c => ((DateTime)c.fecha).Date == lista[i].fechaFuncion.Date && TimeSpan.Compare(((DateTime)c.horaIni).TimeOfDay, lista[i].horaInicio.TimeOfDay) == 0).First();
+                }
+                catch (Exception ex)
+                {
+                    funcion = null;
+                }
+
                 //si no exite lo tengo que agregar
                 if (funcion == null)
-                    agregar.Add(funcion);
+                {
+                    Funcion fAgr = new Funcion();
+                    fAgr.fecha = lista[i].fechaFuncion;
+                    fAgr.horaIni = lista[i].horaInicio;
+                    agregar.Add(fAgr);
+                }
                 //si existe, no le tengo que hacer nada
                 existentes.Add(funcion);
             }
@@ -411,38 +446,39 @@ namespace WebApplication4.Controllers
         public ActionResult Funciones(FuncionesListModel model)
         {
             List<FuncionesModel> listaVerificacion = null;
-            int idEvento;
-            if (Session["IdEventoCreado"] != null && Session["IdEventoModificado"] != null)
+            int idEvento = 0;
+            if (Session["IdEventoCreado"] != null || Session["IdEventoModificado"] != null)
             {
-                if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento) || int.TryParse(Session["IdEventoModificado"].ToString(), out idEvento))
+                if (Session["IdEventoCreado"] != null)
+                    idEvento = int.Parse(Session["IdEventoCreado"].ToString());
+                if (Session["IdEventoModificado"] != null)
+                    idEvento = int.Parse(Session["IdEventoModificado"].ToString());
+                listaVerificacion = Validaciones.ValidarFunciones(model);
+                if (model.esCorrecto)
                 {
-                    listaVerificacion = Validaciones.ValidarFunciones(model);
-                    if (model.esCorrecto)
+                    //si solo tiene una funcion, es un evento unico
+                    Eventos evento = db.Eventos.Find(idEvento);
+                    evento.esUnico = model.ListaFunciones.Count == 1;
+                    db.SaveChanges();
+                    if (Session["IdEventoModificado"] != null)
                     {
-                        //si solo tiene una funcion, es un evento unico
-                        Eventos evento = db.Eventos.Find(idEvento);
-                        evento.esUnico = model.ListaFunciones.Count == 1;
-                        db.SaveChanges();
-                        if (Session["IdEventoModificado"] != null)
-                        {
-                            FiltrarFunciones(listaVerificacion, idEvento);
-                            return RedirectToAction("Tarifas");
-                        }
-                        for (int i = 0; i < listaVerificacion.Count; i++)
-                        {
-                            Funcion funcion = new Funcion();
-                            funcion.codEvento = idEvento;
-                            funcion.fecha = listaVerificacion[i].fechaFuncion;
-                            funcion.horaIni = listaVerificacion[i].horaInicio;
-                            db.Funcion.Add(funcion);
-                            db.SaveChanges();
-                        }
+                        FiltrarFunciones(listaVerificacion, idEvento);
                         return RedirectToAction("Tarifas");
                     }
-                    ViewBag.MensajeError = "Funciones Repetidas en el mismo dia";
-                    ViewBag.Resultados = listaVerificacion;
-                    return View();
+                    for (int i = 0; i < listaVerificacion.Count; i++)
+                    {
+                        Funcion funcion = new Funcion();
+                        funcion.codEvento = idEvento;
+                        funcion.fecha = listaVerificacion[i].fechaFuncion;
+                        funcion.horaIni = listaVerificacion[i].horaInicio;
+                        db.Funcion.Add(funcion);
+                        db.SaveChanges();
+                    }
+                    return RedirectToAction("Tarifas");
                 }
+                ViewBag.MensajeError = "Funciones Repetidas en el mismo dia";
+                ViewBag.Resultados = listaVerificacion;
+                return View();
             }
             TempData["tipo"] = "alert alert-warning";
             TempData["message"] = "No hay evento en proceso de creación o modificación.";
@@ -453,10 +489,14 @@ namespace WebApplication4.Controllers
         [HttpGet]
         public ActionResult Tarifas()
         {
-            int idEvento;
+            int idEvento = 0;
             //Si un evento se modifica, las tarifas se crean desde 0
-            if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento) || int.TryParse(Session["IdEventoModificado"].ToString(), out idEvento))
+            if (Session["IdEventoModificado"] != null || Session["IdEventoCreado"] != null)
             {
+                if (Session["IdEventoCreado"] != null)
+                    idEvento = int.Parse(Session["IdEventoCreado"].ToString());
+                if (Session["IdEventoModificado"] != null)
+                    idEvento = int.Parse(Session["IdEventoModificado"].ToString());
                 List<PeriodoVenta> listaPV = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
                 List<string> nombresPV = new List<string>();
                 foreach (PeriodoVenta p in listaPV)
@@ -476,8 +516,12 @@ namespace WebApplication4.Controllers
         public ActionResult Tarifas(ZonaEventoListModel model)
         {
             int idEvento = 0;
-            if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento) || int.TryParse(Session["IdEventoModificado"].ToString(), out idEvento))
+            if (Session["IdEventoModificado"] != null || Session["IdEventoCreado"] != null)
             {
+                if (Session["IdEventoCreado"] != null)
+                    idEvento = int.Parse(Session["IdEventoCreado"].ToString());
+                if (Session["IdEventoModificado"] != null)
+                    idEvento = int.Parse(Session["IdEventoModificado"].ToString());
                 List<PeriodoVenta> listaPV = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
                 List<ZonaEventoModel> list = model.ListaZEM;
                 foreach (ZonaEventoModel zona in list)
@@ -500,8 +544,8 @@ namespace WebApplication4.Controllers
                         db.PrecioEvento.Add(precioEvento);
                         db.SaveChanges();
                     }
+                    return RedirectToAction("ExtrasEvento");
                 }
-                return RedirectToAction("ExtrasEvento");
             }
             TempData["tipo"] = "alert alert-warning";
             TempData["message"] = "No hay evento en proceso de creación o modificación.";
@@ -540,27 +584,35 @@ namespace WebApplication4.Controllers
         {
             if (ModelState.IsValid)
             {
-                int idEvento;
-                if (int.TryParse(Session["IdEventoCreado"].ToString(), out idEvento) || int.TryParse(Session["IdEventoModificado"].ToString(), out idEvento))
-                {
-                    var evento = db.Eventos.Find(idEvento);
-                    evento.porccomision = model.Ganancia;
-                    evento.ImagenDestacado = "/Images/destacado.png";
-                    evento.ImagenEvento = "/Images/destacado.png";
-                    evento.ImagenSitios = "/Images/destacado.png";
-                    evento.maxReservas = model.MaxReservas;
-                    evento.montoFijoVentaEntrada = model.MontFijoVentEnt;
-                    evento.penalidadXcancelacion = model.PenCancelacion;
-                    evento.penalidadXpostergacion = model.PenPostergacion;
-                    evento.tieneBoletoElectronico = model.PermitirBoletoElectronico;
-                    evento.permiteReserva = model.PermitirReservasWeb;
-                    evento.puntosAlCliente = model.PuntosToCliente;
-                    db.SaveChanges();
-                    Session["IdEventoModificado"] = null;
-                    Session["IdEventoCreado"] = null;
-                    return RedirectToAction("Index");
-                }
+                int idEvento = 0;
+                if (Session["IdEventoCreado"] != null)
+                    idEvento = int.Parse(Session["IdEventoCreado"].ToString());
+                if (Session["IdEventoModificado"] != null)
+                    idEvento = int.Parse(Session["IdEventoModificado"].ToString());
+                var evento = db.Eventos.Find(idEvento);
+                evento.porccomision = model.Ganancia;
+                evento.ImagenDestacado = "/Images/destacado.png";
+                evento.ImagenEvento = "/Images/destacado.png";
+                evento.ImagenSitios = "/Images/destacado.png";
+                evento.maxReservas = model.MaxReservas;
+                evento.montoFijoVentaEntrada = model.MontFijoVentEnt;
+                evento.penalidadXcancelacion = model.PenCancelacion;
+                evento.penalidadXpostergacion = model.PenPostergacion;
+                evento.tieneBoletoElectronico = model.PermitirBoletoElectronico;
+                evento.permiteReserva = model.PermitirReservasWeb;
+                evento.puntosAlCliente = model.PuntosToCliente;
+                db.SaveChanges();
+                TempData["tipo"] = "alert alert-success";
+                if (Session["IdEventoCreado"] != null)
+                    TempData["message"] = "No hay evento en proceso de creación o modificación.";
+                if (Session["IdEventoModificadp"] != null)
+                    TempData["message"] = "No hay evento en proceso de creación o modificación.";
+                Session["IdEventoModificado"] = null;
+                Session["IdEventoCreado"] = null;
+                return RedirectToAction("Index");
             }
+
+
             return View();
         }
 
@@ -828,7 +880,7 @@ namespace WebApplication4.Controllers
             return View(lista.ToPagedList(pageNumber, pageSize));
 
             return View();
-            
+
         }
 
         [AllowAnonymous]
@@ -859,7 +911,7 @@ namespace WebApplication4.Controllers
             ViewBag.idEvento = evento;
             ViewBag.organizadorEvento = db.Organizador.Where(c => c.codOrg == idOrganizador).First().nombOrg;
 
-            ViewBag.listaFunciones = db.Funcion.Where(c => c.codEvento == id && c.estado!="CANCELADO").ToList();
+            ViewBag.listaFunciones = db.Funcion.Where(c => c.codEvento == id && c.estado != "CANCELADO").ToList();
 
             //lo bravo
 
@@ -868,13 +920,14 @@ namespace WebApplication4.Controllers
         }
 
         [HttpPost]
-        public ActionResult PostergarEvento( PostergarModel evento ){
+        public ActionResult PostergarEvento(PostergarModel evento)
+        {
 
-            Funcion funcionAPostergar = db.Funcion.Where( c=> (c.codFuncion== evento.idFuncion) ).First();
+            Funcion funcionAPostergar = db.Funcion.Where(c => (c.codFuncion == evento.idFuncion)).First();
             db.Entry(funcionAPostergar).State = EntityState.Modified;
-            
-            funcionAPostergar.fecha =  evento.proximaFecha;
-            funcionAPostergar.horaIni =  evento.proximaHora;
+
+            funcionAPostergar.fecha = evento.proximaFecha;
+            funcionAPostergar.horaIni = evento.proximaHora;
             funcionAPostergar.estado = "POSTERGADO";
 
             db.SaveChanges();
@@ -889,15 +942,16 @@ namespace WebApplication4.Controllers
 
             ViewBag.listaFunciones = db.Funcion.Where(c => c.codEvento == id && c.estado != "CANCELADO").ToList();
 
-            return View(); 
+            return View();
         }
-        
+
         /*
          *CANCELAR EVENTO 
          * 
         */
         [HttpGet]
-        public ActionResult CancelarEvento(string evento){
+        public ActionResult CancelarEvento(string evento)
+        {
 
             int id = int.Parse(evento);
             Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();
@@ -917,19 +971,20 @@ namespace WebApplication4.Controllers
         {
 
             List<int> listaF = evento.listIdFuncion;
-            for (int i =0; i<listaF.Count; i++)
-            if( evento.seCancela[i] ){
-                Funcion funcion = db.Funcion.Where(x => (x.codFuncion == listaF[i]) ).First();
-                db.Entry( funcion ).State = EntityState.Modified;
+            for (int i = 0; i < listaF.Count; i++)
+                if (evento.seCancela[i])
+                {
+                    Funcion funcion = db.Funcion.Where(x => (x.codFuncion == listaF[i])).First();
+                    db.Entry(funcion).State = EntityState.Modified;
 
-                funcion.FechaDevolucion = evento.fechaRecojo;
-                funcion.estado = "ELIMINADO";
-                funcion.cantDiasDevolucion = evento.diasRecojo;
+                    funcion.FechaDevolucion = evento.fechaRecojo;
+                    funcion.estado = "ELIMINADO";
+                    funcion.cantDiasDevolucion = evento.diasRecojo;
 
-                db.SaveChanges();    
-            }
+                    db.SaveChanges();
+                }
 
-            return View("CancelarEvento", new { evento = "" + evento.idEvento});
+            return View("CancelarEvento", new { evento = "" + evento.idEvento });
         }
 
 

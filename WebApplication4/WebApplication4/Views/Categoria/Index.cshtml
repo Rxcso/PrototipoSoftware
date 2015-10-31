@@ -18,10 +18,17 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <a class="btn btn-primary" href="#formNuevo" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
-                <a class="btn btn-primary" data-toggle="modal" onclick="redirigeCategoria()">Modificar<span class="glyphicon glyphicon-pencil"></span></a>               
-                <a class="btn btn-primary" href="#eliminar" data-toggle="modal">Borrar<span class="glyphicon glyphicon-remove"></span></a>                
-                <a class="btn btn-primary" href="#activar" data-toggle="modal">Activar<span class="glyphicon glyphicon-ok"></span></a>                
+                <a class="btn btn-primary" href="#formNuevo" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>                
+                @*@if (Session["Ina"] != null){-->*@
+                        <a class="btn btn-primary" data-toggle="modal" onclick="redirigeCategoria()">Modificar<span class="glyphicon glyphicon-pencil"></span></a>
+                        <a class="btn btn-primary" href="#eliminar" data-toggle="modal">Borrar<span class="glyphicon glyphicon-remove"></span></a>
+                <!--}-->
+                
+                                
+                @*@if (Session["Bus"] == null)
+    {*@
+                    <a class="btn btn-primary" href="#activar" data-toggle="modal" id="Activate">Activar<span class="glyphicon glyphicon-ok"></span></a>
+                <!--}-->
             </div>
         </div>
 
@@ -61,7 +68,8 @@
             else
             {
                 listaCategoria = (List<WebApplication4.Models.Categoria>)Session["Bus"];
-                //Session["Bus"] = null;
+                Session["ListaC"] = Session["Bus"];
+                Session["Bus"] = null;
             }
         }
         else
@@ -124,8 +132,7 @@
         elem.value = x.cells[0].innerHTML;
         //alert(x.cells[0].innerHTML);
         //ViewBag.P = x.cells[0].innerHTML;
-        x.className = "trselected";
-
+        x.className = "trselected";       
         //<a class="btn btn-primary" href="javascript:document.getElementsByClassName('trselected').submit()">Borrar<span class="glyphicon glyphicon-pencil"></span></a>
         //idProm = x.codp;
     }
@@ -143,6 +150,7 @@
                     //alert("Eliminado");
                     $('#eliminar').modal('hide');
                     row.remove();
+                    //angular.element(document.getElementById('Activate'))[0].disabled = true;
                     window.location.href = '/Categoria/Index';
                 },
                 error: function () {
@@ -204,6 +212,7 @@
                     $('#opcionActivar').modal('hide');
                     $('#activar').modal('hide');
                     row.add();
+                    //angular.element(document.getElementById('Activate'))[0].disabled = true;
                     window.location.href = '/Categoria/Index';
                 },
                 error: function () {
@@ -230,6 +239,7 @@
                     $('#opcionActivar').modal('hide');
                     $('#activar').modal('hide');
                     row.add();
+                    //angular.element(document.getElementById('Activate'))[0].disabled = true;
                     window.location.href = '/Categoria/Index';
                 },
                 error: function () {
@@ -308,7 +318,7 @@
 
                         <div class="row form-group">
                             @Html.LabelFor(model => model.idCatPadre, new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
+                            <div class="col-md-5">
                                 @{
                     List<WebApplication4.Models.Categoria> listaCat = db.Categoria.AsNoTracking().Where(c => c.activo == 1).ToList();
                     IEnumerable<SelectListItem> listItems = (from a in listaCat
@@ -320,13 +330,13 @@
                                                            });
                     listItems.First().Selected = true;
                                 }
-                                @Html.DropDownListFor(model => model.idCatPadre, listItems, "Seleccione Categoria")
+                                @Html.DropDownListFor(model => model.idCatPadre, listItems, "Seleccione Categoria", new { @class = "form-control" })
                             </div>
                         </div>
 
 
                         <div class="form-group">
-                            <div class="col-md-offset-2 col-md-10">
+                            <div class="col-md-offset-4 col-md-5">
                                 <input type="submit" value="Agregar" class="btn btn-primary" />
                             </div>
                         </div>
