@@ -16,14 +16,21 @@ namespace WebApplication4.Controllers
         {
             return TimeSpan.Compare(hourA.TimeOfDay, hourB.TimeOfDay);
         }
+        public static List<BloqueDeTiempoModel> QuitaDuplicados(List<BloqueDeTiempoModel> bloques)
+        {
+            return bloques.GroupBy(c => c.fechaInicio).Select(s => s.First()).ToList();
+        }
     }
 
     public class Validaciones
     {
+        
         public static List<BloqueDeTiempoModel> ValidarBloquesDeTiempoDeVenta(BloqueTiempoListModel model)
         {
             //bloquetiempolistmodel tiene los datos en string, hay que crearlo ahora con date
             List<BloqueDeTiempoModel> listaVer = model.ListaBTM;
+            //quito bloques duplicados
+            listaVer = DateValidationMethods.QuitaDuplicados(listaVer);
             bool esCorrecto = true;
             for (int i = 0; i < listaVer.Count - 1; i++)
             {

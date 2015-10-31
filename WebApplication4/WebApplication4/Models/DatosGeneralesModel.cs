@@ -11,7 +11,7 @@ namespace WebApplication4.Models
     {
         [Required(ErrorMessage = "El evento debe tener un nombre.")]
         [Display(Name = "Nombre:")]
-        [StringLength(100)]
+        [StringLength(100, ErrorMessage = "Maxima longitud de 100 caracteres.")]
         public string nombre { get; set; }
 
         [Required(ErrorMessage = "El evento debe tener un organizador.")]
@@ -19,14 +19,14 @@ namespace WebApplication4.Models
         public int idOrganizador { get; set; }
 
         [Required(ErrorMessage = "El evento debe ser de un tipo.")]
-        [Display(Name = "Tipo:")]
+        [Display(Name = "Categoria:")]
         public int idCategoria { get; set; }
-
-        [Display(Name = "Categoría:")]
+        
+        [Display(Name = "Subcategoria:")]
         public int idSubCat { get; set; }
 
-        [Display(Name = "Direccion")]
-        [StringLength(100)]
+        [Display(Name = "Direccion:")]
+        [StringLength(100, ErrorMessage = "Maxima longitud de 100 caracteres.")]
         public string Direccion { get; set; }
 
         [Required(ErrorMessage = "El evento debe tener una ubicacion.")]
@@ -38,7 +38,7 @@ namespace WebApplication4.Models
 
         [Required]
         [Display(Name = "Descripcion:")]
-        [StringLength(200)]
+        [StringLength(200,ErrorMessage="Maxima longitud de 200 caracteres.")]
         public string descripcion { get; set; }
 
         [Display(Name = "Local:")]

@@ -12,7 +12,7 @@
 <script src="~/Scripts/jquery-2.1.4.min.js"></script>
 
 <!--
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>    
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
 -->
 
 <div class="container-fluid">
@@ -217,7 +217,7 @@
         // alert(catId);
         if (isNaN(catId)) return;
         $.ajax({
-            url: ""+linkUrl,
+            url: "" + linkUrl,
             data: { depId: catId },
             datatype: "json",
             success: function (data) {
@@ -266,7 +266,7 @@
     function redirigePostergar() {
         var evento = $('#idEventoT').val();
         if (evento != "") {
-            window.location.href = '/Evento/PostergarEvento?evento='+evento;
+            window.location.href = '/Evento/PostergarEvento?evento=' + evento;
         } else {
             alert("Seleccione un evento");
             evento = "";
