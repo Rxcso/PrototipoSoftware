@@ -74,7 +74,7 @@ namespace WebApplication4.Controllers
             ViewBag.distritos = new SelectList(listProv, "idProv", "nombre");
             ViewBag.subcategorias = new SelectList(listSubCat, "idSubcat", "nombre");
             int pageNumber = (page ?? 1);
-            int pageSize = 3;
+            int pageSize = 6;
             return View(lista.ToPagedList(pageNumber, pageSize));
         }
 
@@ -733,62 +733,72 @@ namespace WebApplication4.Controllers
         [AllowAnonymous]
         // [RequireRequestValue(new[] { "fech_ini", "fech_fin", "idCategoria", "idSubCat", "idRegion", "idProv" })]
         //  [RequireRequestValue(new[] { "nombre"})]
-        public ActionResult Busqueda(DateTime? fech_ini, DateTime? fech_fin, int? idCategoria, int? idSubCat, int? idRegion, int? idProv, string nombre = "")
+        public ActionResult Busqueda(DateTime? fech_ini, DateTime? fech_fin, int? idCategoria, int? idSubCat, int? idRegion, int? idProv, string nombre, int? page)
         {
-            /*
+
+            ViewBag.nombre = nombre;
+            ViewBag.fech_ini = fech_ini;
+            ViewBag.fech_fin = fech_fin;
+            ViewBag.idCategoria = idCategoria;
+            ViewBag.idSubCat = idSubCat;
+
+
+
             var lista = from obj in db.Eventos
                         where (obj.estado.Contains("Activo") == true)
                         select obj;
 
 
-            */
-            var arreglo = from obj in db.Eventos
-                          select obj;
+            
+            /*
+           var arreglo = from obj in db.Eventos
+                         select obj;
+         */
+            /*
 
+           List<Eventos> lista = arreglo.ToList();
+           lista = lista.Where(c => c.estado.Equals("Activo") == true);
 
-            List<Eventos> lista = arreglo.ToList();
-            lista = lista.Where(c => c.estado.Equals("Activo") == true).ToList();
+           */
 
-
-
-            if (!nombre.Equals(""))
+            if (!String.IsNullOrEmpty(nombre))
             {
-                lista = lista.Where(c => c.nombre.Contains(nombre) == true).ToList();
+                lista = lista.Where(s => s.nombre.Contains(nombre));
             }
 
             if (fech_ini.HasValue)
             {
-                lista = lista.Where(c => c.fecha_inicio >= fech_ini).ToList();
+                lista = lista.Where(c => c.fecha_inicio >= fech_ini);
             }
 
             if (fech_fin.HasValue)
             {
-                lista = lista.Where(c => c.fecha_inicio <= fech_fin).ToList();
+                lista = lista.Where(c => c.fecha_inicio <= fech_fin);
             }
 
             if (idCategoria.HasValue)
             {
 
-                lista = lista.Where(c => c.idCategoria == idCategoria).ToList();
+                lista = lista.Where(c => c.idCategoria == idCategoria);
             }
 
             if (idSubCat.HasValue)
             {
-                lista = lista.Where(c => c.idSubcategoria == idSubCat).ToList();
+                lista = lista.Where(c => c.idSubcategoria == idSubCat);
             }
 
             if (idRegion.HasValue)
             {
 
-                lista = lista.Where(c => c.idRegion == idRegion).ToList();
+                lista = lista.Where(c => c.idRegion == idRegion);
             }
 
             if (idProv.HasValue)
             {
-                lista = lista.Where(c => c.idProvincia == idProv).ToList();
+                lista = lista.Where(c => c.idProvincia == idProv);
             }
 
-
+            lista = lista.OrderBy(s => s.codigo);
             ViewBag.Lista = lista;
             /*
             if (!nombre.Equals(""))
@@ -812,6 +822,10 @@ namespace WebApplication4.Controllers
 
             ViewBag.distritos = new SelectList(listProv, "idProv", "nombre");
             ViewBag.subcategorias = new SelectList(listSubCat, "idSubcat", "nombre");
+
+            int pageNumber = (page ?? 1);
+            int pageSize = 6;
+            return View(lista.ToPagedList(pageNumber, pageSize));
 
             return View();
             
