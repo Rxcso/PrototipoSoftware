@@ -1,7 +1,8 @@
 ﻿@{
     ViewBag.Title = "Index2";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
-
+    string mensaje = null;
+    mensaje = (string)Session["MensajeIngresoTurno"];
     
 }
 
@@ -10,6 +11,7 @@
 
     <section class="jumbotron">
         <div class="container">
+            @if (mensaje != null) { <p>@mensaje</p>}
             <h1>TICKNET</h1>
             <p>El mejor lugar para vender tus entradas!</p>
         </div>

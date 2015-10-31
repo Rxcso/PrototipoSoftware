@@ -47,7 +47,7 @@
             </div>*@
         <div class="col-md-2">
             <div class="input-group">
-                <a class="btn btn-primary" href="#regalo" onclick="selecciona()" data-toggle="modal"><span class="glyphicon glyphicon-gift"></span> Entregar Regalo</a>
+                <a class="btn btn-primary"onclick="validaS()" data-toggle="modal"><span class="glyphicon glyphicon-gift"></span> Entregar Regalo</a>
             </div>
         </div>
         <div class="col-md-3">
@@ -158,9 +158,29 @@
         //alert(x.cells[0].innerHTML);
         //ViewBag.P = x.cells[0].innerHTML;
         x.className = "trselected";
+        var cliente = $('#idClienteT').val();
+        $.ajax({
+            url: "@Url.Action("Entrega2", "CuentaUsuario")",
+            data: { cliente: cliente },
+        success: function (data) {
 
+            //alert("Eliminado");
+            //row.remove();
+        },
+        error: function () {
+            alert("Error :(");
+        }
+    }); 
         //<a class="btn btn-primary" href="javascript:document.getElementsByClassName('trselected').submit()">Borrar<span class="glyphicon glyphicon-pencil"></span></a>
         //idProm = x.codp;
+    }
+    function validaS() {
+        var cliente = $('#idClienteT').val();
+        if (cliente != null && cliente != "") {
+            $('#regalo').modal('show');
+        } else {           
+            alert("Seleccione un cliente y un regalo");
+        }
     }
     function busca() {
         var usuario = $('#idBusq').val();
@@ -227,7 +247,7 @@
                 }
             });
         } else {
-            alert("Seleccione un cliente y un regalo");
+            alert("Seleccione un regalo");
         }
     }
     function closewindow() {
