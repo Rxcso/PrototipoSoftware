@@ -6,7 +6,9 @@
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
     var db = new WebApplication4.Models.inf245netsoft();
     int idor=0;
+    int ce = 0;
     string nombO="";
+    List<Eventos> listaEv = new List<Eventos>();
     if (Session["orgPago"] != null)
     {
         Organizador org = (Organizador)Session["orgPago"];
@@ -59,6 +61,38 @@
                             <span class="input-group-btn"><a href="#modalBuscarOrganizador" class="btn btn-primary" data-toggle="modal" type="button">Buscar <span class="glyphicon glyphicon-search"></span></a></span>
                         </div>
 
+                    </div>
+                </div>
+                @if (idor != 0)
+                {
+                    listaEv = db.Eventos.AsNoTracking().Where(c => c.idOrganizador == idor).ToList();
+                    
+                    if (Session["EventoSeleccionadoPago"] != null)
+                    {
+                        ce = (int)Session["EventoSeleccionadoPago"];
+                    }
+                }
+                <div class="row form-group">
+                    <label for="nombreEvento" class="control-label col-md-2">Evento:</label>
+                    <div class="col-md-2">
+                        <select name="" id="comboBusq" onchange="cambio()" class="form-control">
+                            <option value="0">Seleccionar</option>
+                            @foreach (var item in listaEv)
+                            {
+                                if (@item.codigo != ce)
+                                {
+                                    <option value="@item.codigo">
+                                        @item.nombre
+                                    </option>
+                                }
+                                else
+                                {
+                                    <option value="@item.codigo" selected="selected">
+                                        @item.nombre
+                                    </option>
+                                }
+                            }
+                        </select>
                     </div>
                 </div>
 
@@ -179,6 +213,22 @@
             evento = "";
     }
     }
+    function cambio() {
+        var evId = parseInt($("#comboBusq").val());
+        $.ajax({
+            url: "@Url.Action("PagoPendiente", "CuentaUsuario")",
+            data: { evId: evId },
+        success: function (data) {
+            window.location.href = '/Ventas/Pago';
+            //alert("Eliminado");
+            //row.remove();
+        },
+        error: function () {
+            window.location.href = '/Ventas/Pago';
+            alert("Error :(");
+        }
+    }); 
+    }
     function registrar() {
         var monto = $('#monto2').val();
         var pend = $('#pendiente').val();
@@ -186,7 +236,7 @@
             //alert(monto);
             $.ajax({
                 url: "@Url.Action("RegistrarPagos","Ventas")",
-                data: { monto: monto },
+                data: { monto: monto,pend:pend },
                 success: function (data) {
                     //alert("Eliminado");
                     window.location.href = '/Ventas/Pago';

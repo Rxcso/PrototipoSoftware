@@ -497,6 +497,17 @@ namespace WebApplication4.Controllers
             return RedirectToAction("BuscaCliente", "CuentaUsuario");
         }
 
+        public ActionResult PagoPendiente(string evId)
+        {
+            int m1;
+            if (int.TryParse(evId, out m1) == false) return View();
+            m1=int.Parse(evId);
+            Eventos ev=db.Eventos.Find(m1);
+            Session["EventoSeleccionadoPago"] = m1;
+            if (ev != null) Session["Pendiente"] = (double)ev.monto_adeudado - (double)ev.monto_transferir;
+            return RedirectToAction("Pago", "Ventas");
+        }
+
         [HttpPost]
         [AllowAnonymous]
         public ActionResult EntregaRegalo(RegaloListModel regalo)
