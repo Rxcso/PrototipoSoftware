@@ -104,7 +104,7 @@ namespace WebApplication4.Controllers
         {
             if (ModelState.IsValid)
             {
-                List<Regalo> listaReg = db.Regalo.AsNoTracking().Where(c => c.Nombre.StartsWith(regalo.nombre)).ToList();
+                List<Regalo> listaReg = db.Regalo.AsNoTracking().Where(c => c.Nombre.Contains(regalo.nombre)).ToList();
                 if (listaReg != null) TempData["ListaR"] = listaReg;
                 else TempData["ListaR"] = null;
                 return RedirectToAction("Index", "Regalo");
@@ -122,7 +122,7 @@ namespace WebApplication4.Controllers
                 Session["ListaR"] = null;
                 return RedirectToAction("Index", "Regalo");
             }
-            listaReg = db.Regalo.AsNoTracking().Where(c => c.Nombre.StartsWith(regalo) && c.estado == true).ToList();
+            listaReg = db.Regalo.AsNoTracking().Where(c => c.Nombre.Contains(regalo) && c.estado == true).ToList();
             if (listaReg != null) Session["ListaR"] = listaReg;
             else Session["ListaR"] = null;
             return RedirectToAction("Index", "Regalo");

@@ -1,6 +1,4 @@
-﻿
-
-@{
+﻿@{
     ViewBag.Title = "Postergar Evento";
     int idEvento = int.Parse(ViewBag.idEvento);
 }
@@ -18,10 +16,10 @@
     </div>
     <div class="container">
         <div class="row form-group">
-            <!--label for="idEvento" class="control-label col-md-1">Id:</!--label>
-            <div class="col-md-1">
+            <!--label for="idEvento" class="control-label col-md-1">Id:</label-->
+            <div class="col-md-1" style="display:none">
                 <input id="eventoP" type="text" class="form-control" value=@idEvento disabled>
-            </div-->
+            </div>
             <label for="nombreEvento" class="control-label col-md-2">Nombre Evento:</label>
             <div class="col-md-4">
                 <input type="text" class="form-control" placeholder="@ViewBag.nombreEvento" disabled>
@@ -40,7 +38,7 @@
                     <option id="0" value="0"> Seleccione </option>
                     @foreach (var item in ViewBag.listaFunciones)
                     {
-                        <option id="@item.codFuncion" value="@item.codFuncion"> @item.fecha.ToString("dd/MM/yyyy") - @item.horaIni.ToString("hh:mm tt")</option>
+                        <option id="@item.codFuncion" value="@item.codFuncion">@item.fecha.ToString("dd-MM-yyyy") @item.horaIni.ToString("hh:mm tt")</option>
                     }
                 </select>
             </div>
@@ -54,21 +52,71 @@
         </div>
 
         <div class="row form-group">
-            <label for="fecha" class="control-label col-md-3 col-md-offset-3">Nueva hora del evento:</label>
+            <label for="hora" class="control-label col-md-3 col-md-offset-3">Nueva hora del evento:</label>
             <div class="col-md-3">
                 <input id="hora" type="time" class="form-control">
             </div>
         </div>
 
         <div style="text-align: center">
-            <button type="submit" class="btn btn-primary" onclick="msjConfirmacion1()"> Registrar Postergación  <span class="glyphicon glyphicon-ok-sign"></span></button>
+            <button type="button" class="btn btn-primary" onclick="postergar()"> Registrar Postergación  <span class="glyphicon glyphicon-ok-sign"></span></button>
             <a href="@Url.Action("Index","Evento")" class="btn btn-danger">Salir <span class="glyphicon glyphicon-log-out"></span> </a>
         </div>
 
         <script>
-            function msjConfirmacion1() {
-                alert("Evento Postergado");
-                window.location.href = 'mantener_eventos.html';
+            function postergar() {
+                if ($("#fechaHora").val() == "0" || !$("#fecha").val() || !$("#hora").val()) {
+                    alert("Faltan campos por elegir");
+                    return;
+                }
+
+                //Validar que la fecha que se ingresa sea posterior a la funcion
+                var fecha_hora_tt = $("#fechaHora option:selected").text().split(" ");
+                var numerosFecha = fecha_hora_tt[0].toString().split("-");
+                var fecha = new Date(numerosFecha[2], numerosFecha[1] - 1, numerosFecha[0]);
+                var fechaNuevaCad = $("#fecha").val().toString().split("-");
+                var fechaNueva = new Date(fechaNuevaCad[0], fechaNuevaCad[1] - 1, fechaNuevaCad[2]);
+                if (fechaNueva.getTime() <= fecha.getTime()) {
+                    alert("La fecha de postergacion debe ser posterior a la funcion");
+                    return;
+                }
+
+
+
+
+                //ya se eligieron todos los campos
+                var txt = $("#fechaHora option:selected").text();
+                var nuevaFecha = Date.parse($("#fechaHora option:selected").text());
+                var fechaAnterior = Date.parse($("#fecha").val());
+                if (nuevaFecha <= fechaAnterior) {
+                    alert("Seleccione una fecha mayor a la anterior " + nuevaFecha + "  " + txt);
+                    return;
+                }
+
+                var requestData = {};
+                requestData.idEvento = parseInt($("#eventoP").val());
+                requestData.idFuncion = parseInt($("#fechaHora option:selected").val());
+                requestData.proximaFecha = $("#fecha").val() + " " + ($("#hora").val());
+                requestData.proximaHora = $("#fecha").val() + " " + ($("#hora").val());
+
+                $.ajax({
+                    url: "/Evento/PostergarEvento",
+                    type: "POST",
+                    contentType: 'application/json;',
+                    data: JSON.stringify(requestData),
+                    success: function (data) {
+                        window.location.href = '/Evento/PostergarEvento/?evento=' + "@ViewBag.idEvento";
+                        alert("¡Se postergó la función con éxito!");
+                    },
+                    error: function (xhr, textStatus, error) {
+                        alert("Ooops... Ocurrió algo inesperado");
+                    },
+                });
+
+
+
+
+
             }
         </script>
 

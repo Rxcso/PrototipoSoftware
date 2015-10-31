@@ -2,13 +2,11 @@
 @using WebApplication4.Models
 
 
-@model PromocionModel
+@model PromocionModel2
     
-@using (Html.BeginForm("RegisterPromocion", "Promocion", FormMethod.Post, new { }))
+@using (Html.BeginForm("RegisterPromocion2", "Promocion", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
     {
         @Html.AntiForgeryToken()
-
-       
 
         <div class="form-horizontal">
             @Html.ValidationSummary(true)
@@ -28,7 +26,14 @@
                 @Html.ValidationMessageFor(model => model.fechaFin)
                 
             </div>
-
+            @*@if (!string.IsNullOrEmpty(ViewBag.NoPeriodo))
+            {
+                <div class="error">@ViewBag.NoPeriodo</div>
+            }
+            @if (!string.IsNullOrEmpty(ViewBag.ErrorPeriodo))
+            {
+                <div class="error">@ViewBag.ErrorPeriodo </div>
+            }*@
             <br>
             <div class="row form-inline">
                 <div class="control-label col-md-3">

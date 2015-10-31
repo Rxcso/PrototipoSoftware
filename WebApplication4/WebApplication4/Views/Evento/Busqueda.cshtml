@@ -1,9 +1,11 @@
 ﻿
 @using Microsoft.AspNet.Identity;
 @using WebApplication4.Models;
-@using MvcPaging;
+@using PagedList;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<Eventos>
 
-@model Evento2Model
+
 @{
     int indexPagina = 0;
     ViewBag.MaximoPaginas = 5;
@@ -12,10 +14,13 @@
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
 }
 
+<script src="~/Scripts/jquery-2.1.4.min.js"></script>
 
+<!--
+   
+<script src="~/Scripts/jquery-1.10.2.min.js"></script> 
 
-
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+-->
 
 
 <div id="busqNombre" class="container-fluid">
@@ -196,8 +201,43 @@
 
     </div>
 </div>
+<div class="container-fluid">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <strong>Resultados: @Model.Count </strong>
+        </div>
 
-@{IList<Eventos> lista = ViewBag.Lista;
+        <!--Aca iran los eventos en miniatura-->
+        <div class="panel-body">
+
+            @foreach (var evento in Model)
+            {
+
+                <div class="col-md-2 col-sm-4 col-xs-6">
+                    <div class="thumbnail">
+                        <img onclick="verEvento()" class="event" src="@evento.ImagenDestacado" alt="">
+                        <div class="caption" style="text-align:center">
+                            <div class="row">@evento.nombre</div>
+                            <div class="row">@evento.fecha_inicio</div>
+                        </div>
+                    </div>
+                </div>
+
+
+                @*
+
+                    <tr>
+                        <td>@evento.nombre</td>
+                        <td>@evento.lugar</td>
+                    </tr>
+                *@
+            }
+        </div>
+
+    </div>
+
+
+@{
     if (this.Request.QueryString.Count != 0)
     {
 
@@ -214,68 +254,84 @@
 
     }
 
-    Html.RenderPartial("BusquedaPaging", lista.ToPagedList(indexPagina, 2));
 
 
-}
+    @* Html.RenderPartial("BusquedaPaging", lista.ToPagedList(indexPagina, 5 ));*@
+    @* Pagina @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount*@
+    @Html.PagedListPager(Model, page => Url.Action("Busqueda", new { page, nombre = ViewBag.nombre, fech_ini = ViewBag.fech_ini, fech_fin = ViewBag.fech_fin, idCategoria = ViewBag.idCategoria, idSubCat = ViewBag.idSubCat }));
+
+
+
+
+    
+    }
+
+
+
+</div>
+
+
+  
 
 
 
 
 
-@*
-    @Html.Partial("BusquedaPaging", lista.ToPagedList(0, 2));
-    <div class="container-fluid">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <strong>Resultados: @ViewBag.Lista.Count </strong>
-            </div>
-
-            <!--Aca iran los eventos en miniatura-->
-            <div class="panel-body">
 
 
-                @foreach (var evento in ViewBag.Lista)
-                {
+    @*
+        @Html.Partial("BusquedaPaging", lista.ToPagedList(0, 2));
+        <div class="container-fluid">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <strong>Resultados: @ViewBag.Lista.Count </strong>
+                </div>
+
+                <!--Aca iran los eventos en miniatura-->
+                <div class="panel-body">
 
 
-                    <div class="col-md-2 col-sm-4 col-xs-6">
-                        <div class="thumbnail">
-                            <img onclick="verEvento()" class="event" src="@evento.ImagenDestacado" alt="">
-                            <div class="caption" style="text-align:center">
-                                <div class="row">@evento.nombre</div>
-                                <div class="row">@evento.fecha_inicio</div>
+                    @foreach (var evento in ViewBag.Lista)
+                    {
+
+
+                        <div class="col-md-2 col-sm-4 col-xs-6">
+                            <div class="thumbnail">
+                                <img onclick="verEvento()" class="event" src="@evento.ImagenDestacado" alt="">
+                                <div class="caption" style="text-align:center">
+                                    <div class="row">@evento.nombre</div>
+                                    <div class="row">@evento.fecha_inicio</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                }
+                    }
+                </div>
+
+
+                <!--Paginacion-->
+                <ul class="pagination pagination-md pull-right">
+                    <!--lg    md    sm-->
+
+
+
+                    <li class="disabled"><a href="">&laquo;</a></li>
+
+                    @{
+                        ViewBag.paginas = ((Model.numeroPaginas - ViewBag.MaximoPaginas) > 0) ? Model.numeroPaginas : ViewBag.MaximoPaginas;
+
+                    }
+                    @for (int num = 1; num < ViewBag.paginas; num++)
+                    {
+                        <li><a>@num</a></li>
+
+                    }
+                    <li><a href="">&raquo;</a></li>
+
+
+                </ul>
             </div>
-
-
-            <!--Paginacion-->
-            <ul class="pagination pagination-md pull-right">
-                <!--lg    md    sm-->
-
-
-
-                <li class="disabled"><a href="">&laquo;</a></li>
-
-                @{
-                    ViewBag.paginas = ((Model.numeroPaginas - ViewBag.MaximoPaginas) > 0) ? Model.numeroPaginas : ViewBag.MaximoPaginas;
-
-                }
-                @for (int num = 1; num < ViewBag.paginas; num++)
-                {
-                    <li><a>@num</a></li>
-
-                }
-                <li><a href="">&raquo;</a></li>
-
-
-            </ul>
-        </div>
-    </div>*@
+        </div>*@
 <script>
 
     $(document).ready(function () {
@@ -328,8 +384,8 @@
 
     function cambioCat() {
 
+        fillCombo("idSubCat", $("#idCategoria").val(), "Subcategorias", "Subcategorias");
 
-        fillCombo("idSubCat", $("#idCategoria").val(),"Subcategorias","Subcategorias");
     }
 
     function fillCombo(idCombo, value, linkUrl, optlabel) {

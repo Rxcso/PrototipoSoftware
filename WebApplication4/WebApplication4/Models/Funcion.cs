@@ -24,6 +24,9 @@ namespace WebApplication4.Models
         public Nullable<System.DateTime> horaFin { get; set; }
         public Nullable<System.DateTime> fecha { get; set; }
         public int codEvento { get; set; }
+        public string estado { get; set; }
+        public Nullable<System.DateTime> FechaDevolucion { get; set; }
+        public Nullable<int> cantDiasDevolucion { get; set; }
     
         public virtual ICollection<VentasXFuncion> VentasXFuncion { get; set; }
         public virtual Eventos Eventos { get; set; }

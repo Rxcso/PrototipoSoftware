@@ -287,7 +287,9 @@
                 data: { turno:turno,punto:punto,idV:idV,ini:ini,fin:fin },
                 success: function (data) {
                     alert(data);
-                    window.location.href = '/CuentaUsuario/Asignacion';
+                    if (data == "Registro Correcto") {
+                        window.location.href = '/CuentaUsuario/Asignacion';
+                    }
                 },
                 error: function () {
                     alert(data);

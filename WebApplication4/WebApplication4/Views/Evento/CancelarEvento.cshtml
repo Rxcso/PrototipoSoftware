@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewBag.Title = "Cancelar Evento";
+    int idEvento = int.Parse(ViewBag.idEvento);
+}
+<body>
+    <div class="container-fluid">
+        <div class="col-md-5">
+            <ol class="breadcrumb">
+                <li><a href="@Url.Action("Index","Evento")">Mantenimiento de Eventos</a></li>
+                <li class="active">Cancelar evento</li>
+            </ol>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row form-group">
+            <!--label for="codigo" class="control-label col-md-4">ID Evento:</!label>
+            <div class="col-md-8">
+                <input id="codigo" type="text" class="form-control" placeholder="10201040" disabled>
+            </div-->
+            <label for="nombreEvento" class="control-label col-md-2">Nombre Evento:</label>
+            <div class="col-md-4">
+                <input id="nombreEvento" type="text" class="form-control" placeholder="@ViewBag.nombreEvento" disabled>
+            </div>
+            <label for="organizador" class="control-label col-md-2">Organizador del Evento:</label>
+            <div class="col-md-4">
+                <input id="organizador" type="text" class="form-control" placeholder="@ViewBag.organizadorEvento" disabled>
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <label for="fecha" class="control-label col-md-3 col-md-offset-3">Fecha - hora:</label>
+            <div class="col-md-3 ">
+                <div id="fechaHora" style="border-radius:10px ;border:1px solid #ccc; height: 80px; overflow-y: scroll; padding:0px 10px ">
+                    @foreach (var item in ViewBag.listaFunciones){
+                        <div class="checkbox">
+                            <label>
+                                <input id="@item.codFuncion" type="checkbox" value="@item.codFuncion">
+                                @item.fecha.ToString("dd/MM/yyyy") - @item.horaIni.ToString("hh:mm tt")
+                            </label>
+                        </div>                        
+                    }
+                    
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <label for="fecha" class="control-label col-md-3 col-md-offset-3">Fecha inicial de devolución:</label>
+            <div class="col-md-3">
+                <input type="date" class="form-control">
+            </div>
+        </div>
+        <div class="row form-group">
+            <label for="dias" class="control-label col-md-3 col-md-offset-3">Cantidad de días en los que estará disponible la devolución:</label>
+            <div class="col-md-3">
+                <div class="input-group">
+                    <input id="dias" type="number" class="form-control" placeholder="90">
+                    <span class="input-group-addon">días</span>
+                </div>
+            </div>
+        </div>
+        <div class="row form-group">
+            <label for="dias" class="control-label col-md-3 col-md-offset-3">Motivo por el cual se cancela el evento(máx 200 carac.)</label>
+            <div class="col-md-3">
+                <textarea class="form-control" rows="4"></textarea>
+            </div>
+        </div>
+        <div style="text-align: center">
+            <button type="button" class="btn btn-primary" onclick="msjConfirmacion1()"> Registrar Cancelación  <span class="glyphicon glyphicon-ok-sign"></span></button>
+            <a href="@Url.Action("Index","Evento")" class="btn btn-danger">Salir <span class="glyphicon glyphicon-log-out"></span> </a>
+        </div>
+    </div>
+
+</body>

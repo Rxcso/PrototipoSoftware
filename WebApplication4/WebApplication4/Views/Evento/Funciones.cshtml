@@ -3,6 +3,7 @@
     ViewBag.Title = "Register";
     List<FuncionesModel> listaResultado = ViewBag.Resultados as List<FuncionesModel>;
     int cantidad = (listaResultado == null) ? 0 : listaResultado.Count;
+    DateTime fechaInicioEvento = ViewBag.FechaInicio;
 }
 @model FuncionesListModel
 <div class="container-fluid">
@@ -63,6 +64,7 @@
                     </tbody>
                 </table>
             </div>
+            @Html.Hidden("fechaInicioEvento", @String.Format("{0:yyyy-MM-dd}", fechaInicioEvento))
         </div>
     }
     <script type="text/javascript" src="@Url.Content("/Scripts/RegisterEvento/FuncionesHelper.js")"></script>

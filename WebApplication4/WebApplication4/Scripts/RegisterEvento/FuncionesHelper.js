@@ -2,17 +2,21 @@
     var fechaS = fecha.split('-');
     var fFecha = new Date(fechaS[0], --fechaS[1], fechaS[2]);
     fFecha.setHours(0, 0, 0, 0);
-    var today = new Date();
-    today.setHours(0, 0, 0, 0);
+
+    var fechaInicioEvento = $("#fechaInicioEvento").val();
+    var fIEv = fechaInicioEvento.split('-');
+    var fIEvento = new Date(fIEv[0], --fIEv[1], fIEv[2]);
+    fIEvento.setHours(0, 0, 0, 0);
 
     var maxDate = new Date();
     maxDate.setHours(0, 0, 0, 0);
     maxDate.setYear(maxDate.getFullYear() + 20);
-    return (fFecha >= today) && (fFecha <= maxDate);
+
+    return (fFecha <= maxDate) && (fFecha >= fIEvento);
 }
 function format_time(date_obj) {
     // formats a javascript Date object into a 12h AM/PM time string
-    var hour = date_obj.getHours() + 5;
+    var hour = date_obj.getHours() + 5 ;
     var minute = date_obj.getMinutes();
     var amPM = (hour > 11) ? "pm" : "am";
     if (hour > 12) {
@@ -59,7 +63,7 @@ function agregaFuncion() {
             $("#fechaFuncion").focus();
             $("#histFuncion").val(parseInt(row.id) + 1);
         } else {
-            alert("Fecha de inicio incorrecta: " + fechaF + ". Ingrese una fecha valida (Rango de fecha: " + today.getFullYear() + " - " + (today.getFullYear() + 20) + ").");
+            alert("Fecha de funcion incorrecta: " + fechaF + ". Ingrese una fecha valida (Rango de fechas: Mayor o igual a la fecha de inicio del evento: " + $("#fechaInicioEvento").val() + " hasta fechas del año " + (today.getFullYear() + 20) + ").");
         }
     } else {
         alert("Campos Vacios. Ingrese nuevamente.");

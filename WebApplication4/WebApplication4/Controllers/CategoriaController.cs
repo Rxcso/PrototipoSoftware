@@ -8,7 +8,7 @@ using WebApplication4.Models;
 
 namespace WebApplication4.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class CategoriaController : Controller
     {
         private inf245netsoft db = new inf245netsoft();
@@ -143,6 +143,8 @@ namespace WebApplication4.Controllers
             return RedirectToAction("Index", "Categoria");
         }
 
+        [HttpPost]
+        [AllowAnonymous]
         public ActionResult RegisterCategoria(CategoriaModel model)
         {
             if (ModelState.IsValid)

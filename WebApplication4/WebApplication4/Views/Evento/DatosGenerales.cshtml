@@ -21,7 +21,7 @@
         </div>
     </div>
     <div class="tab-content">
-        @using (Html.BeginForm("ModificarEvento", "Evento", FormMethod.Post, new {model = Model }))
+        @using (Html.BeginForm("DatosGenerales", "Evento", FormMethod.Post, new {model = Model }))
         {
             @Html.AntiForgeryToken()
             <div class="tab-pane active  fade in  container" id="generales">
@@ -95,6 +95,7 @@
                         @Html.LabelFor(c => c.descripcion, new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
                             @Html.TextAreaFor(c => c.descripcion, new { @class = "form-control", @rows = 8 })
+                            @Html.ValidationMessageFor(c => c.descripcion)
                         </div>
                     </div>
                 </div>

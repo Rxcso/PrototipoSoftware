@@ -9,7 +9,11 @@
     inf245netsoft db = new inf245netsoft();
 }
 
+<script src="~/Scripts/jquery-2.1.4.min.js"></script>
+
+<!--
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+-->
 
 <div class="container-fluid">
     <div class="col-md-5">
@@ -33,7 +37,7 @@
                 <a class="btn btn-primary" onclick="redirigePromocion()">Agregar Promoción <span class="glyphicon glyphicon-tags"></span></a>
                 <a class="btn btn-primary" href="reservar_organizador.html">Reservar Entradas <span class="glyphicon glyphicon-flag"></span></a>
                 <a class="btn btn-warning" onclick="redirigePostergar()">Postergar <span class="glyphicon glyphicon-calendar"></span></a>
-                <a class="btn btn-warning" href="cancelar_evento.html">Cancelar <span class="glyphicon glyphicon-remove-sign"></span></a>
+                <a class="btn btn-warning" onclick="redirigeCancelar()">Cancelar <span class="glyphicon glyphicon-remove-sign"></span></a>
             </div>
         </div>
         <div class="col-md-2 col-sm-12" style="text-align:center">
@@ -95,7 +99,9 @@
                             </select>
                         </div>
                         <div class="form-group ">
-                            <select name="idSubCat" id="idSubCat" data-val="true" class="form-control col-lg-2"></select>
+                            <select name="idSubCat" id="idSubCat" data-val="true" class="form-control col-lg-2">
+                                <option value="">Subcategoria</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <select name="idRegion" id="idRegion" data-val="true" class="form-control col-lg-2" onchange="cambio()">
@@ -164,7 +170,7 @@
                 </tbody>
             </table>
             Pagina @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, orden = ViewBag.ordenActual, filtroActual = ViewBag.filtroActual }));
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, nombre = ViewBag.nombre, fech_ini = ViewBag.fech_ini, fech_fin = ViewBag.fech_fin, idCategoria = ViewBag.idCategoria, idSubCat = ViewBag.idSubCat }));
 
         </div>
     </div>
@@ -199,7 +205,7 @@
     }
 
     function cambioCat() {
-        fillCombo("idSubCat", $("#idCategoria").val(), "/Services/Subcategoria/", "Subcategorias");
+        fillCombo("idSubCat", $("#idCategoria").val(), "Subcategorias", "Subcategorias");
     }
 
     function fillCombo(idCombo, value, linkUrl, optlabel) {
@@ -208,11 +214,11 @@
 
         var ddProv = $("#idSubCat");
         var catId = parseInt($("#idCategoria").val());
-        alert(catId);
-        if (isNaN(depId)) return;
+        // alert(catId);
+        if (isNaN(catId)) return;
         $.ajax({
-            url: '/Services/Subcategoria/',
-            data: { catId: catId },
+            url: "" + linkUrl,
+            data: { depId: catId },
             datatype: "json",
             success: function (data) {
                 var obj = $.parseJSON(data);
@@ -260,7 +266,16 @@
     function redirigePostergar() {
         var evento = $('#idEventoT').val();
         if (evento != "") {
-            window.location.href = '/Evento/PostergarEvento?evento='+evento;
+            window.location.href = '/Evento/PostergarEvento?evento=' + evento;
+        } else {
+            alert("Seleccione un evento");
+            evento = "";
+        }
+    }
+    function redirigeCancelar() {
+        var evento = $('#idEventoT').val();
+        if (evento != "") {
+            window.location.href = '/Evento/CancelarEvento?evento=' + evento;
         } else {
             alert("Seleccione un evento");
             evento = "";
