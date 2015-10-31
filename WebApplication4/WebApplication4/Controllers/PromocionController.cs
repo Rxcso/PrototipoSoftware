@@ -51,22 +51,43 @@ namespace WebApplication4.Controllers
         public ActionResult RegisterPromocion(PromocionModel model)
         {
             int ev = 0;
+            List<PeriodoVenta> listPer = new List<PeriodoVenta>();
+            DateTime fechMin = DateTime.MaxValue;
+            DateTime fechMax = DateTime.MinValue;
             Promociones promocion = new Promociones();
             Promociones promocionL = db.Promociones.ToList().Last();
             promocion.codPromo = promocionL.codPromo + 1;
             if (Session["idEvento"] != null)
             {
-                ev =(int)Session["idEvento"];
+                ev = (int)Session["idEvento"];
                 if (ev == 0) return RedirectToAction("Index", "Evento");
                 promocion.codEvento = (int)Session["idEvento"];
+                listPer = db.PeriodoVenta.AsNoTracking().Where(c => c.codEvento == ev).ToList();
+                for (int i = 0; i < listPer.Count; i++)
+                {
+                    if (listPer[i].fechaInicio < fechMin) fechMin = (DateTime)listPer[i].fechaInicio;
+                    if (listPer[i].fechaFin > fechMax) fechMax = (DateTime)listPer[i].fechaFin;
+                }
+                if (listPer.Count == 0)
+                {
+
+                    ViewBag.NoPeriodo = "No existe un periodo de venta para este evento";
+                    return View("Index");
+                }
             }
             else return View("Index");
             promocion.estado = true;
 
+            if (model.fechaFin > fechMax || model.fechaIni < fechMin)
+            {
+                ViewBag.ErrorPeriodo = "Fechas deben estar dentro de un periodo de " + fechMin.ToString("dd/MM/yyyy") + " y " + fechMax.ToString("dd/MM/yyyy");
+                return View("Index");
+            }
+
             if (model.codBanco != 0) //promocion por tarjeta
             {
-                if (model.fechaIni < model.fechaFin & model.descuento>0)
-                { 
+                if (model.fechaIni < model.fechaFin & model.descuento > 0)
+                {
                     promocion.codBanco = model.codBanco;
                     promocion.codTipoTarjeta = model.codTipoTarjeta;
                     promocion.fechaIni = model.fechaIni;
@@ -79,11 +100,11 @@ namespace WebApplication4.Controllers
                     return Redirect("~/Promocion/Index?evento=" + ev);
                 }
                 return View("Index");
-                
+
             }
             else //En caso de promocion por entradas
             {
-                if (model.fechaIni < model.fechaFin & model.cantAdq >model.cantComp & model.cantComp>0 & model.cantAdq>0)
+                if (model.fechaIni < model.fechaFin & model.cantAdq > model.cantComp & model.cantComp > 0 & model.cantAdq > 0)
                 {
                     promocion.fechaIni = model.fechaIni;
                     promocion.fechaFin = model.fechaFin;
@@ -95,6 +116,7 @@ namespace WebApplication4.Controllers
                     db.SaveChanges();
                     return Redirect("~/Promocion/Index?evento=" + ev);
                 }
+                return View("Index");
             }
             return View("Index");
             //throw new Exception("Test Exception");
