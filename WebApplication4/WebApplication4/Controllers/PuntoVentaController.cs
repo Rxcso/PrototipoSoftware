@@ -102,7 +102,7 @@ namespace WebApplication4.Controllers
         {
             if (ModelState.IsValid)
             {
-                List<PuntoVenta> listaP = db.PuntoVenta.AsNoTracking().Where(c => c.ubicacion.StartsWith(punto.ubicacion)).ToList();
+                List<PuntoVenta> listaP = db.PuntoVenta.AsNoTracking().Where(c => c.ubicacion.Contains(punto.ubicacion)).ToList();
                 if (listaP != null) TempData["ListaP"] = listaP;
                 else TempData["ListaP"] = null;
                 return RedirectToAction("Index", "PuntoVenta");
@@ -120,7 +120,7 @@ namespace WebApplication4.Controllers
                 Session["ListaP"] = null;
                 return RedirectToAction("Index", "PuntoVenta");
             }
-            listaP = db.PuntoVenta.AsNoTracking().Where(c => c.ubicacion.StartsWith(punto) && c.estaActivo == true).ToList();
+            listaP = db.PuntoVenta.AsNoTracking().Where(c => c.ubicacion.Contains(punto) && c.estaActivo == true).ToList();
             if (listaP != null) Session["ListaP"] = listaP;
             else Session["ListaP"] = null;
             return RedirectToAction("Index", "PuntoVenta");

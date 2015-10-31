@@ -135,9 +135,9 @@ namespace WebApplication4.Controllers
         public ActionResult Search(LocalSearchModel local)
         {         
             List<Local> listaLoc=null;
-                if (local.departamento == 0 && local.nombre != null ) listaLoc = db.Local.AsNoTracking().Where(c => c.descripcion.StartsWith(local.nombre)).ToList();
+            if (local.departamento == 0 && local.nombre != null) listaLoc = db.Local.AsNoTracking().Where(c => c.descripcion.Contains(local.nombre)).ToList();
                 else if (local.departamento != 0 && local.nombre == null) listaLoc = db.Local.AsNoTracking().Where(c => local.departamento == c.idRegion).ToList();
-                else if (local.departamento != 0 && local.nombre != null) listaLoc = db.Local.AsNoTracking().Where(c => c.descripcion.StartsWith(local.nombre) && local.departamento == c.idRegion).ToList();
+            else if (local.departamento != 0 && local.nombre != null) listaLoc = db.Local.AsNoTracking().Where(c => c.descripcion.Contains(local.nombre) && local.departamento == c.idRegion).ToList();
                 else TempData["ListaL"] = null;
                 if (listaLoc != null) TempData["ListaL"] = listaLoc;
                 else TempData["ListaL"] = null;            
@@ -153,7 +153,7 @@ namespace WebApplication4.Controllers
                 Session["ListaL"] = null;
                 return RedirectToAction("Index", "Local");
             }
-            listaLoc = db.Local.AsNoTracking().Where(c => c.descripcion.StartsWith(local)).ToList();
+            listaLoc = db.Local.AsNoTracking().Where(c => c.descripcion.Contains(local)).ToList();
             if (listaLoc != null) Session["ListaL"] = listaLoc;
             else Session["ListaL"] = null;
             return RedirectToAction("Index", "Local");
