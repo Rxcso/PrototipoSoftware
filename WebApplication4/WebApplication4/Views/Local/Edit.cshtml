@@ -37,7 +37,7 @@
         <div class="row form-group">
             @Html.LabelFor(model => model.descripcion, new { @class = "control-label col-md-3" })
             <div class="col-md-9">
-                @Html.TextAreaFor(model => model.descripcion, new { @placeholder = @localM.descripcion, @Value = @localM.descripcion })
+                @Html.TextBoxFor(model => model.descripcion, new { @placeholder = @localM.descripcion, @Value = @localM.descripcion })
                 @*@Html.ValidationMessageFor(model => model.descripcion)*@
             </div>
         </div>

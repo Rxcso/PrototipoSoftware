@@ -31,6 +31,14 @@
                 @Html.ValidationMessageFor(model => model.fechaFin)
             </div>
         </div>
+        @if (!string.IsNullOrEmpty(ViewBag.NoPeriodo))
+        {
+            <div class="error">@ViewBag.NoPeriodo</div>
+        }
+        @if (!string.IsNullOrEmpty(ViewBag.ErrorPeriodo))
+        {
+            <div class="error">@ViewBag.ErrorPeriodo </div>
+        }
         <br>
 
         <div class="row form-group">
