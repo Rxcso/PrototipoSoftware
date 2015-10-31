@@ -217,6 +217,7 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\BloqueDeTIempoModel.cs" />
+    <Compile Include="Models\CancelarModel.cs" />
     <Compile Include="Models\Categoria.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -283,6 +284,7 @@
     <Compile Include="Models\Politicas.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PostergarModel.cs" />
     <Compile Include="Models\PrecioEvento.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
