@@ -49,7 +49,7 @@ namespace WebApplication4.Controllers
                 local.idRegion = model.idRegion;
                 db.Local.Add(local);
                 db.SaveChanges();
-                return View("Index");
+                return RedirectToAction("Index", "Local");
             }
             List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
             List<Region> listProv = new List<Region>();
@@ -66,7 +66,7 @@ namespace WebApplication4.Controllers
             //db.Entry(localr).State = EntityState.Modified;
             //local.es
             db.SaveChanges();
-            return View("Index");
+            return RedirectToAction("Index", "Local");
         }
 
         public ActionResult Delete2(int id)
@@ -76,7 +76,7 @@ namespace WebApplication4.Controllers
             //db.Entry(local).State = EntityState.Modified;
             //local.es
             db.SaveChanges();
-            return View("Index");
+            return RedirectToAction("Index", "Local");
         }
 
         public ActionResult Edit(string local)
@@ -120,7 +120,7 @@ namespace WebApplication4.Controllers
                 Local local = db.Local.Find(TempData["codigol"]);
                 db.Entry(local).State = EntityState.Modified;                
                 local.aforo = model.aforo;
-                if(model.descripcion!=null)local.descripcion = model.descripcion;
+                local.descripcion = model.descripcion;
                 local.ubicacion = model.ubicacion;
                 local.idProvincia = model.idProv;
                 local.idRegion = model.idRegion;
