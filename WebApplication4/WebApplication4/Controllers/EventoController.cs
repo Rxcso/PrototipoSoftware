@@ -74,7 +74,7 @@ namespace WebApplication4.Controllers
             ViewBag.distritos = new SelectList(listProv, "idProv", "nombre");
             ViewBag.subcategorias = new SelectList(listSubCat, "idSubcat", "nombre");
             int pageNumber = (page ?? 1);
-            int pageSize = 3;
+            int pageSize = 6;
             return View(lista.ToPagedList(pageNumber, pageSize));
         }
 
@@ -604,9 +604,9 @@ namespace WebApplication4.Controllers
                 db.SaveChanges();
                 TempData["tipo"] = "alert alert-success";
                 if (Session["IdEventoCreado"] != null)
-                    TempData["message"] = "No hay evento en proceso de creación o modificación.";
+                    TempData["message"] = "Evento Creado Exitosamente.";
                 if (Session["IdEventoModificadp"] != null)
-                    TempData["message"] = "No hay evento en proceso de creación o modificación.";
+                    TempData["message"] = "Evento Modificado Exitosamente.";
                 Session["IdEventoModificado"] = null;
                 Session["IdEventoCreado"] = null;
                 return RedirectToAction("Index");

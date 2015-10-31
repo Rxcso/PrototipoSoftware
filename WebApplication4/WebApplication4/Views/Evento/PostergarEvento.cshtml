@@ -1,6 +1,4 @@
-﻿
-
-@{
+﻿@{
     ViewBag.Title = "Postergar Evento";
     int idEvento = int.Parse(ViewBag.idEvento);
 }
@@ -71,40 +69,54 @@
                     alert("Faltan campos por elegir");
                     return;
                 }
-                else {//ya se eligieron todos los campos
-                    //Validar las fechas plz
-                    var txt = $("#fechaHora option:selected").text();
-                    var nuevaFecha =   Date.parse( $("#fechaHora option:selected").text() ) ;
-                    var fechaAnterior = Date.parse( $("#fecha").val() );
-                    if ( nuevaFecha <= fechaAnterior) {
-                        alert("Seleccione una fecha mayor a la anterior "+nuevaFecha+"  " + txt);
-                        return;
-                    }
 
-                    var requestData = {};
-                    requestData.idEvento = parseInt( $("#eventoP").val() );
-                    requestData.idFuncion = parseInt( $("#fechaHora option:selected").val() );                    
-                    requestData.proximaFecha = $("#fecha").val() + " " + ($("#hora").val());
-                    requestData.proximaHora = $("#fecha").val()+" "+($("#hora").val());
-
-                    $.ajax({
-                        url: "/Evento/PostergarEvento",
-                        type: "POST",
-                        contentType: 'application/json;',
-                        data: JSON.stringify(requestData),
-                        success: function (data) {
-                            window.location.href = '/Evento/PostergarEvento/?evento=' + "@ViewBag.idEvento";
-                            alert("¡Se postergó la función con éxito!");
-                        },
-                        error: function (xhr, textStatus, error) {
-                            alert("Ooops... Ocurrió algo inesperado");
-                        },
-                    });
-
-
-                    
+                //Validar que la fecha que se ingresa sea posterior a la funcion
+                var fecha_hora_tt = $("#fechaHora option:selected").text().split(" ");
+                var numerosFecha = fecha_hora_tt[0].toString().split("-");
+                var fecha = new Date(numerosFecha[2], numerosFecha[1] - 1, numerosFecha[0]);
+                var fechaNuevaCad = $("#fecha").val().toString().split("-");
+                var fechaNueva = new Date(fechaNuevaCad[0], fechaNuevaCad[1] - 1, fechaNuevaCad[2]);
+                if (fechaNueva.getTime() <= fecha.getTime()) {
+                    alert("La fecha de postergacion debe ser posterior a la funcion");
+                    return;
                 }
-                
+
+
+
+
+                //ya se eligieron todos los campos
+                var txt = $("#fechaHora option:selected").text();
+                var nuevaFecha = Date.parse($("#fechaHora option:selected").text());
+                var fechaAnterior = Date.parse($("#fecha").val());
+                if (nuevaFecha <= fechaAnterior) {
+                    alert("Seleccione una fecha mayor a la anterior " + nuevaFecha + "  " + txt);
+                    return;
+                }
+
+                var requestData = {};
+                requestData.idEvento = parseInt($("#eventoP").val());
+                requestData.idFuncion = parseInt($("#fechaHora option:selected").val());
+                requestData.proximaFecha = $("#fecha").val() + " " + ($("#hora").val());
+                requestData.proximaHora = $("#fecha").val() + " " + ($("#hora").val());
+
+                $.ajax({
+                    url: "/Evento/PostergarEvento",
+                    type: "POST",
+                    contentType: 'application/json;',
+                    data: JSON.stringify(requestData),
+                    success: function (data) {
+                        window.location.href = '/Evento/PostergarEvento/?evento=' + "@ViewBag.idEvento";
+                        alert("¡Se postergó la función con éxito!");
+                    },
+                    error: function (xhr, textStatus, error) {
+                        alert("Ooops... Ocurrió algo inesperado");
+                    },
+                });
+
+
+
+
+
             }
         </script>
 
