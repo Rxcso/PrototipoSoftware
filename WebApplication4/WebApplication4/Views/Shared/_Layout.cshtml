@@ -198,7 +198,7 @@ else
                                     @Html.AntiForgeryToken()
 
                                     <div class="nav navbar-nav navbar-right">
-                                        <font color="white" onclick="redirige()"> Hola @nombre!</font>
+                                        <font color="white" onclick="redirige()"> Hola @User.Identity.Name !</font>
                                         <a type="button" class="btn btn-default" href="javascript:document.getElementById('logoutForm').submit()">Salir <span class="glyphicon glyphicon-log-out"></span></a>
                                     </div>
                                 }

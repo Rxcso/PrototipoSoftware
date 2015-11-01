@@ -10,6 +10,7 @@ using System.Web.Script.Serialization;
 namespace WebApplication4.Controllers
 {
 
+    [Authorize]
     public class EventoController : Controller
     {
         inf245netsoft db = new inf245netsoft();
@@ -748,16 +749,39 @@ namespace WebApplication4.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult VerEvento(int id)
+        public ActionResult VerEvento(int? id)
         {
+            if (id == null) return RedirectToAction("Index");
             var evento = db.Eventos.Find(id);
             if (evento == null)
             {
                 ModelState.AddModelError(string.Empty, "No hay Evento");
                 return Redirect("~/Home/Index");
-
             }
-
+            try
+            {
+                ViewBag.NombreLocal = db.Local.Where(c => c.codLocal == evento.idLocal).First().ubicacion;
+            }
+            catch (Exception ex)
+            {
+                ViewBag.NombreLocal = "";
+            }
+            ViewBag.Region = db.Region.Where(c => c.idRegion == evento.idRegion).First().nombre;
+            ViewBag.Categoria = db.Categoria.Where(c => c.idCategoria == evento.idCategoria).First().nombre;
+            ViewBag.Subcategoria = db.Categoria.Where(c => c.idCategoria == evento.idSubcategoria).First().nombre;
+            try
+            {
+                List<Funcion> funciones = db.Funcion.Where(c => c.codEvento == evento.codigo).ToList();
+                //manejar mediante ajax la carga de funciones.
+                //sugerencia: tener un nombre para la funcion en formato de la fecha en dd/MM/yyyy
+                ViewBag.FechaFunciones = new SelectList(funciones,"codFuncion","fecha");
+                //todo: buscar tarifa y precio y ver segun que bloque de tiempo estamos
+                //todo: cantidad de entradas depende del numero de asientos que escoja
+            }
+            catch (Exception ex)
+            {
+                ViewBag.MensajeErrorFunciones = "El evento no cuenta con funciones";
+            }
             return View(evento);
         }
 
@@ -938,7 +962,7 @@ namespace WebApplication4.Controllers
         }
 
 
-        
+
         [HttpPost]
         public ActionResult PostergarEvento(PostergarModel evento)
         {
@@ -964,7 +988,7 @@ namespace WebApplication4.Controllers
 
             return View();
         }
-        
+
 
         /*
          *CANCELAR EVENTO 
@@ -976,28 +1000,28 @@ namespace WebApplication4.Controllers
 
             int id = int.Parse(evento);
             Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();
-            
+
             ViewBag.idEvento = evento;
 
             List<Funcion> listaFunciones = db.Funcion.Where(c => c.codEvento == id && c.estado != "CANCELADO").ToList();
             ViewBag.listaFunciones = listaFunciones;
             CancelarModel cancelarEvento = new CancelarModel();
             cancelarEvento.idEvento = id;
-            cancelarEvento.nombreEvento= queryEvento.nombre;
-            cancelarEvento.organizador = db.Organizador.Where(c => c.codOrg == queryEvento.idOrganizador ).First().nombOrg ;
-            
+            cancelarEvento.nombreEvento = queryEvento.nombre;
+            cancelarEvento.organizador = db.Organizador.Where(c => c.codOrg == queryEvento.idOrganizador).First().nombOrg;
+
             var auxlistIdFuncion = new List<int>(0);
             var auxlistDateFuncion = new List<DateTime>(0);
             var auxlistBool = new List<Boolean>(0);
 
-            for (int i = 0; i<listaFunciones.Count(); i++)
+            for (int i = 0; i < listaFunciones.Count(); i++)
             {
                 auxlistBool.Add(false);
-                auxlistDateFuncion.Add( (DateTime)listaFunciones[i].horaIni);
+                auxlistDateFuncion.Add((DateTime)listaFunciones[i].horaIni);
                 auxlistIdFuncion.Add(listaFunciones[i].codFuncion);
             }
 
-                return View("Cancelar", cancelarEvento);
+            return View("Cancelar", cancelarEvento);
         }
 
         /*
