@@ -937,6 +937,8 @@ namespace WebApplication4.Controllers
             return View();
         }
 
+
+        
         [HttpPost]
         public ActionResult PostergarEvento(PostergarModel evento)
         {
@@ -962,6 +964,7 @@ namespace WebApplication4.Controllers
 
             return View();
         }
+        
 
         /*
          *CANCELAR EVENTO 
@@ -973,17 +976,31 @@ namespace WebApplication4.Controllers
 
             int id = int.Parse(evento);
             Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();
-            ViewBag.nombreEvento = queryEvento.nombre;
-            int idOrganizador = (int)queryEvento.idOrganizador;
+            
             ViewBag.idEvento = evento;
-            ViewBag.organizadorEvento = db.Organizador.Where(c => c.codOrg == idOrganizador).First().nombOrg;
 
-            ViewBag.listaFunciones = db.Funcion.Where(c => c.codEvento == id && c.estado != "CANCELADO").ToList();
+            List<Funcion> listaFunciones = db.Funcion.Where(c => c.codEvento == id && c.estado != "CANCELADO").ToList();
+            ViewBag.listaFunciones = listaFunciones;
+            CancelarModel cancelarEvento = new CancelarModel();
+            cancelarEvento.idEvento = id;
+            cancelarEvento.nombreEvento= queryEvento.nombre;
+            cancelarEvento.organizador = db.Organizador.Where(c => c.codOrg == queryEvento.idOrganizador ).First().nombOrg ;
+            
+            var auxlistIdFuncion = new List<int>(0);
+            var auxlistDateFuncion = new List<DateTime>(0);
+            var auxlistBool = new List<Boolean>(0);
 
-            return View();
+            for (int i = 0; i<listaFunciones.Count(); i++)
+            {
+                auxlistBool.Add(false);
+                auxlistDateFuncion.Add( (DateTime)listaFunciones[i].horaIni);
+                auxlistIdFuncion.Add(listaFunciones[i].codFuncion);
+            }
+
+                return View("Cancelar", cancelarEvento);
         }
 
-
+        /*
         [HttpPost]
         public ActionResult CancelarEvento(CancelarModel evento)
         {
@@ -1003,6 +1020,24 @@ namespace WebApplication4.Controllers
                 }
 
             return View("CancelarEvento", new { evento = "" + evento.idEvento });
+        }*/
+
+
+        [HttpPost]
+        public ActionResult CancelarEvento(CancelarModel evento)
+        {
+
+            int id = evento.idEvento;
+            Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();
+            ViewBag.nombreEvento = queryEvento.nombre;
+            int idOrganizador = (int)queryEvento.idOrganizador;
+            ViewBag.idEvento = evento;
+            ViewBag.organizadorEvento = db.Organizador.Where(c => c.codOrg == idOrganizador).First().nombOrg;
+
+            ViewBag.listaFunciones = db.Funcion.Where(c => c.codEvento == id && c.estado != "CANCELADO").ToList();
+
+            return View();
+
         }
 
 

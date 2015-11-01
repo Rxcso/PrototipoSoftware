@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ComponentModel.DataAnnotations;
 using System.Web;
 
 namespace WebApplication4.Models
@@ -8,21 +9,26 @@ namespace WebApplication4.Models
     public class CancelarModel
     {
 
-        public int idEvento;
+        public int idEvento { get; set; }
 
-        public string nombreEvento;
+        public string nombreEvento { get; set; }
 
-        public string organizador;
+        public string organizador { get; set; }
 
-        public List<int> listIdFuncion;
+        public int [] listIdFuncion { get; set; }
 
-        public List<Boolean> seCancela;
+        public DateTime [] listDateFuncion { get; set; }
 
-        public DateTime fechaRecojo;
+        public Boolean [] seCancela { get; set; }
 
-        public int diasRecojo;
+        [Required(ErrorMessage = "Este campo es obligatorio.")]
+        public DateTime fechaRecojo { get; set; }
 
-        public string motivo;
+        [Required(ErrorMessage = "Este campo es obligatorio.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Debe ser un valor positivo.")]
+        public int diasRecojo { get; set; }
 
+        [StringLength(200, ErrorMessage = "El limite de longitud es 200")]
+        public string motivo { get; set; }
     }
 }

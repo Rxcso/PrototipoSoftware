@@ -150,23 +150,26 @@ namespace WebApplication4.Controllers
 
         public ActionResult Search2(string usuario,string tipo)
         {
-            if (tipo == "")
-            {
-                Session["ListaCL"] = null;
-                return RedirectToAction("BuscaCliente", "CuentaUsuario");
-            }
-            int ti = int.Parse(tipo);
-            if (ti == 0)
-            {
-                Session["ListaCL"] = null;
-                return RedirectToAction("BuscaCliente", "CuentaUsuario");
-            }
+            //if (tipo == "")
+            //{
+            //    Session["ListaCL"] = null;
+            //    return RedirectToAction("BuscaCliente", "CuentaUsuario");
+            //}
+            int ti=0;
+            if(tipo!="")ti = int.Parse(tipo);
+            //if (ti == 0)
+            //{
+            //    Session["ListaCL"] = null;
+            //    return RedirectToAction("BuscaCliente", "CuentaUsuario");
+            //}
             if (usuario == "" || usuario == null)
             {
                 Session["ListaCL"] = null;
                 return RedirectToAction("BuscaCliente", "CuentaUsuario");
             }
-            List<CuentaUsuario> listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.tipoDoc == ti && c.codDoc == usuario && c.estado == true && c.codPerfil == 1 && c.puntos>0).ToList();
+            List<CuentaUsuario> listacl;
+            if (ti == 0) listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.codDoc == usuario && c.estado == true && c.codPerfil == 1 && c.puntos > 0).ToList();
+            else listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.tipoDoc == ti && c.codDoc == usuario && c.estado == true && c.codPerfil == 1 && c.puntos>0).ToList();
             if (listacl != null) Session["ListaCL"] = listacl;
             else Session["ListaCL"] = null;
             return RedirectToAction("BuscaCliente", "CuentaUsuario");
@@ -174,23 +177,26 @@ namespace WebApplication4.Controllers
 
         public ActionResult SearchReserva(string usuario, string tipo)
         {
-            if (tipo == "")
-            {
-                Session["ReservaBusca"] = null;
-                return RedirectToAction("BuscaReserva", "CuentaUsuario");
-            }
-            int ti = int.Parse(tipo);
-            if (ti == 0)
-            {
-                Session["ReservaBusca"] = null;
-                return RedirectToAction("BuscaReserva", "CuentaUsuario");
-            }
+            //if (tipo == "")
+            //{
+            //    Session["ReservaBusca"] = null;
+            //    return RedirectToAction("BuscaReserva", "CuentaUsuario");
+            //}
+            int ti = 0;
+            if (tipo != "") ti = int.Parse(tipo);
+            //if (ti == 0)
+            //{
+            //    Session["ReservaBusca"] = null;
+            //    return RedirectToAction("BuscaReserva", "CuentaUsuario");
+            //}
             if (usuario == "" || usuario == null)
             {
                 Session["ReservaBusca"] = null;
                 return RedirectToAction("BuscaReserva", "CuentaUsuario");
             }
-            List<CuentaUsuario> listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.tipoDoc == ti && c.codDoc == usuario && c.estado == true && c.codPerfil == 1).ToList();
+            List<CuentaUsuario> listacl;
+            if(ti==0) listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.codDoc == usuario && c.estado == true && c.codPerfil == 1).ToList();
+            else listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.tipoDoc == ti && c.codDoc == usuario && c.estado == true && c.codPerfil == 1).ToList();
             if (listacl == null) return RedirectToAction("BuscaReserva", "CuentaUsuario");
 
             List<Ventas> listareservas = new List<Ventas>();
@@ -491,6 +497,17 @@ namespace WebApplication4.Controllers
             return RedirectToAction("BuscaCliente", "CuentaUsuario");
         }
 
+        public ActionResult PagoPendiente(string evId)
+        {
+            int m1;
+            if (int.TryParse(evId, out m1) == false) return View();
+            m1=int.Parse(evId);
+            Eventos ev=db.Eventos.Find(m1);
+            Session["EventoSeleccionadoPago"] = m1;
+            if (ev != null) Session["Pendiente"] = (double)ev.monto_adeudado - (double)ev.monto_transferir;
+            return RedirectToAction("Pago", "Ventas");
+        }
+
         [HttpPost]
         [AllowAnonymous]
         public ActionResult EntregaRegalo(RegaloListModel regalo)
@@ -526,6 +543,7 @@ namespace WebApplication4.Controllers
                 rc.usuario = usuario2;
                 db.RegaloXCuenta.Add(rc);
                 db.SaveChanges();
+                db.Entry(cuenta).State = EntityState.Detached;
                 return RedirectToAction("BuscaCliente", "CuentaUsuario");
             }
             //CuentaUsuario cuenta2 = (CuentaUsuario)TempData["EntregaCl"];

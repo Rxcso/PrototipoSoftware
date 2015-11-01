@@ -30,7 +30,7 @@
                 @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })
                 <div class="col-md-9">
                     @*@Html.EditorFor(model => model.nombre)*@
-                    @Html.TextBoxFor(model => model.nombre, new { @placeholder = @re.Nombre })
+                    @Html.TextBoxFor(model => model.nombre, new { @placeholder = @re.Nombre, @Value = @re.Nombre })
                     @Html.ValidationMessageFor(model => model.nombre)
                 </div>
             </div>
@@ -38,7 +38,7 @@
             <div class="row form-group">
                 @Html.LabelFor(model => model.descripcion, new { @class = "control-label col-md-3" })
                 <div class="col-md-9">
-                    @Html.TextAreaFor(model => model.descripcion, new { @placeholder = @re.descripcion })
+                    @Html.TextBoxFor(model => model.descripcion, new { @placeholder = @re.descripcion, @Value = @re.descripcion })
                     @Html.ValidationMessageFor(model => model.descripcion)
                 </div>
             </div>
@@ -46,7 +46,7 @@
             <div class="row form-group">
                 @Html.LabelFor(model => model.puntos, new { @class = "control-label col-md-3" })
                 <div class="col-md-9">
-                    @Html.TextBoxFor(model => model.puntos, new { @placeholder = @re.puntos })
+                    @Html.TextBoxFor(model => model.puntos, new { @placeholder = @re.puntos, @Value = @re.puntos })
                     @Html.ValidationMessageFor(model => model.puntos)
                 </div>
             </div>

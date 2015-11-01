@@ -16,14 +16,13 @@ namespace WebApplication4.Models
         [Display(Name = "Direccion MAC: ")]
         public String mac { get; set; }
 
-
         [Required]
         [Display(Name = "Provincia: ")]
-        public int provincia { get; set; }
+        public int idProv { get; set; }
 
         [Required]
         [Display(Name = "Departamento: ")]
-        public int departamento { get; set; }
+        public int idRegion { get; set; }
     }
 
     public class PuntoVentaSearchModel

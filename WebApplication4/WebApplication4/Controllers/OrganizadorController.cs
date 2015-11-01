@@ -105,7 +105,7 @@ namespace WebApplication4.Controllers
         {
             if (ModelState.IsValid)
             {
-                List<Organizador> listaOrg = db.Organizador.AsNoTracking().Where(c => c.nombOrg.StartsWith(organizador.nombre)).ToList();
+                List<Organizador> listaOrg = db.Organizador.AsNoTracking().Where(c => c.nombOrg.Contains(organizador.nombre)).ToList();
                 if (listaOrg != null) TempData["ListaO"] = listaOrg;
                 else TempData["ListaO"] = null;
                 return RedirectToAction("Index", "Organizador");
@@ -123,7 +123,7 @@ namespace WebApplication4.Controllers
                 Session["ListaO"] = null;
                 return RedirectToAction("Index", "Organizador");
             }
-            listaOrg = db.Organizador.AsNoTracking().Where(c => c.nombOrg.StartsWith(organizador) && c.estadoOrg == "Activo").ToList();
+            listaOrg = db.Organizador.AsNoTracking().Where(c => c.nombOrg.Contains(organizador) && c.estadoOrg == "Activo").ToList();
             if (listaOrg != null) Session["ListaO"] = listaOrg;
             else Session["ListaO"] = null;
             return RedirectToAction("Index", "Organizador");

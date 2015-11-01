@@ -132,13 +132,13 @@
         <div class="col-md-2">
             <div class="input-group">
                 <span class="input-group-addon">S/.</span>
-                <input type="text" value="@mSC" class="form-control" aria-describedby="soles" readonly="true">
+                <input type="number" value="@mSC" class="form-control" aria-describedby="soles" readonly="true">
             </div>
         </div>
         <div class="col-md-2">
             <div class="input-group">
                 <span class="input-group-addon">$.</span>
-                <input type="text"  value="@mDC" class="form-control" aria-describedby="dolares" readonly="true">
+                <input type="number" value="@mDC" class="form-control" aria-describedby="dolares" readonly="true">
             </div>
         </div>
     </div>
@@ -224,13 +224,13 @@
         <div class="col-md-2">
             <div class="input-group">
                 <span class="input-group-addon">S/.</span>
-                <input type="text" id="montoSolesR" class="form-control" aria-describedby="soles">
+                <input type="number" id="montoSolesR" class="form-control" aria-describedby="soles">
             </div>
         </div>
         <div class="col-md-2">
             <div class="input-group">
                 <span class="input-group-addon">$.</span>
-                <input type="text" id="dolaresR" class="form-control" aria-describedby="dolares">
+                <input type="number" id="dolaresR" class="form-control" aria-describedby="dolares">
             </div>
         </div>
     </div>
@@ -275,9 +275,9 @@
 <script>
     function cerrar() {
         var montos = $('#montoSolesR').val();
-        alert(montos);
+        //alert(montos);
         var montod = $('#dolaresR').val();
-        alert(montod);
+        //alert(montod);
         if (montos != "" && montos != null && montod != "" && montod != null) {
             //alert(monto);
             $.ajax({

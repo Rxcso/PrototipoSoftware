@@ -93,23 +93,23 @@ namespace WebApplication4.Controllers
             int idO = int.Parse(id);
             Organizador org=db.Organizador.Find(idO);
             Session["orgPago"] = org;
-            double subtotal;
-            double total=0;
-            List<Eventos> listEv = db.Eventos.AsNoTracking().Where(c => c.idOrganizador == idO).ToList();
-            List<Eventos> listEp=new List<Eventos>();
-            for (int i = 0; i < listEv.Count; i++)
-            {
-                subtotal = (double)listEv[i].monto_adeudado - (double)listEv[i].monto_transferir;
-                if (subtotal > 0)
-                {
-                    listEp.Add(listEv[i]);
-                }
-                total += subtotal;
-            }
+            //double subtotal;
+            //double total=0;
+            //List<Eventos> listEv = db.Eventos.AsNoTracking().Where(c => c.idOrganizador == idO).ToList();
+            //List<Eventos> listEp=new List<Eventos>();
+            //for (int i = 0; i < listEv.Count; i++)
+            //{
+            //    subtotal = (double)listEv[i].monto_adeudado - (double)listEv[i].monto_transferir;
+            //    if (subtotal > 0)
+            //    {
+            //        listEp.Add(listEv[i]);
+            //    }
+            //    total += subtotal;
+            //}
             List<Pago> listP = db.Pago.Where(c => c.codOrg == idO).ToList();
             Session["Pagos"] = listP;
-            Session["Pendiente"] = total;
-            Session["EventosP"] = listEp;
+            //Session["Pendiente"] = total;
+            //Session["EventosP"] = listEp;
             return RedirectToAction("Pago", "Ventas");
         }
 
@@ -126,44 +126,48 @@ namespace WebApplication4.Controllers
             return RedirectToAction("Asignacion", "Ventas");
         }
 
-        public ActionResult RegistrarPagos(string monto)
+        public ActionResult RegistrarPagos(string monto,string pend)
         {
             double m1;
             if (double.TryParse(monto,out m1) == false) return RedirectToAction("Pago", "Ventas");
             double m = double.Parse(monto);
-            double pend = (double)Session["Pendiente"];
-            if (m > pend) return RedirectToAction("Pago", "Ventas");
-            if (monto == "" || monto == null) return RedirectToAction("Pago", "Ventas");         
-            List<Eventos> listEp = (List<Eventos>)Session["EventosP"];
+            double pend1 = double.Parse(pend);
+            if (m > pend1) return RedirectToAction("Pago", "Ventas");
+            //if (monto == "" || monto == null) return RedirectToAction("Pago", "Ventas");         
+            //List<Eventos> listEp = (List<Eventos>)Session["EventosP"];
             Organizador org = (Organizador)Session["orgPago"];
-            for (int i = 0; i < listEp.Count; i++)
-            {
-                if (m == 0) break;
-                double pendE=(double)listEp[i].monto_adeudado - (double)listEp[i].monto_transferir;
-                if (pendE < m)
+            m1 = m;
+            int codE=1;
+            if(Session["EventoSeleccionadoPago"]!=null)codE= (int)Session["EventoSeleccionadoPago"];
+            Eventos ev = db.Eventos.Find(codE);
+            //for (int i = 0; i < listEp.Count; i++)
+            //{
+            //    if (m == 0) break;
+            while (m != 0) { 
+                if (pend1 < m)
                 {
-                    db.Entry(listEp[i]).State = EntityState.Modified;
-                    listEp[i].monto_transferir = listEp[i].monto_adeudado;
+                    db.Entry(ev).State = EntityState.Modified;
+                    ev.monto_transferir = ev.monto_adeudado;
                     Pago pg = new Pago();
-                    pg.codEvento = listEp[i].codigo;
+                    pg.codEvento = ev.codigo;
                     pg.codOrg = org.codOrg;
                     Pago pl = db.Pago.ToList().Last();
                     pg.codPago = pl.codPago + 1;
                     pg.descripcion = "Pago hecho ha " + org.nombOrg;
                     //pg.Eventos = listEp[i];
                     pg.fecha = DateTime.Now;
-                    pg.monto = pendE;
+                    pg.monto = pend1;
                     db.Pago.Add(pg);
                     db.SaveChanges();
-                    m -= pendE;
+                    m -= pend1;
                 }
                 else
                 {
-                    db.Entry(listEp[i]).State = EntityState.Modified;
-                    listEp[i].monto_transferir = listEp[i].monto_transferir + m;
+                    db.Entry(ev).State = EntityState.Modified;
+                    ev.monto_transferir = ev.monto_transferir + m;
                     //db.SaveChanges();
                     Pago pg = new Pago();
-                    pg.codEvento = listEp[i].codigo;
+                    pg.codEvento = ev.codigo;
                     pg.codOrg = org.codOrg;
                     Pago pl = db.Pago.ToList().Last();
                     pg.codPago = pl.codPago + 1;
@@ -180,18 +184,18 @@ namespace WebApplication4.Controllers
             List<Pago> listP = db.Pago.Where(c => c.codOrg == org.codOrg).ToList();
             Session["Pagos"] = listP;
             Session["Pendiente"] = (double)Session["Pendiente"] - m1;
-            double subtotal;
-            List<Eventos> listEv = db.Eventos.AsNoTracking().Where(c => c.idOrganizador == org.codOrg).ToList();
-            List<Eventos> listEpa = new List<Eventos>();
-            for (int i = 0; i < listEv.Count; i++)
-            {
-                subtotal = (double)listEv[i].monto_adeudado - (double)listEv[i].monto_transferir;
-                if (subtotal > 0)
-                {
-                    listEpa.Add(listEv[i]);
-                }
-            }
-            Session["EventosP"] = listEpa;
+            //double subtotal;
+            //List<Eventos> listEv = db.Eventos.AsNoTracking().Where(c => c.idOrganizador == org.codOrg).ToList();
+            //List<Eventos> listEpa = new List<Eventos>();
+            //for (int i = 0; i < listEv.Count; i++)
+            //{
+            //    subtotal = (double)listEv[i].monto_adeudado - (double)listEv[i].monto_transferir;
+            //    if (subtotal > 0)
+            //    {
+            //        listEpa.Add(listEv[i]);
+            //    }
+            //}
+            //Session["EventosP"] = listEpa;
              return View();
         }
     }

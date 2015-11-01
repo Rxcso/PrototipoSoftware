@@ -14,6 +14,20 @@ namespace WebApplication4.Controllers
         // GET: PuntoVenta
         public ActionResult Index()
         {
+            List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
+            List<Region> listProv = new List<Region>();
+            ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
+            ViewBag.ProvID = new SelectList(listProv, "idProv", "nombre");
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult RegisterPunto()
+        {
+            List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
+            List<Region> listProv = new List<Region>();
+            ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
+            ViewBag.ProvID = new SelectList(listProv, "idProv", "nombre");
             return View();
         }
 
@@ -29,12 +43,16 @@ namespace WebApplication4.Controllers
                 punto.dirMAC = model.mac;
                 punto.estaActivo = true;
                 punto.ubicacion = model.ubicacion;
-                punto.idProvincia = model.provincia;
-                punto.idRegion = model.departamento;
+                punto.idProvincia = model.idProv;
+                punto.idRegion = model.idRegion;
                 db.PuntoVenta.Add(punto);
                 db.SaveChanges();
-                return View("Index");
+                return RedirectToAction("Index", "PuntoVenta");
             }
+            List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
+            List<Region> listProv = new List<Region>();
+            ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
+            ViewBag.ProvID = new SelectList(listProv, "idProv", "nombre");
             return View("Index");
         }
 
@@ -47,7 +65,7 @@ namespace WebApplication4.Controllers
             punto2.estaActivo = false;
             db.SaveChanges();
             //return RedirectToAction("Index", "Evento");
-            return View("Index");
+            return RedirectToAction("Index", "PuntoVenta");
         }
 
         public ActionResult Delete2(int id)
@@ -58,15 +76,29 @@ namespace WebApplication4.Controllers
             punto.estaActivo = false;
             db.SaveChanges();
             //return RedirectToAction("Index", "Evento");
-            return View("Index");
+            return RedirectToAction("Index", "PuntoVenta");
         }
 
         public ActionResult Edit(string punto)
         {
-            int id = int.Parse(punto);
-            ViewBag.id = id;
-            TempData["codigoP"] = id;
-            Session["punto"] = db.PuntoVenta.Find(id);
+            if (punto != null)
+            {
+                int id = int.Parse(punto);
+                ViewBag.id = id;
+                TempData["codigoP"] = id;
+                PuntoVenta pu = db.PuntoVenta.Find(id);
+                Session["punto"] = pu;
+                PuntoVentaModel ptm = new PuntoVentaModel();
+                int idl = (int)pu.idRegion;
+                ptm.idRegion = (int)pu.idRegion;
+                ptm.idProv = (int)pu.idProvincia;
+                List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
+                List<Region> listProv = db.Region.Where(c => c.idRegPadre == idl).ToList();
+                ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre", ptm.idRegion);
+                ViewBag.ProvID = new SelectList(listProv, "idRegion", "nombre", ptm.idProv);
+
+
+            }
             return View("Edit");
         }
 
@@ -75,6 +107,17 @@ namespace WebApplication4.Controllers
             ViewBag.id = id;
             TempData["codigoP"] = id;
             return View("Edit");
+        }
+
+        [HttpGet]
+        public ActionResult EditRegister()
+        {
+            List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
+            List<Region> listProv = new List<Region>();
+            ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
+            ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
+            ViewBag.ProvID = new SelectList(listProv, "idProv", "nombre");
+            return View();
         }
 
         [HttpPost]
@@ -88,8 +131,8 @@ namespace WebApplication4.Controllers
                 db.Entry(punto).State = EntityState.Modified;
                 punto.dirMAC = model.mac;
                 punto.ubicacion = model.ubicacion;
-                punto.idRegion = model.departamento;
-                punto.idProvincia = model.provincia;
+                punto.idRegion = model.idRegion;
+                punto.idProvincia = model.idProv;
                 db.SaveChanges();
                 return RedirectToAction("Index", "PuntoVenta");
             }
@@ -102,7 +145,7 @@ namespace WebApplication4.Controllers
         {
             if (ModelState.IsValid)
             {
-                List<PuntoVenta> listaP = db.PuntoVenta.AsNoTracking().Where(c => c.ubicacion.StartsWith(punto.ubicacion)).ToList();
+                List<PuntoVenta> listaP = db.PuntoVenta.AsNoTracking().Where(c => c.ubicacion.Contains(punto.ubicacion)).ToList();
                 if (listaP != null) TempData["ListaP"] = listaP;
                 else TempData["ListaP"] = null;
                 return RedirectToAction("Index", "PuntoVenta");
@@ -120,7 +163,7 @@ namespace WebApplication4.Controllers
                 Session["ListaP"] = null;
                 return RedirectToAction("Index", "PuntoVenta");
             }
-            listaP = db.PuntoVenta.AsNoTracking().Where(c => c.ubicacion.StartsWith(punto) && c.estaActivo == true).ToList();
+            listaP = db.PuntoVenta.AsNoTracking().Where(c => c.ubicacion.Contains(punto) && c.estaActivo == true).ToList();
             if (listaP != null) Session["ListaP"] = listaP;
             else Session["ListaP"] = null;
             return RedirectToAction("Index", "PuntoVenta");

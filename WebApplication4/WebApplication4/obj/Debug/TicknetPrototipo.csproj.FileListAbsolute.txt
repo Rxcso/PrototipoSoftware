@@ -1151,3 +1151,5 @@ C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplicatio
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\Antlr3.Runtime.dll
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\WebGrease.dll
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\Antlr3.Runtime.pdb
+C:\temp\PrototipoSoftware\WebApplication4\WebApplication4\bin\MVC Foolproof Validation.dll
+C:\temp\PrototipoSoftware\WebApplication4\WebApplication4\bin\Antlr3.Runtime.pdb
