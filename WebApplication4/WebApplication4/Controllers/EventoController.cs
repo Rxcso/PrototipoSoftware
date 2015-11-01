@@ -769,18 +769,60 @@ namespace WebApplication4.Controllers
             ViewBag.Region = db.Region.Where(c => c.idRegion == evento.idRegion).First().nombre;
             ViewBag.Categoria = db.Categoria.Where(c => c.idCategoria == evento.idCategoria).First().nombre;
             ViewBag.Subcategoria = db.Categoria.Where(c => c.idCategoria == evento.idSubcategoria).First().nombre;
-            try
+            //Debo saber si el evento esta a la venta
+            if (evento.fecha_fin <= DateTime.Today)
             {
-                List<Funcion> funciones = db.Funcion.Where(c => c.codEvento == evento.codigo).ToList();
-                //manejar mediante ajax la carga de funciones.
-                //sugerencia: tener un nombre para la funcion en formato de la fecha en dd/MM/yyyy
-                ViewBag.FechaFunciones = new SelectList(funciones,"codFuncion","fecha");
-                //todo: buscar tarifa y precio y ver segun que bloque de tiempo estamos
-                //todo: cantidad de entradas depende del numero de asientos que escoja
+                ViewBag.EventoAcabo = "El evento ya no se encuentra disponible.";
             }
-            catch (Exception ex)
+            else
             {
-                ViewBag.MensajeErrorFunciones = "El evento no cuenta con funciones";
+                try
+                {
+                    int bloqueVenta = db.PeriodoVenta.Where(c => c.codEvento == evento.codigo && c.fechaInicio <= DateTime.Today && c.fechaFin >= DateTime.Today).First().idPerVent;
+                    List<ZonaEvento> zonasEvento = db.ZonaEvento.Where(c => c.codEvento == id).ToList();
+                    List<SelectListItem> tarifasEvento = new List<SelectListItem>();
+                    foreach (ZonaEvento zona in zonasEvento)
+                    {
+                        List<PrecioEvento> precios = db.PrecioEvento.Where(c => c.codPeriodoVenta == bloqueVenta && c.codZonaEvento == zona.codZona).ToList();
+                        foreach (PrecioEvento precio in precios)
+                        {
+                            string textoZona = zona.nombre + " - " + " S/." + precio.precio;
+                            tarifasEvento.Add(new SelectListItem { Text = textoZona, Value = "" + precio.codPrecioEvento });
+                        }
+                    }
+                    ViewBag.Tarifas = tarifasEvento;
+                    try
+                    {
+                        List<Funcion> funciones = db.Funcion.Where(c => c.codEvento == evento.codigo).ToList();
+                        //agrupo las fechas unicas de las funciones y las ordeno ascendentemente
+                        funciones = funciones.GroupBy(c => c.fecha).Select(p => p.First()).OrderBy(c => c.fecha).ToList();
+                        List<SelectListItem> listaNFunciones = new List<SelectListItem>();
+                        int i = 0;
+                        foreach (Funcion fun in funciones)
+                        {
+                            listaNFunciones.Add(new SelectListItem { Text = String.Format("{0:t}", fun.fecha), Value = "" + i });
+                            i++;
+                        }
+                        ViewBag.FechaFunciones = listaNFunciones;
+                        //todo: buscar tarifa y precio y ver segun que bloque de tiempo estamos
+                        //todo: cantidad de entradas depende del numero de asientos que escoja
+                    }
+                    catch (Exception ex)
+                    {
+                        ViewBag.MensajeErrorFunciones = "El evento no cuenta con funciones";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    List<PeriodoVenta> periodos = db.PeriodoVenta.Where(c => DateTime.Today < c.fechaInicio && c.codEvento == id).OrderBy(c => c.fechaInicio).ToList();
+                    List<string> futuraVenta = new List<string>();
+                    foreach (PeriodoVenta per in periodos)
+                    {
+                        futuraVenta.Add("- Del " + String.Format("{0:d}", per.fechaInicio) + " al " + String.Format("{0:d}", per.fechaFin) + ".");
+                    }
+                    ViewBag.EventoNoDisponible = "Las entradas del evento aun no estan a la venta. Ventas disponibles:";
+                    ViewBag.FuturasVentas = futuraVenta;
+                }
             }
             return View(evento);
         }

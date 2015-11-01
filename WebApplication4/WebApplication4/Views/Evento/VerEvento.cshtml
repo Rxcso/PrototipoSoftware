@@ -34,7 +34,7 @@
                                     }
                                     else
                                     {
-                                       @(model.direccion)
+                                        @(model.direccion)
                                     }
                                 }
                             </p>
@@ -76,94 +76,111 @@
 
                 <br>
                 <div class="caption" style="text-align:justify">
-                    <div class="row">
-                        <div class="col-md-6">
+                    @if (ViewBag.EventoAcabo != null)
+                    {
+                        @ViewBag.EventoAcabo
+                    }
+                    else
+                    {
+                        if (ViewBag.EventoNoDisponible != null)
+                        {
+                            <p>@ViewBag.EventoNoDisponible</p>
+                            List<string> futurasVentas = ViewBag.FuturasVentas as List<string>;
+                            for (int i = 0; i < futurasVentas.Count; i++)
+                            {
+                                <p style="margin-left:5em">@futurasVentas[i]</p>
+                            }
+                        }
+                        else
+                        {
                             <div class="row">
                                 <div class="col-md-6">
-                                    Función:
-                                </div>
-                                <div class="col-md-6">
-                                    @{
-                                        if (ViewBag.MensajeErrorFunciones != null)
-                                        {
-                                            <input type="text" class="form-control" value="@ViewBag.MensajeErrorFunciones" disabled>
-                                        }
-                                        else
-                                        {
-                                            <input type="text" class="form-control" value="Funciones" disabled>
-                                        }
-}
-
-                                    
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    Hora:
-                                </div>
-                                <div class="col-md-6">
-                                    <select name="" class="form-control">
-                                        <option value="">Seleccione</option>
-                                        <option value="">4:00 pm</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    Zona/Tarifa:
-                                </div>
-                                <div class="col-md-6">
-                                    <select name="" class="form-control">
-                                        <option value="">Seleccione</option>
-                                        <option value="">GENERAL A - S/.50</option>
-                                        <option value="">GENERAL B - S/.50</option>
-                                        <option value="">GENERAL C - S/.50</option>
-                                        <option value="">VIP A - S/.200</option>
-                                        <option value="">VIP B - S/.200</option>
-                                        <option value="">VIP C - S/.150</option>
-                                        <option value="">VIP D - S/.150</option>
-                                        <option value="">VIP E - S/.150</option>
-                                        <option value="">PREFERENCIAL A - S/.80</option>
-                                        <option value="">PREFERENCIAL B - S/.80</option>
-                                        <option value="">PREFERENCIAL C - S/.70</option>
-                                        <option value="">PREFERENCIAL D - S/.70</option>
-                                        <option value="">MOMENTOS CREDOMATIC - S/.300</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    Cantidad de entradas:
-                                </div>
-                                <div class="col-md-6">
-                                    <select name="" class="form-control">
-                                        <option value="">Seleccione</option>
-                                        <option value="">1</option>
-                                        <option value="">2</option>
-                                        <option value="">3</option>
-                                        <option value="">4</option>
-                                        <option value="">5</option>
-                                        <option value="">6</option>
-                                        <option value="">7</option>
-                                        <option value="">8</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <br>
-                                <div class="col-md-6">
-                                    <a href="mi_carrito_compras.html" class="btn btn-success pull-right ">Agregar al carrito <span class="glyphicon glyphicon-shopping-cart"></span></a>
-                                </div>
-                                <div class="col-md-6">
-                                    <a onclick="reservaExitosa()" href="buscar_reserva(cliente).html" class="btn btn-primary pull-right ">Reservar <span class="glyphicon glyphicon-save"></span></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            Función:
+                                        </div>
+                                        <div class="col-md-6">
+                                            @{
+                            if (ViewBag.MensajeErrorFunciones != null)
+                            {
+                                <input type="text" class="form-control" value="@ViewBag.MensajeErrorFunciones" disabled>
+                            }
+                            else
+                            {
+                                <input type="text" class="form-control" value="Funciones" disabled>
+                            }
+                                            }
 
 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            Hora:
+                                        </div>
+                                        <div class="col-md-6">
+                                            <select name="" class="form-control">
+                                                <option value="">Seleccione</option>
+                                                <option value="">4:00 pm</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            Zona/Tarifa:
+                                        </div>
+                                        <div class="col-md-6">
+                                            <select name="" class="form-control">
+                                                <option value="">Seleccione</option>
+                                                <option value="">GENERAL A - S/.50</option>
+                                                <option value="">GENERAL B - S/.50</option>
+                                                <option value="">GENERAL C - S/.50</option>
+                                                <option value="">VIP A - S/.200</option>
+                                                <option value="">VIP B - S/.200</option>
+                                                <option value="">VIP C - S/.150</option>
+                                                <option value="">VIP D - S/.150</option>
+                                                <option value="">VIP E - S/.150</option>
+                                                <option value="">PREFERENCIAL A - S/.80</option>
+                                                <option value="">PREFERENCIAL B - S/.80</option>
+                                                <option value="">PREFERENCIAL C - S/.70</option>
+                                                <option value="">PREFERENCIAL D - S/.70</option>
+                                                <option value="">MOMENTOS CREDOMATIC - S/.300</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            Cantidad de entradas:
+                                        </div>
+                                        <div class="col-md-6">
+                                            <select name="" class="form-control">
+                                                <option value="">Seleccione</option>
+                                                <option value="">1</option>
+                                                <option value="">2</option>
+                                                <option value="">3</option>
+                                                <option value="">4</option>
+                                                <option value="">5</option>
+                                                <option value="">6</option>
+                                                <option value="">7</option>
+                                                <option value="">8</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <br>
+                                        <div class="col-md-6">
+                                            <a href="mi_carrito_compras.html" class="btn btn-success pull-right ">Agregar al carrito <span class="glyphicon glyphicon-shopping-cart"></span></a>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a onclick="reservaExitosa()" href="buscar_reserva(cliente).html" class="btn btn-primary pull-right ">Reservar <span class="glyphicon glyphicon-save"></span></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
                 </div>
             </div>
         </div>
