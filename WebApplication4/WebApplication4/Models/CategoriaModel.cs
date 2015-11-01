@@ -50,7 +50,7 @@ namespace WebApplication4.Models
         [Display(Name = "Descripcion: ")]
         public string descripcion { get; set; }
 
-        [Display(Name = "Id Padre: ")]
+        [Display(Name = "Padre: ")]
         public int idCatPadre { get; set; }
 
         [Display(Name = "Activo: ")]
