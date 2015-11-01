@@ -339,6 +339,7 @@
     <Property Name="idRegion" Type="Int32" />
     <NavigationProperty Name="Region" Relationship="inf245netsoftModel.R_20" FromRole="Local" ToRole="Region" />
     <NavigationProperty Name="Region1" Relationship="inf245netsoftModel.R_72" FromRole="Local" ToRole="Region" />
+    <Property Name="estaActivo" Type="Boolean" />
   </EntityType>
   <EntityType Name="Organizador">
     <Key>

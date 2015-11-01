@@ -45,6 +45,7 @@ namespace WebApplication4.Controllers
                 local.descripcion = model.descripcion;
                 local.aforo = model.aforo;
                 local.ubicacion = model.ubicacion;
+                local.estaActivo = true;
                 local.idProvincia = model.idProv;
                 local.idRegion = model.idRegion;
                 db.Local.Add(local);
@@ -62,9 +63,9 @@ namespace WebApplication4.Controllers
         {
             int id = int.Parse(local);
             Local localr = db.Local.Find(id);
-            db.Local.Remove(localr);
-            //db.Entry(localr).State = EntityState.Modified;
-            //local.es
+            //db.Local.Remove(localr);
+            db.Entry(localr).State = EntityState.Modified;
+            localr.estaActivo = false;
             db.SaveChanges();
             return RedirectToAction("Index", "Local");
         }
@@ -73,8 +74,8 @@ namespace WebApplication4.Controllers
         {
             Local local = db.Local.Find(id);
             db.Local.Remove(local);
-            //db.Entry(local).State = EntityState.Modified;
-            //local.es
+            db.Entry(local).State = EntityState.Modified;
+            local.estaActivo = false;
             db.SaveChanges();
             return RedirectToAction("Index", "Local");
         }
@@ -161,7 +162,7 @@ namespace WebApplication4.Controllers
                 Session["ListaL"] = null;
                 return RedirectToAction("Index", "Local");
             }
-            listaLoc = db.Local.AsNoTracking().Where(c => c.descripcion.Contains(local)).ToList();
+            listaLoc = db.Local.AsNoTracking().Where(c => c.descripcion.Contains(local) && c.estaActivo == true).ToList();
             if (listaLoc != null) Session["ListaL"] = listaLoc;
             else Session["ListaL"] = null;
             return RedirectToAction("Index", "Local");
@@ -179,10 +180,10 @@ namespace WebApplication4.Controllers
             }
             if (region == "0")
             {
-                Session["ListaL"] = db.Local.ToList();
+                Session["ListaL"] = db.Local.Where(c => c.estaActivo == true).ToList();
                 return RedirectToAction("Index", "Local");
             }
-            listaLoc = db.Local.AsNoTracking().Where(c => c.idRegion == id).ToList();
+            listaLoc = db.Local.AsNoTracking().Where(c => c.idRegion == id && c.estaActivo == true).ToList();
             if (listaLoc != null) Session["ListaL"] = listaLoc;
             else Session["ListaL"] = null;
             return RedirectToAction("Index", "Local");

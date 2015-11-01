@@ -65,7 +65,7 @@
         List<WebApplication4.Models.Local> listaLocal;
         if (Session["ListaL"] == null)
         {
-            listaLocal = db.Local.ToList();
+            listaLocal = db.Local.AsNoTracking().Where(c => c.estaActivo == true).ToList();
         }
         else
         {
