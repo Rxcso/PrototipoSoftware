@@ -81,15 +81,22 @@ namespace WebApplication4.Controllers
 
         public ActionResult Edit(string local)
         {
-            List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
-            List<Region> listProv = new List<Region>();
-            ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
-            ViewBag.ProvID = new SelectList(listProv, "idProv", "nombre");
-
-            int id=int.Parse(local);
-            ViewBag.id = id;
-            TempData["codigol"] = id;
-            Session["local"] = db.Local.Find(id);
+            if (local != null)
+            {
+                int id = int.Parse(local);
+                ViewBag.id = id;
+                TempData["codigol"] = id;
+                Local lo = db.Local.Find(id);
+                LocalModel lo1 = new LocalModel();
+                Session["local"] = lo;
+                int idl = (int)lo.idRegion;
+                lo1.idRegion = (int)lo.idRegion;
+                lo1.idProv = (int)lo.idProvincia;
+                List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
+                List<Region> listProv = db.Region.Where(c => c.idRegPadre == idl).ToList();
+                ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre", lo1.idRegion);
+                ViewBag.ProvID = new SelectList(listProv, "idRegion", "nombre", lo1.idProv);
+            }
             return View("Edit");
         }
 
@@ -106,6 +113,7 @@ namespace WebApplication4.Controllers
             List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
             List<Region> listProv = new List<Region>();
             ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
+            ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
             ViewBag.ProvID = new SelectList(listProv, "idProv", "nombre");
             return View();
         }
@@ -118,7 +126,7 @@ namespace WebApplication4.Controllers
             {
                 var o = ViewBag.id;
                 Local local = db.Local.Find(TempData["codigol"]);
-                db.Entry(local).State = EntityState.Modified;                
+                db.Entry(local).State = EntityState.Modified;
                 local.aforo = model.aforo;
                 local.descripcion = model.descripcion;
                 local.ubicacion = model.ubicacion;
@@ -133,14 +141,14 @@ namespace WebApplication4.Controllers
         [HttpPost]
         [AllowAnonymous]
         public ActionResult Search(LocalSearchModel local)
-        {         
-            List<Local> listaLoc=null;
+        {
+            List<Local> listaLoc = null;
             if (local.departamento == 0 && local.nombre != null) listaLoc = db.Local.AsNoTracking().Where(c => c.descripcion.Contains(local.nombre)).ToList();
-                else if (local.departamento != 0 && local.nombre == null) listaLoc = db.Local.AsNoTracking().Where(c => local.departamento == c.idRegion).ToList();
+            else if (local.departamento != 0 && local.nombre == null) listaLoc = db.Local.AsNoTracking().Where(c => local.departamento == c.idRegion).ToList();
             else if (local.departamento != 0 && local.nombre != null) listaLoc = db.Local.AsNoTracking().Where(c => c.descripcion.Contains(local.nombre) && local.departamento == c.idRegion).ToList();
-                else TempData["ListaL"] = null;
-                if (listaLoc != null) TempData["ListaL"] = listaLoc;
-                else TempData["ListaL"] = null;            
+            else TempData["ListaL"] = null;
+            if (listaLoc != null) TempData["ListaL"] = listaLoc;
+            else TempData["ListaL"] = null;
             return RedirectToAction("Index", "Local");
         }
 
@@ -174,7 +182,7 @@ namespace WebApplication4.Controllers
                 Session["ListaL"] = db.Local.ToList();
                 return RedirectToAction("Index", "Local");
             }
-            listaLoc = db.Local.AsNoTracking().Where(c => c.idRegion==id).ToList();
+            listaLoc = db.Local.AsNoTracking().Where(c => c.idRegion == id).ToList();
             if (listaLoc != null) Session["ListaL"] = listaLoc;
             else Session["ListaL"] = null;
             return RedirectToAction("Index", "Local");
