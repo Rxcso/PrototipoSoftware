@@ -33,6 +33,7 @@ namespace WebApplication4.Controllers
             double mS = double.Parse(montos);
             if (double.TryParse(montod, out m1) == false) return RedirectToAction("Apertura", "Ventas");
             double mD = double.Parse(montod);
+            if (mS < 0 || mD < 0) return RedirectToAction("Apertura", "Ventas");
             db.Entry(turno).State = EntityState.Modified;
             turno.MontoInicioDolares = mD;
             turno.MontoInicioSoles = mS;
@@ -53,6 +54,7 @@ namespace WebApplication4.Controllers
             double mS = double.Parse(montos);
             if (double.TryParse(montod, out m1) == false) return RedirectToAction("Cierre", "Ventas");
             double mD = double.Parse(montod);
+            if (mS < 0 || mD < 0) return RedirectToAction("Cierre", "Ventas");
             db.Entry(turno).State = EntityState.Modified;
             turno.MontoFinDolares = mD;
             turno.MontoFinSoles = mS;
@@ -133,6 +135,7 @@ namespace WebApplication4.Controllers
             double m = double.Parse(monto);
             double pend1 = double.Parse(pend);
             if (m > pend1) return RedirectToAction("Pago", "Ventas");
+            if (m <= 0) return RedirectToAction("Pago", "Ventas");
             //if (monto == "" || monto == null) return RedirectToAction("Pago", "Ventas");         
             //List<Eventos> listEp = (List<Eventos>)Session["EventosP"];
             Organizador org = (Organizador)Session["orgPago"];
