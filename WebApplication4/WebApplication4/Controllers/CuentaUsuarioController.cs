@@ -587,7 +587,7 @@ namespace WebApplication4.Controllers
             return RedirectToAction("BuscaCliente", "CuentaUsuario");
         }
 
-        public ActionResult EntregaRegalo2(string regalo, string cliente)
+        public JsonResult EntregaRegalo2(string regalo, string cliente)
         {
             int idRe = int.Parse(regalo);
             string usuario2 = cliente.Replace("°", "@");
@@ -607,7 +607,7 @@ namespace WebApplication4.Controllers
                 db.RegaloXCuenta.Add(rc);
                 db.SaveChanges();
                 db.Entry(cuenta).State = EntityState.Detached;
-                return RedirectToAction("BuscaCliente", "CuentaUsuario");
+                return Json("Regalo Entregado", JsonRequestBehavior.AllowGet);
             }
             //CuentaUsuario cuenta2 = (CuentaUsuario)TempData["EntregaCl"];
             //Regalo re = db.Regalo.Find(regalo.id);
@@ -615,7 +615,7 @@ namespace WebApplication4.Controllers
             //{
 
             //}
-            return RedirectToAction("BuscaCliente", "CuentaUsuario");
+            return Json("Error El cliente no tiene puntos suficientes para conseguir este regalo", JsonRequestBehavior.AllowGet);
         }
 
     }

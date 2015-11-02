@@ -238,11 +238,11 @@
                 data: { regalo: regalo, cliente: cliente },
                 success: function (data) {
 
-                    //alert("Entregado");
+                    alert(data);
                     window.location.href = '/CuentaUsuario/BuscaCliente';
                     //row.remove();
                 },
-                error: function () {
+                error: function (data) {
                     alert("Error :(");
                 }
             });
@@ -276,7 +276,7 @@
                 @*@{
                     Html.RenderPartial("_Search1");
                 }*@
-                <div class="col-md-2">
+                <div class="col-md-6">
                     <select class="form-control" name="" id="comboBusq2" onchange="">
                         <option value="0">Regalo - Puntos</option>
                         @foreach (var item in listaSearch)
