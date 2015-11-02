@@ -1147,10 +1147,8 @@ namespace WebApplication4.Controllers
             int id = int.Parse(evento);
             Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();
 
-            ViewBag.idEvento = evento;
-
             List<Funcion> listaFunciones = db.Funcion.Where(c => c.codEvento == id && c.estado != "CANCELADO").ToList();
-            ViewBag.listaFunciones = listaFunciones;
+
             CancelarModel cancelarEvento = new CancelarModel();
             cancelarEvento.idEvento = id;
             cancelarEvento.nombreEvento = queryEvento.nombre;
@@ -1201,19 +1199,40 @@ namespace WebApplication4.Controllers
         public ActionResult CancelarEvento(CancelarModel evento)
         {
 
-            int id = evento.idEvento;
-            Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();
-            ViewBag.nombreEvento = queryEvento.nombre;
-            int idOrganizador = (int)queryEvento.idOrganizador;
-            ViewBag.idEvento = evento;
-            ViewBag.organizadorEvento = db.Organizador.Where(c => c.codOrg == idOrganizador).First().nombOrg;
+            if (evento.fechaRecojo <= DateTime.Today)
+            {
+                ModelState.AddModelError("fechaRecojo", "Elija una fecha posterior al día de hoy");
+            }
 
-            ViewBag.listaFunciones = db.Funcion.Where(c => c.codEvento == id && c.estado != "CANCELADO").ToList();
+            int cnt = 0;
+            if( evento.seCancela != null )for (int i = 0; i < evento.seCancela.Count(); i++) if (evento.seCancela[i]) cnt++;
 
-            return Redirect("~/Evento");
+            if (cnt==0)
+            {
+                ModelState.AddModelError("organizador", "Debe elegir un evento a cancelar");
+            }
 
+            if (ModelState.IsValid)
+            {
+
+                for (int i = 0; i< evento.seCancela.Count(); i++ )if(evento.seCancela[i]){
+                    int idF= evento.listIdFuncion[i];
+                    Funcion f = db.Funcion.Where(c => c.codFuncion == idF).First();
+
+                    db.Entry(f).State = EntityState.Modified;
+                    f.estado = "CANCELADO";
+
+                    db.SaveChanges();
+                }
+
+                TempData["message"] = "Se cancelar las funciones correctamente";
+                TempData["tipo"] = "alert alert-success";
+
+                return Redirect("~/Evento");
+            }
+
+            return  CancelarEvento( ""+evento.idEvento) ;
         }
-
 
 
     }
