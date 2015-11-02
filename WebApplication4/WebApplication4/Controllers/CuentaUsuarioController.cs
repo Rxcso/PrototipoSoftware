@@ -426,8 +426,11 @@ namespace WebApplication4.Controllers
             TimeSpan ts = dt2.Subtract(dt1);
             int nd = (int)ts.Days;
             nd = nd + 1;
+            int idPol = 5;
+            int limite = (int)db.Politicas.Find(idPol).valor;
             if (dt1 <= DateTime.Now) return Json("la fecha debe ser superior de hoy", JsonRequestBehavior.AllowGet);
             if (dt1 > dt2) return Json("Fecha inicio debe ser menor que fecha fin", JsonRequestBehavior.AllowGet);
+            if (nd > limite) return Json("No puedo asignar a la vez mas de "+limite+" turnos de manera seguida", JsonRequestBehavior.AllowGet);
             //int cruce = 0;            
             for (int j = 0; j < nd; j++)
             {

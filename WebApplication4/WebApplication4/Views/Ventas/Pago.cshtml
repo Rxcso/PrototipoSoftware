@@ -238,11 +238,11 @@
                 url: "@Url.Action("RegistrarPagos","Ventas")",
                 data: { monto: monto,pend:pend },
                 success: function (data) {
-                    //alert("Eliminado");
+                    alert(data);
                     window.location.href = '/Ventas/Pago';
                 },
-                error: function () {
-                    //alert("Error :(");
+                error: function (data) {
+                    alert(data);
                     window.location.href = '/Ventas/Pago';
                 }
             });

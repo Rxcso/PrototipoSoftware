@@ -94,11 +94,11 @@
                 url: "@Url.Action("AbrirCaja", "Ventas")",
                 data: { montos: montos, montod: montod },
             success: function (data) {
-                //alert("Eliminado");
+                alert(data);
                 window.location.href = '/Ventas/Apertura';
             },
-            error: function () {
-                //alert("Error :(");
+            error: function (data) {
+                alert(data);
                 window.location.href = '/Ventas/Apertura';
             }
         });

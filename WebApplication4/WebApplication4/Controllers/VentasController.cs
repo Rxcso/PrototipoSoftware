@@ -23,17 +23,17 @@ namespace WebApplication4.Controllers
             return View();
         }
 
-        public ActionResult AbrirCaja(string montos, string montod)
+        public JsonResult AbrirCaja(string montos, string montod)
         {
             Turno turno = (Turno)Session["TurnoHoy"];
-            if (turno == null) return RedirectToAction("Apertura", "Ventas");
-            if (turno.estadoCaja != "Pendiente") return RedirectToAction("Apertura", "Ventas");
+            if (turno == null) return Json("No tienes un turno asignado", JsonRequestBehavior.AllowGet);
+            if (turno.estadoCaja != "Pendiente") return Json("Caja ya ha sido abierta", JsonRequestBehavior.AllowGet);
             double m1;
-            if (double.TryParse(montos, out m1) == false) return RedirectToAction("Apertura", "Ventas");
+            if (double.TryParse(montos, out m1) == false) return Json("Monto ingresado invalido", JsonRequestBehavior.AllowGet);
             double mS = double.Parse(montos);
-            if (double.TryParse(montod, out m1) == false) return RedirectToAction("Apertura", "Ventas");
+            if (double.TryParse(montod, out m1) == false) return Json("Monto ingresado invalido", JsonRequestBehavior.AllowGet);
             double mD = double.Parse(montod);
-            if (mS < 0 || mD < 0) return RedirectToAction("Apertura", "Ventas");
+            if (mS < 0 || mD < 0) return Json("Los montos ingresados deben ser mayor o iguales a cero", JsonRequestBehavior.AllowGet);
             db.Entry(turno).State = EntityState.Modified;
             turno.MontoInicioDolares = mD;
             turno.MontoInicioSoles = mS;
@@ -41,20 +41,20 @@ namespace WebApplication4.Controllers
             db.SaveChanges();
             db.Entry(turno).State = EntityState.Detached;
             Session["AperturaCompleta"] = 1;
-            return View();
+            return Json("Caja Abierta", JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult CerrarCaja(string montos, string montod)
+        public JsonResult CerrarCaja(string montos, string montod)
         {
             Turno turno = (Turno)Session["TurnoHoy"];
-            if (turno == null) return RedirectToAction("Cierre", "Ventas");
-            if (turno.estadoCaja == "Pendiente") return RedirectToAction("Cierre", "Ventas");
+            if (turno == null) return Json("No tienes un turno asignado", JsonRequestBehavior.AllowGet);
+            if (turno.estadoCaja == "Pendiente" || turno.estadoCaja == "Cerrado") return Json("Caja no ha sido abierta o caja ya esta cerrada", JsonRequestBehavior.AllowGet);
             double m1;
-            if (double.TryParse(montos, out m1) == false) return RedirectToAction("Cierre", "Ventas");
+            if (double.TryParse(montos, out m1) == false) return Json("Monto ingresado invalido", JsonRequestBehavior.AllowGet);
             double mS = double.Parse(montos);
-            if (double.TryParse(montod, out m1) == false) return RedirectToAction("Cierre", "Ventas");
+            if (double.TryParse(montod, out m1) == false) return Json("Monto ingresado invalido", JsonRequestBehavior.AllowGet);
             double mD = double.Parse(montod);
-            if (mS < 0 || mD < 0) return RedirectToAction("Cierre", "Ventas");
+            if (mS < 0 || mD < 0) return Json("Los montos ingresados deben ser mayor o iguales a cero", JsonRequestBehavior.AllowGet);
             db.Entry(turno).State = EntityState.Modified;
             turno.MontoFinDolares = mD;
             turno.MontoFinSoles = mS;
@@ -62,7 +62,7 @@ namespace WebApplication4.Controllers
             db.SaveChanges();
             db.Entry(turno).State = EntityState.Detached;
             Session["CierreCompleta"] = 1;
-            return View();
+            return Json("Caja Cerrada", JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Cierre()
@@ -140,13 +140,13 @@ namespace WebApplication4.Controllers
             return RedirectToAction("Asignacion", "Ventas");
         }
 
-        public ActionResult RegistrarPagos(string monto, string pend)
+        public JsonResult RegistrarPagos(string monto, string pend)
         {
             double m1;
-            if (double.TryParse(monto, out m1) == false) return RedirectToAction("Pago", "Ventas");
+            if (double.TryParse(monto, out m1) == false) return Json("monto invalido", JsonRequestBehavior.AllowGet);
             double m = double.Parse(monto);
             double pend1 = double.Parse(pend);
-            if (m > pend1) return RedirectToAction("Pago", "Ventas");
+            if (m > pend1) return Json("monto ingresado debe ser menor o igual al monto pendiente", JsonRequestBehavior.AllowGet);
             //if (m <= 0) return RedirectToAction("Pago", "Ventas");
             //if (monto == "" || monto == null) return RedirectToAction("Pago", "Ventas");         
             //List<Eventos> listEp = (List<Eventos>)Session["EventosP"];
@@ -212,7 +212,7 @@ namespace WebApplication4.Controllers
             //    }
             //}
             //Session["EventosP"] = listEpa;
-            return View();
+            return Json("Pago Registrado", JsonRequestBehavior.AllowGet);
         }
     }
 }
