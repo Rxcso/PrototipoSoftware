@@ -207,7 +207,7 @@ namespace WebApplication4.Controllers
             return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
 
-
+        //a
         
         //
         // POST: /Account/VerifyCode
