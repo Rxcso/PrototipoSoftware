@@ -267,58 +267,114 @@ namespace WebApplication4.Controllers
             return RedirectToAction("MisReservas", "CuentaUsuario");
         }
 
-        public ActionResult RegistraPoliticas(string dur, string mx, string mt)
+        public JsonResult RegistraPoliticas(string dur, string mx, string mt,string ra)
         {
-            int m1, m2, m3;
+            int m1, m2, m3,m4;
+            string me1 = "Error", me2 = " Error",me3=" Error",me4=" Error";
             if (int.TryParse(dur, out m1) == true)
             {
                 int val = int.Parse(dur);
-                int t = 1;
+                if (val > 0)
+                {
+                    int t = 1;
+                    Politicas p = db.Politicas.Find(t);
+                    db.Entry(p).State = EntityState.Modified;
+                    p.valor = val;
+                    db.SaveChanges();
+                    db.Entry(p).State = EntityState.Detached;
+                    me1 = "Completado";
+                }
+                else
+                {
+                    me1 = " Error Negativo";
+                }
+            }
+            if (int.TryParse(mx, out m2) == true)
+            {
+                int val1 = int.Parse(mx);
+                if (val1 > 0)
+                {
+                    int t = 2;
+                    Politicas p = db.Politicas.Find(t);
+                    db.Entry(p).State = EntityState.Modified;
+                    p.valor = val1;
+                    db.SaveChanges();
+                    db.Entry(p).State = EntityState.Detached;
+                    me2 = " Completado";
+                }
+                else
+                {
+                    me2 = " Error Negativo";
+                }
+            }
+            if (int.TryParse(mt, out m3) == true)
+            {
+                int val2 = int.Parse(mt);
+                if (val2 > 0)
+                {
+                    int t = 3;
+                    Politicas p = db.Politicas.Find(t);
+                    db.Entry(p).State = EntityState.Modified;
+                    p.valor = val2;
+                    db.SaveChanges();
+                    db.Entry(p).State = EntityState.Detached;
+                    me3 = " Completado";
+                }
+                else
+                {
+                    me3 = " Error Negativo";
+                }
+
+            }
+            if (int.TryParse(ra, out m4) == true)
+            {
+                int val3 = int.Parse(ra);
+                if (val3 > 0)
+                {
+                    int t = 5;
+                    Politicas p = db.Politicas.Find(t);
+                    db.Entry(p).State = EntityState.Modified;
+                    p.valor = val3;
+                    db.SaveChanges();
+                    db.Entry(p).State = EntityState.Detached;
+                    me4 = " Completado";
+                }
+                else
+                {
+                    me4 = " Error Negativo";
+                }
+            }
+            string mensaje = me1 + me2 + me3 + me4;
+            return Json(mensaje, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult RegistraTolerancia(String tolerancia)
+        {
+            string mensaje = "Ingrese datos";
+            if (tolerancia == "" || tolerancia == null) return Json(mensaje, JsonRequestBehavior.AllowGet);
+            //double m1;
+            int m1;
+            string me = "Error";
+            mensaje = me;
+            if (int.TryParse(tolerancia, out m1) == false) return Json(mensaje, JsonRequestBehavior.AllowGet);
+            //double m = double.Parse(tolerancia);
+            //int val = (int)m;
+            int val = int.Parse(tolerancia);
+            if (val > 0)
+            {
+                int t = 4;
                 Politicas p = db.Politicas.Find(t);
                 db.Entry(p).State = EntityState.Modified;
                 p.valor = val;
                 db.SaveChanges();
                 db.Entry(p).State = EntityState.Detached;
+                mensaje = "Registro completo";
             }
-            if (int.TryParse(mx, out m2) == true)
+            else
             {
-                int val1 = int.Parse(mx);
-                int t = 2;
-                Politicas p = db.Politicas.Find(t);
-                db.Entry(p).State = EntityState.Modified;
-                p.valor = val1;
-                db.SaveChanges();
-                db.Entry(p).State = EntityState.Detached;
+                mensaje = "Error numero negativo";
             }
-            if (int.TryParse(mt, out m3) == true)
-            {
-                int val2 = int.Parse(mt);
-                int t = 3;
-                Politicas p = db.Politicas.Find(t);
-                db.Entry(p).State = EntityState.Modified;
-                p.valor = val2;
-                db.SaveChanges();
-                db.Entry(p).State = EntityState.Detached;
-            }
-            return View();
-        }
-
-        public ActionResult RegistraTolerancia(String tolerancia)
-        {
-            if (tolerancia == "" || tolerancia == null) return View();
-            //double m1;
-            int m1;
-            if (int.TryParse(tolerancia, out m1) == false) return View();
-            //double m = double.Parse(tolerancia);
-            //int val = (int)m;
-            int val = int.Parse(tolerancia);
-            int t = 4;
-            Politicas p = db.Politicas.Find(t);
-            db.Entry(p).State = EntityState.Modified;
-            p.valor = val;
-            db.SaveChanges();
-            db.Entry(p).State = EntityState.Detached;
-            return View();
+            return Json(mensaje, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult BuscaReserva()

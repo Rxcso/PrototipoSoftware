@@ -68,6 +68,17 @@
                         </div>
                     </div><br>
                     <div class="row">
+                        <div class="col-md-3 col-md-offset-1">
+                            <label for="">Cantida Maxima de Rango Asignacion de Turnos:</label>
+
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <input id="rAsg" type="number" class="form-control" aria-describedby="min">
+                            </div>
+                        </div>
+                    </div><br>
+                    <div class="row">
                         <div class="col-md-3 col-md-offset-5">
                             <button type="button" onclick="registrar()" class="btn btn-primary">Registrar <span class="glyphicon glyphicon-ok"></span></button>
                         </div>
@@ -109,20 +120,22 @@
 		    var dur = $('#durR').val();
 		    var mx = $('#maxC').val();
 		    var mt = $('#monT').val();
+		    var ra = $('#rAsg').val();
 		    //alert(dur);
 		    //alert(mx);
 		    //alert(mt);
 		    if (mx!=null || dur!=null || mt!=null) {
 		        $.ajax({
 		            url: "@Url.Action("RegistraPoliticas", "CuentaUsuario")",
-		            data: { dur:dur,mx:mx,mt:mt },
+		            data: { dur:dur,mx:mx,mt:mt,ra:ra },
 		        success: function (data) {
-		            //alert("Desactivado");
+		            alert(data);
 		            window.location.href = '/CuentaUsuario/Politicas';
 		            //window.location.href = 'Promocion/Index?evento='+evento;
 		            //row.remove();
 		        },
-		        error: function () {
+		        error: function (data) {
+		            alert(data);
 		            //alert("Error :(");
 		        }
 		    });
@@ -137,13 +150,13 @@
 		            url: "@Url.Action("RegistraTolerancia","CuentaUsuario")",
 		            data: { tolerancia:tolerancia},
 		        success: function (data) {
-		            //alert("Desactivado");
+		            alert(data);
 		            window.location.href = '/CuentaUsuario/Politicas';
 		            //window.location.href = 'Promocion/Index?evento='+evento;
 		            //row.remove();
 		        },
 		        error: function () {
-		            //alert("Error :(");
+		            alert(data);
 		        }
 		    });
         } else {
