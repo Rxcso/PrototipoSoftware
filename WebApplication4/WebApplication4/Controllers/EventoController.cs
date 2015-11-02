@@ -444,6 +444,7 @@ namespace WebApplication4.Controllers
                     Funcion fAgr = new Funcion();
                     fAgr.fecha = lista[i].fechaFuncion;
                     fAgr.horaIni = lista[i].horaInicio;
+                    fAgr.codEvento = idEvento;
                     agregar.Add(fAgr);
                 }
                 //si existe, no le tengo que hacer nada
@@ -465,6 +466,7 @@ namespace WebApplication4.Controllers
                 db.SaveChanges();
             }
         }
+
         [HttpPost]
         public ActionResult Funciones(FuncionesListModel model)
         {
@@ -508,7 +510,6 @@ namespace WebApplication4.Controllers
             return RedirectToAction("Index");
         }
 
-
         [HttpGet]
         public ActionResult Tarifas()
         {
@@ -516,16 +517,58 @@ namespace WebApplication4.Controllers
             //Si un evento se modifica, las tarifas se crean desde 0
             if (Session["IdEventoModificado"] != null || Session["IdEventoCreado"] != null)
             {
+                List<PeriodoVenta> listaPV = new List<PeriodoVenta>();
+                List<string> nombresPV = new List<string>();
                 if (Session["IdEventoCreado"] != null)
+                {
+                    listaPV = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
                     idEvento = int.Parse(Session["IdEventoCreado"].ToString());
+                    foreach (PeriodoVenta p in listaPV)
+                    {
+                        nombresPV.Add("Del " + String.Format("{0:dd/MM/yyyy}", p.fechaInicio) + " hasta: " + String.Format("{0:dd/MM/yyyy}", p.fechaFin));
+                    }
+                    ViewBag.NombrePV = nombresPV;
+                    ViewBag.MensajeError = "";
+                    return View();
+                }
                 if (Session["IdEventoModificado"] != null)
                     idEvento = int.Parse(Session["IdEventoModificado"].ToString());
-                List<PeriodoVenta> listaPV = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
-                List<string> nombresPV = new List<string>();
+                listaPV = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
+                //NOMBRE DEL evento
                 foreach (PeriodoVenta p in listaPV)
                 {
                     nombresPV.Add("Del " + String.Format("{0:dd/MM/yyyy}", p.fechaInicio) + " hasta: " + String.Format("{0:dd/MM/yyyy}", p.fechaFin));
                 }
+                //--//
+                List<ZonaEvento> zonasEvento = db.ZonaEvento.Where(c => c.codEvento == idEvento).ToList();
+                ZonaEventoListModel model = new ZonaEventoListModel();
+                model.ListaZEM = new List<ZonaEventoModel>();
+                foreach (ZonaEvento zona in zonasEvento)
+                {
+                    ZonaEventoModel zonamodel = new ZonaEventoModel();
+                    zonamodel.Aforo = zona.aforo;
+                    zonamodel.Nombre = zona.nombre;
+                    zonamodel.ListaTarifas = new List<TarifaModel>();
+                    zonamodel.Id = zona.codZona;
+                    List<PrecioEvento> preciosevento = db.PrecioEvento.Where(c => c.codZonaEvento == zona.codZona).ToList();
+                    foreach (PrecioEvento precio in preciosevento)
+                    {
+                        TarifaModel tarifa = new TarifaModel();
+                        tarifa.Precio = (Double)precio.precio;
+                        zonamodel.ListaTarifas.Add(tarifa);
+                    }
+                    if (preciosevento.Count < listaPV.Count)
+                    {
+                        for (int i = 0; i < (listaPV.Count - preciosevento.Count); i++)
+                        {
+                            TarifaModel tarifa = new TarifaModel();
+                            tarifa.Precio = 0;
+                            zonamodel.ListaTarifas.Add(tarifa);
+                        }
+                    }
+                    model.ListaZEM.Add(zonamodel);
+                }
+                ViewBag.TarifasDelEvento = model;
                 ViewBag.NombrePV = nombresPV;
                 ViewBag.MensajeError = "";
                 return View();
@@ -535,18 +578,73 @@ namespace WebApplication4.Controllers
             return RedirectToAction("Index");
         }
 
+        private void FiltrarTarifas(List<ZonaEventoModel> listaModel, List<PeriodoVenta> listaPV,int idEvento)
+        {
+            //boro los precio evento existentes par aluego reemplazarlos
+            foreach (PeriodoVenta pventa in listaPV)
+            {
+                List<PrecioEvento> precios = db.PrecioEvento.Where(c => c.codPeriodoVenta == pventa.idPerVent).ToList();
+                foreach (PrecioEvento precio in precios)
+                {
+                    db.PrecioEvento.Remove(precio);
+                    db.SaveChanges();
+                }
+            }
+            for (int i = 0; i < listaModel.Count; i++)
+            {
+                int idZona = listaModel[i].Id;
+                //es una zona modificada
+                if (idZona != 0)
+                {
+                    ZonaEvento zonaMod = db.ZonaEvento.Where(c => c.codZona == idZona).First();
+                    zonaMod.nombre = listaModel[i].Nombre;
+                    zonaMod.aforo = listaModel[i].Aforo;
+                    db.SaveChanges();
+                }
+                else
+                {
+                    //es una zona nueva
+                    ZonaEvento zonaNueva = new ZonaEvento();
+                    zonaNueva.nombre = listaModel[i].Nombre;
+                    zonaNueva.aforo = listaModel[i].Aforo;
+                    zonaNueva.codEvento = idEvento;
+                    zonaNueva.cantFilas = 0;
+                    zonaNueva.cantColumnas = 0;
+                    zonaNueva.tieneAsientos = false;
+                    db.ZonaEvento.Add(zonaNueva);
+                    db.SaveChanges();
+                    idZona = zonaNueva.codZona;
+                }
+                List<TarifaModel> tarifas = listaModel[i].ListaTarifas;
+                for (int j = 0; j < tarifas.Count; j++)
+                {
+                    PrecioEvento precioevento = new PrecioEvento();
+                    precioevento.precio = tarifas[j].Precio;
+                    precioevento.codPeriodoVenta = listaPV[j].idPerVent;
+                    precioevento.codZonaEvento = idZona;
+                    db.PrecioEvento.Add(precioevento);
+                    db.SaveChanges();
+                }
+            }
+        }
         [HttpPost]
         public ActionResult Tarifas(ZonaEventoListModel model)
         {
             int idEvento = 0;
             if (Session["IdEventoModificado"] != null || Session["IdEventoCreado"] != null)
             {
+                List<PeriodoVenta> listaPV = new List<PeriodoVenta>();
+                List<ZonaEventoModel> list = model.ListaZEM;
                 if (Session["IdEventoCreado"] != null)
                     idEvento = int.Parse(Session["IdEventoCreado"].ToString());
                 if (Session["IdEventoModificado"] != null)
+                {
                     idEvento = int.Parse(Session["IdEventoModificado"].ToString());
-                List<PeriodoVenta> listaPV = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
-                List<ZonaEventoModel> list = model.ListaZEM;
+                    listaPV = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
+                    FiltrarTarifas(list, listaPV,idEvento);
+                    return RedirectToAction("ExtrasEvento");
+                }
+                listaPV = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
                 foreach (ZonaEventoModel zona in list)
                 {
                     //guardamos la zona del evento
@@ -554,6 +652,9 @@ namespace WebApplication4.Controllers
                     zonaEvento.aforo = zona.Aforo;
                     zonaEvento.nombre = zona.Nombre;
                     zonaEvento.codEvento = idEvento;
+                    zonaEvento.cantFilas = 0;
+                    zonaEvento.cantColumnas = 0;
+                    zonaEvento.tieneAsientos = false;
                     db.ZonaEvento.Add(zonaEvento);
                     db.SaveChanges();
                     int idZona = zonaEvento.codZona;
