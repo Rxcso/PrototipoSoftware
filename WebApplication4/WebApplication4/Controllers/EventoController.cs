@@ -750,7 +750,7 @@ namespace WebApplication4.Controllers
             ViewBag.idEvento = evento;
             ViewBag.listaZonas = db.ZonaEvento.Where(c => c.codEvento == id).ToList();
             ViewBag.yaVencio = (queryEvento.fecha_inicio < DateTime.Today);
-
+            
             JavaScriptSerializer serializer = new JavaScriptSerializer();
 
             dynamic myObject = new List<dynamic>();
