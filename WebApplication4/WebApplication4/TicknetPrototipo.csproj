@@ -533,6 +533,9 @@
     <Content Include="Views\Categoria\_ViewIna.cshtml" />
     <Content Include="Views\Evento\CancelarEvento.cshtml" />
     <Content Include="Views\Evento\Cancelar.cshtml" />
+    <Content Include="Views\CuentaUsuario\Distritos.cshtml" />
+    <Content Include="Views\CuentaUsuario\Punto.cshtml" />
+    <Content Include="Views\Ventas\Detalles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

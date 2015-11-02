@@ -12,13 +12,14 @@
     var nombre = "";
     ViewBag.Title = "Busqueda";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+    inf245netsoft db = new inf245netsoft();
 }
 
 <script src="~/Scripts/jquery-2.1.4.min.js"></script>
 
 <!--
-   
-<script src="~/Scripts/jquery-1.10.2.min.js"></script> 
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
 
 -->
 
@@ -54,7 +55,7 @@
 <div id="busqAvanzada" class="container-fluid" style="text-align:center">
     <div id="busqAvanzada">
         <!--formulario EN LINEA-->
-
+        <div id="alerta" class="alert alert-danger" hidden></div>
 
         @using (Html.BeginForm("Busqueda", "Evento", FormMethod.Get, new { id = "adv-search", @class = "form-inline" }))
         {
@@ -81,7 +82,22 @@
                     <div class="input-group">
 
                         <span class="input-group-addon">Desde:</span>
-                        <input id="fech_ini" name="fech_ini" type="date" class="form-control">
+
+
+                        @if (ViewBag.fech_ini != null)
+                        {
+                            string valor = ViewBag.fech_ini.ToString("yyyy-MM-dd");
+
+                            <input id="fech_ini" name="fech_ini" type="date" class="form-control" value=@valor>
+                        }
+                        else
+                        {
+
+                            <input id="fech_ini" name="fech_ini" type="date" class="form-control">
+                        }
+
+
+
                     </div>
                 </div>
 
@@ -89,7 +105,20 @@
                 <div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon">Hasta:</span>
-                        <input id="fech_fin" onchange="changeDate2()" name="fech_fin" type="date" class="form-control">
+
+                        @if (ViewBag.fech_fin != null)
+                        {
+                            string valor = ViewBag.fech_fin.ToString("yyyy-MM-dd");
+
+                            <input id="fech_fin" onchange="changeDate2()" name="fech_fin" type="date" value=@valor class="form-control">
+                        }
+                        else
+                        {
+
+                            <input id="fech_fin" onchange="changeDate2()" name="fech_fin" type="date" class="form-control">
+                        }
+
+
                     </div>
                 </div>
                 @*       @{
@@ -116,6 +145,7 @@
 
 
                     <select name="idCategoria" id="idCategoria" data-val="true" onchange="cambioCat()" class="form-control col-lg-2">
+
                         <option value="">Categorias</option>
 
 
@@ -135,7 +165,27 @@
                     *@
 
                     <select name="idSubCat" id="idSubCat" data-val="true" class="form-control col-lg-2">
-                        <option value="">Subcategoria</option>
+
+                        <option value="">Subcategorias</option>
+                        @if (ViewBag.idSubCat != null)
+                        {
+                            int idsubcat = ViewBag.idSubCat;
+                            int idPadre = ViewBag.idCategoria;
+
+                            var subcat = from obj in db.Categoria
+                                         where obj.idCatPadre == idPadre
+                                         select obj;
+
+                            foreach (var dato in subcat)
+                            {
+
+                                <option value=@dato.idCategoria>@dato.nombre</option>
+
+                            }
+
+
+
+                        }
 
 
 
@@ -185,7 +235,33 @@
                         @Html.DropDownListFor(model => model.idProv, @ViewBag.distritos as SelectList, "Distrito", new { @class = "form-control" })
                     *@
                     <select name="idProv" id="idProv" data-val="true" class="form-control ">
-                        <option value="">Distrito</option>
+
+
+                        <option value="">Distritos </option>
+
+                        @if (ViewBag.idProv != null)
+                        {
+                            int idreg = ViewBag.idRegion;
+                            int idpro = ViewBag.idProv;
+
+                            var region = from obj in db.Region
+                                         where obj.idRegPadre == idreg
+                                         select obj;
+
+                            foreach (var dato in region)
+                            {
+
+                                <option value=@dato.idRegion>@dato.nombre</option>
+
+                            }
+
+
+
+                        }
+
+
+
+
                     </select>
 
 
@@ -237,33 +313,61 @@
     </div>
 
 
-@{
-    if (this.Request.QueryString.Count != 0)
-    {
-
-
-        if (this.Request.QueryString.AllKeys.Contains("page"))
+    @{
+        if (this.Request.QueryString.Count != 0)
         {
 
 
-            indexPagina = this.Request.QueryString["page"].AsInt() - 1;
+            if (this.Request.QueryString.AllKeys.Contains("page"))
+            {
+
+
+                indexPagina = this.Request.QueryString["page"].AsInt() - 1;
+
+            }
+
+
+
+        }
+
+
+        var fechaI = "";
+        var fechaF = "";
+
+        if (ViewBag.fech_ini != null)
+        {
+            fechaI = ViewBag.fech_ini.ToString("yyyy-MM-dd");
+
+
+        }
+        else
+        {
+            fechaI = ViewBag.fech_ini;
+
+        }
+
+        if (ViewBag.fech_fin != null)
+        {
+            fechaF = ViewBag.fech_ini.ToString("yyyy-MM-dd");
+
+
+        }
+        else
+        {
+            fechaF = ViewBag.fech_fin;
 
         }
 
 
 
-    }
-
-
-
-    @* Html.RenderPartial("BusquedaPaging", lista.ToPagedList(indexPagina, 5 ));*@
-    @* Pagina @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount*@
-    @Html.PagedListPager(Model, page => Url.Action("Busqueda", new { page, nombre = ViewBag.nombre, fech_ini = ViewBag.fech_ini, fech_fin = ViewBag.fech_fin, idCategoria = ViewBag.idCategoria, idSubCat = ViewBag.idSubCat }));
+        @* Html.RenderPartial("BusquedaPaging", lista.ToPagedList(indexPagina, 5 ));*@
+        @* Pagina @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount*@
+        @Html.PagedListPager(Model, page => Url.Action("Busqueda", new { page, nombre = ViewBag.nombre, fech_ini = fechaI, fech_fin = fechaF, idCategoria = ViewBag.idCategoria, idSubCat = ViewBag.idSubCat, idRegion = ViewBag.idRegion, idProv = ViewBag.idProv }));
 
 
 
 
-    
+
     }
 
 
@@ -271,7 +375,6 @@
 </div>
 
 
-  
 
 
 
@@ -279,59 +382,60 @@
 
 
 
-    @*
-        @Html.Partial("BusquedaPaging", lista.ToPagedList(0, 2));
-        <div class="container-fluid">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <strong>Resultados: @ViewBag.Lista.Count </strong>
-                </div>
 
-                <!--Aca iran los eventos en miniatura-->
-                <div class="panel-body">
+@*
+    @Html.Partial("BusquedaPaging", lista.ToPagedList(0, 2));
+    <div class="container-fluid">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <strong>Resultados: @ViewBag.Lista.Count </strong>
+            </div>
 
-
-                    @foreach (var evento in ViewBag.Lista)
-                    {
+            <!--Aca iran los eventos en miniatura-->
+            <div class="panel-body">
 
 
-                        <div class="col-md-2 col-sm-4 col-xs-6">
-                            <div class="thumbnail">
-                                <img onclick="verEvento()" class="event" src="@evento.ImagenDestacado" alt="">
-                                <div class="caption" style="text-align:center">
-                                    <div class="row">@evento.nombre</div>
-                                    <div class="row">@evento.fecha_inicio</div>
-                                </div>
+                @foreach (var evento in ViewBag.Lista)
+                {
+
+
+                    <div class="col-md-2 col-sm-4 col-xs-6">
+                        <div class="thumbnail">
+                            <img onclick="verEvento()" class="event" src="@evento.ImagenDestacado" alt="">
+                            <div class="caption" style="text-align:center">
+                                <div class="row">@evento.nombre</div>
+                                <div class="row">@evento.fecha_inicio</div>
                             </div>
                         </div>
+                    </div>
 
-                    }
-                </div>
-
-
-                <!--Paginacion-->
-                <ul class="pagination pagination-md pull-right">
-                    <!--lg    md    sm-->
-
-
-
-                    <li class="disabled"><a href="">&laquo;</a></li>
-
-                    @{
-                        ViewBag.paginas = ((Model.numeroPaginas - ViewBag.MaximoPaginas) > 0) ? Model.numeroPaginas : ViewBag.MaximoPaginas;
-
-                    }
-                    @for (int num = 1; num < ViewBag.paginas; num++)
-                    {
-                        <li><a>@num</a></li>
-
-                    }
-                    <li><a href="">&raquo;</a></li>
-
-
-                </ul>
+                }
             </div>
-        </div>*@
+
+
+            <!--Paginacion-->
+            <ul class="pagination pagination-md pull-right">
+                <!--lg    md    sm-->
+
+
+
+                <li class="disabled"><a href="">&laquo;</a></li>
+
+                @{
+                    ViewBag.paginas = ((Model.numeroPaginas - ViewBag.MaximoPaginas) > 0) ? Model.numeroPaginas : ViewBag.MaximoPaginas;
+
+                }
+                @for (int num = 1; num < ViewBag.paginas; num++)
+                {
+                    <li><a>@num</a></li>
+
+                }
+                <li><a href="">&raquo;</a></li>
+
+
+            </ul>
+        </div>
+    </div>*@
 <script>
 
     $(document).ready(function () {
@@ -346,7 +450,42 @@
                }
 
                return isNaN(value) && isNaN($(params).val()) || (Number(value) > Number($(params).val()));
-           }, 'Must be greater than {0}.');
+        }, 'Must be greater than {0}.');
+
+
+
+        if (!isNaN(@ViewBag.idCategoria)) {
+
+            $("#idCategoria > option[value='" + @ViewBag.idCategoria + "'").attr('selected', 'selected');
+
+
+            if (!isNaN(@ViewBag.idSubCat)) {
+
+
+                $("#idSubCat > option[value='" + @ViewBag.idSubCat + "'").attr('selected', 'selected');
+
+
+
+            }
+
+
+        }
+
+        if (!isNaN(@ViewBag.idRegion)) {
+
+            $("#idRegion > option[value='" + @ViewBag.idRegion + "'").attr('selected', 'selected');
+
+
+
+            if (!isNaN(@ViewBag.idProv)) {
+
+                $("#idProv > option[value='" + @ViewBag.idProv + "'").attr('selected', 'selected');
+
+
+
+            }
+
+        }
 
     });
 
@@ -370,9 +509,17 @@
 
 
     function submitAdvSearch() {
+        if ($("#fech_ini").val() == '' && $("#fech_fin").val() == '' && $("#idCategoria").val() == '' &&
+                   $("#idSubCat").val() == '' && $("#idRegion").val() == '' && $("#idProv").val() == '') {
+
+            $("#alerta").append('<strong>Ingrese al menos un campo!</strong>').show();
+        } else {
+
+            $("#alerta").hide();
+            $("#adv-search").submit();
 
 
-        $("#adv-search").submit();
+        }
     }
 
     function cambio() {

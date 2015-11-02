@@ -27,14 +27,14 @@
             <div class="row form-group">
                 @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })
                 <div class="col-md-9">
-                    @Html.TextBoxFor(model => model.nombre, new { @placeholder = @c.nombre })
+                    @Html.TextBoxFor(model => model.nombre, new { @placeholder = @c.nombre, @Value = @c.nombre })
                     @Html.ValidationMessageFor(model => model.nombre)
                 </div>
             </div>
             <div class="row form-group">
                 @Html.LabelFor(model => model.descripcion, new { @class = "control-label col-md-3" })
                 <div class="col-md-9">
-                    @Html.TextBoxFor(model => model.descripcion, new { @placeholder = @c.descripcion })
+                    @Html.TextBoxFor(model => model.descripcion, new { @placeholder = @c.descripcion, @Value = @c.descripcion})
                     @Html.ValidationMessageFor(model => model.descripcion)
                 </div>
             </div>
@@ -42,7 +42,7 @@
             <!--<div class="row form-group">
                 @Html.LabelFor(model => model.idCatPadre, new { @class = "control-label col-md-3" })
                 <div class="col-md-9">
-                    @Html.TextBoxFor(model => model.idCatPadre, new { @placeholder = @c.idCatPadre })
+                    @Html.TextBoxFor(model => model.idCatPadre, new { @placeholder = @c.idCatPadre, @Value = @c.idCatPadre })
                     @Html.ValidationMessageFor(model => model.idCatPadre)
                 </div>
             </div>-->

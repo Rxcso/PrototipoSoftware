@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="inf245netsoftModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="inf245netsoftModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -215,6 +215,7 @@
           <Property Name="ubicacion" Type="varchar" MaxLength="50" />
           <Property Name="descripcion" Type="varchar" MaxLength="100" />
           <Property Name="codLocal" Type="int" Nullable="false" />
+          <Property Name="estaActivo" Type="bit" />
           <Property Name="idProvincia" Type="int" />
           <Property Name="idRegion" Type="int" />
         </EntityType>
@@ -1425,6 +1426,7 @@
           <Property Name="idRegion" Type="Int32" />
           <NavigationProperty Name="Region" Relationship="inf245netsoftModel.R_20" FromRole="Local" ToRole="Region" />
           <NavigationProperty Name="Region1" Relationship="inf245netsoftModel.R_72" FromRole="Local" ToRole="Region" />
+          <Property Name="estaActivo" Type="Boolean" />
         </EntityType>
         <EntityType Name="Organizador">
           <Key>
@@ -2268,6 +2270,7 @@
           <EntitySetMapping Name="Local">
             <EntityTypeMapping TypeName="inf245netsoftModel.Local">
               <MappingFragment StoreEntitySet="Local">
+                <ScalarProperty Name="estaActivo" ColumnName="estaActivo" />
                 <ScalarProperty Name="idRegion" ColumnName="idRegion" />
                 <ScalarProperty Name="idProvincia" ColumnName="idProvincia" />
                 <ScalarProperty Name="codLocal" ColumnName="codLocal" />

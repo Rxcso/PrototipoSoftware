@@ -1,10 +1,24 @@
-﻿@model WebApplication4.Models.ZonaEventoListModel
+﻿@using WebApplication4.Models;
+@model ZonaEventoListModel
 @{
     List<string> nombresHeaderTabla = ViewBag.NombrePV as List<string>;
+    ZonaEventoListModel model = new ZonaEventoListModel();
+    int nZonas = 0;
+    int modificado = 0;
+    if (ViewBag.TarifasDelEvento == null)
+    {
+        model = null;
+    }
+    else
+    {
+        model = ViewBag.TarifasDelEvento as ZonaEventoListModel;
+        nZonas = nombresHeaderTabla.Count;
+        modificado = 1;
+    }
 }
 
 <div class="tab-pane fade in container" id="tarifas">
-    <h3>Funciones</h3>
+    <h3>Tarifas</h3>
     <h4>@ViewBag.MensajeError</h4>
     <div class="container">
         <br>
@@ -16,7 +30,7 @@
 
         </div><br>
         @Html.Hidden("nHeaders", "" + (nombresHeaderTabla.Count + 3))
-        @Html.Hidden("nZonas", "0")
+        @Html.Hidden("nZonas", "" + nZonas)
         <div class="row">
             @using (Html.BeginForm("Tarifas", "Evento", FormMethod.Post, new { @id = "formPost" }))
             {
@@ -33,19 +47,40 @@
                             <th>¿Quitar?</th>
                         </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                        @{
+                if (ViewBag.TarifasDelEvento != null)
+                {
+                    for (int i = 0; i < nombresHeaderTabla.Count; i++)
+                    {
+                        <tr id="@(i+1)" data-zona="@(model.ListaZEM[i].Id)">
+                            <td>@(i + 1)</td>
+                            <td><input type="text" class="form-control" value="@(model.ListaZEM[i].Nombre)" required /></td>
+                            @for (int j = 0; j < model.ListaZEM[i].ListaTarifas.Count; j++)
+                            {
+                                <td><input type="number" class="form-control" value="@(model.ListaZEM[i].ListaTarifas[j].Precio)" name="cantidad" min="0" required /></td>
+                            }
+                            <td><input type="number" class="form-control" value="@(model.ListaZEM[i].Aforo)" name="cantidad" min="0" required /></td>
+                            <td><input type="radio" name="groupTarifas" value="@(i+1)"></td>
+                        </tr>
+                    }
+                }
+                        }
+                    </tbody>
                 </table>
                 <button type="submit" class="btn btn-primary" style="float: right;" onclick="return agregaTarifas()">Siguiente   <span class="glyphicon glyphicon-arrow-right"></span></button>
             }
         </div>
     </div>
 </div>
+@Html.Hidden("modificado", "" + modificado)
 <script>
     function agregaFila() {
         var nZonas = parseInt($('#nZonas').val());
         var table = document.getElementById("tarifario");
         var row = table.insertRow();
         row.id = nZonas;
+        row.setAttribute("data-zona", "0");
         var nCeldas = parseInt($('#nHeaders').val());
         var cell0 = row.insertCell(0);
         cell0.innerHTML = (nZonas + 1);
@@ -76,8 +111,10 @@
         for (var i = 1, row; row = tableBTV.rows[i]; i++) {
             var nombreZona = row.cells[1].children[0].value;
             var aforo = row.cells[nCeldas - 1].children[0].value;
+            var zona = row.getAttribute("data-zona");
             $("#formPost").prepend("<input type='hidden' name='" + nombreLista + "[" + (i - 1) + "].Nombre' value='" + nombreZona + "'>");
             $("#formPost").prepend("<input type='hidden' name='" + nombreLista + "[" + (i - 1) + "].Aforo' value='" + aforo + "'>");
+            $("#formPost").prepend("<input type='hidden' name='" + nombreLista + "[" + (i - 1) + "].Id' value='" + zona + "'>");
             for (var j = 2; j < nCeldas - 1; j++) {
                 var precio = row.cells[j].children[0].value;
                 $("#formPost").prepend("<input type='hidden' name='" + nombreLista + "[" + (i - 1) + "]." + nombreSubLista + "[" + (j - 2) + "].Precio' value='" + precio + "'>");

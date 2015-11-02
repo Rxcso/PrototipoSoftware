@@ -187,10 +187,13 @@ namespace WebApplication4.Controllers
             int id = int.Parse(categoria);
             ViewBag.id = id;
             TempData["codigo"] = id;
-            Session["categoria"] = db.Categoria.Find(id);
+            Categoria categ = db.Categoria.Find(id);
+            Session["categoria"] = categ;
+            CategoriaModel catM = new CategoriaModel();
+            catM.idCatPadre = (int)categ.idCatPadre;
 
             List<Categoria> listaCat = db.Categoria.Where(c => c.activo == 1).ToList();
-            ViewBag.CatID = new SelectList(listaCat, "idCategoria", "nombre");
+            ViewBag.CatID = new SelectList(listaCat, "idCategoria", "nombre",catM.idCatPadre);
 
             sacaDependientes(listaCat,id);
             return View("Edit");

@@ -12,6 +12,7 @@ using WebApplication4.Models;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Net.NetworkInformation;
+using System.Web.Security;
 
 namespace WebApplication4.Controllers
 {
@@ -272,6 +273,8 @@ namespace WebApplication4.Controllers
                 if (result.Succeeded)
                 {
 
+                    var currentUser = UserManager.FindByName(user.UserName);
+                    UserManager.AddToRole(user.Id,"Cliente");
                     CuentaUsuario cuentausuario = new CuentaUsuario();
                     
                     cuentausuario.correo = model.Email;
@@ -327,7 +330,8 @@ namespace WebApplication4.Controllers
 
                 if (result.Succeeded)
                 {
-
+                    var currentUser = UserManager.FindByName(user.UserName);
+                    UserManager.AddToRole(user.Id, "Vendedor");
                     CuentaUsuario cuentausuario = new CuentaUsuario();
 
                     cuentausuario.correo = model.Email;
@@ -380,7 +384,8 @@ namespace WebApplication4.Controllers
 
                 if (result.Succeeded)
                 {
-
+                    var currentUser = UserManager.FindByName(user.UserName);
+                    UserManager.AddToRole(user.Id, "Otro cargo");
                     CuentaUsuario cuentausuario = new CuentaUsuario();
 
                     cuentausuario.correo = model.Email;

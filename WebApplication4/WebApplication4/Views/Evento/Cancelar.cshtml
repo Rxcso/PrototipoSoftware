@@ -4,30 +4,30 @@
     ViewBag.Title = "Cancelar Evento";
 }
 
-    <div class="container-fluid">
-        <div class="col-md-5">
-            <ol class="breadcrumb">
-                <li><a href="@Url.Action("Index","Evento")">Mantenimiento de Eventos</a></li>
-                <li class="active">Cancelar evento</li>
-            </ol>
-        </div>
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li><a href="@Url.Action("Index","Evento")">Mantenimiento de Eventos</a></li>
+            <li class="active">Cancelar evento</li>
+        </ol>
     </div>
+</div>
 
-@using (Html.BeginForm("ExtrasEvento", "Evento", FormMethod.Post))
-    {
+@using (Html.BeginForm("CancelarEvento", "Evento", FormMethod.Post))
+{
     <div class="container">
         <div class="row form-group">
-            <!--label for="codigo" class="control-label col-md-4">ID Evento:</!label>
-            <div class="col-md-8">
-                <input id="codigo" type="text" class="form-control" placeholder="10201040" disabled>
-            </div-->
+            <!--label for="codigo" class="control-label col-md-4">ID Evento:</!label-->
+            <div class="col-md-8 hidden" >
+                @Html.TextBoxFor(c => c.idEvento, new { @class = "form-control", type = "text", @readonly="readonly"})
+            </div>
             <label for="nombreEvento" class="control-label col-md-2">Nombre Evento:</label>
             <div class="col-md-4">
-                @Html.TextBoxFor(c => c.nombreEvento, new { @class = "form-control", disabled="disabled" ,  type="text" })
+                @Html.TextBoxFor(c => c.nombreEvento, new { @class = "form-control", type = "text", @readonly = "readonly" })
             </div>
             <label for="organizador" class="control-label col-md-2">Organizador del Evento:</label>
             <div class="col-md-4">
-                @Html.TextBoxFor(c => c.organizador, new { @class = "form-control", disabled = "disabled", type = "text" })
+                @Html.TextBoxFor(c => c.organizador, new { @class = "form-control", type = "text", @readonly = "readonly" })
             </div>
         </div>
 
@@ -35,11 +35,14 @@
             <label for="fecha" class="control-label col-md-3 col-md-offset-3">Fecha - hora:</label>
             <div class="col-md-3 ">
                 <div id="fechaHora" style="border-radius:10px ;border:1px solid #ccc; height: 80px; overflow-y: scroll; padding:0px 10px ">
-                    @for (int i = 0; i < Model.listDateFuncion.Count(); i++ )
+                    @for (int i = 0; i < Model.listDateFuncion.Count(); i++)
                     {
-                        @Html.HiddenFor(c => c.listIdFuncion[i])
-                        @Html.CheckBoxFor(c => c.seCancela[i]);
-                        @Html.DisplayFor(c => c.listDateFuncion[i]); 
+                        <div>
+                            @Html.HiddenFor(c => c.listIdFuncion[i])
+                            @Html.CheckBoxFor(c => c.seCancela[i])
+                            @Html.DisplayFor(c => c.listDateFuncion[i])
+                        </div>
+                         
                     }
 
                 </div>
@@ -52,24 +55,29 @@
             <div class="col-md-3">
                 @Html.TextBoxFor(c => c.fechaRecojo, new { @class = "form-control", type = "date" })
             </div>
+            @Html.ValidationMessageFor(model => model.fechaRecojo)
         </div>
         <div class="row form-group">
             <label for="dias" class="control-label col-md-3 col-md-offset-3">Cantidad de días en los que estará disponible la devolución:</label>
             <div class="col-md-3">
                 <div class="input-group">
-                    @Html.TextBoxFor(c => c.diasRecojo, new {type="number", @class="form-control", value="90"})
+                    @Html.TextBoxFor(c => c.diasRecojo, new { type = "number", @class = "form-control" })
                     <span class="input-group-addon">días</span>
+                    
                 </div>
+                @Html.ValidationMessageFor(model => model.diasRecojo)
             </div>
         </div>
         <div class="row form-group">
             <label for="dias" class="control-label col-md-3 col-md-offset-3">Motivo por el cual se cancela el evento(máx 200 carac.)</label>
             <div class="col-md-3">
-                @Html.TextBoxFor(c => c.motivo, new { @class = "form-control", rows = "4" })    
-            </div>
+                @Html.TextBoxFor(c => c.motivo, new { @class = "form-control", rows = "4" })
+            </div>    
+            @Html.ValidationMessageFor(model => model.motivo)   
         </div>
+        
         <div style="text-align: center">
-            <button type="submit" class="btn btn-primary" onclick="msjConfirmacion1()"> Registrar Cancelación  <span class="glyphicon glyphicon-ok-sign"></span></button>
+            <button type="submit" class="btn btn-primary"> Registrar Cancelación  <span class="glyphicon glyphicon-ok-sign"></span></button>
             <a href="@Url.Action("Index","Evento")" class="btn btn-danger">Salir <span class="glyphicon glyphicon-log-out"></span> </a>
         </div>
     </div>
