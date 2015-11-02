@@ -26,7 +26,9 @@ namespace WebApplication4.Controllers
             ViewBag.fech_ini = fech_ini;
             ViewBag.fech_fin = fech_fin;
             ViewBag.idCategoria = idCategoria;
+       
             ViewBag.idSubCat = idSubCat;
+            ViewBag.idRegion = idRegion;
 
 
             var lista = from obj in db.Eventos
@@ -879,7 +881,8 @@ namespace WebApplication4.Controllers
             ViewBag.fech_fin = fech_fin;
             ViewBag.idCategoria = idCategoria;
             ViewBag.idSubCat = idSubCat;
-
+            ViewBag.idRegion = idRegion;
+            ViewBag.idProv = idProv;
 
 
             var lista = from obj in db.Eventos
