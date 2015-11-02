@@ -147,7 +147,7 @@ namespace WebApplication4.Controllers
             double m = double.Parse(monto);
             double pend1 = double.Parse(pend);
             if (m > pend1) return RedirectToAction("Pago", "Ventas");
-            if (m <= 0) return RedirectToAction("Pago", "Ventas");
+            //if (m <= 0) return RedirectToAction("Pago", "Ventas");
             //if (monto == "" || monto == null) return RedirectToAction("Pago", "Ventas");         
             //List<Eventos> listEp = (List<Eventos>)Session["EventosP"];
             Organizador org = (Organizador)Session["orgPago"];
