@@ -55,7 +55,7 @@ namespace WebApplication4.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="usuario,tipoUsuario,correo,contrasena,estado,tipoDoc,codDoc,nombre,apellido,direccion,telefono,telMovil,sexo,fechaNac,puntos,codPerfil")] CuentaUsuario cuentausuario)
+        public ActionResult Create([Bind(Include = "usuario,tipoUsuario,correo,contrasena,estado,tipoDoc,codDoc,nombre,apellido,direccion,telefono,telMovil,sexo,fechaNac,puntos,codPerfil")] CuentaUsuario cuentausuario)
         {
             if (ModelState.IsValid)
             {
@@ -87,7 +87,7 @@ namespace WebApplication4.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="usuario,tipoUsuario,correo,contrasena,estado,tipoDoc,codDoc,nombre,apellido,direccion,telefono,telMovil,sexo,fechaNac,puntos,codPerfil")] CuentaUsuario cuentausuario)
+        public ActionResult Edit([Bind(Include = "usuario,tipoUsuario,correo,contrasena,estado,tipoDoc,codDoc,nombre,apellido,direccion,telefono,telMovil,sexo,fechaNac,puntos,codPerfil")] CuentaUsuario cuentausuario)
         {
             if (ModelState.IsValid)
             {
@@ -139,7 +139,7 @@ namespace WebApplication4.Controllers
         {
             if (ModelState.IsValid)
             {
-                List<CuentaUsuario> listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.tipoDoc == cliente.tipoDoc && c.codDoc==cliente.codDoc && c.estado == true && c.codPerfil == 1).ToList();
+                List<CuentaUsuario> listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.tipoDoc == cliente.tipoDoc && c.codDoc == cliente.codDoc && c.estado == true && c.codPerfil == 1).ToList();
                 if (listacl != null) TempData["ListaCL"] = listacl;
                 else TempData["ListaCL"] = null;
                 return RedirectToAction("BuscaCliente", "CuentaUsuario");
@@ -148,25 +148,28 @@ namespace WebApplication4.Controllers
             return RedirectToAction("BuscaCliente", "CuentaUsuario");
         }
 
-        public ActionResult Search2(string usuario,string tipo)
+        public ActionResult Search2(string usuario, string tipo)
         {
-            if (tipo == "")
-            {
-                Session["ListaCL"] = null;
-                return RedirectToAction("BuscaCliente", "CuentaUsuario");
-            }
-            int ti = int.Parse(tipo);
-            if (ti == 0)
-            {
-                Session["ListaCL"] = null;
-                return RedirectToAction("BuscaCliente", "CuentaUsuario");
-            }
+            //if (tipo == "")
+            //{
+            //    Session["ListaCL"] = null;
+            //    return RedirectToAction("BuscaCliente", "CuentaUsuario");
+            //}
+            int ti = 0;
+            if (tipo != "") ti = int.Parse(tipo);
+            //if (ti == 0)
+            //{
+            //    Session["ListaCL"] = null;
+            //    return RedirectToAction("BuscaCliente", "CuentaUsuario");
+            //}
             if (usuario == "" || usuario == null)
             {
                 Session["ListaCL"] = null;
                 return RedirectToAction("BuscaCliente", "CuentaUsuario");
             }
-            List<CuentaUsuario> listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.tipoDoc == ti && c.codDoc == usuario && c.estado == true && c.codPerfil == 1 && c.puntos>0).ToList();
+            List<CuentaUsuario> listacl;
+            if (ti == 0) listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.codDoc == usuario && c.estado == true && c.codPerfil == 1 && c.puntos > 0).ToList();
+            else listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.tipoDoc == ti && c.codDoc == usuario && c.estado == true && c.codPerfil == 1 && c.puntos > 0).ToList();
             if (listacl != null) Session["ListaCL"] = listacl;
             else Session["ListaCL"] = null;
             return RedirectToAction("BuscaCliente", "CuentaUsuario");
@@ -174,30 +177,33 @@ namespace WebApplication4.Controllers
 
         public ActionResult SearchReserva(string usuario, string tipo)
         {
-            if (tipo == "")
-            {
-                Session["ReservaBusca"] = null;
-                return RedirectToAction("BuscaReserva", "CuentaUsuario");
-            }
-            int ti = int.Parse(tipo);
-            if (ti == 0)
-            {
-                Session["ReservaBusca"] = null;
-                return RedirectToAction("BuscaReserva", "CuentaUsuario");
-            }
+            //if (tipo == "")
+            //{
+            //    Session["ReservaBusca"] = null;
+            //    return RedirectToAction("BuscaReserva", "CuentaUsuario");
+            //}
+            int ti = 0;
+            if (tipo != "") ti = int.Parse(tipo);
+            //if (ti == 0)
+            //{
+            //    Session["ReservaBusca"] = null;
+            //    return RedirectToAction("BuscaReserva", "CuentaUsuario");
+            //}
             if (usuario == "" || usuario == null)
             {
                 Session["ReservaBusca"] = null;
                 return RedirectToAction("BuscaReserva", "CuentaUsuario");
             }
-            List<CuentaUsuario> listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.tipoDoc == ti && c.codDoc == usuario && c.estado == true && c.codPerfil == 1).ToList();
+            List<CuentaUsuario> listacl;
+            if (ti == 0) listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.codDoc.Contains(usuario) && c.estado == true && c.codPerfil == 1).ToList();
+            else listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.tipoDoc == ti && c.codDoc.Contains(usuario) && c.estado == true && c.codPerfil == 1).ToList();
             if (listacl == null) return RedirectToAction("BuscaReserva", "CuentaUsuario");
 
             List<Ventas> listareservas = new List<Ventas>();
             for (int i = 0; i < listacl.Count; i++)
             {
-                string us=listacl[i].usuario;
-                List<Ventas> lv = db.Ventas.Where(c => c.cliente == us && c.Estado=="Reservado").ToList();
+                string us = listacl[i].usuario;
+                List<Ventas> lv = db.Ventas.Where(c => c.cliente == us && c.Estado == "Reservado").ToList();
                 for (int j = 0; j < lv.Count; j++)
                 {
                     listareservas.Add(lv[j]);
@@ -250,7 +256,7 @@ namespace WebApplication4.Controllers
             return View();
         }
 
-        public ActionResult DeleteReserva(int codE,int codF)
+        public ActionResult DeleteReserva(int codE, int codF)
         {
             Ventas v = db.Ventas.Find(codE);
             db.Entry(v).State = EntityState.Modified;
@@ -261,58 +267,114 @@ namespace WebApplication4.Controllers
             return RedirectToAction("MisReservas", "CuentaUsuario");
         }
 
-        public ActionResult RegistraPoliticas(string dur,string mx,string mt)
+        public JsonResult RegistraPoliticas(string dur, string mx, string mt,string ra)
         {
-            int m1,m2,m3;
+            int m1, m2, m3,m4;
+            string me1 = "Error", me2 = " Error",me3=" Error",me4=" Error";
             if (int.TryParse(dur, out m1) == true)
             {
                 int val = int.Parse(dur);
-                int t = 1;
+                if (val > 0)
+                {
+                    int t = 1;
+                    Politicas p = db.Politicas.Find(t);
+                    db.Entry(p).State = EntityState.Modified;
+                    p.valor = val;
+                    db.SaveChanges();
+                    db.Entry(p).State = EntityState.Detached;
+                    me1 = "Completado";
+                }
+                else
+                {
+                    me1 = " Error Negativo";
+                }
+            }
+            if (int.TryParse(mx, out m2) == true)
+            {
+                int val1 = int.Parse(mx);
+                if (val1 > 0)
+                {
+                    int t = 2;
+                    Politicas p = db.Politicas.Find(t);
+                    db.Entry(p).State = EntityState.Modified;
+                    p.valor = val1;
+                    db.SaveChanges();
+                    db.Entry(p).State = EntityState.Detached;
+                    me2 = " Completado";
+                }
+                else
+                {
+                    me2 = " Error Negativo";
+                }
+            }
+            if (int.TryParse(mt, out m3) == true)
+            {
+                int val2 = int.Parse(mt);
+                if (val2 > 0)
+                {
+                    int t = 3;
+                    Politicas p = db.Politicas.Find(t);
+                    db.Entry(p).State = EntityState.Modified;
+                    p.valor = val2;
+                    db.SaveChanges();
+                    db.Entry(p).State = EntityState.Detached;
+                    me3 = " Completado";
+                }
+                else
+                {
+                    me3 = " Error Negativo";
+                }
+
+            }
+            if (int.TryParse(ra, out m4) == true)
+            {
+                int val3 = int.Parse(ra);
+                if (val3 > 0)
+                {
+                    int t = 5;
+                    Politicas p = db.Politicas.Find(t);
+                    db.Entry(p).State = EntityState.Modified;
+                    p.valor = val3;
+                    db.SaveChanges();
+                    db.Entry(p).State = EntityState.Detached;
+                    me4 = " Completado";
+                }
+                else
+                {
+                    me4 = " Error Negativo";
+                }
+            }
+            string mensaje = me1 + me2 + me3 + me4;
+            return Json(mensaje, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult RegistraTolerancia(String tolerancia)
+        {
+            string mensaje = "Ingrese datos";
+            if (tolerancia == "" || tolerancia == null) return Json(mensaje, JsonRequestBehavior.AllowGet);
+            //double m1;
+            int m1;
+            string me = "Error";
+            mensaje = me;
+            if (int.TryParse(tolerancia, out m1) == false) return Json(mensaje, JsonRequestBehavior.AllowGet);
+            //double m = double.Parse(tolerancia);
+            //int val = (int)m;
+            int val = int.Parse(tolerancia);
+            if (val > 0)
+            {
+                int t = 4;
                 Politicas p = db.Politicas.Find(t);
                 db.Entry(p).State = EntityState.Modified;
                 p.valor = val;
                 db.SaveChanges();
                 db.Entry(p).State = EntityState.Detached;
+                mensaje = "Registro completo";
             }
-            if (int.TryParse(mx, out m2) == true)
+            else
             {
-                int val1 = int.Parse(mx);
-                int t = 2;
-                Politicas p = db.Politicas.Find(t);
-                db.Entry(p).State = EntityState.Modified;
-                p.valor = val1;
-                db.SaveChanges();
-                db.Entry(p).State = EntityState.Detached;
+                mensaje = "Error numero negativo";
             }
-            if (int.TryParse(mt, out m3) == true)
-            {
-                int val2 = int.Parse(mt);
-                int t = 3;
-                Politicas p = db.Politicas.Find(t);
-                db.Entry(p).State = EntityState.Modified;
-                p.valor = val2;
-                db.SaveChanges();
-                db.Entry(p).State = EntityState.Detached;
-            }
-            return View();
-        }
-
-        public ActionResult RegistraTolerancia(String tolerancia)
-        {
-            if (tolerancia == "" || tolerancia == null) return View();
-            //double m1;
-            int m1;
-            if (int.TryParse(tolerancia, out m1) == false) return View();
-            //double m = double.Parse(tolerancia);
-            //int val = (int)m;
-            int val = int.Parse(tolerancia);
-            int t = 4;
-            Politicas p = db.Politicas.Find(t);
-            db.Entry(p).State = EntityState.Modified;
-            p.valor = val;
-            db.SaveChanges();
-            db.Entry(p).State = EntityState.Detached;
-            return View();
+            return Json(mensaje, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult BuscaReserva()
@@ -320,7 +382,7 @@ namespace WebApplication4.Controllers
             return View();
         }
 
-        public ActionResult DeleteTurno(string turno,string fecha,string horai)
+        public JsonResult DeleteTurno(string turno, string fecha, string horai)
         {
             string m1;
             CuentaUsuario vend;
@@ -330,19 +392,23 @@ namespace WebApplication4.Controllers
                 vend = (CuentaUsuario)Session["vendAsig"];
                 m1 = vend.usuario;
             }
-            else return RedirectToAction("Asignacion", "CuentaUsuario");
-            List<TurnoSistema> lts = db.TurnoSistema.Where(c => c.horIni==horai).ToList();
+            else
+            {
+                return Json("Seleccione un vendedor", JsonRequestBehavior.AllowGet);
+                //return RedirectToAction("Asignacion", "CuentaUsuario");
+            }
+            List<TurnoSistema> lts = db.TurnoSistema.Where(c => c.horIni == horai).ToList();
             int cs = lts.First().codTurnoSis;
             DateTime dt1 = DateTime.Parse(fecha);
             cpv = int.Parse(turno);
-            List<Turno> ltur = db.Turno.Where(s => s.codPuntoVenta == cpv && s.codTurnoSis == cs && s.usuario==m1 && s.fecha==dt1).ToList();
+            List<Turno> ltur = db.Turno.Where(s => s.codPuntoVenta == cpv && s.codTurnoSis == cs && s.usuario == m1 && s.fecha == dt1).ToList();
             Turno tur = ltur.First();
             db.Turno.Remove(tur);
             db.SaveChanges();
             DateTime hoy = DateTime.Now;
             List<Turno> listatuvend = db.Turno.AsNoTracking().Where(c => c.usuario == m1 && c.fecha > hoy).ToList();
             Session["ListaTurnoVendedor"] = listatuvend;
-            return View();
+            return Json("Turno Eliminado", JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult RegistrarAsignacion(string turno, string punto, string idV, string ini, string fin)
@@ -360,8 +426,11 @@ namespace WebApplication4.Controllers
             TimeSpan ts = dt2.Subtract(dt1);
             int nd = (int)ts.Days;
             nd = nd + 1;
+            int idPol = 5;
+            int limite = (int)db.Politicas.Find(idPol).valor;
             if (dt1 <= DateTime.Now) return Json("la fecha debe ser superior de hoy", JsonRequestBehavior.AllowGet);
             if (dt1 > dt2) return Json("Fecha inicio debe ser menor que fecha fin", JsonRequestBehavior.AllowGet);
+            if (nd > limite) return Json("No puedo asignar a la vez mas de "+limite+" turnos de manera seguida", JsonRequestBehavior.AllowGet);
             //int cruce = 0;            
             for (int j = 0; j < nd; j++)
             {
@@ -371,7 +440,7 @@ namespace WebApplication4.Controllers
                     //Session["nError"] = 1;
                     //TempData["ErrorAsignacion"] = "Cruce con el usuario " + ltur.First().usuario + " para el dia " + di;
                     //return RedirectToAction("Asignacion", "CuentaUsuario");
-                    string mensaje = "Cruce con el usuario " + ltur.First().usuario + " para el dia " + di;
+                    string mensaje = "Cruce con el usuario " + ltur.First().usuario + " para el dia " + di.ToString("dd/MM/yyyy");
 
                     return Json(mensaje, JsonRequestBehavior.AllowGet);
                 }
@@ -491,6 +560,17 @@ namespace WebApplication4.Controllers
             return RedirectToAction("BuscaCliente", "CuentaUsuario");
         }
 
+        public ActionResult PagoPendiente(string evId)
+        {
+            int m1;
+            if (int.TryParse(evId, out m1) == false) return View();
+            m1 = int.Parse(evId);
+            Eventos ev = db.Eventos.Find(m1);
+            Session["EventoSeleccionadoPago"] = m1;
+            if (ev != null) Session["Pendiente"] = (double)ev.monto_adeudado - (double)ev.monto_transferir;
+            return RedirectToAction("Pago", "Ventas");
+        }
+
         [HttpPost]
         [AllowAnonymous]
         public ActionResult EntregaRegalo(RegaloListModel regalo)
@@ -507,7 +587,7 @@ namespace WebApplication4.Controllers
             return RedirectToAction("BuscaCliente", "CuentaUsuario");
         }
 
-        public ActionResult EntregaRegalo2(string regalo, string cliente)
+        public JsonResult EntregaRegalo2(string regalo, string cliente)
         {
             int idRe = int.Parse(regalo);
             string usuario2 = cliente.Replace("°", "@");
@@ -526,15 +606,16 @@ namespace WebApplication4.Controllers
                 rc.usuario = usuario2;
                 db.RegaloXCuenta.Add(rc);
                 db.SaveChanges();
-                return RedirectToAction("BuscaCliente", "CuentaUsuario");
+                db.Entry(cuenta).State = EntityState.Detached;
+                return Json("Regalo Entregado", JsonRequestBehavior.AllowGet);
             }
             //CuentaUsuario cuenta2 = (CuentaUsuario)TempData["EntregaCl"];
             //Regalo re = db.Regalo.Find(regalo.id);
             //if (re.puntos < cuenta2.puntos)
             //{
-            
+
             //}
-            return RedirectToAction("BuscaCliente", "CuentaUsuario");
+            return Json("Error El cliente no tiene puntos suficientes para conseguir este regalo", JsonRequestBehavior.AllowGet);
         }
 
     }

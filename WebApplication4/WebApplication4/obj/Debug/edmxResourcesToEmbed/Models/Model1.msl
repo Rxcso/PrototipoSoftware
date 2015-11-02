@@ -98,6 +98,7 @@
     <EntitySetMapping Name="Local">
       <EntityTypeMapping TypeName="inf245netsoftModel.Local">
         <MappingFragment StoreEntitySet="Local">
+          <ScalarProperty Name="estaActivo" ColumnName="estaActivo" />
           <ScalarProperty Name="idRegion" ColumnName="idRegion" />
           <ScalarProperty Name="idProvincia" ColumnName="idProvincia" />
           <ScalarProperty Name="codLocal" ColumnName="codLocal" />

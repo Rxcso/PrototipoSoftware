@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
 }
@@ -11,15 +10,19 @@
     var db = new WebApplication4.Models.inf245netsoft();
     Local local = (Local)Session["local"];
     LocalEditModel localM = new LocalEditModel();
+    int idR = 0;
+    int idP = 0;
     localM.aforo = (int)local.aforo;
     localM.idRegion = (int)local.idRegion;
+    idR = (int)local.idRegion;
     localM.descripcion = local.descripcion;
     localM.idProv = (int)local.idProvincia;
+    idP = (int)local.idProvincia;
     localM.ubicacion = local.ubicacion;
 }
 
 @model LocalEditModel
-@using (Html.BeginForm("EditRegister", "Local", FormMethod.Post, new {model=localM }))
+@using (Html.BeginForm("EditRegister", "Local", FormMethod.Post, new { model = localM }))
 {
     @Html.AntiForgeryToken()
 
@@ -37,7 +40,7 @@
         <div class="row form-group">
             @Html.LabelFor(model => model.descripcion, new { @class = "control-label col-md-3" })
             <div class="col-md-9">
-                @Html.TextAreaFor(model => model.descripcion, new { @placeholder = @localM.descripcion, @Value = @localM.descripcion })
+                @Html.TextBoxFor(model => model.descripcion, new { @placeholder = @localM.descripcion, @Value = @localM.descripcion })
                 @*@Html.ValidationMessageFor(model => model.descripcion)*@
             </div>
         </div>
@@ -63,7 +66,7 @@
                 @Html.DropDownListFor(model => model.idProv, @ViewBag.ProvID as SelectList, "Provincia", new { @class = "form-control" })
             </div>
         </div>
-               
+
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -72,6 +75,9 @@
         </div>
     </div>
 }
+
+<input type="hidden" id="idRegT" value="@idR" />
+<input type="hidden" id="idProvT" value="@idP" />
 
 <script>
     function cambioDepartamento() {
@@ -83,18 +89,18 @@
             $.ajax({
                 url: "@Url.Action("Provincia","Services")",
                 data: { depId: depId },
-            datatype: "json",
-            success: function (data) {
-                var obj = $.parseJSON(data);
-                $.each(obj, function (k, v) {
-                    ddProv.append($("<option></option>").val(v.IdRegion).html(v.Nombre));
-                });
-            },
-            error: function () {
-                alert("Error :(");
-            }
-        });
-    }
-    ddProv.empty();
+                datatype: "json",
+                success: function (data) {
+                    var obj = $.parseJSON(data);
+                    $.each(obj, function (k, v) {
+                        ddProv.append($("<option></option>").val(v.IdRegion).html(v.Nombre));
+                    });
+                },
+                error: function () {
+                    alert("Error :(");
+                }
+            });
+        }
+        ddProv.empty();
     }
 </script>

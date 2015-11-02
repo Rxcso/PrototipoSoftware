@@ -1,96 +1,128 @@
 ﻿@using Microsoft.AspNet.Identity;
 @using WebApplication4.Models;
+@using WebApplication4.Controllers;
 
 @{
     ViewBag.Title = "Ver Evento";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    Eventos model = Model;
 }
 
-    <div class="container-fluid">
-        <ol class="breadcrumb">
-            <li><a href="@Url.Action("Index","Home")">Inicio</a></li>
-            <li class="active">Evento @Model.nombre</li>
-        </ol>
-    </div>
-    <div class="container ">
-        <!--la parte importante-->
-        <div id="contenido" class="col-md-8 borde">
-            <div id="detalles" class="row">
-                <div class="col-md-3">
-                    <div id="fila" class="row">
-                        <div class="thumbnail">
-                            <img class="event" src=@Model.ImagenDestacado alt=@Model.nombre>
-                            <div class="caption" style="text-align:left">
-                                <h4>@Model.nombre</h4>
-                                <p><strong><u>Fechas:</u></strong> Del 12 al 15 de Septiembre</p>
-                                <p><strong><u>Dirección:</u></strong> Av. Los geranios 3023, VMT, Lima. Referencia: a costado del cine El ciego optimista, frente a la cabaña de la sra Ramona</p>
-                                <p><strong><u>Región:</u></strong> Lima</p>
-                                <p><strong><u>Ofertas:</u></strong> 20% dcto. con tarjeta VISA</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-9">
-                    <div id="fila" class="row">
-                        <div class="thumbnail" style="text-align:justify">
-                            <p><strong><u>Tipo:</u></strong> Evento</p>
-                            <p><strong><u>Categoría:</u></strong> Entretenimiento</p>
-                            <p><strong><u>Descripción:</u></strong></p>
-                            <p>@Model.descripcion                               </p>
+<div class="container-fluid">
+    <ol class="breadcrumb">
+        <li><a href="@Url.Action("Index","Home")">Inicio</a></li>
+        <li class="active">Evento @Model.nombre</li>
+    </ol>
+</div>
+<div class="container ">
+    <!--la parte importante-->
+    <div id="contenido" class="col-md-8 borde">
+        <div id="detalles" class="row">
+            <div class="col-md-3">
+                <div id="fila" class="row">
+                    <div class="thumbnail">
+                        <img class="event" src=@Model.ImagenDestacado alt=@Model.nombre>
+                        <div class="caption" style="text-align:left">
+                            <h4>@Model.nombre</h4>
+                            <p><strong><u>Fechas:</u></strong> Del @(((DateTime)model.fecha_inicio).ToShortDateString()) al @(((DateTime)model.fecha_fin).ToShortDateString())</p>
+                            <p>
+                                <strong><u>Dirección:</u></strong>
+                                @{
+                                    if (model.idLocal == null || model.idLocal != 0)
+                                    {
+                                        @ViewBag.NombreLocal
+                                    }
+                                    else
+                                    {
+                                        @(model.direccion)
+                                    }
+                                }
+                            </p>
+                            <p><strong><u>Región:</u></strong> @ViewBag.Region</p>
+                            <p><strong><u>Ofertas:</u></strong> 20% dcto. con tarjeta VISA</p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div id="zonas" class="row">
-                <div class="thumbnail">
-                    <div class="container-fluid">
-                        <h4><u>Distribución de zonas</u></h4>
-                        <img class="event" src=@Model.ImagenSitios alt="Zonas de evento">
+
+            <div class="col-md-9">
+                <div id="fila" class="row">
+                    <div class="thumbnail" style="text-align:justify">
+                        <p><strong><u>Categoria:</u></strong> @ViewBag.Categoria</p>
+                        <p><strong><u>Subcategoria:</u></strong> @ViewBag.Subcategoria</p>
+                        <p><strong><u>Descripción:</u></strong></p>
+                        <p>@Model.descripcion</p>
                     </div>
                 </div>
             </div>
-            <div id="tarifas" class="row">
-                <div class="thumbnail">
-                    <div class="container-fluid">
-                        <h4><u>Selección de boletos/asientos</u></h4>
-                        <div id="canvas" class="col-md-12">
-                        </div>
-                        <div id="aux" class="col-md-12">
-                        </div>
+        </div>
+        <div id="zonas" class="row">
+            <div class="thumbnail">
+                <div class="container-fluid">
+                    <h4><u>Distribución de zonas</u></h4>
+                    <img class="event" src=@Model.ImagenSitios alt="Zonas de evento">
+                </div>
+            </div>
+        </div>
+        <div id="tarifas" class="row">
+            <div class="thumbnail">
+                <div class="container-fluid">
+                    <div><h4><u>Selección de boletos/asientos</u></h4></div>
+                    <div class="col-md-6">
+                        <div id="canvas" class="col-md-12">           </div>
+                        <div id="aux" class="col-md-12">              </div>
                     </div>
+                    <div class="col-md-6">
+                        @if (ViewBag.EventoAcabo != null)
+                        {
+                            @ViewBag.EventoAcabo
+                        }
+                        else
+                        {
+                            if (ViewBag.EventoNoDisponible != null)
+                            {
+                                <p>@ViewBag.EventoNoDisponible</p>
+                                List<string> futurasVentas = ViewBag.FuturasVentas as List<string>;
+                                for (int i = 0; i < futurasVentas.Count; i++)
+                                {
+                                    <p style="margin-left:5em">@futurasVentas[i]</p>
+                                }
+                            }
+                            else
+                            {
+                                <div class="row form-group">
+                                    <label for="funcion" class="control-label col-md-4">Función:</label>
+                                    @{
+                                if (ViewBag.MensajeErrorFunciones != null)
+                                {
+                                    <input type="text" class="form-control" value="@ViewBag.MensajeErrorFunciones" disabled>
+                                }
+                                else
+                                {
+                                    <div id="funcion" class="col-md-8">
+                                        <select class="form-control">
+                                            <option>Seleccione</option>
+                                            <option>12/10/15</option>
+                                            <option>15/10/15</option>
+                                        </select>
+                                    </div>
+                                }
+                                    }
 
-                    <br>
-                    <div class="caption" style="text-align:justify">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        Función:
-                                    </div>
-                                    <div class="col-md-6">
-                                        <input type="date" class="form-control">
-                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        Hora:
-                                    </div>
-                                    <div class="col-md-6">
-                                        <select name="" class="form-control">
+                                <div class="row form-group">
+                                    <label for="hora" class="control-label col-md-4">Hora:</label>
+                                    <div id="funcion" class="col-md-8">
+                                        <select id="hora" class="form-control ">
                                             <option value="">Seleccione</option>
                                             <option value="">4:00 pm</option>
                                         </select>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        Zona/Tarifa:
-                                    </div>
-                                    <div class="col-md-6">
-                                        <select name="" class="form-control">
+                                <div class="row form-group">
+                                    <label for="zonaTarifa" class="control-label col-md-4">Zona/Tarifa:</label>
+                                    <div id="funcion" class="col-md-8">
+                                        <select id="zonaTarifa" class="form-control">
                                             <option value="">Seleccione</option>
                                             <option value="">GENERAL A - S/.50</option>
                                             <option value="">GENERAL B - S/.50</option>
@@ -108,26 +140,13 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        Cantidad de entradas:
-                                    </div>
-                                    <div class="col-md-6">
-                                        <select name="" class="form-control">
-                                            <option value="">Seleccione</option>
-                                            <option value="">1</option>
-                                            <option value="">2</option>
-                                            <option value="">3</option>
-                                            <option value="">4</option>
-                                            <option value="">5</option>
-                                            <option value="">6</option>
-                                            <option value="">7</option>
-                                            <option value="">8</option>
-                                        </select>
+                                <div class="row form-group">
+                                    <label for="zonaTarifa" class="control-label col-md-4">Cantidad entradas:</label>
+                                    <div class="col-md-4">
+                                        <input class="form-control" type="number" value="0" min="1" max="8">
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <br>
+                                <div class="row form-group">
                                     <div class="col-md-6">
                                         <a href="mi_carrito_compras.html" class="btn btn-success pull-right ">Agregar al carrito <span class="glyphicon glyphicon-shopping-cart"></span></a>
                                     </div>
@@ -135,42 +154,40 @@
                                         <a onclick="reservaExitosa()" href="buscar_reserva(cliente).html" class="btn btn-primary pull-right ">Reservar <span class="glyphicon glyphicon-save"></span></a>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-
-
-                    </div>
-                </div>
-            </div>
-            <div id="comentarios" class="row">
-                <div class="thumbnail">
-                    <div class="caption" style="text-align:justify">
-                        <div class="container-fluid">
-                            <h4><u>Comentarios</u></h4>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-10 col-md-offset-1">
-                                <textarea class="form-control " rows="1" id="comentario" placeholder="Escribe un comentario de este evento"></textarea>
-                            </div>
-                        </div>
-
+                            }
+                        }
 
                     </div>
+
                 </div>
             </div>
         </div>
+        <div id="comentarios" class="row">
+            <div class="thumbnail">
+                <div class="caption" style="text-align:justify">
+                    <div class="container-fluid">
+                        <h4><u>Comentarios</u></h4>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-10 col-md-offset-1">
+                            <textarea class="form-control " rows="1" id="comentario" placeholder="Escribe un comentario de este evento"></textarea>
+                        </div>
+                    </div>
 
-        <!--LOS EVENTOS DESTACADOS-->
 
+                </div>
+            </div>
+        </div>
     </div>
-    <script>
-        function reservaExitosa() {
-            alert("Reserva exitosa, tiene hasta el final del día para pagarla");
-        }
-    </script>
 
-    <!--librerias-->
-    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <!--LOS EVENTOS DESTACADOS-->
+
+</div>
+<script>
+    function reservaExitosa() {
+        alert("Reserva exitosa, tiene hasta el final del día para pagarla");
+    }
+</script>
+
+
 

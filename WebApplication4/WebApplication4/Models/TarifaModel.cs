@@ -15,6 +15,7 @@ namespace WebApplication4.Models
         public string Nombre { get; set; }
         public int Aforo { get; set; }
         public List<TarifaModel> ListaTarifas { get; set; }
+        public int Id { get; set; }
     }
     public class ZonaEventoListModel
     {

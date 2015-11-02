@@ -90,10 +90,12 @@ function quitarBloque() {
 function guardarBloques() {
     var nombreLista = "ListaBTM";
     var tableBTV = document.getElementById("bloqueDeTiempo");
+    if (tableBTV.rows.length == 1) return false;
     for (var i = 1; i < tableBTV.rows.length; i++) {
         var fechaInicio = tableBTV.rows[i].getAttribute("data-fechaInicio");
         var fechaFin = tableBTV.rows[i].getAttribute("data-fechaFin");
         $("#formPost").prepend("<input type='hidden' name='" + nombreLista + "[" + (i - 1) + "].fechaInicio' value='" + fechaInicio + "'>");
         $("#formPost").prepend("<input type='hidden' name='" + nombreLista + "[" + (i - 1) + "].fechaFin' value='" + fechaFin + "'>");
     }
+    return true;
 }

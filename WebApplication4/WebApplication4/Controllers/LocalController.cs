@@ -45,11 +45,12 @@ namespace WebApplication4.Controllers
                 local.descripcion = model.descripcion;
                 local.aforo = model.aforo;
                 local.ubicacion = model.ubicacion;
+                local.estaActivo = true;
                 local.idProvincia = model.idProv;
                 local.idRegion = model.idRegion;
                 db.Local.Add(local);
                 db.SaveChanges();
-                return View("Index");
+                return RedirectToAction("Index", "Local");
             }
             List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
             List<Region> listProv = new List<Region>();
@@ -62,34 +63,41 @@ namespace WebApplication4.Controllers
         {
             int id = int.Parse(local);
             Local localr = db.Local.Find(id);
-            db.Local.Remove(localr);
-            //db.Entry(localr).State = EntityState.Modified;
-            //local.es
+            //db.Local.Remove(localr);
+            db.Entry(localr).State = EntityState.Modified;
+            localr.estaActivo = false;
             db.SaveChanges();
-            return View("Index");
+            return RedirectToAction("Index", "Local");
         }
 
         public ActionResult Delete2(int id)
         {
             Local local = db.Local.Find(id);
             db.Local.Remove(local);
-            //db.Entry(local).State = EntityState.Modified;
-            //local.es
+            db.Entry(local).State = EntityState.Modified;
+            local.estaActivo = false;
             db.SaveChanges();
-            return View("Index");
+            return RedirectToAction("Index", "Local");
         }
 
         public ActionResult Edit(string local)
         {
-            List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
-            List<Region> listProv = new List<Region>();
-            ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
-            ViewBag.ProvID = new SelectList(listProv, "idProv", "nombre");
-
-            int id=int.Parse(local);
-            ViewBag.id = id;
-            TempData["codigol"] = id;
-            Session["local"] = db.Local.Find(id);
+            if (local != null)
+            {
+                int id = int.Parse(local);
+                ViewBag.id = id;
+                TempData["codigol"] = id;
+                Local lo = db.Local.Find(id);
+                LocalModel lo1 = new LocalModel();
+                Session["local"] = lo;
+                int idl = (int)lo.idRegion;
+                lo1.idRegion = (int)lo.idRegion;
+                lo1.idProv = (int)lo.idProvincia;
+                List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
+                List<Region> listProv = db.Region.Where(c => c.idRegPadre == idl).ToList();
+                ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre", lo1.idRegion);
+                ViewBag.ProvID = new SelectList(listProv, "idRegion", "nombre", lo1.idProv);
+            }
             return View("Edit");
         }
 
@@ -105,8 +113,9 @@ namespace WebApplication4.Controllers
         {
             List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
             List<Region> listProv = new List<Region>();
+            //ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
             ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
-            ViewBag.ProvID = new SelectList(listProv, "idProv", "nombre");
+            ViewBag.ProvID = new SelectList(listProv, "idRegion", "nombre");
             return View();
         }
 
@@ -118,9 +127,9 @@ namespace WebApplication4.Controllers
             {
                 var o = ViewBag.id;
                 Local local = db.Local.Find(TempData["codigol"]);
-                db.Entry(local).State = EntityState.Modified;                
+                db.Entry(local).State = EntityState.Modified;
                 local.aforo = model.aforo;
-                if(model.descripcion!=null)local.descripcion = model.descripcion;
+                local.descripcion = model.descripcion;
                 local.ubicacion = model.ubicacion;
                 local.idProvincia = model.idProv;
                 local.idRegion = model.idRegion;
@@ -133,14 +142,14 @@ namespace WebApplication4.Controllers
         [HttpPost]
         [AllowAnonymous]
         public ActionResult Search(LocalSearchModel local)
-        {         
-            List<Local> listaLoc=null;
-                if (local.departamento == 0 && local.nombre != null ) listaLoc = db.Local.AsNoTracking().Where(c => c.descripcion.StartsWith(local.nombre)).ToList();
-                else if (local.departamento != 0 && local.nombre == null) listaLoc = db.Local.AsNoTracking().Where(c => local.departamento == c.idRegion).ToList();
-                else if (local.departamento != 0 && local.nombre != null) listaLoc = db.Local.AsNoTracking().Where(c => c.descripcion.StartsWith(local.nombre) && local.departamento == c.idRegion).ToList();
-                else TempData["ListaL"] = null;
-                if (listaLoc != null) TempData["ListaL"] = listaLoc;
-                else TempData["ListaL"] = null;            
+        {
+            List<Local> listaLoc = null;
+            if (local.departamento == 0 && local.nombre != null) listaLoc = db.Local.AsNoTracking().Where(c => c.descripcion.Contains(local.nombre)).ToList();
+            else if (local.departamento != 0 && local.nombre == null) listaLoc = db.Local.AsNoTracking().Where(c => local.departamento == c.idRegion).ToList();
+            else if (local.departamento != 0 && local.nombre != null) listaLoc = db.Local.AsNoTracking().Where(c => c.descripcion.Contains(local.nombre) && local.departamento == c.idRegion).ToList();
+            else TempData["ListaL"] = null;
+            if (listaLoc != null) TempData["ListaL"] = listaLoc;
+            else TempData["ListaL"] = null;
             return RedirectToAction("Index", "Local");
         }
 
@@ -153,7 +162,7 @@ namespace WebApplication4.Controllers
                 Session["ListaL"] = null;
                 return RedirectToAction("Index", "Local");
             }
-            listaLoc = db.Local.AsNoTracking().Where(c => c.descripcion.StartsWith(local)).ToList();
+            listaLoc = db.Local.AsNoTracking().Where(c => c.descripcion.Contains(local) && c.estaActivo == true).ToList();
             if (listaLoc != null) Session["ListaL"] = listaLoc;
             else Session["ListaL"] = null;
             return RedirectToAction("Index", "Local");
@@ -171,10 +180,10 @@ namespace WebApplication4.Controllers
             }
             if (region == "0")
             {
-                Session["ListaL"] = db.Local.ToList();
+                Session["ListaL"] = db.Local.Where(c => c.estaActivo == true).ToList();
                 return RedirectToAction("Index", "Local");
             }
-            listaLoc = db.Local.AsNoTracking().Where(c => c.idRegion==id).ToList();
+            listaLoc = db.Local.AsNoTracking().Where(c => c.idRegion == id && c.estaActivo == true).ToList();
             if (listaLoc != null) Session["ListaL"] = listaLoc;
             else Session["ListaL"] = null;
             return RedirectToAction("Index", "Local");

@@ -191,6 +191,29 @@
         }
     });
     }
+    function cambioDepartamento() {
+        var depId = parseInt($("#idRegion").val());
+        if (!isNaN(depId)) {
+            var ddProv = $("#idProv");
+            ddProv.empty();
+            ddProv.append($("<option></option>").val("").html("Provincia"));
+            $.ajax({
+                url: "@Url.Action("Provincia","Services")",
+                data: { depId: depId },
+            datatype: "json",
+            success: function (data) {
+                var obj = $.parseJSON(data);
+                $.each(obj, function (k, v) {
+                    ddProv.append($("<option></option>").val(v.IdRegion).html(v.Nombre));
+                });
+            },
+            error: function () {
+                alert("Error :(");
+            }
+        });
+    }
+    ddProv.empty();
+    }
     function closewindow() {
         $('#eliminar').modal('hide');
     }
@@ -239,8 +262,21 @@
                             </div>
                         </div>
 
+                        <div class="row form-group">
+                            @Html.LabelFor(model => model.idRegion, new { @class = "control-label col-md-3" })
+                            <div class="col-md-4">
+                                @Html.DropDownListFor(model => model.idRegion, @ViewBag.DepID as SelectList, "Departamento", new { @class = "form-control", @onchange = "cambioDepartamento()" })
+                            </div>
+                        </div>
 
                         <div class="row form-group">
+                            @Html.LabelFor(model => model.idProv, new { @class = "control-label col-md-3" })
+                            <div class="col-md-4">
+                                @Html.DropDownListFor(model => model.idProv, @ViewBag.ProvID as SelectList, "Provincia", new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                        @*<div class="row form-group">
                             @Html.LabelFor(model => model.departamento, new { @class = "control-label col-md-3" })
                             <div class="col-md-9">
                                 @{
@@ -274,7 +310,7 @@
                                 }
                                 @Html.DropDownListFor(model => model.provincia, listItems2, "Seleccione Provincia")
                             </div>
-                        </div>
+                        </div>*@
 
 
 
@@ -291,6 +327,8 @@
         </div>
     </div>
 </div>
+
+
 
 <div class="modal fade" id="eliminar">
     <!--esta div pondra la pantalla oscura al presionar el boton-->

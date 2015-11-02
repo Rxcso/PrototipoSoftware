@@ -72,7 +72,7 @@ namespace WebApplication4.Controllers
         {
             if (ModelState.IsValid)
             {
-                List<CuentaUsuario> listaEmp = db.CuentaUsuario.AsNoTracking().Where(c => c.nombre.StartsWith(vendedor.nombre) && c.estado==true && c.codPerfil==2).ToList();
+                List<CuentaUsuario> listaEmp = db.CuentaUsuario.AsNoTracking().Where(c => c.nombre.Contains(vendedor.nombre) && c.estado == true && c.codPerfil == 2).ToList();
                 if (listaEmp != null) TempData["ListaV1"] = listaEmp;
                 else TempData["ListaV1"] = null;
                 return RedirectToAction("Index", "Empleado");
@@ -87,7 +87,7 @@ namespace WebApplication4.Controllers
         {
             if (ModelState.IsValid)
             {
-                List<CuentaUsuario> listaEmp = db.CuentaUsuario.AsNoTracking().Where(c => c.nombre.StartsWith(promotor.nombre) && c.estado == true &&c.codPerfil==3).ToList();
+                List<CuentaUsuario> listaEmp = db.CuentaUsuario.AsNoTracking().Where(c => c.nombre.Contains(promotor.nombre) && c.estado == true && c.codPerfil == 3).ToList();
                 if (listaEmp != null) TempData["ListaT"] = listaEmp;
                 else TempData["ListaT"] = null;
                 return RedirectToAction("Index", "Empleado");
@@ -105,7 +105,7 @@ namespace WebApplication4.Controllers
                 Session["ListaV1"] = null;
                 return RedirectToAction("Index", "Empleado");
             }
-            listaEmp = db.CuentaUsuario.AsNoTracking().Where(c => c.nombre.StartsWith(nombre) && c.estado == true && c.codPerfil == 2).ToList();
+            listaEmp = db.CuentaUsuario.AsNoTracking().Where(c => c.nombre.Contains(nombre) && c.estado == true && c.codPerfil == 2).ToList();
             if (listaEmp != null) Session["ListaV1"] = listaEmp;
             else Session["ListaV1"] = null;
             return RedirectToAction("Index", "Empleado");
@@ -120,7 +120,7 @@ namespace WebApplication4.Controllers
                 Session["ListaT"] = null;
                 return RedirectToAction("Index", "Empleado");
             }
-            listaEmp = db.CuentaUsuario.AsNoTracking().Where(c => c.nombre.StartsWith(nombre) && c.estado == true && c.codPerfil == 3).ToList();
+            listaEmp = db.CuentaUsuario.AsNoTracking().Where(c => c.nombre.Contains(nombre) && c.estado == true && c.codPerfil == 3).ToList();
             if (listaEmp != null) Session["ListaT"] = listaEmp;
             else Session["ListaT"] = null;
             return RedirectToAction("Index", "Empleado");

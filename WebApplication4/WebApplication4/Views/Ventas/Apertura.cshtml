@@ -36,13 +36,13 @@
                 <div class="col-md-2">
                     <div class="input-group">
                         <span class="input-group-addon" id="soles">S/.</span>
-                        <input type="text" id="montoS" value="@mS" class="form-control" aria-describedby="soles" disabled>
+                        <input type="number" id="montoS" value="@mS" class="form-control" aria-describedby="soles" disabled>
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="input-group">
                         <span class="input-group-addon" id="soles">$.</span>
-                        <input type="text" id="montoD" value="@mD" class="form-control" aria-describedby="soles" disabled>
+                        <input type="number" id="montoD" value="@mD" class="form-control" aria-describedby="soles" disabled>
                     </div>
                 </div>
             </div>
@@ -54,13 +54,13 @@
             <div class="col-md-2">
                 <div class="input-group">
                     <span class="input-group-addon" id="soles">S/.</span>
-                    <input type="text" id="montoS" class="form-control" aria-describedby="soles">
+                    <input type="number" id="montoS" class="form-control" aria-describedby="soles">
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="input-group">
                     <span class="input-group-addon" id="soles">$.</span>
-                    <input type="text" id="montoD" class="form-control" aria-describedby="soles">
+                    <input type="number" id="montoD" class="form-control" aria-describedby="soles">
                 </div>
             </div>
         </div>
@@ -94,11 +94,11 @@
                 url: "@Url.Action("AbrirCaja", "Ventas")",
                 data: { montos: montos, montod: montod },
             success: function (data) {
-                //alert("Eliminado");
+                alert(data);
                 window.location.href = '/Ventas/Apertura';
             },
-            error: function () {
-                //alert("Error :(");
+            error: function (data) {
+                alert(data);
                 window.location.href = '/Ventas/Apertura';
             }
         });

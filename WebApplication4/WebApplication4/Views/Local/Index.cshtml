@@ -7,14 +7,8 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
     var db = new WebApplication4.Models.inf245netsoft();
-    List<WebApplication4.Models.Region> listaSearch= db.Region.AsNoTracking().Where(c => c.idRegPadre == null).ToList();
-    IEnumerable<SelectListItem> listItemsSearch = (from a in listaSearch
-                                             select new SelectListItem
-                                             {
-                                                 Value = a.idRegion.ToString(),
-                                                 Text = a.nombre,
-                                                 Selected = false
-                                             });                                       
+    List<WebApplication4.Models.Region> listaSearch = db.Region.AsNoTracking().Where(c => c.idRegPadre == null).ToList();
+
 }
 
 <div class="container-fluid">
@@ -65,13 +59,13 @@
     </div>
 
     @*@{
-        Html.RenderPartial("_Search");
-    }*@
+            Html.RenderPartial("_Search");
+        }*@
     @{
-        List<WebApplication4.Models.Local> listaLocal ;
+        List<WebApplication4.Models.Local> listaLocal;
         if (Session["ListaL"] == null)
         {
-            listaLocal = db.Local.ToList();
+            listaLocal = db.Local.AsNoTracking().Where(c => c.estaActivo == true).ToList();
         }
         else
         {
@@ -90,7 +84,7 @@
                     <th>Provincia</th>
                     <th>Departamento</th>
                     @*<th></th>
-                    <th></th>*@
+                        <th></th>*@
                 </tr>
             </thead>
             <tbody id="tbody">
@@ -105,7 +99,7 @@
                         <td>@db.Region.Find(row.idRegion).nombre</td>
                         @*<td>@Html.ActionLink("Delete", "Delete", new { id = row.codLocal })</td>*@
                         @*<td><a href="@Url.Action("Edit", "Local", new { id = row.codLocal })" class="btn btn-primary">Modificar <span class="glyphicon glyphicon-pencil"></span></a></td>
-                        <td><a href="@Url.Action("Delete", "Local", new { id = row.codLocal })" class="btn btn-primary">Dar de Baja <span class="glyphicon glyphicon-remove"></span></a></td>*@
+                            <td><a href="@Url.Action("Delete", "Local", new { id = row.codLocal })" class="btn btn-primary">Dar de Baja <span class="glyphicon glyphicon-remove"></span></a></td>*@
                     </tr>
                 }
             </tbody>
@@ -162,7 +156,7 @@
                             @Html.ValidationMessageFor(model => model.ubicacion)
                         </div>
                     </div>
-                    
+
                     <div class="row form-group">
                         @Html.LabelFor(model => model.idRegion, new { @class = "control-label col-md-3" })
                         <div class="col-md-4">
@@ -176,7 +170,7 @@
                             @Html.DropDownListFor(model => model.idProv, @ViewBag.ProvID as SelectList, "Provincia", new { @class = "form-control" })
                         </div>
                     </div>
-                    
+
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
                             <input type="submit" value="Agregar" class="btn btn-primary" />
@@ -186,8 +180,8 @@
             }
             <!--footer de la ventana-->
             @*<div class="modal-footer">
-                <button type="button" onclick="registrar()" class="btn btn-primary">Agregar <span class="glyphicon glyphicon-ok"></span></button>
-            </div>*@
+                    <button type="button" onclick="registrar()" class="btn btn-primary">Agregar <span class="glyphicon glyphicon-ok"></span></button>
+                </div>*@
         </div>
     </div>
 </div>
@@ -249,19 +243,19 @@
             $.ajax({
                 url: "@Url.Action("Provincia","Services")",
                 data: { depId: depId },
-            datatype: "json",
-            success: function (data) {
-                var obj = $.parseJSON(data);
-                $.each(obj, function (k, v) {
-                    ddProv.append($("<option></option>").val(v.IdRegion).html(v.Nombre));
-                });
-            },
-            error: function () {
-                alert("Error :(");
-            }
-        });
-    }
-    ddProv.empty();
+                datatype: "json",
+                success: function (data) {
+                    var obj = $.parseJSON(data);
+                    $.each(obj, function (k, v) {
+                        ddProv.append($("<option></option>").val(v.IdRegion).html(v.Nombre));
+                    });
+                },
+                error: function () {
+                    alert("Error :(");
+                }
+            });
+        }
+        ddProv.empty();
     }
     function borrar() {
         var local = $('#idLocalT').val();
@@ -328,15 +322,15 @@
         $.ajax({
             url: "@Url.Action("Search3", "Local")",
             data: { region: region },
-        success: function (data) {
-            window.location.href = '/Local/Index';
-            //alert("Eliminado");
-            //row.remove();
-        },
-        error: function () {
-            alert("Error :(");
-        }
-    });
+            success: function (data) {
+                window.location.href = '/Local/Index';
+                //alert("Eliminado");
+                //row.remove();
+            },
+            error: function () {
+                alert("Error :(");
+            }
+        });
     }
     function closewindow() {
         $('#eliminar').modal('hide');

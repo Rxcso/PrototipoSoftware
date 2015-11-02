@@ -5,7 +5,13 @@
     ViewBag.Title = "Politicas";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
     var db = new WebApplication4.Models.inf245netsoft();
-    
+    int p1=0, p2=0, p3=0, p4=0, p5=0;
+    int a = 1, b = 2, c = 3, d = 4, e = 5;
+    p1 =(int) db.Politicas.Find(a).valor;
+    p2 = (int)db.Politicas.Find(b).valor;
+    p3 = (int)db.Politicas.Find(c).valor;
+    p4 = (int)db.Politicas.Find(d).valor;
+    p5 = (int)db.Politicas.Find(e).valor;
 }
 
 <div class="container-fluid">
@@ -45,14 +51,19 @@
                                 <span class="input-group-addon" id="reserva">días</span>
                             </div>
                         </div>
-
-                    </div> <br>
+                        <div class="col-md-3">
+                            <input type="text" value="@p1" class="form-control" aria-describedby="dolares" readonly="true">
+                        </div>
+                        </div> <br>
                     <div class="row">
                         <div class="col-md-3 col-md-offset-1">
                             <label for="">Máximo de reservas/compras por evento:</label>
                         </div>
                         <div class="col-md-3">
                             <input id="maxC" type="number" class="form-control">
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" value="@p2" class="form-control" aria-describedby="dolares" readonly="true">
                         </div>
                     </div><br>
                     <div class="row">
@@ -65,6 +76,20 @@
                                 <span class="input-group-addon" id="min">S/.</span>
                                 <input id="monT" type="number" class="form-control" aria-describedby="min">
                             </div>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" value="@p3" class="form-control" aria-describedby="dolares" readonly="true">
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-md-3 col-md-offset-1">
+                            <label for="">Cantida Maxima de Rango Asignacion de Turnos:</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input id="rAsg" type="number" class="form-control">
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" value="@p5" class="form-control" aria-describedby="dolares" readonly="true">
                         </div>
                     </div><br>
                     <div class="row">
@@ -89,7 +114,9 @@
                                 <span class="input-group-addon" id="min">minutos</span>
                             </div>
                         </div>
-
+                        <div class="col-md-3">
+                            <input type="text" value="@p4" class="form-control" aria-describedby="dolares" readonly="true">
+                        </div>
                     </div><br>
                     <div class="row">
                         <div class="col-md-3 col-md-offset-5">
@@ -109,20 +136,22 @@
 		    var dur = $('#durR').val();
 		    var mx = $('#maxC').val();
 		    var mt = $('#monT').val();
+		    var ra = $('#rAsg').val();
 		    //alert(dur);
 		    //alert(mx);
 		    //alert(mt);
 		    if (mx!=null || dur!=null || mt!=null) {
 		        $.ajax({
 		            url: "@Url.Action("RegistraPoliticas", "CuentaUsuario")",
-		            data: { dur:dur,mx:mx,mt:mt },
+		            data: { dur:dur,mx:mx,mt:mt,ra:ra },
 		        success: function (data) {
-		            //alert("Desactivado");
+		            alert(data);
 		            window.location.href = '/CuentaUsuario/Politicas';
 		            //window.location.href = 'Promocion/Index?evento='+evento;
 		            //row.remove();
 		        },
-		        error: function () {
+		        error: function (data) {
+		            alert(data);
 		            //alert("Error :(");
 		        }
 		    });
@@ -137,13 +166,13 @@
 		            url: "@Url.Action("RegistraTolerancia","CuentaUsuario")",
 		            data: { tolerancia:tolerancia},
 		        success: function (data) {
-		            //alert("Desactivado");
+		            alert(data);
 		            window.location.href = '/CuentaUsuario/Politicas';
 		            //window.location.href = 'Promocion/Index?evento='+evento;
 		            //row.remove();
 		        },
 		        error: function () {
-		            //alert("Error :(");
+		            alert(data);
 		        }
 		    });
         } else {

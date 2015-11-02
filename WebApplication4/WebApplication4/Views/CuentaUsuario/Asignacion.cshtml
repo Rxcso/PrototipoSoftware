@@ -20,7 +20,7 @@
     List<Turno> listaTurnoAsig = null;
     if (Session["ListaTurnoVendedor"] != null)
     {
-        listaTurnoAsig = (List<Turno>)Session["ListaTurnoVendedor"];        
+        listaTurnoAsig = (List<Turno>)Session["ListaTurnoVendedor"];
     }
 
 }
@@ -41,8 +41,8 @@
         </div>
 
         @*<div class="col-md-2">
-            <button tyle="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Guardar <span class="glyphicon glyphicon-save"></span> </button>
-        </div>*@
+                <button tyle="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Guardar <span class="glyphicon glyphicon-save"></span> </button>
+            </div>*@
 
         <div>
             <a href="@Url.Action("Index2", "Home")" class="btn btn-danger pull-right" data-dismiss="modal" aria-hidden="true">Salir <span class="glyphicon glyphicon-log-out"></span> </a><br>
@@ -115,11 +115,11 @@
     </div>
     <h4>Asignación</h4>
     @*@if (Session["ErrorAsignacion"] != null)
-    {
-        mensaje = (string)Session["ErrorAsignacion"];
-        <h1>@mensaje</h1>
-    }
-    <h1>@mensaje</h1>*@
+        {
+            mensaje = (string)Session["ErrorAsignacion"];
+            <h1>@mensaje</h1>
+        }
+        <h1>@mensaje</h1>*@
     <div class="row">
         <table id="mytable" class="table table-bordered table-hover">
             <thead>
@@ -133,17 +133,18 @@
                 </tr>
             </thead>
             <tbody id="tbody">
-                @if (listaTurnoAsig != null){ 
-                foreach (var row in listaTurnoAsig)
+                @if (listaTurnoAsig != null)
                 {
-                    <tr id=@row.usuario onclick="myFunction(this)">
-                        <td>@db.PuntoVenta.Find(@row.codPuntoVenta).codPuntoVenta</td>
-                        <td>@db.PuntoVenta.Find(@row.codPuntoVenta).ubicacion</td>
-                        <td>@row.fecha.ToString("dd/MM/yyyy")</td>
-                        <td>@db.TurnoSistema.Find(@row.codTurnoSis).horIni</td>
-                        <td>@db.TurnoSistema.Find(@row.codTurnoSis).horFin</td>
-                    </tr>
-                }
+                    foreach (var row in listaTurnoAsig)
+                    {
+                        <tr id=@row.usuario onclick="myFunction(this)">
+                            <td>@db.PuntoVenta.Find(@row.codPuntoVenta).codPuntoVenta</td>
+                            <td>@db.PuntoVenta.Find(@row.codPuntoVenta).ubicacion</td>
+                            <td>@row.fecha.ToString("dd/MM/yyyy")</td>
+                            <td>@db.TurnoSistema.Find(@row.codTurnoSis).horIni</td>
+                            <td>@db.TurnoSistema.Find(@row.codTurnoSis).horFin</td>
+                        </tr>
+                    }
                 }
             </tbody>
         </table>
@@ -232,26 +233,26 @@
         //alert(fecha);
         //alert(horai);
         //alert(promocion);
-        if (turno != "" && turno != null && fecha!="" && fecha !=null && horai!=null && horai!="") {
+        if (turno != "" && turno != null && fecha != "" && fecha != null && horai != null && horai != "") {
             $.ajax({
                 url: "@Url.Action("DeleteTurno","CuentaUsuario")",
-                data: { turno: turno,fecha:fecha,horai:horai},
-            success: function (data) {
-                //alert("Desactivado");
-                //window.location.href = '/CuentaUsuario/Asignacion';
-                window.location.href = '/CuentaUsuario/Asignacion';
-                row.remove();
-            },
-            error: function () {
-                //alert("Error :(");
-                window.location.href = '/CuentaUsuario/Asignacion';
-                row.remove();
-            }
-        });
-    } else {
+                data: { turno: turno, fecha: fecha, horai: horai },
+                success: function (data) {
+                    alert(data);
+                    //window.location.href = '/CuentaUsuario/Asignacion';
+                    window.location.href = '/CuentaUsuario/Asignacion';
+                    row.remove();
+                },
+                error: function (data) {
+                    alert(data);
+                    window.location.href = '/CuentaUsuario/Asignacion';
+                    row.remove();
+                }
+            });
+        } else {
             alert("Seleccione un turno");
             turno = "";
-    }
+        }
     }
     function myFunction(x) {
         if (document.getElementsByClassName("trselected").length > 0) {
@@ -280,14 +281,16 @@
         //alert(fin);
         //alert(punto);
         //alert(turno);
-        if (turno != "0" && isNaN(punto)==false && idV != null && ini != "" && fin != "") {
+        if (turno != "0" && isNaN(punto) == false && idV != null && ini != "" && fin != "") {
             //alert(monto);
             $.ajax({
                 url: "@Url.Action("RegistrarAsignacion","CuentaUsuario")",
-                data: { turno:turno,punto:punto,idV:idV,ini:ini,fin:fin },
+                data: { turno: turno, punto: punto, idV: idV, ini: ini, fin: fin },
                 success: function (data) {
                     alert(data);
-                    window.location.href = '/CuentaUsuario/Asignacion';
+                    if (data == "Registro Correcto") {
+                        window.location.href = '/CuentaUsuario/Asignacion';
+                    }
                 },
                 error: function () {
                     alert(data);

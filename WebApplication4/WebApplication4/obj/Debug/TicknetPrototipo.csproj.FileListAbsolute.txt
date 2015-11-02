@@ -1017,7 +1017,6 @@ C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplicatio
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\WebApplication4.dll.config
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\WebApplication4.dll
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\WebApplication4.pdb
-C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\Antlr3.Runtime.dll
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\EntityFramework.SqlServer.dll
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\itextsharp.dll
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\log4net.dll
@@ -1044,7 +1043,6 @@ C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplicatio
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\System.Web.WebPages.Deployment.dll
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\System.Web.WebPages.dll
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\System.Web.WebPages.Razor.dll
-C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\WebGrease.dll
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\MvcPaging.pdb
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\itextsharp.xml
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\log4net.xml
@@ -1055,7 +1053,6 @@ C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplicatio
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\System.Web.WebPages.xml
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\System.Web.WebPages.Deployment.xml
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\System.Web.WebPages.Razor.xml
-C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\Newtonsoft.Json.xml
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\EntityFramework.xml
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\EntityFramework.SqlServer.xml
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\Microsoft.AspNet.Identity.Core.xml
@@ -1149,3 +1146,75 @@ C:\Users\escri\OneDrive\2015-2 INGENIERIA DE SOFTWARE\Proyecto 2\WebApplication4
 C:\Users\escri\OneDrive\2015-2 INGENIERIA DE SOFTWARE\Proyecto 2\WebApplication4\WebApplication4\obj\Debug\TicknetPrototipo.csprojResolveAssemblyReference.cache
 C:\Users\escri\OneDrive\2015-2 INGENIERIA DE SOFTWARE\Proyecto 2\WebApplication4\WebApplication4\obj\Debug\WebApplication4.dll
 C:\Users\escri\OneDrive\2015-2 INGENIERIA DE SOFTWARE\Proyecto 2\WebApplication4\WebApplication4\obj\Debug\WebApplication4.pdb
+C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\MVC Foolproof Validation.dll
+C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\Newtonsoft.Json.xml
+C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\Antlr3.Runtime.dll
+C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\WebGrease.dll
+C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\Antlr3.Runtime.pdb
+C:\temp\PrototipoSoftware\WebApplication4\WebApplication4\bin\MVC Foolproof Validation.dll
+C:\temp\PrototipoSoftware\WebApplication4\WebApplication4\bin\Antlr3.Runtime.pdb
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\WebApplication4.dll.config
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\WebApplication4.dll
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\WebApplication4.pdb
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\Antlr3.Runtime.dll
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\EntityFramework.dll
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\EntityFramework.SqlServer.dll
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\itextsharp.dll
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\log4net.dll
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\Microsoft.AspNet.Identity.Core.dll
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\Microsoft.AspNet.Identity.Owin.dll
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\Microsoft.Owin.dll
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\Microsoft.Owin.Host.SystemWeb.dll
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.Cookies.dll
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.dll
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.Facebook.dll
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.Google.dll
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.OAuth.dll
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.Twitter.dll
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\Microsoft.Web.Infrastructure.dll
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\MVC Foolproof Validation.dll
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\MvcPaging.dll
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\Newtonsoft.Json.dll
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\Owin.dll
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\PagedList.dll
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\PagedList.Mvc.dll
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\System.Web.Helpers.dll
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\System.Web.Mvc.dll
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\System.Web.Optimization.dll
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\System.Web.Razor.dll
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\System.Web.WebPages.Deployment.dll
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\System.Web.WebPages.dll
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\System.Web.WebPages.Razor.dll
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\WebGrease.dll
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\MvcPaging.pdb
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\itextsharp.xml
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\log4net.xml
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\Newtonsoft.Json.xml
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\PagedList.xml
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\PagedList.Mvc.xml
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\System.Web.Helpers.xml
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\System.Web.Mvc.xml
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\System.Web.Optimization.xml
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\System.Web.Razor.xml
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\System.Web.WebPages.xml
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\System.Web.WebPages.Deployment.xml
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\System.Web.WebPages.Razor.xml
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\EntityFramework.xml
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\EntityFramework.SqlServer.xml
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\Microsoft.AspNet.Identity.Core.xml
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\Microsoft.AspNet.Identity.Owin.xml
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\Microsoft.Owin.xml
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\Microsoft.Owin.Host.SystemWeb.xml
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.xml
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.Facebook.xml
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.Cookies.xml
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.OAuth.xml
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.Google.xml
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.Twitter.xml
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\obj\Debug\TicknetPrototipo.csprojResolveAssemblyReference.cache
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\obj\Debug\WebApplication4.dll
+F:\down\Ingenieria de software\Prototipo\PrototipoSoftware17\WebApplication4\WebApplication4\obj\Debug\WebApplication4.pdb

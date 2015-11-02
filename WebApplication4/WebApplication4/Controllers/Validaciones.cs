@@ -16,14 +16,51 @@ namespace WebApplication4.Controllers
         {
             return TimeSpan.Compare(hourA.TimeOfDay, hourB.TimeOfDay);
         }
+        public static List<BloqueDeTiempoModel> QuitaDuplicados(List<BloqueDeTiempoModel> bloques)
+        {
+            return bloques.GroupBy(c => c.fechaInicio).Select(s => s.First()).ToList();
+        }
+        public static string GetMonthName(int id){
+            switch (id){
+                case 1:
+                    return "Enero";
+                case 2:
+                    return "Febrero";
+                case 3:
+                    return "Marzo";
+                case 4:
+                    return "Abril";
+                case 5:
+                    return "Mayo";
+                case 6:
+                    return "Junio";
+                case 7:
+                    return "Julio";
+                case 8:
+                    return "Agosto";
+                case 9:
+                    return "Septiembre";
+                case 10:
+                    return "Octubre";
+                case 11:
+                    return "Noviembre";
+                case 12: 
+                    return "Diciembre";
+                default:
+                    return "Mes";
+            }
+        }
     }
 
     public class Validaciones
     {
+        
         public static List<BloqueDeTiempoModel> ValidarBloquesDeTiempoDeVenta(BloqueTiempoListModel model)
         {
             //bloquetiempolistmodel tiene los datos en string, hay que crearlo ahora con date
             List<BloqueDeTiempoModel> listaVer = model.ListaBTM;
+            //quito bloques duplicados
+            listaVer = DateValidationMethods.QuitaDuplicados(listaVer);
             bool esCorrecto = true;
             for (int i = 0; i < listaVer.Count - 1; i++)
             {

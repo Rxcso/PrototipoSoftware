@@ -62,6 +62,15 @@
         List<WebApplication4.Models.Promociones> listaPromo = db.Promociones.AsNoTracking().Where(c => c.codEvento == idEvento).ToList();
     }
 
+    @if (!string.IsNullOrEmpty(ViewBag.NoPeriodo))
+    {
+        <div class="error">@ViewBag.NoPeriodo</div>
+    }
+    @if (!string.IsNullOrEmpty(ViewBag.ErrorPeriodo))
+    {
+        <div class="error">@ViewBag.ErrorPeriodo </div>
+    }
+
     <div class="row">
         <table id="mytable" class="table table-bordered">
             <thead>

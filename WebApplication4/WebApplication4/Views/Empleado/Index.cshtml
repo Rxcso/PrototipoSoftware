@@ -90,7 +90,7 @@
                                 <th>Direccion</th>
                                 <th>Telefono</th>
                                 <th>Estado</th>
-                                <th></th>
+                                @*<th></th>*@
                             </tr>
                         </thead>
                         <tbody id="tbody">
@@ -103,8 +103,8 @@
                                     <td>@row.direccion</td>
                                     <td>@row.telefono</td>
                                     <td>@row.estado</td>
-                                    <td>@Html.ActionLink("Delete", "Delete", new { usuario = row.usuario.Replace("@", "°") })</td>
-                                    <td>@Html.ActionLink("Edit", "Edit", new { usuario = row.usuario.Replace("@", "°") })</td>
+                                    @*<td>@Html.ActionLink("Delete", "Delete", new { usuario = row.usuario.Replace("@", "°") })</td>
+                                    <td>@Html.ActionLink("Edit", "Edit", new { usuario = row.usuario.Replace("@", "°") })</td>*@
                                     @*<td><a href="@Url.Action("Edit", "Empleado", new { id = row.codDoc })" class="btn btn-primary">Modificar <span class="glyphicon glyphicon-pencil"></span></a></td>*@
                                     @*<td>@Html.ActionLink("Delete", "Delete", new { id = row.idRegalo })</td>
                                     <td>@Html.ActionLink("Edit", "Edit", new { id = row.idRegalo })</td>*@
@@ -161,7 +161,7 @@
                                 <th>Direccion</th>
                                 <th>Telefono</th>
                                 <th>Estado</th>
-                                <th></th>
+                                @*<th></th>*@
                             </tr>
                         </thead>
                         <tbody id="tbody">
@@ -174,8 +174,8 @@
                                     <td>@row.direccion</td>
                                     <td>@row.telefono</td>
                                     <td>@row.estado</td>
-                                    <td>@Html.ActionLink("Delete", "Delete", new { usuario = row.usuario.Replace("@", "°") })</td>
-                                    <td>@Html.ActionLink("Edit", "Edit", new { usuario = row.usuario.Replace("@", "°") })</td>
+                                    @*<td>@Html.ActionLink("Delete", "Delete", new { usuario = row.usuario.Replace("@", "°") })</td>
+                                    <td>@Html.ActionLink("Edit", "Edit", new { usuario = row.usuario.Replace("@", "°") })</td>*@
                                     @*<td>@Html.ActionLink("Delete", "Delete", new { id = row.idRegalo })</td>
                             <td>@Html.ActionLink("Edit", "Edit", new { id = row.idRegalo })</td>*@
                                 </tr>
