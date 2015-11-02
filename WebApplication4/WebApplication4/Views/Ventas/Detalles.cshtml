@@ -1,0 +1,51 @@
+﻿@using Microsoft.AspNet.Identity
+@using WebApplication4.Models
+
+@{
+    ViewBag.Title = "Detalles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<VentasXFuncion> listvxf = new List<VentasXFuncion>();
+    var db = new WebApplication4.Models.inf245netsoft();
+    if (Session["ListaVentaFuncionCliente"] != null)
+    {
+        listvxf = (List<VentasXFuncion>)Session["ListaVentaFuncionCliente"];
+    }
+}
+
+<h2>Detalles</h2>
+
+<a href="@Url.Action("MisCompras", "CuentaUsuario")" class="btn btn-danger">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+
+<div class="container">
+    <div class="row">
+        <table id="mytable" class="table table-bordered table-hover">
+            <thead>
+                <tr class="thead">
+                    <th>Evento</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Cantidad de Entradas</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+                @if (listvxf != null)
+                {
+                    foreach (var row in listvxf)
+                    {
+                        <tr id=@row.codVen onclick="myFunction(this)">
+                            @{Funcion fu = db.Funcion.Find(row.codFuncion);
+                            }
+                            <td>@db.Eventos.Find(fu.codEvento).nombre</td>
+                            <td>@fu.fecha.Value.ToString("dd/MM/yyyy")</td>
+                            <td>@fu.horaIni.Value.TimeOfDay</td>
+                            <td>@row.cantEntradas</td>
+                            <td>@row.total</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>

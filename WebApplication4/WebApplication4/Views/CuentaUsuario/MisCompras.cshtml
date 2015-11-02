@@ -13,15 +13,15 @@
     if (cu != null)
     {
         listaventas = db.Ventas.Where(r => r.Estado == "Pagado" && r.cliente == cu.usuario).ToList();
-        for (int i = 0; i < listaventas.Count; i++)
-        {
-            Ventas vent = listaventas[i];
-            List<VentasXFuncion> lv = db.VentasXFuncion.Where(c => c.codVen == vent.codVen).ToList();
-            for (int j = 0; j < lv.Count; j++)
-            {
-                listvxf.Add(lv[j]);
-            }
-        }
+        //for (int i = 0; i < listaventas.Count; i++)
+        //{
+        //    Ventas vent = listaventas[i];
+        //    List<VentasXFuncion> lv = db.VentasXFuncion.Where(c => c.codVen == vent.codVen).ToList();
+        //    for (int j = 0; j < lv.Count; j++)
+        //    {
+        //        listvxf.Add(lv[j]);
+        //    }
+        //}
     }
 
 }
@@ -29,7 +29,7 @@
 <div class="container-fluid">
     <ol class="breadcrumb">
         <li class=""><a href="@Url.Action("MiCuenta", "CuentaUsuario")">Mi cuenta</a></li>
-        <li class="active">Mis reservas</li>
+        <li class="active">Mis Compras</li>
     </ol>
 </div>
 
@@ -48,31 +48,42 @@
                     <thead>
                         <tr class="thead">
                             <th>Codigo</th>
-                            <th>Evento</th>
                             <th>Fecha</th>
-                            <th>Hora</th>
                             <th>Cantidad de Boletos</th>
                             <th>Monto (S/.)</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody id="tbody">
                         @if (listaventas != null)
                         {
-                            if (listvxf != null) { 
-                            foreach (var row in listvxf)
+                            foreach (var row in listaventas)
                             {
                                 <tr id=@row.codVen onclick="myFunction(this)">
                                     <td>@row.codVen</td>
-                                    @{Funcion fu = db.Funcion.Find(row.codFuncion);
-                                    }
-                                    <td>@db.Eventos.Find(fu.codEvento).nombre</td>
-                                    <td>@fu.fecha.Value.ToString("dd/MM/yyyy")</td>
-                                    <td>@fu.horaIni.Value.TimeOfDay - @fu.horaFin.Value.TimeOfDay</td>
-                                    <td>@row.cantEntradas</td>
-                                    <td>@row.total</td>
+                                    <td>@row.fecha.Value.ToString("dd/MM/yyyy")</td>
+                                    <td>@row.cantAsientos</td>
+                                    <td>@row.MontoTotalSoles</td>
+                                    <td><a href="@Url.Action("Detalles", "Ventas", new { id = row.codVen })" class="btn btn-primary">Detalles <span class="glyphicon glyphicon-pencil"></span></a></td>
                                 </tr>
                             }
-                            }
+                            @*if (listvxf != null)
+                                {
+                                    foreach (var row in listvxf)
+                                    {
+                                    <tr id=@row.codVen onclick="myFunction(this)">
+                                        <td>@row.codVen</td>
+                                        <td>@row.codVen</td>
+                                        @{Funcion fu = db.Funcion.Find(row.codFuncion);
+                                        }
+                                        <td>@db.Eventos.Find(fu.codEvento).nombre</td>
+                                        <td>@fu.fecha.Value.ToString("dd/MM/yyyy")</td>
+                                        <td>@fu.horaIni.Value.TimeOfDay - @fu.horaFin.Value.TimeOfDay</td>
+                                        <td>@row.cantEntradas</td>
+                                        <td>@row.total</td>
+                                    </tr>
+                                }
+                                }*@
                         }
                     </tbody>
                 </table>
@@ -131,19 +142,19 @@
 </div><!--Fin del container-->
 
 <script>
-        function verEvento(){
-            window.open("ver_evento.html", "_self");
-        }
-        function buscar(){
-            window.open("index1.html", "_self");
-        }
-        function ingresar(){
-            window.open("mi_cuenta.html", "_self");
-        }
+    function verEvento() {
+        window.open("ver_evento.html", "_self");
+    }
+    function buscar() {
+        window.open("index1.html", "_self");
+    }
+    function ingresar() {
+        window.open("mi_cuenta.html", "_self");
+    }
 </script>
 
 <script>
-       function select(){
-           document.getElementById("fila3").style.backgroundColor="#ddd";
-       }
+    function select() {
+        document.getElementById("fila3").style.backgroundColor = "#ddd";
+    }
 </script>

@@ -23,11 +23,11 @@ namespace WebApplication4.Controllers
             return View();
         }
 
-        public ActionResult AbrirCaja(string montos,string montod)
+        public ActionResult AbrirCaja(string montos, string montod)
         {
             Turno turno = (Turno)Session["TurnoHoy"];
             if (turno == null) return RedirectToAction("Apertura", "Ventas");
-            if (turno.estadoCaja!="Pendiente") return RedirectToAction("Apertura", "Ventas");
+            if (turno.estadoCaja != "Pendiente") return RedirectToAction("Apertura", "Ventas");
             double m1;
             if (double.TryParse(montos, out m1) == false) return RedirectToAction("Apertura", "Ventas");
             double mS = double.Parse(montos);
@@ -48,7 +48,7 @@ namespace WebApplication4.Controllers
         {
             Turno turno = (Turno)Session["TurnoHoy"];
             if (turno == null) return RedirectToAction("Cierre", "Ventas");
-            if (turno.estadoCaja=="Pendiente") return RedirectToAction("Cierre", "Ventas");
+            if (turno.estadoCaja == "Pendiente") return RedirectToAction("Cierre", "Ventas");
             double m1;
             if (double.TryParse(montos, out m1) == false) return RedirectToAction("Cierre", "Ventas");
             double mS = double.Parse(montos);
@@ -85,6 +85,18 @@ namespace WebApplication4.Controllers
             return View();
         }
 
+        public ActionResult Detalles(int id)
+        {
+            List<VentasXFuncion> lv = db.VentasXFuncion.Where(c => c.codVen == id).ToList();
+            List<VentasXFuncion> listvxf = new List<VentasXFuncion>();
+            for (int j = 0; j < lv.Count; j++)
+            {
+                listvxf.Add(lv[j]);
+            }
+            Session["ListaVentaFuncionCliente"] = listvxf;
+            return View("Detalles");
+        }
+
         public ActionResult ReporteDia()
         {
             return View();
@@ -93,7 +105,7 @@ namespace WebApplication4.Controllers
         public ActionResult LlenaOrg(string id)
         {
             int idO = int.Parse(id);
-            Organizador org=db.Organizador.Find(idO);
+            Organizador org = db.Organizador.Find(idO);
             Session["orgPago"] = org;
             //double subtotal;
             //double total=0;
@@ -121,17 +133,17 @@ namespace WebApplication4.Controllers
             string usuario = id.Replace("°", "@");
             CuentaUsuario vend = db.CuentaUsuario.Find(usuario);
             DateTime hoy = DateTime.Now;
-            List<Turno> listatuvend = db.Turno.AsNoTracking().Where(c => c.usuario == usuario && c.fecha>hoy).ToList();
+            List<Turno> listatuvend = db.Turno.AsNoTracking().Where(c => c.usuario == usuario && c.fecha > hoy).ToList();
             Session["ListaTurnoVendedor"] = listatuvend;
             Session["vendAsig"] = vend;
 
             return RedirectToAction("Asignacion", "Ventas");
         }
 
-        public ActionResult RegistrarPagos(string monto,string pend)
+        public ActionResult RegistrarPagos(string monto, string pend)
         {
             double m1;
-            if (double.TryParse(monto,out m1) == false) return RedirectToAction("Pago", "Ventas");
+            if (double.TryParse(monto, out m1) == false) return RedirectToAction("Pago", "Ventas");
             double m = double.Parse(monto);
             double pend1 = double.Parse(pend);
             if (m > pend1) return RedirectToAction("Pago", "Ventas");
@@ -140,13 +152,14 @@ namespace WebApplication4.Controllers
             //List<Eventos> listEp = (List<Eventos>)Session["EventosP"];
             Organizador org = (Organizador)Session["orgPago"];
             m1 = m;
-            int codE=1;
-            if(Session["EventoSeleccionadoPago"]!=null)codE= (int)Session["EventoSeleccionadoPago"];
+            int codE = 1;
+            if (Session["EventoSeleccionadoPago"] != null) codE = (int)Session["EventoSeleccionadoPago"];
             Eventos ev = db.Eventos.Find(codE);
             //for (int i = 0; i < listEp.Count; i++)
             //{
             //    if (m == 0) break;
-            while (m != 0) { 
+            while (m != 0)
+            {
                 if (pend1 < m)
                 {
                     db.Entry(ev).State = EntityState.Modified;
@@ -199,7 +212,7 @@ namespace WebApplication4.Controllers
             //    }
             //}
             //Session["EventosP"] = listEpa;
-             return View();
+            return View();
         }
     }
 }
