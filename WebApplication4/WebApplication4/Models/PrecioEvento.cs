@@ -18,6 +18,7 @@ namespace WebApplication4.Models
         {
             this.PeriodoVenta1 = new HashSet<PeriodoVenta>();
             this.ZonaEvento1 = new HashSet<ZonaEvento>();
+            this.DetalleVenta = new HashSet<DetalleVenta>();
         }
     
         public int codPrecioEvento { get; set; }
@@ -29,5 +30,6 @@ namespace WebApplication4.Models
         public virtual ZonaEvento ZonaEvento { get; set; }
         public virtual ICollection<PeriodoVenta> PeriodoVenta1 { get; set; }
         public virtual ICollection<ZonaEvento> ZonaEvento1 { get; set; }
+        public virtual ICollection<DetalleVenta> DetalleVenta { get; set; }
     }
 }
