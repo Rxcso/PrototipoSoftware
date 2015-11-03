@@ -234,6 +234,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DatosGeneralesModel.cs" />
+    <Compile Include="Models\DetalleVenta.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Evento2Model.cs" />
     <Compile Include="Models\EventoModel.cs" />
     <Compile Include="Models\Eventos.cs">
@@ -540,6 +543,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="obj\" />
+    <Folder Include="Views\Devolucion\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

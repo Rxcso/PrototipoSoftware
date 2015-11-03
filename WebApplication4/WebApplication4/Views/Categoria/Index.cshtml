@@ -1,4 +1,5 @@
-﻿@using Microsoft@using Microsoft.AspNet.Identity
+﻿@using Microsoft
+@using Microsoft.AspNet.Identity
 @using WebApplication4.Models
 
 @model CategoriaModel
@@ -95,7 +96,7 @@
                     <th>Id</th>
                     <th>Nombre</th>
                     <th>Descripción</th>
-                    <th>Id Padre</th>
+                    <th>Padre</th>
                     <th>Nivel</th>
                     <th>Estado</th>
                 </tr>
@@ -107,7 +108,8 @@
                         <td>@row.idCategoria</td>
                         <td>@row.nombre</td>
                         <td>@row.descripcion</td>
-                        <td>@row.idCatPadre</td>
+                        @{List<Categoria> categ = db.Categoria.Where(c => c.idCategoria == row.idCatPadre).ToList();}
+                        <td>@categ[0].nombre</td>
                         <td>@row.nivel</td>
                         <td>@row.activo</td>
                     </tr>
