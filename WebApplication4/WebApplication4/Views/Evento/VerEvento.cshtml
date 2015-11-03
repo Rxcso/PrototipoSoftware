@@ -5,13 +5,28 @@
 @{
     ViewBag.Title = "Ver Evento";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    Eventos model = Model;
+
 }
+
+<head>
+    <link href="@Url.Content("~/Content/asientos.css")" rel="stylesheet" type="text/css" />
+    <style>
+        #aux {
+            background-color: lightgray;
+            height: 30px;
+        }
+
+        #canvas {
+            height: 300px;
+        }
+    </style>
+
+</head>
 
 <div class="container-fluid">
     <ol class="breadcrumb">
         <li><a href="@Url.Action("Index","Home")">Inicio</a></li>
-        <li class="active">Evento @Model.nombre</li>
+        <li class="active">Evento @ViewBag.evento.nombre</li>
     </ol>
 </div>
 
@@ -22,20 +37,20 @@
             <div class="col-md-3">
                 <div id="fila" class="row">
                     <div class="thumbnail">
-                        <img class="event" src=@Model.ImagenDestacado alt=@Model.nombre>
+                        <img class="event" src=@ViewBag.evento.ImagenDestacado alt=@Model.nombre>
                         <div class="caption" style="text-align:left">
-                            <h4>@Model.nombre</h4>
-                            <p><strong><u>Fechas:</u></strong> Del @(((DateTime)model.fecha_inicio).ToShortDateString()) al @(((DateTime)model.fecha_fin).ToShortDateString())</p>
+                            <h4>@ViewBag.evento.nombre</h4>
+                            <p><strong><u>Fechas:</u></strong> Del @(((DateTime)ViewBag.evento.fecha_inicio).ToShortDateString()) al @(((DateTime)ViewBag.evento.fecha_fin).ToShortDateString())</p>
                             <p>
                                 <strong><u>Dirección:</u></strong>
                                 @{
-                                    if (model.idLocal == null || model.idLocal != 0)
+                                    if (ViewBag.evento.idLocal == null || ViewBag.evento.idLocal != 0)
                                     {
                                         @ViewBag.NombreLocal
                                     }
                                     else
                                     {
-                                        @(model.direccion)
+                                        @(ViewBag.evento.direccion)
                                     }
                                 }
                             </p>
@@ -52,7 +67,7 @@
                         <p><strong><u>Categoria:</u></strong> @ViewBag.Categoria</p>
                         <p><strong><u>Subcategoria:</u></strong> @ViewBag.Subcategoria</p>
                         <p><strong><u>Descripción:</u></strong></p>
-                        <p>@Model.descripcion</p>
+                        <p>@ViewBag.evento.descripcion</p>
                     </div>
                 </div>
             </div>
@@ -61,7 +76,7 @@
             <div class="thumbnail">
                 <div class="container-fluid">
                     <h4><u>Distribución de zonas</u></h4>
-                    <img class="event" src=@Model.ImagenSitios alt="Zonas de evento">
+                    <img class="event" src=@ViewBag.evento.ImagenSitios alt="Zonas de evento">
                 </div>
             </div>
         </div>
@@ -93,7 +108,7 @@
                             {
                                 <div class="row form-group">
                                     <label for="funcion" class="control-label col-md-4">Función:</label>
-                                    @{
+                              @{
                                 if (ViewBag.MensajeErrorFunciones != null)
                                 {
                                     <input type="text" class="form-control" value="@ViewBag.MensajeErrorFunciones" disabled>
@@ -108,8 +123,10 @@
                                         </select>
                                     </div>
                                 }
-                                    }
+                              }
 
+
+                            
                                 </div>
                                 <div class="row form-group">
                                     <label for="hora" class="control-label col-md-4">Hora:</label>

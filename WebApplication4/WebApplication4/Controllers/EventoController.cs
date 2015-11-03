@@ -861,6 +861,9 @@ namespace WebApplication4.Controllers
                 ModelState.AddModelError(string.Empty, "No hay Evento");
                 return Redirect("~/Home/Index");
             }
+
+            ViewBag.evento = evento;
+
             try
             {
                 ViewBag.NombreLocal = db.Local.Where(c => c.codLocal == evento.idLocal).First().ubicacion;
