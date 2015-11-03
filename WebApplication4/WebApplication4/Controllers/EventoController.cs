@@ -1002,43 +1002,64 @@ namespace WebApplication4.Controllers
            lista = lista.Where(c => c.estado.Equals("Activo") == true);
 
            */
-
-            if (!String.IsNullOrEmpty(nombre))
+            if (fech_ini > fech_fin)
             {
-                lista = lista.Where(s => s.nombre.Contains(nombre));
+                lista = lista.OrderBy(s => s.codigo);
+                ViewBag.Lista = lista; 
+                var categorias2 = db.Categoria.AsNoTracking().Where(c => c.nivel == 1);
+                ViewBag.categorias = new SelectList(categorias2, "idCategoria", "nombre");
+                var departamentos2 = db.Region.AsNoTracking().Where(c => c.idRegPadre == null);
+                ViewBag.departamentos = new SelectList(departamentos2, "idRegion", "nombre");
+                List<Region> listProv2 = new List<Region>();
+                List<Categoria> listSubCat2 = new List<Categoria>();
+
+                ViewBag.distritos = new SelectList(listProv2, "idProv", "nombre");
+                ViewBag.subcategorias = new SelectList(listSubCat2, "idSubcat", "nombre");
+
+                int pageNumber2 = (page ?? 1);
+                int pageSize2 = 6;
+                return View(lista.ToPagedList(pageNumber2, pageSize2));
+
             }
+            //if (fech_ini < fech_fin)
+            //{
+                if (!String.IsNullOrEmpty(nombre))
+                {
+                    lista = lista.Where(s => s.nombre.Contains(nombre));
+                }
 
-            if (fech_ini.HasValue)
-            {
-                lista = lista.Where(c => c.fecha_inicio >= fech_ini);
-            }
+                if (fech_ini.HasValue)
+                {
+                    lista = lista.Where(c => c.fecha_inicio >= fech_ini);
+                }
 
-            if (fech_fin.HasValue)
-            {
-                lista = lista.Where(c => c.fecha_inicio <= fech_fin);
-            }
+                if (fech_fin.HasValue)
+                {
+                    lista = lista.Where(c => c.fecha_inicio <= fech_fin);
+                }
 
-            if (idCategoria.HasValue)
-            {
+                if (idCategoria.HasValue)
+                {
 
-                lista = lista.Where(c => c.idCategoria == idCategoria);
-            }
+                    lista = lista.Where(c => c.idCategoria == idCategoria);
+                }
 
-            if (idSubCat.HasValue)
-            {
-                lista = lista.Where(c => c.idSubcategoria == idSubCat);
-            }
+                if (idSubCat.HasValue)
+                {
+                    lista = lista.Where(c => c.idSubcategoria == idSubCat);
+                }
 
-            if (idRegion.HasValue)
-            {
+                if (idRegion.HasValue)
+                {
 
-                lista = lista.Where(c => c.idRegion == idRegion);
-            }
+                    lista = lista.Where(c => c.idRegion == idRegion);
+                }
 
-            if (idProv.HasValue)
-            {
-                lista = lista.Where(c => c.idProvincia == idProv);
-            }
+                if (idProv.HasValue)
+                {
+                    lista = lista.Where(c => c.idProvincia == idProv);
+                }
+            //}
 
             lista = lista.OrderBy(s => s.codigo);
             ViewBag.Lista = lista;

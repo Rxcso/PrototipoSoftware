@@ -101,6 +101,12 @@
                     </div>
                 </div>
 
+                @*<div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">Hasta:</span>
+                        <input id="fech_fin" onchange="changeDate2()" name="fech_fin" type="date" class="form-control">
+                    </div>
+                </div>*@
 
                 <div class="form-group">
                     <div class="input-group">
@@ -121,6 +127,7 @@
 
                     </div>
                 </div>
+
                 @*       @{
                         var db = new WebApplication4.Models.inf245netsoft();
                         if (ViewBag.Lista == null)
@@ -500,7 +507,7 @@
 
 
 
-        $("#fech_fin").rules('add',{ greaterThan: "#fech_ini"})
+        //$("#fech_fin").rules('add',{ greaterThan: "#fech_ini"})
 
 
 
