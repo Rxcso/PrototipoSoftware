@@ -29,7 +29,7 @@
             </div>
             <div class="col-md-5">
                 <button type="button" onclick="devolver()" class="btn btn-primary">Devolver Dinero <span class="glyphicon glyphicon-usd"></span></button>
-                <button type="button" onclick="devolver()" class="btn btn-danger ">Salir <span class="glyphicon glyphicon-log-out"></span></button>
+                <button type="button" onclick="@Url.Action("Index2", "Home")" class="btn btn-danger ">Salir <span class="glyphicon glyphicon-log-out"></span></button>
             </div>
         </div>
     </div>
@@ -48,38 +48,9 @@
                 <th>Cant boletos</th>
                 <th>Monto (S/.)</th>
                 <th>Estado</th>
-            </tr>
-            <tr>
-                <td>3232</td>
-                <td>65566778</td>
-                <td>Rojas</td>
-                <td>Napan</td>
-                <td>Pier</td>
-                <td>09/07/2015</td>
-                <td>13:00</td>
-                <td>Circo Kiko</td>
-                <td>3</td>
-                <td>130.50</td>
-                <td>Postergado</td>
-            </tr>
-            <tr id="fila3" onclick="select()">
-                <td>3211</td>
-                <td>65566778</td>
-                <td>Rojas</td>
-                <td>Napan</td>
-                <td>Pier</td>
-                <td>13/07/2015</td>
-                <td>13:00</td>
-                <td>Los tres chiflados</td>
-                <td>2</td>
-                <td>80.00</td>
-                <td id="estado">Cancelado</td>
-            </tr>
+            </tr>            
         </table>
-
     </div>
-
-
 </div>
 
 
