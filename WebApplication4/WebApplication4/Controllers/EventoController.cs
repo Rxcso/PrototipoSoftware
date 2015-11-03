@@ -1004,7 +1004,7 @@ namespace WebApplication4.Controllers
            */
             if (fech_ini > fech_fin)
             {
-                lista = lista.OrderBy(s => s.codigo);
+                lista = null;
                 ViewBag.Lista = lista; 
                 var categorias2 = db.Categoria.AsNoTracking().Where(c => c.nivel == 1);
                 ViewBag.categorias = new SelectList(categorias2, "idCategoria", "nombre");
