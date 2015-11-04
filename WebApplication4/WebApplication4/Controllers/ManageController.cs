@@ -55,7 +55,7 @@ namespace WebApplication4.Controllers
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
+                message == ManageMessageId.ChangePasswordSuccess ? "Su contraseña ha sido cambiada."
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
                 : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
                 : message == ManageMessageId.Error ? "An error has occurred."
@@ -213,6 +213,8 @@ namespace WebApplication4.Controllers
 
         //
         // GET: /Manage/ChangePassword
+        /*Cambiar la vista parecia a la del modelo. Que es este en español*/
+        /*Copien todo este codigo en CuentaUsuarioController para que lo manejen mejor*/
         public ActionResult ChangePassword()
         {
             return View();
@@ -232,10 +234,13 @@ namespace WebApplication4.Controllers
             if (result.Succeeded)
             {
                 var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                /*Aqui deberia de procesar los datos de cuenta usuario*/
+                /*buscan el usuario midiante User.Idenity.Name en la tabla de Cuenta Usuario. Recuerden que deben cambiar los campos de correo y usuario*/
                 if (user != null)
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
+                /*Aca deberia retornarte a MiCuenta de CuentaUsuario*/
                 return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
             }
             AddErrors(result);

@@ -18,6 +18,79 @@ namespace WebApplication4.Controllers
     {
         private inf245netsoft db = new inf245netsoft();
 
+        [HttpGet]
+        public ActionResult ModificarDatos()
+        {
+            string correo = User.Identity.Name;
+            CuentaUsuario cliente = db.CuentaUsuario.Where(c => c.correo == correo).First();
+            EditClientModel client = new EditClientModel();
+            client.apellido = cliente.apellido;
+            client.codDoc = cliente.codDoc;
+            client.direccion = cliente.direccion;
+            client.fechaNac = (DateTime)cliente.fechaNac;
+            client.nombre = cliente.nombre;
+            client.telefono = cliente.telefono;
+            client.telMovil = cliente.telMovil;
+            client.tipoDoc = (int)cliente.tipoDoc;
+            return View(client);
+        }
+
+        [HttpPost]
+        public ActionResult ModificarDatos(EditClientModel model)
+        {
+            string correo = User.Identity.Name;
+            CuentaUsuario cliente = db.CuentaUsuario.Where(c => c.correo == correo).First();
+            cliente.apellido = model.apellido;
+            cliente.codDoc = model.codDoc;
+            cliente.direccion = model.direccion;
+            cliente.fechaNac = model.fechaNac;
+            cliente.nombre = model.nombre;
+            cliente.telefono = model.telefono;
+            cliente.telMovil = model.telMovil;
+            cliente.tipoDoc = model.tipoDoc;
+            db.SaveChanges();
+            TempData["tipo"] = "alert alert-success";
+            TempData["message"] = "Datos Actualizados Exitosamente";
+            return RedirectToAction("MiCuenta");
+        }
+
+        [HttpGet]
+        public ActionResult CambiarCorreo()
+        {
+            string correo = User.Identity.Name;
+            CambiarCorreoModel model = new CambiarCorreoModel();
+            model.Email = correo;
+            return View(model);
+        }
+
+        private bool YaExiste(string correo)
+        {
+            bool cuentausuario = db.CuentaUsuario.Any(c => c.correo == correo);
+            bool aspNetuser = db.AspNetUsers.Any(c => c.Email == correo);
+            return  cuentausuario && aspNetuser ;
+        }
+
+        [HttpPost]
+        public ActionResult CambiarCorreo(CambiarCorreoModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (YaExiste(model.Email))
+                {
+                    ModelState.AddModelError("Email", "Correo en uso.");
+                    return View(model);
+                }
+                CuentaUsuario cuenta = db.CuentaUsuario.Where(c => c.correo == User.Identity.Name).First();
+                cuenta.correo = model.Email;
+                db.SaveChanges();
+                AspNetUsers aspCuenta = db.AspNetUsers.Where(c => c.Email == User.Identity.Name).First();
+                aspCuenta.Email = model.Email;
+                db.SaveChanges();
+                return RedirectToAction("MiCuenta");
+            }
+            return View(model);
+        }
+
         // GET: /CuentaUsuario/
         public ActionResult Index()
         {

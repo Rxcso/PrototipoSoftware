@@ -2,16 +2,35 @@
 @using WebApplication4.Models;
 @using WebApplication4.Controllers;
 
+@model PaqueteEntradas
+
 @{
     ViewBag.Title = "Ver Evento";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    Eventos model = Model;
+    string estiloAsientos = (((Boolean)ViewBag.VeoAsientos) == true) ? "" : "display:none";
 }
+
+
+
+<head>
+    <link href="@Url.Content("~/Content/asientos.css")" rel="stylesheet" type="text/css" />
+    <style>
+        #aux {
+            background-color: lightgray;
+            height: 30px;
+        }
+
+        #canvas {
+            height: 300px;
+        }
+    </style>
+
+</head>
 
 <div class="container-fluid">
     <ol class="breadcrumb">
         <li><a href="@Url.Action("Index","Home")">Inicio</a></li>
-        <li class="active">Evento @Model.nombre</li>
+        <li class="active">Evento @ViewBag.evento.nombre</li>
     </ol>
 </div>
 
@@ -22,20 +41,20 @@
             <div class="col-md-3">
                 <div id="fila" class="row">
                     <div class="thumbnail">
-                        <img class="event" src=@Model.ImagenDestacado alt=@Model.nombre>
+                        <img class="event" src=@ViewBag.evento.ImagenDestacado alt=@ViewBag.evento.nombre>
                         <div class="caption" style="text-align:left">
-                            <h4>@Model.nombre</h4>
-                            <p><strong><u>Fechas:</u></strong> Del @(((DateTime)model.fecha_inicio).ToShortDateString()) al @(((DateTime)model.fecha_fin).ToShortDateString())</p>
+                            <h4>@ViewBag.evento.nombre</h4>
+                            <p><strong><u>Fechas:</u></strong> Del @(((DateTime)ViewBag.evento.fecha_inicio).ToShortDateString()) al @(((DateTime)ViewBag.evento.fecha_fin).ToShortDateString())</p>
                             <p>
                                 <strong><u>Dirección:</u></strong>
                                 @{
-                                    if (model.idLocal == null || model.idLocal != 0)
+                                    if (ViewBag.evento.idLocal == null || ViewBag.evento.idLocal != 0)
                                     {
                                         @ViewBag.NombreLocal
                                     }
                                     else
                                     {
-                                        @(model.direccion)
+                                        @(ViewBag.evento.direccion)
                                     }
                                 }
                             </p>
@@ -52,7 +71,7 @@
                         <p><strong><u>Categoria:</u></strong> @ViewBag.Categoria</p>
                         <p><strong><u>Subcategoria:</u></strong> @ViewBag.Subcategoria</p>
                         <p><strong><u>Descripción:</u></strong></p>
-                        <p>@Model.descripcion</p>
+                        <p>@ViewBag.evento.descripcion</p>
                     </div>
                 </div>
             </div>
@@ -61,7 +80,7 @@
             <div class="thumbnail">
                 <div class="container-fluid">
                     <h4><u>Distribución de zonas</u></h4>
-                    <img class="event" src=@Model.ImagenSitios alt="Zonas de evento">
+                    <img class="event" src=@ViewBag.evento.ImagenSitios alt="Zonas de evento">
                 </div>
             </div>
         </div>
@@ -69,7 +88,7 @@
             <div class="thumbnail">
                 <div class="container-fluid">
                     <div><h4><u>Selección de boletos/asientos</u></h4></div>
-                    <div class="col-md-6">
+                    <div class="col-md-6" style=@estiloAsientos>
                         <div id="canvas" class="col-md-12">           </div>
                         <div id="aux" class="col-md-12">              </div>
                     </div>
@@ -110,6 +129,8 @@
                                 }
                                     }
 
+
+
                                 </div>
                                 <div class="row form-group">
                                     <label for="hora" class="control-label col-md-4">Hora:</label>
@@ -123,22 +144,15 @@
                                 <div class="row form-group">
                                     <label for="zonaTarifa" class="control-label col-md-4">Zona/Tarifa:</label>
                                     <div id="funcion" class="col-md-8">
+
                                         <select id="zonaTarifa" class="form-control">
-                                            <option value="">Seleccione</option>
-                                            <option value="">GENERAL A - S/.50</option>
-                                            <option value="">GENERAL B - S/.50</option>
-                                            <option value="">GENERAL C - S/.50</option>
-                                            <option value="">VIP A - S/.200</option>
-                                            <option value="">VIP B - S/.200</option>
-                                            <option value="">VIP C - S/.150</option>
-                                            <option value="">VIP D - S/.150</option>
-                                            <option value="">VIP E - S/.150</option>
-                                            <option value="">PREFERENCIAL A - S/.80</option>
-                                            <option value="">PREFERENCIAL B - S/.80</option>
-                                            <option value="">PREFERENCIAL C - S/.70</option>
-                                            <option value="">PREFERENCIAL D - S/.70</option>
-                                            <option value="">MOMENTOS CREDOMATIC - S/.300</option>
+                                            @for (int i = 0; i < ViewBag.ListZonasNombre.Count; i++)
+                                            {
+                                                <option value="@ViewBag.ListZonasId[i]"> @ViewBag.ListZonasNombre[i]</option>
+                                            }
                                         </select>
+
+
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -148,12 +162,27 @@
                                     </div>
                                 </div>
                                 <div class="row form-group">
-                                    <div class="col-md-6">
-                                        <a href="mi_carrito_compras.html" class="btn btn-success pull-right ">Agregar al carrito <span class="glyphicon glyphicon-shopping-cart"></span></a>
-                                    </div>
-                                    <div class="col-md-6">
+
+
+
+
+
+                                    @using (Html.BeginForm("ReservarEntradas", "Evento", FormMethod.Post))
+                                    {
+
+
+                                        @Html.TextBoxFor(model => model.idEvento, new { style = "display:none" })
+
+
+
+
+                                        <div class="col-md-6">
+                                            <a href="mi_carrito_compras.html" class="btn btn-success pull-right ">Agregar al carrito <span class="glyphicon glyphicon-shopping-cart"></span></a>
+                                        </div>
                                         <a onclick="reservaExitosa()" href="buscar_reserva(cliente).html" class="btn btn-primary pull-right ">Reservar <span class="glyphicon glyphicon-save"></span></a>
-                                    </div>
+
+
+                                    }
                                 </div>
                             }
                         }
@@ -184,11 +213,154 @@
     <!--LOS EVENTOS DESTACADOS-->
 
 </div>
-<script>
-    function reservaExitosa() {
-        alert("Reserva exitosa, tiene hasta el final del día para pagarla");
-    }
-</script>
+
+@section scripts{
+
+    <script>
+        var cantFilas;
+        var cantColumnas;
+
+        @{
+       <text>
+
+        var x = "@ViewBag.ObjectArrayAsientos";
+
+        </text>
+        }
+        var y = x.replace(/&quot;/g, "\"");
+        var listaAsientos = JSON.parse(y);
+
+        function sacar(arrFilas, arrColumnas) {
+            $("#canvas").empty();
 
 
+            var d;
+            if ($("#canvas").width() > $("#canvas").height()) {
+                d = $("#canvas").height();
+            } else {
+                d = $("#canvas").width();
+            }
+            d *= 0.99;
+
+            var cantFilas = Math.max.apply(false, arrFilas);
+            var cantColumnas = Math.max.apply(false, arrColumnas);
+
+            //BORDE
+            $('<div id="grilla-borde"></div>').appendTo('#canvas');
+            $('#grilla-borde').css('width', d + 'px');
+            $('#grilla-borde').css('height', d + 'px');
+            //
+
+            //INTERIOR
+            $('<div id="grilla-interna"></div>').appendTo('#grilla-borde');
+            $('#grilla-interna').css('width', 96 + '%');
+            $('#grilla-interna').css('height', 96 + '%');
+            $('#grilla-interna').css('margin', 2 + '%');
+            //
+
+            //ABAJO
+            $('<div id="info" style="text-align:center; font-size:18px;"></div>').appendTo('#aux');
+            //
+
+            //FILAS
+            var altoFilas = 0.9 * 100 / cantFilas;
+            var marginTopFilas = 0.1 * 100 / (cantFilas - 1);
+            var anchoFilas = 100 / 1;
+
+            for (var i = 0 ; i < cantFilas ; i++) {
+                $('<div class="filas ' + 'fila_' + (i + 1) + '"></div>').appendTo('#grilla-interna');
+            }
+
+            $('.filas').each(function () {
+                $(this).css('width', anchoFilas + '%');
+                $(this).css('height', altoFilas + '%');
+                if (!$(this).is(':first-child')) {
+                    $(this).css('margin-top', marginTopFilas + '%');
+                }
+            });
+            //
+
+            //CELDAS
+            var altoCeldas = 100 / 1;
+            var anchoCeldas = 0.9 * 100 / cantColumnas;
+            var leftCeldas = 0.1 * 100 / (cantColumnas - 1);
+
+            for (var i = 0 ; i < cantColumnas ; i++)
+                for (var j = 1 ; j <= cantFilas ; j++) {
+                    $('<div class="celdas ' + 'columna_' + (i + 1) + ' "></div>').appendTo('#grilla-interna .filas:nth-child(' + j + ')');
+                }
+
+            $('.celdas').each(function () {
+                $(this).css('width', anchoCeldas + '%'); $(this).css('height', altoCeldas + '%');
+                if (!$(this).is(':first-child')) { $(this).css('margin-left', leftCeldas + '%'); }
+            });
+            //
+
+            //LLENAR
+            var recorrido = 0;
+            for (var i = 1 ; i <= cantFilas ; i++)
+                for (var j = 1 ; j <= cantColumnas ; j++) {
+                    $('<div class="ficha"></div>').appendTo('.filas:nth-child(' + i + ') .celdas:nth-child(' + j + ')');
+                    if (i != arrFilas[recorrido] || j != arrColumnas[recorrido]) {
+                        $('.filas:nth-child(' + i + ') .celdas:nth-child(' + j + ') div').addClass("eliminado");
+                    }
+                    else {
+                        recorrido++;
+                    }
+                }
+            //
+
+
+            $('body').on('mouseover', '.celdas', function () {
+                var filaN = $(this).parent().attr('class').split('_');
+                var columnaN = $(this).attr('class').split('_');
+
+                $('#info').text('Fila: ' + filaN[1] + ' - Columna ' + columnaN[1]);
+            });
+
+
+
+
+            $('body').on('click', '.ficha', function () {
+                $(this).addClass("eliminado");
+            });
+            $('body').on('dblclick', '.ficha', function () {
+                $(this).removeClass("eliminado")
+            });
+
+        }
+
+
+
+        $("#zonas").change(function () {
+            //cambia el aforo cuando se cambia la zona
+            var indice = $("#zonas").val();
+            $("#aforos #" + indice).prop('selected', true);
+            $("#asignados #" + indice).prop('selected', true);
+
+            //Aca iria el seteo de las filas y columnas
+            var index = -1;
+
+            for (var i = 0; i < listaAsientos.length; i++) {
+                if (listaAsientos[i].index == indice) index = i;
+            }
+
+            if (index >= 0 && listaAsientos[index].tieneAsientos) {
+                sacar(listaAsientos[index].posFila, listaAsientos[index].posColumna)
+                cantFilas = listaAsientos[index].filas;
+                cantColumnas = listaAsientos[index].columnas;
+                $("#filas").val(cantFilas);
+                $("#columnas").val(cantColumnas);
+            }
+            else {
+                $("#canvas").empty();
+                $("#filas").val("");
+                $("#columnas").val("");
+            }
+        });
+
+
+
+    </script>
+}
 

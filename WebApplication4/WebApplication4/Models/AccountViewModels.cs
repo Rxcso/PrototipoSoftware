@@ -41,11 +41,17 @@ namespace WebApplication4.Models
 
     public class ForgotViewModel
     {
-        [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
 
+    public class CambiarCorreoModel
+    {
+        [Required(ErrorMessage="Campo requerido.")]
+        [EmailAddress(ErrorMessage="Formato incorrecto. (usuario@correo.com)")]
+        [Display(Name = "Correo Electronico:")]
+        public string Email { get; set; }
+    }
     public class LoginViewModel
     {
         [Required]
@@ -64,12 +70,12 @@ namespace WebApplication4.Models
 
     public class RegisterViewModel
     {
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage="Campo Requerido.")]
+        [EmailAddress(ErrorMessage="Formato incorrecto. (usuario@correo.com)")]
         [Display(Name = "Correo Electronico")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage="Campo Requerido.")]
         [StringLength(100, ErrorMessage = "La {0} debe ser de al menos {2} caracteres de largo.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Contraseña")]
@@ -80,39 +86,43 @@ namespace WebApplication4.Models
         [Compare("Password", ErrorMessage = "Las contraseñas no coinciden.")]
         public string ConfirmPassword { get; set; }
 
-        [Required]
-        [Range(1,3)]
+        [Range(1, 3)]
         [Display(Name = "Tipo de Doc.")]
         public int tipoDoc { get; set; }
 
-        [Required]
-        [Display(Name = "# Doc")]
+        [Required(ErrorMessage = "Campo Requerido.")]
+        [Display(Name = "#Doc")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Numero de documento debe ser numerico.")]
         public string codDoc { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Campo Requerido.")]
         [Display(Name = "Nombres")]
+        [RegularExpression("^[a-zA-Z ]*$", ErrorMessage = "Nombre no debe ser alfanumerico.")]
         public string nombre { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Campo Requerido.")]
         [Display(Name = "Apellidos")]
+        [RegularExpression("^[a-zA-Z ]*$", ErrorMessage = "Apellidos no deben ser alfanumericos.")]
         public string apellido { get; set; }
 
+        [Required]
         [Display(Name = "Direccion")]
         public string direccion { get; set; }
 
         [Display(Name = "Telefono")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Telefono debe ser numerico.")]
         public string telefono { get; set; }
 
         [Display(Name = "Telefono Movil")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Telefono Movil debe ser numerico.")]
         public string telMovil { get; set; }
 
         [Required]
-        [StringLength(1, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 1)]
         [Display(Name = "Sexo")]
         public string sexo { get; set; }
 
-        [Required]
-        [DataType( DataType.Date )]
+        [Required(ErrorMessage = "Campo Requerido.")]   
+        [DataType(DataType.Date)]
         [Display(Name = "Fecha Nac. ")]
         public System.DateTime fechaNac { get; set; }
 
@@ -143,6 +153,48 @@ namespace WebApplication4.Models
         public string telMovil { get; set; }
     }
 
+    public class EditClientModel
+    {
+        [Required(ErrorMessage = "Campo Requerido.")]
+        [Display(Name = "Nombres")]
+        [RegularExpression("^[a-zA-Z ]*$", ErrorMessage = "Nombre no debe ser alfanumerico.")]
+        public string nombre { get; set; }
+
+        [Required(ErrorMessage = "Campo Requerido.")]
+        [Display(Name = "Apellidos")]
+        [RegularExpression("^[a-zA-Z ]*$", ErrorMessage = "Apellidos no deben ser alfanumericos.")]
+        public string apellido { get; set; }
+
+        [Required(ErrorMessage = "Campo Requerido.")]
+        [Range(1, 3)]
+        [Display(Name = "Tipo de Doc.")]
+        public int tipoDoc { get; set; }
+
+        [Required(ErrorMessage = "Campo Requerido.")]
+        [Display(Name = "#Doc")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Numero de documento debe ser numerico.")]
+        public string codDoc { get; set; }
+
+        [Required(ErrorMessage = "Campo Requerido.")]
+        [DataType(DataType.Date)]
+        [Display(Name = "Fecha Nac. ")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public System.DateTime fechaNac { get; set; }
+
+        [Required(ErrorMessage = "Campo Requerido.")]
+        [Display(Name = "Direccion")]
+        public string direccion { get; set; }
+
+        [Required(ErrorMessage = "Campo Requerido.")]
+        [Display(Name = "Telefono")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Telefono debe ser numerico.")]
+        public string telefono { get; set; }
+
+        [Required(ErrorMessage = "Campo Requerido.")]
+        [Display(Name = "Telefono Movil")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Telefono Movil debe ser numerico.")]
+        public string telMovil { get; set; }
+    }
     public class EmpleadoSearchModel
     {
 
