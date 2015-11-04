@@ -725,13 +725,13 @@ namespace WebApplication4.Controllers
 
 
         [HttpGet]
-        public ActionResult RegistrarUsuarioVendedor(RegistrarUsuarioVendedor ){
-
+        public ActionResult RegistrarUsuarioVendedor(){
+            return View();
         }
 
         [HttpPost]
-        public ActionResult RegistrarUsuarioVendedor(RegistrarUsuarioVendedor ){
-
+        public ActionResult RegistrarUsuarioVendedor(RegistrarUsuarioVendedor model){
+            return View(model);
         }
 
     }
