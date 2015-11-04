@@ -27,7 +27,7 @@ namespace WebApplication4.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -39,9 +39,9 @@ namespace WebApplication4.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -104,7 +104,7 @@ namespace WebApplication4.Controllers
                     }
                     else { punt.codPuntoVenta = 1; }
                 }
-                     
+
             }
             catch (Exception ex)
             {
@@ -113,7 +113,7 @@ namespace WebApplication4.Controllers
                 return Redirect("~/Home/Index");
             }
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-            
+
             TempData["tipo"] = "alert alert-warning";
             TempData["message"] = "Logueo Incorrecto";
 
@@ -131,7 +131,7 @@ namespace WebApplication4.Controllers
                     else
                     {
                         if (cuentausuario.codPerfil == 2)
-                        {                           
+                        {
 
                             Turno tu = null;
                             DateTime hoy = DateTime.Now;
@@ -210,7 +210,7 @@ namespace WebApplication4.Controllers
         }
 
         //a
-        
+
         //
         // POST: /Account/VerifyCode
         [HttpPost]
@@ -227,7 +227,7 @@ namespace WebApplication4.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -248,7 +248,7 @@ namespace WebApplication4.Controllers
         {
             return View();
         }
-        
+
         [HttpGet]
         [AllowAnonymous]
         public ActionResult RegisterClient()
@@ -268,22 +268,22 @@ namespace WebApplication4.Controllers
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
-                
-                
+
+
                 if (result.Succeeded)
                 {
 
                     var currentUser = UserManager.FindByName(user.UserName);
-                    UserManager.AddToRole(user.Id,"Cliente");
+                    UserManager.AddToRole(user.Id, "Cliente");
                     CuentaUsuario cuentausuario = new CuentaUsuario();
-                    
+
                     cuentausuario.correo = model.Email;
                     cuentausuario.apellido = model.apellido;
                     cuentausuario.codDoc = model.codDoc;
                     cuentausuario.codPerfil = 1;
                     cuentausuario.contrasena = model.Password;
                     cuentausuario.direccion = model.direccion;
-                    cuentausuario.estado= true;
+                    cuentausuario.estado = true;
                     cuentausuario.fechaNac = model.fechaNac;
                     cuentausuario.nombre = model.nombre;
                     cuentausuario.puntos = 0;
@@ -299,13 +299,15 @@ namespace WebApplication4.Controllers
 
                     db.SaveChanges();
 
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    TempData["tipo"] = "alert alert-success";
+                    TempData["message"] = "Registro Exitoso!";
                     return RedirectToAction("Index", "Home");
                     //return View("~/Views/Home/Index.cshtml");
                 }
@@ -315,7 +317,6 @@ namespace WebApplication4.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-
 
         [HttpPost]
         [AllowAnonymous]
@@ -355,7 +356,7 @@ namespace WebApplication4.Controllers
                     db.CuentaUsuario.Add(cuentausuario);
 
                     db.SaveChanges();
-                    
+
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -650,7 +651,7 @@ namespace WebApplication4.Controllers
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Index", "Home");
         }
-        
+
         //
         // GET: /Account/ExternalLoginFailure
         [AllowAnonymous]
