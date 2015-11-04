@@ -374,6 +374,12 @@
     <Content Include="Images\fiesta.jpg" />
     <Content Include="Images\guerrasexos.jpg" />
     <Content Include="Images\icons.png" />
+    <Content Include="Images\image2.jpg" />
+    <Content Include="Images\img1.jpg" />
+    <Content Include="Images\img3.jpg" />
+    <Content Include="Images\img4.jpg" />
+    <Content Include="Images\img5.jpg" />
+    <Content Include="Images\img6.jpg" />
     <Content Include="Images\katyperry.jpg" />
     <Content Include="Images\login.png" />
     <Content Include="Images\naufragos.jpg" />
