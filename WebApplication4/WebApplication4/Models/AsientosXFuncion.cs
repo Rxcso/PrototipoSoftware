@@ -12,20 +12,17 @@ namespace WebApplication4.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class PrecioEvento
+    public partial class AsientosXFuncion
     {
-        public PrecioEvento()
-        {
-            this.DetalleVenta = new HashSet<DetalleVenta>();
-        }
+        public int codAsiento { get; set; }
+        public int codFuncion { get; set; }
+        public string estado { get; set; }
+        public Nullable<int> codDetalleVenta { get; set; }
+        public Nullable<int> TipoDocAsociado { get; set; }
+        public string DocAsociado { get; set; }
+        public Nullable<double> PrecioPagado { get; set; }
     
-        public int codPrecioEvento { get; set; }
-        public Nullable<double> precio { get; set; }
-        public Nullable<int> codPeriodoVenta { get; set; }
-        public Nullable<int> codZonaEvento { get; set; }
-    
-        public virtual ICollection<DetalleVenta> DetalleVenta { get; set; }
-        public virtual PeriodoVenta PeriodoVenta { get; set; }
-        public virtual ZonaEvento ZonaEvento { get; set; }
+        public virtual Asientos Asientos { get; set; }
+        public virtual Funcion Funcion { get; set; }
     }
 }

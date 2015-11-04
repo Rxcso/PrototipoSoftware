@@ -20,7 +20,7 @@ namespace WebApplication4.Models
         public int codEvento { get; set; }
         public string usuario { get; set; }
     
-        public virtual Eventos Eventos { get; set; }
         public virtual CuentaUsuario CuentaUsuario { get; set; }
+        public virtual Eventos Eventos { get; set; }
     }
 }
