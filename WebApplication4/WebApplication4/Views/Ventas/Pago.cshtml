@@ -6,6 +6,7 @@
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
     var db = new WebApplication4.Models.inf245netsoft();
     int idor=0;
+    int idEp = 0;
     int ce = 0;
     string nombO="";
     List<Eventos> listaEv = new List<Eventos>();
@@ -24,6 +25,7 @@
     if (Session["Pendiente"] != null)
     {
         pend = (double)Session["Pendiente"];
+        idEp = (int)Session["EventoSeleccionadoPago"];
     }
     
 }
@@ -182,8 +184,21 @@
     </div>
 </div>
 
-<input type="hidden" id="idOrgT" value="" />
+@if(idor!=0){
+    <input type="hidden" id="idOrgT" value="@idor" />
+}
+else
+{
+    <input type="hidden" id="idOrgT" value="" />
+}
 
+@if (idEp != 0) { 
+    <input type="hidden" id="idEvT" value="@idEp" />
+}
+else
+{
+    <input type="hidden" id="idEvT" value="" />
+}
 <script>
     function llenaOrg() {
         var id = $('input[name="groupO"]:checked').val();
@@ -215,6 +230,9 @@
     }
     function cambio() {
         var evId = parseInt($("#comboBusq").val());
+        //var elem = document.getElementById("idEvT");
+        //elem.value = evId;
+        //alert(evId);
         $.ajax({
             url: "@Url.Action("PagoPendiente", "CuentaUsuario")",
             data: { evId: evId },
@@ -232,7 +250,13 @@
     function registrar() {
         var monto = $('#monto2').val();
         var pend = $('#pendiente').val();
-        if (monto != "" && monto != null && pend != "" && pend != null) {
+        var Org = $('#idOrgT').val();
+        var ev = $('#idEvT').val();
+        //alert(monto);
+        //alert(ev);
+        //alert(Org);
+        //alert(pend);
+        if (monto != "" && monto != null && pend != "" && pend != null && Org != "" && Org != null && ev!=null && ev !="") {
             //alert(monto);
             $.ajax({
                 url: "@Url.Action("RegistrarPagos","Ventas")",
