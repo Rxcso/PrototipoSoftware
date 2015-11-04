@@ -242,6 +242,7 @@
     <Compile Include="Models\DetalleVenta.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DevolucionModel.cs" />
     <Compile Include="Models\Evento2Model.cs" />
     <Compile Include="Models\EventoModel.cs" />
     <Compile Include="Models\Eventos.cs">
