@@ -22,6 +22,7 @@
                         <div class="input-group">
                             <input id="idBusq" type="text" class="form-control" placeholder="DNI del cliente">
                             <span class="input-group-btn"><button onclick="busca()" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
+                            <!--<span class="input-group-btn"><a id="btn-search" class="btn btn-primary" onclick="submitSearch()"><span class="glyphicon glyphicon-search"></span></a></span>-->
                             <!--<a class="input-group-btn" data-toggle="modal" onclick="busca()"><span class="glyphicon glyphicon-search"></span></a>-->
                         </div>
                     </div>
@@ -104,21 +105,21 @@
         //idProm = x.codp;
     }
 
-    function busca() {
-        alert("hh");
-        var categoria = $('#idBusq').val();
+    function busca() {        
+        var doc = $('#idBusq').val();
         //alert(categoria);
         $.ajax({
             url: '/Ventas/SearchDoc/',
-            data: { categoria: categoria },
+            data: { doc: doc },
             success: function (data) {
                 window.location.href = '/Ventas/Devolucion';
 
             },
-            error: function () {
+            error: function () {  
                 alert("Error :(");
             }
         });
+    }
 </script>
 <style>
     .trselected {

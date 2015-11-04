@@ -216,57 +216,67 @@ namespace WebApplication4.Controllers
         }
         public ActionResult SearchDoc(string doc) 
         {
+            if (doc == "")
+            {                
+                Session["Bus"] = null;
+                return RedirectToAction("Devolucion", "Ventas");
+            }     
+
             List<DevolucionModel> devolucion = new List<DevolucionModel>();
             List<VentasXFuncion> listaRealVxf = new List<VentasXFuncion>();
             List<VentasXFuncion> vxf = null;
             List<CuentaUsuario> usuario = db.CuentaUsuario.Where(u => u.codDoc == doc).ToList();//saco el usuario
             List<Ventas> v = db.Ventas.Where(ven => ven.cliente == usuario[0].usuario && ven.Estado == "Pagado").ToList();
             //saco todas las compras realizadas por dicho usuario que tengan estado Pagado
-
-            for (int i = 0; i < v.Count; i++)
+            if (v != null) 
             {
-                //hallo la lista de VentasXFuncion de cada venta
-                vxf = db.VentasXFuncion.Where(venxf => venxf.codVen == v[i].codVen).ToList();
-                for (int j = 0; j < vxf.Count; j++)
+                for (int i = 0; i < v.Count; i++)
                 {
-                    //filtro
-                    List<Funcion> f = db.Funcion.Where(fun => fun.codFuncion == vxf[j].codFuncion && (fun.estado == "CANCELADO" || fun.estado == "POSTERGADO")).ToList();
-                    if (f == null) vxf.RemoveAt(j);
-                    //si el evento asociado a ese VXF no es postergado ni cancelado, lo borro
+                    //hallo la lista de VentasXFuncion de cada venta
+                    vxf = db.VentasXFuncion.Where(venxf => venxf.codVen == v[i].codVen).ToList();
+                    if (vxf != null) 
+                    {
+                        for (int j = 0; j < vxf.Count; j++)
+                        {
+                            //filtro
+                            List<Funcion> f = db.Funcion.Where(fun => fun.codFuncion == vxf[j].codFuncion && (fun.estado == "CANCELADO" || fun.estado == "POSTERGADO")).ToList();
+                            if (f == null) vxf.RemoveAt(j);
+                            //si el evento asociado a ese VXF no es postergado ni cancelado, lo borro
+                        }
+                        //la lista que mantendrá absolutamente todos los VXF de todas las ventas
+                        listaRealVxf.AddRange(vxf);
+                    }                    
                 }
-                //la lista que mantendrá absolutamente todos los VXF de todas las ventas
-                listaRealVxf.AddRange(vxf);
-            }
-            for (int i = 0; i < listaRealVxf.Count; i++)
-            {
-                //saco todos los DetallesVentas de todos los VXF
-                List<DetalleVenta> detVen = db.DetalleVenta.Where(dv => dv.codVen == listaRealVxf[i].codVen &&
-                dv.codFuncion == listaRealVxf[i].codFuncion).ToList();
-                for (int j = 0; j < detVen.Count; j++)
+                if (listaRealVxf != null)
                 {
-                    //se llena la lista de devoluciones por cada detalle de venta
-                    DevolucionModel d = new DevolucionModel();
-                    d.codDev = detVen[j].codDetalleVenta;
-                    d.numDoc = int.Parse(doc);
-                    d.nombre = usuario[0].apellido + ", " + usuario[0].nombre;
-                    List<Funcion> funAux = db.Funcion.Where(fu => fu.codFuncion == detVen[j].codFuncion).ToList();
-                    List<Eventos> eventosAux = db.Eventos.Where(e => e.codigo == funAux[0].codEvento).ToList();
-                    d.fecha = (DateTime)funAux[0].fecha;
-                    d.hora = (DateTime)funAux[0].horaIni;
-                    d.evento = eventosAux[0].nombre;
-                    d.cantAsientos = (int)detVen[j].cantEntradas;
-                    d.monto = (double)detVen[j].total;
-                    d.estado = funAux[0].estado;
-                    devolucion.Add(d);
-                }
+                    for (int i = 0; i < listaRealVxf.Count; i++)
+                    {
+                        //saco todos los DetallesVentas de todos los VXF
+                        List<DetalleVenta> detVen = db.DetalleVenta.Where(dv => dv.codVen == listaRealVxf[i].codVen &&
+                        dv.codFuncion == listaRealVxf[i].codFuncion).ToList();
+                        for (int j = 0; j < detVen.Count; j++)
+                        {
+                            //se llena la lista de devoluciones por cada detalle de venta
+                            DevolucionModel d = new DevolucionModel();
+                            d.codDev = detVen[j].codDetalleVenta;
+                            d.numDoc = int.Parse(doc);
+                            d.nombre = usuario[0].apellido + ", " + usuario[0].nombre;
+                            List<Funcion> funAux = db.Funcion.Where(fu => fu.codFuncion == detVen[j].codFuncion).ToList();
+                            List<Eventos> eventosAux = db.Eventos.Where(e => e.codigo == funAux[0].codEvento).ToList();
+                            d.fecha = (DateTime)funAux[0].fecha;
+                            d.hora = (DateTime)funAux[0].horaIni;
+                            d.evento = eventosAux[0].nombre;
+                            d.cantAsientos = (int)detVen[j].cantEntradas;
+                            d.monto = (double)detVen[j].total;
+                            d.estado = funAux[0].estado;
+                            devolucion.Add(d);
+                        }
+                    }
+                }                
             }
+           
             
-            if (doc == "")
-            {
-                //listaReg = db.Regalo.AsNoTracking().Where(c => c.estado == true).ToList();
-                Session["Bus"] = null;
-                return RedirectToAction("Devolucion", "Ventas");
-            }            
+                   
             if (devolucion != null) Session["Bus"] = devolucion;
             else Session["Bus"] = null;
             return RedirectToAction("Devolucion", "Ventas");
