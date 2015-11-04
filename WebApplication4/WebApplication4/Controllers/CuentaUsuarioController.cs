@@ -54,7 +54,42 @@ namespace WebApplication4.Controllers
             return RedirectToAction("MiCuenta");
         }
 
+        [HttpGet]
+        public ActionResult CambiarCorreo()
+        {
+            string correo = User.Identity.Name;
+            CambiarCorreoModel model = new CambiarCorreoModel();
+            model.Email = correo;
+            return View(model);
+        }
 
+        private bool YaExiste(string correo)
+        {
+            bool cuentausuario = db.CuentaUsuario.Any(c => c.correo == correo);
+            bool aspNetuser = db.AspNetUsers.Any(c => c.Email == correo);
+            return  cuentausuario && aspNetuser ;
+        }
+
+        [HttpPost]
+        public ActionResult CambiarCorreo(CambiarCorreoModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (YaExiste(model.Email))
+                {
+                    ModelState.AddModelError("Email", "Correo en uso.");
+                    return View(model);
+                }
+                CuentaUsuario cuenta = db.CuentaUsuario.Where(c => c.correo == User.Identity.Name).First();
+                cuenta.correo = model.Email;
+                db.SaveChanges();
+                AspNetUsers aspCuenta = db.AspNetUsers.Where(c => c.Email == User.Identity.Name).First();
+                aspCuenta.Email = model.Email;
+                db.SaveChanges();
+                return RedirectToAction("MiCuenta");
+            }
+            return View(model);
+        }
 
         // GET: /CuentaUsuario/
         public ActionResult Index()

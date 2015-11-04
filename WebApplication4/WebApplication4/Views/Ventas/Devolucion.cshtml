@@ -17,40 +17,112 @@
         <div class="form-group">
             <label for="nombre" class="control-label col-md-2">Nº Documento:</label>
             <div class="col-md-3">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="DNI del cliente">
-                    <span class="input-group-btn"><button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
-                </div>
+                <form action="" class="" role="search">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input id="idBusq" type="text" class="form-control" placeholder="DNI del cliente">
+                            <span class="input-group-btn"><button onclick="busca()" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
+                            <!--<span class="input-group-btn"><a id="btn-search" class="btn btn-primary" onclick="submitSearch()"><span class="glyphicon glyphicon-search"></span></a></span>-->
+                            <!--<a class="input-group-btn" data-toggle="modal" onclick="busca()"><span class="glyphicon glyphicon-search"></span></a>-->
+                        </div>
+                    </div>
+                </form>
             </div>
             <div class="checkbox col-md-2">
-                <label>
+                <!--<label>
                     <input type="checkbox"> Solo vencidos
-                </label>
+                </label>-->
             </div>
             <div class="col-md-5">
                 <button type="button" onclick="devolver()" class="btn btn-primary">Devolver Dinero <span class="glyphicon glyphicon-usd"></span></button>
-                <button type="button" onclick="@Url.Action("Index2", "Home")" class="btn btn-danger ">Salir <span class="glyphicon glyphicon-log-out"></span></button>
+                <a class="btn btn-danger pull-right" href="@Url.Action("Index2", "Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
             </div>
         </div>
     </div>
+    @{    
+        List<WebApplication4.Models.DevolucionModel> devoluciones;
+        //if (Session["Bus"] != null) 
+        devoluciones = (List<WebApplication4.Models.DevolucionModel>)Session["Bus"];
+    }        
     <h4>Resultados:</h4>
     <div class="row">
-        <table class="table table-bordered table-hover">
-            <tr class="active">
-                <th>Cod. Devol.</th>
-                <th>Nº Doc</th>
-                <th>Ap Paterno</th>
-                <th>Ap Materno</th>
-                <th>Nombres</th>
-                <th>Fecha</th>
-                <th>Hora</th>
-                <th>Evento</th>
-                <th>Cant boletos</th>
-                <th>Monto (S/.)</th>
-                <th>Estado</th>
-            </tr>            
+        <table id="mytable" class="table table-bordered table-hover">
+            <thead>
+                <tr class="active">
+                    <th>Cod. Devol.</th>
+                    <th>Nº Doc</th>
+                    <th>Nombre</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Evento</th>
+                    <th>Cant boletos</th>
+                    <th>Monto (S/.)</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+                @{
+                    if (devoluciones != null)
+                    {
+                        foreach (var row in devoluciones)
+                        {                            
+                            <tr id=@row.codDev onclick="myFunction(this)">
+                                <td>@row.numDoc</td>
+                                <td>@row.nombre</td>
+                                <td>@row.fecha</td>
+                                <td>@row.hora</td>
+                                <td>@row.evento</td>
+                                <td>@row.cantAsientos</td>
+                                <td>@row.monto</td>
+                                <td>@row.estado</td>
+                            </tr>
+                        }
+                    }
+                }
+            </tbody>            
         </table>
     </div>
 </div>
 
 
+<input type="hidden" id="idFila" value="" />
+<script>
+    function myFunction(x) {
+        if (document.getElementsByClassName("trselected").length > 0) {
+            var element = document.getElementsByClassName("trselected");
+            //element.item[0].cells[0].innerText;
+            element[0].className = "";
+        }
+        //var tabla = document.getElementById("mytable");
+        //alert(x);
+        //var y = x.getCells();
+        var elem = document.getElementById("idFila");
+        elem.value = x.cells[0].innerHTML;
+        //alert(x.cells[0].innerHTML);
+        //ViewBag.P = x.cells[0].innerHTML;
+        x.className = "trselected";
+        //<a class="btn btn-primary" href="javascript:document.getElementsByClassName('trselected').submit()">Borrar<span class="glyphicon glyphicon-pencil"></span></a>
+        //idProm = x.codp;
+    }
+
+    function busca() {        
+        var doc = $('#idBusq').val();
+        //alert(categoria);
+        $.ajax({
+            url: '/Ventas/SearchDoc/',
+            data: { doc: doc },
+            success: function (data) {
+                window.location.href = '/Ventas/Devolucion';
+
+            },
+            error: function () {  
+                alert("Error :(");
+            }
+        });
+    }
+</script>
+<style>
+    .trselected {
+        background: gray;
+    }
+</style>
