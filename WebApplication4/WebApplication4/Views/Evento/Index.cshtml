@@ -125,6 +125,26 @@
                         <div class="form-group ">
                             <select name="idSubCat" id="idSubCat" data-val="true" class="form-control col-lg-2">
                                 <option value="">Subcategoria</option>
+                               @if (ViewBag.idCategoria != null) { 
+                               int idsubcat = ViewBag.idSubCat;
+                                int idPadre = ViewBag.idCategoria;
+
+                                var subcat = from obj in db.Categoria
+                                where obj.idCatPadre == idPadre
+                                select obj;
+
+                                foreach (var dato in subcat)
+                                {
+
+                                <option value=@dato.idCategoria>@dato.nombre</option>
+
+                                }
+
+
+
+                                }
+
+
                             </select>
                         </div>
                         <div class="form-group">
@@ -366,8 +386,8 @@
             success: function (data) {
                 var obj = $.parseJSON(data);
                 $.each(obj, function (k, v) {
-                    alert(v.IdSCategoria + " - " + v.Nombre);
-                    ddProv.append($("<option></option>").val(v.IdSCategoria).html(v.Nombre));
+          
+                    ddProv.append($("<option></option>").val(v.IdRegion).html(v.Nombre));
                 });
             },
             error: function () {
