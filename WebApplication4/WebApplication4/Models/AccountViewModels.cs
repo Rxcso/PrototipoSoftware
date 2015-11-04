@@ -270,16 +270,16 @@ namespace WebApplication4.Models
         public string Email { get; set; }
     }
 
-    public class RegistrarUsuarioVendedor
+    public class RegistrarUsuarioVendedorModel
     {
         [Required(ErrorMessage = "Campo requerido.")]
         [DataType(DataType.Password)]
-        [Display(Name = "Nombre")]
-        public string Nombre { get; set; }
+        [Display(Name = "Nombres:")]
+        public string Nombres { get; set; }
 
         [Required(ErrorMessage = "Campo requerido.")]
         [DataType(DataType.Password)]
-        [Display(Name = "Apellidos")]
+        [Display(Name = "Apellidos:")]
         public string Apellidos { get; set; }
 
         [Required(ErrorMessage = "Campo requerido.")]

@@ -1,0 +1,53 @@
+﻿@using WebApplication4.Models;
+@model RegistrarUsuarioVendedorModel
+@{
+    ViewBag.Title = "CambiarContrasena";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li class="active">Registrar nuevo cliente</li>
+        </ol>
+    </div>
+</div>
+@using (Html.BeginForm("RegistrarUsuarioVendedor", "CuentaUsuario", FormMethod.Post))
+{
+    <div class="col-md-8">
+        <div class="row form-group">
+            @Html.LabelFor(c => c.Nombres  , new { @class = "control-label col-md-3" })
+            <div class="col-md-8">
+                @Html.TextBoxFor(c => c.Nombres, new {  @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.Nombres)
+            </div>
+        </div>
+        <div class="row form-group">
+            @Html.LabelFor(c => c.Apellidos, new { @class = "control-label col-md-3" })
+            <div class="col-md-8">
+                @Html.TextBoxFor(c => c.Apellidos, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.Apellidos)
+            </div>
+        </div>
+        <div class="row form-group">
+            @Html.LabelFor(c => c.Correo, new { @class = "control-label col-md-3" })
+            <div class="col-md-8">
+                @Html.TextBoxFor(c => c.Correo, new {  @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.Correo)
+            </div>
+        </div>
+        <div class="row form-group">
+            @Html.LabelFor(c => c.Dni, new { @class = "control-label col-md-3" })
+            <div class="col-md-8">
+                @Html.TextBoxFor(c => c.Dni, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.Dni)
+            </div>
+        </div>
+
+
+        <div class="row" style="text-align: center">
+            <button style="button" class="btn btn-primary">Aceptar </button>
+            <a href="@Url.Action("MiCuenta","CuentaUsuario")" class="btn btn-danger">Salir <span class="glyphicon glyphicon-log-out"></span> </a>
+        </div>
+    </div>
+}

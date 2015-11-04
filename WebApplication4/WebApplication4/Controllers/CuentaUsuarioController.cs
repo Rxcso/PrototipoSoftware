@@ -730,8 +730,8 @@ namespace WebApplication4.Controllers
         }
 
         [HttpPost]
-        public ActionResult RegistrarUsuarioVendedor(RegistrarUsuarioVendedor model){
-            return View(model);
+        public ActionResult RegistrarUsuarioVendedor(RegistrarUsuarioVendedorModel model){
+            return RedirectToAction("index2", "Home");
         }
 
     }
