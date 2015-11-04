@@ -7,7 +7,7 @@
 
 
 @{
-    int indexPagina = 0;
+    
     ViewBag.MaximoPaginas = 5;
     var nombre = "";
     ViewBag.Title = "Busqueda";
@@ -322,21 +322,7 @@
 
 
     @{
-        if (this.Request.QueryString.Count != 0)
-        {
-
-
-            if (this.Request.QueryString.AllKeys.Contains("page"))
-            {
-
-
-                indexPagina = this.Request.QueryString["page"].AsInt() - 1;
-
-            }
-
-
-
-        }
+        
 
 
         var fechaI = "";

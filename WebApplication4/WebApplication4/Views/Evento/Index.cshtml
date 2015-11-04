@@ -80,13 +80,36 @@
                             <div class="input-group">
 
                                 <span class="input-group-addon">Desde:</span>
-                                <input id="fech_ini" name="fech_ini" type="date" class="form-control">
+                                @if (ViewBag.fech_ini != null)
+                                {
+                                    string valor = ViewBag.fech_ini.ToString("yyyy-MM-dd");
+
+                                    <input id="fech_ini" name="fech_ini" type="date" class="form-control" value=@valor>
+                                }
+                                else
+                                {
+
+                                    <input id="fech_ini" name="fech_ini" type="date" class="form-control">
+                                }
+                              
+                              
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon">Hasta:</span>
-                                <input id="fech_fin" onchange="changeDate2()" name="fech_fin" type="date" class="form-control">
+
+                                @if (ViewBag.fech_fin != null)
+                                {
+                                    string valor = ViewBag.fech_fin.ToString("yyyy-MM-dd");
+
+                                    <input id="fech_fin"  name="fech_fin" type="date" value=@valor class="form-control">
+                                }
+                                else
+                                {
+
+                                    <input id="fech_fin"  name="fech_fin" type="date" class="form-control">
+                                }
                             </div>
                         </div>
                         <div class="form-group ">
@@ -131,16 +154,16 @@
                     <tr class="thead">
                         <th>Id</th>
                         <th>
-                            @Html.ActionLink("Nombre", "Index", new { orden = ViewBag.orden, filtro = ViewBag.filtro })
+                           Nombre
                         </th>
                         <th>
-                            @Html.ActionLink("Tipo", "Index", new { orden = ViewBag.orden, filtro = ViewBag.filtro })
+                          Tipo
                         </th>
                         <th>
-                            @Html.ActionLink("Categoria", "Index", new { categoria = ViewBag.orden, filtro = ViewBag.filtro })
+                            Categoria
                         </th>
                         <th>
-                            @Html.ActionLink("Organizador", "Index", new { organizador = ViewBag.orden, filtro = ViewBag.filtro })
+                            Organizador
                         </th>
                         <th>
                             Estado
@@ -154,24 +177,58 @@
                             <td>@evento.codigo</td>
                             <td>@evento.nombre</td>
                             @{
-                        Categoria cat = db.Categoria.Where(c => c.idCategoria == @evento.idCategoria).First();
+                                Categoria cat = db.Categoria.Where(c => c.idCategoria == @evento.idCategoria).First();
                             }
 
                             <td>@cat.nombre</td>
                             <td>@evento.idCategoria</td>
                             @{
 
-                        WebApplication4.Models.Organizador org = db.Organizador.Where(mod => mod.codOrg == @evento.idOrganizador).First();
+                                WebApplication4.Models.Organizador org = db.Organizador.Where(mod => mod.codOrg == @evento.idOrganizador).First();
                             }
                             <td>@org.nombOrg</td>
                             <td>@evento.estado</td>
                         </tr>
-                    }
+                                }
                 </tbody>
             </table>
-            Pagina @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, nombre = ViewBag.nombre, fech_ini = ViewBag.fech_ini, fech_fin = ViewBag.fech_fin, idCategoria = ViewBag.idCategoria, idSubCat = ViewBag.idSubCat }));
 
+@{
+
+
+        var fechaI = "";
+        var fechaF = "";
+
+        if (ViewBag.fech_ini != null)
+        {
+            fechaI = ViewBag.fech_ini.ToString("yyyy-MM-dd");
+
+
+        }
+        else
+        {
+            fechaI = ViewBag.fech_ini;
+
+        }
+
+        if (ViewBag.fech_fin != null)
+        {
+            fechaF = ViewBag.fech_fin.ToString("yyyy-MM-dd");
+
+
+        }
+        else
+        {
+            fechaF = ViewBag.fech_fin;
+
+        }
+
+    }
+
+    Pagina @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount;
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, nombre = @ViewBag.nombre, fech_ini = fechaI, fech_fin = fechaF, idCategoria = @ViewBag.idCategoria, idSubCat = @ViewBag.idSubCat }));
+
+  
         </div>
     </div>
 </div>
@@ -186,6 +243,39 @@
             }
             return isNaN(value) && isNaN($(params).val()) || (Number(value) > Number($(params).val()));
         }, 'Must be greater than {0}.');
+
+
+
+
+
+
+
+        if (!isNaN(@ViewBag.idCategoria)) {
+
+            $("#idCategoria > option[value='" + @ViewBag.idCategoria + "'").attr('selected', 'selected');
+
+
+            if (!isNaN(@ViewBag.idSubCat)) {
+
+
+                $("#idSubCat > option[value='" + @ViewBag.idSubCat + "'").attr('selected', 'selected');
+
+
+
+            }
+
+
+        }
+
+        if (!isNaN(@ViewBag.idRegion)) {
+
+            $("#idRegion > option[value='" + @ViewBag.idRegion + "'").attr('selected', 'selected');
+
+
+
+
+        }
+
     });
 
     function changeDate2() {
@@ -201,6 +291,10 @@
                        .attr("type", "hidden")
                         .attr("name", "nombre").val(($("#nombre").val() != "") ? $("#nombre").val() : "");
         $("#adv-search").append(input);*/
+
+        if ($("#fech_fin").val()!="")
+            $("#fech_fin").rules('add', { greaterThan: "#fech_ini" });
+       
         $("#adv-search").submit();
     }
 
