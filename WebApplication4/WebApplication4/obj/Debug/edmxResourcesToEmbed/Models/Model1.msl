@@ -447,5 +447,20 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="DetalleVenta">
+      <EntityTypeMapping TypeName="inf245netsoftModel.DetalleVenta">
+        <MappingFragment StoreEntitySet="DetalleVenta">
+          <ScalarProperty Name="entradasDev" ColumnName="entradasDev" />
+          <ScalarProperty Name="total" ColumnName="total" />
+          <ScalarProperty Name="descTot" ColumnName="descTot" />
+          <ScalarProperty Name="Subtotal" ColumnName="Subtotal" />
+          <ScalarProperty Name="cantEntradas" ColumnName="cantEntradas" />
+          <ScalarProperty Name="codPrecE" ColumnName="codPrecE" />
+          <ScalarProperty Name="codFuncion" ColumnName="codFuncion" />
+          <ScalarProperty Name="codVen" ColumnName="codVen" />
+          <ScalarProperty Name="codDetalleVenta" ColumnName="codDetalleVenta" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

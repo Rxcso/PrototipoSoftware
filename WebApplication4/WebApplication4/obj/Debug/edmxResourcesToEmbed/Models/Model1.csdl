@@ -203,6 +203,15 @@
       <End Role="Ventas" EntitySet="Ventas" />
       <End Role="VentasXFuncion" EntitySet="VentasXFuncion" />
     </AssociationSet>
+    <EntitySet Name="DetalleVenta" EntityType="inf245netsoftModel.DetalleVenta" />
+    <AssociationSet Name="R_60" Association="inf245netsoftModel.R_60">
+      <End Role="PrecioEvento" EntitySet="PrecioEvento" />
+      <End Role="DetalleVenta" EntitySet="DetalleVenta" />
+    </AssociationSet>
+    <AssociationSet Name="R_62" Association="inf245netsoftModel.R_62">
+      <End Role="VentasXFuncion" EntitySet="VentasXFuncion" />
+      <End Role="DetalleVenta" EntitySet="DetalleVenta" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Perfiles">
     <Key>
@@ -701,6 +710,7 @@
     <Property Name="codFuncion" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Funcion" Relationship="inf245netsoftModel.R_76" FromRole="VentasXFuncion" ToRole="Funcion" />
     <NavigationProperty Name="Ventas" Relationship="inf245netsoftModel.R_38" FromRole="VentasXFuncion" ToRole="Ventas" />
+    <NavigationProperty Name="DetalleVenta" Relationship="inf245netsoftModel.R_62" FromRole="VentasXFuncion" ToRole="DetalleVenta" />
   </EntityType>
   <Association Name="R_4">
     <End Type="inf245netsoftModel.Banco" Role="Banco" Multiplicity="1" />
@@ -920,6 +930,7 @@
     <NavigationProperty Name="ZonaEvento" Relationship="inf245netsoftModel.fk_ZonaEvent" FromRole="PrecioEvento" ToRole="ZonaEvento" />
     <NavigationProperty Name="PeriodoVenta1" Relationship="inf245netsoftModel.fk_PrecioEventoPV" FromRole="PrecioEvento" ToRole="PeriodoVenta" />
     <NavigationProperty Name="ZonaEvento1" Relationship="inf245netsoftModel.fk_PrecioEv" FromRole="PrecioEvento" ToRole="ZonaEvento" />
+    <NavigationProperty Name="DetalleVenta" Relationship="inf245netsoftModel.R_60" FromRole="PrecioEvento" ToRole="DetalleVenta" />
   </EntityType>
   <Association Name="fk_PerVenta">
     <End Type="inf245netsoftModel.PeriodoVenta" Role="PeriodoVenta" Multiplicity="0..1" />
@@ -1077,6 +1088,48 @@
       </Principal>
       <Dependent Role="VentasXFuncion">
         <PropertyRef Name="codVen" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="DetalleVenta">
+    <Key>
+      <PropertyRef Name="codDetalleVenta" />
+    </Key>
+    <Property Name="codDetalleVenta" Type="Int32" Nullable="false" />
+    <Property Name="codVen" Type="Int32" Nullable="false" />
+    <Property Name="codFuncion" Type="Int32" Nullable="false" />
+    <Property Name="codPrecE" Type="Int32" Nullable="false" />
+    <Property Name="cantEntradas" Type="Int32" />
+    <Property Name="Subtotal" Type="Double" />
+    <Property Name="descTot" Type="Int32" />
+    <Property Name="total" Type="Double" />
+    <Property Name="entradasDev" Type="Int32" />
+    <NavigationProperty Name="PrecioEvento" Relationship="inf245netsoftModel.R_60" FromRole="DetalleVenta" ToRole="PrecioEvento" />
+    <NavigationProperty Name="VentasXFuncion" Relationship="inf245netsoftModel.R_62" FromRole="DetalleVenta" ToRole="VentasXFuncion" />
+  </EntityType>
+  <Association Name="R_60">
+    <End Type="inf245netsoftModel.PrecioEvento" Role="PrecioEvento" Multiplicity="1" />
+    <End Type="inf245netsoftModel.DetalleVenta" Role="DetalleVenta" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PrecioEvento">
+        <PropertyRef Name="codPrecioEvento" />
+      </Principal>
+      <Dependent Role="DetalleVenta">
+        <PropertyRef Name="codPrecE" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_62">
+    <End Type="inf245netsoftModel.VentasXFuncion" Role="VentasXFuncion" Multiplicity="1" />
+    <End Type="inf245netsoftModel.DetalleVenta" Role="DetalleVenta" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="VentasXFuncion">
+        <PropertyRef Name="codVen" />
+        <PropertyRef Name="codFuncion" />
+      </Principal>
+      <Dependent Role="DetalleVenta">
+        <PropertyRef Name="codVen" />
+        <PropertyRef Name="codFuncion" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
