@@ -1146,7 +1146,7 @@ namespace WebApplication4.Controllers
                 ViewBag.subcategorias = new SelectList(listSubCat2, "idSubcat", "nombre");
 
                 int pageNumber2 = (page ?? 1);
-                int pageSize2 = 6;
+                int pageSize2 = 8;
                 return View(lista.ToPagedList(pageNumber2, pageSize2));
 
             }
@@ -1191,7 +1191,8 @@ namespace WebApplication4.Controllers
             //}
 
             lista = lista.OrderBy(s => s.codigo);
-            ViewBag.Lista = lista;
+            
+            ViewBag.Cant = lista.Count();
             /*
             if (!nombre.Equals(""))
             {
@@ -1216,7 +1217,7 @@ namespace WebApplication4.Controllers
             ViewBag.subcategorias = new SelectList(listSubCat, "idSubcat", "nombre");
 
             int pageNumber = (page ?? 1);
-            int pageSize = 6;
+            int pageSize = 8;
             return View(lista.ToPagedList(pageNumber, pageSize));
 
         }

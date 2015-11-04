@@ -55,7 +55,7 @@
 <div id="busqAvanzada" class="container-fluid" style="text-align:center">
     <div id="busqAvanzada">
         <!--formulario EN LINEA-->
-        <div id="alerta" class="alert alert-danger" hidden></div>
+        <div id="alerta" class="alert alert-warning" hidden></div>
 
         @using (Html.BeginForm("Busqueda", "Evento", FormMethod.Get, new { id = "adv-search", @class = "form-inline" }))
         {
@@ -287,7 +287,7 @@
 <div class="container-fluid">
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <strong>Resultados: @Model.Count </strong>
+            <strong>Resultados: @ViewBag.Cant </strong>
         </div>
 
         <!--Aca iran los eventos en miniatura-->
@@ -296,16 +296,17 @@
             @foreach (var evento in Model)
             {
 
-                <div class="col-md-2 col-sm-4 col-xs-6">
-                    <div class="thumbnail">
-                        <img onclick="verEvento()" class="event" src="@evento.ImagenDestacado" alt="">
-                        <div class="caption" style="text-align:center">
-                            <div class="row">@evento.nombre</div>
-                            <div class="row">@evento.fecha_inicio</div>
+                <a href="/Evento/VerEvento/@evento.codigo">
+                    <div class="col-md-2 col-sm-4 col-xs-6 bloque">
+                        <div class="thumbnail">
+                            <img class="event" src="@evento.ImagenDestacado" alt="">
+                            <div class="caption" style="text-align:center">
+                                <div class="row">@evento.nombre</div>
+                                <div class="row">@evento.fecha_inicio</div>
+                            </div>
                         </div>
                     </div>
-                </div>
-
+                </a>
 
                 @*
 
@@ -567,4 +568,12 @@
             }
 
 </script>
+<style>
+    .bloque{
+
+        width:250px;
+        height: 150px;
+    }
+
+</style>
 
