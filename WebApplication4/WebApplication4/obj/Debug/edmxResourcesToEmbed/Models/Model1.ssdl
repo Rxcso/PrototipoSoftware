@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="inf245netsoftModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+<Schema Namespace="inf245netsoftModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityType Name="__MigrationHistory">
     <Key>
       <PropertyRef Name="MigrationId" />
@@ -18,6 +18,19 @@
     <Property Name="columna" Type="int" />
     <Property Name="codAsiento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="codZona" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AsientosXFuncion">
+    <Key>
+      <PropertyRef Name="codAsiento" />
+      <PropertyRef Name="codFuncion" />
+    </Key>
+    <Property Name="codAsiento" Type="int" Nullable="false" />
+    <Property Name="codFuncion" Type="int" Nullable="false" />
+    <Property Name="estado" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="codDetalleVenta" Type="int" />
+    <Property Name="TipoDocAsociado" Type="int" />
+    <Property Name="DocAsociado" Type="varchar" MaxLength="20" />
+    <Property Name="PrecioPagado" Type="float" />
   </EntityType>
   <EntityType Name="AspNetRoles">
     <Key>
@@ -96,6 +109,18 @@
     <Property Name="usuario" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="idCategoria" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="Comentarios">
+    <Key>
+      <PropertyRef Name="codComentario" />
+      <PropertyRef Name="codEvento" />
+      <PropertyRef Name="usuario" />
+    </Key>
+    <Property Name="codComentario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="contenido" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="fecha" Type="datetime" />
+    <Property Name="codEvento" Type="int" Nullable="false" />
+    <Property Name="usuario" Type="varchar" MaxLength="100" Nullable="false" />
+  </EntityType>
   <EntityType Name="CuentaUsuario">
     <Key>
       <PropertyRef Name="usuario" />
@@ -147,7 +172,6 @@
     <Property Name="penalidadXcancelacion" Type="float" />
     <Property Name="penalidadXpostergacion" Type="float" />
     <Property Name="porccomision" Type="float" />
-    <Property Name="esUnico" Type="bit" />
     <Property Name="idCategoria" Type="int" />
     <Property Name="idSubcategoria" Type="int" />
     <Property Name="idRegion" Type="int" />
@@ -164,7 +188,6 @@
     <Property Name="tieneBoletoElectronico" Type="bit" />
     <Property Name="permiteReserva" Type="bit" />
     <Property Name="puntosAlCliente" Type="int" />
-    <Property Name="codZonaEvento" Type="int" />
     <Property Name="idLocal" Type="int" />
   </EntityType>
   <EntityType Name="EventosPrueba">
@@ -209,12 +232,12 @@
     </Key>
     <Property Name="codFuncion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="horaIni" Type="datetime" />
-    <Property Name="horaFin" Type="datetime" />
     <Property Name="fecha" Type="datetime" />
     <Property Name="codEvento" Type="int" Nullable="false" />
     <Property Name="estado" Type="varchar" MaxLength="50" />
     <Property Name="FechaDevolucion" Type="date" />
     <Property Name="cantDiasDevolucion" Type="int" />
+    <Property Name="motivoCambio" Type="varchar" MaxLength="200" />
   </EntityType>
   <EntityType Name="Local">
     <Key>
@@ -269,7 +292,6 @@
     <Property Name="fechaInicio" Type="datetime" />
     <Property Name="fechaFin" Type="datetime" />
     <Property Name="codEvento" Type="int" />
-    <Property Name="idPrecioEvento" Type="int" />
   </EntityType>
   <EntityType Name="Politicas">
     <Key>
@@ -438,7 +460,6 @@
     <Property Name="tieneAsientos" Type="bit" Nullable="false" />
     <Property Name="cantFilas" Type="int" />
     <Property Name="cantColumnas" Type="int" />
-    <Property Name="idPrecioEvento" Type="int" />
   </EntityType>
   <Association Name="FK__RegaloXCu__usuar__4BAC3F29">
     <End Role="CuentaUsuario" Type="Self.CuentaUsuario" Multiplicity="1" />
@@ -545,7 +566,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="fk_PerVenta">
-    <End Role="PeriodoVenta" Type="Self.PeriodoVenta" Multiplicity="0..1" />
+    <End Role="PeriodoVenta" Type="Self.PeriodoVenta" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="PrecioEvento" Type="Self.PrecioEvento" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="PeriodoVenta">
@@ -556,50 +579,16 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="fk_PrecioEv">
-    <End Role="PrecioEvento" Type="Self.PrecioEvento" Multiplicity="0..1" />
-    <End Role="ZonaEvento" Type="Self.ZonaEvento" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="PrecioEvento">
-        <PropertyRef Name="codPrecioEvento" />
-      </Principal>
-      <Dependent Role="ZonaEvento">
-        <PropertyRef Name="idPrecioEvento" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="fk_PrecioEventoPV">
-    <End Role="PrecioEvento" Type="Self.PrecioEvento" Multiplicity="0..1" />
-    <End Role="PeriodoVenta" Type="Self.PeriodoVenta" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="PrecioEvento">
-        <PropertyRef Name="codPrecioEvento" />
-      </Principal>
-      <Dependent Role="PeriodoVenta">
-        <PropertyRef Name="idPrecioEvento" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="fk_ZonaEvent">
-    <End Role="ZonaEvento" Type="Self.ZonaEvento" Multiplicity="0..1" />
+    <End Role="ZonaEvento" Type="Self.ZonaEvento" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="PrecioEvento" Type="Self.PrecioEvento" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="ZonaEvento">
         <PropertyRef Name="codZona" />
       </Principal>
       <Dependent Role="PrecioEvento">
-        <PropertyRef Name="codZonaEvento" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="fk_ZonaEvento">
-    <End Role="ZonaEvento" Type="Self.ZonaEvento" Multiplicity="0..1" />
-    <End Role="Eventos" Type="Self.Eventos" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ZonaEvento">
-        <PropertyRef Name="codZona" />
-      </Principal>
-      <Dependent Role="Eventos">
         <PropertyRef Name="codZonaEvento" />
       </Dependent>
     </ReferentialConstraint>
@@ -617,7 +606,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="R_13">
-    <End Role="ZonaEvento" Type="Self.ZonaEvento" Multiplicity="1" />
+    <End Role="ZonaEvento" Type="Self.ZonaEvento" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="Asientos" Type="Self.Asientos" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="ZonaEvento">
@@ -665,7 +656,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="R_21">
-    <End Role="Eventos" Type="Self.Eventos" Multiplicity="1" />
+    <End Role="Eventos" Type="Self.Eventos" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="ZonaEvento" Type="Self.ZonaEvento" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Eventos">
@@ -724,6 +717,30 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="R_31">
+    <End Role="Eventos" Type="Self.Eventos" Multiplicity="1" />
+    <End Role="Comentarios" Type="Self.Comentarios" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Eventos">
+        <PropertyRef Name="codigo" />
+      </Principal>
+      <Dependent Role="Comentarios">
+        <PropertyRef Name="codEvento" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_32">
+    <End Role="CuentaUsuario" Type="Self.CuentaUsuario" Multiplicity="1" />
+    <End Role="Comentarios" Type="Self.Comentarios" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CuentaUsuario">
+        <PropertyRef Name="usuario" />
+      </Principal>
+      <Dependent Role="Comentarios">
+        <PropertyRef Name="usuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="R_34">
     <End Role="CuentaUsuario" Type="Self.CuentaUsuario" Multiplicity="0..1" />
     <End Role="Ventas" Type="Self.Ventas" Multiplicity="*" />
@@ -769,6 +786,34 @@
       </Principal>
       <Dependent Role="Funcion">
         <PropertyRef Name="codEvento" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_44">
+    <End Role="Asientos" Type="Self.Asientos" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AsientosXFuncion" Type="Self.AsientosXFuncion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Asientos">
+        <PropertyRef Name="codAsiento" />
+      </Principal>
+      <Dependent Role="AsientosXFuncion">
+        <PropertyRef Name="codAsiento" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_46">
+    <End Role="Funcion" Type="Self.Funcion" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="AsientosXFuncion" Type="Self.AsientosXFuncion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Funcion">
+        <PropertyRef Name="codFuncion" />
+      </Principal>
+      <Dependent Role="AsientosXFuncion">
+        <PropertyRef Name="codFuncion" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -883,7 +928,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="R_76">
-    <End Role="Funcion" Type="Self.Funcion" Multiplicity="1" />
+    <End Role="Funcion" Type="Self.Funcion" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="VentasXFuncion" Type="Self.VentasXFuncion" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Funcion">
@@ -933,6 +980,7 @@
   <EntityContainer Name="inf245netsoftModelStoreContainer">
     <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Asientos" EntityType="Self.Asientos" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="AsientosXFuncion" EntityType="Self.AsientosXFuncion" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
@@ -941,6 +989,7 @@
     <EntitySet Name="Banco" EntityType="Self.Banco" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Categoria" EntityType="Self.Categoria" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CategoriasXUsuario" EntityType="Self.CategoriasXUsuario" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Comentarios" EntityType="Self.Comentarios" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CuentaUsuario" EntityType="Self.CuentaUsuario" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="DetalleVenta" EntityType="Self.DetalleVenta" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Eventos" EntityType="Self.Eventos" Schema="dbo" store:Type="Tables" />
@@ -1002,21 +1051,9 @@
       <End Role="PeriodoVenta" EntitySet="PeriodoVenta" />
       <End Role="PrecioEvento" EntitySet="PrecioEvento" />
     </AssociationSet>
-    <AssociationSet Name="fk_PrecioEv" Association="Self.fk_PrecioEv">
-      <End Role="PrecioEvento" EntitySet="PrecioEvento" />
-      <End Role="ZonaEvento" EntitySet="ZonaEvento" />
-    </AssociationSet>
-    <AssociationSet Name="fk_PrecioEventoPV" Association="Self.fk_PrecioEventoPV">
-      <End Role="PrecioEvento" EntitySet="PrecioEvento" />
-      <End Role="PeriodoVenta" EntitySet="PeriodoVenta" />
-    </AssociationSet>
     <AssociationSet Name="fk_ZonaEvent" Association="Self.fk_ZonaEvent">
       <End Role="ZonaEvento" EntitySet="ZonaEvento" />
       <End Role="PrecioEvento" EntitySet="PrecioEvento" />
-    </AssociationSet>
-    <AssociationSet Name="fk_ZonaEvento" Association="Self.fk_ZonaEvento">
-      <End Role="ZonaEvento" EntitySet="ZonaEvento" />
-      <End Role="Eventos" EntitySet="Eventos" />
     </AssociationSet>
     <AssociationSet Name="R_12" Association="Self.R_12">
       <End Role="TurnoSistema" EntitySet="TurnoSistema" />
@@ -1058,6 +1095,14 @@
       <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
       <End Role="Ventas" EntitySet="Ventas" />
     </AssociationSet>
+    <AssociationSet Name="R_31" Association="Self.R_31">
+      <End Role="Eventos" EntitySet="Eventos" />
+      <End Role="Comentarios" EntitySet="Comentarios" />
+    </AssociationSet>
+    <AssociationSet Name="R_32" Association="Self.R_32">
+      <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
+      <End Role="Comentarios" EntitySet="Comentarios" />
+    </AssociationSet>
     <AssociationSet Name="R_34" Association="Self.R_34">
       <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
       <End Role="Ventas" EntitySet="Ventas" />
@@ -1073,6 +1118,14 @@
     <AssociationSet Name="R_43" Association="Self.R_43">
       <End Role="Eventos" EntitySet="Eventos" />
       <End Role="Funcion" EntitySet="Funcion" />
+    </AssociationSet>
+    <AssociationSet Name="R_44" Association="Self.R_44">
+      <End Role="Asientos" EntitySet="Asientos" />
+      <End Role="AsientosXFuncion" EntitySet="AsientosXFuncion" />
+    </AssociationSet>
+    <AssociationSet Name="R_46" Association="Self.R_46">
+      <End Role="Funcion" EntitySet="Funcion" />
+      <End Role="AsientosXFuncion" EntitySet="AsientosXFuncion" />
     </AssociationSet>
     <AssociationSet Name="R_47" Association="Self.R_47">
       <End Role="TipoTarjeta" EntitySet="TipoTarjeta" />

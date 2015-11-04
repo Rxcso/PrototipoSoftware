@@ -202,6 +202,9 @@
     <Compile Include="Models\Asientos.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AsientosXFuncion.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\AspNetRoles.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -223,7 +226,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CategoriaModel.cs" />
-    <Compile Include="Models\Comentarios.cs" />
+    <Compile Include="Models\Comentarios.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CuentaUsuario.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -279,6 +284,7 @@
     <Compile Include="Models\Pago.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PaqueteEntradas.cs" />
     <Compile Include="Models\Perfiles.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

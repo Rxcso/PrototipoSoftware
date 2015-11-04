@@ -26,7 +26,7 @@ namespace WebApplication4.Controllers
             ViewBag.fech_ini = fech_ini;
             ViewBag.fech_fin = fech_fin;
             ViewBag.idCategoria = idCategoria;
-       
+
             ViewBag.idSubCat = idSubCat;
             ViewBag.idRegion = idRegion;
 
@@ -485,7 +485,6 @@ namespace WebApplication4.Controllers
                 {
                     //si solo tiene una funcion, es un evento unico
                     Eventos evento = db.Eventos.Find(idEvento);
-                    evento.esUnico = model.ListaFunciones.Count == 1;
                     db.SaveChanges();
                     if (Session["IdEventoModificado"] != null)
                     {
@@ -580,7 +579,7 @@ namespace WebApplication4.Controllers
             return RedirectToAction("Index");
         }
 
-        private void FiltrarTarifas(List<ZonaEventoModel> listaModel, List<PeriodoVenta> listaPV,int idEvento)
+        private void FiltrarTarifas(List<ZonaEventoModel> listaModel, List<PeriodoVenta> listaPV, int idEvento)
         {
             //boro los precio evento existentes par aluego reemplazarlos
             foreach (PeriodoVenta pventa in listaPV)
@@ -643,7 +642,7 @@ namespace WebApplication4.Controllers
                 {
                     idEvento = int.Parse(Session["IdEventoModificado"].ToString());
                     listaPV = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
-                    FiltrarTarifas(list, listaPV,idEvento);
+                    FiltrarTarifas(list, listaPV, idEvento);
                     return RedirectToAction("ExtrasEvento");
                 }
                 listaPV = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
@@ -750,7 +749,7 @@ namespace WebApplication4.Controllers
             ViewBag.idEvento = evento;
             ViewBag.listaZonas = db.ZonaEvento.Where(c => c.codEvento == id).ToList();
             ViewBag.yaVencio = (queryEvento.fecha_inicio < DateTime.Today);
-            
+
             JavaScriptSerializer serializer = new JavaScriptSerializer();
 
             dynamic myObject = new List<dynamic>();
@@ -812,12 +811,15 @@ namespace WebApplication4.Controllers
             return View();
         }
 
+
+
         [HttpPost]
         public ActionResult GenerarAsientos(ZonaModel zona)
         {
 
             ZonaEvento zonaE = db.ZonaEvento.Where(c => c.codZona == zona.idZona).First();
 
+            //ACA BORRA LOS ASIENTOS
             Asientos(zona.idZona);
 
             db.Entry(zonaE).State = EntityState.Modified;
@@ -828,13 +830,38 @@ namespace WebApplication4.Controllers
 
             int k = zona.posFila.Count;
 
-            Asientos asiento = new Asientos();
-            asiento.codZona = zona.idZona;
+
+
+            // ACA LISTAS LAS FUNCIONES EXISTENTES
+            List<Funcion> listFuncion = db.Funcion.Where(x => (x.codEvento == zonaE.codEvento)).ToList();
+
             for (int i = 0; i < k; i++)
             {
+                Asientos asiento = new Asientos();
+                asiento.codZona = zona.idZona;
                 asiento.fila = zona.posFila[i];
                 asiento.columna = zona.posCol[i];
-                db.Asientos.Add(asiento); //Insertar asientos
+
+                int idAs;
+                using (var context = new inf245netsoft())
+                {
+                    context.Asientos.Add(asiento); //Inserta Asientos
+                    context.SaveChanges();
+
+                    idAs = asiento.codAsiento; // Yes it's here
+                }
+
+                // POR CAMBIAR
+                //Tengo todas las funciones y hago for
+                foreach (var funcion in listFuncion)
+                {
+                    AsientosXFuncion AXF = new AsientosXFuncion();
+                    AXF.codAsiento = idAs;
+                    AXF.codFuncion = funcion.codFuncion;
+                    AXF.estado = "libre";
+                    db.AsientosXFuncion.Add(AXF);
+                }
+
                 db.SaveChanges();
             }
 
@@ -849,6 +876,54 @@ namespace WebApplication4.Controllers
             return View("Asientos", new { evento = "" + queryEvento.codigo });
         }
 
+
+
+        public string obtenerJSONAsientos(List<ZonaEvento> listZE, List<Funcion> listFunciones)
+        {
+
+
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+
+            dynamic todoObject = new List<dynamic>();
+
+            dynamic porFuncionObject = new List<dynamic>();
+            foreach(Funcion funcion in listFunciones){
+
+
+                foreach (ZonaEvento zona in ViewBag.listaZonas)
+                {
+
+                    List<Asientos> listaAsientos = db.Asientos.Where(xx => xx.codZona == zona.codZona ).ToList();
+
+                    var posF = new int[listaAsientos.Count];
+                    var posC = new int[listaAsientos.Count];
+                    int cnt = 0;
+                    foreach (var asiento in listaAsientos)
+                    {
+                        posF[cnt] = (int)asiento.fila;
+                        posC[cnt] = (int)asiento.columna;
+                        cnt++;
+                    }
+
+
+                    var actZona = new
+                    {
+                        filas = (int)zona.cantFilas,
+                        columnas = (int)zona.cantColumnas,
+                        posFila = posF,
+                        posColumna = posC,
+                        tieneAsientos = zona.tieneAsientos,
+                        index = zona.codZona,
+                    };
+
+                    porFuncionObject.Add(actZona);
+                }
+
+            }
+
+
+            return serializer.Serialize(todoObject);
+        }
 
         [HttpGet]
         [AllowAnonymous]
@@ -875,31 +950,48 @@ namespace WebApplication4.Controllers
             ViewBag.Region = db.Region.Where(c => c.idRegion == evento.idRegion).First().nombre;
             ViewBag.Categoria = db.Categoria.Where(c => c.idCategoria == evento.idCategoria).First().nombre;
             ViewBag.Subcategoria = db.Categoria.Where(c => c.idCategoria == evento.idSubcategoria).First().nombre;
+
+            var veoAsientos = false;
+
+
+
             //Debo saber si el evento esta a la venta
             if (evento.fecha_fin <= DateTime.Today)
             {
                 ViewBag.EventoAcabo = "El evento ya no se encuentra disponible.";
+                veoAsientos = false;
             }
             else
             {
                 try
                 {
+                    ViewBag.ListZonasNombre = new List<string>();
+                    ViewBag.ListZonasId = new List<int>();
+
+
                     int bloqueVenta = db.PeriodoVenta.Where(c => c.codEvento == evento.codigo && c.fechaInicio <= DateTime.Today && c.fechaFin >= DateTime.Today).First().idPerVent;
                     List<ZonaEvento> zonasEvento = db.ZonaEvento.Where(c => c.codEvento == id).ToList();
                     List<SelectListItem> tarifasEvento = new List<SelectListItem>();
                     foreach (ZonaEvento zona in zonasEvento)
                     {
-                        List<PrecioEvento> precios = db.PrecioEvento.Where(c => c.codPeriodoVenta == bloqueVenta && c.codZonaEvento == zona.codZona).ToList();
-                        foreach (PrecioEvento precio in precios)
-                        {
-                            string textoZona = zona.nombre + " - " + " S/." + precio.precio;
-                            tarifasEvento.Add(new SelectListItem { Text = textoZona, Value = "" + precio.codPrecioEvento });
-                        }
+
+                        // Modificacion Oscar
+                        if (zona.tieneAsientos == true) veoAsientos = true;
+
+                        //
+
+                        PrecioEvento precio = db.PrecioEvento.Where(c => c.codPeriodoVenta == bloqueVenta && c.codZonaEvento == zona.codZona).ToList().First();
+
+                        ViewBag.ListZonasNombre.Add(zona.nombre + " - " + " S/." + precio.precio);
+                        ViewBag.ListZonasId.Add(zona.codZona);
                     }
-                    ViewBag.Tarifas = tarifasEvento;
+
+
+
                     try
                     {
                         List<Funcion> funciones = db.Funcion.Where(c => c.codEvento == evento.codigo).ToList();
+
                         //agrupo las fechas unicas de las funciones y las ordeno ascendentemente
                         funciones = funciones.GroupBy(c => c.fecha).Select(p => p.First()).OrderBy(c => c.fecha).ToList();
                         List<SelectListItem> listaNFunciones = new List<SelectListItem>();
@@ -911,11 +1003,15 @@ namespace WebApplication4.Controllers
                         }
                         ViewBag.FechaFunciones = listaNFunciones;
                         //todo: buscar tarifa y precio y ver segun que bloque de tiempo estamos
+
                         //todo: cantidad de entradas depende del numero de asientos que escoja
+
+                        //ViewBag.ObjectArrayAsientos = obtenerJSONAsientos(funciones, zonasEvento);
                     }
                     catch (Exception ex)
                     {
                         ViewBag.MensajeErrorFunciones = "El evento no cuenta con funciones";
+                        veoAsientos = false;
                     }
                 }
                 catch (Exception ex)
@@ -927,11 +1023,33 @@ namespace WebApplication4.Controllers
                         futuraVenta.Add("- Del " + String.Format("{0:d}", per.fechaInicio) + " al " + String.Format("{0:d}", per.fechaFin) + ".");
                     }
                     ViewBag.EventoNoDisponible = "Las entradas del evento aun no estan a la venta. Ventas disponibles:";
+
+                    veoAsientos = false;
+
                     ViewBag.FuturasVentas = futuraVenta;
                 }
             }
-            return View(evento);
+
+
+            ViewBag.VeoAsientos = veoAsientos;
+
+            return View(new PaqueteEntradas((int)id));
         }
+
+
+        [HttpPost]
+        public ActionResult ReservarEntradas(PaqueteEntradas paquete)
+        {
+
+            //logica reservar !!!!!!!!!!
+
+
+
+            return View("VerEvento", paquete.idEvento);
+        }
+
+
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -1008,7 +1126,7 @@ namespace WebApplication4.Controllers
             if (fech_ini > fech_fin)
             {
                 lista = null;
-                ViewBag.Lista = lista; 
+                ViewBag.Lista = lista;
                 var categorias2 = db.Categoria.AsNoTracking().Where(c => c.nivel == 1);
                 ViewBag.categorias = new SelectList(categorias2, "idCategoria", "nombre");
                 var departamentos2 = db.Region.AsNoTracking().Where(c => c.idRegPadre == null);
@@ -1026,42 +1144,42 @@ namespace WebApplication4.Controllers
             }
             //if (fech_ini < fech_fin)
             //{
-                if (!String.IsNullOrEmpty(nombre))
-                {
-                    lista = lista.Where(s => s.nombre.Contains(nombre));
-                }
+            if (!String.IsNullOrEmpty(nombre))
+            {
+                lista = lista.Where(s => s.nombre.Contains(nombre));
+            }
 
-                if (fech_ini.HasValue)
-                {
-                    lista = lista.Where(c => c.fecha_inicio >= fech_ini);
-                }
+            if (fech_ini.HasValue)
+            {
+                lista = lista.Where(c => c.fecha_inicio >= fech_ini);
+            }
 
-                if (fech_fin.HasValue)
-                {
-                    lista = lista.Where(c => c.fecha_inicio <= fech_fin);
-                }
+            if (fech_fin.HasValue)
+            {
+                lista = lista.Where(c => c.fecha_inicio <= fech_fin);
+            }
 
-                if (idCategoria.HasValue)
-                {
+            if (idCategoria.HasValue)
+            {
 
-                    lista = lista.Where(c => c.idCategoria == idCategoria);
-                }
+                lista = lista.Where(c => c.idCategoria == idCategoria);
+            }
 
-                if (idSubCat.HasValue)
-                {
-                    lista = lista.Where(c => c.idSubcategoria == idSubCat);
-                }
+            if (idSubCat.HasValue)
+            {
+                lista = lista.Where(c => c.idSubcategoria == idSubCat);
+            }
 
-                if (idRegion.HasValue)
-                {
+            if (idRegion.HasValue)
+            {
 
-                    lista = lista.Where(c => c.idRegion == idRegion);
-                }
+                lista = lista.Where(c => c.idRegion == idRegion);
+            }
 
-                if (idProv.HasValue)
-                {
-                    lista = lista.Where(c => c.idProvincia == idProv);
-                }
+            if (idProv.HasValue)
+            {
+                lista = lista.Where(c => c.idProvincia == idProv);
+            }
             //}
 
             lista = lista.OrderBy(s => s.codigo);
@@ -1229,9 +1347,9 @@ namespace WebApplication4.Controllers
             }
 
             int cnt = 0;
-            if( evento.seCancela != null )for (int i = 0; i < evento.seCancela.Count(); i++) if (evento.seCancela[i]) cnt++;
+            if (evento.seCancela != null) for (int i = 0; i < evento.seCancela.Count(); i++) if (evento.seCancela[i]) cnt++;
 
-            if (cnt==0)
+            if (cnt == 0)
             {
                 ModelState.AddModelError("organizador", "Debe elegir un evento a cancelar");
             }
@@ -1239,15 +1357,16 @@ namespace WebApplication4.Controllers
             if (ModelState.IsValid)
             {
 
-                for (int i = 0; i< evento.seCancela.Count(); i++ )if(evento.seCancela[i]){
-                    int idF= evento.listIdFuncion[i];
-                    Funcion f = db.Funcion.Where(c => c.codFuncion == idF).First();
+                for (int i = 0; i < evento.seCancela.Count(); i++) if (evento.seCancela[i])
+                    {
+                        int idF = evento.listIdFuncion[i];
+                        Funcion f = db.Funcion.Where(c => c.codFuncion == idF).First();
 
-                    db.Entry(f).State = EntityState.Modified;
-                    f.estado = "CANCELADO";
+                        db.Entry(f).State = EntityState.Modified;
+                        f.estado = "CANCELADO";
 
-                    db.SaveChanges();
-                }
+                        db.SaveChanges();
+                    }
 
                 TempData["message"] = "Se cancelar las funciones correctamente";
                 TempData["tipo"] = "alert alert-success";
@@ -1255,7 +1374,7 @@ namespace WebApplication4.Controllers
                 return Redirect("~/Evento");
             }
 
-            return  CancelarEvento( ""+evento.idEvento) ;
+            return CancelarEvento("" + evento.idEvento);
         }
 
 
