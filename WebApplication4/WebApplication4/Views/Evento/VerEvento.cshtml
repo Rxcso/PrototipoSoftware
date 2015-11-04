@@ -160,7 +160,7 @@
                                 <div class="row form-group">
                                     <label for="zonaTarifa" class="control-label col-md-4">Cantidad entradas:</label>
                                     <div class="col-md-4">
-                                        <input class="form-control" type="number" value="0" min="1" max="8">
+                                        <input id="numEntradas" class="form-control" type="number" value="0">
                                     </div>
                                 </div>
                                 <div class="row form-group">
@@ -321,8 +321,6 @@
             });
 
 
-
-
             $('body').on('click', '.ficha', function () {
                 $(this).addClass("eliminado");
             });
@@ -336,14 +334,14 @@
 
         $("#zonaTarifa,#funcionHora").change(function () {
             //cambia el aforo cuando se cambia la zona
-            var indiceZT = $("#zonaTarifa").val();
-            var indiceFH = $("#funcionHora").val();
+            var indiceZT = parseInt($("#zonaTarifa").val());
+            var indiceFH = parseInt($("#funcionHora").val());
 
             //Aca iria el seteo de las filas y columnas
             var index = -1;
 
             for (var i = 0; i < listaAsientos.length ; i++) {
-                if (listaAsientos[i].idZonaEvento == indiceZT && listaAsientos[i].idFuncionHora == indiceFH) index = i;
+                if (listaAsientos[i].indexZE == indiceZT && listaAsientos[i].indexFH == indiceFH) index = i;
             }
 
             if (index >= 0 && listaAsientos[index].tieneAsientos) {
@@ -352,8 +350,16 @@
                 cantColumnas = listaAsientos[index].columnas;
                 //$("#filas").val(cantFilas);
                 //$("#columnas").val(cantColumnas);
+
+                $("#numEntradas").val(0);
+                $("#numEntradas").prop('disabled', true);
             }
             else {
+               
+                if (index >= 0)         $("#numEntradas").prop('disabled', false);
+                else $("#numEntradas").prop('disabled', true);
+                $("#numEntradas").val(0);
+                
                 $("#canvas").empty();
                 //$("#filas").val("");
                 //$("#columnas").val("");
