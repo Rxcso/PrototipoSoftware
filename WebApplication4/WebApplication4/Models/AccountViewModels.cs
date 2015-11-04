@@ -269,4 +269,27 @@ namespace WebApplication4.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
+
+    public class RegistrarUsuarioVendedor
+    {
+        [Required(ErrorMessage = "Campo requerido.")]
+        [DataType(DataType.Password)]
+        [Display(Name = "Nombre")]
+        public string Nombre { get; set; }
+
+        [Required(ErrorMessage = "Campo requerido.")]
+        [DataType(DataType.Password)]
+        [Display(Name = "Apellidos")]
+        public string Apellidos { get; set; }
+
+        [Required(ErrorMessage = "Campo requerido.")]
+        [DataType(DataType.Password)]
+        [Display(Name = "Correo:")]
+        public string Correo { get; set; }
+
+        [Required(ErrorMessage = "Campo requerido.")]
+        [DataType(DataType.Password)]
+        [Display(Name = "DNI:")]
+        public string Dni { get; set; }
+    }
 }

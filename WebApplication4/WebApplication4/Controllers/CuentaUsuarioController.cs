@@ -723,5 +723,16 @@ namespace WebApplication4.Controllers
             return Json("Error El cliente no tiene puntos suficientes para conseguir este regalo", JsonRequestBehavior.AllowGet);
         }
 
+
+        [HttpGet]
+        public ActionResult RegistrarUsuarioVendedor(RegistrarUsuarioVendedor ){
+
+        }
+
+        [HttpPost]
+        public ActionResult RegistrarUsuarioVendedor(RegistrarUsuarioVendedor ){
+
+        }
+
     }
 }
