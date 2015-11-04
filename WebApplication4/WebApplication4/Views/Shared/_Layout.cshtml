@@ -119,7 +119,7 @@
                             @Html.AntiForgeryToken()
 
                             <div class="nav navbar-nav navbar-right">
-                                <font color="white" onclick="redirige()"> Hola @nombre!</font>
+                                Hola @nombre
                                 <a type="button" class="btn btn-default" href="javascript:document.getElementById('logoutForm').submit()">Cerrar Sesion <span class="glyphicon glyphicon-log-out"></span></a>
                             </div>
                         }
@@ -198,8 +198,8 @@ else
                                     @Html.AntiForgeryToken()
 
                                     <div class="nav navbar-nav navbar-right">
-                                        <font color="white" onclick="redirige()"> Hola @User.Identity.Name !</font>
-                                        <a type="button" class="btn btn-default" href="javascript:document.getElementById('logoutForm').submit()">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+                                        <a type="button" class="btn btn-primary" href="@Url.Action("MiCuenta","CuentaUsuario")"> Hola @User.Identity.Name !</a>
+                                        <a type="button" class="btn btn-danger" href="javascript:document.getElementById('logoutForm').submit()">Salir <span class="glyphicon glyphicon-log-out"></span></a>
                                     </div>
                                 }
                             }
@@ -303,9 +303,3 @@ else
 
 
 }
-
-<script>
-    function redirige() {
-        window.location.href = '/CuentaUsuario/MiCuenta';
-    }
-</script>

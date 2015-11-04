@@ -1,0 +1,104 @@
+﻿@using WebApplication4.Models;
+@model EditClientModel
+@{
+    ViewBag.Title = "ModificarDatos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li>@Html.ActionLink("Mi Cuenta", "MiCuenta", "CuentaUsuario")
+            <li class="active">Modificar Datos</li>
+        </ol>
+    </div>
+</div>
+@using (Html.BeginForm("ModificarDatos", "CuentaUsuario", FormMethod.Post))
+{
+    <div class="container">
+        <div class="col-md-8">
+            <h3>Datos de Personales</h3><br>
+            <div class="row form-group">
+                @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })
+                <div class="col-md-7">
+                    @Html.TextBoxFor(model => model.nombre, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.nombre)
+                </div>
+
+            </div>
+
+            <div class="row form-group">
+                @Html.LabelFor(model => model.apellido, new { @class = "control-label col-md-3" })
+                <div class="col-md-7">
+                    @Html.TextBoxFor(model => model.apellido, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.apellido)
+                </div>
+            </div>
+
+            <div class="row form-group">
+                @Html.LabelFor(model => model.tipoDoc, new { @class = "control-label col-md-3" })
+                <div class="col-md-3">
+                    @{
+    List<SelectListItem> listItems = new List<SelectListItem>();
+    listItems.Add(new SelectListItem
+    {
+        Text = "DNI",
+        Value = "1",
+    });
+    listItems.Add(new SelectListItem
+    {
+        Text = "Pasaporte",
+        Value = "2"
+    });
+                    }
+                    @Html.DropDownListFor(model => model.tipoDoc, listItems, new { @class = "form-control" })
+                </div>
+
+                @Html.LabelFor(model => model.codDoc, new { @class = "control-label col-md-1" })
+                <div class="col-md-3">
+                    @Html.TextBoxFor(model => model.codDoc, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.codDoc)
+                </div>
+            </div>
+            <div class="row form-group">
+                @Html.LabelFor(model => model.fechaNac, new { @class = "control-label col-md-3" })
+                <div class="col-md-7">
+                    @Html.EditorFor(model => model.fechaNac, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.fechaNac)
+                </div>
+            </div>
+            <div class="row form-group">
+                @Html.LabelFor(model => model.direccion, new { @class = "control-label col-md-3" })
+                <div class="col-md-7">
+                    @Html.TextBoxFor(model => model.direccion, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.direccion)
+                </div>
+            </div>
+
+            <div class="row form-group">
+                @Html.LabelFor(model => model.telefono, new { @class = "control-label col-md-3" })
+                <div class="col-md-7">
+                    @Html.TextBoxFor(model => model.telefono, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.telefono)
+                </div>
+            </div>
+
+
+            <div class="row form-group">
+                @Html.LabelFor(model => model.telMovil, new { @class = "control-label col-md-3" })
+                <div class="col-md-7">
+                    @Html.TextBoxFor(model => model.telMovil, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.telMovil)
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-md-offset-4 col-md-6">
+                    <button type="submit" class="btn btn-primary">Modificar<span class="glyphicon glyphicon-pencil"></span>
+                    </button>
+                    <a href="@Url.Action("MiCuenta","CuentaUsuario")" class="btn btn-danger"> Salir <span class="glyphicon glyphicon-log-out"></span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+

@@ -18,6 +18,44 @@ namespace WebApplication4.Controllers
     {
         private inf245netsoft db = new inf245netsoft();
 
+        [HttpGet]
+        public ActionResult ModificarDatos()
+        {
+            string correo = User.Identity.Name;
+            CuentaUsuario cliente = db.CuentaUsuario.Where(c => c.correo == correo).First();
+            EditClientModel client = new EditClientModel();
+            client.apellido = cliente.apellido;
+            client.codDoc = cliente.codDoc;
+            client.direccion = cliente.direccion;
+            client.fechaNac = (DateTime)cliente.fechaNac;
+            client.nombre = cliente.nombre;
+            client.telefono = cliente.telefono;
+            client.telMovil = cliente.telMovil;
+            client.tipoDoc = (int)cliente.tipoDoc;
+            return View(client);
+        }
+
+        [HttpPost]
+        public ActionResult ModificarDatos(EditClientModel model)
+        {
+            string correo = User.Identity.Name;
+            CuentaUsuario cliente = db.CuentaUsuario.Where(c => c.correo == correo).First();
+            cliente.apellido = model.apellido;
+            cliente.codDoc = model.codDoc;
+            cliente.direccion = model.direccion;
+            cliente.fechaNac = model.fechaNac;
+            cliente.nombre = model.nombre;
+            cliente.telefono = model.telefono;
+            cliente.telMovil = model.telMovil;
+            cliente.tipoDoc = model.tipoDoc;
+            db.SaveChanges();
+            TempData["tipo"] = "alert alert-success";
+            TempData["message"] = "Datos Actualizados Exitosamente";
+            return RedirectToAction("MiCuenta");
+        }
+
+
+
         // GET: /CuentaUsuario/
         public ActionResult Index()
         {
