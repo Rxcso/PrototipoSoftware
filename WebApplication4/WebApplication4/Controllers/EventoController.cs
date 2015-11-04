@@ -877,8 +877,8 @@ namespace WebApplication4.Controllers
         }
 
 
-
-        public string obtenerJSONAsientos(List<ZonaEvento> listZE, List<Funcion> listFunciones)
+        //TODAVIA NO FUNCIONA
+        public string obtenerJSONAsientos(List<Funcion> listFunciones, List<ZonaEvento> listZE)
         {
 
 
@@ -887,6 +887,7 @@ namespace WebApplication4.Controllers
             dynamic todoObject = new List<dynamic>();
 
             dynamic porFuncionObject = new List<dynamic>();
+
             foreach(Funcion funcion in listFunciones){
 
 
@@ -919,8 +920,15 @@ namespace WebApplication4.Controllers
                     porFuncionObject.Add(actZona);
                 }
 
-            }
 
+                var actFuncion = new
+                {
+                    idFuncion = funcion.codFuncion,
+                    listaZonas = porFuncionObject,
+                };
+
+                todoObject.Add(actFuncion);
+            }
 
             return serializer.Serialize(todoObject);
         }
@@ -1005,7 +1013,7 @@ namespace WebApplication4.Controllers
                         //todo: buscar tarifa y precio y ver segun que bloque de tiempo estamos
 
                         //todo: cantidad de entradas depende del numero de asientos que escoja
-
+                        ViewBag.ListFunciones = funciones;
                         //ViewBag.ObjectArrayAsientos = obtenerJSONAsientos(funciones, zonasEvento);
                     }
                     catch (Exception ex)
