@@ -117,6 +117,20 @@
     <Property Name="puntos" Type="int" />
     <Property Name="codPerfil" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="DetalleVenta">
+    <Key>
+      <PropertyRef Name="codDetalleVenta" />
+    </Key>
+    <Property Name="codDetalleVenta" Type="int" Nullable="false" />
+    <Property Name="codVen" Type="int" Nullable="false" />
+    <Property Name="codFuncion" Type="int" Nullable="false" />
+    <Property Name="codPrecE" Type="int" Nullable="false" />
+    <Property Name="cantEntradas" Type="int" />
+    <Property Name="Subtotal" Type="float" />
+    <Property Name="descTot" Type="int" />
+    <Property Name="total" Type="float" />
+    <Property Name="entradasDev" Type="int" />
+  </EntityType>
   <EntityType Name="Eventos">
     <Key>
       <PropertyRef Name="codigo" />
@@ -782,6 +796,32 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="R_60">
+    <End Role="PrecioEvento" Type="Self.PrecioEvento" Multiplicity="1" />
+    <End Role="DetalleVenta" Type="Self.DetalleVenta" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PrecioEvento">
+        <PropertyRef Name="codPrecioEvento" />
+      </Principal>
+      <Dependent Role="DetalleVenta">
+        <PropertyRef Name="codPrecE" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_62">
+    <End Role="VentasXFuncion" Type="Self.VentasXFuncion" Multiplicity="1" />
+    <End Role="DetalleVenta" Type="Self.DetalleVenta" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="VentasXFuncion">
+        <PropertyRef Name="codVen" />
+        <PropertyRef Name="codFuncion" />
+      </Principal>
+      <Dependent Role="DetalleVenta">
+        <PropertyRef Name="codVen" />
+        <PropertyRef Name="codFuncion" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="R_70">
     <End Role="Region" Type="Self.Region" Multiplicity="0..1" />
     <End Role="Region1" Type="Self.Region" Multiplicity="*" />
@@ -902,6 +942,7 @@
     <EntitySet Name="Categoria" EntityType="Self.Categoria" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CategoriasXUsuario" EntityType="Self.CategoriasXUsuario" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CuentaUsuario" EntityType="Self.CuentaUsuario" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DetalleVenta" EntityType="Self.DetalleVenta" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Eventos" EntityType="Self.Eventos" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="EventosPrueba" EntityType="Self.EventosPrueba" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Funcion" EntityType="Self.Funcion" Schema="dbo" store:Type="Tables" />
@@ -1040,6 +1081,14 @@
     <AssociationSet Name="R_6" Association="Self.R_6">
       <End Role="TipoTarjeta" EntitySet="TipoTarjeta" />
       <End Role="Promociones" EntitySet="Promociones" />
+    </AssociationSet>
+    <AssociationSet Name="R_60" Association="Self.R_60">
+      <End Role="PrecioEvento" EntitySet="PrecioEvento" />
+      <End Role="DetalleVenta" EntitySet="DetalleVenta" />
+    </AssociationSet>
+    <AssociationSet Name="R_62" Association="Self.R_62">
+      <End Role="VentasXFuncion" EntitySet="VentasXFuncion" />
+      <End Role="DetalleVenta" EntitySet="DetalleVenta" />
     </AssociationSet>
     <AssociationSet Name="R_70" Association="Self.R_70">
       <End Role="Region" EntitySet="Region" />

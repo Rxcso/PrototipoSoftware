@@ -539,6 +539,8 @@
     <Content Include="Views\CuentaUsuario\Distritos.cshtml" />
     <Content Include="Views\CuentaUsuario\Punto.cshtml" />
     <Content Include="Views\Ventas\Detalles.cshtml" />
+    <Content Include="Views\CuentaUsuario\ModificarDatos.cshtml" />
+    <Content Include="Views\CuentaUsuario\CambiarCorreo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

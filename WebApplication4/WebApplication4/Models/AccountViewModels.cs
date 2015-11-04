@@ -41,11 +41,17 @@ namespace WebApplication4.Models
 
     public class ForgotViewModel
     {
-        [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
 
+    public class CambiarCorreoModel
+    {
+        [Required(ErrorMessage="Campo requerido.")]
+        [EmailAddress(ErrorMessage="Formato incorrecto. (usuario@correo.com)")]
+        [Display(Name = "Correo Electronico:")]
+        public string Email { get; set; }
+    }
     public class LoginViewModel
     {
         [Required]
@@ -65,7 +71,7 @@ namespace WebApplication4.Models
     public class RegisterViewModel
     {
         [Required(ErrorMessage="Campo Requerido.")]
-        [DataType(DataType.EmailAddress, ErrorMessage="Formato incorrecto. (usuario@correo.com)")]
+        [EmailAddress(ErrorMessage="Formato incorrecto. (usuario@correo.com)")]
         [Display(Name = "Correo Electronico")]
         public string Email { get; set; }
 
