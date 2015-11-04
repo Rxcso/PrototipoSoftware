@@ -273,14 +273,18 @@ namespace WebApplication4.Controllers
                         }
                     }
                 }                
-            }
-           
-            
+            }                       
                    
             if (devolucion != null) Session["Bus"] = devolucion;
             else Session["Bus"] = null;
             return RedirectToAction("Devolucion", "Ventas");
             //return View("Devolucion");
+        }
+
+        public ActionResult Devolver(string doc)
+        {
+            //logica de devolucion!
+            return View("Devolucion");
         }
     }
 }
