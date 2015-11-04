@@ -45,6 +45,24 @@ namespace WebApplication4.Models
         public string Email { get; set; }
     }
 
+    public class CambiarContrasenaModel
+    {
+        [Required(ErrorMessage = "Campo requerido.")]
+        [DataType(DataType.Password)]
+        [Display(Name = "Contraseña Actual")]
+        public string Contrasena { get; set; }
+
+        [Required(ErrorMessage = "Campo requerido.")]
+        [DataType(DataType.Password)]
+        [Display(Name = "Nueva Contraseña")]
+        public string NuevaContrasena { get; set; }
+
+        [Required(ErrorMessage = "Campo requerido.")]
+        [DataType(DataType.Password)]
+        [Display(Name = "Repetir Nueva Contraseña")]
+        public string RNuevaContrasena { get; set; }
+    }
+
     public class CambiarCorreoModel
     {
         [Required(ErrorMessage="Campo requerido.")]

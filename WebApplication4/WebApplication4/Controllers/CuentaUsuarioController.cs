@@ -55,6 +55,38 @@ namespace WebApplication4.Controllers
         }
 
         [HttpGet]
+        public ActionResult CambiarContrasena()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CambiarContrasena(CambiarContrasenaModel model)
+        {
+            string correo = User.Identity.Name;
+            CuentaUsuario cliente = db.CuentaUsuario.Where(c => c.correo == correo).First();
+            //AspNetUsers user = db.AspNetUsers.Where(c => c.Email == correo).First();
+            if (cliente.contrasena == model.Contrasena)
+            {
+                if (model.NuevaContrasena == model.RNuevaContrasena && model.NuevaContrasena != cliente.contrasena)
+                {
+                    cliente.contrasena = model.NuevaContrasena;
+                    //user.PasswordHash = model.NuevaContrasena;
+                    db.SaveChanges();
+                    TempData["tipo"] = "alert alert-success";
+                    TempData["message"] = "Contraseña cambiada Exitosamente";
+                }
+            }
+            else
+            {
+                //Error
+
+            }
+            return RedirectToAction("MiCuenta");
+        }
+
+
+        [HttpGet]
         public ActionResult CambiarCorreo()
         {
             string correo = User.Identity.Name;
