@@ -65,6 +65,7 @@
         <div id="busqAvanzada" class="container-fluid">
             <div id="busqAvanzada">
                 <!--formulario EN LINEA-->
+                <div align="center" id="alerta" class="alert alert-warning" hidden></div>
                 @using (Html.BeginForm("Index", "Evento", FormMethod.Get, new { id = "adv-search", @class = "form-inline" }))
                 {
                     if (this.Request.QueryString.Count != 0)
@@ -234,6 +235,7 @@
 </div>
 <script>
     $(document).ready(function () {
+        /*
         $.validator.addMethod("greaterThan", function (value, element, params) {
             console.log(element);
             console.log(value);
@@ -243,8 +245,59 @@
             }
             return isNaN(value) && isNaN($(params).val()) || (Number(value) > Number($(params).val()));
         }, 'Must be greater than {0}.');
+        */
+        $("#adv-search").on('submit', function (e) {
+
+            e.preventDefault();
 
 
+            var fechI = this['fech_ini'].value;
+            var fechF = this['fech_fin'].value;
+
+            /*Regla 1 para la validadcion de al menos un campo*/
+            if (fechI == '' && fechF == '' && $("#idCategoria").val() == '' &&
+                $("#idSubCat").val() == '' && $("#idRegion").val() == '') {
+
+                $("#alerta").append('<strong>Ingrese al menos un campo!</strong>').show();
+                return;
+            } else {
+
+                var valor = $("#alerta").children('strong');
+                if (valor.length > 0) {
+
+                    valor.remove();
+
+                }
+
+                $("#alerta").hide();
+
+            }
+            /*Regla 2 : Validacion para las fechas*/
+            if (fechF != '' && fechI != '') {
+
+
+                if (new Date(fechF.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1")) < new Date(fechI.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1"))) {
+
+                    $("#alerta").append('<strong>Fecha hasta no puede ser menor que fecha desde</strong>').show();
+                    return;
+                } else {
+                    var valor = $("#alerta").children('strong');
+                    if (valor.length > 0) {
+
+                        valor.remove();
+
+                    }
+
+                    $("#alerta").hide();
+
+                }
+
+            }
+
+            this.submit();
+
+
+        });
 
 
 
@@ -278,9 +331,6 @@
 
     });
 
-    function changeDate2() {
-        $("#fech_fin").rules('add', { greaterThan: "#fech_ini" })
-    }
 
     function submitSearch() {
         $("#search").submit();
@@ -292,14 +342,13 @@
                         .attr("name", "nombre").val(($("#nombre").val() != "") ? $("#nombre").val() : "");
         $("#adv-search").append(input);*/
 
-        if ($("#fech_fin").val()!="")
-            $("#fech_fin").rules('add', { greaterThan: "#fech_ini" });
+        
        
         $("#adv-search").submit();
     }
 
     function cambioCat() {
-        fillCombo("idSubCat", $("#idCategoria").val(), "Subcategorias", "Subcategorias");
+        fillCombo("idSubCat", $("#idCategoria").val(), "/Evento/Subcategorias", "Subcategorias");
     }
 
     function fillCombo(idCombo, value, linkUrl, optlabel) {

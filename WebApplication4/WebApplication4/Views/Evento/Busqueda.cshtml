@@ -116,12 +116,12 @@
                         {
                             string valor = ViewBag.fech_fin.ToString("yyyy-MM-dd");
 
-                            <input id="fech_fin" onchange="changeDate2()" name="fech_fin" type="date" value=@valor class="form-control">
+                            <input id="fech_fin" name="fech_fin" type="date" value=@valor class="form-control">
                         }
                         else
                         {
 
-                            <input id="fech_fin" onchange="changeDate2()" name="fech_fin" type="date" class="form-control">
+                            <input id="fech_fin"  name="fech_fin" type="date" class="form-control">
                         }
 
 
@@ -433,7 +433,7 @@
 <script>
 
     $(document).ready(function () {
-        $.validator.addMethod("greaterThan", function (value, element, params) {
+      /*  $.validator.addMethod("greaterThan", function (value, element, params) {
 
             console.log(element);
             console.log(value);
@@ -445,7 +445,7 @@
 
                return isNaN(value) && isNaN($(params).val()) || (Number(value) > Number($(params).val()));
         }, 'Must be greater than {0}.');
-
+        */
 
 
         if (!isNaN(@ViewBag.idCategoria)) {
@@ -481,39 +481,73 @@
 
         }
 
+        $("#adv-search").on('submit', function (e) {
+
+            e.preventDefault();
+           
+
+            var fechI = this['fech_ini'].value;
+            var fechF = this['fech_fin'].value;
+
+            /*Regla 1 para la validadcion de al menos un campo*/
+            if (fechI == '' && fechF == '' && $("#fech_fin").val() == '' && $("#idCategoria").val() == '' &&
+                $("#idSubCat").val() == '' && $("#idRegion").val() == '' && $("#idProv").val() == '') {
+
+                $("#alerta").append('<strong>Ingrese al menos un campo!</strong>').show();
+                return;
+            } else {
+
+                var valor = $("#alerta").children('strong');
+                if (valor.length > 0) {
+
+                    valor.remove();
+
+                }
+               
+                $("#alerta").hide();
+
+            }
+            /*Regla 2 : Validacion para las fechas*/
+            if (fechF != '' && fechI != '') {
+                   
+               
+                if (new Date(fechF.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1")) < new Date(fechI.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1"))) {
+
+                    $("#alerta").append('<strong>Fecha hasta no puede ser menor que fecha desde</strong>').show();
+                    return;
+                } else {
+                    var valor = $("#alerta").children('strong');
+                    if (valor.length > 0) {
+
+                        valor.remove();
+
+                    }
+
+                    $("#alerta").hide();
+
+                }
+
+            }
+
+            this.submit();
+
+
     });
 
-
+    });
     function submitSearch() {
 
 
         $("#search").submit();
     }
 
-    function changeDate2() {
 
-
-
-        //$("#fech_fin").rules('add',{ greaterThan: "#fech_ini"})
-
-
-
-
-    }
 
 
     function submitAdvSearch() {
-        if ($("#fech_ini").val() == '' && $("#fech_fin").val() == '' && $("#idCategoria").val() == '' &&
-                   $("#idSubCat").val() == '' && $("#idRegion").val() == '' && $("#idProv").val() == '') {
-
-            $("#alerta").append('<strong>Ingrese al menos un campo!</strong>').show();
-        } else {
-
-            $("#alerta").hide();
+      
             $("#adv-search").submit();
 
-
-        }
     }
 
     function cambio() {
