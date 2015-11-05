@@ -146,6 +146,30 @@ namespace WebApplication4.Controllers
         public ActionResult ModificarEvento(DatosGeneralesModel model)
         {
             int idEvento = 0;
+            ViewBag.MensajeExtra = "Modificación de Evento";
+            List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
+            List<Region> listProv = db.Region.Where(c => c.idRegPadre == model.idRegion).ToList();
+            ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
+            ViewBag.ProvID = new SelectList(listProv, "idRegion", "nombre");
+            List<Categoria> listaCat = db.Categoria.Where(c => c.idCatPadre == MagicHelpers.Categorias && c.activo == 1).ToList();
+            listaCat = listaCat.Where(c => c.activo == 1).ToList();
+            //subcategoria
+            List<Categoria> listSubCat = db.Categoria.Where(c => c.idCatPadre == model.idCategoria && c.activo == 1).ToList();
+            ViewBag.CatID = new SelectList(listaCat, "idCategoria", "nombre");
+            ViewBag.SubID = new SelectList(listSubCat, "idCategoria", "nombre");
+            //organizador
+            ViewBag.NombreOrganizador = db.Organizador.Find(model.idOrganizador).nombOrg;
+            //nombre del local si es que existe
+            Local p = new Local();
+            try
+            {
+                p = db.Local.Find(model.Local);
+                ViewBag.NombreLocal = p.ubicacion;
+            }
+            catch (Exception ex)
+            {
+                ViewBag.NombreLocal = "";
+            }
             if (ModelState.IsValid)
             {
                 if (Validaciones.VerificaEventoDG(model))
@@ -167,11 +191,12 @@ namespace WebApplication4.Controllers
                         return RedirectToAction("BloquesTiempoVenta");
                     }
                 }
-                if (model.Local == 0 || model.Direccion == null)
+                if (model.Local != 0 && model.Direccion != null)
                 {
                     ModelState.AddModelError("Local", "Debe ingresar un local o dirección.");
                     ModelState.AddModelError("Direccion", "Debe ingresar una dirección o un local");
                 }
+
                 return View(model);
             }
             return View(model);
@@ -191,6 +216,8 @@ namespace WebApplication4.Controllers
             ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
             ViewBag.CatID = new SelectList(listaCat, "idCategoria", "nombre");
             ViewBag.MensajeExtra = "Nuevo Evento: Datos Generales";
+            ViewBag.NombreOrganizador = "";
+            ViewBag.NombreLocal = "";
             return View(model);
         }
 
@@ -230,21 +257,40 @@ namespace WebApplication4.Controllers
             }
             if (model.idOrganizador == 0)
                 ModelState.AddModelError("idOrganizador", "El evento debe tener un organizador");
-            if (model.Local == 0 || model.Direccion == null)
+            if (model.Local != 0 && model.Direccion != null)
             {
                 ModelState.AddModelError("Local", "Debe ingresar un local o dirección.");
                 ModelState.AddModelError("Direccion", "Debe ingresar una dirección o un local");
             }
             ViewBag.MensajeExtra = "Revise los errores.";
             List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
-            List<Region> listProv = new List<Region>();
+            List<Region> listProv = db.Region.Where(c => c.idRegPadre == model.idRegion).ToList();
             ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
-            ViewBag.ProvID = new SelectList(listProv, "idProv", "nombre");
+            ViewBag.ProvID = new SelectList(listProv, "idRegion", "nombre");
             List<Categoria> listaCat = db.Categoria.Where(c => c.idCatPadre == MagicHelpers.Categorias && c.activo == 1).ToList();
             listaCat = listaCat.Where(c => c.activo == 1).ToList();
-            List<Categoria> listSubCat = new List<Categoria>();
+            List<Categoria> listSubCat = db.Categoria.Where(c => c.idCatPadre == model.idCategoria && c.activo == 1).ToList();
             ViewBag.CatID = new SelectList(listaCat, "idCategoria", "nombre");
-            ViewBag.SubID = new SelectList(listSubCat, "idSubCat", "nombre");
+            ViewBag.SubID = new SelectList(listSubCat, "idCategoria", "nombre");
+            try
+            {
+                ViewBag.NombreOrganizador = db.Organizador.Find(model.idOrganizador).nombOrg;
+            }
+            catch (Exception ex)
+            {
+                ViewBag.NombreOrganizador = "";
+            }
+            //nombre del local si es que existe
+            Local p = new Local();
+            try
+            {
+                p = db.Local.Find(model.Local);
+                ViewBag.NombreLocal = p.ubicacion;
+            }
+            catch (Exception ex)
+            {
+                ViewBag.NombreLocal = "";
+            }
             return View(model);
         }
 
@@ -1445,7 +1491,9 @@ namespace WebApplication4.Controllers
             }
 
             int cnt = 0;
-            if (evento.seCancela != null) for (int i = 0; i < evento.seCancela.Count(); i++) if (evento.seCancela[i]) cnt++;
+            if (evento.seCancela != null) 
+                for (int i = 0; i < evento.seCancela.Count(); i++) 
+                    if (evento.seCancela[i]) cnt++;
 
             if (cnt == 0)
             {
@@ -1457,6 +1505,7 @@ namespace WebApplication4.Controllers
                 Eventos eventoACancelar = db.Eventos.Find(evento.idEvento);
                 db.Entry(eventoACancelar).State = EntityState.Modified;
                 eventoACancelar.hanCancelado = true;
+                eventoACancelar.estado = "Cancelado";
                 db.SaveChanges();
 
                 for (int i = 0; i < evento.seCancela.Count(); i++) if (evento.seCancela[i])

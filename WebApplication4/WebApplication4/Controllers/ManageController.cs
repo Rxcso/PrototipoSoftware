@@ -230,20 +230,29 @@ namespace WebApplication4.Controllers
             {
                 return View(model);
             }
-            var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
-            if (result.Succeeded)
+            var db = new inf245netsoft();
+            string correo = User.Identity.Name;
+            CuentaUsuario cliente = db.CuentaUsuario.Where(c => c.correo == correo).First();
+            if (cliente.contrasena == model.OldPassword)
             {
-                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-                /*Aqui deberia de procesar los datos de cuenta usuario*/
-                /*buscan el usuario midiante User.Idenity.Name en la tabla de Cuenta Usuario. Recuerden que deben cambiar los campos de correo y usuario*/
-                if (user != null)
+                var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+                if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                    cliente.contrasena = model.NewPassword;
+                    db.SaveChanges();
+                    TempData["tipo"] = "alert alert-success";
+                    TempData["message"] = "Contraseña cambiada Exitosamente";
+                    if (user != null)
+                    {
+                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    }
+                    /*Aca deberia retornarte a MiCuenta de CuentaUsuario*/
+                    return RedirectToAction("MiCuenta","CuentaUsuario");
                 }
-                /*Aca deberia retornarte a MiCuenta de CuentaUsuario*/
-                return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
             }
-            AddErrors(result);
+            
+            //AddErrors(result);
             return View(model);
         }
 

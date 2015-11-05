@@ -7,6 +7,7 @@ using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using WebApplication4.Models;
@@ -125,26 +126,26 @@ namespace WebApplication4.Controllers
         [HttpPost]
         public ActionResult CambiarContrasena(CambiarContrasenaModel model)
         {
-            string correo = User.Identity.Name;
-            CuentaUsuario cliente = db.CuentaUsuario.Where(c => c.correo == correo).First();
-            //AspNetUsers user = db.AspNetUsers.Where(c => c.Email == correo).First();
-            if (cliente.contrasena == model.Contrasena)
+            if (ModelState.IsValid)
             {
-                if (model.NuevaContrasena == model.RNuevaContrasena && model.NuevaContrasena != cliente.contrasena)
+                string correo = User.Identity.Name;
+                CuentaUsuario cliente = db.CuentaUsuario.Where(c => c.correo == correo).First();
+                /*var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);*/
+                if (cliente.contrasena == model.Contrasena)
                 {
-                    cliente.contrasena = model.NuevaContrasena;
-                    //user.PasswordHash = model.NuevaContrasena;
-                    db.SaveChanges();
-                    TempData["tipo"] = "alert alert-success";
-                    TempData["message"] = "Contraseña cambiada Exitosamente";
+                    if (model.NuevaContrasena == model.RNuevaContrasena && model.NuevaContrasena != cliente.contrasena)
+                    {
+                        cliente.contrasena = model.NuevaContrasena;
+                        //user.PasswordHash = model.NuevaContrasena;
+                        db.SaveChanges();
+                        TempData["tipo"] = "alert alert-success";
+                        TempData["message"] = "Contraseña cambiada Exitosamente";
+                    }
+                    return RedirectToAction("MiCuenta");
                 }
             }
-            else
-            {
-                //Error
 
-            }
-            return RedirectToAction("MiCuenta");
+            return View(model);
         }
 
 
