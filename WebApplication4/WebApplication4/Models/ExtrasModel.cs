@@ -38,18 +38,20 @@ namespace WebApplication4.Models
         [Range(0, double.MaxValue, ErrorMessage = "Debe ser un valor positivo.")]
         public double PenPostergacion { get; set; }
 
-        
         [Display(Name = "Imagen para destacado: ")]
-        public string ImageDestacado { get; set; }
+        public HttpPostedFileBase ImageDestacado { get; set; }
 
-        [Required(ErrorMessage = "Este campo es obligatorio.")]
         [DataType(DataType.Upload)]
         [Display(Name = "Imagen para Evento: ")]
-        public string ImageEvento { get; set; }
+        public HttpPostedFileBase ImageEvento { get; set; }
 
         [DataType(DataType.Upload)]
         [Display(Name = "Imagen para la distribución: ")]
-        public string ImageSitios { get; set; }
+        public HttpPostedFileBase ImageSitios { get; set; }
+
+        [Required]
+        [Display(Name = "Es Destacado?")]
+        public Boolean esDestacado { get; set; }
 
         [Display(Name = "Permitir reservas vía web")]
         public bool PermitirReservasWeb { get; set; }
@@ -57,5 +59,10 @@ namespace WebApplication4.Models
         [Display(Name = "Permitir boleto electrónico")]
         public bool PermitirBoletoElectronico { get; set; }
 
+        public bool tieneIEvento { get; set; }
+
+        public bool tieneIDestacado { get; set; }
+
+        public bool tieneISitios { get; set; }
     }
 }

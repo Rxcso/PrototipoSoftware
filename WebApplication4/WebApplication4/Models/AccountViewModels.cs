@@ -45,6 +45,24 @@ namespace WebApplication4.Models
         public string Email { get; set; }
     }
 
+    public class CambiarContrasenaModel
+    {
+        [Required(ErrorMessage = "Campo requerido.")]
+        [DataType(DataType.Password)]
+        [Display(Name = "Contraseña Actual")]
+        public string Contrasena { get; set; }
+
+        [Required(ErrorMessage = "Campo requerido.")]
+        [DataType(DataType.Password)]
+        [Display(Name = "Nueva Contraseña")]
+        public string NuevaContrasena { get; set; }
+
+        [Required(ErrorMessage = "Campo requerido.")]
+        [DataType(DataType.Password)]
+        [Display(Name = "Repetir Nueva Contraseña")]
+        public string RNuevaContrasena { get; set; }
+    }
+
     public class CambiarCorreoModel
     {
         [Required(ErrorMessage="Campo requerido.")]
@@ -250,5 +268,33 @@ namespace WebApplication4.Models
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+    }
+
+    public class RegistrarUsuarioVendedorModel
+    {
+        [Required(ErrorMessage = "Campo requerido.")]
+        [DataType(DataType.Password)]
+        [Display(Name = "Nombres:")]
+        public string Nombres { get; set; }
+
+        [Required(ErrorMessage = "Campo requerido.")]
+        [DataType(DataType.Password)]
+        [Display(Name = "Apellidos:")]
+        public string Apellidos { get; set; }
+
+        [Required(ErrorMessage = "Campo requerido.")]
+        [DataType(DataType.Password)]
+        [Display(Name = "Correo:")]
+        public string Correo { get; set; }
+
+        [Required(ErrorMessage = "Campo requerido.")]
+        [DataType(DataType.Password)]
+        [Display(Name = "DNI:")]
+        public string Dni { get; set; }
+
+        [Required(ErrorMessage = "Campo requerido.")]
+        [Range(1, 3)]
+        [Display(Name = "Tipo Documento:")]
+        public int TipoDoc { get; set; }
     }
 }

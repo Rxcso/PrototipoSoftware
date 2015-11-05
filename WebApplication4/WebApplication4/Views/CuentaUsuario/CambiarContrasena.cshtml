@@ -1,0 +1,45 @@
+﻿@using WebApplication4.Models;
+@model CambiarContrasenaModel
+@{
+    ViewBag.Title = "CambiarContrasena";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li>@Html.ActionLink("Mi Cuenta", "MiCuenta", "CuentaUsuario")</li>
+            <li class="active">Cambiar Contrasena</li>
+        </ol>
+    </div>
+</div>
+@using (Html.BeginForm("CambiarContrasena", "CuentaUsuario", FormMethod.Post))
+{
+    <div class="col-md-8">
+        <div class="row form-group">
+            @Html.LabelFor(c => c.Contrasena, new { @class = "control-label col-md-3" })
+            <div class="col-md-8">
+                @Html.TextBoxFor(c => c.Contrasena, new { @type = "password", @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.Contrasena)
+            </div>
+        </div>
+        <div class="row form-group">
+            @Html.LabelFor(c => c.NuevaContrasena, new { @class = "control-label col-md-3" })
+            <div class="col-md-8">
+                @Html.TextBoxFor(c => c.NuevaContrasena, new { @type = "password", @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.NuevaContrasena)
+            </div>
+        </div>
+        <div class="row form-group">
+            @Html.LabelFor(c => c.RNuevaContrasena, new { @class = "control-label col-md-3" })
+            <div class="col-md-8">
+                @Html.TextBoxFor(c => c.RNuevaContrasena, new { @type = "password", @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.RNuevaContrasena)
+            </div>
+        </div>
+        <div class="row" style="text-align: center">
+            <button style="button" class="btn btn-primary">Cambiar </button>
+            <a href="@Url.Action("MiCuenta","CuentaUsuario")" class="btn btn-danger">Salir <span class="glyphicon glyphicon-log-out"></span> </a>
+        </div>
+    </div>
+}

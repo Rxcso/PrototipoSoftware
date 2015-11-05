@@ -55,6 +55,38 @@ namespace WebApplication4.Controllers
         }
 
         [HttpGet]
+        public ActionResult CambiarContrasena()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CambiarContrasena(CambiarContrasenaModel model)
+        {
+            string correo = User.Identity.Name;
+            CuentaUsuario cliente = db.CuentaUsuario.Where(c => c.correo == correo).First();
+            //AspNetUsers user = db.AspNetUsers.Where(c => c.Email == correo).First();
+            if (cliente.contrasena == model.Contrasena)
+            {
+                if (model.NuevaContrasena == model.RNuevaContrasena && model.NuevaContrasena != cliente.contrasena)
+                {
+                    cliente.contrasena = model.NuevaContrasena;
+                    //user.PasswordHash = model.NuevaContrasena;
+                    db.SaveChanges();
+                    TempData["tipo"] = "alert alert-success";
+                    TempData["message"] = "Contraseña cambiada Exitosamente";
+                }
+            }
+            else
+            {
+                //Error
+
+            }
+            return RedirectToAction("MiCuenta");
+        }
+
+
+        [HttpGet]
         public ActionResult CambiarCorreo()
         {
             string correo = User.Identity.Name;
@@ -653,7 +685,7 @@ namespace WebApplication4.Controllers
             if (re.puntos < cuenta2.puntos)
             {
                 db.Entry(cuenta2).State = EntityState.Modified;
-                cuenta2.puntos = cuenta2.puntos - re.puntos;
+                cuenta2.puntos = (int)cuenta2.puntos - (int)re.puntos;
                 db.SaveChanges();
                 return RedirectToAction("BuscaCliente", "CuentaUsuario");
             }
@@ -669,7 +701,7 @@ namespace WebApplication4.Controllers
             if (re.puntos <= cuenta.puntos)
             {
                 db.Entry(cuenta).State = EntityState.Modified;
-                cuenta.puntos = cuenta.puntos - re.puntos;
+                cuenta.puntos = (int)cuenta.puntos - (int)re.puntos;
                 //db.SaveChanges();
                 RegaloXCuenta rc = new RegaloXCuenta();
                 rc.CuentaUsuario = cuenta;
@@ -689,6 +721,33 @@ namespace WebApplication4.Controllers
 
             //}
             return Json("Error El cliente no tiene puntos suficientes para conseguir este regalo", JsonRequestBehavior.AllowGet);
+        }
+
+
+        [HttpGet]
+        public ActionResult RegistrarUsuarioVendedor(){
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult RegistrarUsuarioVendedor(RegistrarUsuarioVendedorModel model){
+
+            CuentaUsuario cu = new CuentaUsuario();
+
+            cu.apellido = model.Apellidos;
+            cu.correo = model.Correo;
+            cu.codDoc = model.Dni;
+            cu.tipoDoc = model.TipoDoc;
+            cu.nombre = model.Nombres;
+
+
+            db.CuentaUsuario.Add(cu);
+            db.SaveChanges();
+
+
+            TempData["tipo"] = "alert alert-success";
+            TempData["message"] = "Datos Actualizados Exitosamente";
+            return RedirectToAction("index2", "Home");
         }
 
     }

@@ -7,7 +7,7 @@
 
 
 @{
-    int indexPagina = 0;
+    
     ViewBag.MaximoPaginas = 5;
     var nombre = "";
     ViewBag.Title = "Busqueda";
@@ -55,7 +55,7 @@
 <div id="busqAvanzada" class="container-fluid" style="text-align:center">
     <div id="busqAvanzada">
         <!--formulario EN LINEA-->
-        <div id="alerta" class="alert alert-danger" hidden></div>
+        <div id="alerta" class="alert alert-warning" hidden></div>
 
         @using (Html.BeginForm("Busqueda", "Evento", FormMethod.Get, new { id = "adv-search", @class = "form-inline" }))
         {
@@ -116,12 +116,12 @@
                         {
                             string valor = ViewBag.fech_fin.ToString("yyyy-MM-dd");
 
-                            <input id="fech_fin" onchange="changeDate2()" name="fech_fin" type="date" value=@valor class="form-control">
+                            <input id="fech_fin" name="fech_fin" type="date" value=@valor class="form-control">
                         }
                         else
                         {
 
-                            <input id="fech_fin" onchange="changeDate2()" name="fech_fin" type="date" class="form-control">
+                            <input id="fech_fin"  name="fech_fin" type="date" class="form-control">
                         }
 
 
@@ -174,7 +174,7 @@
                     <select name="idSubCat" id="idSubCat" data-val="true" class="form-control col-lg-2">
 
                         <option value="">Subcategorias</option>
-                        @if (ViewBag.idSubCat != null)
+                        @if (ViewBag.idCategoria != null)
                         {
                             int idsubcat = ViewBag.idSubCat;
                             int idPadre = ViewBag.idCategoria;
@@ -287,7 +287,7 @@
 <div class="container-fluid">
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <strong>Resultados: @Model.Count </strong>
+            <strong>Resultados: @ViewBag.Cant </strong>
         </div>
 
         <!--Aca iran los eventos en miniatura-->
@@ -296,16 +296,17 @@
             @foreach (var evento in Model)
             {
 
-                <div class="col-md-2 col-sm-4 col-xs-6">
-                    <div class="thumbnail">
-                        <img onclick="verEvento()" class="event" src="@evento.ImagenDestacado" alt="">
-                        <div class="caption" style="text-align:center">
-                            <div class="row">@evento.nombre</div>
-                            <div class="row">@evento.fecha_inicio</div>
+                <a href="/Evento/VerEvento/@evento.codigo">
+                    <div class="col-md-2 col-sm-4 col-xs-6 bloque">
+                        <div class="thumbnail">
+                            <img class="event" src="@evento.ImagenDestacado" alt="">
+                            <div class="caption" style="text-align:center">
+                                <div class="row">@evento.nombre</div>
+                                <div class="row">@evento.fecha_inicio</div>
+                            </div>
                         </div>
                     </div>
-                </div>
-
+                </a>
 
                 @*
 
@@ -321,21 +322,7 @@
 
 
     @{
-        if (this.Request.QueryString.Count != 0)
-        {
-
-
-            if (this.Request.QueryString.AllKeys.Contains("page"))
-            {
-
-
-                indexPagina = this.Request.QueryString["page"].AsInt() - 1;
-
-            }
-
-
-
-        }
+        
 
 
         var fechaI = "";
@@ -446,7 +433,7 @@
 <script>
 
     $(document).ready(function () {
-        $.validator.addMethod("greaterThan", function (value, element, params) {
+      /*  $.validator.addMethod("greaterThan", function (value, element, params) {
 
             console.log(element);
             console.log(value);
@@ -458,7 +445,7 @@
 
                return isNaN(value) && isNaN($(params).val()) || (Number(value) > Number($(params).val()));
         }, 'Must be greater than {0}.');
-
+        */
 
 
         if (!isNaN(@ViewBag.idCategoria)) {
@@ -494,39 +481,73 @@
 
         }
 
+        $("#adv-search").on('submit', function (e) {
+
+            e.preventDefault();
+           
+
+            var fechI = this['fech_ini'].value;
+            var fechF = this['fech_fin'].value;
+
+            /*Regla 1 para la validadcion de al menos un campo*/
+            if (fechI == '' && fechF == '' && $("#fech_fin").val() == '' && $("#idCategoria").val() == '' &&
+                $("#idSubCat").val() == '' && $("#idRegion").val() == '' && $("#idProv").val() == '') {
+
+                $("#alerta").append('<strong>Ingrese al menos un campo!</strong>').show();
+                return;
+            } else {
+
+                var valor = $("#alerta").children('strong');
+                if (valor.length > 0) {
+
+                    valor.remove();
+
+                }
+               
+                $("#alerta").hide();
+
+            }
+            /*Regla 2 : Validacion para las fechas*/
+            if (fechF != '' && fechI != '') {
+                   
+               
+                if (new Date(fechF.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1")) < new Date(fechI.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1"))) {
+
+                    $("#alerta").append('<strong>Fecha hasta no puede ser menor que fecha desde</strong>').show();
+                    return;
+                } else {
+                    var valor = $("#alerta").children('strong');
+                    if (valor.length > 0) {
+
+                        valor.remove();
+
+                    }
+
+                    $("#alerta").hide();
+
+                }
+
+            }
+
+            this.submit();
+
+
     });
 
-
+    });
     function submitSearch() {
 
 
         $("#search").submit();
     }
 
-    function changeDate2() {
 
-
-
-        //$("#fech_fin").rules('add',{ greaterThan: "#fech_ini"})
-
-
-
-
-    }
 
 
     function submitAdvSearch() {
-        if ($("#fech_ini").val() == '' && $("#fech_fin").val() == '' && $("#idCategoria").val() == '' &&
-                   $("#idSubCat").val() == '' && $("#idRegion").val() == '' && $("#idProv").val() == '') {
-
-            $("#alerta").append('<strong>Ingrese al menos un campo!</strong>').show();
-        } else {
-
-            $("#alerta").hide();
+      
             $("#adv-search").submit();
 
-
-        }
     }
 
     function cambio() {
@@ -567,4 +588,12 @@
             }
 
 </script>
+<style>
+    .bloque{
+
+        width:250px;
+        height: 150px;
+    }
+
+</style>
 

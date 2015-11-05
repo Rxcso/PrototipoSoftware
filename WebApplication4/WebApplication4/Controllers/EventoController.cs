@@ -203,7 +203,7 @@ namespace WebApplication4.Controllers
                     evento.estado = "Activo";
                     evento.monto_adeudado = 0;
                     evento.monto_transferir = 0;
-                    evento.ImagenDestacado = MagicHelpers.NuevoEvento;
+                    //evento.ImagenDestacado = MagicHelpers.NuevoEvento;
                     db.Eventos.Add(evento);
                     db.SaveChanges();
                     int id = evento.codigo;
@@ -679,22 +679,28 @@ namespace WebApplication4.Controllers
 
         public ActionResult ExtrasEvento()
         {
+
             if (Session["IdEventoModificado"] != null)
             {
                 int idEvento = int.Parse(Session["IdEventoModificado"].ToString());
                 ExtrasModel model = new ExtrasModel();
                 Eventos evento = db.Eventos.Find(idEvento);
-                model.Ganancia = (double)evento.porccomision;
-                model.ImageDestacado = "";
-                model.ImageEvento = "";
-                model.ImageSitios = "";
-                model.MaxReservas = (int)evento.maxReservas;
-                model.MontFijoVentEnt = (double)evento.montoFijoVentaEntrada;
-                model.PenCancelacion = (double)evento.penalidadXcancelacion;
-                model.PenPostergacion = (double)evento.penalidadXpostergacion;
-                model.PermitirBoletoElectronico = false;
-                model.PermitirReservasWeb = false;
-                model.PuntosToCliente = (int)evento.puntosAlCliente;
+
+
+                model.tieneIEvento = evento.ImagenEvento!=null?true:false;
+                model.tieneIDestacado = evento.ImagenDestacado != null ? true : false;
+                model.tieneISitios = evento.ImagenSitios != null ? true : false;
+
+                model.esDestacado = evento.ImagenDestacado != null ? true : false;
+
+                model.Ganancia = (double)(evento.porccomision == null ? 0 : evento.porccomision);
+                model.MaxReservas = (int)(evento.maxReservas == null ? 0 : evento.maxReservas);
+                model.MontFijoVentEnt = (double)(evento.montoFijoVentaEntrada == null ? 0 : evento.montoFijoVentaEntrada);
+                model.PenCancelacion = (double)(evento.penalidadXcancelacion == null ? 0 : evento.penalidadXcancelacion);
+                model.PenPostergacion = (double)(evento.penalidadXpostergacion == null ? 0 : evento.penalidadXpostergacion);
+                model.PermitirBoletoElectronico = (bool)evento.tieneBoletoElectronico;
+                model.PermitirReservasWeb = (bool)evento.permiteReserva;
+                model.PuntosToCliente = (int)(evento.puntosAlCliente == null ? 0 : evento.puntosAlCliente);
                 return View(model);
             }
             if (Session["IdEventoCreado"] != null)
@@ -704,21 +710,57 @@ namespace WebApplication4.Controllers
             return RedirectToAction("Index");
         }
 
+        void guardarImagen(string path, HttpPostedFileBase file)
+        {
+            if (file == null || file.ContentLength == 0) return;
+            var termina = file.FileName.Split('.')[1];
+            file.SaveAs(path);
+        }
+
+
         [HttpPost]
         public ActionResult ExtrasEvento(ExtrasModel model)
         {
+
+            int idEvento = 0;
+            if (Session["IdEventoCreado"] != null)
+                idEvento = int.Parse(Session["IdEventoCreado"].ToString());
+            if (Session["IdEventoModificado"] != null)
+                idEvento = int.Parse(Session["IdEventoModificado"].ToString());
+            var evento = db.Eventos.Find(idEvento);
+
+            if (evento.ImagenEvento == null && (model.ImageEvento== null || model.ImageEvento.ContentLength == 0))
+            {
+                ModelState.AddModelError("ImageDestacado", "Falta Seleccionar Imagen para Evento");
+            }
+
+            if (evento.ImagenSitios == null && (model.ImageSitios == null || model.ImageSitios.ContentLength == 0))
+            {
+                ModelState.AddModelError("ImageDestacado", "Falta Seleccionar Imagen para los Sitios");
+            }
+
+            if (evento.ImagenDestacado == null && model.esDestacado && (model.ImageDestacado == null || model.ImageDestacado.ContentLength == 0))
+            {
+                ModelState.AddModelError("ImageDestacado", "Falta Seleccionar Imagen para Evento Destacado");
+            }
+
+
             if (ModelState.IsValid)
             {
-                int idEvento = 0;
-                if (Session["IdEventoCreado"] != null)
-                    idEvento = int.Parse(Session["IdEventoCreado"].ToString());
-                if (Session["IdEventoModificado"] != null)
-                    idEvento = int.Parse(Session["IdEventoModificado"].ToString());
-                var evento = db.Eventos.Find(idEvento);
+
                 evento.porccomision = model.Ganancia;
-                evento.ImagenDestacado = "/Images/destacado.png";
-                evento.ImagenEvento = "/Images/destacado.png";
-                evento.ImagenSitios = "/Images/destacado.png";
+
+                evento.ImagenDestacado = "/Images/destacado" + idEvento + ".jpg";
+                evento.ImagenEvento = "/Images/evento" + idEvento + ".jpg";
+                evento.ImagenSitios = "/Images/sitios" + idEvento + ".jpg";
+
+                guardarImagen(evento.ImagenDestacado, model.ImageDestacado);
+                
+                if (model.esDestacado) guardarImagen(evento.ImagenEvento, model.ImageEvento);
+                else evento.ImagenDestacado = null;
+
+                guardarImagen(evento.ImagenSitios, model.ImageSitios);
+
                 evento.maxReservas = model.MaxReservas;
                 evento.montoFijoVentaEntrada = model.MontFijoVentEnt;
                 evento.penalidadXcancelacion = model.PenCancelacion;
@@ -726,17 +768,21 @@ namespace WebApplication4.Controllers
                 evento.tieneBoletoElectronico = model.PermitirBoletoElectronico;
                 evento.permiteReserva = model.PermitirReservasWeb;
                 evento.puntosAlCliente = model.PuntosToCliente;
+
                 db.SaveChanges();
                 TempData["tipo"] = "alert alert-success";
                 if (Session["IdEventoCreado"] != null)
                     TempData["message"] = "Evento Creado Exitosamente.";
                 if (Session["IdEventoModificado"] != null)
                     TempData["message"] = "Evento Modificado Exitosamente.";
+                
                 Session["IdEventoModificado"] = null;
                 Session["IdEventoCreado"] = null;
                 return RedirectToAction("Index");
             }
-            return View();
+
+
+            return View(model);
         }
 
 
@@ -877,50 +923,51 @@ namespace WebApplication4.Controllers
         }
 
 
-
-        public string obtenerJSONAsientos(List<ZonaEvento> listZE, List<Funcion> listFunciones)
+        //TODAVIA NO FUNCIONA
+        public object obtenerJSONAsientos(List<Funcion> listFunciones, List<ZonaEvento> listZE)
         {
 
 
             JavaScriptSerializer serializer = new JavaScriptSerializer();
 
-            dynamic todoObject = new List<dynamic>();
+            List<dynamic> todoObject = new List<dynamic>();
 
-            dynamic porFuncionObject = new List<dynamic>();
-            foreach(Funcion funcion in listFunciones){
-
-
-                foreach (ZonaEvento zona in ViewBag.listaZonas)
+            foreach (Funcion funcion in listFunciones)
+            {
+                foreach (ZonaEvento zona in listZE)
                 {
+                    List<int> posF = new List<int>();
+                    List<int> posC = new List<int>();
 
-                    List<Asientos> listaAsientos = db.Asientos.Where(xx => xx.codZona == zona.codZona ).ToList();
-
-                    var posF = new int[listaAsientos.Count];
-                    var posC = new int[listaAsientos.Count];
-                    int cnt = 0;
-                    foreach (var asiento in listaAsientos)
+                    foreach (Asientos asiento in zona.Asientos)
                     {
-                        posF[cnt] = (int)asiento.fila;
-                        posC[cnt] = (int)asiento.columna;
-                        cnt++;
-                    }
+                        try
+                        {
+                            AsientosXFuncion asientosFuncion = db.AsientosXFuncion.Find(asiento.codAsiento, funcion.codFuncion);
+                            if (asientosFuncion.estado.CompareTo("libre") == 0)
+                                posF.Add((int)asiento.fila);
+                            posC.Add((int)asiento.columna);
+                        }
+                        catch (Exception ex)
+                        {
 
+                        }
+                    }
 
                     var actZona = new
                     {
                         filas = (int)zona.cantFilas,
                         columnas = (int)zona.cantColumnas,
-                        posFila = posF,
-                        posColumna = posC,
+                        posFila = posF.ToArray(),
+                        posColumna = posC.ToArray(),
                         tieneAsientos = zona.tieneAsientos,
-                        index = zona.codZona,
+                        indexZE = zona.codZona,
+                        indexFH = funcion.codFuncion,
                     };
-
-                    porFuncionObject.Add(actZona);
+                    todoObject.Add(actZona);
                 }
 
             }
-
 
             return serializer.Serialize(todoObject);
         }
@@ -1005,8 +1052,8 @@ namespace WebApplication4.Controllers
                         //todo: buscar tarifa y precio y ver segun que bloque de tiempo estamos
 
                         //todo: cantidad de entradas depende del numero de asientos que escoja
-
-                        //ViewBag.ObjectArrayAsientos = obtenerJSONAsientos(funciones, zonasEvento);
+                        ViewBag.ListFunciones = funciones;
+                        ViewBag.ObjectArrayAsientos = obtenerJSONAsientos(funciones, zonasEvento);
                     }
                     catch (Exception ex)
                     {
@@ -1138,7 +1185,7 @@ namespace WebApplication4.Controllers
                 ViewBag.subcategorias = new SelectList(listSubCat2, "idSubcat", "nombre");
 
                 int pageNumber2 = (page ?? 1);
-                int pageSize2 = 6;
+                int pageSize2 = 8;
                 return View(lista.ToPagedList(pageNumber2, pageSize2));
 
             }
@@ -1183,7 +1230,8 @@ namespace WebApplication4.Controllers
             //}
 
             lista = lista.OrderBy(s => s.codigo);
-            ViewBag.Lista = lista;
+
+            ViewBag.Cant = lista.Count();
             /*
             if (!nombre.Equals(""))
             {
@@ -1208,7 +1256,7 @@ namespace WebApplication4.Controllers
             ViewBag.subcategorias = new SelectList(listSubCat, "idSubcat", "nombre");
 
             int pageNumber = (page ?? 1);
-            int pageSize = 6;
+            int pageSize = 8;
             return View(lista.ToPagedList(pageNumber, pageSize));
 
         }
