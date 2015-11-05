@@ -51,3 +51,7 @@
 .elegido {
     background-color: blue;
 }
+
+.ocupado {
+    background-color: black;
+}

@@ -795,12 +795,27 @@ namespace WebApplication4.Controllers
 
         public ActionResult PagoPendiente2(string evId)
         {
-            int m1;
+            int m1, np, nc;
+            double p = 0, tc, tp;
             if (int.TryParse(evId, out m1) == false) return View();
             m1 = int.Parse(evId);
             Eventos ev = db.Eventos.Find(m1);
             Session["EventoSeleccionadoPago2"] = m1;
-            if (ev != null) Session["Pendiente2"] = (double)ev.penalidadXcancelacion;
+            if (ev != null)
+            {
+                List<Pago> lt = db.Pago.Where(c => c.codEvento == m1 && c.monto < 0).ToList();
+                List<Funcion> le1 = db.Funcion.Where(c => c.codEvento == m1 && c.estado == "CANCELADO").ToList();
+                List<Funcion> le2 = db.Funcion.Where(c => c.codEvento == m1 && c.estado == "POSTERGADO").ToList();
+                nc = le1.Count;
+                np = le2.Count;
+                tc = nc * (double)ev.penalidadXcancelacion;
+                tp = np * (double)ev.penalidadXpostergacion;
+                for (int i = 0; i < lt.Count; i++)
+                {
+                    p += (double)lt[i].monto;
+                }
+                Session["Pendiente2"] = tc + tp + p;
+            }
             return RedirectToAction("PagoOrganizador", "Ventas");
         }
 

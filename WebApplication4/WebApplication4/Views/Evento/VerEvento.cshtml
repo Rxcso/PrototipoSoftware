@@ -165,11 +165,12 @@
                                         <div class="col-md-4">
                                             <input id="numEntradas" class="form-control" type="number" value="0">
                                         </div>
+                                        @TempData["ErrorSeleccionandoAsientos"]
                                         @Html.ValidationMessageFor(model => model.cantEntradas)
                                     </div>
                                     <div class="row form-group">
 
-                                        @using (Html.BeginForm("Entradas", "Evento", FormMethod.Post))
+                                        @using (Html.BeginForm("Entradas", "Evento", FormMethod.Post, new{ id="submitEntradas"}))
                                         {
 
                                             @Html.TextBoxFor(Model => Model.idZona, new { style = "display:none" })
@@ -177,7 +178,10 @@
                                             @Html.TextBoxFor(model => model.idEvento, new { style = "display:none" })
                                             @Html.CheckBoxFor(model => model.tieneAsientos, new { style = "display:none" })
                                             @Html.TextBoxFor(model => model.cantEntradas, new { style = "display:none" })
+                                            <div id="asientosElegidos">
 
+                                            </div>
+                                            
                                             <div class="col-md-6">
                                                 <button type="submit" name="boton" value="carrito" class="btn btn-success pull-right ">Agregar al carrito <span class="glyphicon glyphicon-shopping-cart"></span></button>
                                             </div>
@@ -334,18 +338,28 @@
         });
 
         $('body').on('click', '.ficha', function () {
+
             if (!$(this).hasClass("ocupado")) {   //solo si no esta ocupado se podra elegir o deselegir un asiento
                 if ($(this).hasClass("elegido")) {
                     $(this).removeClass("elegido");
                     $("#numEntradas").val(parseInt($("#numEntradas").val()) - 1);
+
+
+                    
                 }
                 else {
                     $(this).addClass("elegido");
                     $("#numEntradas").val(parseInt($("#numEntradas").val()) + 1)
+
+
+
+
                 }
             }
         });
+
         function cambioAsientos() {
+            
             //cambia el aforo cuando se cambia la zona
             var indiceZT = parseInt($("#zonaTarifa").val());
             var indiceFH = parseInt($("#funcionHora").val());
@@ -372,22 +386,36 @@
             }
             else {
 
-                if (index >= 0) $("#numEntradas").prop('disabled', false);
+                $("#canvas").empty();
+
+                $("#aux").empty();
+                if (index >= 0) {
+                    $("#numEntradas").prop('disabled', false);
+
+                    $('<div><h3>Quedan ' + listaAsientos[index].totalLibres + ' asientos</h3> </div>').appendTo('#canvas');
+
+                }
                 else $("#numEntradas").prop('disabled', true);
                 $("#numEntradas").val(0);
 
-                $("#canvas").empty();
+                
                 //$("#filas").val("");
                 //$("#columnas").val("");
             }
         }
 
 
-
-
         cambioAsientos();
         $("#zonaTarifa,#funcionHora").change(cambioAsientos);
 
+
+
+        $("#submitEntradas").submit( function(){
+
+
+
+
+        });
 
 
     </script>

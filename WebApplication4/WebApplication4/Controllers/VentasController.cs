@@ -139,6 +139,7 @@ namespace WebApplication4.Controllers
             Session["orgPago2"] = org;
             List<Pago> listP = db.Pago.Where(c => c.codOrg == idO && c.monto<0).ToList();
             Session["Pagos2"] = listP;
+            Session["Pendiente2"] = null;
             return RedirectToAction("PagoOrganizador", "Ventas");
         }
 
@@ -250,48 +251,20 @@ namespace WebApplication4.Controllers
             int codE = 1;
             if (Session["EventoSeleccionadoPago2"] != null) codE = (int)Session["EventoSeleccionadoPago2"];
             Eventos ev = db.Eventos.Find(codE);
-            //while (m != 0)
-            //{
-            //    if (pend1 < m)
-            //    {
-            //        db.Entry(ev).State = EntityState.Modified;
-            //        ev.monto_transferir = ev.monto_adeudado;
-            //        Pago pg = new Pago();
-            //        pg.codEvento = ev.codigo;
-            //        pg.codOrg = org.codOrg;
-            //        Pago pl = db.Pago.ToList().Last();
-            //        pg.codPago = pl.codPago + 1;
-            //        pg.descripcion = "Pago hecho ha " + org.nombOrg;
-            //        //pg.Eventos = listEp[i];
-            //        pg.fecha = DateTime.Now;
-            //        pg.monto = pend1;
-            //        db.Pago.Add(pg);
-            //        db.SaveChanges();
-            //        m -= pend1;
-            //    }
-            //    else
-            //    {
-            //        db.Entry(ev).State = EntityState.Modified;
-            //        ev.monto_transferir = ev.monto_transferir + m;
-            //        //db.SaveChanges();
-            //        Pago pg = new Pago();
-            //        pg.codEvento = ev.codigo;
-            //        pg.codOrg = org.codOrg;
-            //        Pago pl = db.Pago.ToList().Last();
-            //        pg.codPago = pl.codPago + 1;
-            //        pg.descripcion = "Pago hecho ha " + org.nombOrg;
-            //        //pg.Eventos = listEp[i];
-            //        pg.fecha = DateTime.Now;
-            //        pg.monto = m;
-            //        //pg.Organizador = org;
-            //        db.Pago.Add(pg);
-            //        db.SaveChanges();
-            //        m = 0;
-            //    }
-            //}
+
+            Pago pg = new Pago();
+            pg.codEvento = ev.codigo;
+            pg.codOrg = org.codOrg;
+            Pago pl = db.Pago.ToList().Last();
+            pg.codPago = pl.codPago + 1;
+            pg.descripcion = "Pago hecho por el " + org.nombOrg;
+            pg.fecha = DateTime.Now;
+            pg.monto = -m; 
+            db.Pago.Add(pg);
+            db.SaveChanges();
             List<Pago> listP = db.Pago.Where(c => c.codOrg == org.codOrg && c.monto<0).ToList();
             Session["Pagos2"] = listP;
-            Session["Pendiente2"] = (double)Session["Pendiente"] - m1;
+            Session["Pendiente2"] = (double)Session["Pendiente2"] - m1;
             return Json("Pago Registrado", JsonRequestBehavior.AllowGet);
         }
 

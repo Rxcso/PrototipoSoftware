@@ -23,7 +23,7 @@
             <div class="form-group">
                 <a class="btn btn-primary" href="#formNuevo" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
                 <a class="btn btn-primary" data-toggle="modal" onclick="redirige()">Modificar<span class="glyphicon glyphicon-pencil"></span></a>
-                <a class="btn btn-primary" href="#eliminar" data-toggle="modal">Borrar<span class="glyphicon glyphicon-remove"></span></a>
+                <a class="btn btn-primary" onclick="validaS()" data-toggle="modal">Borrar<span class="glyphicon glyphicon-remove"></span></a>
             </div>
         </div>
 
@@ -190,6 +190,14 @@
                 alert("Error :(");
             }
         });
+    }
+    function validaS() {
+        var cliente = $('#idPuntoT').val();
+        if (cliente != null && cliente != "") {
+            $('#eliminar').modal('show');
+        } else {
+            alert("Seleccione un punto de Venta");
+        }
     }
     function cambioDepartamento() {
         var depId = parseInt($("#idRegion").val());
