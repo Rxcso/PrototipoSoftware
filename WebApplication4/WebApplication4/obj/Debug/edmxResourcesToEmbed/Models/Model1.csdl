@@ -1084,7 +1084,7 @@
     <Property Name="fechaRegistro" Type="DateTime" Precision="3" />
     <Property Name="fechaUltModificacion" Type="DateTime" Precision="3" />
     <Property Name="ImagenEvento" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="ImagenDestacado" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="ImagenDestacado" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="ImagenSitios" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="maxReservas" Type="Int32" />
     <Property Name="montoFijoVentaEntrada" Type="Double" />

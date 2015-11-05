@@ -7,6 +7,8 @@ using WebApplication4.Models;
 using PagedList;
 using System.Data.Entity;
 using System.Web.Script.Serialization;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 
 namespace WebApplication4.Controllers
 {
@@ -127,15 +129,15 @@ namespace WebApplication4.Controllers
             //organizador
             ViewBag.NombreOrganizador = db.Organizador.Find(model.idOrganizador).nombOrg;
             //nombre del local si es que existe
-            ViewBag.NombreLocal = "";
             Local p = new Local();
             try
             {
                 p = db.Local.Find(model.Local);
+                ViewBag.NombreLocal = p.ubicacion;
             }
             catch (Exception ex)
             {
-                ViewBag.NombreLocal = p.ubicacion;
+                ViewBag.NombreLocal = "";
             }
             return View(model);
         }
@@ -204,6 +206,11 @@ namespace WebApplication4.Controllers
                     evento.estado = "Activo";
                     evento.monto_adeudado = 0;
                     evento.monto_transferir = 0;
+                    evento.tieneBoletoElectronico = false;
+                    evento.permiteReserva = false;
+                    evento.puntosAlCliente = 0;
+                    evento.hanPostergado = false;
+                    evento.hanCancelado = false;
                     //evento.ImagenDestacado = MagicHelpers.NuevoEvento;
                     db.Eventos.Add(evento);
                     db.SaveChanges();
@@ -212,7 +219,6 @@ namespace WebApplication4.Controllers
                     return RedirectToAction("BloquesTiempoVenta");
                 }
             }
-            ModelState.AddModelError(string.Empty, "No hay Evento");
             if (model.idOrganizador == 0)
                 ModelState.AddModelError("idOrganizador", "El evento debe tener un organizador");
             if (model.Local == 0 || model.Direccion == null)
@@ -523,8 +529,8 @@ namespace WebApplication4.Controllers
                 List<string> nombresPV = new List<string>();
                 if (Session["IdEventoCreado"] != null)
                 {
-                    listaPV = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
                     idEvento = int.Parse(Session["IdEventoCreado"].ToString());
+                    listaPV = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
                     foreach (PeriodoVenta p in listaPV)
                     {
                         nombresPV.Add("Del " + String.Format("{0:dd/MM/yyyy}", p.fechaInicio) + " hasta: " + String.Format("{0:dd/MM/yyyy}", p.fechaFin));
@@ -592,6 +598,17 @@ namespace WebApplication4.Controllers
                     db.SaveChanges();
                 }
             }
+            
+            List<ZonaEvento> zonas = db.ZonaEvento.Where(c => c.codEvento == idEvento).ToList();
+            for (int i = 0; i < zonas.Count; i++)
+            {
+                //si la zona no existe en el model. tengo que eliminarla
+                if (!listaModel.Any(c => c.Id == zonas[i].codZona))
+                {
+                    db.ZonaEvento.Remove(zonas[i]);
+                    db.SaveChanges();
+                }
+            }
             for (int i = 0; i < listaModel.Count; i++)
             {
                 int idZona = listaModel[i].Id;
@@ -617,6 +634,7 @@ namespace WebApplication4.Controllers
                     db.SaveChanges();
                     idZona = zonaNueva.codZona;
                 }
+                //guardo sus tarifas
                 List<TarifaModel> tarifas = listaModel[i].ListaTarifas;
                 for (int j = 0; j < tarifas.Count; j++)
                 {
@@ -692,7 +710,6 @@ namespace WebApplication4.Controllers
                 model.IDestacado = evento.ImagenDestacado;
                 model.IEvento = evento.ImagenEvento;
                 model.ISitios = evento.ImagenSitios;
-
                 model.Ganancia = (double)(evento.porccomision == null ? 0 : evento.porccomision);
                 model.MaxReservas = (int)(evento.maxReservas == null ? 0 : evento.maxReservas);
                 model.MontFijoVentEnt = (double)(evento.montoFijoVentaEntrada == null ? 0 : evento.montoFijoVentaEntrada);
@@ -700,7 +717,7 @@ namespace WebApplication4.Controllers
                 model.PenPostergacion = (double)(evento.penalidadXpostergacion == null ? 0 : evento.penalidadXpostergacion);
                 model.PermitirBoletoElectronico = (bool)evento.tieneBoletoElectronico;
                 model.PermitirReservasWeb = (bool)evento.permiteReserva;
-                model.PuntosToCliente = evento.puntosAlCliente ;
+                model.PuntosToCliente = evento.puntosAlCliente;
                 return View(model);
             }
             if (Session["IdEventoCreado"] != null)
@@ -715,7 +732,7 @@ namespace WebApplication4.Controllers
             if (file == null || file.ContentLength == 0) return false;
             var termina = file.FileName.Split('.')[1];
 
-            path = Server.MapPath("/Images") +"/"+path;
+            path = Server.MapPath("/Images") + "/" + path;
             if ((System.IO.File.Exists(path)))
             {
                 System.IO.File.Delete(path);
@@ -735,9 +752,9 @@ namespace WebApplication4.Controllers
                 idEvento = int.Parse(Session["IdEventoCreado"].ToString());
             if (Session["IdEventoModificado"] != null)
                 idEvento = int.Parse(Session["IdEventoModificado"].ToString());
-            var evento = db.Eventos.Find(idEvento);
+            Eventos evento = db.Eventos.Find(idEvento);
 
-            if (evento.ImagenEvento == null && (model.ImageEvento== null || model.ImageEvento.ContentLength == 0))
+            if (evento.ImagenEvento == null && (model.ImageEvento == null || model.ImageEvento.ContentLength == 0))
             {
                 ModelState.AddModelError("ImageEvento", "Falta Seleccionar Imagen para Evento");
             }
@@ -755,16 +772,22 @@ namespace WebApplication4.Controllers
 
             if (ModelState.IsValid)
             {
-
                 evento.porccomision = model.Ganancia;
 
-                if (model.esDestacado) if (guardarImagen("destacado" + evento.codigo + ".jpg", model.ImageDestacado)) evento.ImagenDestacado = "/Images/"+"destacado" + evento.codigo + ".jpg";
-                else evento.ImagenDestacado = null;
+                if (model.esDestacado)
+                {
+                    /*--No se carga de vuelta la imagen subida-- valida con string pero no con imagenes
+                     * al ser un HttpPostFileBase no se puede recuperar porque es una clase abstracta.
+                     * si no es destacado simplemente dejar la imagen en null. si agrega otra imagen recien se guarda, si no hay nada simplemente dejarla como estaba antes.
+                     * Hay una situacion con poner evento.ImagenDestacado en null, al realizar db.SaveChanges(), me dice que el campo debe ser obligatorio a pesar de que no se especifica en ningun lado de que lo sea. Incluso en base de datos esta permitido el valor de null.
+                    if (guardarImagen("destacado" + evento.codigo + ".jpg", model.ImageDestacado))
+                        evento.ImagenDestacado = "/Images/" + "destacado" + evento.codigo + ".jpg";
+                    else evento.ImagenDestacado = null;*/
+                }
 
-                if (guardarImagen("evento" + evento.codigo + ".jpg", model.ImageEvento)) evento.ImagenEvento = "/Images/" +"evento" + evento.codigo + ".jpg" ;
+                if (guardarImagen("evento" + evento.codigo + ".jpg", model.ImageEvento)) evento.ImagenEvento = "/Images/" + "evento" + evento.codigo + ".jpg";
                 if (guardarImagen("sitios" + evento.codigo + ".jpg", model.ImageSitios)) evento.ImagenSitios = "/Images/" + "sitios" + evento.codigo + ".jpg";
 
-                
                 evento.maxReservas = model.MaxReservas;
                 evento.montoFijoVentaEntrada = model.MontFijoVentEnt;
                 evento.penalidadXcancelacion = model.PenCancelacion;
@@ -772,14 +795,14 @@ namespace WebApplication4.Controllers
                 evento.tieneBoletoElectronico = model.PermitirBoletoElectronico;
                 evento.permiteReserva = model.PermitirReservasWeb;
                 evento.puntosAlCliente = model.PuntosToCliente;
-
                 db.SaveChanges();
+
                 TempData["tipo"] = "alert alert-success";
                 if (Session["IdEventoCreado"] != null)
                     TempData["message"] = "Evento Creado Exitosamente.";
                 if (Session["IdEventoModificado"] != null)
                     TempData["message"] = "Evento Modificado Exitosamente.";
-                
+
                 Session["IdEventoModificado"] = null;
                 Session["IdEventoCreado"] = null;
                 return RedirectToAction("Index");
@@ -1092,16 +1115,17 @@ namespace WebApplication4.Controllers
         {
 
             //VALIDAR
-            if (ModelState.IsValid) { 
+            if (ModelState.IsValid)
+            {
 
-                if (boton.CompareTo("reservar")==0)
+                if (boton.CompareTo("reservar") == 0)
                 {
 
 
                     //logica de reserva
 
                 }
-                else if(boton.CompareTo("carrito")==0)
+                else if (boton.CompareTo("carrito") == 0)
                 {
 
 
@@ -1111,7 +1135,7 @@ namespace WebApplication4.Controllers
                 }
             }
 
-            return Redirect("~/Evento/VerEvento/"+paquete.idEvento);
+            return Redirect("~/Evento/VerEvento/" + paquete.idEvento);
         }
 
 
@@ -1335,7 +1359,7 @@ namespace WebApplication4.Controllers
             db.Entry(queryEvento).State = EntityState.Modified;
             queryEvento.hanPostergado = true;
             db.SaveChanges();
-            
+
             ViewBag.nombreEvento = queryEvento.nombre;
             int idOrganizador = (int)queryEvento.idOrganizador;
             ViewBag.idEvento = "" + id;

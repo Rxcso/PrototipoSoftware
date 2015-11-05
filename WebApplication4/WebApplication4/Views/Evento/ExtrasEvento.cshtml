@@ -140,7 +140,15 @@
             </div>
             <div class="row">
                 <div class="col-md-2 col-md-offset-5">
-                    <button type="submit" class="btn btn-primary">Registrar Evento</button><br /><br />
+                    @if (Session["IdEventoModificado"] != null)
+                    {
+                        <button type="submit" class="btn btn-primary">Modificar Evento</button><br /><br />
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn-primary">Registrar Evento</button><br /><br />
+                    }
+                    
                 </div>
             </div>
         </div>

@@ -38,6 +38,7 @@ namespace WebApplication4.Models
         [Range(0, double.MaxValue, ErrorMessage = "Debe ser un valor positivo.")]
         public double PenPostergacion { get; set; }
 
+        [DataType(DataType.Upload)]
         [Display(Name = "Imagen para destacado: ")]
         public HttpPostedFileBase ImageDestacado { get; set; }
 
