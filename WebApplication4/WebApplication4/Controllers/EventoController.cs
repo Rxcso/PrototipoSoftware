@@ -148,22 +148,31 @@ namespace WebApplication4.Controllers
             int idEvento = 0;
             if (ModelState.IsValid)
             {
-                if (int.TryParse(Session["IdEventoModificado"].ToString(), out idEvento))
+                if (Validaciones.VerificaEventoDG(model))
                 {
-                    Eventos modificado = db.Eventos.Find(idEvento);
-                    modificado.descripcion = model.descripcion;
-                    modificado.direccion = model.Direccion;
-                    modificado.idCategoria = model.idCategoria;
-                    modificado.idOrganizador = model.idOrganizador;
-                    modificado.idProvincia = model.idProv;
-                    modificado.idRegion = model.idRegion;
-                    modificado.idSubcategoria = model.idSubCat;
-                    modificado.idLocal = model.Local;
-                    modificado.nombre = model.nombre;
-                    modificado.fechaUltModificacion = DateTime.Today;
-                    db.SaveChanges();
-                    return RedirectToAction("BloquesTiempoVenta");
+                    if (int.TryParse(Session["IdEventoModificado"].ToString(), out idEvento))
+                    {
+                        Eventos modificado = db.Eventos.Find(idEvento);
+                        modificado.descripcion = model.descripcion;
+                        modificado.direccion = model.Direccion;
+                        modificado.idCategoria = model.idCategoria;
+                        modificado.idOrganizador = model.idOrganizador;
+                        modificado.idProvincia = model.idProv;
+                        modificado.idRegion = model.idRegion;
+                        modificado.idSubcategoria = model.idSubCat;
+                        modificado.idLocal = model.Local;
+                        modificado.nombre = model.nombre;
+                        modificado.fechaUltModificacion = DateTime.Today;
+                        db.SaveChanges();
+                        return RedirectToAction("BloquesTiempoVenta");
+                    }
                 }
+                if (model.Local == 0 || model.Direccion == null)
+                {
+                    ModelState.AddModelError("Local", "Debe ingresar un local o dirección.");
+                    ModelState.AddModelError("Direccion", "Debe ingresar una dirección o un local");
+                }
+                return View(model);
             }
             return View(model);
         }
@@ -699,11 +708,10 @@ namespace WebApplication4.Controllers
 
         public ActionResult ExtrasEvento()
         {
-
+            ExtrasModel model = new ExtrasModel();
             if (Session["IdEventoModificado"] != null)
             {
                 int idEvento = int.Parse(Session["IdEventoModificado"].ToString());
-                ExtrasModel model = new ExtrasModel();
                 Eventos evento = db.Eventos.Find(idEvento);
 
                 model.esDestacado = (evento.ImagenDestacado != null) ? true : false;
@@ -722,7 +730,7 @@ namespace WebApplication4.Controllers
                 return View(model);
             }
             if (Session["IdEventoCreado"] != null)
-                return View();
+                return View(model);
             TempData["tipo"] = "alert alert-warning";
             TempData["message"] = "No hay evento en proceso de creación o modificación.";
             return RedirectToAction("Index");
@@ -966,15 +974,17 @@ namespace WebApplication4.Controllers
                         try
                         {
                             AsientosXFuncion asientosFuncion = db.AsientosXFuncion.Find(asiento.codAsiento, funcion.codFuncion);
-                            if (asientosFuncion.estado.CompareTo("libre") == 0){
+                            if (asientosFuncion.estado.CompareTo("libre") == 0)
+                            {
                                 cantLibres++;
                                 posF.Add((int)asiento.fila);
                             }
-                            else {
+                            else
+                            {
                                 posF.Add((int)-asiento.fila);
-                                
+
                             }
-                                
+
                             posC.Add((int)asiento.columna);
                         }
                         catch (Exception ex)
@@ -985,22 +995,23 @@ namespace WebApplication4.Controllers
 
                     if (!zona.tieneAsientos)
                     {
-                        ZonaxFuncion zonaFuncion = db.ZonaxFuncion.Find( funcion.codFuncion, zona.codZona);
+                        ZonaxFuncion zonaFuncion = db.ZonaxFuncion.Find(funcion.codFuncion, zona.codZona);
                         cantLibres = zonaFuncion.cantLibres;
                     }
 
-                    var act=new{
-                            filas = (int)zona.cantFilas,
-                            columnas = (int)zona.cantColumnas,
-                            posFila = posF.ToArray(),
-                            posColumna = posC.ToArray(),
-                            tieneAsientos = zona.tieneAsientos,
-                            totalLibres = cantLibres,
-                            indexZE = zona.codZona,
-                            indexFH = funcion.codFuncion,
-                        };
+                    var act = new
+                    {
+                        filas = (int)zona.cantFilas,
+                        columnas = (int)zona.cantColumnas,
+                        posFila = posF.ToArray(),
+                        posColumna = posC.ToArray(),
+                        tieneAsientos = zona.tieneAsientos,
+                        totalLibres = cantLibres,
+                        indexZE = zona.codZona,
+                        indexFH = funcion.codFuncion,
+                    };
 
-                    
+
                     todoObject.Add(act);
                 }
 

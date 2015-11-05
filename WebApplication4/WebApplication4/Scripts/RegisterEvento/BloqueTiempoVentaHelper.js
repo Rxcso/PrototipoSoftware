@@ -25,10 +25,10 @@ function validarFechaInicioYFin(fechaInicio, fechaFin) {
     }
 
     if (malInicio) {
-        alert("Fecha de inicio incorrecta: " + fechaInicio + ". Ingrese una fecha valida (Rango de fecha: " + dateYear + " - " + (dateYear + 20) + ").");
+        alert("Fecha de inicio incorrecta: " + fechaInicio + ". Ingrese una fecha valida (Rango de fecha: " + date.getDate() + "/" + (date.getMonth()+1) + "/" + dateYear+ " - " + (dateYear + 20) + ").");
     }
     if (malFinal) {
-        alert("Fecha de fin incorrecta: " + fechaFin + ". Ingrese una fecha valida (Rango de fecha: " + dateYear + " - " + (dateYear + 20) + ").");
+        alert("Fecha de fin incorrecta: " + fechaFin + ". Ingrese una fecha valida (Rango de fecha: " + date.getDate() + "/" + (date.getMonth()+1) + "/" + dateYear + " - " + (dateYear + 20) + ").");
     }
     if (!malInicio && !malFinal) {
         return true;
