@@ -2,33 +2,33 @@
 @using WebApplication4.Models
 
 @{
-    ViewBag.Title = "Pago";
-    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+    ViewBag.Title = "PagoOrganizador";
+    Layout = "~/Views/Shared/_Layout.cshtml";
     var db = new WebApplication4.Models.inf245netsoft();
-    int idor=0;
+    int idor = 0;
     int idEp = 0;
     int ce = 0;
-    string nombO="";
+    string nombO = "";
     List<Eventos> listaEv = new List<Eventos>();
-    if (Session["orgPago"] != null)
+    if (Session["orgPago2"] != null)
     {
-        Organizador org = (Organizador)Session["orgPago"];
+        Organizador org = (Organizador)Session["orgPago2"];
         idor = org.codOrg;
         nombO = org.nombOrg;
     }
-    List<Pago> liP=new List<Pago>();
-    if (Session["Pagos"] != null)
+    List<Pago> liP = new List<Pago>();
+    if (Session["Pagos2"] != null)
     {
-        liP = (List<Pago>)Session["Pagos"];
+        liP = (List<Pago>)Session["Pagos2"];
     }
     double pend = 0;
-    if (Session["Pendiente"] != null)
+    if (Session["Pendiente2"] != null)
     {
-        pend = (double)Session["Pendiente"];
-        idEp = (int)Session["EventoSeleccionadoPago"];
+        pend = (double)Session["Pendiente2"];
+        idEp = (int)Session["EventoSeleccionadoPago2"];
     }
-    
 }
+
 
 <div class="container-fluid">
     <div class="col-md-5">
@@ -68,10 +68,10 @@
                 @if (idor != 0)
                 {
                     listaEv = db.Eventos.AsNoTracking().Where(c => c.idOrganizador == idor).ToList();
-                    
-                    if (Session["EventoSeleccionadoPago"] != null)
+
+                    if (Session["EventoSeleccionadoPago2"] != null)
                     {
-                        ce = (int)Session["EventoSeleccionadoPago"];
+                        ce = (int)Session["EventoSeleccionadoPago2"];
                     }
                 }
                 <div class="row form-group">
@@ -184,7 +184,8 @@
     </div>
 </div>
 
-@if(idor!=0){
+@if (idor != 0)
+{
     <input type="hidden" id="idOrgT" value="@idor" />
 }
 else
@@ -192,7 +193,8 @@ else
     <input type="hidden" id="idOrgT" value="" />
 }
 
-@if (idEp != 0) { 
+@if (idEp != 0)
+{
     <input type="hidden" id="idEvT" value="@idEp" />
 }
 else
@@ -211,16 +213,16 @@ else
         //$("#idOrg").val(id);
         if (id != "" && id != null) {
             $.ajax({
-                url: "@Url.Action("LlenaOrg","Ventas")",
+                url: "@Url.Action("LlenaOrg2","Ventas")",
                 data: { id: id },
             success: function (data) {
                 //alert("Eliminado");
                 $('#modalBuscarOrganizador').modal('hide');
-                window.location.href = '/Ventas/Pago';
+                window.location.href = '/Ventas/PagoOrganizador';
             },
             error: function () {
                 //alert("Error :(");
-                window.location.href = '/Ventas/Pago';
+                window.location.href = '/Ventas/PagoOrganizador';
             }
         });
     } else {
@@ -234,18 +236,18 @@ else
         //elem.value = evId;
         //alert(evId);
         $.ajax({
-            url: "@Url.Action("PagoPendiente", "CuentaUsuario")",
+            url: "@Url.Action("PagoPendiente2", "CuentaUsuario")",
             data: { evId: evId },
         success: function (data) {
-            window.location.href = '/Ventas/Pago';
+            window.location.href = '/Ventas/PagoOrganizador';
             //alert("Eliminado");
             //row.remove();
         },
         error: function () {
-            window.location.href = '/Ventas/Pago';
+            window.location.href = '/Ventas/PagoOrganizador';
             alert("Error :(");
         }
-    }); 
+    });
     }
     function registrar() {
         var monto = $('#monto2').val();
@@ -259,15 +261,15 @@ else
         if (monto != "" && monto != null && pend != "" && pend != null && Org != "" && Org != null && ev!=null && ev !="") {
             //alert(monto);
             $.ajax({
-                url: "@Url.Action("RegistrarPagos","Ventas")",
+                url: "@Url.Action("RegistrarPagos2","Ventas")",
                 data: { monto: monto,pend:pend },
                 success: function (data) {
                     alert(data);
-                    window.location.href = '/Ventas/Pago';
+                    window.location.href = '/Ventas/PagoOrganizador';
                 },
                 error: function (data) {
                     alert(data);
-                    window.location.href = '/Ventas/Pago';
+                    window.location.href = '/Ventas/PagoOrganizador';
                 }
             });
         } else {
@@ -275,3 +277,4 @@ else
         }
     }
 </script>
+

@@ -555,6 +555,7 @@
     <Content Include="Views\CuentaUsuario\ModificarDatos.cshtml" />
     <Content Include="Views\CuentaUsuario\CambiarCorreo.cshtml" />
     <Content Include="Views\CuentaUsuario\CambiarContrasena.cshtml" />
+    <Content Include="Views\CuentaUsuario\RegistrarUsuarioVendedor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

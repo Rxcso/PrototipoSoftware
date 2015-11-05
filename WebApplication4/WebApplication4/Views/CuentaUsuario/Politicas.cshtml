@@ -5,13 +5,15 @@
     ViewBag.Title = "Politicas";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
     var db = new WebApplication4.Models.inf245netsoft();
-    int p1=0, p2=0, p3=0, p4=0, p5=0;
-    int a = 1, b = 2, c = 3, d = 4, e = 5;
-    p1 =(int) db.Politicas.Find(a).valor;
+    int p1 = 0, p2 = 0, p3 = 0, p4 = 0, p5 = 0, p6 = 0, p7 = 0;
+    int a = 1, b = 2, c = 3, d = 4, e = 5, f = 6, g = 7;
+    p1 = (int)db.Politicas.Find(a).valor;
     p2 = (int)db.Politicas.Find(b).valor;
     p3 = (int)db.Politicas.Find(c).valor;
     p4 = (int)db.Politicas.Find(d).valor;
     p5 = (int)db.Politicas.Find(e).valor;
+    p6 = (int)db.Politicas.Find(f).valor;
+    p7 = (int)db.Politicas.Find(g).valor;
 }
 
 <div class="container-fluid">
@@ -54,7 +56,21 @@
                         <div class="col-md-3">
                             <input type="text" value="@p1" class="form-control" aria-describedby="dolares" readonly="true">
                         </div>
-                        </div> <br>
+                    </div> <br>
+                    <div class="row">
+                        <div class="col-md-3 col-md-offset-1">
+                            <label for="">Hora Limite de Reserva: </label>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                                <input id="hora" type="number" class="form-control" aria-describedby="reserva">
+                                <span class="input-group-addon" id="reserva">Hora</span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" value="@p6" class="form-control" aria-describedby="dolares" readonly="true">
+                        </div>
+                    </div> <br>
                     <div class="row">
                         <div class="col-md-3 col-md-offset-1">
                             <label for="">Máximo de reservas/compras por evento:</label>
@@ -90,6 +106,17 @@
                         </div>
                         <div class="col-md-3">
                             <input type="text" value="@p5" class="form-control" aria-describedby="dolares" readonly="true">
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-md-3 col-md-offset-1">
+                            <label for="">Numero Maximo de Empleados en Punto de Venta:</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input id="mxE" type="number" class="form-control">
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" value="@p7" class="form-control" aria-describedby="dolares" readonly="true">
                         </div>
                     </div><br>
                     <div class="row">
@@ -132,53 +159,55 @@
 </div>
 
 <script>
-		function registrar(){
-		    var dur = $('#durR').val();
-		    var mx = $('#maxC').val();
-		    var mt = $('#monT').val();
-		    var ra = $('#rAsg').val();
-		    //alert(dur);
-		    //alert(mx);
-		    //alert(mt);
-		    if (mx!=null || dur!=null || mt!=null) {
-		        $.ajax({
-		            url: "@Url.Action("RegistraPoliticas", "CuentaUsuario")",
-		            data: { dur:dur,mx:mx,mt:mt,ra:ra },
-		        success: function (data) {
-		            alert(data);
-		            window.location.href = '/CuentaUsuario/Politicas';
-		            //window.location.href = 'Promocion/Index?evento='+evento;
-		            //row.remove();
-		        },
-		        error: function (data) {
-		            alert(data);
-		            //alert("Error :(");
-		        }
-		    });
+    function registrar() {
+        var dur = $('#durR').val();
+        var mx = $('#maxC').val();
+        var mt = $('#monT').val();
+        var ra = $('#rAsg').val();
+        var mE = $('#mxE').val();
+        var hr = $('#hora').val();
+        //alert(dur);
+        //alert(mx);
+        //alert(mt);
+        if (mx != null || dur != null || mt != null || mE != null || hr != null) {
+            $.ajax({
+                url: "@Url.Action("RegistraPoliticas", "CuentaUsuario")",
+                data: { dur: dur, mx: mx, mt: mt, ra: ra, mE: mE, hr: hr },
+                success: function (data) {
+                    alert(data);
+                    window.location.href = '/CuentaUsuario/Politicas';
+                    //window.location.href = 'Promocion/Index?evento='+evento;
+                    //row.remove();
+                },
+                error: function (data) {
+                    alert(data);
+                    //alert("Error :(");
+                }
+            });
         } else {
-		        alert("Ingrese un valor a Registrar");
+            alert("Ingrese un valor a Registrar");
         }
-       }
-		function registrar2(){
-		    var tolerancia = $('#tol').val();
-		    if (tolerancia != "" && tolerancia != null) {
-		        $.ajax({
-		            url: "@Url.Action("RegistraTolerancia","CuentaUsuario")",
-		            data: { tolerancia:tolerancia},
-		        success: function (data) {
-		            alert(data);
-		            window.location.href = '/CuentaUsuario/Politicas';
-		            //window.location.href = 'Promocion/Index?evento='+evento;
-		            //row.remove();
-		        },
-		        error: function () {
-		            alert(data);
-		        }
-		    });
+    }
+    function registrar2() {
+        var tolerancia = $('#tol').val();
+        if (tolerancia != "" && tolerancia != null) {
+            $.ajax({
+                url: "@Url.Action("RegistraTolerancia","CuentaUsuario")",
+                data: { tolerancia: tolerancia },
+                success: function (data) {
+                    alert(data);
+                    window.location.href = '/CuentaUsuario/Politicas';
+                    //window.location.href = 'Promocion/Index?evento='+evento;
+                    //row.remove();
+                },
+                error: function () {
+                    alert(data);
+                }
+            });
         } else {
             alert("Ingrese tiempo de tolerancia");
         }
-       }
+    }
 </script>
 
 

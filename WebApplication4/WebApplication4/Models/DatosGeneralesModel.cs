@@ -38,7 +38,7 @@ namespace WebApplication4.Models
 
         [Required]
         [Display(Name = "Descripcion:")]
-        [StringLength(200,ErrorMessage="Maxima longitud de 200 caracteres.")]
+        [StringLength(3000,ErrorMessage="Maxima longitud de 200 caracteres.")]
         public string descripcion { get; set; }
 
         [Display(Name = "Local:")]

@@ -270,16 +270,16 @@ namespace WebApplication4.Models
         public string Email { get; set; }
     }
 
-    public class RegistrarUsuarioVendedor
+    public class RegistrarUsuarioVendedorModel
     {
         [Required(ErrorMessage = "Campo requerido.")]
         [DataType(DataType.Password)]
-        [Display(Name = "Nombre")]
-        public string Nombre { get; set; }
+        [Display(Name = "Nombres:")]
+        public string Nombres { get; set; }
 
         [Required(ErrorMessage = "Campo requerido.")]
         [DataType(DataType.Password)]
-        [Display(Name = "Apellidos")]
+        [Display(Name = "Apellidos:")]
         public string Apellidos { get; set; }
 
         [Required(ErrorMessage = "Campo requerido.")]
@@ -291,5 +291,10 @@ namespace WebApplication4.Models
         [DataType(DataType.Password)]
         [Display(Name = "DNI:")]
         public string Dni { get; set; }
+
+        [Required(ErrorMessage = "Campo requerido.")]
+        [Range(1, 3)]
+        [Display(Name = "Tipo Documento:")]
+        public int TipoDoc { get; set; }
     }
 }

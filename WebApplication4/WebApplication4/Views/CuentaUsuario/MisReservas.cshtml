@@ -56,6 +56,8 @@
                             <th>Fecha</th>
                             <th>Hora</th>
                             <th>Cantidad de Boletos</th>
+                            <th>Zona</th>
+                            <th>Asiento</th>
                             <th>Monto (S/.)</th>
                             <th>Eliminar</th>
                         </tr>
@@ -63,21 +65,59 @@
                     <tbody id="tbody">
                         @if (listaventas != null)
                         {
-                            if (listvxf != null) {
-                            foreach (var row in listvxf)
+                            if (listvxf != null)
                             {
-                                <tr id=@row.codVen onclick="myFunction(this)">
-                                    <td>@row.codVen</td>
-                                    @{Funcion fu = db.Funcion.Find(row.codFuncion);
-                                       }
-                                    <td>@db.Eventos.Find(fu.codEvento).nombre</td>
-                                    <td>@fu.fecha.Value.ToString("dd/MM/yyyy")</td>
-                                    <td>@fu.horaIni.Value.TimeOfDay - @fu.horaFin.Value.TimeOfDay</td>
-                                    <td>@row.cantEntradas</td>
-                                    <td>@row.total</td>
-                                    <td><a href="@Url.Action("DeleteReserva", "CuentaUsuario", new { codE = row.codVen, codF = row.codFuncion })" class="btn btn-primary">Borrar <span class="glyphicon glyphicon-remove"></span></a></td>
-                                </tr>
-                            }
+                                foreach (var row in listvxf)
+                                {
+                                    <tr id=@row.codVen onclick="myFunction(this)">
+                                        <td>@row.codVen</td>
+                                        @{Funcion fu = db.Funcion.Find(row.codFuncion);
+                                        }
+                                        <td>@db.Eventos.Find(fu.codEvento).nombre</td>
+                                        <td>@fu.fecha.Value.ToString("dd/MM/yyyy")</td>
+                                        <td>@fu.horaIni.Value.TimeOfDay</td>
+                                        <td>@row.cantEntradas</td>
+                                        @{
+                                        List<DetalleVenta> ld = db.DetalleVenta.Where(c => c.codFuncion == fu.codFuncion && c.codVen == row.codVen).ToList();
+                                        DetalleVenta de = null;
+                                        PrecioEvento pe = null;
+                                        List<AsientosXFuncion> laf = null;
+                                        AsientosXFuncion af = null;
+                                        if (ld != null && ld.Count != 0)
+                                        {
+                                            de = ld.First();
+                                            pe = db.PrecioEvento.Find(de.codPrecE);
+                                        }
+                                        if (pe != null)
+                                        {
+                                            laf = db.AsientosXFuncion.Where(c => c.codFuncion == de.codFuncion && c.codDetalleVenta == de.codDetalleVenta).ToList();
+                                        }
+                                        if (laf != null && laf.Count != 0)
+                                        {
+                                            af = laf.First();
+                                        }
+                                        }
+                                        @if (de != null)
+                                        {
+                                            <td>@db.ZonaEvento.Find(pe.codZonaEvento).nombre</td>
+                                        }
+                                        else
+                                        {
+                                            <td>-</td>
+                                        }
+                                        @if (af != null)
+                                        {
+                                            <td>@af.codAsiento</td>
+                                            <td>@*@db.Asientos.Find(af.codAsiento).fila*@</td>
+                                        }
+                                        else
+                                        {
+                                            <td>-</td>
+                                        }
+                                        <td>@row.total</td>
+                                        <td><a href="@Url.Action("DeleteReserva", "CuentaUsuario", new { codE = row.codVen, codF = row.codFuncion })" class="btn btn-primary">Borrar <span class="glyphicon glyphicon-remove"></span></a></td>
+                                    </tr>
+                                }
                             }
                         }
                     </tbody>
