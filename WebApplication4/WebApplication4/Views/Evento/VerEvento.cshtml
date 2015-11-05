@@ -110,110 +110,114 @@
                             }
                             else
                             {
-                                <div class="row form-group">
-                                    <label for="funcion" class="control-label col-md-4">Función:</label>
-                                    @{
+
                                 if (ViewBag.MensajeErrorFunciones != null)
                                 {
-                                    <input type="text" class="form-control" value="@ViewBag.MensajeErrorFunciones" disabled>
+                                    <div class="row form-group">
+                                        <label for="funcion" class="control-label col-md-4">Función:</label>
+                                        <input type="text" class="form-control" value="@ViewBag.MensajeErrorFunciones" disabled>
+                                    </div>
                                 }
                                 else
                                 {
-                                    <div id="funcion" class="col-md-8">
-                                        <select class="form-control">
-                                            <option>Seleccione</option>
-                                            <option>12/10/15</option>
-                                            <option>15/10/15</option>
-                                        </select>
+
+                                    <!--div class="row form-group">
+                                        <label for="funcion" class="control-label col-md-4">Función:</label>
+                                        <div id="funcion" class="col-md-8">
+                                            <select class="form-control">
+                                                <option>Seleccione</option>
+                                                <option>12/10/15</option>
+                                                <option>15/10/15</option>
+                                            </select>
+                                        </div>
+                                    </div-->
+
+
+
+                                    <div class="row form-group">
+                                        <label for="hora" class="control-label col-md-4">Funciones:</label>
+                                        <div id="funcion" class="col-md-8">
+                                            <select id="funcionHora" class="form-control">
+                                                @for (int i = 0; i < ViewBag.ListFunciones.Count; i++)
+                                                {
+                                                    <option value="@ViewBag.ListFunciones[i].codFuncion"> @(  ((DateTime)ViewBag.ListFunciones[i].horaIni))</option>
+                                                }
+                                            </select>
+                                            @Html.ValidationMessageFor(model => model.idFuncion)
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <label for="zonaTarifa" class="control-label col-md-4">Zona/Tarifa:</label>
+                                        <div id="funcion" class="col-md-8">
+
+                                            <select id="zonaTarifa" class="form-control">
+                                                @for (int i = 0; i < ViewBag.ListZonasNombre.Count; i++)
+                                                {
+                                                    <option value="@ViewBag.ListZonasId[i]"> @ViewBag.ListZonasNombre[i]</option>
+                                                }
+                                            </select>
+                                            @Html.ValidationMessageFor(model => model.idZona)
+
+                                        </div>
+                                    </div>
+                                    <div class="row form-group">
+                                        <label for="zonaTarifa" class="control-label col-md-4">Cantidad entradas:</label>
+                                        <div class="col-md-4">
+                                            <input id="numEntradas" class="form-control" type="number" value="0">
+                                        </div>
+                                        @Html.ValidationMessageFor(model => model.cantEntradas)
+                                    </div>
+                                    <div class="row form-group">
+
+                                        @using (Html.BeginForm("Entradas", "Evento", FormMethod.Post))
+                                        {
+
+                                            @Html.TextBoxFor(Model => Model.idZona, new { style = "display:none" }) 
+                                            @Html.TextBoxFor(Model => Model.idFuncion, new { style = "display:none" })
+                                            @Html.TextBoxFor(model => model.idEvento, new { style = "display:none" })
+                                            @Html.CheckBoxFor(model => model.tieneAsientos, new { style = "display:none" })
+                                            @Html.TextBoxFor(model => model.cantEntradas, new { style = "display:none" })
+                                            
+                                            <div class="col-md-6">
+                                                <button type="submit" name="boton" value="carrito" class="btn btn-success pull-right ">Agregar al carrito <span class="glyphicon glyphicon-shopping-cart"></span></button>
+                                            </div>
+                                            <div class="col-md-6">
+                                                @if ( Request.IsAuthenticated ){
+                                                    <button type="submit" name="boton" value="reservar" class="btn btn-primary pull-right">Reservar <span class="glyphicon glyphicon-save"></span></button>
+                                                }
+                                            </div>
+                                        }
                                     </div>
                                 }
-                                    }
 
 
-
-                                </div>
-                                <div class="row form-group">
-                                    <label for="hora" class="control-label col-md-4">Hora:</label>
-                                    <div id="funcion" class="col-md-8">
-                                        <select id="funcionHora" class="form-control">
-                                            @for (int i = 0; i < ViewBag.ListFunciones.Count; i++)
-                                            {
-                                                <option value="@ViewBag.ListFunciones[i].codFuncion"> @(  ((DateTime)ViewBag.ListFunciones[i].horaIni) )</option>
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row form-group">
-                                    <label for="zonaTarifa" class="control-label col-md-4">Zona/Tarifa:</label>
-                                    <div id="funcion" class="col-md-8">
-
-                                        <select id="zonaTarifa" class="form-control">
-                                            @for (int i = 0; i < ViewBag.ListZonasNombre.Count; i++)
-                                            {
-                                                <option value="@ViewBag.ListZonasId[i]"> @ViewBag.ListZonasNombre[i]</option>
-                                            }
-                                        </select>
-
-
-                                    </div>
-                                </div>
-                                <div class="row form-group">
-                                    <label for="zonaTarifa" class="control-label col-md-4">Cantidad entradas:</label>
-                                    <div class="col-md-4">
-                                        <input id="numEntradas" class="form-control" type="number" value="0">
-                                    </div>
-                                </div>
-                                <div class="row form-group">
-
-
-
-
-
-                                    @using (Html.BeginForm("ReservarEntradas", "Evento", FormMethod.Post))
-                                    {
-
-
-                                        @Html.TextBoxFor(model => model.idEvento, new { style = "display:none" })
-
-
-
-
-                                        <div class="col-md-6">
-                                            <a href="mi_carrito_compras.html" class="btn btn-success pull-right ">Agregar al carrito <span class="glyphicon glyphicon-shopping-cart"></span></a>
-                                        </div>
-                                        <a onclick="reservaExitosa()" href="buscar_reserva(cliente).html" class="btn btn-primary pull-right ">Reservar <span class="glyphicon glyphicon-save"></span></a>
-
-
-                                    }
-                                </div>
                             }
                         }
 
-                    </div>
-
                 </div>
-            </div>
-        </div>
-        <div id="comentarios" class="row">
-            <div class="thumbnail">
-                <div class="caption" style="text-align:justify">
-                    <div class="container-fluid">
-                        <h4><u>Comentarios</u></h4>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-10 col-md-offset-1">
-                            <textarea class="form-control " rows="1" id="comentario" placeholder="Escribe un comentario de este evento"></textarea>
-                        </div>
-                    </div>
 
-
-                </div>
             </div>
         </div>
     </div>
+    <div id="comentarios" class="row">
+        <div class="thumbnail">
+            <div class="caption" style="text-align:justify">
+                <div class="container-fluid">
+                    <h4><u>Comentarios</u></h4>
+                </div>
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1">
+                        <textarea class="form-control " rows="1" id="comentario" placeholder="Escribe un comentario de este evento"></textarea>
+                    </div>
+                </div>
 
-    <!--LOS EVENTOS DESTACADOS-->
 
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--LOS EVENTOS DESTACADOS-->
 </div>
 
 @section scripts{
@@ -332,10 +336,13 @@
 
 
 
-        $("#zonaTarifa,#funcionHora").change(function () {
+        function cambioAsientos() {
             //cambia el aforo cuando se cambia la zona
             var indiceZT = parseInt($("#zonaTarifa").val());
             var indiceFH = parseInt($("#funcionHora").val());
+
+            $("#idFuncion").val(indiceFH);
+            $("#idZona").val(indiceZT);
 
             //Aca iria el seteo de las filas y columnas
             var index = -1;
@@ -355,16 +362,22 @@
                 $("#numEntradas").prop('disabled', true);
             }
             else {
-               
-                if (index >= 0)         $("#numEntradas").prop('disabled', false);
+
+                if (index >= 0) $("#numEntradas").prop('disabled', false);
                 else $("#numEntradas").prop('disabled', true);
                 $("#numEntradas").val(0);
-                
+
                 $("#canvas").empty();
                 //$("#filas").val("");
                 //$("#columnas").val("");
             }
-        });
+        }
+
+
+
+
+        cambioAsientos();
+        $("#zonaTarifa,#funcionHora").change(cambioAsientos);
 
 
 

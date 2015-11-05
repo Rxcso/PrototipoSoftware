@@ -7,6 +7,7 @@ using WebApplication4.Models;
 using PagedList;
 using System.Data.Entity;
 using System.Web.Script.Serialization;
+
 namespace WebApplication4.Controllers
 {
 
@@ -686,12 +687,11 @@ namespace WebApplication4.Controllers
                 ExtrasModel model = new ExtrasModel();
                 Eventos evento = db.Eventos.Find(idEvento);
 
+                model.esDestacado = (evento.ImagenDestacado != null) ? true : false;
 
-                model.tieneIEvento = evento.ImagenEvento!=null?true:false;
-                model.tieneIDestacado = evento.ImagenDestacado != null ? true : false;
-                model.tieneISitios = evento.ImagenSitios != null ? true : false;
-
-                model.esDestacado = evento.ImagenDestacado != null ? true : false;
+                model.IDestacado = evento.ImagenDestacado;
+                model.IEvento = evento.ImagenEvento;
+                model.ISitios = evento.ImagenSitios;
 
                 model.Ganancia = (double)(evento.porccomision == null ? 0 : evento.porccomision);
                 model.MaxReservas = (int)(evento.maxReservas == null ? 0 : evento.maxReservas);
@@ -700,7 +700,7 @@ namespace WebApplication4.Controllers
                 model.PenPostergacion = (double)(evento.penalidadXpostergacion == null ? 0 : evento.penalidadXpostergacion);
                 model.PermitirBoletoElectronico = (bool)evento.tieneBoletoElectronico;
                 model.PermitirReservasWeb = (bool)evento.permiteReserva;
-                model.PuntosToCliente = (int)(evento.puntosAlCliente == null ? 0 : evento.puntosAlCliente);
+                model.PuntosToCliente = evento.puntosAlCliente ;
                 return View(model);
             }
             if (Session["IdEventoCreado"] != null)
@@ -710,11 +710,19 @@ namespace WebApplication4.Controllers
             return RedirectToAction("Index");
         }
 
-        void guardarImagen(string path, HttpPostedFileBase file)
+        Boolean guardarImagen(string path, HttpPostedFileBase file)
         {
-            if (file == null || file.ContentLength == 0) return;
+            if (file == null || file.ContentLength == 0) return false;
             var termina = file.FileName.Split('.')[1];
+
+            path = Server.MapPath("/Images") +"/"+path;
+            if ((System.IO.File.Exists(path)))
+            {
+                System.IO.File.Delete(path);
+            }
             file.SaveAs(path);
+
+            return true;
         }
 
 
@@ -731,12 +739,12 @@ namespace WebApplication4.Controllers
 
             if (evento.ImagenEvento == null && (model.ImageEvento== null || model.ImageEvento.ContentLength == 0))
             {
-                ModelState.AddModelError("ImageDestacado", "Falta Seleccionar Imagen para Evento");
+                ModelState.AddModelError("ImageEvento", "Falta Seleccionar Imagen para Evento");
             }
 
             if (evento.ImagenSitios == null && (model.ImageSitios == null || model.ImageSitios.ContentLength == 0))
             {
-                ModelState.AddModelError("ImageDestacado", "Falta Seleccionar Imagen para los Sitios");
+                ModelState.AddModelError("ImageSitios", "Falta Seleccionar Imagen para los Sitios");
             }
 
             if (evento.ImagenDestacado == null && model.esDestacado && (model.ImageDestacado == null || model.ImageDestacado.ContentLength == 0))
@@ -750,17 +758,13 @@ namespace WebApplication4.Controllers
 
                 evento.porccomision = model.Ganancia;
 
-                evento.ImagenDestacado = "/Images/destacado" + idEvento + ".jpg";
-                evento.ImagenEvento = "/Images/evento" + idEvento + ".jpg";
-                evento.ImagenSitios = "/Images/sitios" + idEvento + ".jpg";
-
-                guardarImagen(evento.ImagenDestacado, model.ImageDestacado);
-                
-                if (model.esDestacado) guardarImagen(evento.ImagenEvento, model.ImageEvento);
+                if (model.esDestacado) if (guardarImagen("destacado" + evento.codigo + ".jpg", model.ImageDestacado)) evento.ImagenDestacado = "/Images/"+"destacado" + evento.codigo + ".jpg";
                 else evento.ImagenDestacado = null;
 
-                guardarImagen(evento.ImagenSitios, model.ImageSitios);
+                if (guardarImagen("evento" + evento.codigo + ".jpg", model.ImageEvento)) evento.ImagenEvento = "/Images/" +"evento" + evento.codigo + ".jpg" ;
+                if (guardarImagen("sitios" + evento.codigo + ".jpg", model.ImageSitios)) evento.ImagenSitios = "/Images/" + "sitios" + evento.codigo + ".jpg";
 
+                
                 evento.maxReservas = model.MaxReservas;
                 evento.montoFijoVentaEntrada = model.MontFijoVentEnt;
                 evento.penalidadXcancelacion = model.PenCancelacion;
@@ -780,7 +784,6 @@ namespace WebApplication4.Controllers
                 Session["IdEventoCreado"] = null;
                 return RedirectToAction("Index");
             }
-
 
             return View(model);
         }
@@ -1085,14 +1088,30 @@ namespace WebApplication4.Controllers
 
 
         [HttpPost]
-        public ActionResult ReservarEntradas(PaqueteEntradas paquete)
+        public ActionResult Entradas(PaqueteEntradas paquete, string boton)
         {
 
-            //logica reservar !!!!!!!!!!
+            //VALIDAR
+            if (ModelState.IsValid) { 
+
+                if (boton.CompareTo("reservar")==0)
+                {
 
 
+                    //logica de reserva
 
-            return View("VerEvento", paquete.idEvento);
+                }
+                else if(boton.CompareTo("carrito")==0)
+                {
+
+
+                    //logica de carrito
+
+
+                }
+            }
+
+            return Redirect("~/Evento/VerEvento/"+paquete.idEvento);
         }
 
 
@@ -1310,16 +1329,17 @@ namespace WebApplication4.Controllers
             funcionAPostergar.horaIni = evento.proximaHora;
             funcionAPostergar.estado = "POSTERGADO";
 
-            db.SaveChanges();
-
-
             int id = evento.idEvento;
             Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();
+
+            db.Entry(queryEvento).State = EntityState.Modified;
+            queryEvento.hanPostergado = true;
+            db.SaveChanges();
+            
             ViewBag.nombreEvento = queryEvento.nombre;
             int idOrganizador = (int)queryEvento.idOrganizador;
             ViewBag.idEvento = "" + id;
             ViewBag.organizadorEvento = db.Organizador.Where(c => c.codOrg == idOrganizador).First().nombOrg;
-
             ViewBag.listaFunciones = db.Funcion.Where(c => c.codEvento == id && c.estado != "CANCELADO").ToList();
 
             return View();
@@ -1362,27 +1382,6 @@ namespace WebApplication4.Controllers
             return View("Cancelar", cancelarEvento);
         }
 
-        /*
-        [HttpPost]
-        public ActionResult CancelarEvento(CancelarModel evento)
-        {
-
-            List<int> listaF = evento.listIdFuncion;
-            for (int i = 0; i < listaF.Count; i++)
-                if (evento.seCancela[i])
-                {
-                    Funcion funcion = db.Funcion.Where(x => (x.codFuncion == listaF[i])).First();
-                    db.Entry(funcion).State = EntityState.Modified;
-
-                    funcion.FechaDevolucion = evento.fechaRecojo;
-                    funcion.estado = "ELIMINADO";
-                    funcion.cantDiasDevolucion = evento.diasRecojo;
-
-                    db.SaveChanges();
-                }
-
-            return View("CancelarEvento", new { evento = "" + evento.idEvento });
-        }*/
 
 
         [HttpPost]
@@ -1404,6 +1403,10 @@ namespace WebApplication4.Controllers
 
             if (ModelState.IsValid)
             {
+                Eventos eventoACancelar = db.Eventos.Find(evento.idEvento);
+                db.Entry(eventoACancelar).State = EntityState.Modified;
+                eventoACancelar.hanCancelado = true;
+                db.SaveChanges();
 
                 for (int i = 0; i < evento.seCancela.Count(); i++) if (evento.seCancela[i])
                     {
@@ -1412,7 +1415,9 @@ namespace WebApplication4.Controllers
 
                         db.Entry(f).State = EntityState.Modified;
                         f.estado = "CANCELADO";
-
+                        f.motivoCambio = evento.motivo;
+                        f.FechaDevolucion = evento.fechaRecojo;
+                        f.cantDiasDevolucion = evento.diasRecojo;
                         db.SaveChanges();
                     }
 

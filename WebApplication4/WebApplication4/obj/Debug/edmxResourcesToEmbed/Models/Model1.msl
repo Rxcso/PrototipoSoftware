@@ -410,41 +410,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Eventos">
-      <EntityTypeMapping TypeName="inf245netsoftModel.Eventos">
-        <MappingFragment StoreEntitySet="Eventos">
-          <ScalarProperty Name="idLocal" ColumnName="idLocal" />
-          <ScalarProperty Name="puntosAlCliente" ColumnName="puntosAlCliente" />
-          <ScalarProperty Name="permiteReserva" ColumnName="permiteReserva" />
-          <ScalarProperty Name="tieneBoletoElectronico" ColumnName="tieneBoletoElectronico" />
-          <ScalarProperty Name="montoFijoVentaEntrada" ColumnName="montoFijoVentaEntrada" />
-          <ScalarProperty Name="maxReservas" ColumnName="maxReservas" />
-          <ScalarProperty Name="ImagenSitios" ColumnName="ImagenSitios" />
-          <ScalarProperty Name="ImagenDestacado" ColumnName="ImagenDestacado" />
-          <ScalarProperty Name="ImagenEvento" ColumnName="ImagenEvento" />
-          <ScalarProperty Name="fechaUltModificacion" ColumnName="fechaUltModificacion" />
-          <ScalarProperty Name="fechaRegistro" ColumnName="fechaRegistro" />
-          <ScalarProperty Name="idOrganizador" ColumnName="idOrganizador" />
-          <ScalarProperty Name="idPromotor" ColumnName="idPromotor" />
-          <ScalarProperty Name="idProvincia" ColumnName="idProvincia" />
-          <ScalarProperty Name="idRegion" ColumnName="idRegion" />
-          <ScalarProperty Name="idSubcategoria" ColumnName="idSubcategoria" />
-          <ScalarProperty Name="idCategoria" ColumnName="idCategoria" />
-          <ScalarProperty Name="porccomision" ColumnName="porccomision" />
-          <ScalarProperty Name="penalidadXpostergacion" ColumnName="penalidadXpostergacion" />
-          <ScalarProperty Name="penalidadXcancelacion" ColumnName="penalidadXcancelacion" />
-          <ScalarProperty Name="direccion" ColumnName="direccion" />
-          <ScalarProperty Name="monto_adeudado" ColumnName="monto_adeudado" />
-          <ScalarProperty Name="monto_transferir" ColumnName="monto_transferir" />
-          <ScalarProperty Name="estado" ColumnName="estado" />
-          <ScalarProperty Name="fecha_fin" ColumnName="fecha_fin" />
-          <ScalarProperty Name="fecha_inicio" ColumnName="fecha_inicio" />
-          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-          <ScalarProperty Name="nombre" ColumnName="nombre" />
-          <ScalarProperty Name="codigo" ColumnName="codigo" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Funcion">
       <EntityTypeMapping TypeName="inf245netsoftModel.Funcion">
         <MappingFragment StoreEntitySet="Funcion">
@@ -479,6 +444,43 @@
           <ScalarProperty Name="nombre" ColumnName="nombre" />
           <ScalarProperty Name="codEvento" ColumnName="codEvento" />
           <ScalarProperty Name="codZona" ColumnName="codZona" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Eventos">
+      <EntityTypeMapping TypeName="inf245netsoftModel.Eventos">
+        <MappingFragment StoreEntitySet="Eventos">
+          <ScalarProperty Name="hanPostergado" ColumnName="hanPostergado" />
+          <ScalarProperty Name="hanCancelado" ColumnName="hanCancelado" />
+          <ScalarProperty Name="idLocal" ColumnName="idLocal" />
+          <ScalarProperty Name="puntosAlCliente" ColumnName="puntosAlCliente" />
+          <ScalarProperty Name="permiteReserva" ColumnName="permiteReserva" />
+          <ScalarProperty Name="tieneBoletoElectronico" ColumnName="tieneBoletoElectronico" />
+          <ScalarProperty Name="montoFijoVentaEntrada" ColumnName="montoFijoVentaEntrada" />
+          <ScalarProperty Name="maxReservas" ColumnName="maxReservas" />
+          <ScalarProperty Name="ImagenSitios" ColumnName="ImagenSitios" />
+          <ScalarProperty Name="ImagenDestacado" ColumnName="ImagenDestacado" />
+          <ScalarProperty Name="ImagenEvento" ColumnName="ImagenEvento" />
+          <ScalarProperty Name="fechaUltModificacion" ColumnName="fechaUltModificacion" />
+          <ScalarProperty Name="fechaRegistro" ColumnName="fechaRegistro" />
+          <ScalarProperty Name="idOrganizador" ColumnName="idOrganizador" />
+          <ScalarProperty Name="idPromotor" ColumnName="idPromotor" />
+          <ScalarProperty Name="idProvincia" ColumnName="idProvincia" />
+          <ScalarProperty Name="idRegion" ColumnName="idRegion" />
+          <ScalarProperty Name="idSubcategoria" ColumnName="idSubcategoria" />
+          <ScalarProperty Name="idCategoria" ColumnName="idCategoria" />
+          <ScalarProperty Name="porccomision" ColumnName="porccomision" />
+          <ScalarProperty Name="penalidadXpostergacion" ColumnName="penalidadXpostergacion" />
+          <ScalarProperty Name="penalidadXcancelacion" ColumnName="penalidadXcancelacion" />
+          <ScalarProperty Name="direccion" ColumnName="direccion" />
+          <ScalarProperty Name="monto_adeudado" ColumnName="monto_adeudado" />
+          <ScalarProperty Name="monto_transferir" ColumnName="monto_transferir" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="fecha_fin" ColumnName="fecha_fin" />
+          <ScalarProperty Name="fecha_inicio" ColumnName="fecha_inicio" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="codigo" ColumnName="codigo" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
