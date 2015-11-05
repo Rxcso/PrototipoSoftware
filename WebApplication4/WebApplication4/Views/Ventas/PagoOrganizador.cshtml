@@ -67,7 +67,7 @@
                 </div>
                 @if (idor != 0)
                 {
-                    listaEv = db.Eventos.AsNoTracking().Where(c => c.idOrganizador == idor).ToList();
+                    listaEv = db.Eventos.AsNoTracking().Where(c => c.idOrganizador == idor && (c.hanCancelado == true || c.hanPostergado == true)).ToList();
 
                     if (Session["EventoSeleccionadoPago2"] != null)
                     {
@@ -123,6 +123,7 @@
             <thead>
                 <tr class="thead">
                     <th>Id</th>
+                    <th>Id del Evento</th>
                     <th>Fecha</th>
                     <th>Organizador</th>
                     <th>Monto</th>
@@ -133,6 +134,7 @@
                 {
                     <tr id=@row.codPago onclick="myFunction(this)">
                         <td>@row.codPago</td>
+                        <td>@row.codEvento</td>
                         <td>@row.fecha</td>
                         <td>@db.Organizador.Find(row.codOrg).nombOrg</td>
                         <td>@row.monto</td>
@@ -215,20 +217,20 @@ else
             $.ajax({
                 url: "@Url.Action("LlenaOrg2","Ventas")",
                 data: { id: id },
-            success: function (data) {
-                //alert("Eliminado");
-                $('#modalBuscarOrganizador').modal('hide');
-                window.location.href = '/Ventas/PagoOrganizador';
-            },
-            error: function () {
-                //alert("Error :(");
-                window.location.href = '/Ventas/PagoOrganizador';
-            }
-        });
-    } else {
+                success: function (data) {
+                    //alert("Eliminado");
+                    $('#modalBuscarOrganizador').modal('hide');
+                    window.location.href = '/Ventas/PagoOrganizador';
+                },
+                error: function () {
+                    //alert("Error :(");
+                    window.location.href = '/Ventas/PagoOrganizador';
+                }
+            });
+        } else {
             alert("Seleccione un Organizador");
             evento = "";
-    }
+        }
     }
     function cambio() {
         var evId = parseInt($("#comboBusq").val());
@@ -238,16 +240,16 @@ else
         $.ajax({
             url: "@Url.Action("PagoPendiente2", "CuentaUsuario")",
             data: { evId: evId },
-        success: function (data) {
-            window.location.href = '/Ventas/PagoOrganizador';
-            //alert("Eliminado");
-            //row.remove();
-        },
-        error: function () {
-            window.location.href = '/Ventas/PagoOrganizador';
-            alert("Error :(");
-        }
-    });
+            success: function (data) {
+                window.location.href = '/Ventas/PagoOrganizador';
+                //alert("Eliminado");
+                //row.remove();
+            },
+            error: function () {
+                window.location.href = '/Ventas/PagoOrganizador';
+                alert("Error :(");
+            }
+        });
     }
     function registrar() {
         var monto = $('#monto2').val();
@@ -258,11 +260,11 @@ else
         //alert(ev);
         //alert(Org);
         //alert(pend);
-        if (monto != "" && monto != null && pend != "" && pend != null && Org != "" && Org != null && ev!=null && ev !="") {
+        if (monto != "" && monto != null && pend != "" && pend != null && Org != "" && Org != null && ev != null && ev != "") {
             //alert(monto);
             $.ajax({
                 url: "@Url.Action("RegistrarPagos2","Ventas")",
-                data: { monto: monto,pend:pend },
+                data: { monto: monto, pend: pend },
                 success: function (data) {
                     alert(data);
                     window.location.href = '/Ventas/PagoOrganizador';
@@ -277,4 +279,3 @@ else
         }
     }
 </script>
-
