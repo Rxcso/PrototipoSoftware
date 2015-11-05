@@ -139,6 +139,7 @@ namespace WebApplication4.Controllers
             Session["orgPago2"] = org;
             List<Pago> listP = db.Pago.Where(c => c.codOrg == idO && c.monto<0).ToList();
             Session["Pagos2"] = listP;
+            Session["Pendiente2"] = null;
             return RedirectToAction("PagoOrganizador", "Ventas");
         }
 
