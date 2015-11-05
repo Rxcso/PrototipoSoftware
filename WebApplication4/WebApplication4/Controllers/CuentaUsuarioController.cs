@@ -685,7 +685,7 @@ namespace WebApplication4.Controllers
             if (re.puntos < cuenta2.puntos)
             {
                 db.Entry(cuenta2).State = EntityState.Modified;
-                cuenta2.puntos = cuenta2.puntos - re.puntos;
+                cuenta2.puntos = (int)cuenta2.puntos - (int)re.puntos;
                 db.SaveChanges();
                 return RedirectToAction("BuscaCliente", "CuentaUsuario");
             }
@@ -701,7 +701,7 @@ namespace WebApplication4.Controllers
             if (re.puntos <= cuenta.puntos)
             {
                 db.Entry(cuenta).State = EntityState.Modified;
-                cuenta.puntos = cuenta.puntos - re.puntos;
+                cuenta.puntos = (int)cuenta.puntos - (int)re.puntos;
                 //db.SaveChanges();
                 RegaloXCuenta rc = new RegaloXCuenta();
                 rc.CuentaUsuario = cuenta;
