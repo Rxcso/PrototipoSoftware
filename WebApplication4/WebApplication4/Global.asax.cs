@@ -29,7 +29,10 @@ namespace WebApplication4
         {
             Exception ex = Server.GetLastError();
             log.Debug("++++++++++++++++++++++++++++");
-            log.Error("Exception - \n" + ex);
+            //log.Error("Exception - \n" + ex);
+            log.Error("Exception Data - \n" + ex.GetType().Name);
+            log.Error("Exception Data - \n" + ex.Data);
+            log.Error("Exception Message - \n" + ex.Message);
             log.Debug("++++++++++++++++++++++++++++");
         }
 
