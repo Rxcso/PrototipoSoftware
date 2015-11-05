@@ -238,6 +238,9 @@
 
         </text>
         }
+
+        var asientosElegidos = new Object();;
+
         var y = x.replace(/&quot;/g, "\"");
         var listaAsientos = JSON.parse(y);
 
@@ -312,7 +315,7 @@
             var flagOcupado = false;
             for (var i = 1 ; i <= cantFilas ; i++)
                 for (var j = 1 ; j <= cantColumnas ; j++) {
-                    $('<div class="ficha"></div>').appendTo('.filas:nth-child(' + i + ') .celdas:nth-child(' + j + ')');
+                    $('<div id="'+(i*10005+j)+'" class="ficha"></div>').appendTo('.filas:nth-child(' + i + ') .celdas:nth-child(' + j + ')');
                     if (i != Math.abs(arrFilas[recorrido]) || j != arrColumnas[recorrido]) {
                         $('.filas:nth-child(' + i + ') .celdas:nth-child(' + j + ') div').addClass("eliminado");
                     }
@@ -340,20 +343,27 @@
         $('body').on('click', '.ficha', function () {
 
             if (!$(this).hasClass("ocupado")) {   //solo si no esta ocupado se podra elegir o deselegir un asiento
-                if ($(this).hasClass("elegido")) {
+                if ($(this).hasClass("elegido")) {//lo sacamos
                     $(this).removeClass("elegido");
                     $("#numEntradas").val(parseInt($("#numEntradas").val()) - 1);
 
+                    var ubi = parseInt($(this).attr('id'));
+                    var f= (ubi/10005)>>0;
+                    var c = ubi % 10005;
 
-                    
+                    delete asientosElegidos[{ F:f ,C:c }] ;
+
                 }
-                else {
+                else {//lo ponemos
                     $(this).addClass("elegido");
                     $("#numEntradas").val(parseInt($("#numEntradas").val()) + 1)
 
 
+                    var ubi = parseInt($(this).attr('id'));
+                    var f = (ubi / 10005) >> 0;
+                    var c = ubi % 10005;
 
-
+                    asientosElegidos[{ F: f, C: c }]=1;
                 }
             }
         });
@@ -369,6 +379,7 @@
 
             //Aca iria el seteo de las filas y columnas
             var index = -1;
+            asientosElegidos = {}
 
             for (var i = 0; i < listaAsientos.length ; i++) {
                 if (listaAsientos[i].indexZE == indiceZT && listaAsientos[i].indexFH == indiceFH) index = i;
@@ -394,6 +405,7 @@
 
                     $('<div><h3>Quedan ' + listaAsientos[index].totalLibres + ' asientos</h3> </div>').appendTo('#canvas');
 
+                    
                 }
                 else $("#numEntradas").prop('disabled', true);
                 $("#numEntradas").val(0);
@@ -409,11 +421,16 @@
         $("#zonaTarifa,#funcionHora").change(cambioAsientos);
 
 
+        $("#submitEntradas").submit(function () {
 
-        $("#submitEntradas").submit( function(){
+            //validar!!!
 
-
-
+            var i=0;
+            for (var k in asientosElegidos) {
+                $('<input type="number" id="filas[' + i + ']"  name="filas[' + i + ']" value="' + k.F + '"></div>').appendTo('#asientosElegidos');
+                $('<input type="number" id="columnas[' + i + ']"  name="columnas[' + i + ']" value="' + k.C + '"></div>').appendTo('#asientosElegidos');
+                i++;
+            }
 
         });
 

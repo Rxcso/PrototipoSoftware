@@ -1206,8 +1206,11 @@ namespace WebApplication4.Controllers
 
                 }
             }
-
-            TempData["ErrorSeleccionandoAsientos"] = "¡Elija asientos!";
+            else
+            {
+                TempData["tipo"] = "alert alert-warning";
+                TempData["message"] = "Elija asientos!!!";
+            }
             return Redirect("~/Evento/VerEvento/" + paquete.idEvento);
         }
 
