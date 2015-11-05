@@ -17,8 +17,8 @@ namespace WebApplication4.Models
         public Eventos()
         {
             this.Comentarios = new HashSet<Comentarios>();
-            this.Pago = new HashSet<Pago>();
             this.PeriodoVenta = new HashSet<PeriodoVenta>();
+            this.Pago = new HashSet<Pago>();
             this.ZonaEvento = new HashSet<ZonaEvento>();
             this.Funcion = new HashSet<Funcion>();
         }
@@ -29,8 +29,8 @@ namespace WebApplication4.Models
         public Nullable<System.DateTime> fecha_inicio { get; set; }
         public Nullable<System.DateTime> fecha_fin { get; set; }
         public string estado { get; set; }
-        public Nullable<double> monto_transferir { get; set; }
-        public Nullable<double> monto_adeudado { get; set; }
+        public double monto_transferir { get; set; }
+        public double monto_adeudado { get; set; }
         public string direccion { get; set; }
         public Nullable<double> penalidadXcancelacion { get; set; }
         public Nullable<double> penalidadXpostergacion { get; set; }
@@ -48,16 +48,18 @@ namespace WebApplication4.Models
         public string ImagenSitios { get; set; }
         public Nullable<int> maxReservas { get; set; }
         public Nullable<double> montoFijoVentaEntrada { get; set; }
-        public Nullable<bool> tieneBoletoElectronico { get; set; }
-        public Nullable<bool> permiteReserva { get; set; }
-        public Nullable<int> puntosAlCliente { get; set; }
+        public bool tieneBoletoElectronico { get; set; }
+        public bool permiteReserva { get; set; }
+        public int puntosAlCliente { get; set; }
         public Nullable<int> idLocal { get; set; }
+        public bool hanCancelado { get; set; }
+        public bool hanPostergado { get; set; }
     
         public virtual ICollection<Comentarios> Comentarios { get; set; }
         public virtual Organizador Organizador { get; set; }
+        public virtual ICollection<PeriodoVenta> PeriodoVenta { get; set; }
         public virtual Region Region { get; set; }
         public virtual ICollection<Pago> Pago { get; set; }
-        public virtual ICollection<PeriodoVenta> PeriodoVenta { get; set; }
         public virtual ICollection<ZonaEvento> ZonaEvento { get; set; }
         public virtual ICollection<Funcion> Funcion { get; set; }
     }

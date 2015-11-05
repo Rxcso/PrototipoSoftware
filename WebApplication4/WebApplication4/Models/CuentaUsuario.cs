@@ -28,7 +28,7 @@ namespace WebApplication4.Models
         public string tipoUsuario { get; set; }
         public string correo { get; set; }
         public string contrasena { get; set; }
-        public Nullable<bool> estado { get; set; }
+        public bool estado { get; set; }
         public Nullable<int> tipoDoc { get; set; }
         public string codDoc { get; set; }
         public string nombre { get; set; }
@@ -38,7 +38,7 @@ namespace WebApplication4.Models
         public string telMovil { get; set; }
         public string sexo { get; set; }
         public Nullable<System.DateTime> fechaNac { get; set; }
-        public Nullable<int> puntos { get; set; }
+        public int puntos { get; set; }
         public int codPerfil { get; set; }
     
         public virtual ICollection<RegaloXCuenta> RegaloXCuenta { get; set; }

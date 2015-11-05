@@ -59,10 +59,10 @@ namespace WebApplication4.Models
         [Display(Name = "Permitir boleto electrónico")]
         public bool PermitirBoletoElectronico { get; set; }
 
-        public bool tieneIEvento { get; set; }
+        public string IEvento { get; set; }
 
-        public bool tieneIDestacado { get; set; }
+        public string IDestacado { get; set; }
 
-        public bool tieneISitios { get; set; }
+        public string ISitios { get; set; }
     }
 }

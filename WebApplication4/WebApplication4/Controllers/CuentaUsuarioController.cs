@@ -372,10 +372,10 @@ namespace WebApplication4.Controllers
             return RedirectToAction("MisReservas", "CuentaUsuario");
         }
 
-        public JsonResult RegistraPoliticas(string dur, string mx, string mt,string ra)
+        public JsonResult RegistraPoliticas(string dur, string mx, string mt, string ra, string mE, string hr)
         {
-            int m1, m2, m3,m4;
-            string me1 = "Error", me2 = " Error",me3=" Error",me4=" Error";
+            int m1, m2, m3, m4, m5, m6;
+            string me1 = "Error", me2 = " Error", me3 = " Error", me4 = " Error", me5 = " Error", me6 = " Error";
             if (int.TryParse(dur, out m1) == true)
             {
                 int val = int.Parse(dur);
@@ -449,7 +449,50 @@ namespace WebApplication4.Controllers
                     me4 = " Error Negativo";
                 }
             }
-            string mensaje = me1 + me2 + me3 + me4;
+            if (int.TryParse(mE, out m5) == true)
+            {
+                int val5 = int.Parse(mE);
+                if (val5 > 0)
+                {
+                    int t = 7;
+                    Politicas p = db.Politicas.Find(t);
+                    db.Entry(p).State = EntityState.Modified;
+                    p.valor = val5;
+                    db.SaveChanges();
+                    db.Entry(p).State = EntityState.Detached;
+                    me5 = " Completado";
+                }
+                else
+                {
+                    me5 = " Error Negativo";
+                }
+            }
+            if (int.TryParse(hr, out m6) == true)
+            {
+                int val6 = int.Parse(hr);
+                if (val6 > 0)
+                {
+                    if (val6 <= 23)
+                    {
+                        int t = 6;
+                        Politicas p = db.Politicas.Find(t);
+                        db.Entry(p).State = EntityState.Modified;
+                        p.valor = val6;
+                        db.SaveChanges();
+                        db.Entry(p).State = EntityState.Detached;
+                        me6 = " Completado";
+                    }
+                    else
+                    {
+                        me6 = " Error limite de hora";
+                    }
+                }
+                else
+                {
+                    me6 = " Error Negativo";
+                }
+            }
+            string mensaje = me1 + me6 + me2 + me3 + me4 + me5;
             return Json(mensaje, JsonRequestBehavior.AllowGet);
         }
 
@@ -532,7 +575,9 @@ namespace WebApplication4.Controllers
             int nd = (int)ts.Days;
             nd = nd + 1;
             int idPol = 5;
+            int idPol2 = 7;
             int limite = (int)db.Politicas.Find(idPol).valor;
+            int limite2 = (int)db.Politicas.Find(idPol2).valor;
             if (dt1 <= DateTime.Now) return Json("la fecha debe ser superior de hoy", JsonRequestBehavior.AllowGet);
             if (dt1 > dt2) return Json("Fecha inicio debe ser menor que fecha fin", JsonRequestBehavior.AllowGet);
             if (nd > limite) return Json("No puedo asignar a la vez mas de "+limite+" turnos de manera seguida", JsonRequestBehavior.AllowGet);
@@ -540,18 +585,28 @@ namespace WebApplication4.Controllers
             for (int j = 0; j < nd; j++)
             {
                 List<Turno> ltur = db.Turno.Where(c => c.codPuntoVenta == idp && c.codTurnoSis == idt && di == c.fecha).ToList();
-                if (ltur.Count != 0)
+                if (ltur.Count + 1  >limite2)
                 {
                     //Session["nError"] = 1;
                     //TempData["ErrorAsignacion"] = "Cruce con el usuario " + ltur.First().usuario + " para el dia " + di;
                     //return RedirectToAction("Asignacion", "CuentaUsuario");
-                    string mensaje = "Cruce con el usuario " + ltur.First().usuario + " para el dia " + di.ToString("dd/MM/yyyy");
+                    string mensaje = "No puede haber mas de " + limite2 + " vendedores para el dia " + di.ToString("dd/MM/yyyy");
 
                     return Json(mensaje, JsonRequestBehavior.AllowGet);
                 }
                 di = di.AddDays(1);
             }
             //int cruce1 = 0;
+            List<Turno> ltur2 = db.Turno.Where(c => c.codPuntoVenta == idp && c.codTurnoSis == idt && dai == c.fecha && c.usuario==idV).ToList();
+            if (ltur2.Count > 0)
+            {
+                return Json("Este usuario ya tiene asignado un turno para esta fecha , punto de venta y hora", JsonRequestBehavior.AllowGet);
+            }
+            List<Turno> ltur3 = db.Turno.Where(c => c.codTurnoSis == idt && dai == c.fecha && c.usuario == idV).ToList();
+            if (ltur3.Count > 0)
+            {
+                return Json("Este usuario ya tiene asignado un turno para esta fecha y hora en otro punto de venta", JsonRequestBehavior.AllowGet);
+            }
             for (int j = 0; j < nd; j++)
             {
                 Turno ntur = new Turno();
@@ -674,6 +729,17 @@ namespace WebApplication4.Controllers
             Session["EventoSeleccionadoPago"] = m1;
             if (ev != null) Session["Pendiente"] = (double)ev.monto_adeudado - (double)ev.monto_transferir;
             return RedirectToAction("Pago", "Ventas");
+        }
+
+        public ActionResult PagoPendiente2(string evId)
+        {
+            int m1;
+            if (int.TryParse(evId, out m1) == false) return View();
+            m1 = int.Parse(evId);
+            Eventos ev = db.Eventos.Find(m1);
+            Session["EventoSeleccionadoPago2"] = m1;
+            if (ev != null) Session["Pendiente2"] = (double)ev.penalidadXcancelacion;
+            return RedirectToAction("PagoOrganizador", "Ventas");
         }
 
         [HttpPost]

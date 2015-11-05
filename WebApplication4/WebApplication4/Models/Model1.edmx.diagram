@@ -63,22 +63,22 @@
         <EntityTypeShape EntityType="inf245netsoftModel.Comentarios" Width="1.5" PointX="18" PointY="10.375" />
         <AssociationConnector Association="inf245netsoftModel.R_44" />
         <AssociationConnector Association="inf245netsoftModel.R_32" />
-        <EntityTypeShape EntityType="inf245netsoftModel.Eventos" Width="1.5" PointX="18.625" PointY="14.375" />
-        <AssociationConnector Association="inf245netsoftModel.R_31" />
-        <AssociationConnector Association="inf245netsoftModel.fk_EventoOrg" />
-        <AssociationConnector Association="inf245netsoftModel.fk_EventoRegion" />
-        <AssociationConnector Association="inf245netsoftModel.R_18" />
         <EntityTypeShape EntityType="inf245netsoftModel.Funcion" Width="1.5" PointX="20.875" PointY="17.125" />
         <EntityTypeShape EntityType="inf245netsoftModel.PeriodoVenta" Width="1.5" PointX="20.875" PointY="21" />
         <EntityTypeShape EntityType="inf245netsoftModel.ZonaEvento" Width="1.5" PointX="20.875" PointY="13.5" />
         <AssociationConnector Association="inf245netsoftModel.R_13" />
         <AssociationConnector Association="inf245netsoftModel.R_46" />
-        <AssociationConnector Association="inf245netsoftModel.fk_EventoPV" />
-        <AssociationConnector Association="inf245netsoftModel.R_21" />
-        <AssociationConnector Association="inf245netsoftModel.R_43" />
         <AssociationConnector Association="inf245netsoftModel.R_76" />
         <AssociationConnector Association="inf245netsoftModel.fk_PerVenta" />
         <AssociationConnector Association="inf245netsoftModel.fk_ZonaEvent" />
+        <EntityTypeShape EntityType="inf245netsoftModel.Eventos" Width="1.5" PointX="18.625" PointY="14.125" />
+        <AssociationConnector Association="inf245netsoftModel.R_31" />
+        <AssociationConnector Association="inf245netsoftModel.fk_EventoOrg" />
+        <AssociationConnector Association="inf245netsoftModel.fk_EventoPV" />
+        <AssociationConnector Association="inf245netsoftModel.fk_EventoRegion" />
+        <AssociationConnector Association="inf245netsoftModel.R_18" />
+        <AssociationConnector Association="inf245netsoftModel.R_21" />
+        <AssociationConnector Association="inf245netsoftModel.R_43" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
