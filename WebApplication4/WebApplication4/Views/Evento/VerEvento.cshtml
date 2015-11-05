@@ -304,38 +304,46 @@
 
             //LLENAR
             var recorrido = 0;
+            var flagOcupado = false;
             for (var i = 1 ; i <= cantFilas ; i++)
                 for (var j = 1 ; j <= cantColumnas ; j++) {
                     $('<div class="ficha"></div>').appendTo('.filas:nth-child(' + i + ') .celdas:nth-child(' + j + ')');
-                    if (i != arrFilas[recorrido] || j != arrColumnas[recorrido]) {
+                    if (i != Math.abs(arrFilas[recorrido]) || j != arrColumnas[recorrido]) {
                         $('.filas:nth-child(' + i + ') .celdas:nth-child(' + j + ') div').addClass("eliminado");
                     }
                     else {
-                        recorrido++;
+                        if (arrFilas[recorrido] < 0) {//se analiza el signo de la coord X para saber si esta ocupado o si esta libre
+                            $('.filas:nth-child(' + i + ') .celdas:nth-child(' + j + ') div').addClass("ocupado");
+                        }
+                        recorrido++;                        
                     }
+                    
                 }
             //
 
 
-            $('body').on('mouseover', '.celdas', function () {
-                var filaN = $(this).parent().attr('class').split('_');
-                var columnaN = $(this).attr('class').split('_');
-
-                $('#info').text('Fila: ' + filaN[1] + ' - Columna ' + columnaN[1]);
-            });
-
-
-            $('body').on('click', '.ficha', function () {
-                $(this).addClass("eliminado");
-            });
-            $('body').on('dblclick', '.ficha', function () {
-                $(this).removeClass("eliminado")
-            });
-
+           
         }
 
+        $('body').on('mouseover', '.celdas', function () {
+            var filaN = $(this).parent().attr('class').split('_');
+            var columnaN = $(this).attr('class').split('_');
 
+            $('#info').text('Fila: ' + filaN[1] + ' - Columna ' + columnaN[1]);
+        });
 
+        $('body').on('click', '.ficha', function () {
+            if (!$(this).hasClass("ocupado")) {   //solo si no esta ocupado se podra elegir o deselegir un asiento
+                if ($(this).hasClass("elegido")) {
+                    $(this).removeClass("elegido");
+                    $("#numEntradas").val(parseInt($("#numEntradas").val()) - 1);
+                }
+                else {
+                    $(this).addClass("elegido");
+                    $("#numEntradas").val(parseInt($("#numEntradas").val()) + 1)
+                }
+            }
+        });
         function cambioAsientos() {
             //cambia el aforo cuando se cambia la zona
             var indiceZT = parseInt($("#zonaTarifa").val());
