@@ -647,6 +647,7 @@ namespace WebApplication4.Controllers
                 }
             }
         }
+        
         [HttpPost]
         public ActionResult Tarifas(ZonaEventoListModel model)
         {
@@ -741,7 +742,6 @@ namespace WebApplication4.Controllers
 
             return true;
         }
-
 
         [HttpPost]
         public ActionResult ExtrasEvento(ExtrasModel model)
@@ -859,7 +859,6 @@ namespace WebApplication4.Controllers
             return View();
         }
 
-
         //Borrar Asientos
         [HttpPost]
         public ActionResult Asientos(int idZona)
@@ -882,8 +881,6 @@ namespace WebApplication4.Controllers
 
             return View();
         }
-
-
 
         [HttpPost]
         public ActionResult GenerarAsientos(ZonaModel zona)
@@ -947,7 +944,6 @@ namespace WebApplication4.Controllers
 
             return View("Asientos", new { evento = "" + queryEvento.codigo });
         }
-
 
         //TODAVIA NO FUNCIONA
         public object obtenerJSONAsientos(List<Funcion> listFunciones, List<ZonaEvento> listZE)
@@ -1108,7 +1104,6 @@ namespace WebApplication4.Controllers
 
             return View(new PaqueteEntradas((int)id));
         }
-
 
         [HttpPost]
         public ActionResult Entradas(PaqueteEntradas paquete, string boton)

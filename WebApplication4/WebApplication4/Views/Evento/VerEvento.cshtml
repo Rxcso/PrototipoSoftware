@@ -59,7 +59,7 @@
                                 }
                             </p>
                             <p><strong><u>Región:</u></strong> @ViewBag.Region</p>
-                            <p><strong><u>Ofertas:</u></strong> 20% dcto. con tarjeta VISA</p>
+                            @*<p><strong><u>Ofertas:</u></strong> 20% dcto. con tarjeta VISA</p>*@
                         </div>
                     </div>
                 </div>
@@ -172,17 +172,18 @@
                                         @using (Html.BeginForm("Entradas", "Evento", FormMethod.Post))
                                         {
 
-                                            @Html.TextBoxFor(Model => Model.idZona, new { style = "display:none" }) 
+                                            @Html.TextBoxFor(Model => Model.idZona, new { style = "display:none" })
                                             @Html.TextBoxFor(Model => Model.idFuncion, new { style = "display:none" })
                                             @Html.TextBoxFor(model => model.idEvento, new { style = "display:none" })
                                             @Html.CheckBoxFor(model => model.tieneAsientos, new { style = "display:none" })
                                             @Html.TextBoxFor(model => model.cantEntradas, new { style = "display:none" })
-                                            
+
                                             <div class="col-md-6">
                                                 <button type="submit" name="boton" value="carrito" class="btn btn-success pull-right ">Agregar al carrito <span class="glyphicon glyphicon-shopping-cart"></span></button>
                                             </div>
                                             <div class="col-md-6">
-                                                @if ( Request.IsAuthenticated ){
+                                                @if (Request.IsAuthenticated)
+                                                {
                                                     <button type="submit" name="boton" value="reservar" class="btn btn-primary pull-right">Reservar <span class="glyphicon glyphicon-save"></span></button>
                                                 }
                                             </div>
@@ -194,30 +195,30 @@
                             }
                         }
 
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <div id="comentarios" class="row">
-        <div class="thumbnail">
-            <div class="caption" style="text-align:justify">
-                <div class="container-fluid">
-                    <h4><u>Comentarios</u></h4>
-                </div>
-                <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
-                        <textarea class="form-control " rows="1" id="comentario" placeholder="Escribe un comentario de este evento"></textarea>
                     </div>
+
                 </div>
+            </div>
+        </div>
+        <div id="comentarios" class="row">
+            <div class="thumbnail">
+                <div class="caption" style="text-align:justify">
+                    <div class="container-fluid">
+                        <h4><u>Comentarios</u></h4>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-10 col-md-offset-1">
+                            <textarea class="form-control " rows="1" id="comentario" placeholder="Escribe un comentario de este evento"></textarea>
+                        </div>
+                    </div>
 
 
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!--LOS EVENTOS DESTACADOS-->
+    <!--LOS EVENTOS DESTACADOS-->
 </div>
 
 @section scripts{
@@ -315,14 +316,14 @@
                         if (arrFilas[recorrido] < 0) {//se analiza el signo de la coord X para saber si esta ocupado o si esta libre
                             $('.filas:nth-child(' + i + ') .celdas:nth-child(' + j + ') div').addClass("ocupado");
                         }
-                        recorrido++;                        
+                        recorrido++;
                     }
-                    
+
                 }
             //
 
 
-           
+
         }
 
         $('body').on('mouseover', '.celdas', function () {

@@ -13,10 +13,72 @@ using WebApplication4.Models;
 
 namespace WebApplication4.Controllers
 {
+    public class Fechas
+    {
+        public static List<SelectListItem> Mes()
+        {
+            List<SelectListItem> lista = new List<SelectListItem> {
+                new SelectListItem{Value="1",Text="Enero"},
+                new SelectListItem{Value="2",Text="Febrero"},
+                new SelectListItem{Value="3",Text="Marzo"},
+                new SelectListItem{Value="4",Text="Abril"},
+                new SelectListItem{Value="5",Text="Mayo"},
+                new SelectListItem{Value="6",Text="Junio"},
+                new SelectListItem{Value="7",Text="Julio"},
+                new SelectListItem{Value="8",Text="Agosto"},
+                new SelectListItem{Value="9",Text="Septiembre"},
+                new SelectListItem{Value="10",Text="Octubre"},
+                new SelectListItem{Value="11",Text="Noviembre"},
+                new SelectListItem{Value="12",Text="Diciembre"}
+            };
+            return lista;
+        }
+        public static List<SelectListItem> Anio()
+        {
+            List<SelectListItem> lista = new List<SelectListItem>();
+            DateTime hoy = DateTime.Today;
+            for (int i = 0; i < 30; i++)
+            {
+                lista.Add(new SelectListItem { Text=""+(hoy.Year+i),Value=""+(hoy.Year+i)});
+            }
+            return lista;
+        }
+    }
     [Authorize]
     public class CuentaUsuarioController : Controller
     {
         private inf245netsoft db = new inf245netsoft();
+
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult ComprarEntrada()
+        {
+            ComprarEntradaModel model = new ComprarEntradaModel();
+            if (!String.IsNullOrEmpty(User.Identity.Name))
+                model.Nombre = User.Identity.Name;
+            else
+                model.Nombre = "";
+            List<Banco> bancos = db.Banco.ToList();
+            ViewBag.Bancos = new SelectList(bancos, "codigo", "nombre");
+            List<TipoTarjeta> tipoTarjeta = db.TipoTarjeta.ToList();
+            ViewBag.TipoTarjeta = new SelectList(tipoTarjeta, "idTipoTar", "nombre");
+            ViewBag.Mes = Fechas.Mes();
+            ViewBag.AnVen = Fechas.Anio();
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult ComprarEntrada(ComprarEntradaModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                //Venta
+                return View();
+            }
+            return View(model);
+        }
+
 
         [HttpGet]
         public ActionResult ModificarDatos()
@@ -99,7 +161,7 @@ namespace WebApplication4.Controllers
         {
             bool cuentausuario = db.CuentaUsuario.Any(c => c.correo == correo);
             bool aspNetuser = db.AspNetUsers.Any(c => c.Email == correo);
-            return  cuentausuario && aspNetuser ;
+            return cuentausuario && aspNetuser;
         }
 
         [HttpPost]
@@ -580,12 +642,12 @@ namespace WebApplication4.Controllers
             int limite2 = (int)db.Politicas.Find(idPol2).valor;
             if (dt1 <= DateTime.Now) return Json("la fecha debe ser superior de hoy", JsonRequestBehavior.AllowGet);
             if (dt1 > dt2) return Json("Fecha inicio debe ser menor que fecha fin", JsonRequestBehavior.AllowGet);
-            if (nd > limite) return Json("No puedo asignar a la vez mas de "+limite+" turnos de manera seguida", JsonRequestBehavior.AllowGet);
+            if (nd > limite) return Json("No puedo asignar a la vez mas de " + limite + " turnos de manera seguida", JsonRequestBehavior.AllowGet);
             //int cruce = 0;            
             for (int j = 0; j < nd; j++)
             {
                 List<Turno> ltur = db.Turno.Where(c => c.codPuntoVenta == idp && c.codTurnoSis == idt && di == c.fecha).ToList();
-                if (ltur.Count + 1  >limite2)
+                if (ltur.Count + 1 > limite2)
                 {
                     //Session["nError"] = 1;
                     //TempData["ErrorAsignacion"] = "Cruce con el usuario " + ltur.First().usuario + " para el dia " + di;
@@ -597,7 +659,7 @@ namespace WebApplication4.Controllers
                 di = di.AddDays(1);
             }
             //int cruce1 = 0;
-            List<Turno> ltur2 = db.Turno.Where(c => c.codPuntoVenta == idp && c.codTurnoSis == idt && dai == c.fecha && c.usuario==idV).ToList();
+            List<Turno> ltur2 = db.Turno.Where(c => c.codPuntoVenta == idp && c.codTurnoSis == idt && dai == c.fecha && c.usuario == idV).ToList();
             if (ltur2.Count > 0)
             {
                 return Json("Este usuario ya tiene asignado un turno para esta fecha , punto de venta y hora", JsonRequestBehavior.AllowGet);
@@ -791,12 +853,14 @@ namespace WebApplication4.Controllers
 
 
         [HttpGet]
-        public ActionResult RegistrarUsuarioVendedor(){
+        public ActionResult RegistrarUsuarioVendedor()
+        {
             return View();
         }
 
         [HttpPost]
-        public ActionResult RegistrarUsuarioVendedor(RegistrarUsuarioVendedorModel model){
+        public ActionResult RegistrarUsuarioVendedor(RegistrarUsuarioVendedorModel model)
+        {
 
             CuentaUsuario cu = new CuentaUsuario();
 

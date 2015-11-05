@@ -1,0 +1,109 @@
+﻿@using WebApplication4.Models
+@model ComprarEntradaModel
+@{
+    ViewBag.Title = "ComprarEntrada";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    inf245netsoft db = new inf245netsoft();
+    string nombre = "";
+    if (!String.IsNullOrEmpty(User.Identity.Name))
+    {
+        CuentaUsuario user = db.CuentaUsuario.Where(c => c.correo == User.Identity.Name).First();
+        nombre = user.nombre + " " + user.apellido;
+    }
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8" id="tarjeta">
+            <h3>Información de la tarjeta</h3><br />
+            <div class="row form-group">
+                @Html.LabelFor(c => c.Nombre, new { @class = "control-label col-md-3" })
+                <div class="col-md-4">
+                    @{//si esque es un usuario anonimo
+                        if (!String.IsNullOrEmpty(User.Identity.Name))
+                        {
+                            @Html.TextBoxFor(c => c.Nombre, new { @class = "form-control", @readonly = "readonly", @Value = nombre })
+                            @Html.ValidationMessageFor(c => c.Nombre)
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(c => c.Nombre, new { @class = "form-control", @readonly = "readonly" })
+                        }
+                    }
+                </div>
+            </div>
+
+            <div class="row form-group">
+                @Html.LabelFor(c => c.idBanco, new { @class = "control-label col-md-3" })
+                <div class="col-md-4">
+                    @Html.DropDownListFor(c => c.idBanco, ViewBag.Bancos as SelectList, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(c => c.idBanco)
+                </div>
+            </div>
+
+            <div class="row form-group">
+                @Html.LabelFor(c => c.idTipoTarjeta, new { @class = "control-label col-md-3" })
+                <div class="col-md-4">
+                    @Html.DropDownListFor(c => c.idTipoTarjeta, ViewBag.TipoTarjeta as SelectList, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(c => c.idTipoTarjeta)
+                </div>
+            </div>
+
+            <div class="row form-group">
+                @Html.LabelFor(c => c.NumeroTarjeta, new { @class = "control-label col-md-3" })
+                <div class="col-md-4">
+                    @Html.TextBoxFor(c => c.NumeroTarjeta, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(c => c.NumeroTarjeta)
+                </div>
+
+            </div>
+
+            <div class="row form-group">
+                @Html.LabelFor(c => c.CodCcv, new { @class = "control-label col-md-3" })
+                <div class="col-md-4">
+                    @Html.TextBoxFor(c => c.CodCcv, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(c => c.CodCcv)
+                </div>
+            </div>
+
+            <div class="row form-group">
+                @Html.LabelFor(c => c.Mes, new { @class = "control-label col-md-2" })
+                <div class="col-md-2">
+                    @Html.DropDownListFor(c => c.Mes, ViewBag.Mes as List<SelectListItem>, new { @class = "form-control" })
+                </div>
+                @Html.LabelFor(c => c.AnioVen, new { @class = "control-label col-md-2" })
+                <div class="col-md-2">
+                    @Html.DropDownListFor(c => c.AnioVen, ViewBag.AnVen as List<SelectListItem>, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <h3>Información de montos</h3><br>
+            <div class="row form-group">
+                <label for="" class="control-label col-md-3">Importe: </label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" placeholder="S/. 540" disabled>
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <label for="" class="control-label col-md-3">Descuento: </label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" placeholder="S/. 60" disabled>
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <label for="" class="control-label col-md-3">Monto a Pagar: </label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" placeholder="S/. 490" disabled>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                    <a class="btn btn-primary">Finalizar compra <span class="glyphicon glyphicon-check"></span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
