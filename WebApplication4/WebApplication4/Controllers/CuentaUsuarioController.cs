@@ -712,6 +712,17 @@ namespace WebApplication4.Controllers
             return RedirectToAction("Pago", "Ventas");
         }
 
+        public ActionResult PagoPendiente2(string evId)
+        {
+            int m1;
+            if (int.TryParse(evId, out m1) == false) return View();
+            m1 = int.Parse(evId);
+            Eventos ev = db.Eventos.Find(m1);
+            Session["EventoSeleccionadoPago2"] = m1;
+            if (ev != null) Session["Pendiente2"] = (double)ev.penalidadXcancelacion;
+            return RedirectToAction("PagoOrganizador", "Ventas");
+        }
+
         [HttpPost]
         [AllowAnonymous]
         public ActionResult EntregaRegalo(RegaloListModel regalo)

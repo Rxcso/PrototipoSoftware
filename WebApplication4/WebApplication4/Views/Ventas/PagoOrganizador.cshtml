@@ -1,0 +1,280 @@
+﻿@using Microsoft.AspNet.Identity
+@using WebApplication4.Models
+
+@{
+    ViewBag.Title = "PagoOrganizador";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var db = new WebApplication4.Models.inf245netsoft();
+    int idor = 0;
+    int idEp = 0;
+    int ce = 0;
+    string nombO = "";
+    List<Eventos> listaEv = new List<Eventos>();
+    if (Session["orgPago2"] != null)
+    {
+        Organizador org = (Organizador)Session["orgPago2"];
+        idor = org.codOrg;
+        nombO = org.nombOrg;
+    }
+    List<Pago> liP = new List<Pago>();
+    if (Session["Pagos2"] != null)
+    {
+        liP = (List<Pago>)Session["Pagos2"];
+    }
+    double pend = 0;
+    if (Session["Pendiente2"] != null)
+    {
+        pend = (double)Session["Pendiente2"];
+        idEp = (int)Session["EventoSeleccionadoPago2"];
+    }
+}
+
+
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li class="active">Registrar Pagos</li>
+        </ol>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <a class="btn btn-danger pull-right" href="@Url.Action("Index2", "Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+                <br>
+                <br>
+                <br>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10 col-md-offset-2">
+            <form action="" class="form-horizontal">
+
+                <div class="form-group">
+                    <label for="organizador" class="control-label col-md-2">Organizador:</label>
+                    <div class="col-md-2">
+                        <input type="textarea" id="idOrg" class="form-control" readonly="true" value="@idor">
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <input type="text" class="form-control" disabled id="organizadorNombre" value="@nombO">
+                            <span class="input-group-btn"><a href="#modalBuscarOrganizador" class="btn btn-primary" data-toggle="modal" type="button">Buscar <span class="glyphicon glyphicon-search"></span></a></span>
+                        </div>
+
+                    </div>
+                </div>
+                @if (idor != 0)
+                {
+                    listaEv = db.Eventos.AsNoTracking().Where(c => c.idOrganizador == idor).ToList();
+
+                    if (Session["EventoSeleccionadoPago2"] != null)
+                    {
+                        ce = (int)Session["EventoSeleccionadoPago2"];
+                    }
+                }
+                <div class="row form-group">
+                    <label for="nombreEvento" class="control-label col-md-2">Evento:</label>
+                    <div class="col-md-2">
+                        <select name="" id="comboBusq" onchange="cambio()" class="form-control">
+                            <option value="0">Seleccionar</option>
+                            @foreach (var item in listaEv)
+                            {
+                                if (@item.codigo != ce)
+                                {
+                                    <option value="@item.codigo">
+                                        @item.nombre
+                                    </option>
+                                }
+                                else
+                                {
+                                    <option value="@item.codigo" selected="selected">
+                                        @item.nombre
+                                    </option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="pendiente" class="control-label col-md-2">Pendiente:</label>
+                    <div class="col-md-2">
+                        <input type="textarea" class="form-control" id="pendiente" value="@pend" readonly="true">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="direccion" class="control-label col-md-2">Monto:</label>
+                    <div class="col-md-2">
+                        <input type="number" class="form-control col-md-4" id="monto2">
+                    </div>
+                </div>
+            </form>
+            <div class="form-group col-md-12">
+                <center>
+                    <a class="btn btn-primary" href="#avisoConfirmacion" data-toggle="modal" onclick="registrar()">Registrar Pago  <span class="glyphicon glyphicon-ok-sign"></span></a>
+                </center>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <table id="mytable" class="table table-bordered table-hover">
+            <thead>
+                <tr class="thead">
+                    <th>Id</th>
+                    <th>Fecha</th>
+                    <th>Organizador</th>
+                    <th>Monto</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+                @foreach (var row in liP)
+                {
+                    <tr id=@row.codPago onclick="myFunction(this)">
+                        <td>@row.codPago</td>
+                        <td>@row.fecha</td>
+                        <td>@db.Organizador.Find(row.codOrg).nombOrg</td>
+                        <td>@row.monto</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="modal fade" id="modalBuscarOrganizador">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!--ACA VA EL CONTENIDO DEL MODAL-->
+                <!--contenido de la ventana-->
+                <div class="modal-body">
+                    <form action="" class="form-horizontal">
+                        <div class="form-group">
+                            @{
+                                List<WebApplication4.Models.Organizador> orgList = db.Organizador.Where(c => c.estadoOrg == "Activo").ToList();
+                            }
+                            <table class="table table-bordered table-hover" id="tablita">
+                                <thsead>
+                                    <tr class="thead">
+                                        <th>Id</th>
+                                        <th>Nombre</th>
+                                        <th>Seleccionar</th>
+                                    </tr>
+                                </thsead>
+                                <tbody>
+                                    @foreach (var org in orgList)
+                                    {
+                                        <tr>
+                                            <td>@org.codOrg</td>
+                                            <td>@org.nombOrg</td>
+                                            <td><input type="radio" name="groupO" value="@org.codOrg"></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
+                </div>
+                <!--footer de la ventana-->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="llenaOrg()"><span class="glyphicon glyphicon-ok"></span> Seleccionar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (idor != 0)
+{
+    <input type="hidden" id="idOrgT" value="@idor" />
+}
+else
+{
+    <input type="hidden" id="idOrgT" value="" />
+}
+
+@if (idEp != 0)
+{
+    <input type="hidden" id="idEvT" value="@idEp" />
+}
+else
+{
+    <input type="hidden" id="idEvT" value="" />
+}
+<script>
+    function llenaOrg() {
+        var id = $('input[name="groupO"]:checked').val();
+        var elem = document.getElementById("idOrgT");
+        elem.value = id;
+        //$("#idOrgT").val(nomb);
+        //var elem = $('input[name="groupO"]:checked');
+        //var id = elem.cells[0].innerHTML;
+        //$("#organizadorNombre").val(nomb);
+        //$("#idOrg").val(id);
+        if (id != "" && id != null) {
+            $.ajax({
+                url: "@Url.Action("LlenaOrg2","Ventas")",
+                data: { id: id },
+            success: function (data) {
+                //alert("Eliminado");
+                $('#modalBuscarOrganizador').modal('hide');
+                window.location.href = '/Ventas/PagoOrganizador';
+            },
+            error: function () {
+                //alert("Error :(");
+                window.location.href = '/Ventas/PagoOrganizador';
+            }
+        });
+    } else {
+            alert("Seleccione un Organizador");
+            evento = "";
+    }
+    }
+    function cambio() {
+        var evId = parseInt($("#comboBusq").val());
+        //var elem = document.getElementById("idEvT");
+        //elem.value = evId;
+        //alert(evId);
+        $.ajax({
+            url: "@Url.Action("PagoPendiente2", "CuentaUsuario")",
+            data: { evId: evId },
+        success: function (data) {
+            window.location.href = '/Ventas/PagoOrganizador';
+            //alert("Eliminado");
+            //row.remove();
+        },
+        error: function () {
+            window.location.href = '/Ventas/PagoOrganizador';
+            alert("Error :(");
+        }
+    });
+    }
+    function registrar() {
+        var monto = $('#monto2').val();
+        var pend = $('#pendiente').val();
+        var Org = $('#idOrgT').val();
+        var ev = $('#idEvT').val();
+        //alert(monto);
+        //alert(ev);
+        //alert(Org);
+        //alert(pend);
+        if (monto != "" && monto != null && pend != "" && pend != null && Org != "" && Org != null && ev!=null && ev !="") {
+            //alert(monto);
+            $.ajax({
+                url: "@Url.Action("RegistrarPagos2","Ventas")",
+                data: { monto: monto,pend:pend },
+                success: function (data) {
+                    alert(data);
+                    window.location.href = '/Ventas/PagoOrganizador';
+                },
+                error: function (data) {
+                    alert(data);
+                    window.location.href = '/Ventas/PagoOrganizador';
+                }
+            });
+        } else {
+            alert("Seleccione un organizador e ingrese un monto");
+        }
+    }
+</script>
+
