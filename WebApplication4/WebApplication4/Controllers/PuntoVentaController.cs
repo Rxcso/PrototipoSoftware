@@ -56,16 +56,55 @@ namespace WebApplication4.Controllers
             return View("Index");
         }
 
-        public ActionResult Delete(string punto)
+        //public ActionResult Delete(string punto)
+        //{
+        //    int id = int.Parse(punto);
+        //    PuntoVenta punto2 = db.PuntoVenta.Find(id);
+        //    //db.Regalo.Remove(regalo);
+        //    db.Entry(punto2).State = EntityState.Modified;
+        //    punto2.estaActivo = false;
+        //    db.SaveChanges();
+        //    //return RedirectToAction("Index", "Evento");
+        //    return RedirectToAction("Index", "PuntoVenta");
+        //}
+
+        public JsonResult Delete(string punto)
         {
             int id = int.Parse(punto);
             PuntoVenta punto2 = db.PuntoVenta.Find(id);
             //db.Regalo.Remove(regalo);
-            db.Entry(punto2).State = EntityState.Modified;
-            punto2.estaActivo = false;
-            db.SaveChanges();
+            DateTime hoy = DateTime.Now;
+            TurnoSistema ts = new TurnoSistema();
+            TimeSpan da = DateTime.Now.TimeOfDay;
+            List<TurnoSistema> listaturno = db.TurnoSistema.AsNoTracking().Where(c => c.activo == true).ToList();
+            for (int i = 0; i < listaturno.Count; i++)
+            {
+                if ((TimeSpan.Parse(listaturno[i].horIni) < da) && (TimeSpan.Parse(listaturno[i].horFin) > da))
+                {
+                    ts = listaturno[i];
+                }
+            }
+            List<Turno> ltu = db.Turno.Where(c => c.codTurnoSis == ts.codTurnoSis && c.codPuntoVenta == id && c.fecha == hoy && c.estadoCaja == "Abierto").ToList();
+            if (ltu.Count != null && ltu.Count == 0)
+            {
+                db.Entry(punto2).State = EntityState.Modified;
+                punto2.estaActivo = false;
+                //db.SaveChanges();
+                List<Turno> ltur = db.Turno.Where(c => c.codPuntoVenta == id).ToList();
+                for (int j = 0; j < ltur.Count; j++)
+                {
+                    db.Turno.Remove(ltur[j]);
+                }
+                db.SaveChanges();
+            }
+            else
+            {
+                Session["vendAsig"] = null;
+                Session["ListaTurnoVendedor"] = null;
+                return Json("Error este punto de venta esta en uso en este momento", JsonRequestBehavior.AllowGet);
+            }
             //return RedirectToAction("Index", "Evento");
-            return RedirectToAction("Index", "PuntoVenta");
+            return Json("Punto de Venta desactivado", JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Delete2(int id)
