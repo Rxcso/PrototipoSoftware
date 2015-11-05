@@ -731,6 +731,22 @@ namespace WebApplication4.Controllers
 
         [HttpPost]
         public ActionResult RegistrarUsuarioVendedor(RegistrarUsuarioVendedorModel model){
+
+            CuentaUsuario cu = new CuentaUsuario();
+
+            cu.apellido = model.Apellidos;
+            cu.correo = model.Correo;
+            cu.codDoc = model.Dni;
+            cu.tipoDoc = model.TipoDoc;
+            cu.nombre = model.Nombres;
+
+
+            db.CuentaUsuario.Add(cu);
+            db.SaveChanges();
+
+
+            TempData["tipo"] = "alert alert-success";
+            TempData["message"] = "Datos Actualizados Exitosamente";
             return RedirectToAction("index2", "Home");
         }
 

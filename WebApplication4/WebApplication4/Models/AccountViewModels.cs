@@ -291,5 +291,10 @@ namespace WebApplication4.Models
         [DataType(DataType.Password)]
         [Display(Name = "DNI:")]
         public string Dni { get; set; }
+
+        [Required(ErrorMessage = "Campo requerido.")]
+        [Range(1, 3)]
+        [Display(Name = "Tipo Documento:")]
+        public int TipoDoc { get; set; }
     }
 }
