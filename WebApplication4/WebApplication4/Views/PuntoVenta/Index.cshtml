@@ -133,13 +133,13 @@
                 url: "@Url.Action("Delete","PuntoVenta")",
                 data: { punto: punto },
                 success: function (data) {
-                    //alert("Eliminado");
+                    alert(data);
                     $('#eliminar').modal('hide');
                     row.remove();
                     window.location.href = '/PuntoVenta/Index';
                 },
-                error: function () {
-                    alert("Error :(");
+                error: function (data) {
+                    alert(data);
                 }
             });
         } else {
@@ -181,15 +181,15 @@
         $.ajax({
             url: "@Url.Action("Search3", "PuntoVenta")",
             data: { region: region },
-        success: function (data) {
-            window.location.href = '/PuntoVenta/Index';
-            //alert("Eliminado");
-            //row.remove();
-        },
-        error: function () {
-            alert("Error :(");
-        }
-    });
+            success: function (data) {
+                window.location.href = '/PuntoVenta/Index';
+                //alert("Eliminado");
+                //row.remove();
+            },
+            error: function () {
+                alert("Error :(");
+            }
+        });
     }
     function cambioDepartamento() {
         var depId = parseInt($("#idRegion").val());
@@ -200,19 +200,19 @@
             $.ajax({
                 url: "@Url.Action("Provincia","Services")",
                 data: { depId: depId },
-            datatype: "json",
-            success: function (data) {
-                var obj = $.parseJSON(data);
-                $.each(obj, function (k, v) {
-                    ddProv.append($("<option></option>").val(v.IdRegion).html(v.Nombre));
-                });
-            },
-            error: function () {
-                alert("Error :(");
-            }
-        });
-    }
-    ddProv.empty();
+                datatype: "json",
+                success: function (data) {
+                    var obj = $.parseJSON(data);
+                    $.each(obj, function (k, v) {
+                        ddProv.append($("<option></option>").val(v.IdRegion).html(v.Nombre));
+                    });
+                },
+                error: function () {
+                    alert("Error :(");
+                }
+            });
+        }
+        ddProv.empty();
     }
     function closewindow() {
         $('#eliminar').modal('hide');
@@ -277,40 +277,40 @@
                         </div>
 
                         @*<div class="row form-group">
-                            @Html.LabelFor(model => model.departamento, new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
-                                @{
-                    List<WebApplication4.Models.Region> listaDepartamento = db.Region.AsNoTracking().Where(c => c.idRegPadre == null).ToList();
-                    IEnumerable<SelectListItem> listItems = (from a in listaDepartamento
-                                                             select new SelectListItem
-                                                           {
-                                                               Value = a.idRegion.ToString(),
-                                                               Text = a.nombre,
-                                                               Selected = false
-                                                           });
-                    listItems.First().Selected = true;
-                                }
-                                @Html.DropDownListFor(model => model.departamento, listItems, "Seleccione Departamento")
-                            </div>
-                        </div>
+                                    @Html.LabelFor(model => model.departamento, new { @class = "control-label col-md-3" })
+                                    <div class="col-md-9">
+                                        @{
+                            List<WebApplication4.Models.Region> listaDepartamento = db.Region.AsNoTracking().Where(c => c.idRegPadre == null).ToList();
+                            IEnumerable<SelectListItem> listItems = (from a in listaDepartamento
+                                                                     select new SelectListItem
+                                                                   {
+                                                                       Value = a.idRegion.ToString(),
+                                                                       Text = a.nombre,
+                                                                       Selected = false
+                                                                   });
+                            listItems.First().Selected = true;
+                                        }
+                                        @Html.DropDownListFor(model => model.departamento, listItems, "Seleccione Departamento")
+                                    </div>
+                                </div>
 
-                        <div class="row form-group">
-                            @Html.LabelFor(model => model.provincia, new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
-                                @{
-                    List<WebApplication4.Models.Region> listaProvincia = db.Region.AsNoTracking().Where(c => c.idRegPadre != null).ToList();
+                                <div class="row form-group">
+                                    @Html.LabelFor(model => model.provincia, new { @class = "control-label col-md-3" })
+                                    <div class="col-md-9">
+                                        @{
+                            List<WebApplication4.Models.Region> listaProvincia = db.Region.AsNoTracking().Where(c => c.idRegPadre != null).ToList();
 
-                    IEnumerable<SelectListItem> listItems2 = (from a in listaProvincia
-                                                              select new SelectListItem
-                                                            {
-                                                                Value = a.idRegion.ToString(),
-                                                                Text = a.nombre,
-                                                                Selected = false
-                                                            });
-                                }
-                                @Html.DropDownListFor(model => model.provincia, listItems2, "Seleccione Provincia")
-                            </div>
-                        </div>*@
+                            IEnumerable<SelectListItem> listItems2 = (from a in listaProvincia
+                                                                      select new SelectListItem
+                                                                    {
+                                                                        Value = a.idRegion.ToString(),
+                                                                        Text = a.nombre,
+                                                                        Selected = false
+                                                                    });
+                                        }
+                                        @Html.DropDownListFor(model => model.provincia, listItems2, "Seleccione Provincia")
+                                    </div>
+                                </div>*@
 
 
 
@@ -342,7 +342,7 @@
             </div>
             <!--contenido de la ventana-->
             <div class="modal-body">
-                ¿Está seguro que quiere dar de baja el registro?
+                ¿Está seguro que quiere dar de baja el registro se borraran tambien los turnos asignados a este punto de venta?
             </div>
             <!--footer de la ventana-->
             <div class="modal-footer">
@@ -352,5 +352,7 @@
         </div>
     </div>
 </div>
+
+
 
 

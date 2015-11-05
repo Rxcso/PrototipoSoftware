@@ -472,13 +472,20 @@ namespace WebApplication4.Controllers
                 int val6 = int.Parse(hr);
                 if (val6 > 0)
                 {
-                    int t = 6;
-                    Politicas p = db.Politicas.Find(t);
-                    db.Entry(p).State = EntityState.Modified;
-                    p.valor = val6;
-                    db.SaveChanges();
-                    db.Entry(p).State = EntityState.Detached;
-                    me6 = " Completado";
+                    if (val6 <= 23)
+                    {
+                        int t = 6;
+                        Politicas p = db.Politicas.Find(t);
+                        db.Entry(p).State = EntityState.Modified;
+                        p.valor = val6;
+                        db.SaveChanges();
+                        db.Entry(p).State = EntityState.Detached;
+                        me6 = " Completado";
+                    }
+                    else
+                    {
+                        me6 = " Error limite de hora";
+                    }
                 }
                 else
                 {
