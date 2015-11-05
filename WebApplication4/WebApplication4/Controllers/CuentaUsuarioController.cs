@@ -568,7 +568,9 @@ namespace WebApplication4.Controllers
             int nd = (int)ts.Days;
             nd = nd + 1;
             int idPol = 5;
+            int idPol2 = 7;
             int limite = (int)db.Politicas.Find(idPol).valor;
+            int limite2 = (int)db.Politicas.Find(idPol2).valor;
             if (dt1 <= DateTime.Now) return Json("la fecha debe ser superior de hoy", JsonRequestBehavior.AllowGet);
             if (dt1 > dt2) return Json("Fecha inicio debe ser menor que fecha fin", JsonRequestBehavior.AllowGet);
             if (nd > limite) return Json("No puedo asignar a la vez mas de "+limite+" turnos de manera seguida", JsonRequestBehavior.AllowGet);
@@ -576,18 +578,28 @@ namespace WebApplication4.Controllers
             for (int j = 0; j < nd; j++)
             {
                 List<Turno> ltur = db.Turno.Where(c => c.codPuntoVenta == idp && c.codTurnoSis == idt && di == c.fecha).ToList();
-                if (ltur.Count != 0)
+                if (ltur.Count + 1  >limite2)
                 {
                     //Session["nError"] = 1;
                     //TempData["ErrorAsignacion"] = "Cruce con el usuario " + ltur.First().usuario + " para el dia " + di;
                     //return RedirectToAction("Asignacion", "CuentaUsuario");
-                    string mensaje = "Cruce con el usuario " + ltur.First().usuario + " para el dia " + di.ToString("dd/MM/yyyy");
+                    string mensaje = "No puede haber mas de " + limite2 + " vendedores para el dia " + di.ToString("dd/MM/yyyy");
 
                     return Json(mensaje, JsonRequestBehavior.AllowGet);
                 }
                 di = di.AddDays(1);
             }
             //int cruce1 = 0;
+            List<Turno> ltur2 = db.Turno.Where(c => c.codPuntoVenta == idp && c.codTurnoSis == idt && dai == c.fecha && c.usuario==idV).ToList();
+            if (ltur2.Count > 0)
+            {
+                return Json("Este usuario ya tiene asignado un turno para esta fecha , punto de venta y hora", JsonRequestBehavior.AllowGet);
+            }
+            List<Turno> ltur3 = db.Turno.Where(c => c.codTurnoSis == idt && dai == c.fecha && c.usuario == idV).ToList();
+            if (ltur3.Count > 0)
+            {
+                return Json("Este usuario ya tiene asignado un turno para esta fecha y hora en otro punto de venta", JsonRequestBehavior.AllowGet);
+            }
             for (int j = 0; j < nd; j++)
             {
                 Turno ntur = new Turno();
