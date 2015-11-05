@@ -598,7 +598,7 @@ namespace WebApplication4.Controllers
                     db.SaveChanges();
                 }
             }
-            
+
             List<ZonaEvento> zonas = db.ZonaEvento.Where(c => c.codEvento == idEvento).ToList();
             for (int i = 0; i < zonas.Count; i++)
             {
@@ -647,7 +647,7 @@ namespace WebApplication4.Controllers
                 }
             }
         }
-        
+
         [HttpPost]
         public ActionResult Tarifas(ZonaEventoListModel model)
         {
@@ -960,14 +960,21 @@ namespace WebApplication4.Controllers
                 {
                     List<int> posF = new List<int>();
                     List<int> posC = new List<int>();
-
+                    var cantLibres = 0;
                     foreach (Asientos asiento in zona.Asientos)
                     {
                         try
                         {
                             AsientosXFuncion asientosFuncion = db.AsientosXFuncion.Find(asiento.codAsiento, funcion.codFuncion);
-                            if (asientosFuncion.estado.CompareTo("libre") == 0)
+                            if (asientosFuncion.estado.CompareTo("libre") == 0){
+                                cantLibres++;
                                 posF.Add((int)asiento.fila);
+                            }
+                            else {
+                                posF.Add((int)-asiento.fila);
+                                
+                            }
+                                
                             posC.Add((int)asiento.columna);
                         }
                         catch (Exception ex)
@@ -976,17 +983,25 @@ namespace WebApplication4.Controllers
                         }
                     }
 
-                    var actZona = new
+                    if (!zona.tieneAsientos)
                     {
-                        filas = (int)zona.cantFilas,
-                        columnas = (int)zona.cantColumnas,
-                        posFila = posF.ToArray(),
-                        posColumna = posC.ToArray(),
-                        tieneAsientos = zona.tieneAsientos,
-                        indexZE = zona.codZona,
-                        indexFH = funcion.codFuncion,
-                    };
-                    todoObject.Add(actZona);
+                        ZonaxFuncion zonaFuncion = db.ZonaxFuncion.Find( funcion.codFuncion, zona.codZona);
+                        cantLibres = zonaFuncion.cantLibres;
+                    }
+
+                    var act=new{
+                            filas = (int)zona.cantFilas,
+                            columnas = (int)zona.cantColumnas,
+                            posFila = posF.ToArray(),
+                            posColumna = posC.ToArray(),
+                            tieneAsientos = zona.tieneAsientos,
+                            totalLibres = cantLibres,
+                            indexZE = zona.codZona,
+                            indexFH = funcion.codFuncion,
+                        };
+
+                    
+                    todoObject.Add(act);
                 }
 
             }
@@ -1119,6 +1134,9 @@ namespace WebApplication4.Controllers
 
                     //logica de reserva
 
+
+
+
                 }
                 else if (boton.CompareTo("carrito") == 0)
                 {
@@ -1127,9 +1145,12 @@ namespace WebApplication4.Controllers
                     //logica de carrito
 
 
+
+
                 }
             }
 
+            TempData["ErrorSeleccionandoAsientos"] = "¡Elija asientos!";
             return Redirect("~/Evento/VerEvento/" + paquete.idEvento);
         }
 

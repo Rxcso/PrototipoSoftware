@@ -35,6 +35,7 @@
     <EntitySetMapping Name="Banco">
       <EntityTypeMapping TypeName="inf245netsoftModel.Banco">
         <MappingFragment StoreEntitySet="Banco">
+          <ScalarProperty Name="identificador" ColumnName="identificador" />
           <ScalarProperty Name="nombre" ColumnName="nombre" />
           <ScalarProperty Name="codigo" ColumnName="codigo" />
         </MappingFragment>
@@ -481,6 +482,15 @@
           <ScalarProperty Name="descripcion" ColumnName="descripcion" />
           <ScalarProperty Name="nombre" ColumnName="nombre" />
           <ScalarProperty Name="codigo" ColumnName="codigo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ZonaxFuncion">
+      <EntityTypeMapping TypeName="inf245netsoftModel.ZonaxFuncion">
+        <MappingFragment StoreEntitySet="ZonaxFuncion">
+          <ScalarProperty Name="cantLibres" ColumnName="cantLibres" />
+          <ScalarProperty Name="codZona" ColumnName="codZona" />
+          <ScalarProperty Name="codFuncion" ColumnName="codFuncion" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

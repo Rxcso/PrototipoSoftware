@@ -12,19 +12,13 @@ namespace WebApplication4.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Banco
+    public partial class ZonaxFuncion
     {
-        public Banco()
-        {
-            this.Promociones = new HashSet<Promociones>();
-            this.Tarjeta = new HashSet<Tarjeta>();
-        }
+        public int codFuncion { get; set; }
+        public int codZona { get; set; }
+        public int cantLibres { get; set; }
     
-        public int codigo { get; set; }
-        public string nombre { get; set; }
-        public int identificador { get; set; }
-    
-        public virtual ICollection<Promociones> Promociones { get; set; }
-        public virtual ICollection<Tarjeta> Tarjeta { get; set; }
+        public virtual Funcion Funcion { get; set; }
+        public virtual ZonaEvento ZonaEvento { get; set; }
     }
 }

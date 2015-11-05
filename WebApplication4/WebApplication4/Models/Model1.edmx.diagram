@@ -79,6 +79,9 @@
         <AssociationConnector Association="inf245netsoftModel.R_18" />
         <AssociationConnector Association="inf245netsoftModel.R_21" />
         <AssociationConnector Association="inf245netsoftModel.R_43" />
+        <EntityTypeShape EntityType="inf245netsoftModel.ZonaxFuncion" Width="1.5" PointX="23.125" PointY="16" />
+        <AssociationConnector Association="inf245netsoftModel.R_50" />
+        <AssociationConnector Association="inf245netsoftModel.R_51" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

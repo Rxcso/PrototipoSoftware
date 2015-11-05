@@ -60,5 +60,6 @@ namespace WebApplication4.Models
         public virtual DbSet<PeriodoVenta> PeriodoVenta { get; set; }
         public virtual DbSet<ZonaEvento> ZonaEvento { get; set; }
         public virtual DbSet<Eventos> Eventos { get; set; }
+        public virtual DbSet<ZonaxFuncion> ZonaxFuncion { get; set; }
     }
 }

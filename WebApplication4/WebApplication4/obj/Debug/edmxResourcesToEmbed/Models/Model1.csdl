@@ -219,6 +219,15 @@
       <End Role="Eventos" EntitySet="Eventos" />
       <End Role="Funcion" EntitySet="Funcion" />
     </AssociationSet>
+    <EntitySet Name="ZonaxFuncion" EntityType="inf245netsoftModel.ZonaxFuncion" />
+    <AssociationSet Name="R_50" Association="inf245netsoftModel.R_50">
+      <End Role="Funcion" EntitySet="Funcion" />
+      <End Role="ZonaxFuncion" EntitySet="ZonaxFuncion" />
+    </AssociationSet>
+    <AssociationSet Name="R_51" Association="inf245netsoftModel.R_51">
+      <End Role="ZonaEvento" EntitySet="ZonaEvento" />
+      <End Role="ZonaxFuncion" EntitySet="ZonaxFuncion" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Perfiles">
     <Key>
@@ -236,6 +245,7 @@
     <Property Name="nombre" Type="String" MaxLength="18" FixedLength="true" Unicode="false" />
     <NavigationProperty Name="Promociones" Relationship="inf245netsoftModel.R_3" FromRole="Banco" ToRole="Promociones" />
     <NavigationProperty Name="Tarjeta" Relationship="inf245netsoftModel.R_4" FromRole="Banco" ToRole="Tarjeta" />
+    <Property Name="identificador" Type="Int32" Nullable="false" />
   </EntityType>
   <EntityType Name="Promociones">
     <Key>
@@ -962,6 +972,7 @@
     <NavigationProperty Name="AsientosXFuncion" Relationship="inf245netsoftModel.R_46" FromRole="Funcion" ToRole="AsientosXFuncion" />
     <NavigationProperty Name="VentasXFuncion" Relationship="inf245netsoftModel.R_76" FromRole="Funcion" ToRole="VentasXFuncion" />
     <NavigationProperty Name="Eventos" Relationship="inf245netsoftModel.R_43" FromRole="Funcion" ToRole="Eventos" />
+    <NavigationProperty Name="ZonaxFuncion" Relationship="inf245netsoftModel.R_50" FromRole="Funcion" ToRole="ZonaxFuncion" />
   </EntityType>
   <EntityType Name="PeriodoVenta">
     <Key>
@@ -988,6 +999,7 @@
     <NavigationProperty Name="Asientos" Relationship="inf245netsoftModel.R_13" FromRole="ZonaEvento" ToRole="Asientos" />
     <NavigationProperty Name="PrecioEvento" Relationship="inf245netsoftModel.fk_ZonaEvent" FromRole="ZonaEvento" ToRole="PrecioEvento" />
     <NavigationProperty Name="Eventos" Relationship="inf245netsoftModel.R_21" FromRole="ZonaEvento" ToRole="Eventos" />
+    <NavigationProperty Name="ZonaxFuncion" Relationship="inf245netsoftModel.R_51" FromRole="ZonaEvento" ToRole="ZonaxFuncion" />
   </EntityType>
   <Association Name="R_13">
     <End Type="inf245netsoftModel.ZonaEvento" Role="ZonaEvento" Multiplicity="1">
@@ -1185,6 +1197,45 @@
       </Principal>
       <Dependent Role="Funcion">
         <PropertyRef Name="codEvento" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="ZonaxFuncion">
+    <Key>
+      <PropertyRef Name="codFuncion" />
+      <PropertyRef Name="codZona" />
+    </Key>
+    <Property Name="codFuncion" Type="Int32" Nullable="false" />
+    <Property Name="codZona" Type="Int32" Nullable="false" />
+    <Property Name="cantLibres" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Funcion" Relationship="inf245netsoftModel.R_50" FromRole="ZonaxFuncion" ToRole="Funcion" />
+    <NavigationProperty Name="ZonaEvento" Relationship="inf245netsoftModel.R_51" FromRole="ZonaxFuncion" ToRole="ZonaEvento" />
+  </EntityType>
+  <Association Name="R_50">
+    <End Type="inf245netsoftModel.Funcion" Role="Funcion" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="inf245netsoftModel.ZonaxFuncion" Role="ZonaxFuncion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Funcion">
+        <PropertyRef Name="codFuncion" />
+      </Principal>
+      <Dependent Role="ZonaxFuncion">
+        <PropertyRef Name="codFuncion" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_51">
+    <End Type="inf245netsoftModel.ZonaEvento" Role="ZonaEvento" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="inf245netsoftModel.ZonaxFuncion" Role="ZonaxFuncion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ZonaEvento">
+        <PropertyRef Name="codZona" />
+      </Principal>
+      <Dependent Role="ZonaxFuncion">
+        <PropertyRef Name="codZona" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

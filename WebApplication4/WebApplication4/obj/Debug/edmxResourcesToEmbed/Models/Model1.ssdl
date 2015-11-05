@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="inf245netsoftModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+<Schema Namespace="inf245netsoftModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityType Name="__MigrationHistory">
     <Key>
       <PropertyRef Name="MigrationId" />
@@ -89,6 +89,7 @@
     </Key>
     <Property Name="codigo" Type="int" Nullable="false" />
     <Property Name="nombre" Type="char" MaxLength="18" />
+    <Property Name="identificador" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Categoria">
     <Key>
@@ -463,6 +464,15 @@
     <Property Name="cantFilas" Type="int" Nullable="false" />
     <Property Name="cantColumnas" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="ZonaxFuncion">
+    <Key>
+      <PropertyRef Name="codFuncion" />
+      <PropertyRef Name="codZona" />
+    </Key>
+    <Property Name="codFuncion" Type="int" Nullable="false" />
+    <Property Name="codZona" Type="int" Nullable="false" />
+    <Property Name="cantLibres" Type="int" Nullable="false" />
+  </EntityType>
   <Association Name="FK__RegaloXCu__usuar__4BAC3F29">
     <End Role="CuentaUsuario" Type="Self.CuentaUsuario" Multiplicity="1" />
     <End Role="RegaloXCuenta" Type="Self.RegaloXCuenta" Multiplicity="*" />
@@ -829,6 +839,34 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="R_50">
+    <End Role="Funcion" Type="Self.Funcion" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="ZonaxFuncion" Type="Self.ZonaxFuncion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Funcion">
+        <PropertyRef Name="codFuncion" />
+      </Principal>
+      <Dependent Role="ZonaxFuncion">
+        <PropertyRef Name="codFuncion" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_51">
+    <End Role="ZonaEvento" Type="Self.ZonaEvento" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="ZonaxFuncion" Type="Self.ZonaxFuncion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ZonaEvento">
+        <PropertyRef Name="codZona" />
+      </Principal>
+      <Dependent Role="ZonaxFuncion">
+        <PropertyRef Name="codZona" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="R_6">
     <End Role="TipoTarjeta" Type="Self.TipoTarjeta" Multiplicity="0..1" />
     <End Role="Promociones" Type="Self.Promociones" Multiplicity="*" />
@@ -1015,6 +1053,7 @@
     <EntitySet Name="Ventas" EntityType="Self.Ventas" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="VentasXFuncion" EntityType="Self.VentasXFuncion" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ZonaEvento" EntityType="Self.ZonaEvento" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ZonaxFuncion" EntityType="Self.ZonaxFuncion" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK__RegaloXCu__usuar__4BAC3F29" Association="Self.FK__RegaloXCu__usuar__4BAC3F29">
       <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
       <End Role="RegaloXCuenta" EntitySet="RegaloXCuenta" />
@@ -1130,6 +1169,14 @@
     <AssociationSet Name="R_47" Association="Self.R_47">
       <End Role="TipoTarjeta" EntitySet="TipoTarjeta" />
       <End Role="Tarjeta" EntitySet="Tarjeta" />
+    </AssociationSet>
+    <AssociationSet Name="R_50" Association="Self.R_50">
+      <End Role="Funcion" EntitySet="Funcion" />
+      <End Role="ZonaxFuncion" EntitySet="ZonaxFuncion" />
+    </AssociationSet>
+    <AssociationSet Name="R_51" Association="Self.R_51">
+      <End Role="ZonaEvento" EntitySet="ZonaEvento" />
+      <End Role="ZonaxFuncion" EntitySet="ZonaxFuncion" />
     </AssociationSet>
     <AssociationSet Name="R_6" Association="Self.R_6">
       <End Role="TipoTarjeta" EntitySet="TipoTarjeta" />
