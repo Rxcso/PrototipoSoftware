@@ -372,10 +372,10 @@ namespace WebApplication4.Controllers
             return RedirectToAction("MisReservas", "CuentaUsuario");
         }
 
-        public JsonResult RegistraPoliticas(string dur, string mx, string mt,string ra)
+        public JsonResult RegistraPoliticas(string dur, string mx, string mt, string ra, string mE, string hr)
         {
-            int m1, m2, m3,m4;
-            string me1 = "Error", me2 = " Error",me3=" Error",me4=" Error";
+            int m1, m2, m3, m4, m5, m6;
+            string me1 = "Error", me2 = " Error", me3 = " Error", me4 = " Error", me5 = " Error", me6 = " Error";
             if (int.TryParse(dur, out m1) == true)
             {
                 int val = int.Parse(dur);
@@ -449,7 +449,43 @@ namespace WebApplication4.Controllers
                     me4 = " Error Negativo";
                 }
             }
-            string mensaje = me1 + me2 + me3 + me4;
+            if (int.TryParse(mE, out m5) == true)
+            {
+                int val5 = int.Parse(mE);
+                if (val5 > 0)
+                {
+                    int t = 7;
+                    Politicas p = db.Politicas.Find(t);
+                    db.Entry(p).State = EntityState.Modified;
+                    p.valor = val5;
+                    db.SaveChanges();
+                    db.Entry(p).State = EntityState.Detached;
+                    me5 = " Completado";
+                }
+                else
+                {
+                    me5 = " Error Negativo";
+                }
+            }
+            if (int.TryParse(hr, out m6) == true)
+            {
+                int val6 = int.Parse(hr);
+                if (val6 > 0)
+                {
+                    int t = 6;
+                    Politicas p = db.Politicas.Find(t);
+                    db.Entry(p).State = EntityState.Modified;
+                    p.valor = val6;
+                    db.SaveChanges();
+                    db.Entry(p).State = EntityState.Detached;
+                    me6 = " Completado";
+                }
+                else
+                {
+                    me6 = " Error Negativo";
+                }
+            }
+            string mensaje = me1 + me6 + me2 + me3 + me4 + me5;
             return Json(mensaje, JsonRequestBehavior.AllowGet);
         }
 

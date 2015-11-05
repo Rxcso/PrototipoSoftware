@@ -146,9 +146,9 @@ namespace WebApplication4.Controllers
             if (double.TryParse(monto, out m1) == false) return Json("monto invalido", JsonRequestBehavior.AllowGet);
             double m = double.Parse(monto);
             double pend1 = double.Parse(pend);
-            if (m == 0)
+            if (m <= 0)
             {
-                return Json("monto ingresado debe ser distinto de 0", JsonRequestBehavior.AllowGet);
+                return Json("monto ingresado debe ser mayor que 0", JsonRequestBehavior.AllowGet);
             }
             if (m > pend1) return Json("monto ingresado debe ser menor o igual al monto pendiente", JsonRequestBehavior.AllowGet);
             //if (m <= 0) return RedirectToAction("Pago", "Ventas");
