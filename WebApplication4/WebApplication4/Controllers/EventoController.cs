@@ -806,6 +806,24 @@ namespace WebApplication4.Controllers
             }
         }
 
+        private void CreaZonasxFuncion(int idEvento)
+        {
+            List<ZonaEvento> zonas = db.ZonaEvento.Where(c => c.codEvento == idEvento).ToList();
+            List<Funcion> funciones = db.Funcion.Where(c => c.codEvento == idEvento).ToList();
+            foreach (ZonaEvento zona in zonas)
+            {
+                foreach (Funcion funcion in funciones)
+                {
+                    ZonaxFuncion zonaxfuncion = new ZonaxFuncion();
+                    zonaxfuncion.cantLibres = zona.aforo;
+                    zonaxfuncion.codFuncion = funcion.codFuncion;
+                    zonaxfuncion.codZona = zona.codZona;
+                    db.ZonaxFuncion.Add(zonaxfuncion);
+                    db.SaveChanges();
+                }
+            }
+        }
+        
         [HttpPost]
         public ActionResult Tarifas(ZonaEventoListModel model)
         {
@@ -821,6 +839,7 @@ namespace WebApplication4.Controllers
                     idEvento = int.Parse(Session["IdEventoModificado"].ToString());
                     listaPV = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
                     FiltrarTarifas(list, listaPV, idEvento);
+                    CreaZonasxFuncion(idEvento);
                     return RedirectToAction("ExtrasEvento");
                 }
                 listaPV = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
@@ -847,6 +866,7 @@ namespace WebApplication4.Controllers
                         db.PrecioEvento.Add(precioEvento);
                         db.SaveChanges();
                     }
+                    CreaZonasxFuncion(idEvento);
                     return RedirectToAction("ExtrasEvento");
                 }
             }
