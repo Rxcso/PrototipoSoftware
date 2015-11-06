@@ -1207,6 +1207,7 @@ namespace WebApplication4.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public ActionResult Entradas(PaqueteEntradas paquete, string boton)
         {
             //VALIDAR
@@ -1215,6 +1216,14 @@ namespace WebApplication4.Controllers
 
                 if (boton.CompareTo("reservar") == 0)
                 {
+                    /*
+                    if (!Request.IsAuthenticated)
+                    {
+                        TempData["tipo"] = "alert alert-warning";
+                        TempData["message"] = "Debe estar logueado para reservar."; 
+                     * return Redirect("~/Evento/VerEvento/" + paquete.idEvento);
+                    }*/
+
                     string mensaje = reservaAsientos(User.Identity.Name, paquete);
 
                     TempData["tipo"] = "alert alert-success";
@@ -1230,53 +1239,25 @@ namespace WebApplication4.Controllers
                     //logica de reserva
                     //PLZ
 
-
                 }
                 else if (boton.CompareTo("carrito") == 0)
                 {
-                    bool carritocreado = (bool)Session["CarritoCreado"];
-                    if (Session["UsuarioLogueado"] != null )
+                    //si el carrito es null, creo un nuevo carrito
+                    if (Session["Carrito"] == null)
                     {
-                        int idVenta = 0;
-                        //si no se ha creado un carrito, creo una nueva
-                        if (!carritocreado)
-                        {
-                            Ventas venta = new Ventas();
-                            venta.cantAsientos = paquete.filas.Count;
-                            venta.cliente = ((CuentaUsuario)Session["UsuarioLogueado"]).correo;
-                            venta.codDoc = ((CuentaUsuario)Session["UsuarioLogueado"]).codDoc;
-                            venta.Estado = "Carrito";
-                            venta.fecha = DateTime.Today;
-                            venta.modalidad = "T";
-                            venta.montoCreditoSoles = 0;
-                            venta.montoEfectivoDolares = 0;
-                            venta.montoEfectivoSoles = 0;
-                            venta.MontoTotalSoles = 0;
-                            venta.tipoDoc = ((CuentaUsuario)Session["UsuarioLogueado"]).tipoDoc;
-                            venta.vendedor = "Venta Web";
-                            db.Ventas.Add(venta);
-                            db.SaveChanges();
-                            idVenta = venta.codVen;
-                        }
-                        else
-                        {//si ya esta creado busco el id de la venta que cree anteriormente
-                            idVenta = db.Ventas.Where(c => c.cliente == ((CuentaUsuario)Session["UsuarioLogueado"]).correo && c.codDoc == ((CuentaUsuario)Session["UsuarioLogueado"]).codDoc && c.Estado == "Carrito").First().codVen;
-                        }
-                        //creo los ventaxfuncion para cada 
-                        for (int i = 0; i < paquete.filas.Count; i++)
-                        {
-                            /*
-                            VentasXFuncion ventasxfuncion = new VentasXFuncion();
-                            ventasxfuncion.cantEntradas;
-                            ventasxfuncion.codFuncion;
-                            ventasxfuncion.codVen;
-                            ventasxfuncion.descuento;
-                            ventasxfuncion.subtotal;
-                            ventasxfuncion.total;*/
-                        }
-                        
+                        List<PaqueteEntradas> carrito = new List<PaqueteEntradas>();
+                        carrito.Add(paquete);
+                        Session["Carrito"] = carrito;
                     }
-                    
+                    else
+                    {
+                        //si el carrito ya existe agrego a mi lista de paquete
+                        List<PaqueteEntradas> carrito = (List<PaqueteEntradas>)Session["Carrito"];
+                        carrito.Add(paquete);
+                        Session["Carrito"] = carrito;
+                    }
+                    TempData["tipo"] = "alert alert-success";
+                    TempData["message"] = "Entradas agregadas al carrito :)"; 
                 }
             }
             else

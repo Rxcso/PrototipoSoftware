@@ -1,0 +1,87 @@
+﻿@using WebApplication4.Models;
+@{
+    ViewBag.Title = "MiCarrito";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<CarritoItem> carritoList = new List<CarritoItem>();
+    if (ViewBag.Carrito != null)
+    {
+        carritoList = ViewBag.Carrito as List<CarritoItem>;
+    }
+    double total = 0;
+}
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li><a href="@Url.Action("Index","Home")">Inicio</a></li>
+            <li class="active">Carrito de compras</li>
+        </ol>
+    </div>
+</div>
+
+@if (Session["Carrito"] == null)
+{
+    <div class="row-md-4">
+        <a class="btn btn-danger pull-right" href="@Url.Action("Index","Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+    </div>
+    <p>Carrito Vacio.</p>
+}
+else
+{
+    <div class="container">
+        <div>
+            <a class="btn btn-default pull-left" onclick="verDetalle()">Ver Detalle</a>
+        </div>
+        <a class="btn btn-danger pull-right" href="@Url.Action("Index","Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+    </div><br />
+
+
+    <div class="container">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr class="active">
+                    <th>Id de Evento</th>
+                    <th>Nombre de Evento</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Zona</th>
+                    <th>Precio(S/.)</th>
+                    <th>Cantidad</th>
+                    <th>Borrar</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < carritoList.Count; i++)
+                {
+                    total += carritoList[i].precio;
+                    <tr id="@(i)">
+                        <td>@carritoList[i].idEvento</td>
+                        <td>@carritoList[i].nombreEvento</td>
+                        <td>@String.Format("{0:dd/MM/yyyy}", carritoList[i].fecha)</td>
+                        <td>@String.Format("{0:t}", carritoList[i].hora)</td>
+                        <td>@carritoList[i].zona</td>
+                        <td>@carritoList[i].precio</td>
+                        <td>@carritoList[i].cantidad</td>
+                        <td style="align-content:center"><input type="radio" name="groupCarrito" value="@(i)"></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="container">
+        <div class="container col-md-6 form-group pull-right">
+            <label for="Total" class="control-label col-md-2">Total a Pagar:</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" id="total" value="@(total)" readonly="readonly">
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="col-md-12">
+            <a class="btn btn-success pull-right">Comprar<span class="glyphicon glyphicon-usd"></span></a>
+        </div>
+    </div>
+
+}
+
+

@@ -126,7 +126,6 @@ namespace WebApplication4.Controllers
                     if (cuentausuario.codPerfil == 1)
                     {
                         Session["UsuarioLogueado"] = cuentausuario;
-                        Session["CarritoCreado"] = false;
                         return Redirect("~/Home/Index");
                     }
                     else
