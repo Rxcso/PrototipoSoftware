@@ -638,7 +638,7 @@
       <PropertyRef Name="codFuncion" />
     </Key>
     <Property Name="codVen" Type="Int32" Nullable="false" />
-    <Property Name="cantEntradas" Type="Int32" />
+    <Property Name="cantEntradas" Type="Int32" Nullable="false" />
     <Property Name="subtotal" Type="Double" />
     <Property Name="descuento" Type="Int32" />
     <Property Name="total" Type="Double" />

@@ -452,7 +452,7 @@
             <PropertyRef Name="codFuncion" />
           </Key>
           <Property Name="codVen" Type="int" Nullable="false" />
-          <Property Name="cantEntradas" Type="int" />
+          <Property Name="cantEntradas" Type="int" Nullable="false" />
           <Property Name="subtotal" Type="float" />
           <Property Name="descuento" Type="int" />
           <Property Name="total" Type="float" />
@@ -1876,7 +1876,7 @@
             <PropertyRef Name="codFuncion" />
           </Key>
           <Property Name="codVen" Type="Int32" Nullable="false" />
-          <Property Name="cantEntradas" Type="Int32" />
+          <Property Name="cantEntradas" Type="Int32" Nullable="false" />
           <Property Name="subtotal" Type="Double" />
           <Property Name="descuento" Type="Int32" />
           <Property Name="total" Type="Double" />

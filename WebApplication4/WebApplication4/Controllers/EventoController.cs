@@ -9,6 +9,7 @@ using System.Data.Entity;
 using System.Web.Script.Serialization;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
+using System.Data.Entity.Core;
 
 namespace WebApplication4.Controllers
 {
@@ -19,6 +20,26 @@ namespace WebApplication4.Controllers
         const int maximoPaginas = 2;
 
         // GET: Evento
+
+        public int BuscarEntradasLeQuedan(string name, int idFuncion)
+        {
+
+            CuentaUsuario cuenta = db.CuentaUsuario.Find(name);
+            int tipoDoc = (int)cuenta.tipoDoc;
+            string doc = cuenta.codDoc;
+
+            List<VentasXFuncion> listVXF = db.VentasXFuncion.Where(x => x.codFuncion == idFuncion).ToList();
+
+            Funcion funcion = db.Funcion.Find(idFuncion);
+            int limEntradas = (funcion.Eventos.maxReservas == null ? 10000 : (int)funcion.Eventos.maxReservas);
+            int actualEntradas = 0;
+            foreach (VentasXFuncion VXF in listVXF) if (VXF.Ventas.codDoc.CompareTo(doc) == 0 && VXF.Ventas.tipoDoc == tipoDoc)
+                {
+                    actualEntradas += VXF.cantEntradas;
+                }
+
+            return limEntradas - actualEntradas;
+        }
 
         public string reservaAsientos(string name, PaqueteEntradas paquete)
         {
@@ -33,17 +54,72 @@ namespace WebApplication4.Controllers
             //Que significa todo Ok?
             //Primero busca cuantas entradas mas puede comprar/reservar esta persona para esa funcion
             //Si supera el limite fue ps
+            try
+            {
 
-            //Luego se hace la reserva de esto, 
-            //Establecer sincronia es lo mas complicado
-            //Apenas se guarde la reserva todo estara consumado XD 
-            //Eso es todo
+                int quedan = BuscarEntradasLeQuedan(name, paquete.idFuncion);
 
+                if (quedan == 0)
+                {
+                    return "Ya no le quedan reservas/compras disponibles para el evento";
+                }
+
+                if (quedan < paquete.cantEntradas)
+                {
+                    return "No se pudo realizar la reserva, solo puede reservar hasta  " + quedan + "entradas";
+                }
+
+                //Luego se hace la reserva de esto, 
+                //Establecer sincronia es lo mas complicado
+                //Apenas se guarde la reserva todo estara consumado XD 
+                //Eso es todo
+
+                using (var context = new inf245netsoft())
+                {
+
+                    
+                    try
+                    {
+
+                        if (paquete.tieneAsientos)
+                        {
+                            
+                            for(int i=0; i<paquete.cantEntradas; i++ ){
+                                Asientos asiento = context.Asientos.Where(x => x.codZona == paquete.idZona && x.fila == paquete.filas[i] && x.columna == paquete.columnas[i]).ToList().First();
+                                AsientosXFuncion actAsiento = context.AsientosXFuncion.Find( asiento.codAsiento,paquete.idFuncion);
+                                actAsiento.estado = "OCUPADO";
+                            }
+
+                        }
+                        else
+                        {
+                            ZonaxFuncion ZXF = context.ZonaxFuncion.Find( paquete.idFuncion, paquete.idZona );
+                            ZXF.cantLibres -= paquete.cantEntradas;
+                        }
+
+                        context.SaveChanges();
+                    }
+
+                    catch (OptimisticConcurrencyException ex)
+                    {
+                        return "No se pudieron reservar los asientos, alguien más ya lo hizo";
+                    }
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                return "Ocurrio un error inesperado";
+            }
             //Funciones Utilitarias necesarias
             //BuscarEntradasLeQuedan( User , Funcion )
 
             return "Ok";
         }
+
+
 
         public ActionResult Index(string nombre, string orden, DateTime? fech_ini, DateTime? fech_fin, int? idCategoria, int? idSubCat, int? idRegion, int? page)
         {
@@ -411,7 +487,7 @@ namespace WebApplication4.Controllers
                 db.SaveChanges();
             }
         }
-        
+
         private void ObtenerFechaInicioyFin(List<BloqueDeTiempoModel> bloques, int idEvento)
         {
             List<DateTime> inicio = new List<DateTime>();
@@ -1059,7 +1135,7 @@ namespace WebApplication4.Controllers
                                 posF.Add((int)-asiento.fila);
 
                             }
-                            
+
                             posC.Add((int)asiento.columna);
                         }
                         catch (Exception ex)
@@ -1216,23 +1292,16 @@ namespace WebApplication4.Controllers
 
                 if (boton.CompareTo("reservar") == 0)
                 {
-                    /*
-                    if (!Request.IsAuthenticated)
-                    {
-                        TempData["tipo"] = "alert alert-warning";
-                        TempData["message"] = "Debe estar logueado para reservar."; 
-                     * return Redirect("~/Evento/VerEvento/" + paquete.idEvento);
-                    }*/
 
                     string mensaje = reservaAsientos(User.Identity.Name, paquete);
 
                     TempData["tipo"] = "alert alert-success";
-                    TempData["message"] = "Se reservaron correctamente las entradas"; 
+                    TempData["message"] = "Se reservaron correctamente las entradas";
 
-                    if( mensaje.CompareTo("Ok")!=0 )
+                    if (mensaje.CompareTo("Ok") != 0)
                     {
                         TempData["tipo"] = "alert alert-warning";
-                        TempData["message"] = mensaje; 
+                        TempData["message"] = mensaje;
                     }
 
                     return Redirect("~/Evento/VerEvento/" + paquete.idEvento);
@@ -1257,7 +1326,7 @@ namespace WebApplication4.Controllers
                         Session["Carrito"] = carrito;
                     }
                     TempData["tipo"] = "alert alert-success";
-                    TempData["message"] = "Entradas agregadas al carrito :)"; 
+                    TempData["message"] = "Entradas agregadas al carrito :)";
                 }
             }
             else
@@ -1542,8 +1611,8 @@ namespace WebApplication4.Controllers
             }
 
             int cnt = 0;
-            if (evento.seCancela != null) 
-                for (int i = 0; i < evento.seCancela.Count(); i++) 
+            if (evento.seCancela != null)
+                for (int i = 0; i < evento.seCancela.Count(); i++)
                     if (evento.seCancela[i]) cnt++;
 
             if (cnt == 0)
