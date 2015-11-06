@@ -20,10 +20,12 @@
 
 @if (Session["Carrito"] == null)
 {
-    <div class="row-md-4">
-        <a class="btn btn-danger pull-right" href="@Url.Action("Index","Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+    <div class="container">
+        <div class="row-md-4">
+            <a class="btn btn-danger pull-right" href="@Url.Action("Index","Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+        </div>
+        <p>Carrito Vacio.</p>
     </div>
-    <p>Carrito Vacio.</p>
 }
 else
 {
@@ -31,9 +33,12 @@ else
         <div>
             <a class="btn btn-default pull-left" onclick="verDetalle()">Ver Detalle</a>
         </div>
-        <a class="btn btn-danger pull-right" href="@Url.Action("Index","Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+        <div class="form-group">
+            <a class="btn btn-primary pull-right" onclick="quitarCarrito()">Quitar</a>
+            <a class="btn btn-danger pull-right" href="@Url.Action("Index","Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+        </div>
+        
     </div><br />
-
 
     <div class="container">
         <table class="table table-bordered table-hover">
@@ -84,4 +89,13 @@ else
 
 }
 
-
+<script>
+    function quitarCarrito() {
+        var fila = $('input[name="groupCarrito"]:checked').val();
+        var row = document.getElementById(parseInt(fila));
+        alert(row.cells[0]);
+        //row.parentNode.removeChild(row);
+        //var cantidad = parseInt($('#histFuncion').val());
+        //$("#histFuncion").val(cantidad - 1);
+    }
+</script>
