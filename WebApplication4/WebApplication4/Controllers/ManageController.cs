@@ -235,8 +235,9 @@ namespace WebApplication4.Controllers
             CuentaUsuario cliente = db.CuentaUsuario.Where(c => c.correo == correo).First();
             if (cliente.contrasena == model.OldPassword)
             {
-                if (cliente.contrasena == model.NewPassword)
+                if (cliente.contrasena != model.NewPassword)
                 {
+                    //AQUI FALLA
                     var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
                     if (result.Succeeded)
                     {
@@ -252,12 +253,20 @@ namespace WebApplication4.Controllers
                         /*Aca deberia retornarte a MiCuenta de CuentaUsuario*/
                         return RedirectToAction("MiCuenta", "CuentaUsuario");
                     }
+                    else {
+                        return View(model);
+                    }
                 }
-                ModelState.AddModelError("NewPassword", "Ingrese una contraseña diferente a la actual.");
+                else {
+                    ModelState.AddModelError("NewPassword", "Ingrese una contraseña diferente a la actual.");
+                    return View(model);
+                }
             }
-            ModelState.AddModelError("OldPassword", "Contraseña ingresada no es correcta");
-            //AddErrors(result);
-            return View(model);
+            else { 
+                ModelState.AddModelError("OldPassword", "Contraseña ingresada no es correcta");
+                //AddErrors(result);
+                return View(model);
+            }
         }
 
         //

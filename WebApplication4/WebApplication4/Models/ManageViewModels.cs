@@ -47,14 +47,14 @@ namespace WebApplication4.Models
         public string OldPassword { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "La {0} debe tener al menos {2} caracteres de largo.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "El campo {0} debe tener al menos {2} caracteres de largo.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Nueva Contraseña")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirmar Nueva Contraseña")]
-        [StringLength(100, ErrorMessage = "La {0} debe tener al menos {2} caracteres de largo.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "El campo {0} debe tener al menos {2} caracteres de largo.", MinimumLength = 6)]
         [Compare("NewPassword", ErrorMessage = "Las contraseñas no coinciden.")]
         public string ConfirmPassword { get; set; }
     }
