@@ -126,11 +126,12 @@ namespace WebApplication4.Controllers
         [HttpPost]
         public ActionResult CambiarContrasena(CambiarContrasenaModel model)
         {
+            string correo = User.Identity.Name;
+            CuentaUsuario cliente = db.CuentaUsuario.Where(c => c.correo == correo).First();
+            /*var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);*/
+
             if (ModelState.IsValid)
             {
-                string correo = User.Identity.Name;
-                CuentaUsuario cliente = db.CuentaUsuario.Where(c => c.correo == correo).First();
-                /*var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);*/
                 if (cliente.contrasena == model.Contrasena)
                 {
                     if (model.NuevaContrasena == model.RNuevaContrasena && model.NuevaContrasena != cliente.contrasena)
@@ -144,7 +145,8 @@ namespace WebApplication4.Controllers
                     return RedirectToAction("MiCuenta");
                 }
             }
-
+            TempData["tipo"] = "alert alert-success";
+            TempData["message"] = "Contraseña cambiada Exitosamente";
             return View(model);
         }
 

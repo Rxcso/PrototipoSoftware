@@ -32,9 +32,9 @@ namespace WebApplication4.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -235,23 +235,27 @@ namespace WebApplication4.Controllers
             CuentaUsuario cliente = db.CuentaUsuario.Where(c => c.correo == correo).First();
             if (cliente.contrasena == model.OldPassword)
             {
-                var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
-                if (result.Succeeded)
+                if (cliente.contrasena == model.NewPassword)
                 {
-                    var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-                    cliente.contrasena = model.NewPassword;
-                    db.SaveChanges();
-                    TempData["tipo"] = "alert alert-success";
-                    TempData["message"] = "Contraseña cambiada Exitosamente";
-                    if (user != null)
+                    var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+                    if (result.Succeeded)
                     {
-                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                        cliente.contrasena = model.NewPassword;
+                        db.SaveChanges();
+                        TempData["tipo"] = "alert alert-success";
+                        TempData["message"] = "Contraseña cambiada Exitosamente";
+                        if (user != null)
+                        {
+                            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        }
+                        /*Aca deberia retornarte a MiCuenta de CuentaUsuario*/
+                        return RedirectToAction("MiCuenta", "CuentaUsuario");
                     }
-                    /*Aca deberia retornarte a MiCuenta de CuentaUsuario*/
-                    return RedirectToAction("MiCuenta","CuentaUsuario");
                 }
+                ModelState.AddModelError("NewPassword", "Ingrese una contraseña diferente a la actual.");
             }
-            
+            ModelState.AddModelError("OldPassword", "Contraseña ingresada no es correcta");
             //AddErrors(result);
             return View(model);
         }
@@ -345,7 +349,7 @@ namespace WebApplication4.Controllers
             base.Dispose(disposing);
         }
 
-#region Helpers
+        #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
@@ -396,6 +400,6 @@ namespace WebApplication4.Controllers
             Error
         }
 
-#endregion
+        #endregion
     }
 }
