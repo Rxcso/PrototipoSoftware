@@ -250,7 +250,8 @@ namespace WebApplication4.Controllers
                         return RedirectToAction("MiCuenta", "CuentaUsuario");
                     }
                     else {
-                        ModelState.AddModelError("NewPassword", "El password debe tener una combinación de caracteres especiales, letras, letras mayúsculas y números");
+                        ModelState.AddModelError("NewPassword", "Las contraseñas debe tener una combinación de caracteres especiales, letras, letras mayúsculas y números");
+                        
                         if (model.NewPassword != model.ConfirmPassword)
                         {
                             ModelState.AddModelError("ConfirmPassword", "Las contraseñas no coinciden");
