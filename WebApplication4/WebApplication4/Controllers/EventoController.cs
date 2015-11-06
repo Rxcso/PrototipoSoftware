@@ -12,10 +12,6 @@ using System.Diagnostics;
 
 namespace WebApplication4.Controllers
 {
-
-    
-
-
     [Authorize]
     public class EventoController : Controller
     {
@@ -48,9 +44,6 @@ namespace WebApplication4.Controllers
 
             return "Ok";
         }
-
-
-
 
         public ActionResult Index(string nombre, string orden, DateTime? fech_ini, DateTime? fech_fin, int? idCategoria, int? idSubCat, int? idRegion, int? page)
         {
@@ -418,6 +411,7 @@ namespace WebApplication4.Controllers
                 db.SaveChanges();
             }
         }
+        
         private void ObtenerFechaInicioyFin(List<BloqueDeTiempoModel> bloques, int idEvento)
         {
             List<DateTime> inicio = new List<DateTime>();
@@ -866,10 +860,13 @@ namespace WebApplication4.Controllers
                     /*--No se carga de vuelta la imagen subida-- valida con string pero no con imagenes
                      * al ser un HttpPostFileBase no se puede recuperar porque es una clase abstracta.
                      * si no es destacado simplemente dejar la imagen en null. si agrega otra imagen recien se guarda, si no hay nada simplemente dejarla como estaba antes.
-                     * Hay una situacion con poner evento.ImagenDestacado en null, al realizar db.SaveChanges(), me dice que el campo debe ser obligatorio a pesar de que no se especifica en ningun lado de que lo sea. Incluso en base de datos esta permitido el valor de null.
-                    if (guardarImagen("destacado" + evento.codigo + ".jpg", model.ImageDestacado))
-                        evento.ImagenDestacado = "/Images/" + "destacado" + evento.codigo + ".jpg";
-                    else evento.ImagenDestacado = null;*/
+                     * Hay una situacion con poner evento.ImagenDestacado en null, al realizar db.SaveChanges(), me dice que el campo debe ser obligatorio a pesar de que no se especifica en ningun lado de que lo sea. Incluso en base de datos esta permitido el valor de null.*/
+                    if (Session["IdEventoCreado"] != null)
+                    {
+                        if (guardarImagen("destacado" + evento.codigo + ".jpg", model.ImageDestacado))
+                            evento.ImagenDestacado = "/Images/" + "destacado" + evento.codigo + ".jpg";
+                        else evento.ImagenDestacado = null;
+                    }
                 }
 
                 if (guardarImagen("evento" + evento.codigo + ".jpg", model.ImageEvento)) evento.ImagenEvento = "/Images/" + "evento" + evento.codigo + ".jpg";
@@ -897,7 +894,6 @@ namespace WebApplication4.Controllers
 
             return View(model);
         }
-
 
         [HttpGet]
         public ActionResult Asientos(string evento)
@@ -1213,7 +1209,6 @@ namespace WebApplication4.Controllers
         [HttpPost]
         public ActionResult Entradas(PaqueteEntradas paquete, string boton)
         {
-
             //VALIDAR
             if (ModelState.IsValid)
             {
@@ -1239,8 +1234,49 @@ namespace WebApplication4.Controllers
                 }
                 else if (boton.CompareTo("carrito") == 0)
                 {
-                    //logica de carrito
-                    //SAMOEL AQUI
+                    bool carritocreado = (bool)Session["CarritoCreado"];
+                    if (Session["UsuarioLogueado"] != null )
+                    {
+                        int idVenta = 0;
+                        //si no se ha creado un carrito, creo una nueva
+                        if (!carritocreado)
+                        {
+                            Ventas venta = new Ventas();
+                            venta.cantAsientos = paquete.filas.Count;
+                            venta.cliente = ((CuentaUsuario)Session["UsuarioLogueado"]).correo;
+                            venta.codDoc = ((CuentaUsuario)Session["UsuarioLogueado"]).codDoc;
+                            venta.Estado = "Carrito";
+                            venta.fecha = DateTime.Today;
+                            venta.modalidad = "T";
+                            venta.montoCreditoSoles = 0;
+                            venta.montoEfectivoDolares = 0;
+                            venta.montoEfectivoSoles = 0;
+                            venta.MontoTotalSoles = 0;
+                            venta.tipoDoc = ((CuentaUsuario)Session["UsuarioLogueado"]).tipoDoc;
+                            venta.vendedor = "Venta Web";
+                            db.Ventas.Add(venta);
+                            db.SaveChanges();
+                            idVenta = venta.codVen;
+                        }
+                        else
+                        {//si ya esta creado busco el id de la venta que cree anteriormente
+                            idVenta = db.Ventas.Where(c => c.cliente == ((CuentaUsuario)Session["UsuarioLogueado"]).correo && c.codDoc == ((CuentaUsuario)Session["UsuarioLogueado"]).codDoc && c.Estado == "Carrito").First().codVen;
+                        }
+                        //creo los ventaxfuncion para cada 
+                        for (int i = 0; i < paquete.filas.Count; i++)
+                        {
+                            /*
+                            VentasXFuncion ventasxfuncion = new VentasXFuncion();
+                            ventasxfuncion.cantEntradas;
+                            ventasxfuncion.codFuncion;
+                            ventasxfuncion.codVen;
+                            ventasxfuncion.descuento;
+                            ventasxfuncion.subtotal;
+                            ventasxfuncion.total;*/
+                        }
+                        
+                    }
+                    
                 }
             }
             else
@@ -1430,7 +1466,6 @@ namespace WebApplication4.Controllers
             return View();
         }
 
-
         /*
          *POSTERGAR EVENTO 
          * 
@@ -1452,8 +1487,6 @@ namespace WebApplication4.Controllers
 
             return View();
         }
-
-
 
         [HttpPost]
         public ActionResult PostergarEvento(PostergarModel evento)
@@ -1481,7 +1514,6 @@ namespace WebApplication4.Controllers
 
             return View();
         }
-
 
         /*
          *CANCELAR EVENTO 
@@ -1518,8 +1550,6 @@ namespace WebApplication4.Controllers
 
             return View("Cancelar", cancelarEvento);
         }
-
-
 
         [HttpPost]
         public ActionResult CancelarEvento(CancelarModel evento)
@@ -1569,7 +1599,5 @@ namespace WebApplication4.Controllers
 
             return CancelarEvento("" + evento.idEvento);
         }
-
-
     }
 }

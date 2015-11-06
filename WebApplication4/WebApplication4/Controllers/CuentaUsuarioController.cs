@@ -80,7 +80,6 @@ namespace WebApplication4.Controllers
             return View(model);
         }
 
-
         [HttpGet]
         public ActionResult ModificarDatos()
         {
@@ -149,7 +148,6 @@ namespace WebApplication4.Controllers
             TempData["message"] = "Contraseña cambiada Exitosamente";
             return View(model);
         }
-
 
         [HttpGet]
         public ActionResult CambiarCorreo()
