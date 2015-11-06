@@ -66,3 +66,139 @@ System.Collections.ListDictionaryInternal
 El índice estaba fuera del intervalo. Debe ser un valor no negativo e inferior al tamaño de la colección.
 Nombre del parámetro: index
 2015-11-06 18:29:43,988 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:47:22,834 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:47:22,834 [6] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:47:22,834 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:47:22,834 [6] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:47:22,834 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:47:26,567 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:47:26,567 [7] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:47:26,567 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:47:26,567 [7] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:47:26,567 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:47:31,630 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:47:31,630 [6] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:47:31,630 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:47:31,630 [6] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:47:31,630 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:48:50,762 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:48:50,762 [11] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:48:50,762 [11] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:48:50,762 [11] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:48:50,762 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:48:57,058 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:48:57,058 [7] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:48:57,058 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:48:57,058 [7] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:48:57,058 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:49:00,073 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:49:00,073 [10] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-06 18:49:00,074 [10] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:49:00,074 [10] ERROR Ticknet - Exception Message - 
+A public action method 'BuscarReservas' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-06 18:49:00,074 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:49:02,946 [13] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:49:02,946 [13] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:49:02,946 [13] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:49:02,946 [13] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:49:02,946 [13] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:49:37,980 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:49:37,980 [8] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:49:37,980 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:49:37,980 [8] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:49:37,980 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:50:07,495 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:50:07,495 [10] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:50:07,495 [10] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:50:07,495 [10] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:50:07,495 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:50:47,008 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:50:47,008 [6] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:50:47,008 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:50:47,008 [6] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:50:47,008 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:51:46,332 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:51:46,332 [7] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:51:46,332 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:51:46,332 [7] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:51:46,332 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:51:52,657 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:51:52,657 [6] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:51:52,657 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:51:52,657 [6] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:51:52,657 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:52:05,455 [15] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:52:05,455 [15] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:52:05,455 [15] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:52:05,455 [15] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:52:05,455 [15] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:52:23,742 [22] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:52:23,742 [22] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:52:23,742 [22] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:52:23,742 [22] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:52:23,743 [22] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:52:45,549 [32] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:52:45,549 [32] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:52:45,549 [32] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:52:45,549 [32] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:52:45,549 [32] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:55:42,183 [34] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:55:42,183 [34] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:55:42,183 [34] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:55:42,183 [34] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:55:42,183 [34] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:56:59,583 [17] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:56:59,584 [17] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-06 18:56:59,584 [17] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:56:59,584 [17] ERROR Ticknet - Exception Message - 
+A public action method 'CarritoDeCompras' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-06 18:56:59,584 [17] DEBUG Ticknet - ++++++++++++++++++++++++++++
