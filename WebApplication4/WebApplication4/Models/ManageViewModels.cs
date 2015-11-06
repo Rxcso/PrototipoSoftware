@@ -52,10 +52,10 @@ namespace WebApplication4.Models
         [Display(Name = "Nueva Contraseña")]
         public string NewPassword { get; set; }
 
+        [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Confirmar Nueva Contraseña")]
         [StringLength(100, ErrorMessage = "El campo {0} debe tener al menos {2} caracteres de largo.", MinimumLength = 6)]
-        [Compare("NewPassword", ErrorMessage = "Las contraseñas no coinciden.")]
         public string ConfirmPassword { get; set; }
     }
 
