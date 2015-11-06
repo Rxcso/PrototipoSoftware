@@ -99,8 +99,6 @@
         var fila = $('input[name="groupTarifas"]:checked').val();
         var row = document.getElementById(parseInt(fila));
         row.parentNode.removeChild(row);
-        var cantidad = parseInt($('#nZonas').val());
-        $("#nZonas").val(cantidad - 1);
     }
     function agregaTarifas() {
         var tableBTV = document.getElementById("tarifario");

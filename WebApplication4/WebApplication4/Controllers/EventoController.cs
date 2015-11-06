@@ -349,6 +349,7 @@ namespace WebApplication4.Controllers
                     evento.puntosAlCliente = 0;
                     evento.hanPostergado = false;
                     evento.hanCancelado = false;
+                    evento.maxReservas = 0;
                     //evento.ImagenDestacado = MagicHelpers.NuevoEvento;
                     db.Eventos.Add(evento);
                     db.SaveChanges();
@@ -771,7 +772,7 @@ namespace WebApplication4.Controllers
             {
                 int idZona = listaModel[i].Id;
                 //es una zona modificada
-                if (idZona != 0)
+                if (idZona == 0)
                 {
                     ZonaEvento zonaMod = db.ZonaEvento.Where(c => c.codZona == idZona).First();
                     zonaMod.nombre = listaModel[i].Nombre;

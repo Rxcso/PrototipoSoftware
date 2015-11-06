@@ -1,0 +1,33 @@
+2015-11-06 17:31:02,123 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 17:31:02,131 [9] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-06 17:31:02,131 [9] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 17:31:02,131 [9] ERROR Ticknet - Exception Message - 
+The explicit expression block is missing a closing ")" character.  Make sure you have a matching ")" character for all the "(" characters within this block, and that none of the ")" characters are being interpreted as markup.
+
+2015-11-06 17:31:02,131 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 17:31:18,450 [20] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 17:31:18,450 [20] ERROR Ticknet - Exception Type - 
+RuntimeBinderException
+2015-11-06 17:31:18,450 [20] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 17:31:18,450 [20] ERROR Ticknet - Exception Message - 
+No se puede realizar enlace en tiempo de ejecución en una referencia NULL.
+2015-11-06 17:31:18,450 [20] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:06:24,383 [48] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:06:24,393 [48] ERROR Ticknet - Exception Type - 
+DbUpdateException
+2015-11-06 18:06:24,393 [48] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:06:24,393 [48] ERROR Ticknet - Exception Message - 
+An error occurred while updating the entries. See the inner exception for details.
+2015-11-06 18:06:24,393 [48] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:13:29,071 [48] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:13:29,071 [48] ERROR Ticknet - Exception Type - 
+DbUpdateException
+2015-11-06 18:13:29,071 [48] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:13:29,071 [48] ERROR Ticknet - Exception Message - 
+An error occurred while updating the entries. See the inner exception for details.
+2015-11-06 18:13:29,071 [48] DEBUG Ticknet - ++++++++++++++++++++++++++++
