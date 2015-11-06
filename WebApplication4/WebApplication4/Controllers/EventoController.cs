@@ -489,22 +489,17 @@ namespace WebApplication4.Controllers
             }
         }
 
-        private void ObtenerFechaInicioyFin(List<BloqueDeTiempoModel> bloques, int idEvento)
+        private void ObtenerFechaInicio(List<BloqueDeTiempoModel> bloques, int idEvento)
         {
             List<DateTime> inicio = new List<DateTime>();
-            List<DateTime> fin = new List<DateTime>();
             foreach (BloqueDeTiempoModel bloque in bloques)
             {
                 inicio.Add(bloque.fechaInicio);
-                fin.Add(bloque.fechaFin);
             }
             inicio.Sort((a, b) => a.CompareTo(b));
-            fin.Select((a, b) => b.CompareTo(a));
             DateTime fechaInicio = inicio.First();
-            DateTime fechaFin = fin.First();
             Eventos evento = db.Eventos.Find(idEvento);
             evento.fecha_inicio = fechaInicio;
-            evento.fecha_fin = fechaFin;
             db.SaveChanges();
         }
 
@@ -522,7 +517,7 @@ namespace WebApplication4.Controllers
                 listaVerificacion = Validaciones.ValidarBloquesDeTiempoDeVenta(model);
                 if (model.esCorrecto)
                 {
-                    ObtenerFechaInicioyFin(listaVerificacion, idEvento);
+                    ObtenerFechaInicio(listaVerificacion, idEvento);
                     if (Session["IdEventoModificado"] != null)
                     {
                         FiltraBloques(listaVerificacion, idEvento);
@@ -635,6 +630,20 @@ namespace WebApplication4.Controllers
             }
         }
 
+        private void ObtenerFechaFin(int idEvento)
+        {
+            List<Funcion> funciones = db.Funcion.Where(c => c.codEvento == idEvento).ToList();
+            List<DateTime> fin = new List<DateTime>();
+            foreach (Funcion funcion in funciones)
+            {
+                fin.Add((DateTime)funcion.fecha);
+            }
+            fin.Sort((a, b) => a.CompareTo(b));
+            DateTime fechaFin = fin.Last();
+            Eventos evento = db.Eventos.Find(idEvento);
+            evento.fecha_fin = fechaFin;
+            db.SaveChanges();
+        }
         [HttpPost]
         public ActionResult Funciones(FuncionesListModel model)
         {
@@ -655,6 +664,7 @@ namespace WebApplication4.Controllers
                     if (Session["IdEventoModificado"] != null)
                     {
                         FiltrarFunciones(listaVerificacion, idEvento);
+                        ObtenerFechaFin(idEvento);
                         return RedirectToAction("Tarifas");
                     }
                     for (int i = 0; i < listaVerificacion.Count; i++)
@@ -666,6 +676,7 @@ namespace WebApplication4.Controllers
                         db.Funcion.Add(funcion);
                         db.SaveChanges();
                     }
+                    ObtenerFechaFin(idEvento);
                     return RedirectToAction("Tarifas");
                 }
                 ViewBag.MensajeError = "Funciones Repetidas en el mismo dia";
@@ -772,7 +783,7 @@ namespace WebApplication4.Controllers
             {
                 int idZona = listaModel[i].Id;
                 //es una zona modificada
-                if (idZona == 0)
+                if (idZona != 0)
                 {
                     ZonaEvento zonaMod = db.ZonaEvento.Where(c => c.codZona == idZona).First();
                     zonaMod.nombre = listaModel[i].Nombre;
