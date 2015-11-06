@@ -638,7 +638,7 @@
       <PropertyRef Name="codFuncion" />
     </Key>
     <Property Name="codVen" Type="Int32" Nullable="false" />
-    <Property Name="cantEntradas" Type="Int32" />
+    <Property Name="cantEntradas" Type="Int32" Nullable="false" />
     <Property Name="subtotal" Type="Double" />
     <Property Name="descuento" Type="Int32" />
     <Property Name="total" Type="Double" />
@@ -911,13 +911,14 @@
     </Key>
     <Property Name="codAsiento" Type="Int32" Nullable="false" />
     <Property Name="codFuncion" Type="Int32" Nullable="false" />
-    <Property Name="estado" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="estado" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" ConcurrencyMode="Fixed" />
     <Property Name="codDetalleVenta" Type="Int32" />
     <Property Name="TipoDocAsociado" Type="Int32" />
     <Property Name="DocAsociado" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
     <Property Name="PrecioPagado" Type="Double" />
     <NavigationProperty Name="Asientos" Relationship="inf245netsoftModel.R_44" FromRole="AsientosXFuncion" ToRole="Asientos" />
     <NavigationProperty Name="Funcion" Relationship="inf245netsoftModel.R_46" FromRole="AsientosXFuncion" ToRole="Funcion" />
+    <Property Name="concurrencia" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" ConcurrencyMode="None" />
   </EntityType>
   <EntityType Name="Comentarios">
     <Key>
@@ -1207,9 +1208,10 @@
     </Key>
     <Property Name="codFuncion" Type="Int32" Nullable="false" />
     <Property Name="codZona" Type="Int32" Nullable="false" />
-    <Property Name="cantLibres" Type="Int32" Nullable="false" />
+    <Property Name="cantLibres" Type="Int32" Nullable="false" ConcurrencyMode="Fixed" />
     <NavigationProperty Name="Funcion" Relationship="inf245netsoftModel.R_50" FromRole="ZonaxFuncion" ToRole="Funcion" />
     <NavigationProperty Name="ZonaEvento" Relationship="inf245netsoftModel.R_51" FromRole="ZonaxFuncion" ToRole="ZonaEvento" />
+    <Property Name="concurrencia" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
   </EntityType>
   <Association Name="R_50">
     <End Type="inf245netsoftModel.Funcion" Role="Funcion" Multiplicity="1">

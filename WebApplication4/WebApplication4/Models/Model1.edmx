@@ -36,6 +36,7 @@
           <Property Name="TipoDocAsociado" Type="int" />
           <Property Name="DocAsociado" Type="varchar" MaxLength="20" />
           <Property Name="PrecioPagado" Type="float" />
+          <Property Name="concurrencia" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
         <EntityType Name="AspNetRoles">
           <Key>
@@ -451,7 +452,7 @@
             <PropertyRef Name="codFuncion" />
           </Key>
           <Property Name="codVen" Type="int" Nullable="false" />
-          <Property Name="cantEntradas" Type="int" />
+          <Property Name="cantEntradas" Type="int" Nullable="false" />
           <Property Name="subtotal" Type="float" />
           <Property Name="descuento" Type="int" />
           <Property Name="total" Type="float" />
@@ -471,12 +472,13 @@
         </EntityType>
         <EntityType Name="ZonaxFuncion">
           <Key>
-            <PropertyRef Name="codFuncion" />
             <PropertyRef Name="codZona" />
+            <PropertyRef Name="codFuncion" />
           </Key>
-          <Property Name="codFuncion" Type="int" Nullable="false" />
           <Property Name="codZona" Type="int" Nullable="false" />
+          <Property Name="codFuncion" Type="int" Nullable="false" />
           <Property Name="cantLibres" Type="int" Nullable="false" />
+          <Property Name="concurrencia" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
         </EntityType>
         <Association Name="FK__RegaloXCu__usuar__4BAC3F29">
           <End Role="CuentaUsuario" Type="Self.CuentaUsuario" Multiplicity="1" />
@@ -1874,7 +1876,7 @@
             <PropertyRef Name="codFuncion" />
           </Key>
           <Property Name="codVen" Type="Int32" Nullable="false" />
-          <Property Name="cantEntradas" Type="Int32" />
+          <Property Name="cantEntradas" Type="Int32" Nullable="false" />
           <Property Name="subtotal" Type="Double" />
           <Property Name="descuento" Type="Int32" />
           <Property Name="total" Type="Double" />
@@ -2147,13 +2149,14 @@
           </Key>
           <Property Name="codAsiento" Type="Int32" Nullable="false" />
           <Property Name="codFuncion" Type="Int32" Nullable="false" />
-          <Property Name="estado" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="estado" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" ConcurrencyMode="Fixed" />
           <Property Name="codDetalleVenta" Type="Int32" />
           <Property Name="TipoDocAsociado" Type="Int32" />
           <Property Name="DocAsociado" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="PrecioPagado" Type="Double" />
           <NavigationProperty Name="Asientos" Relationship="inf245netsoftModel.R_44" FromRole="AsientosXFuncion" ToRole="Asientos" />
           <NavigationProperty Name="Funcion" Relationship="inf245netsoftModel.R_46" FromRole="AsientosXFuncion" ToRole="Funcion" />
+          <Property Name="concurrencia" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" ConcurrencyMode="None" />
         </EntityType>
         <EntityType Name="Comentarios">
           <Key>
@@ -2443,9 +2446,10 @@
           </Key>
           <Property Name="codFuncion" Type="Int32" Nullable="false" />
           <Property Name="codZona" Type="Int32" Nullable="false" />
-          <Property Name="cantLibres" Type="Int32" Nullable="false" />
+          <Property Name="cantLibres" Type="Int32" Nullable="false" ConcurrencyMode="Fixed" />
           <NavigationProperty Name="Funcion" Relationship="inf245netsoftModel.R_50" FromRole="ZonaxFuncion" ToRole="Funcion" />
           <NavigationProperty Name="ZonaEvento" Relationship="inf245netsoftModel.R_51" FromRole="ZonaxFuncion" ToRole="ZonaEvento" />
+          <Property Name="concurrencia" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
         <Association Name="R_50">
           <End Type="inf245netsoftModel.Funcion" Role="Funcion" Multiplicity="1">
@@ -2870,6 +2874,7 @@
           <EntitySetMapping Name="AsientosXFuncion">
             <EntityTypeMapping TypeName="inf245netsoftModel.AsientosXFuncion">
               <MappingFragment StoreEntitySet="AsientosXFuncion">
+                <ScalarProperty Name="concurrencia" ColumnName="concurrencia" />
                 <ScalarProperty Name="PrecioPagado" ColumnName="PrecioPagado" />
                 <ScalarProperty Name="DocAsociado" ColumnName="DocAsociado" />
                 <ScalarProperty Name="TipoDocAsociado" ColumnName="TipoDocAsociado" />
@@ -2968,6 +2973,7 @@
           <EntitySetMapping Name="ZonaxFuncion">
             <EntityTypeMapping TypeName="inf245netsoftModel.ZonaxFuncion">
               <MappingFragment StoreEntitySet="ZonaxFuncion">
+                <ScalarProperty Name="concurrencia" ColumnName="concurrencia" />
                 <ScalarProperty Name="cantLibres" ColumnName="cantLibres" />
                 <ScalarProperty Name="codZona" ColumnName="codZona" />
                 <ScalarProperty Name="codFuncion" ColumnName="codFuncion" />

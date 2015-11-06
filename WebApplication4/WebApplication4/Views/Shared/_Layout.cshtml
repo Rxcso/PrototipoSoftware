@@ -62,7 +62,7 @@
                                     <li><a href="@Url.Action("BuscarReservas", "CuentaUsuario")">Buscar reserva</a></li>
                                     <li><a href="devolucion_entradas.html">Devolución</a></li>
                                     <li class="divider"></li>
-                                    
+
                                     <li><a href="@Url.Action("BuscaCliente", "CuentaUsuario")">Buscar cliente</a></li>
                                     <li><a href="@Url.Action("RegistrarUsuarioVendedor", "CuentaUsuario")">Registrar Cliente</a></li>
                                     <li class="divider"></li>
@@ -188,7 +188,9 @@ else
                         <form id="busqueda" action="" class="navbar-form navbar-right">
                             <a class="btn btn-info" href="#busqAvanzada" data-toggle="collapse">Búsqueda Avanzada <span class="glyphicon glyphicon-tasks"></span></a>
                         </form>
-
+                        <div class="navbar-form navbar-right">
+                            <a href="@Url.Action("MiCarrito","CuentaUsuario")" name="boton" value="carrito" class="btn btn-success pull-right ">Carrito <span class="glyphicon glyphicon-shopping-cart"></span></a>
+                        </div>
                         <div class="navbar-form navbar-right">
                             @if (!Request.IsAuthenticated)
                             {

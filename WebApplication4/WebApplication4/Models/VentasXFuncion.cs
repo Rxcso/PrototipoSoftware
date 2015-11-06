@@ -20,7 +20,7 @@ namespace WebApplication4.Models
         }
     
         public int codVen { get; set; }
-        public Nullable<int> cantEntradas { get; set; }
+        public int cantEntradas { get; set; }
         public Nullable<double> subtotal { get; set; }
         public Nullable<int> descuento { get; set; }
         public Nullable<double> total { get; set; }

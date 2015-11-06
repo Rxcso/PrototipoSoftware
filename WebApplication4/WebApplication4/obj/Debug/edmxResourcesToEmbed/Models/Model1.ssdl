@@ -31,6 +31,7 @@
     <Property Name="TipoDocAsociado" Type="int" />
     <Property Name="DocAsociado" Type="varchar" MaxLength="20" />
     <Property Name="PrecioPagado" Type="float" />
+    <Property Name="concurrencia" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
   </EntityType>
   <EntityType Name="AspNetRoles">
     <Key>
@@ -446,7 +447,7 @@
       <PropertyRef Name="codFuncion" />
     </Key>
     <Property Name="codVen" Type="int" Nullable="false" />
-    <Property Name="cantEntradas" Type="int" />
+    <Property Name="cantEntradas" Type="int" Nullable="false" />
     <Property Name="subtotal" Type="float" />
     <Property Name="descuento" Type="int" />
     <Property Name="total" Type="float" />
@@ -466,12 +467,13 @@
   </EntityType>
   <EntityType Name="ZonaxFuncion">
     <Key>
-      <PropertyRef Name="codFuncion" />
       <PropertyRef Name="codZona" />
+      <PropertyRef Name="codFuncion" />
     </Key>
-    <Property Name="codFuncion" Type="int" Nullable="false" />
     <Property Name="codZona" Type="int" Nullable="false" />
+    <Property Name="codFuncion" Type="int" Nullable="false" />
     <Property Name="cantLibres" Type="int" Nullable="false" />
+    <Property Name="concurrencia" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
   </EntityType>
   <Association Name="FK__RegaloXCu__usuar__4BAC3F29">
     <End Role="CuentaUsuario" Type="Self.CuentaUsuario" Multiplicity="1" />

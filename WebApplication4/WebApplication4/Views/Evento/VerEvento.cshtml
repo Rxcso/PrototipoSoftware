@@ -177,7 +177,7 @@
                                             @Html.TextBoxFor(Model => Model.idZona, new { style = "display:none" })
                                             @Html.TextBoxFor(Model => Model.idFuncion, new { style = "display:none" })
                                             @Html.TextBoxFor(model => model.idEvento, new { style = "display:none" })
-                                            @Html.CheckBoxFor(model => model.tieneAsientos, new { style = "display:none" })
+                                            @Html.CheckBoxFor(model => model.tieneAsientos, new { id="formTieneEntradas", style = "display:none" })
                                             @Html.TextBoxFor(model => model.cantEntradas, new { id="formCantEntradas" ,style = "display:none" })
                                             <div id="asientosElegidos">
 
@@ -388,6 +388,8 @@
                 //$("#filas").val(cantFilas);
                 //$("#columnas").val(cantColumnas);
 
+                $("#formTieneEntradas").val(listaAsientos[index].tieneAsientos);
+
                 $("#numEntradas").val(0);
                 $("#numEntradas").prop('disabled', true);
             }
@@ -398,7 +400,7 @@
                 $("#aux").empty();
                 if (index >= 0) {
                     $("#numEntradas").prop('disabled', false);
-
+                    $("#formTieneEntradas").val(listaAsientos[index].tieneAsientos);
                     $('<div><h3>Quedan ' + listaAsientos[index].totalLibres + ' asientos</h3> </div>').appendTo('#canvas');
 
                     
@@ -422,7 +424,7 @@
             $("#formCantEntradas").val( $("#numEntradas").val() );
             //validar!!!
 
-
+            
 
             //PIER VALIDA PLZ
             // cantEntradas que no son naturales

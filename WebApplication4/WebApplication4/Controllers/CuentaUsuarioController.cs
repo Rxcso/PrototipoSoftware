@@ -336,8 +336,8 @@ namespace WebApplication4.Controllers
                 return RedirectToAction("BuscaCliente", "CuentaUsuario");
             }
             List<CuentaUsuario> listacl;
-            if (ti == 0) listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.codDoc == usuario && c.estado == true && c.codPerfil == 1 && c.puntos > 0).ToList();
-            else listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.tipoDoc == ti && c.codDoc == usuario && c.estado == true && c.codPerfil == 1 && c.puntos > 0).ToList();
+            if (ti == 0) listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.codDoc.Contains(usuario) && c.estado == true && c.codPerfil == 1 && c.puntos > 0).ToList();
+            else listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.tipoDoc == ti && c.codDoc.Contains(usuario) && c.estado == true && c.codPerfil == 1 && c.puntos > 0).ToList();
             if (listacl != null) Session["ListaCL"] = listacl;
             else Session["ListaCL"] = null;
             return RedirectToAction("BuscaCliente", "CuentaUsuario");
@@ -362,21 +362,26 @@ namespace WebApplication4.Controllers
                 Session["ReservaBusca"] = null;
                 return RedirectToAction("BuscaReserva", "CuentaUsuario");
             }
-            List<CuentaUsuario> listacl;
-            if (ti == 0) listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.codDoc.Contains(usuario) && c.estado == true && c.codPerfil == 1).ToList();
-            else listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.tipoDoc == ti && c.codDoc.Contains(usuario) && c.estado == true && c.codPerfil == 1).ToList();
-            if (listacl == null) return RedirectToAction("BuscaReserva", "CuentaUsuario");
+            //List<CuentaUsuario> listacl;
+            //if (ti == 0) listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.codDoc.Contains(usuario) && c.estado == true && c.codPerfil == 1).ToList();
+            //else listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.tipoDoc == ti && c.codDoc.Contains(usuario) && c.estado == true && c.codPerfil == 1).ToList();
+            //if (listacl == null) return RedirectToAction("BuscaReserva", "CuentaUsuario");
 
             List<Ventas> listareservas = new List<Ventas>();
-            for (int i = 0; i < listacl.Count; i++)
-            {
-                string us = listacl[i].usuario;
-                List<Ventas> lv = db.Ventas.Where(c => c.cliente == us && c.Estado == "Reservado").ToList();
-                for (int j = 0; j < lv.Count; j++)
-                {
-                    listareservas.Add(lv[j]);
-                }
-            }
+            //for (int i = 0; i < listacl.Count; i++)
+            //{
+            //    string us = listacl[i].usuario;
+            //    List<Ventas> lv = db.Ventas.Where(c => c.cliente == us && c.Estado == "Reservado").ToList();
+            //    for (int j = 0; j < lv.Count; j++)
+            //    {
+            //        listareservas.Add(lv[j]);
+            //    }
+            //}
+
+            if (ti == 0) listareservas = db.Ventas.AsNoTracking().Where(c => c.codDoc.Contains(usuario) && c.Estado == "Reservado").ToList();
+            else listareservas = db.Ventas.AsNoTracking().Where(c => c.tipoDoc == ti && c.codDoc.Contains(usuario) && c.Estado == "Reservado").ToList();
+            if (listareservas == null) return RedirectToAction("BuscaReserva", "CuentaUsuario");
+
             List<VentasXFuncion> listaRxF = new List<VentasXFuncion>();
             for (int i = 0; i < listareservas.Count; i++)
             {
@@ -698,8 +703,30 @@ namespace WebApplication4.Controllers
             return View();
         }
 
-        public ActionResult Carrito()
+        [AllowAnonymous]
+        public ActionResult MiCarrito()
         {
+            if (Session["Carrito"] != null)
+            {
+                List<PaqueteEntradas> carrito = (List<PaqueteEntradas>)Session["Carrito"];
+                List<CarritoItem> item = new List<CarritoItem>();
+                foreach (PaqueteEntradas paquete in carrito)
+                {
+                    CarritoItem cItem = new CarritoItem();
+                    cItem.idEvento = paquete.idEvento;
+                    cItem.nombreEvento = db.Eventos.Find(paquete.idEvento).nombre;
+                    Funcion funcion = db.Funcion.Find(paquete.idFuncion);
+                    cItem.fecha = (DateTime)funcion.fecha;
+                    cItem.hora = (DateTime)funcion.horaIni;
+                    cItem.zona = db.ZonaEvento.Find(paquete.idZona).nombre;
+                    cItem.precio = 0;
+                    cItem.filas = paquete.filas;
+                    cItem.columnas = paquete.columnas;
+                    cItem.cantidad = paquete.filas.Count;
+                    item.Add(cItem);
+                }
+                ViewBag.Carrito = item;
+            }
             return View();
         }
 
@@ -717,9 +744,7 @@ namespace WebApplication4.Controllers
 
         public ActionResult Punto()
         {
-
             return View();
-
         }
 
         public ActionResult ReportePdf()
