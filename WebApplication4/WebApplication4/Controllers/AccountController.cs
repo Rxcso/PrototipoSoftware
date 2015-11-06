@@ -112,6 +112,8 @@ namespace WebApplication4.Controllers
                 TempData["message"] = "Iniciar Sesión desde un punto de venta registrado.";
                 return Redirect("~/Home/Index");
             }
+
+            if (cuentausuario.codPerfil != 1 && cuentausuario.estado == false) return Redirect("~/Home/Index");
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
 
             TempData["tipo"] = "alert alert-warning";
@@ -177,7 +179,7 @@ namespace WebApplication4.Controllers
                                 {
                                     tu.estado = "Tarde";
                                 }
-                                Session["MensajeIngresoTurno"] = "Ingreso a Turno Registrado";
+                                Session["MensajeIngresoTurno"] = "Ingreso a Turno Registrado" + da.ToString(@"hh\:mm\:ss"); ;
                                 db.SaveChanges();
                                 db.Entry(tu).State = EntityState.Detached;
                             }
@@ -650,6 +652,8 @@ namespace WebApplication4.Controllers
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             Session["UsuarioLogueado"] = null;
+            Session["TurnoHoy"] = null;
+            Session["MensajeIngresoTurno"] = null;
             Session["CarritoCreado"] = false;
             return RedirectToAction("Index", "Home");
         }

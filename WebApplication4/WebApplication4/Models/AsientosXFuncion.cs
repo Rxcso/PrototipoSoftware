@@ -21,6 +21,7 @@ namespace WebApplication4.Models
         public Nullable<int> TipoDocAsociado { get; set; }
         public string DocAsociado { get; set; }
         public Nullable<double> PrecioPagado { get; set; }
+        public byte[] concurrencia { get; set; }
     
         public virtual Asientos Asientos { get; set; }
         public virtual Funcion Funcion { get; set; }

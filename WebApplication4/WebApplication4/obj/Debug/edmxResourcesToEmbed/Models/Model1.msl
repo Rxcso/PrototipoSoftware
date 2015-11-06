@@ -390,6 +390,7 @@
     <EntitySetMapping Name="AsientosXFuncion">
       <EntityTypeMapping TypeName="inf245netsoftModel.AsientosXFuncion">
         <MappingFragment StoreEntitySet="AsientosXFuncion">
+          <ScalarProperty Name="concurrencia" ColumnName="concurrencia" />
           <ScalarProperty Name="PrecioPagado" ColumnName="PrecioPagado" />
           <ScalarProperty Name="DocAsociado" ColumnName="DocAsociado" />
           <ScalarProperty Name="TipoDocAsociado" ColumnName="TipoDocAsociado" />
@@ -488,6 +489,7 @@
     <EntitySetMapping Name="ZonaxFuncion">
       <EntityTypeMapping TypeName="inf245netsoftModel.ZonaxFuncion">
         <MappingFragment StoreEntitySet="ZonaxFuncion">
+          <ScalarProperty Name="concurrencia" ColumnName="concurrencia" />
           <ScalarProperty Name="cantLibres" ColumnName="cantLibres" />
           <ScalarProperty Name="codZona" ColumnName="codZona" />
           <ScalarProperty Name="codFuncion" ColumnName="codFuncion" />

@@ -73,7 +73,7 @@ namespace WebApplication4.Controllers
             int id = int.Parse(punto);
             PuntoVenta punto2 = db.PuntoVenta.Find(id);
             //db.Regalo.Remove(regalo);
-            DateTime hoy = DateTime.Now;
+            DateTime hoy = DateTime.Now.Date;
             TurnoSistema ts = new TurnoSistema();
             TimeSpan da = DateTime.Now.TimeOfDay;
             List<TurnoSistema> listaturno = db.TurnoSistema.AsNoTracking().Where(c => c.activo == true).ToList();
