@@ -126,6 +126,7 @@ namespace WebApplication4.Controllers
                     if (cuentausuario.codPerfil == 1)
                     {
                         Session["UsuarioLogueado"] = cuentausuario;
+                        Session["CarritoCreado"] = false;
                         return Redirect("~/Home/Index");
                     }
                     else
@@ -649,6 +650,8 @@ namespace WebApplication4.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            Session["UsuarioLogueado"] = null;
+            Session["CarritoCreado"] = false;
             return RedirectToAction("Index", "Home");
         }
 
