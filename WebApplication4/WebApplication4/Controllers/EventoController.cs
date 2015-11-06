@@ -13,12 +13,45 @@ using System.Diagnostics;
 namespace WebApplication4.Controllers
 {
 
+    
+
+
     [Authorize]
     public class EventoController : Controller
     {
         inf245netsoft db = new inf245netsoft();
         const int maximoPaginas = 2;
+
         // GET: Evento
+
+        public string reservaAsientos(string name, PaqueteEntradas paquete)
+        {
+            //name es el correo de la persona
+
+            //PIER ACA VA LA LOGICA DEL GUARDAR
+            //LA IDEA ES QUE RETORNE UN STRING CON EL ERROR EN CASO HUBIERA ALGUNO
+            //"Superaria el limte de reservas para esta funcion ya tiene n entradas"
+            //"Ya no se encuentran disponibles esas entradas"            
+
+            //Si todo esta bien se devuelve OK
+            //Que significa todo Ok?
+            //Primero busca cuantas entradas mas puede comprar/reservar esta persona para esa funcion
+            //Si supera el limite fue ps
+
+            //Luego se hace la reserva de esto, 
+            //Establecer sincronia es lo mas complicado
+            //Apenas se guarde la reserva todo estara consumado XD 
+            //Eso es todo
+
+            //Funciones Utilitarias necesarias
+            //BuscarEntradasLeQuedan( User , Funcion )
+
+            return "Ok";
+        }
+
+
+
+
         public ActionResult Index(string nombre, string orden, DateTime? fech_ini, DateTime? fech_fin, int? idCategoria, int? idSubCat, int? idRegion, int? page)
         {
             //cada vez que se va al index limpio los session involucrados en la creacion o modificacion
@@ -1030,7 +1063,7 @@ namespace WebApplication4.Controllers
                                 posF.Add((int)-asiento.fila);
 
                             }
-
+                            
                             posC.Add((int)asiento.columna);
                         }
                         catch (Exception ex)
@@ -1187,23 +1220,27 @@ namespace WebApplication4.Controllers
 
                 if (boton.CompareTo("reservar") == 0)
                 {
+                    string mensaje = reservaAsientos(User.Identity.Name, paquete);
 
+                    TempData["tipo"] = "alert alert-success";
+                    TempData["message"] = "Se reservaron correctamente las entradas"; 
 
+                    if( mensaje.CompareTo("Ok")!=0 )
+                    {
+                        TempData["tipo"] = "alert alert-warning";
+                        TempData["message"] = mensaje; 
+                    }
+
+                    return Redirect("~/Evento/VerEvento/" + paquete.idEvento);
                     //logica de reserva
-
-
+                    //PLZ
 
 
                 }
                 else if (boton.CompareTo("carrito") == 0)
                 {
-
-
                     //logica de carrito
-
-
-
-
+                    //SAMOEL AQUI
                 }
             }
             else
