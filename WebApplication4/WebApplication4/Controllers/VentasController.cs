@@ -335,10 +335,15 @@ namespace WebApplication4.Controllers
             //return View("Devolucion");
         }
 
+
+
+
         public ActionResult Devolver(string doc)
         {
             //logica de devolucion!
             return View("Devolucion");
         }
+
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNet.Identity;
 @using WebApplication4.Models;
 @using WebApplication4.Controllers;
+@using Microsoft.AspNet.Identity
 
 @model PaqueteEntradas
 
@@ -177,7 +178,7 @@
                                             @Html.TextBoxFor(Model => Model.idFuncion, new { style = "display:none" })
                                             @Html.TextBoxFor(model => model.idEvento, new { style = "display:none" })
                                             @Html.CheckBoxFor(model => model.tieneAsientos, new { style = "display:none" })
-                                            @Html.TextBoxFor(model => model.cantEntradas, new { style = "display:none" })
+                                            @Html.TextBoxFor(model => model.cantEntradas, new { id="formCantEntradas" ,style = "display:none" })
                                             <div id="asientosElegidos">
 
                                             </div>
@@ -238,6 +239,9 @@
 
         </text>
         }
+
+        var asientosElegidos = new Object();;
+        var cntAsientos = 0;
         var y = x.replace(/&quot;/g, "\"");
         var listaAsientos = JSON.parse(y);
 
@@ -312,7 +316,7 @@
             var flagOcupado = false;
             for (var i = 1 ; i <= cantFilas ; i++)
                 for (var j = 1 ; j <= cantColumnas ; j++) {
-                    $('<div class="ficha"></div>').appendTo('.filas:nth-child(' + i + ') .celdas:nth-child(' + j + ')');
+                    $('<div id="'+(i*10005+j)+'" class="ficha"></div>').appendTo('.filas:nth-child(' + i + ') .celdas:nth-child(' + j + ')');
                     if (i != Math.abs(arrFilas[recorrido]) || j != arrColumnas[recorrido]) {
                         $('.filas:nth-child(' + i + ') .celdas:nth-child(' + j + ') div').addClass("eliminado");
                     }
@@ -340,20 +344,21 @@
         $('body').on('click', '.ficha', function () {
 
             if (!$(this).hasClass("ocupado")) {   //solo si no esta ocupado se podra elegir o deselegir un asiento
-                if ($(this).hasClass("elegido")) {
+                if ($(this).hasClass("elegido")) {//lo sacamos
                     $(this).removeClass("elegido");
                     $("#numEntradas").val(parseInt($("#numEntradas").val()) - 1);
 
+                    var ubi = parseInt($(this).attr('id'));
 
-                    
+                    delete asientosElegidos[""+ubi] ;
+
                 }
-                else {
+                else {//lo ponemos
                     $(this).addClass("elegido");
                     $("#numEntradas").val(parseInt($("#numEntradas").val()) + 1)
 
-
-
-
+                    var ubi = parseInt($(this).attr('id'));
+                    asientosElegidos[ (""+ubi) ]=cntAsientos++;
                 }
             }
         });
@@ -369,6 +374,8 @@
 
             //Aca iria el seteo de las filas y columnas
             var index = -1;
+            asientosElegidos = {}
+            cntAsientos = 0;
 
             for (var i = 0; i < listaAsientos.length ; i++) {
                 if (listaAsientos[i].indexZE == indiceZT && listaAsientos[i].indexFH == indiceFH) index = i;
@@ -394,6 +401,7 @@
 
                     $('<div><h3>Quedan ' + listaAsientos[index].totalLibres + ' asientos</h3> </div>').appendTo('#canvas');
 
+                    
                 }
                 else $("#numEntradas").prop('disabled', true);
                 $("#numEntradas").val(0);
@@ -407,13 +415,31 @@
 
         cambioAsientos();
         $("#zonaTarifa,#funcionHora").change(cambioAsientos);
+        $(window).resize(cambioAsientos);
+
+        $("#submitEntradas").submit(function () {
+            $("#asientosElegidos").empty();
+            $("#formCantEntradas").val( $("#numEntradas").val() );
+            //validar!!!
 
 
 
-        $("#submitEntradas").submit( function(){
+            //PIER VALIDA PLZ
+            // cantEntradas que no son naturales
+            
 
 
+            var i=0;
+            for (var k in asientosElegidos) {
 
+                var n = parseInt(k);
+                var f = (n / 10005) >> 0;
+                var c = n % 10005;
+
+                $('<input type="number" id="filas[' + i + ']"  name="filas[' + i + ']" value="' + f + '" style="display:none">').appendTo('#asientosElegidos');
+                $('<input type="number" id="columnas[' + i + ']"  name="columnas[' + i + ']" value="' + c + '"  style="display:none">').appendTo('#asientosElegidos');
+                i++;
+            }
 
         });
 

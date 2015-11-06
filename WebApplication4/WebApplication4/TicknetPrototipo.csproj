@@ -566,6 +566,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="obj\" />
     <Folder Include="Views\Devolucion\" />
+    <Folder Include="Views\Reservas\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

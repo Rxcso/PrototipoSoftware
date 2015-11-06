@@ -2,8 +2,25 @@
 
 @{
     ViewBag.Title = "Error";
+    log4net.ILog log = log4net.LogManager.GetLogger("Ticknet");
 }
 
 <h1 class="text-danger">Error.</h1>
 <h2 class="text-danger">An error occurred while processing your request.</h2>
 
+@if (Model != null)
+{
+    log.Debug("++++++++++++++++++++++++++++");
+    log.Error("Exception Type - \n" + Model.Exception.GetType().Name);
+    log.Error("Exception Data - \n" + Model.Exception.Data);
+    log.Error("Exception Message - \n" + Model.Exception.Message);
+    log.Debug("++++++++++++++++++++++++++++");
+    
+    <h3>@Model.Exception.GetType().Name</h3>
+    <pre>
+        @Model.Exception.ToString()
+    </pre>
+    <p>
+        thrown in @Model.ControllerName @Model.ActionName
+    </p>
+}
