@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Devolucion";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
 }
@@ -20,29 +19,31 @@
                 <form action="" class="" role="search">
                     <div class="form-group">
                         <div class="input-group">
-                            <input id="idBusq" type="text" class="form-control" placeholder="DNI del cliente">
-                            <span class="input-group-btn"><button onclick="busca()" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>                                                        
+                            <input id="idBusq" type="number" class="form-control" placeholder="DNI del cliente">
+                            <span class="input-group-btn"><button onclick="busca()" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
                         </div>
                     </div>
                 </form>
             </div>
-            <div class="checkbox col-md-2">
+            <div class="col-md-2">
+                <!--Por evaluar :)-->
+                <!--<a class="btn btn-primary" data-toggle="modal" onclick="redirigeDevolucion()">Ver Detalle<span class="glyphicon glyphicon-pencil"></span></a>-->
                 <!--<label>
                     <input type="checkbox"> Solo vencidos
                 </label>-->
             </div>
-            <div class="col-md-5">
+            <div class="col-md-3">
                 <!--<button type="button" onclick="devolver()" class="btn btn-primary">Devolver Dinero <span class="glyphicon glyphicon-usd"></span></button>-->
                 <a class="btn btn-primary" href="#devolver" data-toggle="modal">Devolver Dinero<span class="glyphicon glyphicon-usd"></span></a>
-                <a class="btn btn-danger pull-right" href="@Url.Action("Index2", "Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+                <a class="btn btn-danger" href="@Url.Action("Index2", "Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
             </div>
         </div>
     </div>
-    @{    
+    @{
         List<WebApplication4.Models.DevolucionModel> devoluciones;
-        //if (Session["Bus"] != null) 
+        //if (Session["Bus"] != null)
         devoluciones = (List<WebApplication4.Models.DevolucionModel>)Session["Bus"];
-    }        
+    }
     <h4>Resultados:</h4>
     <div class="row">
         <table id="mytable" class="table table-bordered table-hover">
@@ -64,7 +65,7 @@
                     if (devoluciones != null)
                     {
                         foreach (var row in devoluciones)
-                        {                            
+                        {
                             <tr id=@row.codDev onclick="myFunction(this)">
                                 <td>@row.numDoc</td>
                                 <td>@row.nombre</td>
@@ -78,7 +79,7 @@
                         }
                     }
                 }
-            </tbody>            
+            </tbody>
         </table>
     </div>
 </div>
@@ -104,7 +105,7 @@
         //idProm = x.codp;
     }
 
-    function busca() {        
+    function busca() {
         var doc = $('#idBusq').val();
         //alert(categoria);
         $.ajax({
@@ -114,7 +115,7 @@
                 window.location.href = '/Ventas/Devolucion';
 
             },
-            error: function () {  
+            error: function () {
                 alert("Error :(");
             }
         });
@@ -151,6 +152,17 @@
             evento = "";
         }
     }
+    //falta el view y que muestre
+    function redirigeDevolucion() {
+        var fila = $('#idFila').val();
+        if (fila != "") {
+            window.location.href = '/Ventas/VerDetalle?DetVenta=' + fila;
+        } else {
+            alert("Seleccione una Fila");
+            evento = "";
+        }
+        //$.post('/Regalo/Edit/' + regalo);
+    }
 </script>
 <style>
     .trselected {
@@ -170,7 +182,7 @@
             </div>
             <!--contenido de la ventana-->
             <div class="modal-body">
-                ¿Está seguro que quiere devolver el dinero de este registro?                
+                ¿Está seguro que quiere devolver el dinero de este registro?
             </div>
             <!--footer de la ventana-->
             <div class="modal-footer">

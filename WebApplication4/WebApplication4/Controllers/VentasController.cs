@@ -335,10 +335,52 @@ namespace WebApplication4.Controllers
             //return View("Devolucion");
         }
 
-        public ActionResult Devolver(string doc)
+
+
+
+        public ActionResult Devolver(string fila)
         {
+            int id = int.Parse(fila);
+            List<DetalleVenta> dv = db.DetalleVenta.Where(det => det.codDetalleVenta == id).ToList();
+            List<AsientosXFuncion> af = db.AsientosXFuncion.Where(axf => axf.codDetalleVenta == id && axf.codFuncion == dv[0].codFuncion).ToList();
+            List<Funcion> f = db.Funcion.Where(fun => fun.codFuncion == dv[0].codFuncion).ToList();
+            List<Eventos> ev = db.Eventos.Where(e => e.codigo == f[0].codEvento).ToList();
+            for (int i = 0; i < af.Count; i++)
+            {
+                af[i].estado = "DEVUELTO";
+            }
+            dv[0].entradasDev = dv[0].cantEntradas;
+            ev[0].monto_transferir -= (double)dv[0].total;
+            db.SaveChanges();
+
+            /*d.codDev = detVen[j].codDetalleVenta;
+            d.numDoc = int.Parse(doc);
+            d.nombre = usuario[0].apellido + ", " + usuario[0].nombre;
+            List<Funcion> funAux = db.Funcion.Where(fu => fu.codFuncion == detVen[j].codFuncion).ToList();
+            List<Eventos> eventosAux = db.Eventos.Where(e => e.codigo == funAux[0].codEvento).ToList();
+            d.fecha = (DateTime)funAux[0].fecha;
+            d.hora = (DateTime)funAux[0].horaIni;
+            d.evento = eventosAux[0].nombre;
+            d.cantAsientos = (int)detVen[j].cantEntradas;
+            d.monto = (double)detVen[j].total;
+            d.estado = funAux[0].estado;*/
+
             //logica de devolucion!
             return View("Devolucion");
         }
+
+
+        public ActionResult VerDetalle(string fila)
+        {
+            //Session["Bus"] = null;
+            int id = int.Parse(fila);
+            ViewBag.id = id;
+            TempData["codigo"] = id;
+            DetalleVenta detVen = db.DetalleVenta.Find(id);
+            Session["Devolucion"] = detVen;
+
+            return View("DetalleVentas");
+        }
+
     }
 }

@@ -12,13 +12,39 @@ using System.Diagnostics;
 
 namespace WebApplication4.Controllers
 {
-
     [Authorize]
     public class EventoController : Controller
     {
         inf245netsoft db = new inf245netsoft();
         const int maximoPaginas = 2;
+
         // GET: Evento
+
+        public string reservaAsientos(string name, PaqueteEntradas paquete)
+        {
+            //name es el correo de la persona
+
+            //PIER ACA VA LA LOGICA DEL GUARDAR
+            //LA IDEA ES QUE RETORNE UN STRING CON EL ERROR EN CASO HUBIERA ALGUNO
+            //"Superaria el limte de reservas para esta funcion ya tiene n entradas"
+            //"Ya no se encuentran disponibles esas entradas"            
+
+            //Si todo esta bien se devuelve OK
+            //Que significa todo Ok?
+            //Primero busca cuantas entradas mas puede comprar/reservar esta persona para esa funcion
+            //Si supera el limite fue ps
+
+            //Luego se hace la reserva de esto, 
+            //Establecer sincronia es lo mas complicado
+            //Apenas se guarde la reserva todo estara consumado XD 
+            //Eso es todo
+
+            //Funciones Utilitarias necesarias
+            //BuscarEntradasLeQuedan( User , Funcion )
+
+            return "Ok";
+        }
+
         public ActionResult Index(string nombre, string orden, DateTime? fech_ini, DateTime? fech_fin, int? idCategoria, int? idSubCat, int? idRegion, int? page)
         {
             //cada vez que se va al index limpio los session involucrados en la creacion o modificacion
@@ -385,6 +411,7 @@ namespace WebApplication4.Controllers
                 db.SaveChanges();
             }
         }
+        
         private void ObtenerFechaInicioyFin(List<BloqueDeTiempoModel> bloques, int idEvento)
         {
             List<DateTime> inicio = new List<DateTime>();
@@ -833,10 +860,13 @@ namespace WebApplication4.Controllers
                     /*--No se carga de vuelta la imagen subida-- valida con string pero no con imagenes
                      * al ser un HttpPostFileBase no se puede recuperar porque es una clase abstracta.
                      * si no es destacado simplemente dejar la imagen en null. si agrega otra imagen recien se guarda, si no hay nada simplemente dejarla como estaba antes.
-                     * Hay una situacion con poner evento.ImagenDestacado en null, al realizar db.SaveChanges(), me dice que el campo debe ser obligatorio a pesar de que no se especifica en ningun lado de que lo sea. Incluso en base de datos esta permitido el valor de null.
-                    if (guardarImagen("destacado" + evento.codigo + ".jpg", model.ImageDestacado))
-                        evento.ImagenDestacado = "/Images/" + "destacado" + evento.codigo + ".jpg";
-                    else evento.ImagenDestacado = null;*/
+                     * Hay una situacion con poner evento.ImagenDestacado en null, al realizar db.SaveChanges(), me dice que el campo debe ser obligatorio a pesar de que no se especifica en ningun lado de que lo sea. Incluso en base de datos esta permitido el valor de null.*/
+                    if (Session["IdEventoCreado"] != null)
+                    {
+                        if (guardarImagen("destacado" + evento.codigo + ".jpg", model.ImageDestacado))
+                            evento.ImagenDestacado = "/Images/" + "destacado" + evento.codigo + ".jpg";
+                        else evento.ImagenDestacado = null;
+                    }
                 }
 
                 if (guardarImagen("evento" + evento.codigo + ".jpg", model.ImageEvento)) evento.ImagenEvento = "/Images/" + "evento" + evento.codigo + ".jpg";
@@ -864,7 +894,6 @@ namespace WebApplication4.Controllers
 
             return View(model);
         }
-
 
         [HttpGet]
         public ActionResult Asientos(string evento)
@@ -1030,7 +1059,7 @@ namespace WebApplication4.Controllers
                                 posF.Add((int)-asiento.fila);
 
                             }
-
+                            
                             posC.Add((int)asiento.columna);
                         }
                         catch (Exception ex)
@@ -1178,32 +1207,57 @@ namespace WebApplication4.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public ActionResult Entradas(PaqueteEntradas paquete, string boton)
         {
-
             //VALIDAR
             if (ModelState.IsValid)
             {
 
                 if (boton.CompareTo("reservar") == 0)
                 {
+                    /*
+                    if (!Request.IsAuthenticated)
+                    {
+                        TempData["tipo"] = "alert alert-warning";
+                        TempData["message"] = "Debe estar logueado para reservar."; 
+                     * return Redirect("~/Evento/VerEvento/" + paquete.idEvento);
+                    }*/
 
+                    string mensaje = reservaAsientos(User.Identity.Name, paquete);
 
+                    TempData["tipo"] = "alert alert-success";
+                    TempData["message"] = "Se reservaron correctamente las entradas"; 
+
+                    if( mensaje.CompareTo("Ok")!=0 )
+                    {
+                        TempData["tipo"] = "alert alert-warning";
+                        TempData["message"] = mensaje; 
+                    }
+
+                    return Redirect("~/Evento/VerEvento/" + paquete.idEvento);
                     //logica de reserva
-
-
-
+                    //PLZ
 
                 }
                 else if (boton.CompareTo("carrito") == 0)
                 {
-
-
-                    //logica de carrito
-
-
-
-
+                    //si el carrito es null, creo un nuevo carrito
+                    if (Session["Carrito"] == null)
+                    {
+                        List<PaqueteEntradas> carrito = new List<PaqueteEntradas>();
+                        carrito.Add(paquete);
+                        Session["Carrito"] = carrito;
+                    }
+                    else
+                    {
+                        //si el carrito ya existe agrego a mi lista de paquete
+                        List<PaqueteEntradas> carrito = (List<PaqueteEntradas>)Session["Carrito"];
+                        carrito.Add(paquete);
+                        Session["Carrito"] = carrito;
+                    }
+                    TempData["tipo"] = "alert alert-success";
+                    TempData["message"] = "Entradas agregadas al carrito :)"; 
                 }
             }
             else
@@ -1393,7 +1447,6 @@ namespace WebApplication4.Controllers
             return View();
         }
 
-
         /*
          *POSTERGAR EVENTO 
          * 
@@ -1415,8 +1468,6 @@ namespace WebApplication4.Controllers
 
             return View();
         }
-
-
 
         [HttpPost]
         public ActionResult PostergarEvento(PostergarModel evento)
@@ -1444,7 +1495,6 @@ namespace WebApplication4.Controllers
 
             return View();
         }
-
 
         /*
          *CANCELAR EVENTO 
@@ -1481,8 +1531,6 @@ namespace WebApplication4.Controllers
 
             return View("Cancelar", cancelarEvento);
         }
-
-
 
         [HttpPost]
         public ActionResult CancelarEvento(CancelarModel evento)
@@ -1532,7 +1580,5 @@ namespace WebApplication4.Controllers
 
             return CancelarEvento("" + evento.idEvento);
         }
-
-
     }
 }

@@ -649,6 +649,8 @@ namespace WebApplication4.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            Session["UsuarioLogueado"] = null;
+            Session["CarritoCreado"] = false;
             return RedirectToAction("Index", "Home");
         }
 

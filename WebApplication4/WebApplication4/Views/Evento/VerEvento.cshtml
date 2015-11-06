@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNet.Identity;
 @using WebApplication4.Models;
 @using WebApplication4.Controllers;
+@using Microsoft.AspNet.Identity
 
 @model PaqueteEntradas
 
@@ -177,7 +178,7 @@
                                             @Html.TextBoxFor(Model => Model.idFuncion, new { style = "display:none" })
                                             @Html.TextBoxFor(model => model.idEvento, new { style = "display:none" })
                                             @Html.CheckBoxFor(model => model.tieneAsientos, new { style = "display:none" })
-                                            @Html.TextBoxFor(model => model.cantEntradas, new { style = "display:none" })
+                                            @Html.TextBoxFor(model => model.cantEntradas, new { id="formCantEntradas" ,style = "display:none" })
                                             <div id="asientosElegidos">
 
                                             </div>
@@ -240,7 +241,7 @@
         }
 
         var asientosElegidos = new Object();;
-
+        var cntAsientos = 0;
         var y = x.replace(/&quot;/g, "\"");
         var listaAsientos = JSON.parse(y);
 
@@ -348,22 +349,16 @@
                     $("#numEntradas").val(parseInt($("#numEntradas").val()) - 1);
 
                     var ubi = parseInt($(this).attr('id'));
-                    var f= (ubi/10005)>>0;
-                    var c = ubi % 10005;
 
-                    delete asientosElegidos[{ F:f ,C:c }] ;
+                    delete asientosElegidos[""+ubi] ;
 
                 }
                 else {//lo ponemos
                     $(this).addClass("elegido");
                     $("#numEntradas").val(parseInt($("#numEntradas").val()) + 1)
 
-
                     var ubi = parseInt($(this).attr('id'));
-                    var f = (ubi / 10005) >> 0;
-                    var c = ubi % 10005;
-
-                    asientosElegidos[{ F: f, C: c }]=1;
+                    asientosElegidos[ (""+ubi) ]=cntAsientos++;
                 }
             }
         });
@@ -380,6 +375,7 @@
             //Aca iria el seteo de las filas y columnas
             var index = -1;
             asientosElegidos = {}
+            cntAsientos = 0;
 
             for (var i = 0; i < listaAsientos.length ; i++) {
                 if (listaAsientos[i].indexZE == indiceZT && listaAsientos[i].indexFH == indiceFH) index = i;
@@ -419,16 +415,29 @@
 
         cambioAsientos();
         $("#zonaTarifa,#funcionHora").change(cambioAsientos);
-
+        $(window).resize(cambioAsientos);
 
         $("#submitEntradas").submit(function () {
-
+            $("#asientosElegidos").empty();
+            $("#formCantEntradas").val( $("#numEntradas").val() );
             //validar!!!
+
+
+
+            //PIER VALIDA PLZ
+            // cantEntradas que no son naturales
+            
+
 
             var i=0;
             for (var k in asientosElegidos) {
-                $('<input type="number" id="filas[' + i + ']"  name="filas[' + i + ']" value="' + k.F + '"></div>').appendTo('#asientosElegidos');
-                $('<input type="number" id="columnas[' + i + ']"  name="columnas[' + i + ']" value="' + k.C + '"></div>').appendTo('#asientosElegidos');
+
+                var n = parseInt(k);
+                var f = (n / 10005) >> 0;
+                var c = n % 10005;
+
+                $('<input type="number" id="filas[' + i + ']"  name="filas[' + i + ']" value="' + f + '" style="display:none">').appendTo('#asientosElegidos');
+                $('<input type="number" id="columnas[' + i + ']"  name="columnas[' + i + ']" value="' + c + '"  style="display:none">').appendTo('#asientosElegidos');
                 i++;
             }
 

@@ -80,7 +80,6 @@ namespace WebApplication4.Controllers
             return View(model);
         }
 
-
         [HttpGet]
         public ActionResult ModificarDatos()
         {
@@ -126,11 +125,12 @@ namespace WebApplication4.Controllers
         [HttpPost]
         public ActionResult CambiarContrasena(CambiarContrasenaModel model)
         {
+            string correo = User.Identity.Name;
+            CuentaUsuario cliente = db.CuentaUsuario.Where(c => c.correo == correo).First();
+            /*var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);*/
+
             if (ModelState.IsValid)
             {
-                string correo = User.Identity.Name;
-                CuentaUsuario cliente = db.CuentaUsuario.Where(c => c.correo == correo).First();
-                /*var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);*/
                 if (cliente.contrasena == model.Contrasena)
                 {
                     if (model.NuevaContrasena == model.RNuevaContrasena && model.NuevaContrasena != cliente.contrasena)
@@ -144,10 +144,10 @@ namespace WebApplication4.Controllers
                     return RedirectToAction("MiCuenta");
                 }
             }
-
+            TempData["tipo"] = "alert alert-success";
+            TempData["message"] = "Contraseña cambiada Exitosamente";
             return View(model);
         }
-
 
         [HttpGet]
         public ActionResult CambiarCorreo()
@@ -698,8 +698,30 @@ namespace WebApplication4.Controllers
             return View();
         }
 
-        public ActionResult Carrito()
+        [AllowAnonymous]
+        public ActionResult MiCarrito()
         {
+            if (Session["Carrito"] != null)
+            {
+                List<PaqueteEntradas> carrito = (List<PaqueteEntradas>)Session["Carrito"];
+                List<CarritoItem> item = new List<CarritoItem>();
+                foreach (PaqueteEntradas paquete in carrito)
+                {
+                    CarritoItem cItem = new CarritoItem();
+                    cItem.idEvento = paquete.idEvento;
+                    cItem.nombreEvento = db.Eventos.Find(paquete.idEvento).nombre;
+                    Funcion funcion = db.Funcion.Find(paquete.idFuncion);
+                    cItem.fecha = (DateTime)funcion.fecha;
+                    cItem.hora = (DateTime)funcion.horaIni;
+                    cItem.zona = db.ZonaEvento.Find(paquete.idZona).nombre;
+                    cItem.precio = 0;
+                    cItem.filas = paquete.filas;
+                    cItem.columnas = paquete.columnas;
+                    cItem.cantidad = paquete.filas.Count;
+                    item.Add(cItem);
+                }
+                ViewBag.Carrito = item;
+            }
             return View();
         }
 
@@ -717,9 +739,7 @@ namespace WebApplication4.Controllers
 
         public ActionResult Punto()
         {
-
             return View();
-
         }
 
         public ActionResult ReportePdf()

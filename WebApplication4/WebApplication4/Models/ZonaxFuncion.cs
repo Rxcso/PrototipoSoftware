@@ -17,6 +17,7 @@ namespace WebApplication4.Models
         public int codFuncion { get; set; }
         public int codZona { get; set; }
         public int cantLibres { get; set; }
+        public byte[] concurrencia { get; set; }
     
         public virtual Funcion Funcion { get; set; }
         public virtual ZonaEvento ZonaEvento { get; set; }
