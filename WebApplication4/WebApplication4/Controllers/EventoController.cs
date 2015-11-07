@@ -9,6 +9,7 @@ using System.Data.Entity;
 using System.Web.Script.Serialization;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
+using System.Data.Entity.Core;
 
 namespace WebApplication4.Controllers
 {
@@ -19,6 +20,26 @@ namespace WebApplication4.Controllers
         const int maximoPaginas = 2;
 
         // GET: Evento
+
+        public int BuscarEntradasLeQuedan(string name, int idFuncion)
+        {
+
+            CuentaUsuario cuenta = db.CuentaUsuario.Find(name);
+            int tipoDoc = (int)cuenta.tipoDoc;
+            string doc = cuenta.codDoc;
+
+            List<VentasXFuncion> listVXF = db.VentasXFuncion.Where(x => x.codFuncion == idFuncion).ToList();
+
+            Funcion funcion = db.Funcion.Find(idFuncion);
+            int limEntradas = (funcion.Eventos.maxReservas == null ? 10000 : (int)funcion.Eventos.maxReservas);
+            int actualEntradas = 0;
+            foreach (VentasXFuncion VXF in listVXF) if (VXF.Ventas.codDoc.CompareTo(doc) == 0 && VXF.Ventas.tipoDoc == tipoDoc)
+                {
+                    actualEntradas += VXF.cantEntradas;
+                }
+
+            return limEntradas - actualEntradas;
+        }
 
         public string reservaAsientos(string name, PaqueteEntradas paquete)
         {
@@ -33,17 +54,72 @@ namespace WebApplication4.Controllers
             //Que significa todo Ok?
             //Primero busca cuantas entradas mas puede comprar/reservar esta persona para esa funcion
             //Si supera el limite fue ps
+            try
+            {
 
-            //Luego se hace la reserva de esto, 
-            //Establecer sincronia es lo mas complicado
-            //Apenas se guarde la reserva todo estara consumado XD 
-            //Eso es todo
+                int quedan = BuscarEntradasLeQuedan(name, paquete.idFuncion);
 
+                if (quedan == 0)
+                {
+                    return "Ya no le quedan reservas/compras disponibles para el evento";
+                }
+
+                if (quedan < paquete.cantEntradas)
+                {
+                    return "No se pudo realizar la reserva, solo puede reservar hasta  " + quedan + "entradas";
+                }
+
+                //Luego se hace la reserva de esto, 
+                //Establecer sincronia es lo mas complicado
+                //Apenas se guarde la reserva todo estara consumado XD 
+                //Eso es todo
+
+                using (var context = new inf245netsoft())
+                {
+
+                    
+                    try
+                    {
+
+                        if (paquete.tieneAsientos)
+                        {
+                            
+                            for(int i=0; i<paquete.cantEntradas; i++ ){
+                                Asientos asiento = context.Asientos.Where(x => x.codZona == paquete.idZona && x.fila == paquete.filas[i] && x.columna == paquete.columnas[i]).ToList().First();
+                                AsientosXFuncion actAsiento = context.AsientosXFuncion.Find( asiento.codAsiento,paquete.idFuncion);
+                                actAsiento.estado = "OCUPADO";
+                            }
+
+                        }
+                        else
+                        {
+                            ZonaxFuncion ZXF = context.ZonaxFuncion.Find( paquete.idFuncion, paquete.idZona );
+                            ZXF.cantLibres -= paquete.cantEntradas;
+                        }
+
+                        context.SaveChanges();
+                    }
+
+                    catch (OptimisticConcurrencyException ex)
+                    {
+                        return "No se pudieron reservar los asientos, alguien más ya lo hizo";
+                    }
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                return "Ocurrio un error inesperado";
+            }
             //Funciones Utilitarias necesarias
             //BuscarEntradasLeQuedan( User , Funcion )
 
             return "Ok";
         }
+
+
 
         public ActionResult Index(string nombre, string orden, DateTime? fech_ini, DateTime? fech_fin, int? idCategoria, int? idSubCat, int? idRegion, int? page)
         {
@@ -273,6 +349,7 @@ namespace WebApplication4.Controllers
                     evento.puntosAlCliente = 0;
                     evento.hanPostergado = false;
                     evento.hanCancelado = false;
+                    evento.maxReservas = 0;
                     //evento.ImagenDestacado = MagicHelpers.NuevoEvento;
                     db.Eventos.Add(evento);
                     db.SaveChanges();
@@ -411,23 +488,18 @@ namespace WebApplication4.Controllers
                 db.SaveChanges();
             }
         }
-        
-        private void ObtenerFechaInicioyFin(List<BloqueDeTiempoModel> bloques, int idEvento)
+
+        private void ObtenerFechaInicio(List<BloqueDeTiempoModel> bloques, int idEvento)
         {
             List<DateTime> inicio = new List<DateTime>();
-            List<DateTime> fin = new List<DateTime>();
             foreach (BloqueDeTiempoModel bloque in bloques)
             {
                 inicio.Add(bloque.fechaInicio);
-                fin.Add(bloque.fechaFin);
             }
             inicio.Sort((a, b) => a.CompareTo(b));
-            fin.Select((a, b) => b.CompareTo(a));
             DateTime fechaInicio = inicio.First();
-            DateTime fechaFin = fin.First();
             Eventos evento = db.Eventos.Find(idEvento);
             evento.fecha_inicio = fechaInicio;
-            evento.fecha_fin = fechaFin;
             db.SaveChanges();
         }
 
@@ -445,7 +517,7 @@ namespace WebApplication4.Controllers
                 listaVerificacion = Validaciones.ValidarBloquesDeTiempoDeVenta(model);
                 if (model.esCorrecto)
                 {
-                    ObtenerFechaInicioyFin(listaVerificacion, idEvento);
+                    ObtenerFechaInicio(listaVerificacion, idEvento);
                     if (Session["IdEventoModificado"] != null)
                     {
                         FiltraBloques(listaVerificacion, idEvento);
@@ -558,6 +630,20 @@ namespace WebApplication4.Controllers
             }
         }
 
+        private void ObtenerFechaFin(int idEvento)
+        {
+            List<Funcion> funciones = db.Funcion.Where(c => c.codEvento == idEvento).ToList();
+            List<DateTime> fin = new List<DateTime>();
+            foreach (Funcion funcion in funciones)
+            {
+                fin.Add((DateTime)funcion.fecha);
+            }
+            fin.Sort((a, b) => a.CompareTo(b));
+            DateTime fechaFin = fin.Last();
+            Eventos evento = db.Eventos.Find(idEvento);
+            evento.fecha_fin = fechaFin;
+            db.SaveChanges();
+        }
         [HttpPost]
         public ActionResult Funciones(FuncionesListModel model)
         {
@@ -578,6 +664,7 @@ namespace WebApplication4.Controllers
                     if (Session["IdEventoModificado"] != null)
                     {
                         FiltrarFunciones(listaVerificacion, idEvento);
+                        ObtenerFechaFin(idEvento);
                         return RedirectToAction("Tarifas");
                     }
                     for (int i = 0; i < listaVerificacion.Count; i++)
@@ -589,6 +676,7 @@ namespace WebApplication4.Controllers
                         db.Funcion.Add(funcion);
                         db.SaveChanges();
                     }
+                    ObtenerFechaFin(idEvento);
                     return RedirectToAction("Tarifas");
                 }
                 ViewBag.MensajeError = "Funciones Repetidas en el mismo dia";
@@ -730,6 +818,24 @@ namespace WebApplication4.Controllers
             }
         }
 
+        private void CreaZonasxFuncion(int idEvento)
+        {
+            List<ZonaEvento> zonas = db.ZonaEvento.Where(c => c.codEvento == idEvento).ToList();
+            List<Funcion> funciones = db.Funcion.Where(c => c.codEvento == idEvento).ToList();
+            foreach (ZonaEvento zona in zonas)
+            {
+                foreach (Funcion funcion in funciones)
+                {
+                    ZonaxFuncion zonaxfuncion = new ZonaxFuncion();
+                    zonaxfuncion.cantLibres = zona.aforo;
+                    zonaxfuncion.codFuncion = funcion.codFuncion;
+                    zonaxfuncion.codZona = zona.codZona;
+                    db.ZonaxFuncion.Add(zonaxfuncion);
+                    db.SaveChanges();
+                }
+            }
+        }
+        
         [HttpPost]
         public ActionResult Tarifas(ZonaEventoListModel model)
         {
@@ -745,6 +851,7 @@ namespace WebApplication4.Controllers
                     idEvento = int.Parse(Session["IdEventoModificado"].ToString());
                     listaPV = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
                     FiltrarTarifas(list, listaPV, idEvento);
+                    CreaZonasxFuncion(idEvento);
                     return RedirectToAction("ExtrasEvento");
                 }
                 listaPV = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
@@ -771,6 +878,7 @@ namespace WebApplication4.Controllers
                         db.PrecioEvento.Add(precioEvento);
                         db.SaveChanges();
                     }
+                    CreaZonasxFuncion(idEvento);
                     return RedirectToAction("ExtrasEvento");
                 }
             }
@@ -1059,7 +1167,7 @@ namespace WebApplication4.Controllers
                                 posF.Add((int)-asiento.fila);
 
                             }
-                            
+
                             posC.Add((int)asiento.columna);
                         }
                         catch (Exception ex)
@@ -1216,23 +1324,16 @@ namespace WebApplication4.Controllers
 
                 if (boton.CompareTo("reservar") == 0)
                 {
-                    /*
-                    if (!Request.IsAuthenticated)
-                    {
-                        TempData["tipo"] = "alert alert-warning";
-                        TempData["message"] = "Debe estar logueado para reservar."; 
-                     * return Redirect("~/Evento/VerEvento/" + paquete.idEvento);
-                    }*/
 
                     string mensaje = reservaAsientos(User.Identity.Name, paquete);
 
                     TempData["tipo"] = "alert alert-success";
-                    TempData["message"] = "Se reservaron correctamente las entradas"; 
+                    TempData["message"] = "Se reservaron correctamente las entradas";
 
-                    if( mensaje.CompareTo("Ok")!=0 )
+                    if (mensaje.CompareTo("Ok") != 0)
                     {
                         TempData["tipo"] = "alert alert-warning";
-                        TempData["message"] = mensaje; 
+                        TempData["message"] = mensaje;
                     }
 
                     return Redirect("~/Evento/VerEvento/" + paquete.idEvento);
@@ -1257,7 +1358,7 @@ namespace WebApplication4.Controllers
                         Session["Carrito"] = carrito;
                     }
                     TempData["tipo"] = "alert alert-success";
-                    TempData["message"] = "Entradas agregadas al carrito :)"; 
+                    TempData["message"] = "Entradas agregadas al carrito :)";
                 }
             }
             else
@@ -1542,8 +1643,8 @@ namespace WebApplication4.Controllers
             }
 
             int cnt = 0;
-            if (evento.seCancela != null) 
-                for (int i = 0; i < evento.seCancela.Count(); i++) 
+            if (evento.seCancela != null)
+                for (int i = 0; i < evento.seCancela.Count(); i++)
                     if (evento.seCancela[i]) cnt++;
 
             if (cnt == 0)

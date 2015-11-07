@@ -132,16 +132,15 @@
                                             </select>
                                         </div>
                                     </div-->
-
-
-
                                     <div class="row form-group">
                                         <label for="hora" class="control-label col-md-4">Funciones:</label>
                                         <div id="funcion" class="col-md-8">
                                             <select id="funcionHora" class="form-control">
                                                 @for (int i = 0; i < ViewBag.ListFunciones.Count; i++)
                                                 {
-                                                    <option value="@ViewBag.ListFunciones[i].codFuncion"> @(  ((DateTime)ViewBag.ListFunciones[i].horaIni))</option>
+                                                    string fecha = String.Format("{0:d}",ViewBag.ListFunciones[i].fecha);
+                                                    string hora = String.Format("{0:t}",ViewBag.ListFunciones[i].horaIni);
+                                                    <option value="@ViewBag.ListFunciones[i].codFuncion"> @fecha - @hora</option>
                                                 }
                                             </select>
                                             @Html.ValidationMessageFor(model => model.idFuncion)
@@ -177,7 +176,7 @@
                                             @Html.TextBoxFor(Model => Model.idZona, new { style = "display:none" })
                                             @Html.TextBoxFor(Model => Model.idFuncion, new { style = "display:none" })
                                             @Html.TextBoxFor(model => model.idEvento, new { style = "display:none" })
-                                            @Html.CheckBoxFor(model => model.tieneAsientos, new { style = "display:none" })
+                                            @Html.CheckBoxFor(model => model.tieneAsientos, new { id="formTieneEntradas", style = "display:none" })
                                             @Html.TextBoxFor(model => model.cantEntradas, new { id="formCantEntradas" ,style = "display:none" })
                                             <div id="asientosElegidos">
 
@@ -388,6 +387,8 @@
                 //$("#filas").val(cantFilas);
                 //$("#columnas").val(cantColumnas);
 
+                $("#formTieneEntradas").val(listaAsientos[index].tieneAsientos);
+
                 $("#numEntradas").val(0);
                 $("#numEntradas").prop('disabled', true);
             }
@@ -398,7 +399,7 @@
                 $("#aux").empty();
                 if (index >= 0) {
                     $("#numEntradas").prop('disabled', false);
-
+                    $("#formTieneEntradas").val(listaAsientos[index].tieneAsientos);
                     $('<div><h3>Quedan ' + listaAsientos[index].totalLibres + ' asientos</h3> </div>').appendTo('#canvas');
 
                     
@@ -422,7 +423,7 @@
             $("#formCantEntradas").val( $("#numEntradas").val() );
             //validar!!!
 
-
+            
 
             //PIER VALIDA PLZ
             // cantEntradas que no son naturales

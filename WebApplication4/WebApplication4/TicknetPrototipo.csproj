@@ -186,7 +186,6 @@
     <Compile Include="Controllers\CategoriaController.cs" />
     <Compile Include="Controllers\CuentaUsuarioController.cs" />
     <Compile Include="Controllers\EmpleadoController.cs" />
-    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\EventoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LocalController.cs" />
@@ -223,7 +222,6 @@
     </Compile>
     <Compile Include="Models\BloqueDeTIempoModel.cs" />
     <Compile Include="Models\CancelarModel.cs" />
-    <Compile Include="Models\CarritoItem.cs" />
     <Compile Include="Models\Categoria.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -367,21 +365,14 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <EntityDeploy Include="Models\Model1.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
-    </EntityDeploy>
     <Content Include="Images\arjona.jpg" />
     <Content Include="Images\bruta.jpg" />
     <Content Include="Images\chino.jpg" />
     <Content Include="Images\destacado.png" />
-    <Content Include="Images\destacado1066.jpg" />
     <Content Include="Images\destacado2.png" />
     <Content Include="Images\destacadoEvento_10259_I.jpg" />
     <Content Include="Images\destacadopost-11.jpg" />
     <Content Include="Images\disco.jpg" />
-    <Content Include="Images\evento1066.jpg" />
-    <Content Include="Images\evento1072.jpg" />
     <Content Include="Images\Eventos\imagen1.jpg" />
     <Content Include="Images\Eventos\imagen2.jpg" />
     <Content Include="Images\fiesta.jpg" />
@@ -404,14 +395,16 @@
     <Content Include="Images\registrado.png" />
     <Content Include="Images\search.png" />
     <Content Include="Images\shoppig.jpg" />
-    <Content Include="Images\sitios1066.jpg" />
-    <Content Include="Images\sitios1072.jpg" />
     <Content Include="Images\teadoro.jpg" />
     <Content Include="Images\teleticket.gif" />
     <Content Include="Images\teleticketmini.gif" />
     <Content Include="Images\tomas.jpg" />
     <Content Include="Images\ubo.jpg" />
     <Content Include="Images\zonass.jpg" />
+    <EntityDeploy Include="Models\Model1.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
@@ -568,10 +561,6 @@
     <Content Include="Views\CuentaUsuario\CambiarContrasena.cshtml" />
     <Content Include="Views\CuentaUsuario\RegistrarUsuarioVendedor.cshtml" />
     <Content Include="Views\CuentaUsuario\ComprarEntrada.cshtml" />
-    <Content Include="Views\Error\Error403.cshtml" />
-    <Content Include="Views\Error\General.cshtml" />
-    <Content Include="Views\Error\Index.cshtml" />
-    <Content Include="Views\CuentaUsuario\MiCarrito.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

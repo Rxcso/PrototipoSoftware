@@ -20,10 +20,12 @@
 
 @if (Session["Carrito"] == null)
 {
-    <div class="row-md-4">
-        <a class="btn btn-danger pull-right" href="@Url.Action("Index","Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+    <div class="container">
+        <div class="row-md-4">
+            <a class="btn btn-danger pull-right" href="@Url.Action("Index","Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+        </div>
+        <p>Carrito Vacio.</p>
     </div>
-    <p>Carrito Vacio.</p>
 }
 else
 {
@@ -31,10 +33,12 @@ else
         <div>
             <a class="btn btn-default pull-left" onclick="verDetalle()">Ver Detalle</a>
         </div>
-        <a class="btn btn-danger pull-right" href="@Url.Action("Index","Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+        <div class="form-group">
+            <a class="btn btn-primary pull-right" onclick="quitarCarrito()">Quitar</a>
+            <a class="btn btn-danger pull-right" href="@Url.Action("Index","Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+        </div>
+
     </div><br />
-
-
     <div class="container">
         <table class="table table-bordered table-hover">
             <thead>
@@ -72,16 +76,37 @@ else
         <div class="container col-md-6 form-group pull-right">
             <label for="Total" class="control-label col-md-2">Total a Pagar:</label>
             <div class="col-md-10">
-                <input type="text" class="form-control" id="total" value="@(total)" readonly="readonly">
+                <input id="totalCompra" type="text" class="form-control" value="@(total)" readonly="readonly">
             </div>
         </div>
         <br>
         <br>
         <div class="col-md-12">
-            <a class="btn btn-success pull-right">Comprar<span class="glyphicon glyphicon-usd"></span></a>
+            <a class="btn btn-success pull-right" href="@Url.Action("ComprarEntrada", "CuentaUsuario", new { carrito = carritoList })">Comprar>Comprar<span class="glyphicon glyphicon-usd"></span></a>
         </div>
     </div>
-
 }
 
+<script>
+    function quitarCarrito() {
+        if (confirm("¿Quitar Item?")) {
+            var fila = $('input[name="groupCarrito"]:checked').val();
+            var row = document.getElementById(parseInt(fila));
+            var cantidad = parseInt($('#totalCompra').val());
+            $("#totalCompra").val(cantidad - parseInt(row.cells[5].innerHTML));
+            $.ajax({
+                url: "@Url.Action("EliminaItem","CuentaUsuario")",
+                data: { itemEliminar: row.id },
+                success: function (data) {
+                    window.location.href = '/CuentaUsuario/MiCarrito';
+                },
+                error: function (data) {
+                    alert(data);
+                }
+            })
+            row.parentNode.removeChild(row);
+        } else {
 
+        }
+    }
+</script>

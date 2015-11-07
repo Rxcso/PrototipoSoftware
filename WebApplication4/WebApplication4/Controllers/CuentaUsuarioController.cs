@@ -40,7 +40,7 @@ namespace WebApplication4.Controllers
             DateTime hoy = DateTime.Today;
             for (int i = 0; i < 30; i++)
             {
-                lista.Add(new SelectListItem { Text=""+(hoy.Year+i),Value=""+(hoy.Year+i)});
+                lista.Add(new SelectListItem { Text = "" + (hoy.Year + i), Value = "" + (hoy.Year + i) });
             }
             return lista;
         }
@@ -52,10 +52,11 @@ namespace WebApplication4.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult ComprarEntrada()
+        public ActionResult ComprarEntrada(List<CarritoItem> carrito)
         {
+            ViewBag.Carrito = carrito;
             ComprarEntradaModel model = new ComprarEntradaModel();
-            if (!String.IsNullOrEmpty(User.Identity.Name))
+            if (Request.IsAuthenticated)
                 model.Nombre = User.Identity.Name;
             else
                 model.Nombre = "";
@@ -74,7 +75,9 @@ namespace WebApplication4.Controllers
         {
             if (ModelState.IsValid)
             {
-                //Venta
+                List<CarritoItem> carrito = (List<CarritoItem>)ViewBag.Carrito;
+
+                Session["Carrito"] = null;
                 return View();
             }
             return View(model);
@@ -712,6 +715,8 @@ namespace WebApplication4.Controllers
                 List<CarritoItem> item = new List<CarritoItem>();
                 foreach (PaqueteEntradas paquete in carrito)
                 {
+                    Eventos evento = db.Eventos.Find(paquete.idEvento);
+                    PeriodoVenta periodo = db.PeriodoVenta.Where(c => c.codEvento == paquete.idEvento && c.fechaInicio <= DateTime.Today && DateTime.Today <= c.fechaFin).First();
                     CarritoItem cItem = new CarritoItem();
                     cItem.idEvento = paquete.idEvento;
                     cItem.nombreEvento = db.Eventos.Find(paquete.idEvento).nombre;
@@ -719,7 +724,7 @@ namespace WebApplication4.Controllers
                     cItem.fecha = (DateTime)funcion.fecha;
                     cItem.hora = (DateTime)funcion.horaIni;
                     cItem.zona = db.ZonaEvento.Find(paquete.idZona).nombre;
-                    cItem.precio = 0;
+                    cItem.precio = (double)db.PrecioEvento.Where(c => c.codZonaEvento == paquete.idZona && c.codPeriodoVenta == periodo.idPerVent).First().precio * paquete.filas.Count;
                     cItem.filas = paquete.filas;
                     cItem.columnas = paquete.columnas;
                     cItem.cantidad = paquete.filas.Count;
@@ -730,6 +735,14 @@ namespace WebApplication4.Controllers
             return View();
         }
 
+        public JsonResult EliminaItem(int itemEliminar)
+        {
+            List<PaqueteEntradas> carrito = (List<PaqueteEntradas>)Session["Carrito"];
+            carrito.RemoveAt(itemEliminar);
+            Session["Carrito"] = carrito;
+            return Json("Entrada Eliminada.");
+        }
+       
         public ActionResult ReporteCliente()
         {
             return View();
