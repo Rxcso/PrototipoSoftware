@@ -56,7 +56,7 @@
                         <div class="form-group">
                             <a class="btn btn-primary" href="#formNuevo1" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
                             <a class="btn btn-primary" data-toggle="modal" onclick="redirigeV()">Modificar<span class="glyphicon glyphicon-pencil"></span></a>
-                            <a class="btn btn-primary" href="#eliminar1" data-toggle="modal">Dar de Baja <span class="glyphicon glyphicon-remove"></span></a>
+                            <a class="btn btn-primary" onclick="validaS()" data-toggle="modal">Dar de Baja <span class="glyphicon glyphicon-remove"></span></a>
                             @*<button id=botonOculto1 style="visibility:hidden" type="button" class="btn btn-primary" onclick="msjConfirmacion2_1()">Guardar Cambios <span class="glyphicon glyphicon-save"></span></button>*@
                         </div>
                     </div>
@@ -125,7 +125,7 @@
                         <div class="form-group">
                             <a class="btn btn-primary" href="#formNuevo2" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
                             <a class="btn btn-primary" data-toggle="modal" onclick="redirigeP()">Modificar<span class="glyphicon glyphicon-pencil"></span></a>
-                            <a class="btn btn-primary" href="#eliminar2" data-toggle="modal">Dar de Baja <span class="glyphicon glyphicon-remove"></span></a>
+                            <a class="btn btn-primary" onclick="validaS2()" data-toggle="modal">Dar de Baja <span class="glyphicon glyphicon-remove"></span></a>
                             @*<button id=botonOculto2 style="visibility:hidden" type="button" class="btn btn-primary" onclick="msjConfirmacion2_2()">Guardar cambios <span class="glyphicon glyphicon-save"></span></button>*@
                         </div>
                     </div>
@@ -191,8 +191,9 @@
 </div>
 
 <input type="hidden" id="idEmpleadoT" value="" />
+<input type="hidden" id="EstadoEmpT" value="" />
 <input type="hidden" id="idPromotorT" value="" />
-
+<input type="hidden" id="EstadoProT" value="" />
 
 
 <div class="modal fade" id="formNuevo1">
@@ -216,7 +217,7 @@
                         <h3>Datos de ingreso</h3><br>
                         <div class="form-group">
                             @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
+                            <div class="col-md-6">
                                 @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.Email)
                             </div>
@@ -224,7 +225,7 @@
 
                         <div class="form-group">
                             @Html.LabelFor(model => model.Password, new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
+                            <div class="col-md-6">
                                 @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.Password)
                             </div>
@@ -232,7 +233,7 @@
 
                         <div class="form-group">
                             @Html.LabelFor(model => model.ConfirmPassword, new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
+                            <div class="col-md-6">
                                 @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.ConfirmPassword)
                             </div>
@@ -240,7 +241,7 @@
 
                         <div class="form-group">
                             @Html.LabelFor(model => model.tipoDoc, new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
+                            <div class="col-md-6">
                                 @{
                     List<SelectListItem> listItems = new List<SelectListItem>();
                     listItems.Add(new SelectListItem
@@ -261,7 +262,7 @@
 
                         <div class="form-group">
                             @Html.LabelFor(model => model.codDoc, new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
+                            <div class="col-md-6">
                                 @Html.EditorFor(model => model.codDoc, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.codDoc)
                             </div>
@@ -269,7 +270,7 @@
 
                         <div class="form-group">
                             @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
+                            <div class="col-md-6">
                                 @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.nombre)
                             </div>
@@ -277,7 +278,7 @@
 
                         <div class="form-group">
                             @Html.LabelFor(model => model.apellido, new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
+                            <div class="col-md-6">
                                 @Html.EditorFor(model => model.apellido, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.apellido)
                             </div>
@@ -285,7 +286,7 @@
 
                         <div class="form-group">
                             @Html.LabelFor(model => model.direccion, new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
+                            <div class="col-md-6">
                                 @Html.EditorFor(model => model.direccion, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.direccion)
                             </div>
@@ -293,7 +294,7 @@
 
                         <div class="form-group">
                             @Html.LabelFor(model => model.telefono, new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
+                            <div class="col-md-6">
                                 @Html.EditorFor(model => model.telefono, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.telefono)
                             </div>
@@ -301,7 +302,7 @@
 
                         <div class="form-group">
                             @Html.LabelFor(model => model.telMovil, new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
+                            <div class="col-md-6">
                                 @Html.EditorFor(model => model.telMovil, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.telMovil)
                             </div>
@@ -309,7 +310,7 @@
 
                         <div class="row form-group">
                             @Html.LabelFor(model => model.sexo, new { @class = "control-label col-md-2" })
-                            <div class="col-md-7">
+                            <div class="col-md-4">
                                 @{
                                     List<SelectListItem> listItemsS = new List<SelectListItem>();
                                     listItemsS.Add(new SelectListItem
@@ -330,7 +331,7 @@
 
                         <div class="form-group">
                             @Html.LabelFor(model => model.fechaNac, new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
+                            <div class="col-md-4">
                                 @Html.EditorFor(model => model.fechaNac, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.fechaNac)
                             </div>
@@ -373,7 +374,7 @@
         <h3>Datos de ingreso</h3><br>
         <div class="form-group">
             @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-6">
                 @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Email)
             </div>
@@ -381,7 +382,7 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Password, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-6">
                 @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Password)
             </div>
@@ -389,7 +390,7 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.ConfirmPassword, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-6">
                 @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ConfirmPassword)
             </div>
@@ -397,7 +398,7 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.tipoDoc, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-6">
                 @{
                     List<SelectListItem> listItems = new List<SelectListItem>();
                     listItems.Add(new SelectListItem
@@ -418,7 +419,7 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.codDoc, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-6">
                 @Html.EditorFor(model => model.codDoc, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.codDoc)
             </div>
@@ -426,7 +427,7 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-6">
                 @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.nombre)
             </div>
@@ -434,7 +435,7 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.apellido, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-6">
                 @Html.EditorFor(model => model.apellido, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.apellido)
             </div>
@@ -442,7 +443,7 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.direccion, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-6">
                 @Html.EditorFor(model => model.direccion, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.direccion)
             </div>
@@ -450,7 +451,7 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.telefono, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-6">
                 @Html.EditorFor(model => model.telefono, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.telefono)
             </div>
@@ -458,7 +459,7 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.telMovil, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-6">
                 @Html.EditorFor(model => model.telMovil, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.telMovil)
             </div>
@@ -466,7 +467,7 @@
 
         <div class="row form-group">
             @Html.LabelFor(model => model.sexo, new { @class = "control-label col-md-2" })
-            <div class="col-md-7">
+            <div class="col-md-4">
                 @{
                     List<SelectListItem> listItemsS = new List<SelectListItem>();
                     listItemsS.Add(new SelectListItem
@@ -487,7 +488,7 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.fechaNac, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-4">
                 @Html.EditorFor(model => model.fechaNac, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.fechaNac)
             </div>
@@ -521,7 +522,7 @@
             </div>
             <!--contenido de la ventana-->
             <div class="modal-body">
-                ¿Está seguro que quiere dar de baja el registro?
+                ¿Está seguro que quiere dar de baja este vendedor se eliminar sus futuros turnos asignados?
             </div>
             <!--footer de la ventana-->
             <div class="modal-footer">
@@ -563,7 +564,9 @@
             element[0].className = "";
         }
         var elem = document.getElementById("idEmpleadoT");
+        var elem2 = document.getElementById("EstadoEmpT");
         elem.value = x.cells[0].innerHTML;
+        elem2.value = x.cells[5].innerHTML;
         x.className = "trselected";
     }
     function myFunction2(x) {
@@ -573,16 +576,66 @@
             element[0].className = "";
         }
         var elem = document.getElementById("idPromotorT");
+        var elem3 = document.getElementById("EstadoProT");
         elem.value = x.cells[0].innerHTML;
+        elem3.value = x.cells[5].innerHTML;
         x.className = "trselected";
+    }
+    function validaS() {
+        var usuario = $('#idEmpleadoT').val();
+        if (usuario != null && usuario != "") {
+            $('#eliminar1').modal('show');
+        } else {
+            alert("Seleccione un Vendedor");
+        }
+    }
+    function validaS2() {
+        var usuario = $('#idPromotorT').val();
+        if (usuario != null && usuario != "") {
+            $('#eliminar2').modal('show');
+        } else {
+            alert("Seleccione un Promotor");
+        }
     }
     function borrar() {
         var usuario = $('#idEmpleadoT').val();
+        var estado = $('#EstadoEmpT').val();
         var el = document.getElementById(usuario);
         var row = $(el).closest('tr');
         //alert(evento);
         //alert(promocion);
         if (usuario != "" && usuario != null) {
+            if (estado != "False") {
+                $.ajax({
+                    url: "@Url.Action("Delete", "Empleado")",
+                    data: { usuario: usuario },
+                    success: function (data) {
+                        alert(data);
+                        $('#eliminar').modal('hide');
+                        //row.remove();
+                        window.location.href = '/Empleado/Index';
+                    },
+                    error: function (data) {
+                        alert(data);
+                    }
+                });
+            } else {
+                alert("No se puede desactivar un Empleado que ya esta esactivado");
+            }
+        } else {
+            alert("Seleccione un Vendedor");
+            evento = "";
+        }
+    }
+    function borrar2() {
+        var usuario = $('#idPromotorT').val();
+        var estado = $('#EstadoProT').val();
+        var el = document.getElementById(usuario);
+        var row = $(el).closest('tr');
+        //alert(evento);
+        //alert(promocion);
+        if (usuario != "" && usuario != null) {
+            if (estado != "False") {
             $.ajax({
                 url: "@Url.Action("Delete", "Empleado")",
                 data: { usuario: usuario },
@@ -596,31 +649,9 @@
                     alert(data);
                 }
             });
-        } else {
-            alert("Seleccione un Vendedor");
-            evento = "";
-        }
-    }
-    function borrar2() {
-        var usuario = $('#idPromotorT').val();
-        var el = document.getElementById(usuario);
-        var row = $(el).closest('tr');
-        //alert(evento);
-        //alert(promocion);
-        if (usuario != "" && usuario != null) {
-            $.ajax({
-                url: "@Url.Action("Delete", "Empleado")",
-                data: { usuario: usuario },
-                success: function (data) {
-                    //alert("Eliminado");
-                    $('#eliminar').modal('hide');
-                    //row.remove();
-                    window.location.href = '/Empleado/Index';
-                },
-                error: function () {
-                    alert("Error :(");
-                }
-            });
+            } else {
+                alert("No se puede desactivar un Promotor que ya esta esactivado");
+            }
         } else {
             alert("Seleccione un Promotor");
             evento = "";
@@ -666,18 +697,32 @@
     }
     function redirigeV() {
         var usuario = $('#idEmpleadoT').val();
+        var estado = $('#EstadoEmpT').val();
         if (usuario != "") {
-            window.location.href = '/Empleado/Edit?usuario=' + usuario;
+            if (estado != "False") {
+                var elem = document.getElementById("idEmpleadoT");
+                elem.value = "";
+                window.location.href = '/Empleado/Edit?usuario=' + usuario;
+            } else {
+                alert("El Empleado esta desactivado no se puede editar");
+            }
         } else {
             alert("Seleccione un Vendedor");
-            evento = "";
+            usuario = "";
         }
         //$.post('/Regalo/Edit/' + regalo);
     }
     function redirigeP() {
         var usuario = $('#idPromotorT').val();
+        var estado = $('#EstadoProT').val();
         if (usuario != "") {
-            window.location.href = '/Empleado/Edit?usuario=' + usuario;
+            if (estado != "False") {
+                var elem = document.getElementById("idPromotorT");
+                elem.value = "";
+                window.location.href = '/Empleado/Edit?usuario=' + usuario;
+            } else {
+                alert("El Promotor esta desactivado no se puede editar");
+            }
         } else {
             alert("Seleccione un Promotor");
             evento = "";
