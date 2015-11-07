@@ -77,23 +77,24 @@ namespace WebApplication4.Controllers
                 using (var context = new inf245netsoft())
                 {
 
-                    
+
                     try
                     {
 
                         if (paquete.tieneAsientos)
                         {
-                            
-                            for(int i=0; i<paquete.cantEntradas; i++ ){
+
+                            for (int i = 0; i < paquete.cantEntradas; i++)
+                            {
                                 Asientos asiento = context.Asientos.Where(x => x.codZona == paquete.idZona && x.fila == paquete.filas[i] && x.columna == paquete.columnas[i]).ToList().First();
-                                AsientosXFuncion actAsiento = context.AsientosXFuncion.Find( asiento.codAsiento,paquete.idFuncion);
+                                AsientosXFuncion actAsiento = context.AsientosXFuncion.Find(asiento.codAsiento, paquete.idFuncion);
                                 actAsiento.estado = "OCUPADO";
                             }
 
                         }
                         else
                         {
-                            ZonaxFuncion ZXF = context.ZonaxFuncion.Find( paquete.idFuncion, paquete.idZona );
+                            ZonaxFuncion ZXF = context.ZonaxFuncion.Find(paquete.idFuncion, paquete.idZona);
                             ZXF.cantLibres -= paquete.cantEntradas;
                         }
 
@@ -835,7 +836,7 @@ namespace WebApplication4.Controllers
                 }
             }
         }
-        
+
         [HttpPost]
         public ActionResult Tarifas(ZonaEventoListModel model)
         {
@@ -878,9 +879,9 @@ namespace WebApplication4.Controllers
                         db.PrecioEvento.Add(precioEvento);
                         db.SaveChanges();
                     }
-                    CreaZonasxFuncion(idEvento);
-                    return RedirectToAction("ExtrasEvento");
                 }
+                CreaZonasxFuncion(idEvento);
+                return RedirectToAction("ExtrasEvento");
             }
             TempData["tipo"] = "alert alert-warning";
             TempData["message"] = "No hay evento en proceso de creación o modificación.";
