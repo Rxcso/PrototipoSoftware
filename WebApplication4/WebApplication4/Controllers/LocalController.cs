@@ -59,7 +59,7 @@ namespace WebApplication4.Controllers
             return View("Index");
         }
 
-        public ActionResult Delete(string local)
+        public JsonResult Delete(string local)
         {
             int id = int.Parse(local);
             Local localr = db.Local.Find(id);
@@ -67,7 +67,7 @@ namespace WebApplication4.Controllers
             db.Entry(localr).State = EntityState.Modified;
             localr.estaActivo = false;
             db.SaveChanges();
-            return RedirectToAction("Index", "Local");
+            return Json("Local Desactivado", JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Delete2(int id)
@@ -163,6 +163,15 @@ namespace WebApplication4.Controllers
                 return RedirectToAction("Index", "Local");
             }
             listaLoc = db.Local.AsNoTracking().Where(c => c.descripcion.Contains(local) && c.estaActivo == true).ToList();
+            if (listaLoc != null) Session["ListaL"] = listaLoc;
+            else Session["ListaL"] = null;
+            return RedirectToAction("Index", "Local");
+        }
+
+        public ActionResult SearchI()
+        {
+            List<Local> listaLoc;
+            listaLoc = db.Local.AsNoTracking().Where(c => c.estaActivo == false).ToList();
             if (listaLoc != null) Session["ListaL"] = listaLoc;
             else Session["ListaL"] = null;
             return RedirectToAction("Index", "Local");

@@ -208,6 +208,15 @@ namespace WebApplication4.Controllers
             return RedirectToAction("Index", "PuntoVenta");
         }
 
+        public ActionResult SearchI()
+        {
+            List<PuntoVenta> listaP;
+            listaP = db.PuntoVenta.AsNoTracking().Where(c => c.estaActivo == false).ToList();
+            if (listaP != null) Session["ListaP"] = listaP;
+            else Session["ListaP"] = null;
+            return RedirectToAction("Index", "PuntoVenta");
+        }
+
         public ActionResult Search3(string region)
         {
             int id = int.Parse(region);

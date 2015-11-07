@@ -66,7 +66,11 @@
                 {
                     <tr>
                         <td>@row.fecha</td>
-                        <td>@row.valor</td>
+                        @{
+                            double n1 = (double) row.valor;
+                            //n1.ToString("0.00");
+                        }
+                        <td>@n1.ToString("0.00")</td>
                     </tr>
                 }
             </tbody>
