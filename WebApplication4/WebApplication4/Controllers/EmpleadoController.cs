@@ -149,6 +149,24 @@ namespace WebApplication4.Controllers
             return RedirectToAction("Index", "Empleado");
         }
 
+        public ActionResult SearchIE()
+        {
+            List<CuentaUsuario> listaEmp;
+            listaEmp = db.CuentaUsuario.AsNoTracking().Where(c => c.estado == false && c.codPerfil == 2).ToList();
+            if (listaEmp != null) Session["ListaV1"] = listaEmp;
+            else Session["ListaV1"] = null;
+            return RedirectToAction("Index", "Empleado");
+        }
+
+        public ActionResult SearchIP()
+        {
+            List<CuentaUsuario> listaEmp;
+            listaEmp = db.CuentaUsuario.AsNoTracking().Where(c => c.estado == false && c.codPerfil == 3).ToList();
+            if (listaEmp != null) Session["ListaT"] = listaEmp;
+            else Session["ListaT"] = null;
+            return RedirectToAction("Index", "Empleado");
+        }
+
         public ActionResult Search4(string nombre)
         {
             List<CuentaUsuario> listaEmp;

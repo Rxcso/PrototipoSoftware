@@ -22,7 +22,7 @@
     List<WebApplication4.Models.CuentaUsuario> listaPromotor;
     if (Session["ListaV1"] == null)
     {
-        listaEmpleado = db.CuentaUsuario.AsNoTracking().Where(c => c.codPerfil == 2).ToList();
+        listaEmpleado = db.CuentaUsuario.AsNoTracking().Where(c => c.codPerfil == 2 && c.estado==true).ToList();
     }
     else
     {
@@ -30,7 +30,7 @@
     }
     if (Session["ListaT"] == null)
     {
-        listaPromotor = db.CuentaUsuario.AsNoTracking().Where(c => c.codPerfil == 3).ToList();
+        listaPromotor = db.CuentaUsuario.AsNoTracking().Where(c => c.codPerfil == 3 && c.estado == true).ToList();
     }
     else
     {
@@ -80,6 +80,9 @@
                 @*@{
                     Html.RenderPartial("_Search1");
                 }*@
+                <a class="btn btn-primary" id="idBusq2E" onclick="buscaIE()" data-toggle="modal">Ver Inactivos<span class="glyphicon"></span></a>
+                <br>
+                <br>
                 <div class="row">
                     <table id="mytable" class="table table-bordered table-hover">
                         <thead>
@@ -150,7 +153,9 @@
                 @*@{
                     Html.RenderPartial("_Search2");
                 }*@
-
+                <a class="btn btn-primary" id="idBusq2P" onclick="buscaIP()" data-toggle="modal">Ver Inactivos<span class="glyphicon"></span></a>
+                <br>
+                <br>
                 <div class="row">
                     <table id="mytable" class="table table-bordered table-hover">
                         <thead>
@@ -636,19 +641,19 @@
         //alert(promocion);
         if (usuario != "" && usuario != null) {
             if (estado != "False") {
-            $.ajax({
-                url: "@Url.Action("Delete", "Empleado")",
-                data: { usuario: usuario },
-                success: function (data) {
-                    alert(data);
-                    $('#eliminar').modal('hide');
-                    //row.remove();
-                    window.location.href = '/Empleado/Index';
-                },
-                error: function (data) {
-                    alert(data);
-                }
-            });
+                $.ajax({
+                    url: "@Url.Action("Delete", "Empleado")",
+                    data: { usuario: usuario },
+                    success: function (data) {
+                        alert(data);
+                        $('#eliminar').modal('hide');
+                        //row.remove();
+                        window.location.href = '/Empleado/Index';
+                    },
+                    error: function (data) {
+                        alert(data);
+                    }
+                });
             } else {
                 alert("No se puede desactivar un Promotor que ya esta esactivado");
             }
@@ -656,6 +661,34 @@
             alert("Seleccione un Promotor");
             evento = "";
         }
+    }
+    function buscaIE() {
+        $.ajax({
+            url: "@Url.Action("SearchIE", "Empleado")",
+            data: {},
+            success: function (data) {
+                window.location.href = '/Empleado/Index';
+                //alert("Eliminado");
+                //row.remove();
+            },
+            error: function () {
+                alert("Error :(");
+            }
+        });
+    }
+    function buscaIP() {
+        $.ajax({
+            url: "@Url.Action("SearchIP", "Empleado")",
+            data: {},
+            success: function (data) {
+                window.location.href = '/Empleado/Index';
+                //alert("Eliminado");
+                //row.remove();
+            },
+            error: function () {
+                alert("Error :(");
+            }
+        });
     }
     function busca() {
         var nombre = $('#idBusq').val();
