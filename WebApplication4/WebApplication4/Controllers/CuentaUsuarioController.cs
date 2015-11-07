@@ -446,7 +446,8 @@ namespace WebApplication4.Controllers
         public JsonResult RegistraPoliticas(string dur, string mx, string mt, string ra, string mE, string hr)
         {
             int m1, m2, m3, m4, m5, m6;
-            string me1 = "Error", me2 = " Error", me3 = " Error", me4 = " Error", me5 = " Error", me6 = " Error";
+            DateTime h6;
+            string me1 = "1.Falta Ingresar Valores\n", me2 = " 3.Falta Ingresar Valores\n", me3 = " 4.Falta Ingresar Valores\n", me4 = " 5.Falta Ingresar Valores\n", me5 = " 6.Falta Ingresar Valores", me6 = " 2.Falta Ingresar Valores\n";
             if (int.TryParse(dur, out m1) == true)
             {
                 int val = int.Parse(dur);
@@ -458,11 +459,11 @@ namespace WebApplication4.Controllers
                     p.valor = val;
                     db.SaveChanges();
                     db.Entry(p).State = EntityState.Detached;
-                    me1 = "Completado";
+                    me1 = "1.Completado\n";
                 }
                 else
                 {
-                    me1 = " Error Negativo";
+                    me1 = " 1.Error Negativo\n";
                 }
             }
             if (int.TryParse(mx, out m2) == true)
@@ -476,11 +477,11 @@ namespace WebApplication4.Controllers
                     p.valor = val1;
                     db.SaveChanges();
                     db.Entry(p).State = EntityState.Detached;
-                    me2 = " Completado";
+                    me2 = " 3.Completado\n";
                 }
                 else
                 {
-                    me2 = " Error Negativo";
+                    me2 = " 3.Error Negativo\n";
                 }
             }
             if (int.TryParse(mt, out m3) == true)
@@ -494,11 +495,11 @@ namespace WebApplication4.Controllers
                     p.valor = val2;
                     db.SaveChanges();
                     db.Entry(p).State = EntityState.Detached;
-                    me3 = " Completado";
+                    me3 = " 4.Completado\n";
                 }
                 else
                 {
-                    me3 = " Error Negativo";
+                    me3 = " 4.Error Negativo\n";
                 }
 
             }
@@ -513,11 +514,11 @@ namespace WebApplication4.Controllers
                     p.valor = val3;
                     db.SaveChanges();
                     db.Entry(p).State = EntityState.Detached;
-                    me4 = " Completado";
+                    me4 = " 5.Completado\n";
                 }
                 else
                 {
-                    me4 = " Error Negativo";
+                    me4 = " 5.Error Negativo\n";
                 }
             }
             if (int.TryParse(mE, out m5) == true)
@@ -531,37 +532,21 @@ namespace WebApplication4.Controllers
                     p.valor = val5;
                     db.SaveChanges();
                     db.Entry(p).State = EntityState.Detached;
-                    me5 = " Completado";
+                    me5 = " 6.Completado\n";
                 }
                 else
                 {
-                    me5 = " Error Negativo";
+                    me5 = " 6.Error Negativo\n";
                 }
             }
-            if (int.TryParse(hr, out m6) == true)
+            if (DateTime.TryParse(hr, out h6) == true)
             {
-                int val6 = int.Parse(hr);
-                if (val6 > 0)
-                {
-                    if (val6 <= 23)
-                    {
-                        int t = 6;
-                        Politicas p = db.Politicas.Find(t);
-                        db.Entry(p).State = EntityState.Modified;
-                        p.valor = val6;
-                        db.SaveChanges();
-                        db.Entry(p).State = EntityState.Detached;
-                        me6 = " Completado";
-                    }
-                    else
-                    {
-                        me6 = " Error limite de hora";
-                    }
-                }
-                else
-                {
-                    me6 = " Error Negativo";
-                }
+                DateTime hr6 = DateTime.Parse(hr);
+                HoraReserva h = db.HoraReserva.Find(6);
+                db.Entry(h).State = EntityState.Modified;
+                h.hora = hr6;
+                db.SaveChanges();
+                me6 = " 2.Completado\n";
             }
             string mensaje = me1 + me6 + me2 + me3 + me4 + me5;
             return Json(mensaje, JsonRequestBehavior.AllowGet);
@@ -884,7 +869,7 @@ namespace WebApplication4.Controllers
             {
                 db.Entry(cuenta).State = EntityState.Modified;
                 cuenta.puntos = (int)cuenta.puntos - (int)re.puntos;
-                //db.SaveChanges();
+                db.SaveChanges();
                 RegaloXCuenta rc = new RegaloXCuenta();
                 rc.CuentaUsuario = cuenta;
                 rc.fechaRecojo = DateTime.Now;

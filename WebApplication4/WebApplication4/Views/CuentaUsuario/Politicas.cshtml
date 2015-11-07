@@ -6,13 +6,16 @@
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
     var db = new WebApplication4.Models.inf245netsoft();
     int p1 = 0, p2 = 0, p3 = 0, p4 = 0, p5 = 0, p6 = 0, p7 = 0;
+    DateTime hr;
+    string pl6;
     int a = 1, b = 2, c = 3, d = 4, e = 5, f = 6, g = 7;
     p1 = (int)db.Politicas.Find(a).valor;
     p2 = (int)db.Politicas.Find(b).valor;
     p3 = (int)db.Politicas.Find(c).valor;
     p4 = (int)db.Politicas.Find(d).valor;
     p5 = (int)db.Politicas.Find(e).valor;
-    p6 = (int)db.Politicas.Find(f).valor;
+    hr = (DateTime)db.HoraReserva.Find(f).hora;
+    pl6 = hr.ToString(@"hh\:mm\:tt");
     p7 = (int)db.Politicas.Find(g).valor;
 }
 
@@ -63,12 +66,12 @@
                         </div>
                         <div class="col-md-3">
                             <div class="input-group">
-                                <input id="hora" type="number" class="form-control" aria-describedby="reserva">
+                                <input id="hora" type="time" class="form-control" aria-describedby="reserva">
                                 <span class="input-group-addon" id="reserva">Hora</span>
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <input type="text" value="@p6" class="form-control" aria-describedby="dolares" readonly="true">
+                            <input type="text" value="@pl6" class="form-control" aria-describedby="dolares" readonly="true">
                         </div>
                     </div> <br>
                     <div class="row">
