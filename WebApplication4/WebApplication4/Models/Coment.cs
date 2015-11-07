@@ -9,6 +9,9 @@ namespace WebApplication4.Models
     public class Coment
     {
 
+
+
+
         public string nombre { get; set; }
         public string contenido { get; set; }
         public DateTime? fecha { get; set; }

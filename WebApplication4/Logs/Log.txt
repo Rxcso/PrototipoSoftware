@@ -202,3 +202,11 @@ System.Collections.ListDictionaryInternal
 2015-11-06 18:56:59,584 [17] ERROR Ticknet - Exception Message - 
 A public action method 'CarritoDeCompras' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
 2015-11-06 18:56:59,584 [17] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:04:18,804 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:04:18,824 [6] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-06 20:04:18,824 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 20:04:18,825 [6] ERROR Ticknet - Exception Message - 
+A public action method 'Comentarios' was not found on controller 'WebApplication4.Controllers.EventoController'.
+2015-11-06 20:04:18,825 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
