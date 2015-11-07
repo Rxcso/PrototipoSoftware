@@ -229,7 +229,7 @@
                     <div class="row form-group">
                         @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })
                         <div class="col-md-9">
-                            @Html.EditorFor(model => model.nombre)
+                            @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.nombre)
                         </div>
                     </div>
@@ -237,14 +237,14 @@
                     <div class="row form-group">
                         @Html.LabelFor(model => model.telefono, new { @class = "control-label col-md-3" })
                         <div class="col-md-9">
-                            @Html.EditorFor(model => model.telefono)
+                            @Html.EditorFor(model => model.telefono, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.telefono)
                         </div>
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.tipoDoc, new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
+                        @Html.LabelFor(model => model.tipoDoc, new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
                             @{
                 List<SelectListItem> listItems = new List<SelectListItem>();
                 listItems.Add(new SelectListItem
@@ -258,14 +258,17 @@
                     Value = "2"
                 });
                             }
-                            @Html.DropDownListFor(model => model.tipoDoc, listItems, "Seleccione tipo de documento")
+                            @Html.DropDownListFor(model => model.tipoDoc, listItems, "Seleccione tipo de documento", new { @class = "form-control" })
                         </div>
+
                     </div>
 
+
+
                     <div class="form-group">
-                        @Html.LabelFor(model => model.codDoc, new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.codDoc)
+                        @Html.LabelFor(model => model.codDoc, new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.codDoc, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.codDoc)
                         </div>
                     </div>
@@ -273,7 +276,7 @@
                     <div class="row form-group">
                         @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-3" })
                         <div class="col-md-9">
-                            @Html.EditorFor(model => model.Email)
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.Email)
                         </div>
                     </div>

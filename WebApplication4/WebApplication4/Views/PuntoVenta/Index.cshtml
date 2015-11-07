@@ -257,7 +257,7 @@
                         <div class="row form-group">
                             @Html.LabelFor(model => model.ubicacion, new { @class = "control-label col-md-3" })
                             <div class="col-md-9">
-                                @Html.EditorFor(model => model.ubicacion)
+                                @Html.EditorFor(model => model.ubicacion, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.ubicacion)
                             </div>
                         </div>
@@ -265,7 +265,7 @@
                         <div class="row form-group">
                             @Html.LabelFor(model => model.mac, new { @class = "control-label col-md-3" })
                             <div class="col-md-9">
-                                @Html.EditorFor(model => model.mac)
+                                @Html.EditorFor(model => model.mac, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.mac)
                             </div>
                         </div>

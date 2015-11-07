@@ -466,6 +466,14 @@ namespace WebApplication4.Controllers
                     me1 = " 1.Error Negativo\n";
                 }
             }
+            if (dur == "e")
+            {
+                int t = 1;
+                Politicas p = db.Politicas.Find(t);
+                db.Entry(p).State = EntityState.Modified;
+                p.valor = null;
+                db.SaveChanges();
+            }
             if (int.TryParse(mx, out m2) == true)
             {
                 int val1 = int.Parse(mx);
@@ -547,6 +555,13 @@ namespace WebApplication4.Controllers
                 h.hora = hr6;
                 db.SaveChanges();
                 me6 = " 2.Completado\n";
+            }
+            if (hr == "e")
+            {
+                HoraReserva h = db.HoraReserva.Find(6);
+                db.Entry(h).State = EntityState.Modified;
+                h.hora = null;
+                db.SaveChanges();
             }
             string mensaje = me1 + me6 + me2 + me3 + me4 + me5;
             return Json(mensaje, JsonRequestBehavior.AllowGet);

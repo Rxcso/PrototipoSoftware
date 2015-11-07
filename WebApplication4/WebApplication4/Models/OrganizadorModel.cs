@@ -28,6 +28,7 @@ namespace WebApplication4.Models
         [Display(Name = "Nombre Organizador: ")]
         public string nombre { get; set; }
 
+        [Required]
         [Display(Name = "Telefono")]
         public string telefono { get; set; }
     }
