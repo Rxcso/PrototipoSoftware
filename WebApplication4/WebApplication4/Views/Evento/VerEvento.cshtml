@@ -26,6 +26,8 @@
         }
     </style>
 
+    <script src="~/Scripts/jquery-2.1.4.min.js"></script>
+
 </head>
 
 <div class="container-fluid">
@@ -204,22 +206,29 @@
                 </div>
             </div>
         </div>
-        <div id="comentarios" class="row">
-            <div class="thumbnail">
-                <div class="caption" style="text-align:justify">
-                    <div class="container-fluid">
-                        <h4><u>Comentarios</u></h4>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-10 col-md-offset-1">
-                            <textarea class="form-control " rows="1" id="comentario" placeholder="Escribe un comentario de este evento"></textarea>
-                        </div>
-                    </div>
 
 
-                </div>
-            </div>
-        </div>
+        @{
+
+
+
+            if (Request.IsAuthenticated)
+            {
+                var act = User.Identity.Name;
+
+                Comentario com = new Comentario();
+                com.usuario = act;
+                com.codEvento = Model.idEvento;
+                Html.RenderPartial("Comentarios", com);
+
+            }
+
+
+
+        }
+
+
+       
     </div>
 
     <!--LOS EVENTOS DESTACADOS-->
