@@ -80,15 +80,57 @@ namespace WebApplication4.Controllers
 
                     try
                     {
-
+                        Ventas ve = new Ventas();
+                        Ventas vel = db.Ventas.ToList().Last();
+                        DateTime hoy = DateTime.Now;
+                        ZonaEvento zo = db.ZonaEvento.Find(paquete.idZona);
+                        PeriodoVenta per = db.PeriodoVenta.Where(c => c.codEvento == paquete.idEvento && c.fechaInicio <= hoy && c.fechaFin >= hoy).ToList().First();
+                        PrecioEvento pr = db.PrecioEvento.Where(c => c.codZonaEvento == paquete.idZona && c.codPeriodoVenta == per.idPerVent).ToList().First();
+                        ve.codVen = vel.codVen + 1;
+                        CuentaUsuario cuenta = (CuentaUsuario)Session["UsuarioLogueado"];
+                        ve.fecha = DateTime.Now;
+                        ve.cantAsientos = paquete.cantEntradas;
+                        ve.cliente = cuenta.usuario;
+                        ve.codDoc = cuenta.codDoc;
+                        ve.Estado = "Reservado";
+                        ve.tipoDoc = cuenta.tipoDoc;
+                        ve.montoEfectivoSoles = paquete.cantEntradas * pr.precio;
+                        ve.MontoTotalSoles = paquete.cantEntradas * pr.precio;
+                        db.Ventas.Add(ve);
+                        //db.SaveChanges();
+                        VentasXFuncion vf = new VentasXFuncion();
+                        vf.codVen = ve.codVen;
+                        vf.cantEntradas = paquete.cantEntradas;
+                        vf.codFuncion = paquete.idFuncion;
+                        vf.Ventas = ve;
+                        vf.subtotal = paquete.cantEntradas * pr.precio;
+                        vf.total = paquete.cantEntradas * pr.precio;
+                        db.VentasXFuncion.Add(vf);
+                        //db.SaveChanges();
+                        DetalleVenta dt = new DetalleVenta();
+                        dt.cantEntradas = paquete.cantEntradas;
+                        dt.codDetalleVenta = db.DetalleVenta.ToList().Last().codDetalleVenta + 1;
+                        dt.codFuncion = paquete.idFuncion;
+                        dt.codPrecE = pr.codPrecioEvento;
+                        dt.total = paquete.cantEntradas * pr.precio;
+                        dt.entradasDev = 0;
+                        dt.descTot = 0;
+                        dt.codVen = vf.codVen;
+                        db.DetalleVenta.Add(dt);
+                        if (paquete.filas.Count > 0) paquete.tieneAsientos = true;
+                        //db.SaveChanges();                        
                         if (paquete.tieneAsientos)
                         {
 
                             for (int i = 0; i < paquete.cantEntradas; i++)
                             {
-                                Asientos asiento = context.Asientos.Where(x => x.codZona == paquete.idZona && x.fila == paquete.filas[i] && x.columna == paquete.columnas[i]).ToList().First();
-                                AsientosXFuncion actAsiento = context.AsientosXFuncion.Find(asiento.codAsiento, paquete.idFuncion);
+                                int col = paquete.columnas[i];
+                                int fil = paquete.filas[i];
+                                List<Asientos> listasiento = context.Asientos.Where(x => x.codZona == paquete.idZona && x.fila == fil && x.columna == col).ToList();
+                                AsientosXFuncion actAsiento = context.AsientosXFuncion.Find(listasiento.First().codAsiento, paquete.idFuncion);
                                 actAsiento.estado = "OCUPADO";
+                                actAsiento.codDetalleVenta = dt.codDetalleVenta;
+                                actAsiento.PrecioPagado = pr.precio;
                             }
 
                         }
@@ -97,7 +139,7 @@ namespace WebApplication4.Controllers
                             ZonaxFuncion ZXF = context.ZonaxFuncion.Find(paquete.idFuncion, paquete.idZona);
                             ZXF.cantLibres -= paquete.cantEntradas;
                         }
-
+                        db.SaveChanges();
                         context.SaveChanges();
                     }
 
@@ -1337,6 +1379,7 @@ namespace WebApplication4.Controllers
                         TempData["message"] = mensaje;
                     }
 
+                    
                     return Redirect("~/Evento/VerEvento/" + paquete.idEvento);
                     //logica de reserva
                     //PLZ

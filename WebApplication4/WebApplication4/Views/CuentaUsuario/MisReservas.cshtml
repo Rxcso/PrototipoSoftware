@@ -83,6 +83,7 @@
                                         PrecioEvento pe = null;
                                         List<AsientosXFuncion> laf = null;
                                         AsientosXFuncion af = null;
+                                        string asientos="";
                                         if (ld != null && ld.Count != 0)
                                         {
                                             de = ld.First();
@@ -93,8 +94,12 @@
                                             laf = db.AsientosXFuncion.Where(c => c.codFuncion == de.codFuncion && c.codDetalleVenta == de.codDetalleVenta).ToList();
                                         }
                                         if (laf != null && laf.Count != 0)
-                                        {
+                                        {                                            
                                             af = laf.First();
+                                            for (int j = 0; j < laf.Count; j++)
+                                            {
+                                                asientos =asientos+", "+ laf[j].codAsiento;
+                                            }
                                         }
                                         }
                                         @if (de != null)
@@ -107,7 +112,7 @@
                                         }
                                         @if (af != null)
                                         {
-                                            <td>@af.codAsiento</td>
+                                            <td>@asientos</td>
                                         }
                                         else
                                         {
