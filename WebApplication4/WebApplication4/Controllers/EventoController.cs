@@ -18,7 +18,7 @@ namespace WebApplication4.Controllers
     {
         inf245netsoft db = new inf245netsoft();
         const int maximoPaginas = 2;
-
+        const int cantMax = 6;
         // GET: Evento
 
         public int BuscarEntradasLeQuedan(string name, int idFuncion)
@@ -1682,5 +1682,79 @@ namespace WebApplication4.Controllers
 
             return CancelarEvento("" + evento.idEvento);
         }
+
+
+
+        [HttpPost]
+        public ActionResult EnviarComentario(int codEvento, string usuario, string contenido)
+        {
+            Comentarios new_coment = new Comentarios();
+            // Comentarios list = db.Comentarios.Last();
+
+
+            new_coment.codEvento = codEvento;
+            new_coment.contenido = contenido;
+            new_coment.usuario = usuario;
+            /*
+            new_coment.contenido = comentario;
+            new_coment.codEvento = evento_id;
+            new_coment.usuario = user_val;*/
+            new_coment.fecha = DateTime.UtcNow;
+
+            db.Comentarios.Add(new_coment);
+            db.SaveChanges();
+
+
+            var lista = from comentario in db.Comentarios
+                        where comentario.codEvento == codEvento
+                        orderby comentario.fecha descending
+                        select new Coment
+                        {
+                            contenido = comentario.contenido,
+                            nombre = comentario.CuentaUsuario.nombre,
+                            fecha = comentario.fecha
+                        };
+
+            lista = lista.Take(6);
+
+            List<Coment> listaNueva = lista.ToList<Coment>();
+
+            return Json(listaNueva, JsonRequestBehavior.AllowGet);
+
+        }
+
+
+
+        [HttpPost]
+        public ActionResult GetComents(int codEvento, string usuario, string contenido, int? offset)
+        {
+            Comentarios new_coment = new Comentarios();
+            // Comentarios list = db.Comentarios.Last();
+
+            int skipVal = offset ?? 0;
+
+
+            var lista = from comentario in db.Comentarios
+                        where comentario.codEvento == codEvento
+                        orderby comentario.codComentario descending
+                        select new Coment
+                        {
+                            contenido = comentario.contenido,
+                            nombre = comentario.CuentaUsuario.nombre,
+                            fecha = comentario.fecha
+
+                        };
+
+            lista = lista.Skip(skipVal).Take(cantMax);
+            //  lista = lista.Take(6);
+
+            List<Coment> listaNueva = lista.ToList<Coment>();
+
+            return Json(listaNueva, JsonRequestBehavior.AllowGet);
+
+        }
+
+
+
     }
 }
