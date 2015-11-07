@@ -21,17 +21,47 @@ namespace WebApplication4.Controllers
         }
 
 
-        public ActionResult Delete(string usuario)
+        public JsonResult Delete(string usuario)
         {
             //CuentaUsuario cuenta = db.CuentaUsuario.AsNoTracking().Where(c => c.codDoc == usuario).ToList().First();
             //db.Regalo.Remove(regalo);
             string usuario2 = usuario.Replace("°", "@");
             CuentaUsuario cuenta = db.CuentaUsuario.Find(usuario2);
-            db.Entry(cuenta).State = EntityState.Modified;
-            cuenta.estado = false;
-            db.SaveChanges();
+            DateTime hoy = DateTime.Now.Date;
+            TurnoSistema ts = new TurnoSistema();
+            TimeSpan da = DateTime.Now.TimeOfDay;
+            List<TurnoSistema> listaturno = db.TurnoSistema.AsNoTracking().Where(c => c.activo == true).ToList();
+            for (int i = 0; i < listaturno.Count; i++)
+            {
+                if ((TimeSpan.Parse(listaturno[i].horIni) < da) && (TimeSpan.Parse(listaturno[i].horFin) > da))
+                {
+                    ts = listaturno[i];
+                }
+            }
+            List<Turno> ltu = db.Turno.Where(c => c.codTurnoSis == ts.codTurnoSis && c.usuario==cuenta.usuario && c.fecha == hoy && c.estadoCaja == "Abierto").ToList();
+            if (ltu.Count != null && ltu.Count == 0)
+            {
+                db.Entry(cuenta).State = EntityState.Modified;
+                cuenta.estado = false;
+                //db.SaveChanges();
+                List<Turno> ltur = db.Turno.Where(c => c.usuario == cuenta.usuario && c.fecha > hoy).ToList();
+                for (int j = 0; j < ltur.Count; j++)
+                {
+                    db.Turno.Remove(ltur[j]);
+                }
+                db.SaveChanges();
+            }
+            else
+            {
+                Session["vendAsig"] = null;
+                Session["ListaTurnoVendedor"] = null;
+                return Json("Error este vendedor esta trabajando en un punto de venta ahora", JsonRequestBehavior.AllowGet);
+            }
+            //db.Entry(cuenta).State = EntityState.Modified;
+            //cuenta.estado = false;
+            //db.SaveChanges();
             //return RedirectToAction("Index", "Evento");
-            return View("Index");
+            return Json("Empleado desactivado", JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Edit(string usuario)

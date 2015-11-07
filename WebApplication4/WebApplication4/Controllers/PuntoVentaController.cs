@@ -90,7 +90,7 @@ namespace WebApplication4.Controllers
                 db.Entry(punto2).State = EntityState.Modified;
                 punto2.estaActivo = false;
                 //db.SaveChanges();
-                List<Turno> ltur = db.Turno.Where(c => c.codPuntoVenta == id).ToList();
+                List<Turno> ltur = db.Turno.Where(c => c.codPuntoVenta == id && c.fecha > hoy).ToList();
                 for (int j = 0; j < ltur.Count; j++)
                 {
                     db.Turno.Remove(ltur[j]);

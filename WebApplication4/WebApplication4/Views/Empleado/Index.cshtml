@@ -587,13 +587,13 @@
                 url: "@Url.Action("Delete", "Empleado")",
                 data: { usuario: usuario },
                 success: function (data) {
-                    //alert("Eliminado");
+                    alert(data);
                     $('#eliminar').modal('hide');
                     //row.remove();
                     window.location.href = '/Empleado/Index';
                 },
-                error: function () {
-                    alert("Error :(");
+                error: function (data) {
+                    alert(data);
                 }
             });
         } else {
