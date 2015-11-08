@@ -215,7 +215,7 @@ namespace WebApplication4.Controllers
             switch (orden)
             {
                 default:
-                    lista = lista.OrderBy(s => s.codigo);
+                    lista = lista.OrderBy(s => s.fecha_inicio);
                     break;
             }
 
