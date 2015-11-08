@@ -75,7 +75,7 @@
                                         }
                                         <td>@db.Eventos.Find(fu.codEvento).nombre</td>
                                         <td>@fu.fecha.Value.ToString("dd/MM/yyyy")</td>
-                                        <td>@fu.horaIni.Value.TimeOfDay</td>
+                                        <td>@String.Format("{0:t}",fu.horaIni)</td>
                                         <td>@row.cantEntradas</td>
                                         @{
                                         List<DetalleVenta> ld = db.DetalleVenta.Where(c => c.codFuncion == fu.codFuncion && c.codVen == row.codVen).ToList();

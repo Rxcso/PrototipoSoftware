@@ -164,8 +164,6 @@ namespace WebApplication4.Controllers
             return "Ok";
         }
 
-
-
         public ActionResult Index(string nombre, string orden, DateTime? fech_ini, DateTime? fech_fin, int? idCategoria, int? idSubCat, int? idRegion, int? page)
         {
             //cada vez que se va al index limpio los session involucrados en la creacion o modificacion
@@ -881,6 +879,27 @@ namespace WebApplication4.Controllers
             }
         }
 
+        private void CreaZonasxFuncion2(int idEvento)
+        {
+            List<ZonaEvento> zonas = db.ZonaEvento.Where(c => c.codEvento == idEvento).ToList();
+            List<Funcion> funciones = db.Funcion.Where(c => c.codEvento == idEvento).ToList();
+            foreach (ZonaEvento zona in zonas)
+            {
+                foreach (Funcion funcion in funciones)
+                {
+                    if (!db.ZonaxFuncion.Any(c => c.codZona == zona.codZona && c.codFuncion == funcion.codFuncion))
+                    {
+                        ZonaxFuncion zonaxfuncion = new ZonaxFuncion();
+                        zonaxfuncion.cantLibres = zona.aforo;
+                        zonaxfuncion.codFuncion = funcion.codFuncion;
+                        zonaxfuncion.codZona = zona.codZona;
+                        db.ZonaxFuncion.Add(zonaxfuncion);
+                        db.SaveChanges();
+                    }
+
+                }
+            }
+        }
         [HttpPost]
         public ActionResult Tarifas(ZonaEventoListModel model)
         {
@@ -896,7 +915,7 @@ namespace WebApplication4.Controllers
                     idEvento = int.Parse(Session["IdEventoModificado"].ToString());
                     listaPV = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
                     FiltrarTarifas(list, listaPV, idEvento);
-                    CreaZonasxFuncion(idEvento);
+                    CreaZonasxFuncion2(idEvento);
                     return RedirectToAction("ExtrasEvento");
                 }
                 listaPV = db.PeriodoVenta.Where(c => c.codEvento == idEvento).ToList();
@@ -1381,7 +1400,7 @@ namespace WebApplication4.Controllers
                         TempData["message"] = mensaje;
                     }
 
-                    
+
                     return Redirect("~/Evento/VerEvento/" + paquete.idEvento);
                     //logica de reserva
                     //PLZ

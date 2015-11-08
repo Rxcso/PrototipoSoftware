@@ -51,7 +51,7 @@
                         @{
                 if (ViewBag.TarifasDelEvento != null)
                 {
-                    for (int i = 0; i < nombresHeaderTabla.Count; i++)
+                    for (int i = 0; i < nombresHeaderTabla.Count && i<model.ListaZEM.Count; i++)
                     {
                         <tr id="@(i+1)" data-zona="@(model.ListaZEM[i].Id)">
                             <td>@(i + 1)</td>
