@@ -83,6 +83,7 @@
                                         PrecioEvento pe = null;
                                         List<AsientosXFuncion> laf = null;
                                         AsientosXFuncion af = null;
+                                        ZonaEvento zon = null;
                                         string asientos="";
                                         if (ld != null && ld.Count != 0)
                                         {
@@ -98,12 +99,18 @@
                                             af = laf.First();
                                             for (int j = 0; j < laf.Count; j++)
                                             {
-                                                asientos =asientos+", "+ laf[j].codAsiento;
+                                                if (j == 0){ 
+                                                    asientos = ""+laf[j].codAsiento;
+                                                }
+                                                else{
+                                                    asientos = asientos + ", " + laf[j].codAsiento;
+                                                }
                                             }
                                         }
                                         }
                                         @if (de != null)
                                         {
+                                            zon = db.ZonaEvento.Find(pe.codZonaEvento);
                                             <td>@db.ZonaEvento.Find(pe.codZonaEvento).nombre</td>
                                         }
                                         else
@@ -119,7 +126,7 @@
                                             <td>-</td>
                                         }
                                         <td>@row.total</td>
-                                        <td><a href="@Url.Action("DeleteReserva", "CuentaUsuario", new { codE = row.codVen, codF = row.codFuncion })" class="btn btn-primary">Borrar <span class="glyphicon glyphicon-remove"></span></a></td>
+                                        <td><a href="@Url.Action("DeleteReserva", "CuentaUsuario", new { codE = row.codVen, codF = row.codFuncion,codEv=fu.codEvento,codZ=zon.codZona })" class="btn btn-primary">Borrar <span class="glyphicon glyphicon-remove"></span></a></td>
                                     </tr>
                                 }
                             }

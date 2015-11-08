@@ -103,6 +103,8 @@ namespace WebApplication4.Controllers
                         vf.cantEntradas = paquete.cantEntradas;
                         vf.codFuncion = paquete.idFuncion;
                         vf.Ventas = ve;
+                        vf.Funcion = db.Funcion.Find(paquete.idFuncion);
+                        vf.descuento = 0;
                         vf.subtotal = paquete.cantEntradas * pr.precio;
                         vf.total = paquete.cantEntradas * pr.precio;
                         db.VentasXFuncion.Add(vf);

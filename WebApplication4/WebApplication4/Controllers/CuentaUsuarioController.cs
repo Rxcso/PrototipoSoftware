@@ -432,14 +432,34 @@ namespace WebApplication4.Controllers
             return View();
         }
 
-        public ActionResult DeleteReserva(int codE, int codF)
+        public ActionResult DeleteReserva(int codE, int codF, int codEv,int codZ)
         {
             Ventas v = db.Ventas.Find(codE);
-            db.Entry(v).State = EntityState.Modified;
-            v.Estado = "Anulado";
-            db.SaveChanges();
-            db.Entry(v).State = EntityState.Detached;
-            //Session["listaReservaClientes"]=db.
+            VentasXFuncion vxf = db.VentasXFuncion.Find(codE, codF);
+            ZonaEvento zo = db.ZonaEvento.Find(codZ);
+            if (zo.tieneAsientos == true)
+            {
+                //db.VentasXFuncion.Remove(vxf);
+                List<DetalleVenta> ldt = db.DetalleVenta.Where(c => c.codFuncion == codF && c.codVen == codE).ToList();
+                DetalleVenta dt = ldt.First();
+                List<AsientosXFuncion> laf = db.AsientosXFuncion.Where(c => c.codDetalleVenta == dt.codDetalleVenta && c.codFuncion == codF).ToList();
+                for (int i = 0; i < laf.Count; i++)
+                {
+                    laf[i].estado = "libre";
+                }
+                v.Estado = "Anulado";
+                //db.VentasXFuncion.Remove(vxf);
+                db.SaveChanges();
+            }
+            else
+            {
+                ZonaxFuncion zxf = db.ZonaxFuncion.Find(codF, codZ);
+                //db.Entry(zxf).State = EntityState.Modified;
+                v.Estado = "Anulado";
+                zxf.cantLibres += (int)v.cantAsientos;
+                db.VentasXFuncion.Remove(vxf);
+                db.SaveChanges();
+            }
             return RedirectToAction("MisReservas", "CuentaUsuario");
         }
 
