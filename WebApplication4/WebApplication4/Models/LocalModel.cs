@@ -8,10 +8,10 @@ namespace WebApplication4.Models
 {
     public class LocalModel
     {
-        [Required]
-        [PosNumberAttribute(ErrorMessage = "Debe ser un numero Positivo mayor que cero")]
-        [Display(Name = "Aforo: ")]
-        public int aforo { get; set; }
+        //[Required]
+        //[PosNumberAttribute(ErrorMessage = "Debe ser un numero Positivo mayor que cero")]
+        //[Display(Name = "Aforo: ")]
+        //public int aforo { get; set; }
 
         [Required]
         [Display(Name = "Descripcion: ")]
@@ -34,10 +34,10 @@ namespace WebApplication4.Models
 
     public class LocalEditModel
     {
-        [Required]
-        [PosNumberAttribute(ErrorMessage = "Debe ser un numero Positivo mayor que cero")]
-        [Display(Name = "Aforo: ")]
-        public int aforo { get; set; }
+        //[Required]
+        //[PosNumberAttribute(ErrorMessage = "Debe ser un numero Positivo mayor que cero")]
+        //[Display(Name = "Aforo: ")]
+        //public int aforo { get; set; }
 
         [Required]
         [Display(Name = "Descripcion: ")]

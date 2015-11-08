@@ -153,7 +153,7 @@
           <Key>
             <PropertyRef Name="codDetalleVenta" />
           </Key>
-          <Property Name="codDetalleVenta" Type="int" Nullable="false" />
+          <Property Name="codDetalleVenta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="codVen" Type="int" Nullable="false" />
           <Property Name="codFuncion" Type="int" Nullable="false" />
           <Property Name="codPrecE" Type="int" Nullable="false" />
@@ -262,7 +262,7 @@
           <Property Name="aforo" Type="int" />
           <Property Name="ubicacion" Type="varchar" MaxLength="50" />
           <Property Name="descripcion" Type="varchar" MaxLength="100" />
-          <Property Name="codLocal" Type="int" Nullable="false" />
+          <Property Name="codLocal" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="estaActivo" Type="bit" />
           <Property Name="idProvincia" Type="int" />
           <Property Name="idRegion" Type="int" />
@@ -271,7 +271,7 @@
           <Key>
             <PropertyRef Name="codOrg" />
           </Key>
-          <Property Name="codOrg" Type="int" Nullable="false" />
+          <Property Name="codOrg" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="nombOrg" Type="varchar" MaxLength="50" />
           <Property Name="tipoDoc" Type="int" />
           <Property Name="codDoc" Type="varchar" MaxLength="20" />
@@ -285,7 +285,7 @@
             <PropertyRef Name="codEvento" />
             <PropertyRef Name="codOrg" />
           </Key>
-          <Property Name="codPago" Type="int" Nullable="false" />
+          <Property Name="codPago" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="fecha" Type="datetime" />
           <Property Name="monto" Type="float" />
           <Property Name="descripcion" Type="varchar" MaxLength="50" />
@@ -339,7 +339,7 @@
           <Property Name="cantComp" Type="int" />
           <Property Name="modoPago" Type="char" MaxLength="18" />
           <Property Name="estado" Type="bit" />
-          <Property Name="codPromo" Type="int" Nullable="false" />
+          <Property Name="codPromo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="codBanco" Type="int" />
           <Property Name="codTipoTarjeta" Type="int" />
           <Property Name="codEvento" Type="int" Nullable="false" />
@@ -348,7 +348,7 @@
           <Key>
             <PropertyRef Name="codPuntoVenta" />
           </Key>
-          <Property Name="codPuntoVenta" Type="int" Nullable="false" />
+          <Property Name="codPuntoVenta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ubicacion" Type="varchar" MaxLength="100" />
           <Property Name="estaActivo" Type="bit" />
           <Property Name="dirMAC" Type="varchar" MaxLength="100" />
@@ -359,7 +359,7 @@
           <Key>
             <PropertyRef Name="idRegalo" />
           </Key>
-          <Property Name="idRegalo" Type="int" Nullable="false" />
+          <Property Name="idRegalo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="100" />
           <Property Name="descripcion" Type="varchar" MaxLength="100" />
           <Property Name="estado" Type="bit" />
