@@ -57,8 +57,8 @@
       <HintPath>..\packages\foolproof.0.9.4517\lib\MVC Foolproof Validation.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.5.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
@@ -186,6 +186,7 @@
     <Compile Include="Controllers\CategoriaController.cs" />
     <Compile Include="Controllers\CuentaUsuarioController.cs" />
     <Compile Include="Controllers\EmpleadoController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\EventoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LocalController.cs" />
@@ -227,9 +228,11 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CategoriaModel.cs" />
+    <Compile Include="Models\Comentario.cs" />
     <Compile Include="Models\Comentarios.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\ComprarEntradaModel.cs" />
     <Compile Include="Models\CuentaUsuario.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -258,6 +261,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\FuncionesModel.cs" />
+    <Compile Include="Models\HoraReserva.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Local.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -366,14 +372,29 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <EntityDeploy Include="Models\Model1.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
     <Content Include="Images\arjona.jpg" />
     <Content Include="Images\bruta.jpg" />
     <Content Include="Images\chino.jpg" />
     <Content Include="Images\destacado.png" />
+    <Content Include="Images\destacado1066.jpg" />
+    <Content Include="Images\destacado1074.jpg" />
+    <Content Include="Images\destacado1083.jpg" />
+    <Content Include="Images\destacado1086.jpg" />
     <Content Include="Images\destacado2.png" />
     <Content Include="Images\destacadoEvento_10259_I.jpg" />
     <Content Include="Images\destacadopost-11.jpg" />
     <Content Include="Images\disco.jpg" />
+    <Content Include="Images\evento1066.jpg" />
+    <Content Include="Images\evento1072.jpg" />
+    <Content Include="Images\evento1074.jpg" />
+    <Content Include="Images\evento1082.jpg" />
+    <Content Include="Images\evento1083.jpg" />
+    <Content Include="Images\evento1085.jpg" />
+    <Content Include="Images\evento1086.jpg" />
     <Content Include="Images\Eventos\imagen1.jpg" />
     <Content Include="Images\Eventos\imagen2.jpg" />
     <Content Include="Images\fiesta.jpg" />
@@ -396,16 +417,19 @@
     <Content Include="Images\registrado.png" />
     <Content Include="Images\search.png" />
     <Content Include="Images\shoppig.jpg" />
+    <Content Include="Images\sitios1066.jpg" />
+    <Content Include="Images\sitios1072.jpg" />
+    <Content Include="Images\sitios1074.jpg" />
+    <Content Include="Images\sitios1082.jpg" />
+    <Content Include="Images\sitios1083.jpg" />
+    <Content Include="Images\sitios1085.jpg" />
+    <Content Include="Images\sitios1086.jpg" />
     <Content Include="Images\teadoro.jpg" />
     <Content Include="Images\teleticket.gif" />
     <Content Include="Images\teleticketmini.gif" />
     <Content Include="Images\tomas.jpg" />
     <Content Include="Images\ubo.jpg" />
     <Content Include="Images\zonass.jpg" />
-    <EntityDeploy Include="Models\Model1.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
-    </EntityDeploy>
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
@@ -425,11 +449,11 @@
     <Content Include="Scripts\CategoriaEvento\BorrarCategoriaEvento.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -448,6 +472,7 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\jquery-2.1.4.min.map" />
     <None Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -562,6 +587,12 @@
     <Content Include="Views\CuentaUsuario\CambiarContrasena.cshtml" />
     <Content Include="Views\CuentaUsuario\RegistrarUsuarioVendedor.cshtml" />
     <Content Include="Views\CuentaUsuario\ComprarEntrada.cshtml" />
+    <Content Include="Views\Error\Error403.cshtml" />
+    <Content Include="Views\Error\General.cshtml" />
+    <Content Include="Views\Error\Index.cshtml" />
+    <Content Include="Views\Ventas\PagoOrganizador.cshtml" />
+    <Content Include="Views\Evento\Comentarios.cshtml" />
+    <Content Include="Views\CuentaUsuario\MiCarrito.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -576,7 +607,6 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-2.1.4.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
   </ItemGroup>
   <ItemGroup>

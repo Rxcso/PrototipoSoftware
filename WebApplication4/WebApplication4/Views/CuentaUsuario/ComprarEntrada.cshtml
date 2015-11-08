@@ -5,10 +5,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     inf245netsoft db = new inf245netsoft();
     string nombre = "";
-    if (!String.IsNullOrEmpty(User.Identity.Name))
+    string dni = "";
+    if (Request.IsAuthenticated)
     {
         CuentaUsuario user = db.CuentaUsuario.Where(c => c.correo == User.Identity.Name).First();
         nombre = user.nombre + " " + user.apellido;
+        dni = user.codDoc;
     }
 }
 
@@ -19,20 +21,35 @@
             <div class="row form-group">
                 @Html.LabelFor(c => c.Nombre, new { @class = "control-label col-md-3" })
                 <div class="col-md-4">
-                    @{//si esque es un usuario anonimo
-                        if (!String.IsNullOrEmpty(User.Identity.Name))
+                    @{//si esque es un usuario registrado
+                        if (Request.IsAuthenticated)
                         {
                             @Html.TextBoxFor(c => c.Nombre, new { @class = "form-control", @readonly = "readonly", @Value = nombre })
-                            @Html.ValidationMessageFor(c => c.Nombre)
                         }
                         else
                         {
-                            @Html.TextBoxFor(c => c.Nombre, new { @class = "form-control", @readonly = "readonly" })
+                            @Html.TextBoxFor(c => c.Nombre, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(c => c.Nombre)
                         }
                     }
                 </div>
             </div>
-
+            <div class="row form-group">
+                @Html.LabelFor(c => c.Dni, new { @class = "control-label col-md-3" })
+                <div class="col-md-4">
+                    @{//si esque es un usuario regitrado
+                        if (Request.IsAuthenticated)
+                        {
+                            @Html.TextBoxFor(c => c.Dni, new { @class = "form-control", @readonly = "readonly", @Value = dni })
+                        }
+                        else
+                        {
+                            @Html.TextBoxFor(c => c.Dni, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(c => c.Dni)
+                        }
+                    }
+                </div>
+            </div>
             <div class="row form-group">
                 @Html.LabelFor(c => c.idBanco, new { @class = "control-label col-md-3" })
                 <div class="col-md-4">
@@ -81,21 +98,21 @@
             <div class="row form-group">
                 <label for="" class="control-label col-md-3">Importe: </label>
                 <div class="col-md-4">
-                    <input type="text" class="form-control" placeholder="S/. 540" disabled>
+                    <input type="text" class="form-control" value="@ViewBag.Total" disabled>
                 </div>
             </div>
 
             <div class="row form-group">
                 <label for="" class="control-label col-md-3">Descuento: </label>
                 <div class="col-md-4">
-                    <input type="text" class="form-control" placeholder="S/. 60" disabled>
+                    <input type="text" class="form-control" disabled>
                 </div>
             </div>
 
             <div class="row form-group">
                 <label for="" class="control-label col-md-3">Monto a Pagar: </label>
                 <div class="col-md-4">
-                    <input type="text" class="form-control" placeholder="S/. 490" disabled>
+                    <input type="text" class="form-control" value="" disabled>
                 </div>
             </div>
             <div class="row">
@@ -105,5 +122,5 @@
             </div>
         </div>
     </div>
-
+    <br />
 </div>

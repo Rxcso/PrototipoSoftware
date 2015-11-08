@@ -228,6 +228,7 @@
       <End Role="ZonaEvento" EntitySet="ZonaEvento" />
       <End Role="ZonaxFuncion" EntitySet="ZonaxFuncion" />
     </AssociationSet>
+    <EntitySet Name="HoraReserva" EntityType="inf245netsoftModel.HoraReserva" />
   </EntityContainer>
   <EntityType Name="Perfiles">
     <Key>
@@ -638,7 +639,7 @@
       <PropertyRef Name="codFuncion" />
     </Key>
     <Property Name="codVen" Type="Int32" Nullable="false" />
-    <Property Name="cantEntradas" Type="Int32" />
+    <Property Name="cantEntradas" Type="Int32" Nullable="false" />
     <Property Name="subtotal" Type="Double" />
     <Property Name="descuento" Type="Int32" />
     <Property Name="total" Type="Double" />
@@ -727,6 +728,7 @@
     <NavigationProperty Name="PuntoVenta" Relationship="inf245netsoftModel.R_9" FromRole="Turno" ToRole="PuntoVenta" />
     <NavigationProperty Name="TurnoSistema" Relationship="inf245netsoftModel.R_12" FromRole="Turno" ToRole="TurnoSistema" />
     <Property Name="estadoCaja" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="horaRegistro" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="TurnoSistema">
     <Key>
@@ -1099,7 +1101,7 @@
     <Property Name="ImagenEvento" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="ImagenDestacado" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="ImagenSitios" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="maxReservas" Type="Int32" />
+    <Property Name="maxReservas" Type="Int32" Nullable="false" />
     <Property Name="montoFijoVentaEntrada" Type="Double" />
     <Property Name="tieneBoletoElectronico" Type="Boolean" Nullable="false" />
     <Property Name="permiteReserva" Type="Boolean" Nullable="false" />
@@ -1241,4 +1243,11 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="HoraReserva">
+    <Key>
+      <PropertyRef Name="codigo" />
+    </Key>
+    <Property Name="hora" Type="DateTime" Precision="3" />
+    <Property Name="codigo" Type="Int32" Nullable="false" />
+  </EntityType>
 </Schema>

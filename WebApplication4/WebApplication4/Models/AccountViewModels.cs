@@ -95,7 +95,7 @@ namespace WebApplication4.Models
 
         [Required(ErrorMessage="Campo Requerido.")]
         [StringLength(100, ErrorMessage = "La {0} debe ser de al menos {2} caracteres de largo.", MinimumLength = 6)]
-        [DataType(DataType.Password)]
+        [DataType(DataType.Password,ErrorMessage = "Contraseña debe tener al menos un símbolo o un dígito. También al menos una minúscula y una mayúscula")]
         [Display(Name = "Contraseña")]
         public string Password { get; set; }
 
@@ -148,10 +148,10 @@ namespace WebApplication4.Models
 
     public class EditViewModel
     {
-        [Required]
-        [EmailAddress]
-        [Display(Name = "Correo Electronico")]
-        public string Email { get; set; }
+        //[Required]
+        //[EmailAddress]
+        //[Display(Name = "Correo Electronico")]
+        //public string Email { get; set; }
 
         [Required]
         [Display(Name = "Nombres")]

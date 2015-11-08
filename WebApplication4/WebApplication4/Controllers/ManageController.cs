@@ -226,10 +226,7 @@ namespace WebApplication4.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
+            
             var db = new inf245netsoft();
             string correo = User.Identity.Name;
             CuentaUsuario cliente = db.CuentaUsuario.Where(c => c.correo == correo).First();
@@ -237,7 +234,6 @@ namespace WebApplication4.Controllers
             {
                 if (cliente.contrasena != model.NewPassword)
                 {
-                    //AQUI FALLA
                     var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
                     if (result.Succeeded)
                     {
@@ -254,19 +250,42 @@ namespace WebApplication4.Controllers
                         return RedirectToAction("MiCuenta", "CuentaUsuario");
                     }
                     else {
-                        return View(model);
+                        ModelState.AddModelError("NewPassword", "Las contraseñas debe tener una combinación de caracteres especiales, letras, letras mayúsculas y números");
+                        
+                        if (model.NewPassword != model.ConfirmPassword)
+                        {
+                            ModelState.AddModelError("ConfirmPassword", "Las contraseñas no coinciden");
+                        }
+                        
                     }
                 }
                 else {
                     ModelState.AddModelError("NewPassword", "Ingrese una contraseña diferente a la actual.");
-                    return View(model);
+                    if (model.NewPassword != model.ConfirmPassword)
+                    {
+                        ModelState.AddModelError("ConfirmPassword", "Las contraseñas no coinciden");
+                    }
+                    
                 }
             }
             else { 
                 ModelState.AddModelError("OldPassword", "Contraseña ingresada no es correcta");
+                if (cliente.contrasena == model.NewPassword)
+                {
+                    ModelState.AddModelError("NewPassword", "Ingrese una contraseña diferente a la actual.");
+                }
+                if (model.NewPassword != model.ConfirmPassword)
+                {
+                    ModelState.AddModelError("ConfirmPassword", "Las contraseñas no coinciden");
+                }
                 //AddErrors(result);
+                
+            }
+            if (!ModelState.IsValid)
+            {
                 return View(model);
             }
+            return View(model);
         }
 
         //

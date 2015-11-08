@@ -1,0 +1,336 @@
+2015-11-06 17:31:02,123 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 17:31:02,131 [9] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-06 17:31:02,131 [9] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 17:31:02,131 [9] ERROR Ticknet - Exception Message - 
+The explicit expression block is missing a closing ")" character.  Make sure you have a matching ")" character for all the "(" characters within this block, and that none of the ")" characters are being interpreted as markup.
+
+2015-11-06 17:31:02,131 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 17:31:18,450 [20] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 17:31:18,450 [20] ERROR Ticknet - Exception Type - 
+RuntimeBinderException
+2015-11-06 17:31:18,450 [20] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 17:31:18,450 [20] ERROR Ticknet - Exception Message - 
+No se puede realizar enlace en tiempo de ejecución en una referencia NULL.
+2015-11-06 17:31:18,450 [20] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:06:24,383 [48] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:06:24,393 [48] ERROR Ticknet - Exception Type - 
+DbUpdateException
+2015-11-06 18:06:24,393 [48] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:06:24,393 [48] ERROR Ticknet - Exception Message - 
+An error occurred while updating the entries. See the inner exception for details.
+2015-11-06 18:06:24,393 [48] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:13:29,071 [48] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:13:29,071 [48] ERROR Ticknet - Exception Type - 
+DbUpdateException
+2015-11-06 18:13:29,071 [48] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:13:29,071 [48] ERROR Ticknet - Exception Message - 
+An error occurred while updating the entries. See the inner exception for details.
+2015-11-06 18:13:29,071 [48] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:24:10,451 [13] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:24:10,460 [13] ERROR Ticknet - Exception Type - 
+InvalidOperationException
+2015-11-06 18:24:10,460 [13] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:24:10,460 [13] ERROR Ticknet - Exception Message - 
+La secuencia no contiene elementos
+2015-11-06 18:24:10,460 [13] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:26:57,352 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:26:57,361 [7] ERROR Ticknet - Exception Type - 
+ArgumentOutOfRangeException
+2015-11-06 18:26:57,361 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:26:57,361 [7] ERROR Ticknet - Exception Message - 
+El índice estaba fuera del intervalo. Debe ser un valor no negativo e inferior al tamaño de la colección.
+Nombre del parámetro: index
+2015-11-06 18:26:57,361 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:27:56,727 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:27:56,728 [7] ERROR Ticknet - Exception Type - 
+ArgumentOutOfRangeException
+2015-11-06 18:27:56,728 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:27:56,728 [7] ERROR Ticknet - Exception Message - 
+El índice estaba fuera del intervalo. Debe ser un valor no negativo e inferior al tamaño de la colección.
+Nombre del parámetro: index
+2015-11-06 18:27:56,728 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:29:43,988 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:29:43,988 [5] ERROR Ticknet - Exception Type - 
+ArgumentOutOfRangeException
+2015-11-06 18:29:43,988 [5] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:29:43,988 [5] ERROR Ticknet - Exception Message - 
+El índice estaba fuera del intervalo. Debe ser un valor no negativo e inferior al tamaño de la colección.
+Nombre del parámetro: index
+2015-11-06 18:29:43,988 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:47:22,834 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:47:22,834 [6] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:47:22,834 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:47:22,834 [6] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:47:22,834 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:47:26,567 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:47:26,567 [7] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:47:26,567 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:47:26,567 [7] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:47:26,567 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:47:31,630 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:47:31,630 [6] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:47:31,630 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:47:31,630 [6] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:47:31,630 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:48:50,762 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:48:50,762 [11] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:48:50,762 [11] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:48:50,762 [11] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:48:50,762 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:48:57,058 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:48:57,058 [7] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:48:57,058 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:48:57,058 [7] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:48:57,058 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:49:00,073 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:49:00,073 [10] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-06 18:49:00,074 [10] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:49:00,074 [10] ERROR Ticknet - Exception Message - 
+A public action method 'BuscarReservas' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-06 18:49:00,074 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:49:02,946 [13] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:49:02,946 [13] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:49:02,946 [13] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:49:02,946 [13] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:49:02,946 [13] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:49:37,980 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:49:37,980 [8] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:49:37,980 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:49:37,980 [8] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:49:37,980 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:50:07,495 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:50:07,495 [10] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:50:07,495 [10] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:50:07,495 [10] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:50:07,495 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:50:47,008 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:50:47,008 [6] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:50:47,008 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:50:47,008 [6] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:50:47,008 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:51:46,332 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:51:46,332 [7] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:51:46,332 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:51:46,332 [7] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:51:46,332 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:51:52,657 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:51:52,657 [6] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:51:52,657 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:51:52,657 [6] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:51:52,657 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:52:05,455 [15] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:52:05,455 [15] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:52:05,455 [15] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:52:05,455 [15] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:52:05,455 [15] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:52:23,742 [22] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:52:23,742 [22] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:52:23,742 [22] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:52:23,742 [22] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:52:23,743 [22] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:52:45,549 [32] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:52:45,549 [32] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:52:45,549 [32] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:52:45,549 [32] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:52:45,549 [32] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:55:42,183 [34] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:55:42,183 [34] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:55:42,183 [34] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:55:42,183 [34] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:55:42,183 [34] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:56:59,583 [17] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:56:59,584 [17] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-06 18:56:59,584 [17] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:56:59,584 [17] ERROR Ticknet - Exception Message - 
+A public action method 'CarritoDeCompras' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-06 18:56:59,584 [17] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:04:18,804 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:04:18,824 [6] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-06 20:04:18,824 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 20:04:18,825 [6] ERROR Ticknet - Exception Message - 
+A public action method 'Comentarios' was not found on controller 'WebApplication4.Controllers.EventoController'.
+2015-11-06 20:04:18,825 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:15:53,252 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:15:53,261 [6] ERROR Ticknet - Exception Type - 
+DbUpdateException
+2015-11-06 20:15:53,261 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 20:15:53,261 [6] ERROR Ticknet - Exception Message - 
+An error occurred while updating the entries. See the inner exception for details.
+2015-11-06 20:15:53,261 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:16:19,561 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:16:19,561 [6] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-06 20:16:19,561 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 20:16:19,561 [6] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\Evento\VerEvento.cshtml(219): error CS0246: No se puede encontrar el tipo o el nombre de espacio de nombres 'Comentario' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-06 20:16:19,561 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:19:20,085 [23] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:19:20,085 [23] ERROR Ticknet - Exception Type - 
+RuntimeBinderException
+2015-11-06 20:19:20,085 [23] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 20:19:20,085 [23] ERROR Ticknet - Exception Message - 
+No se puede convertir NULL en 'int' porque es un tipo de valor que no acepta valores NULL.
+2015-11-06 20:19:20,085 [23] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:26:24,074 [40] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:26:24,074 [40] ERROR Ticknet - Exception Type - 
+ArgumentOutOfRangeException
+2015-11-06 20:26:24,074 [40] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 20:26:24,074 [40] ERROR Ticknet - Exception Message - 
+El índice estaba fuera del intervalo. Debe ser un valor no negativo e inferior al tamaño de la colección.
+Nombre del parámetro: index
+2015-11-06 20:26:24,074 [40] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:36:40,282 [41] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:36:40,282 [41] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-06 20:36:40,282 [41] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 20:36:40,282 [41] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\Evento\VerEvento.cshtml(219): error CS0246: No se puede encontrar el tipo o el nombre de espacio de nombres 'Comentario' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-06 20:36:40,282 [41] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:36:45,186 [44] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:36:45,187 [44] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-06 20:36:45,187 [44] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 20:36:45,187 [44] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\Evento\VerEvento.cshtml(219): error CS0246: No se puede encontrar el tipo o el nombre de espacio de nombres 'Comentario' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-06 20:36:45,187 [44] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:36:49,619 [41] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:36:49,619 [41] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-06 20:36:49,619 [41] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 20:36:49,619 [41] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\Evento\VerEvento.cshtml(219): error CS0246: No se puede encontrar el tipo o el nombre de espacio de nombres 'Comentario' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-06 20:36:49,619 [41] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:36:59,046 [41] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:36:59,046 [41] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-06 20:36:59,047 [41] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 20:36:59,047 [41] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\Evento\VerEvento.cshtml(219): error CS0246: No se puede encontrar el tipo o el nombre de espacio de nombres 'Comentario' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-06 20:36:59,047 [41] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:37:35,903 [18] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:37:35,903 [18] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-06 20:37:35,903 [18] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 20:37:35,903 [18] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\Evento\VerEvento.cshtml(219): error CS0246: No se puede encontrar el tipo o el nombre de espacio de nombres 'Comentario' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-06 20:37:35,903 [18] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-07 21:03:40,398 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-07 21:03:40,405 [5] ERROR Ticknet - Exception Type - 
+ArgumentOutOfRangeException
+2015-11-07 21:03:40,405 [5] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-07 21:03:40,405 [5] ERROR Ticknet - Exception Message - 
+El índice estaba fuera del intervalo. Debe ser un valor no negativo e inferior al tamaño de la colección.
+Nombre del parámetro: index
+2015-11-07 21:03:40,405 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-07 21:04:47,995 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-07 21:04:47,995 [5] ERROR Ticknet - Exception Type - 
+ArgumentOutOfRangeException
+2015-11-07 21:04:47,995 [5] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-07 21:04:47,995 [5] ERROR Ticknet - Exception Message - 
+El índice estaba fuera del intervalo. Debe ser un valor no negativo e inferior al tamaño de la colección.
+Nombre del parámetro: index
+2015-11-07 21:04:47,995 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-07 21:49:35,449 [37] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-07 21:49:35,457 [37] ERROR Ticknet - Exception Type - 
+ArgumentOutOfRangeException
+2015-11-07 21:49:35,457 [37] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-07 21:49:35,457 [37] ERROR Ticknet - Exception Message - 
+El índice estaba fuera del intervalo. Debe ser un valor no negativo e inferior al tamaño de la colección.
+Nombre del parámetro: index
+2015-11-07 21:49:35,457 [37] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-07 21:49:58,450 [17] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-07 21:49:58,458 [17] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-07 21:49:58,458 [17] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-07 21:49:58,458 [17] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\CuentaUsuario\MiCarrito.cshtml(74): error CS1012: Demasiados caracteres en literal de carácter
+2015-11-07 21:49:58,458 [17] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-07 22:00:44,777 [27] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-07 22:00:44,777 [27] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-07 22:00:44,777 [27] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-07 22:00:44,777 [27] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\CuentaUsuario\ComprarEntrada.cshtml(43): error CS1061: 'WebApplication4.Models.ComprarEntradaModel' no contiene una definición de 'Dni' ni se encontró ningún método de extensión 'Dni' que acepte un primer argumento de tipo 'WebApplication4.Models.ComprarEntradaModel' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-07 22:00:44,777 [27] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-07 22:12:39,533 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-07 22:12:39,540 [7] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-07 22:12:39,540 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-07 22:12:39,540 [7] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-07 22:12:39,540 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="inf245netsoftModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+<Schema Namespace="inf245netsoftModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityType Name="__MigrationHistory">
     <Key>
       <PropertyRef Name="MigrationId" />
@@ -185,7 +185,7 @@
     <Property Name="ImagenEvento" Type="text" />
     <Property Name="ImagenDestacado" Type="text" />
     <Property Name="ImagenSitios" Type="text" />
-    <Property Name="maxReservas" Type="int" />
+    <Property Name="maxReservas" Type="int" Nullable="false" />
     <Property Name="montoFijoVentaEntrada" Type="float" />
     <Property Name="tieneBoletoElectronico" Type="bit" Nullable="false" />
     <Property Name="permiteReserva" Type="bit" Nullable="false" />
@@ -242,6 +242,13 @@
     <Property Name="FechaDevolucion" Type="date" />
     <Property Name="cantDiasDevolucion" Type="int" />
     <Property Name="motivoCambio" Type="varchar" MaxLength="200" />
+  </EntityType>
+  <EntityType Name="HoraReserva">
+    <Key>
+      <PropertyRef Name="codigo" />
+    </Key>
+    <Property Name="hora" Type="datetime" />
+    <Property Name="codigo" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Local">
     <Key>
@@ -405,6 +412,7 @@
     </Key>
     <Property Name="codPuntoVenta" Type="int" Nullable="false" />
     <Property Name="codTurnoSis" Type="int" Nullable="false" />
+    <Property Name="horaRegistro" Type="varchar" MaxLength="20" />
     <Property Name="estado" Type="varchar" MaxLength="20" />
     <Property Name="estadoCaja" Type="varchar" MaxLength="20" />
     <Property Name="usuario" Type="varchar" MaxLength="100" Nullable="false" />
@@ -447,7 +455,7 @@
       <PropertyRef Name="codFuncion" />
     </Key>
     <Property Name="codVen" Type="int" Nullable="false" />
-    <Property Name="cantEntradas" Type="int" />
+    <Property Name="cantEntradas" Type="int" Nullable="false" />
     <Property Name="subtotal" Type="float" />
     <Property Name="descuento" Type="int" />
     <Property Name="total" Type="float" />
@@ -620,7 +628,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="R_13">
-    <End Role="ZonaEvento" Type="Self.ZonaEvento" Multiplicity="1" />
+    <End Role="ZonaEvento" Type="Self.ZonaEvento" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="Asientos" Type="Self.Asientos" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="ZonaEvento">
@@ -1035,6 +1045,7 @@
     <EntitySet Name="Eventos" EntityType="Self.Eventos" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="EventosPrueba" EntityType="Self.EventosPrueba" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Funcion" EntityType="Self.Funcion" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HoraReserva" EntityType="Self.HoraReserva" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Local" EntityType="Self.Local" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Organizador" EntityType="Self.Organizador" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Pago" EntityType="Self.Pago" Schema="dbo" store:Type="Tables" />

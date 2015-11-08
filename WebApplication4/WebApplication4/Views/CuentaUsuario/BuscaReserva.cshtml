@@ -43,15 +43,12 @@
         </div>
 
         <div class="col-md-3 ">
-            <a href="carrito_compras.html" class="btn btn-primary pull-right">Pagar reserva <span class="glyphicon glyphicon-usd"></span></a>
+            <a onclick="redirigeReserva()" class="btn btn-primary pull-right">Pagar reserva <span class="glyphicon glyphicon-usd"></span></a>
         </div>
         <div class="col-md-2">
             <a href="@Url.Action("Index2", "Home")" class="btn btn-danger pull-right">Salir <span class="glyphicon glyphicon-log-out"></span></a>
         </div>
     </div>
-
-
-
 
 
     <div class="row">
@@ -65,8 +62,8 @@
                         <th>N° Doc</th>
                         <th>Evento</th>
                         <th>Cantidad Entradas</th>
-                        @*<th>Monto</th>*@
-                        @*<th>Moneda</th>*@
+                        <th>Monto Total</th>
+
                     </tr>
                 </thead>
                 <tbody id="tbody">
@@ -84,6 +81,8 @@
                                 <td>@ve.codDoc</td>
                                 <td>@db.Eventos.Find(fu.codEvento).nombre</td>
                                 <td>@row.cantEntradas</td>
+                                <td>@ve.MontoTotalSoles</td>
+
                             </tr>
                         }
                     }
@@ -92,37 +91,55 @@
         </div>
     </div><br>
 
+</div>
 
-
-
-    <br><br>
-
-
-</div><!--Fin del container-->
-
+<input type="hidden" id="codVenT" value="" />
 <script>
+    function myFunction(x) {
+        if (document.getElementsByClassName("trselected").length > 0) {
+            var element = document.getElementsByClassName("trselected");
+            //element.item[0].cells[0].innerText;
+            element[0].className = "";
+        }
+        //var tabla = document.getElementById("mytable");
+        //alert(x);
+        //var y = x.getCells();
+        var elem = document.getElementById("codVenT");
+        elem.value = x.cells[0].innerHTML;
+        x.className = "trselected";
+
+    }
     function busca() {
         var usuario = $('#idBusq').val();
         var tipo = $('#comboBusq option:selected').val();
-        //var el = document.getElementById(regalo);
-        //var row = $(el).closest('tr');
-        //alert(evento);
-        //alert(promocion);
-        //if (usuario != "" && tipo != "" && usuario != null && tipo != null) {
+
         $.ajax({
             url: "@Url.Action("SearchReserva", "CuentaUsuario")",
             data: { usuario: usuario, tipo: tipo },
             success: function (data) {
                 window.location.href = '/CuentaUsuario/BuscaReserva';
-                //alert("Eliminado");
-                //row.remove();
             },
             error: function () {
                 alert("Error :(");
             }
         });
-        //} else {
-        //    alert("Ingrese todos los campos de busqueda");
-        //}
+
     }
+
+    function redirigeReserva() {
+        var reserva = $('#codVenT').val();
+        if (reserva != "") {
+            window.location.href = '/CuentaUsuario/CarritoDeCompras?reserva=' + reserva;
+        } else {
+            alert("Seleccione una Reserva");
+            evento = "";
+        }
+
+    }
+
 </script>
+<style>
+    .trselected {
+        background: gray;
+    }
+</style>

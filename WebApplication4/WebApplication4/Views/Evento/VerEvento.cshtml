@@ -26,6 +26,8 @@
         }
     </style>
 
+    <script src="~/Scripts/jquery-2.1.4.min.js"></script>
+
 </head>
 
 <div class="container-fluid">
@@ -132,16 +134,15 @@
                                             </select>
                                         </div>
                                     </div-->
-
-
-
                                     <div class="row form-group">
                                         <label for="hora" class="control-label col-md-4">Funciones:</label>
                                         <div id="funcion" class="col-md-8">
                                             <select id="funcionHora" class="form-control">
                                                 @for (int i = 0; i < ViewBag.ListFunciones.Count; i++)
                                                 {
-                                                    <option value="@ViewBag.ListFunciones[i].codFuncion"> @(  ((DateTime)ViewBag.ListFunciones[i].horaIni))</option>
+                                                    string fecha = String.Format("{0:d}",ViewBag.ListFunciones[i].fecha);
+                                                    string hora = String.Format("{0:t}",ViewBag.ListFunciones[i].horaIni);
+                                                    <option value="@ViewBag.ListFunciones[i].codFuncion"> @fecha - @hora</option>
                                                 }
                                             </select>
                                             @Html.ValidationMessageFor(model => model.idFuncion)
@@ -177,7 +178,7 @@
                                             @Html.TextBoxFor(Model => Model.idZona, new { style = "display:none" })
                                             @Html.TextBoxFor(Model => Model.idFuncion, new { style = "display:none" })
                                             @Html.TextBoxFor(model => model.idEvento, new { style = "display:none" })
-                                            @Html.CheckBoxFor(model => model.tieneAsientos, new { style = "display:none" })
+                                            @Html.CheckBoxFor(model => model.tieneAsientos, new { id="formTieneEntradas", style = "display:none" })
                                             @Html.TextBoxFor(model => model.cantEntradas, new { id="formCantEntradas" ,style = "display:none" })
                                             <div id="asientosElegidos">
 
@@ -205,22 +206,29 @@
                 </div>
             </div>
         </div>
-        <div id="comentarios" class="row">
-            <div class="thumbnail">
-                <div class="caption" style="text-align:justify">
-                    <div class="container-fluid">
-                        <h4><u>Comentarios</u></h4>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-10 col-md-offset-1">
-                            <textarea class="form-control " rows="1" id="comentario" placeholder="Escribe un comentario de este evento"></textarea>
-                        </div>
-                    </div>
 
 
-                </div>
-            </div>
-        </div>
+        @{
+
+
+
+            if (Request.IsAuthenticated)
+            {
+                var act = User.Identity.Name;
+
+                Comentario com = new Comentario();
+                com.usuario = act;
+                com.codEvento = Model.idEvento;
+                Html.RenderPartial("Comentarios", com);
+
+            }
+
+
+
+        }
+
+
+       
     </div>
 
     <!--LOS EVENTOS DESTACADOS-->
@@ -388,6 +396,8 @@
                 //$("#filas").val(cantFilas);
                 //$("#columnas").val(cantColumnas);
 
+                $("#formTieneEntradas").val(listaAsientos[index].tieneAsientos);
+
                 $("#numEntradas").val(0);
                 $("#numEntradas").prop('disabled', true);
             }
@@ -398,7 +408,7 @@
                 $("#aux").empty();
                 if (index >= 0) {
                     $("#numEntradas").prop('disabled', false);
-
+                    $("#formTieneEntradas").val(listaAsientos[index].tieneAsientos);
                     $('<div><h3>Quedan ' + listaAsientos[index].totalLibres + ' asientos</h3> </div>').appendTo('#canvas');
 
                     
@@ -422,7 +432,7 @@
             $("#formCantEntradas").val( $("#numEntradas").val() );
             //validar!!!
 
-
+            
 
             //PIER VALIDA PLZ
             // cantEntradas que no son naturales

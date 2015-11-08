@@ -13,9 +13,16 @@ namespace WebApplication4.Models
         [RegularExpression("^[a-zA-Z ]*$", ErrorMessage = "Nombre no debe ser alfanumerico.")]
         public string Nombre { get; set; }
 
+        [Required(ErrorMessage = "Debe ingresar un nombre.")]
+        [Display(Name = "DNI:")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Dni debe ser numérico.")]
+        public string Dni { get; set; }
+
+        [Required]
         [Display(Name = "Banco:")]
         public int idBanco { get; set; }
-
+        
+        [Required]
         [Display(Name = "Tipo de Tarjeta:")]
         public int idTipoTarjeta { get; set; }
 

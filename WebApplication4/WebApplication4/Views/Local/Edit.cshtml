@@ -31,24 +31,24 @@
         <br>
         <div class="row form-group">
             @Html.LabelFor(model => model.aforo, new { @class = "control-label col-md-3" })
-            <div class="col-md-9">
-                @Html.TextBoxFor(model => model.aforo, new { @placeholder = @localM.aforo, @Value = @localM.aforo })
+            <div class="col-md-5">
+                @Html.TextBoxFor(model => model.aforo, new { @class = "form-control", @placeholder = @localM.aforo, @Value = @localM.aforo })
                 @Html.ValidationMessageFor(model => model.aforo)
             </div>
         </div>
 
         <div class="row form-group">
             @Html.LabelFor(model => model.descripcion, new { @class = "control-label col-md-3" })
-            <div class="col-md-9">
-                @Html.TextBoxFor(model => model.descripcion, new { @placeholder = @localM.descripcion, @Value = @localM.descripcion })
+            <div class="col-md-5">
+                @Html.TextBoxFor(model => model.descripcion, new { @class = "form-control", @placeholder = @localM.descripcion, @Value = @localM.descripcion })
                 @*@Html.ValidationMessageFor(model => model.descripcion)*@
             </div>
         </div>
         <br>
         <div class="row form-group">
             @Html.LabelFor(model => model.ubicacion, new { @class = "control-label col-md-3" })
-            <div class="col-md-9">
-                @Html.TextBoxFor(model => model.ubicacion, new { @placeholder = @localM.ubicacion, @Value = @localM.ubicacion })
+            <div class="col-md-5">
+                @Html.TextBoxFor(model => model.ubicacion, new { @class = "form-control", @placeholder = @localM.ubicacion, @Value = @localM.ubicacion })
                 @*@Html.ValidationMessageFor(model => model.ubicacion)*@
             </div>
         </div>
@@ -70,7 +70,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Editar" class="btn btn-default" />
+                <input type="submit" value="Editar" class="btn  btn-primary" />
             </div>
         </div>
     </div>

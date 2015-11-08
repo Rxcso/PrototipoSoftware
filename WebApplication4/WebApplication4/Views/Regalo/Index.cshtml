@@ -20,12 +20,8 @@
         <div class="col-md-6">
             <div class="form-group">
                 <a class="btn btn-primary" href="#formNuevo" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
-                @*<a class="btn btn-primary" data-toggle="modal" onclick="borrar()">Dar de Baja <span class="glyphicon glyphicon-remove"></span></a>*@
                 <a class="btn btn-primary" data-toggle="modal" onclick="redirigeRegalo()">Modificar<span class="glyphicon glyphicon-pencil"></span></a>
-                <a class="btn btn-primary" href="#eliminar" data-toggle="modal">Borrar<span class="glyphicon glyphicon-remove"></span></a>
-                @* <button type="button" class="btn btn-primary" href="#formEditar" onclick="modificar()">Modificar <span class="glyphicon glyphicon-pencil"></span></button>*@
-                @*<a class="btn btn-primary" href="#eliminar" data-toggle="modal">Dar de Baja <span class="glyphicon glyphicon-remove"></span></a>*@
-                <button id=botonOculto style="visibility:hidden" type="button" class="btn btn-primary" onclick="msjConfirmacion2()">Guardar cambios <span class="glyphicon glyphicon-save"></span></button>
+                <a class="btn btn-primary" onclick="validaS()" data-toggle="modal">Borrar<span class="glyphicon glyphicon-remove"></span></a>
             </div>
         </div>
         <div class="col-md-3">
@@ -43,9 +39,10 @@
         </div>
 
     </div>
-    @*@{
-            Html.RenderPartial("_Search");
-        }*@
+    
+    <a class="btn btn-primary" id="idBusq2" onclick="buscaI()" data-toggle="modal">Ver Inactivos<span class="glyphicon"></span></a>
+    <br>
+    <br>
     @{
         var db = new WebApplication4.Models.inf245netsoft();
         List<WebApplication4.Models.Regalo> listaRegalo;
@@ -67,7 +64,7 @@
                     <th>Nombre</th>
                     <th>Descripcion</th>
                     <th>Puntos</th>
-                    @*<th></th>*@
+                    <th>Estado</th>
                 </tr>
             </thead>
             <tbody id="tbody">
@@ -78,6 +75,7 @@
                         <td>@row.Nombre</td>
                         <td>@row.descripcion</td>
                         <td>@row.puntos</td>
+                        <td>@row.estado</td>
                         @*<td>@Html.ActionLink("Delete", "Delete2", new { id = row.idRegalo})</td>
                             <td>@Html.ActionLink("Edit", "Edit2", new { id = row.idRegalo })</td>*@
                     </tr>
@@ -88,6 +86,7 @@
 </div>
 
 <input type="hidden" id="idRegaloT" value="" />
+<input type="hidden" id="EstadoRT" value="" />
 <script>
     function myFunction(x) {
         if (document.getElementsByClassName("trselected").length > 0) {
@@ -99,7 +98,9 @@
         //alert(x);
         //var y = x.getCells();
         var elem = document.getElementById("idRegaloT");
+        var elem2 = document.getElementById("EstadoRT");
         elem.value = x.cells[0].innerHTML;
+        elem2.value = x.cells[4].innerHTML;
         //alert(x.cells[0].innerHTML);
         //ViewBag.P = x.cells[0].innerHTML;
         x.className = "trselected";
@@ -107,26 +108,39 @@
         //<a class="btn btn-primary" href="javascript:document.getElementsByClassName('trselected').submit()">Borrar<span class="glyphicon glyphicon-pencil"></span></a>
         //idProm = x.codp;
     }
+    function validaS() {
+        var regalo = $('#idRegaloT').val();
+        if (regalo != null && regalo != "") {
+            $('#eliminar').modal('show');
+        } else {
+            alert("Seleccione un Regalo");
+        }
+    }
     function borrar() {
         var regalo = $('#idRegaloT').val();
+        var estado = $('#EstadoRT').val();
         var el = document.getElementById(regalo);
         var row = $(el).closest('tr');
         //alert(evento);
         //alert(promocion);
         if (regalo != "" && regalo != null) {
-            $.ajax({
-                url: "@Url.Action("Delete","Regalo")",
-                data: { regalo: regalo },
-                success: function (data) {
-                    //alert("Eliminado");
-                    $('#eliminar').modal('hide');
-                    row.remove();
-                    window.location.href = '/Regalo/Index';
-                },
-                error: function () {
-                    alert("Error :(");
-                }
-            });
+            if (estado != "False") {
+                $.ajax({
+                    url: "@Url.Action("Delete","Regalo")",
+                    data: { regalo: regalo },
+                    success: function (data) {
+                        alert(data);
+                        $('#eliminar').modal('hide');
+                        row.remove();
+                        window.location.href = '/Regalo/Index';
+                    },
+                    error: function (data) {
+                        alert(data);
+                    }
+                });
+            } else {
+                alert("No se puede desactivar un Regalo que ya esta desactivado");
+            }
         } else {
             alert("Seleccione un Regalo");
             evento = "";
@@ -134,8 +148,15 @@
     }
     function redirigeRegalo() {
         var regalo = $('#idRegaloT').val();
+        var estado = $('#EstadoRT').val();
         if (regalo != "") {
-            window.location.href = '/Regalo/Edit?regalo=' + regalo;
+            if (estado != "False") {
+                var elem = document.getElementById("idRegaloT");
+                elem.value = "";
+                window.location.href = '/Regalo/Edit?regalo=' + regalo;
+            } else {
+                alert("El Regalo esta desactivado no se puede editar");
+            }
         } else {
             alert("Seleccione un Regalo");
             evento = "";
@@ -160,6 +181,20 @@
                 alert("Error :(");
             }
         });
+    }
+    function buscaI() {
+        $.ajax({
+            url: "@Url.Action("SearchI", "Regalo")",
+            data: {},
+        success: function (data) {
+            window.location.href = '/Regalo/Index';
+            //alert("Eliminado");
+            //row.remove();
+        },
+        error: function () {
+            alert("Error :(");
+        }
+    });
     }
     function modificar() {
         var regalo = $('#idRegaloT').val();
@@ -212,24 +247,24 @@
                         <br>
                         <div class="row form-group">
                             @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
-                                @Html.EditorFor(model => model.nombre)
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.nombre)
                             </div>
                         </div>
 
                         <div class="row form-group">
                             @Html.LabelFor(model => model.descripcion, new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
-                                @Html.EditorFor(model => model.descripcion)
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.descripcion, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.descripcion)
                             </div>
                         </div>
                         <br>
                         <div class="row form-group">
                             @Html.LabelFor(model => model.puntos, new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
-                                @Html.EditorFor(model => model.puntos)
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.puntos, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.puntos)
                             </div>
                         </div>

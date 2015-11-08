@@ -13,10 +13,10 @@
             <div class="col-md-12 ">
                 <div id="carousel-1" class="carousel slide" data-ride="carousel">
                     <!--indicadores primero-->
-                    <ol class="carousel-indicators">
-                        @for (var i = 0; i < listaDestacados.Count; i++ )
+                    <ol class="carousel-indicators" >
+                        @for (var i = 0; i < listaDestacados.Count; i++)
                         {
-                            <li data-target="#carousel-1" data-slide-to= @("" + i) class="active"></li>
+                            <li data-target="#carousel-1" sstyle="max-height:100%; max-width:100%;" data-slide-to=@("" + i) class="active"></li>
                         }
                         
                     </ol>

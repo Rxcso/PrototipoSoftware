@@ -15,10 +15,12 @@ namespace WebApplication4.Models
 
         [Required]
         [Display(Name = "Descripcion: ")]
+        [StringLength(100, ErrorMessage = "Maxima longitud de 100 caracteres.")]
         public string descripcion { get; set; }
 
         [Required]
         [Display(Name = "Ubicacion: ")]
+        [StringLength(50, ErrorMessage = "Maxima longitud de 50 caracteres.")]
         public String ubicacion { get; set; }
 
         [Required]
@@ -37,12 +39,14 @@ namespace WebApplication4.Models
         [Display(Name = "Aforo: ")]
         public int aforo { get; set; }
 
-
+        [Required]
         [Display(Name = "Descripcion: ")]
+        [StringLength(100, ErrorMessage = "Maxima longitud de 100 caracteres.")]
         public string descripcion { get; set; }
 
         [Required]
         [Display(Name = "Ubicacion: ")]
+        [StringLength(50, ErrorMessage = "Maxima longitud de 50 caracteres.")]
         public String ubicacion { get; set; }
 
         [Required]

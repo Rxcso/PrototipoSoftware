@@ -40,7 +40,7 @@ namespace WebApplication4.Controllers
             DateTime hoy = DateTime.Today;
             for (int i = 0; i < 30; i++)
             {
-                lista.Add(new SelectListItem { Text=""+(hoy.Year+i),Value=""+(hoy.Year+i)});
+                lista.Add(new SelectListItem { Text = "" + (hoy.Year + i), Value = "" + (hoy.Year + i) });
             }
             return lista;
         }
@@ -54,18 +54,26 @@ namespace WebApplication4.Controllers
         [AllowAnonymous]
         public ActionResult ComprarEntrada()
         {
-            ComprarEntradaModel model = new ComprarEntradaModel();
-            if (!String.IsNullOrEmpty(User.Identity.Name))
-                model.Nombre = User.Identity.Name;
-            else
-                model.Nombre = "";
-            List<Banco> bancos = db.Banco.ToList();
-            ViewBag.Bancos = new SelectList(bancos, "codigo", "nombre");
-            List<TipoTarjeta> tipoTarjeta = db.TipoTarjeta.ToList();
-            ViewBag.TipoTarjeta = new SelectList(tipoTarjeta, "idTipoTar", "nombre");
-            ViewBag.Mes = Fechas.Mes();
-            ViewBag.AnVen = Fechas.Anio();
-            return View();
+            if (Session["CarritoItem"] != null)
+            {
+                List<CarritoItem> carrito = (List<CarritoItem>)Session["CarritoItem"];
+                double total = 0;
+                foreach (CarritoItem item in carrito)
+                {
+                    total = item.precio;
+                }
+                ViewBag.Total = total;
+                List<Banco> bancos = db.Banco.ToList();
+                ViewBag.Bancos = new SelectList(bancos, "codigo", "nombre");
+                List<TipoTarjeta> tipoTarjeta = db.TipoTarjeta.ToList();
+                ViewBag.TipoTarjeta = new SelectList(tipoTarjeta, "idTipoTar", "nombre");
+                ViewBag.Mes = Fechas.Mes();
+                ViewBag.AnVen = Fechas.Anio();
+                return View();
+            }
+            TempData["tipo"] = "alert alert-warning";
+            TempData["message"] = "No hay items en el carrito.";
+            return RedirectToAction("MiCarrito");
         }
 
         [HttpPost]
@@ -74,7 +82,46 @@ namespace WebApplication4.Controllers
         {
             if (ModelState.IsValid)
             {
-                //Venta
+                List<CarritoItem> carrito = (List<CarritoItem>)Session["CarritoItem"];
+                //TODO: ver que entradas estan reservadas antes
+                Ventas venta = new Ventas();
+                venta.cantAsientos = carrito.Sum(c=> c.filas.Count);
+                venta.cliente = model.Nombre;
+                venta.codDoc = model.Dni;
+                venta.Estado = "Comprado";
+                venta.fecha = DateTime.Today;
+                venta.modalidad = "T";
+                venta.montoCreditoSoles = model.MontoPagar;
+                venta.montoEfectivoDolares = 0;
+                venta.montoEfectivoSoles = 0 ;
+                venta.MontoTotalSoles = model.MontoPagar;
+                venta.tipoDoc = 1;
+                venta.vendedor = "Web";
+                db.Ventas.Add(venta);
+                int idVenta = venta.codVen;
+                foreach (CarritoItem item in carrito)
+                {
+                    VentasXFuncion ventaxfuncion = new VentasXFuncion();
+                    ventaxfuncion.cantEntradas = item.filas.Count;
+                    ventaxfuncion.codFuncion = item.idFuncion;
+                    ventaxfuncion.codVen = idVenta;
+                    ventaxfuncion.descuento = (int?)model.Descuento/carrito.Count;
+                    ventaxfuncion.subtotal = item.precio * item.filas.Count;
+                    db.VentasXFuncion.Add(ventaxfuncion);
+                    // le falta id de ventax funcionint idVentaxfuncion = ventaxfuncion.
+                    DetalleVenta detalle = new DetalleVenta();
+                    detalle.codFuncion = item.idFuncion;
+                    //detalle.codPrecE
+                    detalle.codVen = idVenta;
+                    detalle.descTot = (int?)model.Descuento;
+                    detalle.entradasDev = 0;
+                    detalle.Subtotal = ventaxfuncion.subtotal;
+                    //detalle.total
+                }
+
+
+                Session["CarritoItem"] = null;
+                Session["Carrito"] = null;
                 return View();
             }
             return View(model);
@@ -186,119 +233,9 @@ namespace WebApplication4.Controllers
             return View(model);
         }
 
-        // GET: /CuentaUsuario/
-        public ActionResult Index()
-        {
-            return View(db.CuentaUsuario.ToList());
-        }
-
         public ActionResult BuscaCliente()
         {
             return View();
-        }
-
-        // GET: /CuentaUsuario/Details/5
-        public ActionResult Details(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            CuentaUsuario cuentausuario = db.CuentaUsuario.Find(id);
-            if (cuentausuario == null)
-            {
-                return HttpNotFound();
-            }
-            return View(cuentausuario);
-        }
-
-        // GET: /CuentaUsuario/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: /CuentaUsuario/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "usuario,tipoUsuario,correo,contrasena,estado,tipoDoc,codDoc,nombre,apellido,direccion,telefono,telMovil,sexo,fechaNac,puntos,codPerfil")] CuentaUsuario cuentausuario)
-        {
-            if (ModelState.IsValid)
-            {
-                db.CuentaUsuario.Add(cuentausuario);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(cuentausuario);
-        }
-
-        // GET: /CuentaUsuario/Edit/5
-        public ActionResult Edit(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            CuentaUsuario cuentausuario = db.CuentaUsuario.Find(id);
-            if (cuentausuario == null)
-            {
-                return HttpNotFound();
-            }
-            return View(cuentausuario);
-        }
-
-        // POST: /CuentaUsuario/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "usuario,tipoUsuario,correo,contrasena,estado,tipoDoc,codDoc,nombre,apellido,direccion,telefono,telMovil,sexo,fechaNac,puntos,codPerfil")] CuentaUsuario cuentausuario)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(cuentausuario).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(cuentausuario);
-        }
-
-        // GET: /CuentaUsuario/Delete/5
-        public ActionResult Delete(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            CuentaUsuario cuentausuario = db.CuentaUsuario.Find(id);
-            if (cuentausuario == null)
-            {
-                return HttpNotFound();
-            }
-            return View(cuentausuario);
-        }
-
-        // POST: /CuentaUsuario/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
-        {
-            CuentaUsuario cuentausuario = db.CuentaUsuario.Find(id);
-            db.CuentaUsuario.Remove(cuentausuario);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
 
         [HttpPost]
@@ -429,21 +366,43 @@ namespace WebApplication4.Controllers
             return View();
         }
 
-        public ActionResult DeleteReserva(int codE, int codF)
+        public ActionResult DeleteReserva(int codE, int codF, int codEv,int codZ)
         {
             Ventas v = db.Ventas.Find(codE);
-            db.Entry(v).State = EntityState.Modified;
-            v.Estado = "Anulado";
-            db.SaveChanges();
-            db.Entry(v).State = EntityState.Detached;
-            //Session["listaReservaClientes"]=db.
+            VentasXFuncion vxf = db.VentasXFuncion.Find(codE, codF);
+            ZonaEvento zo = db.ZonaEvento.Find(codZ);
+            if (zo.tieneAsientos == true)
+            {
+                //db.VentasXFuncion.Remove(vxf);
+                vxf.cantEntradas = 0;
+                List<DetalleVenta> ldt = db.DetalleVenta.Where(c => c.codFuncion == codF && c.codVen == codE).ToList();
+                DetalleVenta dt = ldt.First();
+                List<AsientosXFuncion> laf = db.AsientosXFuncion.Where(c => c.codDetalleVenta == dt.codDetalleVenta && c.codFuncion == codF).ToList();
+                for (int i = 0; i < laf.Count; i++)
+                {
+                    laf[i].estado = "libre";
+                }
+                v.Estado = "Anulado";
+                //db.VentasXFuncion.Remove(vxf);
+                db.SaveChanges();
+            }
+            else
+            {
+                ZonaxFuncion zxf = db.ZonaxFuncion.Find(codF, codZ);
+                //db.Entry(zxf).State = EntityState.Modified;
+                v.Estado = "Anulado";
+                zxf.cantLibres += (int)v.cantAsientos;
+                db.VentasXFuncion.Remove(vxf);
+                db.SaveChanges();
+            }
             return RedirectToAction("MisReservas", "CuentaUsuario");
         }
 
         public JsonResult RegistraPoliticas(string dur, string mx, string mt, string ra, string mE, string hr)
         {
             int m1, m2, m3, m4, m5, m6;
-            string me1 = "Error", me2 = " Error", me3 = " Error", me4 = " Error", me5 = " Error", me6 = " Error";
+            DateTime h6;
+            string me1 = "1.Falta Ingresar Valores\n", me2 = " 3.Falta Ingresar Valores\n", me3 = " 4.Falta Ingresar Valores\n", me4 = " 5.Falta Ingresar Valores\n", me5 = " 6.Falta Ingresar Valores", me6 = " 2.Falta Ingresar Valores\n";
             if (int.TryParse(dur, out m1) == true)
             {
                 int val = int.Parse(dur);
@@ -455,12 +414,20 @@ namespace WebApplication4.Controllers
                     p.valor = val;
                     db.SaveChanges();
                     db.Entry(p).State = EntityState.Detached;
-                    me1 = "Completado";
+                    me1 = "1.Completado\n";
                 }
                 else
                 {
-                    me1 = " Error Negativo";
+                    me1 = " 1.Error Negativo\n";
                 }
+            }
+            if (dur == "e")
+            {
+                int t = 1;
+                Politicas p = db.Politicas.Find(t);
+                db.Entry(p).State = EntityState.Modified;
+                p.valor = null;
+                db.SaveChanges();
             }
             if (int.TryParse(mx, out m2) == true)
             {
@@ -473,11 +440,11 @@ namespace WebApplication4.Controllers
                     p.valor = val1;
                     db.SaveChanges();
                     db.Entry(p).State = EntityState.Detached;
-                    me2 = " Completado";
+                    me2 = " 3.Completado\n";
                 }
                 else
                 {
-                    me2 = " Error Negativo";
+                    me2 = " 3.Error Negativo\n";
                 }
             }
             if (int.TryParse(mt, out m3) == true)
@@ -491,11 +458,11 @@ namespace WebApplication4.Controllers
                     p.valor = val2;
                     db.SaveChanges();
                     db.Entry(p).State = EntityState.Detached;
-                    me3 = " Completado";
+                    me3 = " 4.Completado\n";
                 }
                 else
                 {
-                    me3 = " Error Negativo";
+                    me3 = " 4.Error Negativo\n";
                 }
 
             }
@@ -510,11 +477,11 @@ namespace WebApplication4.Controllers
                     p.valor = val3;
                     db.SaveChanges();
                     db.Entry(p).State = EntityState.Detached;
-                    me4 = " Completado";
+                    me4 = " 5.Completado\n";
                 }
                 else
                 {
-                    me4 = " Error Negativo";
+                    me4 = " 5.Error Negativo\n";
                 }
             }
             if (int.TryParse(mE, out m5) == true)
@@ -528,37 +495,28 @@ namespace WebApplication4.Controllers
                     p.valor = val5;
                     db.SaveChanges();
                     db.Entry(p).State = EntityState.Detached;
-                    me5 = " Completado";
+                    me5 = " 6.Completado\n";
                 }
                 else
                 {
-                    me5 = " Error Negativo";
+                    me5 = " 6.Error Negativo\n";
                 }
             }
-            if (int.TryParse(hr, out m6) == true)
+            if (DateTime.TryParse(hr, out h6) == true)
             {
-                int val6 = int.Parse(hr);
-                if (val6 > 0)
-                {
-                    if (val6 <= 23)
-                    {
-                        int t = 6;
-                        Politicas p = db.Politicas.Find(t);
-                        db.Entry(p).State = EntityState.Modified;
-                        p.valor = val6;
-                        db.SaveChanges();
-                        db.Entry(p).State = EntityState.Detached;
-                        me6 = " Completado";
-                    }
-                    else
-                    {
-                        me6 = " Error limite de hora";
-                    }
-                }
-                else
-                {
-                    me6 = " Error Negativo";
-                }
+                DateTime hr6 = DateTime.Parse(hr);
+                HoraReserva h = db.HoraReserva.Find(6);
+                db.Entry(h).State = EntityState.Modified;
+                h.hora = hr6;
+                db.SaveChanges();
+                me6 = " 2.Completado\n";
+            }
+            if (hr == "e")
+            {
+                HoraReserva h = db.HoraReserva.Find(6);
+                db.Entry(h).State = EntityState.Modified;
+                h.hora = null;
+                db.SaveChanges();
             }
             string mensaje = me1 + me6 + me2 + me3 + me4 + me5;
             return Json(mensaje, JsonRequestBehavior.AllowGet);
@@ -712,24 +670,37 @@ namespace WebApplication4.Controllers
                 List<CarritoItem> item = new List<CarritoItem>();
                 foreach (PaqueteEntradas paquete in carrito)
                 {
+                    Eventos evento = db.Eventos.Find(paquete.idEvento);
+                    PeriodoVenta periodo = db.PeriodoVenta.Where(c => c.codEvento == paquete.idEvento && c.fechaInicio <= DateTime.Today && DateTime.Today <= c.fechaFin).First();
                     CarritoItem cItem = new CarritoItem();
                     cItem.idEvento = paquete.idEvento;
+                    cItem.idFuncion = paquete.idFuncion;
+                    cItem.idZona = paquete.idZona;
                     cItem.nombreEvento = db.Eventos.Find(paquete.idEvento).nombre;
                     Funcion funcion = db.Funcion.Find(paquete.idFuncion);
                     cItem.fecha = (DateTime)funcion.fecha;
                     cItem.hora = (DateTime)funcion.horaIni;
                     cItem.zona = db.ZonaEvento.Find(paquete.idZona).nombre;
-                    cItem.precio = 0;
+                    cItem.precio = (double)db.PrecioEvento.Where(c => c.codZonaEvento == paquete.idZona && c.codPeriodoVenta == periodo.idPerVent).First().precio * paquete.filas.Count;
                     cItem.filas = paquete.filas;
                     cItem.columnas = paquete.columnas;
                     cItem.cantidad = paquete.filas.Count;
                     item.Add(cItem);
                 }
+                Session["CarritoItem"] = item;
                 ViewBag.Carrito = item;
             }
             return View();
         }
 
+        public JsonResult EliminaItem(int itemEliminar)
+        {
+            List<PaqueteEntradas> carrito = (List<PaqueteEntradas>)Session["Carrito"];
+            carrito.RemoveAt(itemEliminar);
+            Session["Carrito"] = carrito;
+            return Json("Entrada Eliminada.");
+        }
+       
         public ActionResult ReporteCliente()
         {
             return View();
@@ -871,7 +842,7 @@ namespace WebApplication4.Controllers
             {
                 db.Entry(cuenta).State = EntityState.Modified;
                 cuenta.puntos = (int)cuenta.puntos - (int)re.puntos;
-                //db.SaveChanges();
+                db.SaveChanges();
                 RegaloXCuenta rc = new RegaloXCuenta();
                 rc.CuentaUsuario = cuenta;
                 rc.fechaRecojo = DateTime.Now;

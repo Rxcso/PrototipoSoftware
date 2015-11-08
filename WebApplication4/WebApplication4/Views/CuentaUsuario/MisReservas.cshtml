@@ -75,7 +75,7 @@
                                         }
                                         <td>@db.Eventos.Find(fu.codEvento).nombre</td>
                                         <td>@fu.fecha.Value.ToString("dd/MM/yyyy")</td>
-                                        <td>@fu.horaIni.Value.TimeOfDay</td>
+                                        <td>@String.Format("{0:t}",fu.horaIni)</td>
                                         <td>@row.cantEntradas</td>
                                         @{
                                         List<DetalleVenta> ld = db.DetalleVenta.Where(c => c.codFuncion == fu.codFuncion && c.codVen == row.codVen).ToList();
@@ -83,6 +83,8 @@
                                         PrecioEvento pe = null;
                                         List<AsientosXFuncion> laf = null;
                                         AsientosXFuncion af = null;
+                                        ZonaEvento zon = null;
+                                        string asientos="";
                                         if (ld != null && ld.Count != 0)
                                         {
                                             de = ld.First();
@@ -93,12 +95,22 @@
                                             laf = db.AsientosXFuncion.Where(c => c.codFuncion == de.codFuncion && c.codDetalleVenta == de.codDetalleVenta).ToList();
                                         }
                                         if (laf != null && laf.Count != 0)
-                                        {
+                                        {                                            
                                             af = laf.First();
+                                            for (int j = 0; j < laf.Count; j++)
+                                            {
+                                                if (j == 0){ 
+                                                    asientos = ""+laf[j].codAsiento;
+                                                }
+                                                else{
+                                                    asientos = asientos + ", " + laf[j].codAsiento;
+                                                }
+                                            }
                                         }
                                         }
                                         @if (de != null)
                                         {
+                                            zon = db.ZonaEvento.Find(pe.codZonaEvento);
                                             <td>@db.ZonaEvento.Find(pe.codZonaEvento).nombre</td>
                                         }
                                         else
@@ -107,15 +119,14 @@
                                         }
                                         @if (af != null)
                                         {
-                                            <td>@af.codAsiento</td>
-                                            <td>@*@db.Asientos.Find(af.codAsiento).fila*@</td>
+                                            <td>@asientos</td>
                                         }
                                         else
                                         {
                                             <td>-</td>
                                         }
                                         <td>@row.total</td>
-                                        <td><a href="@Url.Action("DeleteReserva", "CuentaUsuario", new { codE = row.codVen, codF = row.codFuncion })" class="btn btn-primary">Borrar <span class="glyphicon glyphicon-remove"></span></a></td>
+                                        <td><a href="@Url.Action("DeleteReserva", "CuentaUsuario", new { codE = row.codVen, codF = row.codFuncion,codEv=fu.codEvento,codZ=zon.codZona })" class="btn btn-primary">Borrar <span class="glyphicon glyphicon-remove"></span></a></td>
                                     </tr>
                                 }
                             }
