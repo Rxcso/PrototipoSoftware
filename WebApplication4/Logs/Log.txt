@@ -334,3 +334,11 @@ System.Collections.ListDictionaryInternal
 2015-11-07 22:12:39,540 [7] ERROR Ticknet - Exception Message - 
 Referencia a objeto no establecida como instancia de un objeto.
 2015-11-07 22:12:39,540 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-08 18:35:07,013 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-08 18:35:07,021 [8] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-08 18:35:07,022 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-08 18:35:07,022 [8] ERROR Ticknet - Exception Message - 
+f:\down\Ingenieria de software\Prototipo\PrototipoSoftware25\WebApplication4\WebApplication4\Views\Evento\DatosGenerales.cshtml(135): error CS1061: 'WebApplication4.Models.Local' no contiene una definición de 'aforo' ni se encontró ningún método de extensión 'aforo' que acepte un primer argumento de tipo 'WebApplication4.Models.Local' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-08 18:35:07,022 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++

@@ -16,24 +16,24 @@ namespace WebApplication4.Models
     {
         public Region()
         {
-            this.Local = new HashSet<Local>();
-            this.Local1 = new HashSet<Local>();
             this.Region1 = new HashSet<Region>();
             this.PuntoVenta = new HashSet<PuntoVenta>();
             this.PuntoVenta1 = new HashSet<PuntoVenta>();
             this.Eventos = new HashSet<Eventos>();
+            this.Local = new HashSet<Local>();
+            this.Local1 = new HashSet<Local>();
         }
     
         public int idRegion { get; set; }
         public Nullable<int> idRegPadre { get; set; }
         public string nombre { get; set; }
     
-        public virtual ICollection<Local> Local { get; set; }
-        public virtual ICollection<Local> Local1 { get; set; }
         public virtual ICollection<Region> Region1 { get; set; }
         public virtual Region Region2 { get; set; }
         public virtual ICollection<PuntoVenta> PuntoVenta { get; set; }
         public virtual ICollection<PuntoVenta> PuntoVenta1 { get; set; }
         public virtual ICollection<Eventos> Eventos { get; set; }
+        public virtual ICollection<Local> Local { get; set; }
+        public virtual ICollection<Local> Local1 { get; set; }
     }
 }

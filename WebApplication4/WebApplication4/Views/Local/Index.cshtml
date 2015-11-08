@@ -82,7 +82,7 @@
                     <th>Id</th>
                     <th>Descripcion</th>
                     <th>Ubicacion</th>
-                    <th>Aforo</th>
+                    @*<th>Aforo</th>*@
                     <th>Provincia</th>
                     <th>Departamento</th>
                     <th>Estado</th>
@@ -95,7 +95,7 @@
                         <td>@row.codLocal</td>
                         <td>@row.descripcion</td>
                         <td>@row.ubicacion</td>
-                        <td>@row.aforo</td>
+                        @*<td>@row.aforo</td>*@
                         <td>@db.Region.Find(row.idProvincia).nombre</td>
                         <td>@db.Region.Find(row.idRegion).nombre</td>
                         <td>@row.estaActivo</td>
@@ -204,7 +204,7 @@
         var elem = document.getElementById("idLocalT");
         elem.value = x.cells[0].innerHTML;
         var elem2 = document.getElementById("EstadoLT");
-        elem2.value = x.cells[6].innerHTML;
+        elem2.value = x.cells[5].innerHTML;
         x.className = "trselected";
 
         //<a class="btn btn-primary" href="javascript:document.getElementsByClassName('trselected').submit()">Borrar<span class="glyphicon glyphicon-pencil"></span></a>
