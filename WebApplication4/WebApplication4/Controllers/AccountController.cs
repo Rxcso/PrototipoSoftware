@@ -179,7 +179,8 @@ namespace WebApplication4.Controllers
                                 {
                                     tu.estado = "Tarde";
                                 }
-                                Session["MensajeIngresoTurno"] = "Ingreso a Turno Registrado" + da.ToString(@"hh\:mm\:ss"); ;
+                                tu.horaRegistro = da.ToString(@"hh\:mm\:ss");
+                                Session["MensajeIngresoTurno"] = "Ingreso a Turno Registrado" + da.ToString(@"hh\:mm\:ss");
                                 db.SaveChanges();
                                 db.Entry(tu).State = EntityState.Detached;
                             }

@@ -40,7 +40,7 @@ namespace WebApplication4.Controllers
             return View("Index");
         }
 
-        public ActionResult Delete(string organizador)
+        public JsonResult Delete(string organizador)
         {
             int id = int.Parse(organizador);
             Organizador org = db.Organizador.Find(id);
@@ -49,7 +49,7 @@ namespace WebApplication4.Controllers
             org.estadoOrg = "Inactivo";
             db.SaveChanges();
             //return RedirectToAction("Index", "Evento");
-            return View("Index");
+            return Json("Organizador Desactivado", JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Delete2(int id)
@@ -124,6 +124,15 @@ namespace WebApplication4.Controllers
                 return RedirectToAction("Index", "Organizador");
             }
             listaOrg = db.Organizador.AsNoTracking().Where(c => c.nombOrg.Contains(organizador) && c.estadoOrg == "Activo").ToList();
+            if (listaOrg != null) Session["ListaO"] = listaOrg;
+            else Session["ListaO"] = null;
+            return RedirectToAction("Index", "Organizador");
+        }
+
+        public ActionResult SearchI()
+        {
+            List<Organizador> listaOrg;
+            listaOrg = db.Organizador.AsNoTracking().Where(c => c.estadoOrg == "Inactivo").ToList();
             if (listaOrg != null) Session["ListaO"] = listaOrg;
             else Session["ListaO"] = null;
             return RedirectToAction("Index", "Organizador");

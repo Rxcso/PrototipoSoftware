@@ -77,7 +77,7 @@
                             Ventas ve = db.Ventas.Find(row.codVen);
                             Funcion fu = db.Funcion.Find(row.codFuncion);
                                 }
-                                <td>@db.CuentaUsuario.Find(ve.cliente).nombre</td>
+                                <td>@db.CuentaUsuario.Find(ve.cliente).nombre @db.CuentaUsuario.Find(ve.cliente).apellido</td>
                                 <td>@ve.codDoc</td>
                                 <td>@db.Eventos.Find(fu.codEvento).nombre</td>
                                 <td>@row.cantEntradas</td>

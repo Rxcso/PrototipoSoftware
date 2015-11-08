@@ -10,10 +10,12 @@ namespace WebApplication4.Models
     {
         [Required]
         [Display(Name = "Ubicacion: ")]
+        [StringLength(100, ErrorMessage = "Maxima longitud de 100 caracteres.")]
         public String ubicacion { get; set; }
 
         [Required]
         [Display(Name = "Direccion MAC: ")]
+        [StringLength(100, ErrorMessage = "Maxima longitud de 100 caracteres.")]
         public String mac { get; set; }
 
         [Required]

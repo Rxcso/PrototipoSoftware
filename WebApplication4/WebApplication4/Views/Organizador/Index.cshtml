@@ -28,7 +28,7 @@
                     <br>
                     <a class="btn btn-primary" href="#formNuevo" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
                     <a class="btn btn-primary" data-toggle="modal" onclick="redirige()">Modificar<span class="glyphicon glyphicon-pencil"></span></a>
-                    <a class="btn btn-primary" href="#eliminar" data-toggle="modal">Borrar<span class="glyphicon glyphicon-remove"></span></a>
+                    <a class="btn btn-primary" onclick="validaS()" data-toggle="modal">Borrar<span class="glyphicon glyphicon-remove"></span></a>
                     @*@{
                         Html.RenderPartial("_Search");
                     }*@
@@ -56,7 +56,9 @@
             </div>
 
         </div>
-
+        <a class="btn btn-primary" id="idBusq2" onclick="buscaI()" data-toggle="modal">Ver Inactivos<span class="glyphicon"></span></a>
+        <br>
+        <br>
         @{
             var db = new WebApplication4.Models.inf245netsoft();
             List<WebApplication4.Models.Organizador> listaOrganizador;
@@ -79,7 +81,7 @@
                         <th>Nro. Documento</th>
                         <th>Correo</th>
                         <th>Telefono</th>
-                        @*<th></th>*@
+                        <th>Estado</th>
                     </tr>
                 </thead>
                 <tbody id="tbody">
@@ -91,6 +93,7 @@
                             <td>@row.codDoc</td>
                             <td>@row.correo</td>
                             <td>@row.telefOrg</td>
+                            <td>@row.estadoOrg</td>
                             @*<td>@Html.ActionLink("Delete2", "Delete", new { id = row.codOrg })</td>
                                 <td>@Html.ActionLink("Edit", "Edit", new { id = row.codOrg })</td>*@
                             @*<td>@Html.ActionLink("Delete", "Delete", new { id = row.idRegalo })</td>
@@ -106,6 +109,8 @@
 </div>
 
 <input type="hidden" id="idOrganizadorT" value="" />
+<input type="hidden" id="EstadoOrgT" value="" />
+
 <script>
     function myFunction(x) {
         if (document.getElementsByClassName("trselected").length > 0) {
@@ -117,7 +122,9 @@
         //alert(x);
         //var y = x.getCells();
         var elem = document.getElementById("idOrganizadorT");
+        var elem2 = document.getElementById("EstadoOrgT");
         elem.value = x.cells[0].innerHTML;
+        elem2.value = x.cells[5].innerHTML;
         //alert(x.cells[0].innerHTML);
         //ViewBag.P = x.cells[0].innerHTML;
         x.className = "trselected";
@@ -125,26 +132,39 @@
         //<a class="btn btn-primary" href="javascript:document.getElementsByClassName('trselected').submit()">Borrar<span class="glyphicon glyphicon-pencil"></span></a>
         //idProm = x.codp;
     }
+    function validaS() {
+        var organizador = $('#idOrganizadorT').val();
+        if (organizador != null && organizador != "") {
+            $('#eliminar').modal('show');
+        } else {
+            alert("Seleccione un Organizador");
+        }
+    }
     function borrar() {
         var organizador = $('#idOrganizadorT').val();
+        var estado = $('#EstadoOrgT').val();
         var el = document.getElementById(organizador);
         var row = $(el).closest('tr');
         //alert(evento);
         //alert(promocion);
         if (organizador != "" && organizador != null) {
-            $.ajax({
-                url: "@Url.Action("Delete", "Organizador")",
-                data: { organizador: organizador },
-                success: function (data) {
-                    //alert("Eliminado");
-                    $('#eliminar').modal('hide');
-                    row.remove();
-                    window.location.href = '/Organizador/Index';
-                },
-                error: function () {
-                    alert("Error :(");
-                }
-            });
+            if (estado != "Inactivo") {
+                $.ajax({
+                    url: "@Url.Action("Delete", "Organizador")",
+                    data: { organizador: organizador },
+                    success: function (data) {
+                        //alert("Eliminado");
+                        $('#eliminar').modal('hide');
+                        row.remove();
+                        window.location.href = '/Organizador/Index';
+                    },
+                    error: function () {
+                        alert("Error :(");
+                    }
+                });
+            } else {
+                alert("No se puede desactivar un Organizador que ya esta desactivado");
+            }
         } else {
             alert("Seleccione un Organizador");
             evento = "";
@@ -169,10 +189,31 @@
         }
     });
     }
+    function buscaI() {
+        $.ajax({
+            url: "@Url.Action("SearchI", "Organizador")",
+            data: {},
+        success: function (data) {
+            window.location.href = '/Organizador/Index';
+            //alert("Eliminado");
+            //row.remove();
+        },
+        error: function () {
+            alert("Error :(");
+        }
+    });
+    }
     function redirige() {
         var organizador = $('#idOrganizadorT').val();
+        var estado = $('#EstadoOrgT').val();
         if (organizador != "") {
-            window.location.href = '/Organizador/Edit?organizador=' + organizador;
+            if (estado != "Inactivo") {
+                var elem = document.getElementById("idOrganizadorT");
+                elem.value = "";
+                window.location.href = '/Organizador/Edit?organizador=' + organizador;
+            } else {
+                alert("El Organizador esta desactivado no se puede editar");
+            }
         } else {
             alert("Seleccione un Organizador");
             evento = "";
@@ -228,23 +269,23 @@
                     <br>
                     <div class="row form-group">
                         @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })
-                        <div class="col-md-9">
-                            @Html.EditorFor(model => model.nombre)
+                        <div class="col-md-5">
+                            @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.nombre)
                         </div>
                     </div>
 
                     <div class="row form-group">
                         @Html.LabelFor(model => model.telefono, new { @class = "control-label col-md-3" })
-                        <div class="col-md-9">
-                            @Html.EditorFor(model => model.telefono)
+                        <div class="col-md-5">
+                            @Html.EditorFor(model => model.telefono, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.telefono)
                         </div>
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.tipoDoc, new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
+                        @Html.LabelFor(model => model.tipoDoc, new { @class = "control-label col-md-3" })
+                        <div class="col-md-5">
                             @{
                 List<SelectListItem> listItems = new List<SelectListItem>();
                 listItems.Add(new SelectListItem
@@ -258,22 +299,25 @@
                     Value = "2"
                 });
                             }
-                            @Html.DropDownListFor(model => model.tipoDoc, listItems, "Seleccione tipo de documento")
+                            @Html.DropDownListFor(model => model.tipoDoc, listItems, "Seleccione tipo de documento", new { @class = "form-control" })
                         </div>
+
                     </div>
 
+
+
                     <div class="form-group">
-                        @Html.LabelFor(model => model.codDoc, new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.codDoc)
+                        @Html.LabelFor(model => model.codDoc, new { @class = "control-label col-md-3" })
+                        <div class="col-md-5">
+                            @Html.EditorFor(model => model.codDoc, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.codDoc)
                         </div>
                     </div>
 
                     <div class="row form-group">
                         @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-3" })
-                        <div class="col-md-9">
-                            @Html.EditorFor(model => model.Email)
+                        <div class="col-md-5">
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.Email)
                         </div>
                     </div>

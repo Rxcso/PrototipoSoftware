@@ -12,11 +12,9 @@ namespace WebApplication4.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class C__MigrationHistory
+    public partial class HoraReserva
     {
-        public string MigrationId { get; set; }
-        public string ContextKey { get; set; }
-        public byte[] Model { get; set; }
-        public string ProductVersion { get; set; }
+        public Nullable<System.DateTime> hora { get; set; }
+        public int codigo { get; set; }
     }
 }

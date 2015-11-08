@@ -21,17 +21,53 @@ namespace WebApplication4.Controllers
         }
 
 
-        public ActionResult Delete(string usuario)
+        public JsonResult Delete(string usuario)
         {
             //CuentaUsuario cuenta = db.CuentaUsuario.AsNoTracking().Where(c => c.codDoc == usuario).ToList().First();
             //db.Regalo.Remove(regalo);
             string usuario2 = usuario.Replace("°", "@");
             CuentaUsuario cuenta = db.CuentaUsuario.Find(usuario2);
-            db.Entry(cuenta).State = EntityState.Modified;
-            cuenta.estado = false;
-            db.SaveChanges();
-            //return RedirectToAction("Index", "Evento");
-            return View("Index");
+            if (cuenta.codPerfil == 2)
+            {
+                DateTime hoy = DateTime.Now.Date;
+                TurnoSistema ts = new TurnoSistema();
+                TimeSpan da = DateTime.Now.TimeOfDay;
+                List<TurnoSistema> listaturno = db.TurnoSistema.AsNoTracking().Where(c => c.activo == true).ToList();
+                for (int i = 0; i < listaturno.Count; i++)
+                {
+                    if ((TimeSpan.Parse(listaturno[i].horIni) < da) && (TimeSpan.Parse(listaturno[i].horFin) > da))
+                    {
+                        ts = listaturno[i];
+                    }
+                }
+                List<Turno> ltu = db.Turno.Where(c => c.codTurnoSis == ts.codTurnoSis && c.usuario == cuenta.usuario && c.fecha == hoy && c.estadoCaja == "Abierto").ToList();
+                if (ltu.Count != null && ltu.Count == 0)
+                {
+                    db.Entry(cuenta).State = EntityState.Modified;
+                    cuenta.estado = false;
+                    //db.SaveChanges();
+                    List<Turno> ltur = db.Turno.Where(c => c.usuario == cuenta.usuario && c.fecha > hoy).ToList();
+                    for (int j = 0; j < ltur.Count; j++)
+                    {
+                        db.Turno.Remove(ltur[j]);
+                    }
+                    db.SaveChanges();
+                }
+                else
+                {
+                    Session["vendAsig"] = null;
+                    Session["ListaTurnoVendedor"] = null;
+                    return Json("Error este vendedor esta trabajando en un punto de venta ahora", JsonRequestBehavior.AllowGet);
+                }
+            }
+            else
+            {
+                db.Entry(cuenta).State = EntityState.Modified;
+                cuenta.estado = false;
+                db.SaveChanges();
+                return Json("Promotor desactivado", JsonRequestBehavior.AllowGet);
+            }
+            return Json("Empleado desactivado", JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Edit(string usuario)
@@ -53,9 +89,11 @@ namespace WebApplication4.Controllers
                 var o = ViewBag.id;
                 string usuario = Convert.ToString(TempData["codigoE"]);
                 CuentaUsuario cuenta = db.CuentaUsuario.Find(usuario);
+                List<AspNetUsers> lcuentaAsp = db.AspNetUsers.Where(c => c.Email == cuenta.correo).ToList();
+                AspNetUsers cuentaAsp = lcuentaAsp.First();
                 //CuentaUsuario cuenta = db.CuentaUsuario.AsNoTracking().Where(c => c.codDoc == usuario).ToList().First();
                 db.Entry(cuenta).State = EntityState.Modified;
-                cuenta.correo = model.Email;
+                //cuenta.correo = model.Email;
                 cuenta.nombre = model.nombre;
                 cuenta.telefono = model.telefono;
                 cuenta.telMovil = model.telMovil;
@@ -108,6 +146,24 @@ namespace WebApplication4.Controllers
             listaEmp = db.CuentaUsuario.AsNoTracking().Where(c => c.nombre.Contains(nombre) && c.estado == true && c.codPerfil == 2).ToList();
             if (listaEmp != null) Session["ListaV1"] = listaEmp;
             else Session["ListaV1"] = null;
+            return RedirectToAction("Index", "Empleado");
+        }
+
+        public ActionResult SearchIE()
+        {
+            List<CuentaUsuario> listaEmp;
+            listaEmp = db.CuentaUsuario.AsNoTracking().Where(c => c.estado == false && c.codPerfil == 2).ToList();
+            if (listaEmp != null) Session["ListaV1"] = listaEmp;
+            else Session["ListaV1"] = null;
+            return RedirectToAction("Index", "Empleado");
+        }
+
+        public ActionResult SearchIP()
+        {
+            List<CuentaUsuario> listaEmp;
+            listaEmp = db.CuentaUsuario.AsNoTracking().Where(c => c.estado == false && c.codPerfil == 3).ToList();
+            if (listaEmp != null) Session["ListaT"] = listaEmp;
+            else Session["ListaT"] = null;
             return RedirectToAction("Index", "Empleado");
         }
 

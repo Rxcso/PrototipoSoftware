@@ -243,6 +243,13 @@
     <Property Name="cantDiasDevolucion" Type="int" />
     <Property Name="motivoCambio" Type="varchar" MaxLength="200" />
   </EntityType>
+  <EntityType Name="HoraReserva">
+    <Key>
+      <PropertyRef Name="codigo" />
+    </Key>
+    <Property Name="hora" Type="datetime" />
+    <Property Name="codigo" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="Local">
     <Key>
       <PropertyRef Name="codLocal" />
@@ -405,6 +412,7 @@
     </Key>
     <Property Name="codPuntoVenta" Type="int" Nullable="false" />
     <Property Name="codTurnoSis" Type="int" Nullable="false" />
+    <Property Name="horaRegistro" Type="varchar" MaxLength="20" />
     <Property Name="estado" Type="varchar" MaxLength="20" />
     <Property Name="estadoCaja" Type="varchar" MaxLength="20" />
     <Property Name="usuario" Type="varchar" MaxLength="100" Nullable="false" />
@@ -1037,6 +1045,7 @@
     <EntitySet Name="Eventos" EntityType="Self.Eventos" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="EventosPrueba" EntityType="Self.EventosPrueba" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Funcion" EntityType="Self.Funcion" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="HoraReserva" EntityType="Self.HoraReserva" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Local" EntityType="Self.Local" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Organizador" EntityType="Self.Organizador" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Pago" EntityType="Self.Pago" Schema="dbo" store:Type="Tables" />

@@ -148,10 +148,10 @@ namespace WebApplication4.Models
 
     public class EditViewModel
     {
-        [Required]
-        [EmailAddress]
-        [Display(Name = "Correo Electronico")]
-        public string Email { get; set; }
+        //[Required]
+        //[EmailAddress]
+        //[Display(Name = "Correo Electronico")]
+        //public string Email { get; set; }
 
         [Required]
         [Display(Name = "Nombres")]
