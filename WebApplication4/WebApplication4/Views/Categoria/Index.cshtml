@@ -305,7 +305,7 @@
                         <div class="row form-group">
                             @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })
                             <div class="col-md-9">
-                                @Html.EditorFor(model => model.nombre)
+                                @Html.TextBoxFor(model => model.nombre, new { @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.nombre)
                             </div>
                         </div>
@@ -313,7 +313,7 @@
                         <div class="row form-group">
                             @Html.LabelFor(model => model.descripcion, new { @class = "control-label col-md-3" })
                             <div class="col-md-9">
-                                @Html.EditorFor(model => model.descripcion)
+                                @Html.TextBoxFor(model => model.descripcion, new { @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.descripcion)
                             </div>
                         </div>

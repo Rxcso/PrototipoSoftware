@@ -593,6 +593,7 @@
     <Content Include="Views\Ventas\PagoOrganizador.cshtml" />
     <Content Include="Views\Evento\Comentarios.cshtml" />
     <Content Include="Views\CuentaUsuario\MiCarrito.cshtml" />
+    <Content Include="Views\Ventas\VerDetalle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

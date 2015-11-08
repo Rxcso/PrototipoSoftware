@@ -1,0 +1,81 @@
+﻿@{
+    ViewBag.Title = "VerDetalle";
+    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li class="active">Detalle de ventas</li>
+        </ol>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="form-group">            
+            <div class="col-md-7">                
+                <a class="btn btn-primary" href="#devolver" data-toggle="modal">Devolver Dinero<span class="glyphicon glyphicon-usd"></span></a>
+                <a class="btn btn-primary" data-toggle="modal" onclick="volver()">Volver<span class="glyphicon glyphicon-backward"></span></a>
+            </div>            
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<input type="hidden" id="idFila" value="" />
+<script>
+    function myFunction(x) {
+        if (document.getElementsByClassName("trselected").length > 0) {
+            var element = document.getElementsByClassName("trselected");
+            //element.item[0].cells[0].innerText;
+            element[0].className = "";
+        }
+        //var tabla = document.getElementById("mytable");
+        //alert(x);
+        //var y = x.getCells();
+        var elem = document.getElementById("idFila");
+        elem.value = x.cells[0].innerHTML;
+        //alert(x.cells[0].innerHTML);
+        //ViewBag.P = x.cells[0].innerHTML;
+        x.className = "trselected";
+        //<a class="btn btn-primary" href="javascript:document.getElementsByClassName('trselected').submit()">Borrar<span class="glyphicon glyphicon-pencil"></span></a>
+        //idProm = x.codp;
+    }
+
+    function closewindowDev() {
+        $('#devolver').modal('hide');
+    }
+</script>
+
+<style>
+    .trselected {
+        background: gray;
+    }
+</style>
+
+<div class="modal fade" id="devolver">
+    <!--esta div pondra la pantalla oscura al presionar el boton-->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--ACA VA EL CONTENIDO DEL MODAL-->
+            <!--header de la ventana-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+                <h4 class="modal-title">Aviso</h4>
+            </div>
+            <!--contenido de la ventana-->
+            <div class="modal-body">
+                ¿Está seguro que quiere devolver el dinero de este registro?
+            </div>
+            <!--footer de la ventana-->
+            <div class="modal-footer">
+                <button type="button" onclick="devolver()" class="btn btn-primary">Aceptar <span class="glyphicon glyphicon-ok"></span></button>
+                <button type="button" onclick="return closewindowDev();" class="btn btn-danger">Cancelar <span class="glyphicon glyphicon-remove"></span></button>
+            </div>
+        </div>
+    </div>
+</div>
