@@ -37,14 +37,12 @@ namespace WebApplication4.Controllers
                 {
                     actualEntradas += VXF.cantEntradas;
                 }
-
             return limEntradas - actualEntradas;
         }
 
         public string reservaAsientos(string name, PaqueteEntradas paquete)
         {
             //name es el correo de la persona
-
             //PIER ACA VA LA LOGICA DEL GUARDAR
             //LA IDEA ES QUE RETORNE UN STRING CON EL ERROR EN CASO HUBIERA ALGUNO
             //"Superaria el limte de reservas para esta funcion ya tiene n entradas"
