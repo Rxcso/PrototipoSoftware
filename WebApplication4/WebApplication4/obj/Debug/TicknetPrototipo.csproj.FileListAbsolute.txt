@@ -667,7 +667,6 @@ F:\down\Ingenieria de software\pruebas\PrototipoSoftware7\WebApplication4\WebApp
 C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\WebApplication4.dll.config
 C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\WebApplication4.dll
 C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\WebApplication4.pdb
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Antlr3.Runtime.dll
 C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\EntityFramework.dll
 C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\EntityFramework.SqlServer.dll
 C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\log4net.dll
@@ -1406,3 +1405,8 @@ C:\Users\Pier\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\bin
 C:\Users\Pier\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\obj\Debug\TicknetPrototipo.csprojResolveAssemblyReference.cache
 C:\Users\Pier\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\obj\Debug\WebApplication4.dll
 C:\Users\Pier\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\obj\Debug\WebApplication4.pdb
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\MVC Foolproof Validation.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\PagedList.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\PagedList.Mvc.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\PagedList.xml
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\PagedList.Mvc.xml
