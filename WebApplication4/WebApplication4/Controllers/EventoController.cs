@@ -79,12 +79,12 @@ namespace WebApplication4.Controllers
                     try
                     {
                         Ventas ve = new Ventas();
-                        Ventas vel = db.Ventas.ToList().Last();
+                        //Ventas vel = db.Ventas.ToList().Last();
                         DateTime hoy = DateTime.Now;
                         ZonaEvento zo = db.ZonaEvento.Find(paquete.idZona);
                         PeriodoVenta per = db.PeriodoVenta.Where(c => c.codEvento == paquete.idEvento && c.fechaInicio <= hoy && c.fechaFin >= hoy).ToList().First();
                         PrecioEvento pr = db.PrecioEvento.Where(c => c.codZonaEvento == paquete.idZona && c.codPeriodoVenta == per.idPerVent).ToList().First();
-                        ve.codVen = vel.codVen + 1;
+                        //ve.codVen = vel.codVen + 1;
                         CuentaUsuario cuenta = (CuentaUsuario)Session["UsuarioLogueado"];
                         ve.fecha = DateTime.Now;
                         ve.cantAsientos = paquete.cantEntradas;
@@ -95,7 +95,7 @@ namespace WebApplication4.Controllers
                         ve.montoEfectivoSoles = paquete.cantEntradas * pr.precio;
                         ve.MontoTotalSoles = paquete.cantEntradas * pr.precio;
                         db.Ventas.Add(ve);
-                        //db.SaveChanges();
+                        db.SaveChanges();
                         VentasXFuncion vf = new VentasXFuncion();
                         vf.codVen = ve.codVen;
                         vf.cantEntradas = paquete.cantEntradas;
@@ -109,7 +109,7 @@ namespace WebApplication4.Controllers
                         //db.SaveChanges();
                         DetalleVenta dt = new DetalleVenta();
                         dt.cantEntradas = paquete.cantEntradas;
-                        dt.codDetalleVenta = db.DetalleVenta.ToList().Last().codDetalleVenta + 1;
+                        //dt.codDetalleVenta = db.DetalleVenta.ToList().Last().codDetalleVenta + 1;
                         dt.codFuncion = paquete.idFuncion;
                         dt.codPrecE = pr.codPrecioEvento;
                         dt.total = paquete.cantEntradas * pr.precio;
@@ -118,7 +118,7 @@ namespace WebApplication4.Controllers
                         dt.codVen = vf.codVen;
                         db.DetalleVenta.Add(dt);
                         if (paquete.filas.Count > 0) paquete.tieneAsientos = true;
-                        //db.SaveChanges();                        
+                        db.SaveChanges();                        
                         if (paquete.tieneAsientos)
                         {
 

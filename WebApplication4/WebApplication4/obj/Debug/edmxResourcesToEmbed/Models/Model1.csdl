@@ -29,7 +29,6 @@
   </EntityType>
   <EntityContainer Name="inf245netsoft" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="CuentaUsuario" EntityType="Self.CuentaUsuario" />
-    <EntitySet Name="Perfiles" EntityType="inf245netsoftModel.Perfiles" />
     <EntitySet Name="Banco" EntityType="inf245netsoftModel.Banco" />
     <EntitySet Name="Promociones" EntityType="inf245netsoftModel.Promociones" />
     <EntitySet Name="TipoTarjeta" EntityType="inf245netsoftModel.TipoTarjeta" />
@@ -52,18 +51,9 @@
       <End Role="RegaloXCuenta" EntitySet="RegaloXCuenta" />
     </AssociationSet>
     <EntitySet Name="TipoDeCambio" EntityType="inf245netsoftModel.TipoDeCambio" />
-    <EntitySet Name="Local" EntityType="inf245netsoftModel.Local" />
     <EntitySet Name="Organizador" EntityType="inf245netsoftModel.Organizador" />
     <EntitySet Name="PuntoVenta" EntityType="inf245netsoftModel.PuntoVenta" />
     <EntitySet Name="Region" EntityType="inf245netsoftModel.Region" />
-    <AssociationSet Name="R_20" Association="inf245netsoftModel.R_20">
-      <End Role="Region" EntitySet="Region" />
-      <End Role="Local" EntitySet="Local" />
-    </AssociationSet>
-    <AssociationSet Name="R_72" Association="inf245netsoftModel.R_72">
-      <End Role="Region" EntitySet="Region" />
-      <End Role="Local" EntitySet="Local" />
-    </AssociationSet>
     <AssociationSet Name="R_70" Association="inf245netsoftModel.R_70">
       <End Role="Region" EntitySet="Region" />
       <End Role="Region1" EntitySet="Region" />
@@ -94,7 +84,6 @@
       <End Role="Categoria" EntitySet="Categoria" />
       <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
     </AssociationSet>
-    <EntitySet Name="EventosPrueba" EntityType="inf245netsoftModel.EventosPrueba" />
     <EntitySet Name="Pago" EntityType="inf245netsoftModel.Pago" />
     <EntitySet Name="Tarjeta" EntityType="inf245netsoftModel.Tarjeta" />
     <EntitySet Name="VentasXFuncion" EntityType="inf245netsoftModel.VentasXFuncion" />
@@ -229,15 +218,16 @@
       <End Role="ZonaxFuncion" EntitySet="ZonaxFuncion" />
     </AssociationSet>
     <EntitySet Name="HoraReserva" EntityType="inf245netsoftModel.HoraReserva" />
+    <EntitySet Name="Local" EntityType="inf245netsoftModel.Local" />
+    <AssociationSet Name="R_20" Association="inf245netsoftModel.R_20">
+      <End Role="Region" EntitySet="Region" />
+      <End Role="Local" EntitySet="Local" />
+    </AssociationSet>
+    <AssociationSet Name="R_72" Association="inf245netsoftModel.R_72">
+      <End Role="Region" EntitySet="Region" />
+      <End Role="Local" EntitySet="Local" />
+    </AssociationSet>
   </EntityContainer>
-  <EntityType Name="Perfiles">
-    <Key>
-      <PropertyRef Name="codPerfil" />
-    </Key>
-    <Property Name="codPerfil" Type="Int32" Nullable="false" />
-    <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-  </EntityType>
   <EntityType Name="Banco">
     <Key>
       <PropertyRef Name="codigo" />
@@ -354,20 +344,6 @@
     <Property Name="valor" Type="Double" />
     <Property Name="estado" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
   </EntityType>
-  <EntityType Name="Local">
-    <Key>
-      <PropertyRef Name="codLocal" />
-    </Key>
-    <Property Name="aforo" Type="Int32" />
-    <Property Name="ubicacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="codLocal" Type="Int32" Nullable="false" />
-    <Property Name="idProvincia" Type="Int32" />
-    <Property Name="idRegion" Type="Int32" />
-    <NavigationProperty Name="Region" Relationship="inf245netsoftModel.R_20" FromRole="Local" ToRole="Region" />
-    <NavigationProperty Name="Region1" Relationship="inf245netsoftModel.R_72" FromRole="Local" ToRole="Region" />
-    <Property Name="estaActivo" Type="Boolean" />
-  </EntityType>
   <EntityType Name="Organizador">
     <Key>
       <PropertyRef Name="codOrg" />
@@ -403,38 +379,14 @@
     <Property Name="idRegion" Type="Int32" Nullable="false" />
     <Property Name="idRegPadre" Type="Int32" />
     <Property Name="nombre" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-    <NavigationProperty Name="Local" Relationship="inf245netsoftModel.R_20" FromRole="Region" ToRole="Local" />
-    <NavigationProperty Name="Local1" Relationship="inf245netsoftModel.R_72" FromRole="Region" ToRole="Local" />
     <NavigationProperty Name="Region1" Relationship="inf245netsoftModel.R_70" FromRole="Region" ToRole="Region1" />
     <NavigationProperty Name="Region2" Relationship="inf245netsoftModel.R_70" FromRole="Region1" ToRole="Region" />
     <NavigationProperty Name="PuntoVenta" Relationship="inf245netsoftModel.R_28" FromRole="Region" ToRole="PuntoVenta" />
     <NavigationProperty Name="PuntoVenta1" Relationship="inf245netsoftModel.R_75" FromRole="Region" ToRole="PuntoVenta" />
     <NavigationProperty Name="Eventos" Relationship="inf245netsoftModel.fk_EventoRegion" FromRole="Region" ToRole="Eventos" />
+    <NavigationProperty Name="Local" Relationship="inf245netsoftModel.R_20" FromRole="Region" ToRole="Local" />
+    <NavigationProperty Name="Local1" Relationship="inf245netsoftModel.R_72" FromRole="Region" ToRole="Local" />
   </EntityType>
-  <Association Name="R_20">
-    <End Type="inf245netsoftModel.Region" Role="Region" Multiplicity="0..1" />
-    <End Type="inf245netsoftModel.Local" Role="Local" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Region">
-        <PropertyRef Name="idRegion" />
-      </Principal>
-      <Dependent Role="Local">
-        <PropertyRef Name="idProvincia" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="R_72">
-    <End Type="inf245netsoftModel.Region" Role="Region" Multiplicity="0..1" />
-    <End Type="inf245netsoftModel.Local" Role="Local" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Region">
-        <PropertyRef Name="idRegion" />
-      </Principal>
-      <Dependent Role="Local">
-        <PropertyRef Name="idRegion" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="R_70">
     <End Type="inf245netsoftModel.Region" Role="Region" Multiplicity="0..1" />
     <End Type="inf245netsoftModel.Region" Role="Region1" Multiplicity="*" />
@@ -568,42 +520,6 @@
     <End Type="inf245netsoftModel.Categoria" Role="Categoria" Multiplicity="*" />
     <End Type="inf245netsoftModel.CuentaUsuario" Role="CuentaUsuario" Multiplicity="*" />
   </Association>
-  <EntityType Name="EventosPrueba">
-    <Key>
-      <PropertyRef Name="codEvento" />
-    </Key>
-    <Property Name="codEvento" Type="Int32" Nullable="false" />
-    <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="fechaFin" Type="DateTime" Precision="3" />
-    <Property Name="estado" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-    <Property Name="fechaInicio" Type="DateTime" Precision="3" />
-    <Property Name="mAdeudado" Type="Double" />
-    <Property Name="mTransferir" Type="Double" />
-    <Property Name="lugar" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="penCan" Type="Double" />
-    <Property Name="penPost" Type="Double" />
-    <Property Name="comision" Type="Double" />
-    <Property Name="esRecurrente" Type="Boolean" />
-    <Property Name="destacado" Type="Boolean" />
-    <Property Name="fechDev" Type="DateTime" Precision="3" />
-    <Property Name="esImpri" Type="Boolean" />
-    <Property Name="esReser" Type="Boolean" />
-    <Property Name="maxReserva" Type="Int32" />
-    <Property Name="limReserva" Type="DateTime" Precision="3" />
-    <Property Name="codOrg" Type="Int32" />
-    <Property Name="codPromotor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="idRegion" Type="Int32" />
-    <Property Name="idProvincia" Type="Int32" />
-    <Property Name="necDoc" Type="Boolean" />
-    <Property Name="codLocal" Type="Int32" />
-    <Property Name="idCategoria" Type="Int32" />
-    <Property Name="cantPuntos" Type="Int32" />
-    <Property Name="urlDestacado" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="urlImagen" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="urlDistribucion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="codPreferencia" Type="Int32" />
-  </EntityType>
   <EntityType Name="Pago">
     <Key>
       <PropertyRef Name="codPago" />
@@ -1250,4 +1166,41 @@
     <Property Name="hora" Type="DateTime" Precision="3" />
     <Property Name="codigo" Type="Int32" Nullable="false" />
   </EntityType>
+  <EntityType Name="Local">
+    <Key>
+      <PropertyRef Name="codLocal" />
+    </Key>
+    <Property Name="ubicacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="codLocal" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="estaActivo" Type="Boolean" />
+    <Property Name="idProvincia" Type="Int32" />
+    <Property Name="idRegion" Type="Int32" />
+    <NavigationProperty Name="Region" Relationship="inf245netsoftModel.R_20" FromRole="Local" ToRole="Region" />
+    <NavigationProperty Name="Region1" Relationship="inf245netsoftModel.R_72" FromRole="Local" ToRole="Region" />
+  </EntityType>
+  <Association Name="R_20">
+    <End Type="inf245netsoftModel.Region" Role="Region" Multiplicity="0..1" />
+    <End Type="inf245netsoftModel.Local" Role="Local" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Region">
+        <PropertyRef Name="idRegion" />
+      </Principal>
+      <Dependent Role="Local">
+        <PropertyRef Name="idProvincia" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_72">
+    <End Type="inf245netsoftModel.Region" Role="Region" Multiplicity="0..1" />
+    <End Type="inf245netsoftModel.Local" Role="Local" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Region">
+        <PropertyRef Name="idRegion" />
+      </Principal>
+      <Dependent Role="Local">
+        <PropertyRef Name="idRegion" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

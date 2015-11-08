@@ -38,8 +38,8 @@ namespace WebApplication4.Controllers
             if (ModelState.IsValid)
             {
                 PuntoVenta punto = new PuntoVenta();
-                PuntoVenta puntoL = db.PuntoVenta.ToList().Last();
-                punto.codPuntoVenta = puntoL.codPuntoVenta + 1;
+                //PuntoVenta puntoL = db.PuntoVenta.ToList().Last();
+                //punto.codPuntoVenta = puntoL.codPuntoVenta + 1;
                 punto.dirMAC = model.mac;
                 punto.estaActivo = true;
                 punto.ubicacion = model.ubicacion;

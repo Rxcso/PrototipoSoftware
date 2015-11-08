@@ -26,7 +26,6 @@ namespace WebApplication4.Models
         }
     
         public virtual DbSet<CuentaUsuario> CuentaUsuario { get; set; }
-        public virtual DbSet<Perfiles> Perfiles { get; set; }
         public virtual DbSet<Banco> Banco { get; set; }
         public virtual DbSet<Promociones> Promociones { get; set; }
         public virtual DbSet<TipoTarjeta> TipoTarjeta { get; set; }
@@ -42,7 +41,6 @@ namespace WebApplication4.Models
         public virtual DbSet<AspNetUserLogins> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
         public virtual DbSet<Categoria> Categoria { get; set; }
-        public virtual DbSet<EventosPrueba> EventosPrueba { get; set; }
         public virtual DbSet<Pago> Pago { get; set; }
         public virtual DbSet<Tarjeta> Tarjeta { get; set; }
         public virtual DbSet<VentasXFuncion> VentasXFuncion { get; set; }
