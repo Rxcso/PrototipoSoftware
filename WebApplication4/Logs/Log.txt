@@ -210,3 +210,76 @@ System.Collections.ListDictionaryInternal
 2015-11-06 20:04:18,825 [6] ERROR Ticknet - Exception Message - 
 A public action method 'Comentarios' was not found on controller 'WebApplication4.Controllers.EventoController'.
 2015-11-06 20:04:18,825 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:15:53,252 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:15:53,261 [6] ERROR Ticknet - Exception Type - 
+DbUpdateException
+2015-11-06 20:15:53,261 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 20:15:53,261 [6] ERROR Ticknet - Exception Message - 
+An error occurred while updating the entries. See the inner exception for details.
+2015-11-06 20:15:53,261 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:16:19,561 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:16:19,561 [6] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-06 20:16:19,561 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 20:16:19,561 [6] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\Evento\VerEvento.cshtml(219): error CS0246: No se puede encontrar el tipo o el nombre de espacio de nombres 'Comentario' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-06 20:16:19,561 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:19:20,085 [23] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:19:20,085 [23] ERROR Ticknet - Exception Type - 
+RuntimeBinderException
+2015-11-06 20:19:20,085 [23] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 20:19:20,085 [23] ERROR Ticknet - Exception Message - 
+No se puede convertir NULL en 'int' porque es un tipo de valor que no acepta valores NULL.
+2015-11-06 20:19:20,085 [23] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:26:24,074 [40] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:26:24,074 [40] ERROR Ticknet - Exception Type - 
+ArgumentOutOfRangeException
+2015-11-06 20:26:24,074 [40] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 20:26:24,074 [40] ERROR Ticknet - Exception Message - 
+El índice estaba fuera del intervalo. Debe ser un valor no negativo e inferior al tamaño de la colección.
+Nombre del parámetro: index
+2015-11-06 20:26:24,074 [40] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:36:40,282 [41] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:36:40,282 [41] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-06 20:36:40,282 [41] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 20:36:40,282 [41] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\Evento\VerEvento.cshtml(219): error CS0246: No se puede encontrar el tipo o el nombre de espacio de nombres 'Comentario' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-06 20:36:40,282 [41] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:36:45,186 [44] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:36:45,187 [44] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-06 20:36:45,187 [44] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 20:36:45,187 [44] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\Evento\VerEvento.cshtml(219): error CS0246: No se puede encontrar el tipo o el nombre de espacio de nombres 'Comentario' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-06 20:36:45,187 [44] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:36:49,619 [41] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:36:49,619 [41] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-06 20:36:49,619 [41] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 20:36:49,619 [41] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\Evento\VerEvento.cshtml(219): error CS0246: No se puede encontrar el tipo o el nombre de espacio de nombres 'Comentario' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-06 20:36:49,619 [41] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:36:59,046 [41] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:36:59,046 [41] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-06 20:36:59,047 [41] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 20:36:59,047 [41] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\Evento\VerEvento.cshtml(219): error CS0246: No se puede encontrar el tipo o el nombre de espacio de nombres 'Comentario' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-06 20:36:59,047 [41] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:37:35,903 [18] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:37:35,903 [18] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-06 20:37:35,903 [18] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 20:37:35,903 [18] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\Evento\VerEvento.cshtml(219): error CS0246: No se puede encontrar el tipo o el nombre de espacio de nombres 'Comentario' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-06 20:37:35,903 [18] DEBUG Ticknet - ++++++++++++++++++++++++++++
