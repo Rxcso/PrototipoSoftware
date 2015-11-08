@@ -374,6 +374,7 @@ namespace WebApplication4.Controllers
             if (zo.tieneAsientos == true)
             {
                 //db.VentasXFuncion.Remove(vxf);
+                vxf.cantEntradas = 0;
                 List<DetalleVenta> ldt = db.DetalleVenta.Where(c => c.codFuncion == codF && c.codVen == codE).ToList();
                 DetalleVenta dt = ldt.First();
                 List<AsientosXFuncion> laf = db.AsientosXFuncion.Where(c => c.codDetalleVenta == dt.codDetalleVenta && c.codFuncion == codF).ToList();
