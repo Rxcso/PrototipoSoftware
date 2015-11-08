@@ -187,8 +187,8 @@ namespace WebApplication4.Controllers
                     Pago pg = new Pago();
                     pg.codEvento = ev.codigo;
                     pg.codOrg = org.codOrg;
-                    Pago pl = db.Pago.ToList().Last();
-                    pg.codPago = pl.codPago + 1;
+                    //Pago pl = db.Pago.ToList().Last();
+                    //pg.codPago = pl.codPago + 1;
                     pg.descripcion = "Pago hecho ha " + org.nombOrg;
                     //pg.Eventos = listEp[i];
                     pg.fecha = DateTime.Now;
@@ -205,8 +205,8 @@ namespace WebApplication4.Controllers
                     Pago pg = new Pago();
                     pg.codEvento = ev.codigo;
                     pg.codOrg = org.codOrg;
-                    Pago pl = db.Pago.ToList().Last();
-                    pg.codPago = pl.codPago + 1;
+                    //Pago pl = db.Pago.ToList().Last();
+                    //pg.codPago = pl.codPago + 1;
                     pg.descripcion = "Pago hecho ha " + org.nombOrg;
                     //pg.Eventos = listEp[i];
                     pg.fecha = DateTime.Now;
@@ -255,8 +255,8 @@ namespace WebApplication4.Controllers
             Pago pg = new Pago();
             pg.codEvento = ev.codigo;
             pg.codOrg = org.codOrg;
-            Pago pl = db.Pago.ToList().Last();
-            pg.codPago = pl.codPago + 1;
+            //Pago pl = db.Pago.ToList().Last();
+            //pg.codPago = pl.codPago + 1;
             pg.descripcion = "Pago hecho por el " + org.nombOrg;
             pg.fecha = DateTime.Now;
             pg.monto = -m; 
