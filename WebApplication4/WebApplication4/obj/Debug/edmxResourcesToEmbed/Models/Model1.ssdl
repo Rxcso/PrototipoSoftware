@@ -194,42 +194,6 @@
     <Property Name="hanCancelado" Type="bit" Nullable="false" />
     <Property Name="hanPostergado" Type="bit" Nullable="false" />
   </EntityType>
-  <EntityType Name="EventosPrueba">
-    <Key>
-      <PropertyRef Name="codEvento" />
-    </Key>
-    <Property Name="codEvento" Type="int" Nullable="false" />
-    <Property Name="nombre" Type="varchar" MaxLength="100" />
-    <Property Name="descripcion" Type="varchar" MaxLength="100" />
-    <Property Name="fechaFin" Type="datetime" />
-    <Property Name="estado" Type="varchar" MaxLength="20" />
-    <Property Name="fechaInicio" Type="datetime" />
-    <Property Name="mAdeudado" Type="float" />
-    <Property Name="mTransferir" Type="float" />
-    <Property Name="lugar" Type="varchar" MaxLength="100" />
-    <Property Name="penCan" Type="float" />
-    <Property Name="penPost" Type="float" />
-    <Property Name="comision" Type="float" />
-    <Property Name="esRecurrente" Type="bit" />
-    <Property Name="destacado" Type="bit" />
-    <Property Name="fechDev" Type="datetime" />
-    <Property Name="esImpri" Type="bit" />
-    <Property Name="esReser" Type="bit" />
-    <Property Name="maxReserva" Type="int" />
-    <Property Name="limReserva" Type="datetime" />
-    <Property Name="codOrg" Type="int" />
-    <Property Name="codPromotor" Type="varchar" MaxLength="100" />
-    <Property Name="idRegion" Type="int" />
-    <Property Name="idProvincia" Type="int" />
-    <Property Name="necDoc" Type="bit" />
-    <Property Name="codLocal" Type="int" />
-    <Property Name="idCategoria" Type="int" />
-    <Property Name="cantPuntos" Type="int" />
-    <Property Name="urlDestacado" Type="varchar" MaxLength="100" />
-    <Property Name="urlImagen" Type="varchar" MaxLength="100" />
-    <Property Name="urlDistribucion" Type="varchar" MaxLength="100" />
-    <Property Name="codPreferencia" Type="int" />
-  </EntityType>
   <EntityType Name="Funcion">
     <Key>
       <PropertyRef Name="codFuncion" />
@@ -254,7 +218,6 @@
     <Key>
       <PropertyRef Name="codLocal" />
     </Key>
-    <Property Name="aforo" Type="int" />
     <Property Name="ubicacion" Type="varchar" MaxLength="50" />
     <Property Name="descripcion" Type="varchar" MaxLength="100" />
     <Property Name="codLocal" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
@@ -286,14 +249,6 @@
     <Property Name="descripcion" Type="varchar" MaxLength="50" />
     <Property Name="codEvento" Type="int" Nullable="false" />
     <Property Name="codOrg" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Perfiles">
-    <Key>
-      <PropertyRef Name="codPerfil" />
-    </Key>
-    <Property Name="codPerfil" Type="int" Nullable="false" />
-    <Property Name="nombre" Type="varchar" MaxLength="50" />
-    <Property Name="descripcion" Type="varchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="PeriodoVenta">
     <Key>
@@ -435,7 +390,7 @@
     <Key>
       <PropertyRef Name="codVen" />
     </Key>
-    <Property Name="codVen" Type="int" Nullable="false" />
+    <Property Name="codVen" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="fecha" Type="datetime" />
     <Property Name="cantAsientos" Type="int" />
     <Property Name="montoEfectivoSoles" Type="float" />
@@ -1043,13 +998,11 @@
     <EntitySet Name="CuentaUsuario" EntityType="Self.CuentaUsuario" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="DetalleVenta" EntityType="Self.DetalleVenta" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Eventos" EntityType="Self.Eventos" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="EventosPrueba" EntityType="Self.EventosPrueba" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Funcion" EntityType="Self.Funcion" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="HoraReserva" EntityType="Self.HoraReserva" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Local" EntityType="Self.Local" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Organizador" EntityType="Self.Organizador" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Pago" EntityType="Self.Pago" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Perfiles" EntityType="Self.Perfiles" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PeriodoVenta" EntityType="Self.PeriodoVenta" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Politicas" EntityType="Self.Politicas" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="PrecioEvento" EntityType="Self.PrecioEvento" Schema="dbo" store:Type="Tables" />

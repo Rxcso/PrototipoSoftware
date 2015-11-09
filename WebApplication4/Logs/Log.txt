@@ -334,11 +334,11 @@ System.Collections.ListDictionaryInternal
 2015-11-07 22:12:39,540 [7] ERROR Ticknet - Exception Message - 
 Referencia a objeto no establecida como instancia de un objeto.
 2015-11-07 22:12:39,540 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-08 19:20:37,875 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-08 19:20:37,919 [10] ERROR Ticknet - Exception Data - 
-DataException
-2015-11-08 19:20:37,919 [10] ERROR Ticknet - Exception Data - 
+2015-11-08 17:16:02,588 [24] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-08 17:16:02,609 [24] ERROR Ticknet - Exception Type - 
+InvalidOperationException
+2015-11-08 17:16:02,609 [24] ERROR Ticknet - Exception Data - 
 System.Collections.ListDictionaryInternal
-2015-11-08 19:20:37,919 [10] ERROR Ticknet - Exception Message - 
-An exception occurred while initializing the database. See the InnerException for details.
-2015-11-08 19:20:37,919 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-08 17:16:02,609 [24] ERROR Ticknet - Exception Message - 
+Role Cliente does not exist.
+2015-11-08 17:16:02,609 [24] DEBUG Ticknet - ++++++++++++++++++++++++++++

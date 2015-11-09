@@ -95,25 +95,7 @@ else
         </div>
     </div>
 }
-@Html.Hidden("IdItemCarrito", "0")
-
-<div class="modal fade" id="muestraDetalle">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="form-group" id="detalleItemCarrito">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="cerrar()"><span class="glyphicon glyphicon-ok"></span> Cerrar</button>
-            </div>
-        </div>
-    </div>
-</div>
 <script>
-    function cerrar() {
-        $('#muestraDetalle').modal('hide');
-    }
     function myFunction(x) {
         if (document.getElementsByClassName("trselected").length > 0) {
             var element = document.getElementsByClassName("trselected");
@@ -129,13 +111,14 @@ else
             var fila = $('input[name="groupCarrito"]:checked').val();
             var row = document.getElementById(parseInt(fila));
             var cantidad = parseInt($('#totalCompra').val());
+            var itemEliminar = row.id;
             $("#totalCompra").val(cantidad - parseInt(row.cells[5].innerHTML));
             $.ajax({
-                url: "@Url.Action("EliminaItem","CuentaUsuario")",
-                data: { itemEliminar: row.id },
+                url: "@Url.Action("EliminaItem", "CuentaUsuario")",
+                data: { itemEliminar: itemEliminar },
                 success: function (data) {
-                    window.location.href = '/CuentaUsuario/MiCarrito';
                     alert("Compra removida del carrito.");
+                    window.location.href = "/CuentaUsuario/MiCarrito";
                 },
                 error: function (data) {
                     alert(data);

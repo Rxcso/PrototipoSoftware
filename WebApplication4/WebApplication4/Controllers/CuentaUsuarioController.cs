@@ -10,6 +10,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Services;
 using WebApplication4.Models;
 
 namespace WebApplication4.Controllers
@@ -45,6 +46,7 @@ namespace WebApplication4.Controllers
             return lista;
         }
     }
+    
     [Authorize]
     public class CuentaUsuarioController : Controller
     {
@@ -82,42 +84,53 @@ namespace WebApplication4.Controllers
         {
             if (ModelState.IsValid)
             {
-                List<CarritoItem> carrito = (List<CarritoItem>)Session["CarritoItem"];
-                //TODO: ver que entradas estan reservadas antes
-                Ventas venta = new Ventas();
-                venta.cantAsientos = carrito.Sum(c=> c.filas.Count);
-                venta.cliente = model.Nombre;
-                venta.codDoc = model.Dni;
-                venta.Estado = "Comprado";
-                venta.fecha = DateTime.Today;
-                venta.modalidad = "T";
-                venta.montoCreditoSoles = model.MontoPagar;
-                venta.montoEfectivoDolares = 0;
-                venta.montoEfectivoSoles = 0 ;
-                venta.MontoTotalSoles = model.MontoPagar;
-                venta.tipoDoc = 1;
-                venta.vendedor = "Web";
-                db.Ventas.Add(venta);
-                int idVenta = venta.codVen;
-                foreach (CarritoItem item in carrito)
+                try
                 {
-                    VentasXFuncion ventaxfuncion = new VentasXFuncion();
-                    ventaxfuncion.cantEntradas = item.filas.Count;
-                    ventaxfuncion.codFuncion = item.idFuncion;
-                    ventaxfuncion.codVen = idVenta;
-                    ventaxfuncion.descuento = (int?)model.Descuento/carrito.Count;
-                    ventaxfuncion.subtotal = item.precio * item.filas.Count;
-                    db.VentasXFuncion.Add(ventaxfuncion);
-                    // le falta id de ventax funcionint idVentaxfuncion = ventaxfuncion.
-                    DetalleVenta detalle = new DetalleVenta();
-                    detalle.codFuncion = item.idFuncion;
-                    //detalle.codPrecE
-                    detalle.codVen = idVenta;
-                    detalle.descTot = (int?)model.Descuento;
-                    detalle.entradasDev = 0;
-                    detalle.Subtotal = ventaxfuncion.subtotal;
-                    //detalle.total
+                    List<CarritoItem> carrito = (List<CarritoItem>)Session["CarritoItem"];
+                    //TODO: ver que entradas estan reservadas antes
+                    Ventas venta = new Ventas();
+                    venta.cantAsientos = carrito.Sum(c => c.filas.Count);
+                    venta.cliente = model.Nombre;
+                    venta.codDoc = model.Dni;
+                    venta.Estado = "Pagado";
+                    venta.fecha = DateTime.Today;
+                    venta.modalidad = "T";
+                    venta.montoCreditoSoles = model.MontoPagar;
+                    venta.montoEfectivoDolares = 0;
+                    venta.montoEfectivoSoles = 0;
+                    venta.MontoTotalSoles = model.MontoPagar;
+                    venta.tipoDoc = 1;
+                    venta.vendedor = "Web";
+                    db.Ventas.Add(venta);
+                    int idVenta = venta.codVen;
+                    //Ventasx funcion
+                    //detalle venta
+                    //
+                    foreach (CarritoItem item in carrito)
+                    {
+                        VentasXFuncion ventaxfuncion = new VentasXFuncion();
+                        ventaxfuncion.cantEntradas = item.filas.Count;
+                        ventaxfuncion.codFuncion = item.idFuncion;
+                        ventaxfuncion.codVen = idVenta;
+                        ventaxfuncion.descuento = (int?)model.Descuento / carrito.Count;
+                        ventaxfuncion.subtotal = item.precio * item.filas.Count;
+                        db.VentasXFuncion.Add(ventaxfuncion);
+                        // le falta id de ventax funcionint idVentaxfuncion = ventaxfuncion.
+                        DetalleVenta detalle = new DetalleVenta();
+                        detalle.codFuncion = item.idFuncion;
+                        //detalle.codPrecE
+                        detalle.codVen = idVenta;
+                        detalle.descTot = (int?)model.Descuento;
+                        detalle.entradasDev = 0;
+                        detalle.Subtotal = ventaxfuncion.subtotal;
+                        //detalle.total
+                    }
                 }
+                catch (Exception ex)
+                {
+
+                }
+                
 
 
                 Session["CarritoItem"] = null;
@@ -693,12 +706,13 @@ namespace WebApplication4.Controllers
             return View();
         }
 
-        public JsonResult EliminaItem(int itemEliminar)
+        public JsonResult EliminaItem(string itemEliminar)
         {
+            int elem = int.Parse(itemEliminar);
             List<PaqueteEntradas> carrito = (List<PaqueteEntradas>)Session["Carrito"];
-            carrito.RemoveAt(itemEliminar);
+            carrito.RemoveAt(elem);
             Session["Carrito"] = carrito;
-            return Json("Entrada Eliminada.");
+            return Json("Entrada Eliminada.",JsonRequestBehavior.AllowGet);
         }
        
         public ActionResult ReporteCliente()
