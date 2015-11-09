@@ -99,11 +99,11 @@
                                             af = laf.First();
                                             for (int j = 0; j < laf.Count; j++)
                                             {
-                                                if (j == 0){ 
-                                                    asientos = ""+laf[j].codAsiento;
+                                                if (j == 0){
+                                                    asientos = "" + db.Asientos.Find(laf[j].codAsiento).fila + "-" + db.Asientos.Find(laf[j].codAsiento).columna;
                                                 }
                                                 else{
-                                                    asientos = asientos + ", " + laf[j].codAsiento;
+                                                    asientos = asientos + ", " + db.Asientos.Find(laf[j].codAsiento).fila + "-" + db.Asientos.Find(laf[j].codAsiento).columna;
                                                 }
                                             }
                                         }

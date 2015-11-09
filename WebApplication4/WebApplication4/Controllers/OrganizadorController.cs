@@ -25,8 +25,8 @@ namespace WebApplication4.Controllers
             if (ModelState.IsValid)
             {
                 Organizador org = new Organizador();
-                Organizador orgL = db.Organizador.ToList().Last();
-                org.codOrg = orgL.codOrg + 1;
+                //Organizador orgL = db.Organizador.ToList().Last();
+                //org.codOrg = orgL.codOrg + 1;
                 org.codDoc = model.codDoc;
                 org.correo = model.Email;
                 org.nombOrg = model.nombre;

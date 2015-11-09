@@ -40,10 +40,10 @@ namespace WebApplication4.Controllers
             if (ModelState.IsValid)
             {
                 Local local = new Local();
-                Local localL = db.Local.ToList().Last();
-                local.codLocal = localL.codLocal + 1;
+                //Local localL = db.Local.ToList().Last();
+                //local.codLocal = localL.codLocal + 1;
                 local.descripcion = model.descripcion;
-                local.aforo = model.aforo;
+                //local.aforo = model.aforo;
                 local.ubicacion = model.ubicacion;
                 local.estaActivo = true;
                 local.idProvincia = model.idProv;
@@ -128,7 +128,7 @@ namespace WebApplication4.Controllers
                 var o = ViewBag.id;
                 Local local = db.Local.Find(TempData["codigol"]);
                 db.Entry(local).State = EntityState.Modified;
-                local.aforo = model.aforo;
+                //local.aforo = model.aforo;
                 local.descripcion = model.descripcion;
                 local.ubicacion = model.ubicacion;
                 local.idProvincia = model.idProv;

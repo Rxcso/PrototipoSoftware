@@ -27,15 +27,16 @@ namespace WebApplication4.Controllers
             if (ModelState.IsValid)
             {
                 Regalo regalo = new Regalo();
-                Regalo regaloL = db.Regalo.ToList().Last();
-                regalo.idRegalo = regaloL.idRegalo + 1;
+                //Regalo regaloL = db.Regalo.ToList().Last();
+                //regalo.idRegalo = regaloL.idRegalo + 1;
                 regalo.Nombre = model.nombre;
                 regalo.estado = true;
                 regalo.descripcion = model.descripcion;
                 regalo.puntos = model.puntos;
                 db.Regalo.Add(regalo);
                 db.SaveChanges();
-                return View("Index");
+                //int id = regalo.idRegalo;
+                return RedirectToAction("Index", "Regalo");
             }
             return View("Index");
         }

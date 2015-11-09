@@ -56,8 +56,8 @@ namespace WebApplication4.Controllers
             DateTime fechMin = DateTime.MaxValue;
             DateTime fechMax = DateTime.MinValue;
             Promociones promocion = new Promociones();
-            Promociones promocionL = db.Promociones.ToList().Last();
-            promocion.codPromo = promocionL.codPromo + 1;
+            //Promociones promocionL = db.Promociones.ToList().Last();
+            //promocion.codPromo = promocionL.codPromo + 1;
             if (Session["idEvento"] != null)
             {
                 ev = (int)Session["idEvento"];
@@ -117,8 +117,8 @@ namespace WebApplication4.Controllers
             DateTime fechMin = DateTime.MaxValue;
             DateTime fechMax = DateTime.MinValue;
             Promociones promocion = new Promociones();
-            Promociones promocionL = db.Promociones.ToList().Last();
-            promocion.codPromo = promocionL.codPromo + 1;
+            //Promociones promocionL = db.Promociones.ToList().Last();
+            //promocion.codPromo = promocionL.codPromo + 1;
             if (Session["idEvento"] != null)
             {
                 ev = (int)Session["idEvento"];

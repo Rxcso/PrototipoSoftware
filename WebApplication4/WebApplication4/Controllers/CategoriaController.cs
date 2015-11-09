@@ -161,9 +161,9 @@ namespace WebApplication4.Controllers
 
                 db.Categoria.Add(categoria);
                 db.SaveChanges();
-                return View("Index");
+                return RedirectToAction("Index");
             }
-            return View("Index");
+            return RedirectToAction("Index");
         }
 
         public ActionResult Search2(string categoria)

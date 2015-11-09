@@ -10,6 +10,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Services;
 using WebApplication4.Models;
 
 namespace WebApplication4.Controllers
@@ -693,12 +694,13 @@ namespace WebApplication4.Controllers
             return View();
         }
 
-        public JsonResult EliminaItem(int itemEliminar)
+        public JsonResult EliminaItem(string itemEliminar)
         {
+            int elem = int.Parse(itemEliminar);
             List<PaqueteEntradas> carrito = (List<PaqueteEntradas>)Session["Carrito"];
-            carrito.RemoveAt(itemEliminar);
+            carrito.RemoveAt(elem);
             Session["Carrito"] = carrito;
-            return Json("Entrada Eliminada.");
+            return Json("Entrada Eliminada.",JsonRequestBehavior.AllowGet);
         }
        
         public ActionResult ReporteCliente()
