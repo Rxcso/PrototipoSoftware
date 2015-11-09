@@ -390,7 +390,7 @@
     <Key>
       <PropertyRef Name="codVen" />
     </Key>
-    <Property Name="codVen" Type="int" Nullable="false" />
+    <Property Name="codVen" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="fecha" Type="datetime" />
     <Property Name="cantAsientos" Type="int" />
     <Property Name="montoEfectivoSoles" Type="float" />

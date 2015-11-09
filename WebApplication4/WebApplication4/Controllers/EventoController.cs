@@ -1291,7 +1291,7 @@ namespace WebApplication4.Controllers
             ViewBag.Categoria = db.Categoria.Where(c => c.idCategoria == evento.idCategoria).First().nombre;
             ViewBag.Subcategoria = db.Categoria.Where(c => c.idCategoria == evento.idSubcategoria).First().nombre;
 
-            var veoAsientos = false;
+            var veoAsientos = true;
 
 
 
