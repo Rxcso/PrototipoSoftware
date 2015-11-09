@@ -13,7 +13,10 @@ namespace WebApplication4.Controllers
         public const string NuevoEventoImagen = "/Doesnt/Exists/Yet";
         //crear evento
         public const string NuevoEvento = "Nuevo Evento";
-
+        //comprar evento
+        public const string Compra = "Comprado";
+        //asiento ocupado
+        public const string Ocupado = "OCUPADO";
 
 
     }

@@ -35,7 +35,6 @@ namespace WebApplication4.Controllers
                 regalo.puntos = model.puntos;
                 db.Regalo.Add(regalo);
                 db.SaveChanges();
-                //int id = regalo.idRegalo;
                 return RedirectToAction("Index", "Regalo");
             }
             return View("Index");

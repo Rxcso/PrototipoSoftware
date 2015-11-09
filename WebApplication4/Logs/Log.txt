@@ -342,3 +342,324 @@ System.Collections.ListDictionaryInternal
 2015-11-08 17:16:02,609 [24] ERROR Ticknet - Exception Message - 
 Role Cliente does not exist.
 2015-11-08 17:16:02,609 [24] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-08 20:15:33,326 [13] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-08 20:15:33,334 [13] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-08 20:15:33,334 [13] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-08 20:15:33,334 [13] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-08 20:15:33,334 [13] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 01:10:29,141 [476] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 01:10:29,148 [476] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-09 01:10:29,149 [476] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 01:10:29,149 [476] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\CuentaUsuario\ComprarEntrada.cshtml(28): error CS1002: Se esperaba ;
+2015-11-09 01:10:29,149 [476] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 01:30:02,296 [12] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 01:30:02,304 [12] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-09 01:30:02,304 [12] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 01:30:02,304 [12] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-09 01:30:02,304 [12] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 01:30:23,455 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 01:30:23,455 [8] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-09 01:30:23,455 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 01:30:23,455 [8] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-09 01:30:23,455 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 01:31:02,477 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 01:31:02,477 [9] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-09 01:31:02,477 [9] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 01:31:02,477 [9] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-09 01:31:02,477 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 01:32:19,988 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 01:32:19,988 [9] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-09 01:32:19,988 [9] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 01:32:19,988 [9] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-09 01:32:19,988 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 01:32:42,303 [26] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 01:32:42,303 [26] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-09 01:32:42,303 [26] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 01:32:42,303 [26] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-09 01:32:42,303 [26] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 01:34:58,398 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 01:34:58,398 [8] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-09 01:34:58,398 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 01:34:58,398 [8] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-09 01:34:58,398 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 01:36:41,514 [41] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 01:36:41,522 [41] ERROR Ticknet - Exception Type - 
+ArgumentOutOfRangeException
+2015-11-09 01:36:41,522 [41] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 01:36:41,522 [41] ERROR Ticknet - Exception Message - 
+El índice estaba fuera del intervalo. Debe ser un valor no negativo e inferior al tamaño de la colección.
+Nombre del parámetro: index
+2015-11-09 01:36:41,522 [41] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:37:42,960 [22] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:37:42,967 [22] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:37:42,967 [22] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:37:42,967 [22] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:37:42,967 [22] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:37:43,001 [19] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:37:43,001 [19] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:37:43,001 [19] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:37:43,001 [19] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:37:43,001 [19] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:37:44,282 [16] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:37:44,282 [16] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:37:44,282 [16] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:37:44,282 [16] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:37:44,282 [16] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:37:44,285 [22] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:37:44,285 [22] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:37:44,285 [22] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:37:44,285 [22] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:37:44,285 [22] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:38:00,384 [33] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:38:00,384 [33] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:38:00,384 [33] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:38:00,384 [33] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:38:00,384 [33] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:38:00,977 [16] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:38:00,977 [16] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:38:00,977 [16] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:38:00,977 [16] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:38:00,977 [16] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:38:22,288 [21] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:38:22,288 [21] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:38:22,288 [21] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:38:22,288 [21] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:38:22,288 [21] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:38:22,290 [22] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:38:22,290 [22] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:38:22,290 [22] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:38:22,290 [22] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:38:22,290 [22] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:38:57,083 [24] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:38:57,083 [24] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:38:57,083 [24] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:38:57,083 [24] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:38:57,083 [24] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:38:57,086 [22] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:38:57,086 [22] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:38:57,086 [22] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:38:57,086 [22] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:38:57,086 [22] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:39:13,838 [21] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:39:13,838 [21] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:39:13,838 [21] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:39:13,838 [21] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:39:13,838 [21] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:39:13,849 [16] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:39:13,849 [16] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:39:13,849 [16] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:39:13,849 [16] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:39:13,849 [16] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:39:28,236 [24] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:39:28,236 [24] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:39:28,236 [24] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:39:28,236 [24] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:39:28,236 [24] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:39:28,239 [21] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:39:28,239 [21] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:39:28,239 [21] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:39:28,239 [21] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:39:28,239 [21] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:41:40,621 [18] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:41:40,628 [18] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:41:40,628 [18] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:41:40,628 [18] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:41:40,628 [18] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:41:49,020 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:41:49,020 [6] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:41:49,020 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:41:49,020 [6] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:41:49,020 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:41:49,882 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:41:49,882 [8] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:41:49,882 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:41:49,882 [8] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:41:49,882 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:42:01,881 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:42:01,881 [6] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:42:01,881 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:42:01,881 [6] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:42:01,881 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:42:03,215 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:42:03,215 [8] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:42:03,215 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:42:03,215 [8] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:42:03,215 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:42:41,439 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:42:41,439 [6] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:42:41,439 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:42:41,439 [6] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:42:41,439 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:42:45,443 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:42:45,443 [6] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:42:45,443 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:42:45,443 [6] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:42:45,443 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:42:46,066 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:42:46,066 [8] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:42:46,066 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:42:46,066 [8] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:42:46,066 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:42:48,040 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:42:48,041 [6] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:42:48,041 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:42:48,041 [6] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:42:48,041 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:45:13,211 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:45:13,219 [6] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:45:13,219 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:45:13,219 [6] ERROR Ticknet - Exception Message - 
+A public action method 'MejorTarifaJson' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:45:13,219 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:49:16,203 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:49:16,211 [6] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:49:16,211 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:49:16,211 [6] ERROR Ticknet - Exception Message - 
+A public action method 'MejorTarifaJson' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:49:16,211 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:49:17,645 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:49:17,645 [10] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:49:17,646 [10] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:49:17,646 [10] ERROR Ticknet - Exception Message - 
+A public action method 'MejorTarifaJson' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:49:17,646 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:49:20,255 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:49:20,255 [6] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:49:20,255 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:49:20,255 [6] ERROR Ticknet - Exception Message - 
+A public action method 'MejorTarifaJson' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:49:20,255 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:49:20,943 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:49:20,943 [6] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:49:20,943 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:49:20,943 [6] ERROR Ticknet - Exception Message - 
+A public action method 'MejorTarifaJson' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:49:20,943 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:50:29,131 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:50:29,131 [6] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:50:29,131 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:50:29,131 [6] ERROR Ticknet - Exception Message - 
+A public action method 'MejorTarifaJson' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:50:29,131 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:52:06,594 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:52:06,594 [8] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:52:06,594 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:52:06,595 [8] ERROR Ticknet - Exception Message - 
+A public action method 'MejorTarifaJson' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:52:06,595 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:53:13,210 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:53:13,210 [6] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:53:13,210 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:53:13,210 [6] ERROR Ticknet - Exception Message - 
+A public action method 'MejorTarifaJson' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:53:13,210 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++

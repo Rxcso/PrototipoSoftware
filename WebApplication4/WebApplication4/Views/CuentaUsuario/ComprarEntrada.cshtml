@@ -12,8 +12,31 @@
         nombre = user.nombre + " " + user.apellido;
         dni = user.codDoc;
     }
+    List<Promociones> promocionesLista = ViewBag.Promociones as List<Promociones>;
+    List<CarritoItem> carrito = Session["CarritoItem"] as List<CarritoItem>;
 }
-
+<div class="container" id="promocionesLista">
+    @{
+        for (int i = 0; i < promocionesLista.Count; i++)
+        {
+            string razon = "";
+            if (promocionesLista[i].codPromo == -1)
+            {
+                razon = (i + 1) + ". No cuenta con promocion";
+            }
+            else
+            {
+                razon = (i + 1) + ". Descuento de " + promocionesLista[i].descuento + "%.";
+            }
+            string id = "eventosydescuentos" + i;
+            <div id="@id">
+                @Html.Hidden("evento", "" + carrito[i].idEvento)
+                @Html.Hidden("descuento", "" + promocionesLista[i].descuento)
+            </div>
+            <p>@razon</p>
+        }
+    }
+</div>
 <div class="container">
     <div class="row">
         <div class="col-md-8" id="tarjeta">
@@ -33,6 +56,7 @@
                         }
                     }
                 </div>
+
             </div>
             <div class="row form-group">
                 @Html.LabelFor(c => c.Dni, new { @class = "control-label col-md-3" })
@@ -53,7 +77,7 @@
             <div class="row form-group">
                 @Html.LabelFor(c => c.idBanco, new { @class = "control-label col-md-3" })
                 <div class="col-md-4">
-                    @Html.DropDownListFor(c => c.idBanco, ViewBag.Bancos as SelectList, new { @class = "form-control" })
+                    @Html.DropDownListFor(c => c.idBanco, ViewBag.Bancos as SelectList, new { @class = "form-control", @onchange = "calculaPromo()" })
                     @Html.ValidationMessageFor(c => c.idBanco)
                 </div>
             </div>
@@ -105,14 +129,14 @@
             <div class="row form-group">
                 <label for="" class="control-label col-md-3">Descuento: </label>
                 <div class="col-md-4">
-                    <input type="text" class="form-control" disabled>
+                    <input id="descuentoCompra" type="text" class="form-control" value="@ViewBag.Descuento" disabled>
                 </div>
             </div>
 
             <div class="row form-group">
                 <label for="" class="control-label col-md-3">Monto a Pagar: </label>
                 <div class="col-md-4">
-                    <input type="text" class="form-control" value="" disabled>
+                    <input id="pagarCompra" type="text" class="form-control" value="@ViewBag.Pagar" disabled>
                 </div>
             </div>
             <div class="row">
@@ -124,3 +148,29 @@
     </div>
     <br />
 </div>
+<script>
+    function calculaPromo() {
+        //sacamos el id del banco y tipo tarjeta
+        var idBanco = $("#idBanco").val();
+        var tipoTarjeta = $("#idTipoTarjeta").val();
+        var divPadre = document.getElementById("promocionesLista");
+        var hijosDiv = divPadre.getElementsByTagName('div');
+        for (var i = 0 ; i < hijosDiv.length; i++) {
+            var e = hijosDiv[i];
+            //obtengo el idEvento
+            var codEvento = e.getElementsByTagName('input')[0].value;
+            //alert(codEvento + " - " + idBanco + " - " + tipoTarjeta);
+            $.ajax({
+                url: "@Url.Action("Descuento", "CuentaUsuario")",
+                data: { codEvento: codEvento, idBanco: idBanco, tipoTarjeta: tipoTarjeta },
+                success: function (data) {
+                    alert(data);
+                },
+                error: function (data) {
+                    alert("Error");
+                }
+            })
+        }
+
+    }
+</script>

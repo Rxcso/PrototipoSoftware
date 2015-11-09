@@ -18,5 +18,6 @@ namespace WebApplication4.Models
         public int cantidad { get; set; }
         public List<int> filas { get; set; }
         public List<int> columnas { get; set; }
+        public bool tieneAsientos { get; set; }
     }
 }

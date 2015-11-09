@@ -66,11 +66,21 @@ else
                         <td>@carritoList[i].cantidad</td>
                         <td>
                             @{
-                    for (int j = 0; j < carritoList[i].filas.Count - 1; j++)
-                    {
-                        asientos += carritoList[i].filas[j] + " - " + carritoList[i].columnas[j] + ", ";
+
+                    try
+                    {//si tiene asientos, los detallo como un string
+                        int cantAsientos = carritoList[i].filas.Count;
+                        for (int j = 0; j < cantAsientos - 1; j++)
+                        {
+                            asientos += carritoList[i].filas[j] + " - " + carritoList[i].columnas[j] + ", ";
+                        }
+                        asientos += carritoList[i].filas[carritoList[i].filas.Count - 1] + " - " + carritoList[i].columnas[carritoList[i].filas.Count - 1] + ".";
                     }
-                    asientos += carritoList[i].filas[carritoList[i].filas.Count - 1] + " - " + carritoList[i].columnas[carritoList[i].filas.Count - 1] + ".";
+                    catch (Exception ex)
+                    {
+                        //sale una excepcion si es que filas.Count no existe, por lo que solo son entradas
+                        asientos = "" + carritoList[i].cantidad;
+                    }
                             }
                             @asientos
                         </td>
@@ -91,7 +101,7 @@ else
         <br>
         <br>
         <div class="col-md-12">
-            <a class="btn btn-success pull-right" href="@Url.Action("ComprarEntrada", "CuentaUsuario", new { carrito = carritoList})">Comprar<span class="glyphicon glyphicon-usd"></span></a>
+            <a class="btn btn-success pull-right" href="@Url.Action("ComprarEntrada", "CuentaUsuario")">Comprar<span class="glyphicon glyphicon-usd"></span></a>
         </div>
     </div>
 }
@@ -130,8 +140,3 @@ else
         }
     }
 </script>
-<style>
-    .trselected {
-        background: gray;
-    }
-</style>

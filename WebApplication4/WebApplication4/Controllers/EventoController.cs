@@ -74,8 +74,6 @@ namespace WebApplication4.Controllers
 
                 using (var context = new inf245netsoft())
                 {
-
-
                     try
                     {
                         Ventas ve = new Ventas();
@@ -117,8 +115,8 @@ namespace WebApplication4.Controllers
                         dt.descTot = 0;
                         dt.codVen = vf.codVen;
                         db.DetalleVenta.Add(dt);
-                        if (paquete.filas!=null && paquete.filas.Count > 0) paquete.tieneAsientos = true;
-                        db.SaveChanges();                        
+                        if (paquete.filas != null && paquete.filas.Count > 0) paquete.tieneAsientos = true;
+                        db.SaveChanges();
                         if (paquete.tieneAsientos)
                         {
 
@@ -146,7 +144,7 @@ namespace WebApplication4.Controllers
 
                     catch (OptimisticConcurrencyException ex)
                     {
-                        return "No se pudieron reservar los asientos, alguien más ya lo hizo";
+                        return "No se pudieron reservar los asientos, alguien más ya lo hizo.";
                     }
 
                 }
@@ -155,7 +153,7 @@ namespace WebApplication4.Controllers
             }
             catch (Exception ex)
             {
-                return "Ocurrio un error inesperado";
+                return "Ocurrio un error inesperado.";
             }
             //Funciones Utilitarias necesarias
             //BuscarEntradasLeQuedan( User , Funcion )

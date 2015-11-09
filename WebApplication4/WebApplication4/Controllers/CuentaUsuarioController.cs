@@ -1,9 +1,11 @@
 ﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Core;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -46,11 +48,28 @@ namespace WebApplication4.Controllers
             return lista;
         }
     }
-    
+
     [Authorize]
     public class CuentaUsuarioController : Controller
     {
         private inf245netsoft db = new inf245netsoft();
+
+
+
+        private Promociones CalculaMejorPromocionTarjeta(int codEvento, int idBanco, int tipoTarjeta)
+        {
+            try
+            {
+                //busco las promociones que se encuentren activas
+                List<Promociones> promociones = db.Promociones.Where(c => c.codEvento == codEvento && c.codBanco == idBanco && c.codTipoTarjeta == tipoTarjeta && c.estado == true && c.fechaIni <= DateTime.Today && DateTime.Today <= DateTime.Today).ToList();
+                promociones.Sort((a, b) => ((double)a.descuento).CompareTo((double)b.descuento));
+                return promociones.Last();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
 
         [HttpGet]
         [AllowAnonymous]
@@ -58,17 +77,38 @@ namespace WebApplication4.Controllers
         {
             if (Session["CarritoItem"] != null)
             {
+                //saco el carrito del session
                 List<CarritoItem> carrito = (List<CarritoItem>)Session["CarritoItem"];
+                //lista de bancos
+                List<Banco> bancos = db.Banco.ToList();
+                ViewBag.Bancos = new SelectList(bancos, "codigo", "nombre");
+                //lista de tarjetas
+                List<TipoTarjeta> tipoTarjeta = db.TipoTarjeta.ToList();
+
+                ViewBag.TipoTarjeta = new SelectList(tipoTarjeta, "idTipoTar", "nombre");
+                List<Promociones> listaPromociones = new List<Promociones>();
                 double total = 0;
+                double descuento = 0;
                 foreach (CarritoItem item in carrito)
                 {
                     total = item.precio;
+                    Promociones promocion = CalculaMejorPromocionTarjeta(item.idEvento, bancos.First().codigo, tipoTarjeta.First().idTipoTar);
+                    if (promocion == null)
+                    {
+                        Promociones dummy = new Promociones();
+                        dummy.codPromo = -1;
+                        listaPromociones.Add(dummy);
+                    }
+                    else
+                    {
+                        descuento += item.precio * promocion.descuento.Value / 100;
+                        listaPromociones.Add(promocion);
+                    }
                 }
+                ViewBag.Descuento = descuento;
+                ViewBag.Promociones = listaPromociones;
                 ViewBag.Total = total;
-                List<Banco> bancos = db.Banco.ToList();
-                ViewBag.Bancos = new SelectList(bancos, "codigo", "nombre");
-                List<TipoTarjeta> tipoTarjeta = db.TipoTarjeta.ToList();
-                ViewBag.TipoTarjeta = new SelectList(tipoTarjeta, "idTipoTar", "nombre");
+                ViewBag.Pagar = total - descuento;
                 ViewBag.Mes = Fechas.Mes();
                 ViewBag.AnVen = Fechas.Anio();
                 return View();
@@ -77,65 +117,142 @@ namespace WebApplication4.Controllers
             TempData["message"] = "No hay items en el carrito.";
             return RedirectToAction("MiCarrito");
         }
+        public JsonResult Descuento(string codEvento, string idBanco, string tipoTarjeta)
+        {
+            int evento = int.Parse(codEvento);
+            int banco = int.Parse(idBanco);
+            int ttarj = int.Parse(tipoTarjeta);
+            try
+            {
+                List<Promociones> promociones = db.Promociones.Where(c => c.codEvento == evento && c.codBanco == banco && c.codTipoTarjeta == ttarj && c.estado == true && c.fechaIni <= DateTime.Today && DateTime.Today <= DateTime.Today).ToList();
+                promociones.Sort((a, b) => ((double)a.descuento).CompareTo((double)b.descuento));
+                Promociones primero = promociones.Last();
+                primero.Banco = null;
+                primero.TipoTarjeta = null;
+                return Json(primero, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception x)
+            {
+                Promociones dummy = new Promociones();
+                dummy.codPromo = -1;
+                return Json(dummy, JsonRequestBehavior.AllowGet);
+            }
 
+        }
         [HttpPost]
         [AllowAnonymous]
         public ActionResult ComprarEntrada(ComprarEntradaModel model)
         {
             if (ModelState.IsValid)
             {
-                try
+                int idVenta = 0;
+                DateTime hoy = DateTime.Today;
+                using (var context = new inf245netsoft())
                 {
-                    List<CarritoItem> carrito = (List<CarritoItem>)Session["CarritoItem"];
-                    //TODO: ver que entradas estan reservadas antes
-                    Ventas venta = new Ventas();
-                    venta.cantAsientos = carrito.Sum(c => c.filas.Count);
-                    venta.cliente = model.Nombre;
-                    venta.codDoc = model.Dni;
-                    venta.Estado = "Pagado";
-                    venta.fecha = DateTime.Today;
-                    venta.modalidad = "T";
-                    venta.montoCreditoSoles = model.MontoPagar;
-                    venta.montoEfectivoDolares = 0;
-                    venta.montoEfectivoSoles = 0;
-                    venta.MontoTotalSoles = model.MontoPagar;
-                    venta.tipoDoc = 1;
-                    venta.vendedor = "Web";
-                    db.Ventas.Add(venta);
-                    int idVenta = venta.codVen;
-                    //Ventasx funcion
-                    //detalle venta
-                    //
-                    foreach (CarritoItem item in carrito)
+                    try
                     {
-                        VentasXFuncion ventaxfuncion = new VentasXFuncion();
-                        ventaxfuncion.cantEntradas = item.filas.Count;
-                        ventaxfuncion.codFuncion = item.idFuncion;
-                        ventaxfuncion.codVen = idVenta;
-                        ventaxfuncion.descuento = (int?)model.Descuento / carrito.Count;
-                        ventaxfuncion.subtotal = item.precio * item.filas.Count;
-                        db.VentasXFuncion.Add(ventaxfuncion);
-                        // le falta id de ventax funcionint idVentaxfuncion = ventaxfuncion.
-                        DetalleVenta detalle = new DetalleVenta();
-                        detalle.codFuncion = item.idFuncion;
-                        //detalle.codPrecE
-                        detalle.codVen = idVenta;
-                        detalle.descTot = (int?)model.Descuento;
-                        detalle.entradasDev = 0;
-                        detalle.Subtotal = ventaxfuncion.subtotal;
-                        //detalle.total
+                        List<CarritoItem> carrito = (List<CarritoItem>)Session["CarritoItem"];
+                        Ventas ve = new Ventas();
+                        int cantidadEntradasTotales = carrito.Sum(c => c.cantidad);
+
+                        if (Session["UsuarioLogueado"] != null)
+                        {
+                            CuentaUsuario cuenta = (CuentaUsuario)Session["UsuarioLogueado"];
+                            ve.CuentaUsuario = cuenta;
+                        }
+                        ve.fecha = DateTime.Now;
+                        ve.cantAsientos = cantidadEntradasTotales;
+                        ve.cliente = model.Nombre;
+                        ve.codDoc = model.Dni;
+                        ve.Estado = MagicHelpers.Compra;
+                        ve.tipoDoc = 1;
+                        ve.montoEfectivoSoles = model.Importe;
+                        ve.MontoTotalSoles = model.MontoPagar;
+                        db.Ventas.Add(ve);
+                        db.SaveChanges();
+                        //para cada item del carrito
+                        for (int w = 0; w < carrito.Count; w++)
+                        {
+                            CarritoItem paquete = carrito[w];
+                            //zona del evento
+                            ZonaEvento zo = db.ZonaEvento.Find(paquete.idZona);
+                            //en que perdiodo de venta estamos
+                            PeriodoVenta per = db.PeriodoVenta.Where(c => c.codEvento == paquete.idEvento && c.fechaInicio <= hoy && c.fechaFin >= hoy).ToList().First();
+                            PrecioEvento pr = db.PrecioEvento.Where(c => c.codZonaEvento == paquete.idZona && c.codPeriodoVenta == per.idPerVent).ToList().First();
+                            //la venta x funcion requerida
+                            VentasXFuncion vf = new VentasXFuncion();
+                            vf.codVen = ve.codVen;
+                            vf.cantEntradas = paquete.cantidad;
+                            vf.codFuncion = paquete.idFuncion;
+                            vf.Ventas = ve;
+                            vf.Funcion = db.Funcion.Find(paquete.idFuncion);
+                            vf.descuento = 0;
+                            vf.subtotal = paquete.cantidad * pr.precio;
+                            vf.total = paquete.cantidad * pr.precio;
+                            db.VentasXFuncion.Add(vf);
+                            db.SaveChanges();
+                            //detalle de venta
+                            DetalleVenta dt = new DetalleVenta();
+                            dt.cantEntradas = paquete.cantidad;
+                            dt.codFuncion = paquete.idFuncion;
+                            dt.codPrecE = pr.codPrecioEvento;
+                            dt.total = paquete.cantidad * pr.precio;
+                            dt.entradasDev = 0;
+                            dt.descTot = 0;
+                            dt.codVen = vf.codVen;
+                            db.DetalleVenta.Add(dt);
+                            if (paquete.filas != null && paquete.filas.Count > 0) paquete.tieneAsientos = true;
+                            db.SaveChanges();
+                            //si tengo asientos, actualizo los asientos a ocupado
+                            if (paquete.tieneAsientos)
+                            {
+                                for (int i = 0; i < paquete.cantidad; i++)
+                                {
+                                    int col = paquete.columnas[i];
+                                    int fil = paquete.filas[i];
+                                    List<Asientos> listasiento = context.Asientos.Where(x => x.codZona == paquete.idZona && x.fila == fil && x.columna == col).ToList();
+                                    AsientosXFuncion actAsiento = context.AsientosXFuncion.Find(listasiento.First().codAsiento, paquete.idFuncion);
+                                    actAsiento.estado = MagicHelpers.Ocupado;
+                                    actAsiento.codDetalleVenta = dt.codDetalleVenta;
+                                    actAsiento.PrecioPagado = pr.precio;
+                                }
+                            }
+                            else
+                            {
+                                //si no tiene asientos es una zonax funcion
+                                ZonaxFuncion ZXF = context.ZonaxFuncion.Find(paquete.idFuncion, paquete.idZona);
+                                if (ZXF.cantLibres < paquete.cantidad)
+                                {
+                                    //genero una exception para detener la compra?
+                                    throw new Exception();
+                                }
+                                else
+                                    ZXF.cantLibres -= paquete.cantidad;
+                            }
+                        }
+
+                        db.SaveChanges();
+                        context.SaveChanges();
+                    }
+                    catch (OptimisticConcurrencyException ex)
+                    {
+                        //hubo un problema con la compra, remuevo el item
+                        if (idVenta != 0)
+                        {
+                            Ventas remover = db.Ventas.Find(idVenta);
+                            db.Ventas.Remove(remover);
+                        }
+                        TempData["tipo"] = "alert alert-warning";
+                        TempData["message"] = "Error en la compra.";
+                        return View(model);
                     }
                 }
-                catch (Exception ex)
-                {
-
-                }
-                
-
-
+                TempData["tipo"] = "alert alert-success";
+                TempData["message"] = "Compra Realizada. Muchas Gracias.";
+                //si toda la compra se procesa de manera correcta eliminamos los session
                 Session["CarritoItem"] = null;
                 Session["Carrito"] = null;
-                return View();
+                return RedirectToAction("Index", "Home");
             }
             return View(model);
         }
@@ -379,7 +496,7 @@ namespace WebApplication4.Controllers
             return View();
         }
 
-        public ActionResult DeleteReserva(int codE, int codF, int codEv,int codZ)
+        public ActionResult DeleteReserva(int codE, int codF, int codEv, int codZ)
         {
             Ventas v = db.Ventas.Find(codE);
             VentasXFuncion vxf = db.VentasXFuncion.Find(codE, codF);
@@ -694,10 +811,11 @@ namespace WebApplication4.Controllers
                     cItem.fecha = (DateTime)funcion.fecha;
                     cItem.hora = (DateTime)funcion.horaIni;
                     cItem.zona = db.ZonaEvento.Find(paquete.idZona).nombre;
-                    cItem.precio = (double)db.PrecioEvento.Where(c => c.codZonaEvento == paquete.idZona && c.codPeriodoVenta == periodo.idPerVent).First().precio * paquete.filas.Count;
+                    cItem.precio = (double)db.PrecioEvento.Where(c => c.codZonaEvento == paquete.idZona && c.codPeriodoVenta == periodo.idPerVent).First().precio * paquete.cantEntradas;
                     cItem.filas = paquete.filas;
                     cItem.columnas = paquete.columnas;
-                    cItem.cantidad = paquete.filas.Count;
+                    cItem.tieneAsientos = paquete.tieneAsientos;
+                    cItem.cantidad = paquete.cantEntradas;
                     item.Add(cItem);
                 }
                 Session["CarritoItem"] = item;
@@ -712,9 +830,9 @@ namespace WebApplication4.Controllers
             List<PaqueteEntradas> carrito = (List<PaqueteEntradas>)Session["Carrito"];
             carrito.RemoveAt(elem);
             Session["Carrito"] = carrito;
-            return Json("Entrada Eliminada.",JsonRequestBehavior.AllowGet);
+            return Json("Entrada Eliminada.", JsonRequestBehavior.AllowGet);
         }
-       
+
         public ActionResult ReporteCliente()
         {
             return View();
