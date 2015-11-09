@@ -268,6 +268,11 @@ namespace WebApplication4.Controllers
             return Json("Pago Registrado", JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult DevolucionIndex()
+        {
+            return RedirectToAction("Devolucion", "Ventas");
+        }
+
         public ActionResult SearchDoc(string doc) 
         {
             if (doc == "")
@@ -323,6 +328,10 @@ namespace WebApplication4.Controllers
                             d.cantAsientos = (int)detVen[j].cantEntradas;
                             d.monto = (double)detVen[j].total;
                             d.estado = funAux[0].estado;
+                            List<AsientosXFuncion> axf = db.AsientosXFuncion.Where(a=>a.codFuncion==detVen[0].codFuncion && a.codDetalleVenta==detVen[0].codDetalleVenta).ToList();
+                            List<Asientos> asientos = db.Asientos.Where(a=>a.codAsiento==axf[0].codAsiento).ToList();
+                            List<ZonaEvento> ze = db.ZonaEvento.Where(z=>z.codZona==asientos[0].codZona).ToList();
+                            d.zona = ze[0].nombre;
                             devolucion.Add(d);
                         }
                     }
@@ -375,11 +384,13 @@ namespace WebApplication4.Controllers
             //Session["Bus"] = null;
             int id = int.Parse(fila);
             ViewBag.id = id;
-            TempData["codigo"] = id;
+            TempData["codigoDet"] = id;
             DetalleVenta detVen = db.DetalleVenta.Find(id);
-            Session["Devolucion"] = detVen;
+            Session["DetalleVenta"] = detVen;
+            List<AsientosXFuncion> axf = db.AsientosXFuncion.Where(a=>a.codFuncion==detVen.codFuncion && a.codDetalleVenta==detVen.codDetalleVenta).ToList();
+            Session["ListaAsientos"] = axf;
 
-            return View("DetalleVentas");
+            return View("VerDetalle");
         }
 
     }
