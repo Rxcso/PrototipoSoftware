@@ -56,7 +56,7 @@ else
                 {
                     total += carritoList[i].precio;
                     string asientos = "";
-                    <tr id="@(i)" onclick="myFunction(this)">
+                    <tr id="@(i)">
                         <td>@carritoList[i].idEvento</td>
                         <td>@carritoList[i].nombreEvento</td>
                         <td>@String.Format("{0:dd/MM/yyyy}", carritoList[i].fecha)</td>
@@ -106,35 +106,27 @@ else
     </div>
 }
 <script>
-    function myFunction(x) {
-        if (document.getElementsByClassName("trselected").length > 0) {
-            var element = document.getElementsByClassName("trselected");
-            element[0].className = "";
-        }
-        var elem = document.getElementById("IdItemCarrito");
-        elem.value = x.id;
-        x.className = "trselected";
-    }
-
     function quitarCarrito() {
         if (confirm("¿Quitar Item?")) {
             var fila = $('input[name="groupCarrito"]:checked').val();
             var row = document.getElementById(parseInt(fila));
-            var cantidad = parseInt($('#totalCompra').val());
             var itemEliminar = row.id;
-            $("#totalCompra").val(cantidad - parseInt(row.cells[5].innerHTML));
             $.ajax({
-                url: "@Url.Action("EliminaItem", "CuentaUsuario")",
+                url: "/Services/EliminaItem/",
                 data: { itemEliminar: itemEliminar },
+                datatype: "json",
                 success: function (data) {
-                    alert("Compra removida del carrito.");
+                    alert("Item Eliminado");
+                    var cantidad = parseInt($('#totalCompra').val());
+                    $("#totalCompra").val(cantidad - parseInt(row.cells[5].innerHTML));
+                    row.parentNode.removeChild(row);
                     window.location.href = "/CuentaUsuario/MiCarrito";
                 },
                 error: function (data) {
-                    alert(data);
+                    alert("Error");
                 }
             })
-            row.parentNode.removeChild(row);
+            
         } else {
 
         }

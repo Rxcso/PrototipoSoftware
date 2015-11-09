@@ -16,6 +16,7 @@
     List<CarritoItem> carrito = Session["CarritoItem"] as List<CarritoItem>;
 }
 <div class="container" id="promocionesLista">
+    <p>Mejores descuentos para su compra segun los items en su carrito:</p>
     @{
         for (int i = 0; i < promocionesLista.Count; i++)
         {
@@ -28,12 +29,14 @@
             {
                 razon = (i + 1) + ". Descuento de " + promocionesLista[i].descuento + "%.";
             }
-            string id = "eventosydescuentos" + i;
+            string id = "eventosydescuentos" + (i+1);
+            string idrazon = "razon" + (i+1);
             <div id="@id">
                 @Html.Hidden("evento", "" + carrito[i].idEvento)
-                @Html.Hidden("descuento", "" + promocionesLista[i].descuento)
+                @Html.Hidden("descuentoE", "" + promocionesLista[i].descuento)
+                <p style="margin-left:2em" id="@idrazon">@razon</p>
             </div>
-            <p>@razon</p>
+            
         }
     }
 </div>
@@ -47,12 +50,12 @@
                     @{//si esque es un usuario registrado
                         if (Request.IsAuthenticated)
                         {
-                            @Html.TextBoxFor(c => c.Nombre, new { @class = "form-control", @readonly = "readonly", @Value = nombre })
+                    @Html.TextBoxFor(c => c.Nombre, new { @class = "form-control", @readonly = "readonly", @Value = nombre })
                         }
                         else
                         {
-                            @Html.TextBoxFor(c => c.Nombre, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(c => c.Nombre)
+                    @Html.TextBoxFor(c => c.Nombre, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(c => c.Nombre)
                         }
                     }
                 </div>
@@ -64,12 +67,12 @@
                     @{//si esque es un usuario regitrado
                         if (Request.IsAuthenticated)
                         {
-                            @Html.TextBoxFor(c => c.Dni, new { @class = "form-control", @readonly = "readonly", @Value = dni })
+                    @Html.TextBoxFor(c => c.Dni, new { @class = "form-control", @readonly = "readonly", @Value = dni })
                         }
                         else
                         {
-                            @Html.TextBoxFor(c => c.Dni, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(c => c.Dni)
+                    @Html.TextBoxFor(c => c.Dni, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(c => c.Dni)
                         }
                     }
                 </div>
@@ -156,15 +159,28 @@
         var divPadre = document.getElementById("promocionesLista");
         var hijosDiv = divPadre.getElementsByTagName('div');
         for (var i = 0 ; i < hijosDiv.length; i++) {
+            //obtengo el hijo del div
             var e = hijosDiv[i];
             //obtengo el idEvento
             var codEvento = e.getElementsByTagName('input')[0].value;
-            //alert(codEvento + " - " + idBanco + " - " + tipoTarjeta);
+            var cntDescuento = e.getElementsByTagName('input')[1].value;
+            var razon = $('#razon' + (i + 1));
+            var indice = (i + 1);
+            alert("indice afuera: "+ indice);
             $.ajax({
-                url: "@Url.Action("Descuento", "CuentaUsuario")",
+                url: "/Services/Descuento/",
                 data: { codEvento: codEvento, idBanco: idBanco, tipoTarjeta: tipoTarjeta },
                 success: function (data) {
-                    alert(data);
+                    var obj = $.parseJSON(data);
+                    var descuento = parseInt(obj.Descuento);
+                    alert("indice adentro: " + indice);
+                    if (descuento == -1) {
+                        razon.append(indice + ". No cuenta con promocion");
+                        alert("resultado "+ razon.innerHTML);
+                    } else {
+                        razon.append(indice + ". Descuento de " + descuento + "%.");
+                        alert("resultado "+ razon.innerHTML);
+                    }
                 },
                 error: function (data) {
                     alert("Error");

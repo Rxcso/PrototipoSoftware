@@ -1,0 +1,9 @@
+﻿@using WebApplication4.Models
+@{
+    Layout = null;
+    List<PaqueteEntradas> carrito = (List<PaqueteEntradas>)Session["Carrito"];
+    int itemEliminar = int.Parse(Request["itemEliminar"]);
+    carrito.RemoveAt(itemEliminar);
+    Session["Carrito"] = carrito;
+    Json.Write("Item Eliminado", Response.Output);
+}
