@@ -54,8 +54,7 @@ namespace WebApplication4.Controllers
     {
         private inf245netsoft db = new inf245netsoft();
 
-
-
+        //solo sirve para el primer caso del banco y tipo tarjeta. Luego uso otra funcion que retorna un json
         private Promociones CalculaMejorPromocionTarjeta(int codEvento, int idBanco, int tipoTarjeta)
         {
             try
@@ -91,7 +90,7 @@ namespace WebApplication4.Controllers
                 double descuento = 0;
                 foreach (CarritoItem item in carrito)
                 {
-                    total = item.precio;
+                    total += item.precio;
                     Promociones promocion = CalculaMejorPromocionTarjeta(item.idEvento, bancos.First().codigo, tipoTarjeta.First().idTipoTar);
                     if (promocion == null)
                     {
@@ -117,28 +116,7 @@ namespace WebApplication4.Controllers
             TempData["message"] = "No hay items en el carrito.";
             return RedirectToAction("MiCarrito");
         }
-        public JsonResult Descuento(string codEvento, string idBanco, string tipoTarjeta)
-        {
-            int evento = int.Parse(codEvento);
-            int banco = int.Parse(idBanco);
-            int ttarj = int.Parse(tipoTarjeta);
-            try
-            {
-                List<Promociones> promociones = db.Promociones.Where(c => c.codEvento == evento && c.codBanco == banco && c.codTipoTarjeta == ttarj && c.estado == true && c.fechaIni <= DateTime.Today && DateTime.Today <= DateTime.Today).ToList();
-                promociones.Sort((a, b) => ((double)a.descuento).CompareTo((double)b.descuento));
-                Promociones primero = promociones.Last();
-                primero.Banco = null;
-                primero.TipoTarjeta = null;
-                return Json(primero, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception x)
-            {
-                Promociones dummy = new Promociones();
-                dummy.codPromo = -1;
-                return Json(dummy, JsonRequestBehavior.AllowGet);
-            }
 
-        }
         [HttpPost]
         [AllowAnonymous]
         public ActionResult ComprarEntrada(ComprarEntradaModel model)
@@ -822,15 +800,6 @@ namespace WebApplication4.Controllers
                 ViewBag.Carrito = item;
             }
             return View();
-        }
-
-        public JsonResult EliminaItem(string itemEliminar)
-        {
-            int elem = int.Parse(itemEliminar);
-            List<PaqueteEntradas> carrito = (List<PaqueteEntradas>)Session["Carrito"];
-            carrito.RemoveAt(elem);
-            Session["Carrito"] = carrito;
-            return Json("Entrada Eliminada.", JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult ReporteCliente()

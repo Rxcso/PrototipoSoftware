@@ -663,3 +663,59 @@ System.Collections.ListDictionaryInternal
 2015-11-09 02:53:13,210 [6] ERROR Ticknet - Exception Message - 
 A public action method 'MejorTarifaJson' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
 2015-11-09 02:53:13,210 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 12:13:00,344 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 12:13:00,344 [7] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-09 12:13:00,344 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 12:13:00,344 [7] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\Services\EliminaItem.cshtml(3): error CS0246: No se puede encontrar el tipo o el nombre de espacio de nombres 'PaqueteEntradas' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-09 12:13:00,344 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 12:13:44,821 [31] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 12:13:44,821 [31] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-09 12:13:44,821 [31] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 12:13:44,821 [31] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\Services\EliminaItem.cshtml(3): error CS0246: No se puede encontrar el tipo o el nombre de espacio de nombres 'PaqueteEntradas' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-09 12:13:44,821 [31] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 12:14:05,067 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 12:14:05,067 [7] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-09 12:14:05,067 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 12:14:05,067 [7] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\Services\EliminaItem.cshtml(3): error CS0246: No se puede encontrar el tipo o el nombre de espacio de nombres 'PaqueteEntradas' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-09 12:14:05,067 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 12:14:59,133 [49] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 12:14:59,133 [49] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-09 12:14:59,133 [49] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 12:14:59,133 [49] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\Services\EliminaItem.cshtml(3): error CS0246: No se puede encontrar el tipo o el nombre de espacio de nombres 'PaqueteEntradas' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-09 12:14:59,133 [49] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 12:17:12,213 [15] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 12:17:12,213 [15] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-09 12:17:12,213 [15] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 12:17:12,213 [15] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\Services\EliminaItem.cshtml(3): error CS0246: No se puede encontrar el tipo o el nombre de espacio de nombres 'PaqueteEntradas' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-09 12:17:12,213 [15] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 12:19:01,206 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 12:19:01,729 [5] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-09 12:19:46,373 [5] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 12:19:47,187 [5] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\Services\EliminaItem.cshtml(3): error CS0246: No se puede encontrar el tipo o el nombre de espacio de nombres 'PaqueteEntradas' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-09 12:19:48,073 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 12:22:03,190 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 12:22:03,197 [5] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-09 12:22:03,197 [5] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 12:22:03,197 [5] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-09 12:22:03,197 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
