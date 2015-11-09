@@ -140,7 +140,7 @@ namespace WebApplication4.Models
         public string sexo { get; set; }
 
         [Required(ErrorMessage = "Campo Requerido.")]   
-        [DataType(DataType.Date)]
+        [DataType(DataType.Date, ErrorMessage = "Mal formato de fecha")]
         [Display(Name = "Fecha Nac. ")]
         public System.DateTime fechaNac { get; set; }
 
