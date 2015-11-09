@@ -334,35 +334,11 @@ System.Collections.ListDictionaryInternal
 2015-11-07 22:12:39,540 [7] ERROR Ticknet - Exception Message - 
 Referencia a objeto no establecida como instancia de un objeto.
 2015-11-07 22:12:39,540 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-08 18:35:07,013 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-08 18:35:07,021 [8] ERROR Ticknet - Exception Type - 
-HttpCompileException
-2015-11-08 18:35:07,022 [8] ERROR Ticknet - Exception Data - 
+2015-11-08 17:16:02,588 [24] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-08 17:16:02,609 [24] ERROR Ticknet - Exception Type - 
+InvalidOperationException
+2015-11-08 17:16:02,609 [24] ERROR Ticknet - Exception Data - 
 System.Collections.ListDictionaryInternal
-2015-11-08 18:35:07,022 [8] ERROR Ticknet - Exception Message - 
-f:\down\Ingenieria de software\Prototipo\PrototipoSoftware25\WebApplication4\WebApplication4\Views\Evento\DatosGenerales.cshtml(135): error CS1061: 'WebApplication4.Models.Local' no contiene una definición de 'aforo' ni se encontró ningún método de extensión 'aforo' que acepte un primer argumento de tipo 'WebApplication4.Models.Local' (¿falta una directiva using o una referencia de ensamblado?)
-2015-11-08 18:35:07,022 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-08 18:50:35,932 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-08 18:50:35,939 [8] ERROR Ticknet - Exception Type - 
-HttpCompileException
-2015-11-08 18:50:35,939 [8] ERROR Ticknet - Exception Data - 
-System.Collections.ListDictionaryInternal
-2015-11-08 18:50:35,939 [8] ERROR Ticknet - Exception Message - 
-c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\Evento\DatosGenerales.cshtml(135): error CS1061: 'WebApplication4.Models.Local' no contiene una definición de 'aforo' ni se encontró ningún método de extensión 'aforo' que acepte un primer argumento de tipo 'WebApplication4.Models.Local' (¿falta una directiva using o una referencia de ensamblado?)
-2015-11-08 18:50:35,939 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-08 18:55:05,983 [14] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-08 18:55:05,991 [14] ERROR Ticknet - Exception Type - 
-RuntimeBinderException
-2015-11-08 18:55:05,991 [14] ERROR Ticknet - Exception Data - 
-System.Collections.ListDictionaryInternal
-2015-11-08 18:55:05,991 [14] ERROR Ticknet - Exception Message - 
-No se puede convertir NULL en 'System.DateTime' porque es un tipo de valor que no acepta valores NULL.
-2015-11-08 18:55:05,991 [14] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-08 19:47:43,140 [37] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-08 19:47:43,149 [37] ERROR Ticknet - Exception Type - 
-NullReferenceException
-2015-11-08 19:47:43,149 [37] ERROR Ticknet - Exception Data - 
-System.Collections.ListDictionaryInternal
-2015-11-08 19:47:43,149 [37] ERROR Ticknet - Exception Message - 
-Referencia a objeto no establecida como instancia de un objeto.
-2015-11-08 19:47:43,149 [37] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-08 17:16:02,609 [24] ERROR Ticknet - Exception Message - 
+Role Cliente does not exist.
+2015-11-08 17:16:02,609 [24] DEBUG Ticknet - ++++++++++++++++++++++++++++
