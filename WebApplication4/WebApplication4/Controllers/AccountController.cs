@@ -314,7 +314,13 @@ namespace WebApplication4.Controllers
                     return RedirectToAction("Index", "Home");
                     //return View("~/Views/Home/Index.cshtml");
                 }
-                AddErrors(result);
+
+                foreach (var error in result.Errors)
+                {
+                    if (!error.Contains("nombre"))
+                        ModelState.AddModelError("", error);
+                }
+
             }
 
             // If we got this far, something failed, redisplay form
@@ -368,6 +374,7 @@ namespace WebApplication4.Controllers
                     return RedirectToAction("Index", "Empleado");
                     //return View("~/Views/Home/Index.cshtml");
                 }
+
                 AddErrors(result);
             }
 
@@ -703,6 +710,7 @@ namespace WebApplication4.Controllers
         {
             foreach (var error in result.Errors)
             {
+               
                 ModelState.AddModelError("", error);
             }
         }
