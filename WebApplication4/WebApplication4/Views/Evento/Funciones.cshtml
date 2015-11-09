@@ -3,7 +3,7 @@
     ViewBag.Title = "Register";
     List<FuncionesModel> listaResultado = ViewBag.Resultados as List<FuncionesModel>;
     int cantidad = (listaResultado == null) ? 0 : listaResultado.Count;
-    DateTime fechaInicioEvento = ViewBag.FechaInicio;
+    DateTime? fechaInicioEvento = ViewBag.FechaInicio;
 }
 @model FuncionesListModel
 <div class="container-fluid">
@@ -53,7 +53,7 @@
                         {
                             for (int i = 0; i < listaResultado.Count; i++)
                             {
-                                <tr data-fecha="@listaResultado[i].fechaFuncion.ToString("yyyy-MM-dd")" data-hora="@String.Format("{0:t}",listaResultado[i].horaInicio)">
+                                <tr id="@(i+1)" data-fecha="@listaResultado[i].fechaFuncion.ToString("yyyy-MM-dd")" data-hora="@String.Format("{0:t}",listaResultado[i].horaInicio)">
                                     <td>@(i+1)</td>
                                     <td>@listaResultado[i].fechaFuncion.ToString("yyyy-MM-dd")</td>
                                     <td>@String.Format("{0:t}", listaResultado[i].horaInicio)</td>

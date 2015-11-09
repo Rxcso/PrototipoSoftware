@@ -73,8 +73,6 @@ function eliminarFuncion() {
     var fila = $('input[name="groupFunciones"]:checked').val();
     var row = document.getElementById(parseInt(fila));
     row.parentNode.removeChild(row);
-    var cantidad = parseInt($('#histFuncion').val());
-    $("#histFuncion").val(cantidad - 1);
 }
 function guardarFunciones() {
     var nombreLista = "ListaFunciones";

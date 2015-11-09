@@ -117,7 +117,7 @@ namespace WebApplication4.Controllers
                         dt.descTot = 0;
                         dt.codVen = vf.codVen;
                         db.DetalleVenta.Add(dt);
-                        if (paquete.filas.Count > 0) paquete.tieneAsientos = true;
+                        if (paquete.filas!=null && paquete.filas.Count > 0) paquete.tieneAsientos = true;
                         db.SaveChanges();                        
                         if (paquete.tieneAsientos)
                         {
@@ -137,6 +137,7 @@ namespace WebApplication4.Controllers
                         else
                         {
                             ZonaxFuncion ZXF = context.ZonaxFuncion.Find(paquete.idFuncion, paquete.idZona);
+                            if (ZXF.cantLibres < paquete.cantEntradas) return "No hay suficientes entradas";
                             ZXF.cantLibres -= paquete.cantEntradas;
                         }
                         db.SaveChanges();
@@ -1291,7 +1292,7 @@ namespace WebApplication4.Controllers
             ViewBag.Categoria = db.Categoria.Where(c => c.idCategoria == evento.idCategoria).First().nombre;
             ViewBag.Subcategoria = db.Categoria.Where(c => c.idCategoria == evento.idSubcategoria).First().nombre;
 
-            var veoAsientos = false;
+            var veoAsientos = true;
 
 
 

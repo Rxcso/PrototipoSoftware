@@ -11,20 +11,74 @@
     </div>
 </div>
 
+
 <div class="container">
     <div class="row">
         <div class="form-group">            
             <div class="col-md-7">                
                 <a class="btn btn-primary" href="#devolver" data-toggle="modal">Devolver Dinero<span class="glyphicon glyphicon-usd"></span></a>
-                <a class="btn btn-primary" data-toggle="modal" onclick="volver()">Volver<span class="glyphicon glyphicon-backward"></span></a>
+                <a class="btn btn-primary" data-toggle="modal" href="@Url.Action("Devolucion", "Ventas")">Volver<span class="glyphicon glyphicon-backward"></span></a>
             </div>            
         </div>
     </div>
+    <!--Session["DetalleVenta"]
+    Session["ListaAsientos"] = axf;
+    Session["Bus"] = devolucionModel-->
+
+    @{
+        List<WebApplication4.Models.DevolucionModel> devoluciones;// lista anterior
+        devoluciones = (List<WebApplication4.Models.DevolucionModel>)Session["Bus"];
+        
+        List<WebApplication4.Models.AsientosXFuncion> axf;// asientos a listar
+        axf = (List<WebApplication4.Models.AsientosXFuncion>)Session["ListaAsientos"];
+        //dv actual
+        WebApplication4.Models.DetalleVenta dv=(WebApplication4.Models.DetalleVenta) Session["DetalleVenta"];
+        int i;
+        WebApplication4.Models.DevolucionModel dm;//el que tengo
+        
+        for (i = 0; i < devoluciones.Count; i++) {
+            if (devoluciones[i].codDev == dv.codDetalleVenta)
+            {
+                dm = devoluciones[i];
+                break; 
+            }
+        }
+    }
+    <h4>Resultados:</h4>
+    <div class="row">
+        <table id="mytable" class="table table-bordered table-hover">
+            <thead>
+                <tr class="active">
+                    <th>Cod. Asiento.</th>
+                    <th>Cod Funcion</th>
+                    <th>Estado</th>
+                    <th>Cod Det Venta</th>
+                    <th>Tipo Doc</th>
+                    <th>Doc Asociado</th>
+                    <th>Precio Pagado</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+                @{
+            if (axf != null)
+            {
+                foreach (var row in axf)
+                {
+                            <tr id=@row.codAsiento onclick="myFunction(this)">
+                                <td>@row.codFuncion</td>
+                                <td>@row.estado</td>
+                                <td>@row.codDetalleVenta</td>
+                                <td>@row.TipoDocAsociado</td>
+                                <td>@row.DocAsociado</td>
+                                <td>@row.PrecioPagado</td>
+                            </tr>
+                }
+            }
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
-
-
-
-
 
 <input type="hidden" id="idFila" value="" />
 <script>
@@ -48,6 +102,9 @@
 
     function closewindowDev() {
         $('#devolver').modal('hide');
+    }
+
+    function devolver() {
     }
 </script>
 
