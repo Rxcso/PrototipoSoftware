@@ -349,7 +349,7 @@ namespace WebApplication4.Controllers
                     cuentausuario.apellido = model.apellido;
                     cuentausuario.codDoc = model.codDoc;
                     cuentausuario.codPerfil = 2;
-                    cuentausuario.contrasena = model.Password;
+                    cuentausuario.contrasena = user.PasswordHash;
                     cuentausuario.direccion = model.direccion;
                     cuentausuario.estado = true;
                     cuentausuario.fechaNac = model.fechaNac;
@@ -397,14 +397,14 @@ namespace WebApplication4.Controllers
                 if (result.Succeeded)
                 {
                     var currentUser = UserManager.FindByName(user.UserName);
-                    UserManager.AddToRole(user.Id, "Otro cargo");
+                    UserManager.AddToRole(user.Id, "Promotor");
                     CuentaUsuario cuentausuario = new CuentaUsuario();
 
                     cuentausuario.correo = model.Email;
                     cuentausuario.apellido = model.apellido;
                     cuentausuario.codDoc = model.codDoc;
                     cuentausuario.codPerfil = 3;
-                    cuentausuario.contrasena = model.Password;
+                    cuentausuario.contrasena = user.PasswordHash;
                     cuentausuario.direccion = model.direccion;
                     cuentausuario.estado = true;
                     cuentausuario.fechaNac = model.fechaNac;
