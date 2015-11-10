@@ -311,6 +311,7 @@ namespace WebApplication4.Controllers
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                     TempData["tipo"] = "alert alert-success";
                     TempData["message"] = "Registro Exitoso!";
+                    Session["UsuarioLogueado"] = cuentausuario;
                     return RedirectToAction("Index", "Home");
                     //return View("~/Views/Home/Index.cshtml");
                 }

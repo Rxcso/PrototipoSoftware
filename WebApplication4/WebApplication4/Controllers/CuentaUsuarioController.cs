@@ -500,7 +500,7 @@ namespace WebApplication4.Controllers
                 //db.Entry(zxf).State = EntityState.Modified;
                 v.Estado = "Anulado";
                 zxf.cantLibres += (int)v.cantAsientos;
-                db.VentasXFuncion.Remove(vxf);
+                vxf.cantEntradas = 0;
                 db.SaveChanges();
             }
             return RedirectToAction("MisReservas", "CuentaUsuario");
