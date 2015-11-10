@@ -10,7 +10,7 @@ namespace WebApplication4.Controllers
     {
         public static bool VerifyOverlapDates(DateTime startA, DateTime endA, DateTime startB, DateTime endB)
         {
-            return (DateTime.Compare(startA, endB) < 0) && (DateTime.Compare(endA, startB) > 0);
+            return (DateTime.Compare(startA.Date, endB.Date) < 0) && (DateTime.Compare(endA.Date, startB.Date) > 0);
         }
         public static int VerifyDifferentHours(DateTime hourA, DateTime hourB)
         {
