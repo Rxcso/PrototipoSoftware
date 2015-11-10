@@ -45,6 +45,8 @@
             break;
         }
     }
+    DateTime today = DateTime.Today;
+    
 }
 
 <div class="container">
@@ -87,9 +89,20 @@
 
     <div class="row">
         <div class="form-group">            
-            <div class="col-md-11">                
-                <a class="btn btn-primary" href="#devolver" data-toggle="modal">Devolver Dinero<span class="glyphicon glyphicon-usd"></span></a>                
-            </div>        
+            @{
+                if (funcion.estado == "POSTERGADO")
+                {
+                    <div class="col-md-11">                        
+                        <a class="btn btn-primary" href="" data-toggle="modal">Devolver Asiento<span class="glyphicon glyphicon-usd"></span></a>
+                    </div>
+                }
+
+            }
+                   
+            <!--Devolver todo-->
+            <div class="col-md-11">
+                <a class="btn btn-primary" href="#devolverTodo" data-toggle="modal">Devolver<span class="glyphicon glyphicon-usd"></span></a> 
+            </div>
             <div class="col-md-1">
                 <a class="btn btn-primary" data-toggle="modal" href="@Url.Action("Devolucion", "Ventas")">Volver <span class="glyphicon glyphicon-chevron-left"></span></a>
             </div>
@@ -156,7 +169,8 @@
         $('#devolver').modal('hide');
     }
 
-    function devolver() {
+    function devolverTodo() {
+        
     }
 </script>
 
@@ -166,7 +180,7 @@
     }
 </style>
 
-<div class="modal fade" id="devolver">
+<div class="modal fade" id="devolverTodo">
     <!--esta div pondra la pantalla oscura al presionar el boton-->
     <div class="modal-dialog">
         <div class="modal-content">
@@ -178,11 +192,11 @@
             </div>
             <!--contenido de la ventana-->
             <div class="modal-body">
-                ¿Está seguro que quiere devolver el dinero de este registro?
+                ¿Está seguro que quiere devolver todas las entradas?
             </div>
             <!--footer de la ventana-->
             <div class="modal-footer">
-                <button type="button" onclick="devolver()" class="btn btn-primary">Aceptar <span class="glyphicon glyphicon-ok"></span></button>
+                <button type="button" onclick="devolverTodo()" class="btn btn-primary">Aceptar <span class="glyphicon glyphicon-ok"></span></button>
                 <button type="button" onclick="return closewindowDev();" class="btn btn-danger">Cancelar <span class="glyphicon glyphicon-remove"></span></button>
             </div>
         </div>
