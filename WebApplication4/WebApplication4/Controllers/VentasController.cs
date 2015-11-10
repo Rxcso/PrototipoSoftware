@@ -285,13 +285,13 @@ namespace WebApplication4.Controllers
             List<VentasXFuncion> listaRealVxf = new List<VentasXFuncion>();
             List<VentasXFuncion> vxf = null;
             List<CuentaUsuario> usuario = db.CuentaUsuario.Where(u => u.codDoc == doc).ToList();//saco el usuario
-            List<Ventas> v = db.Ventas.Where(ven => ven.cliente == usuario[0].usuario && ven.Estado == "Pagado").ToList();
+            List<Ventas> v = db.Ventas.Where(ven => ven.codDoc == doc && ven.Estado == "Pagado").ToList();
             //saco todas las compras realizadas por dicho usuario que tengan estado Pagado
             if (v != null) 
             {
                 for (int i = 0; i < v.Count; i++)
                 {
-                    //hallo la lista de VentasXFuncion de cada venta
+                    //hallo la lista de VentasXFuncion de cada venta                    
                     vxf = db.VentasXFuncion.Where(venxf => venxf.codVen == v[i].codVen).ToList();
                     if (vxf != null) 
                     {
