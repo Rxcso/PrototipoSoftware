@@ -1,13 +1,19 @@
 ﻿@using Microsoft.AspNet.Identity
 @using WebApplication4.Models;
+@using PagedList;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<Eventos>
 
 @{
     ViewBag.Title = "TickNet";
+    inf245netsoft db = new inf245netsoft();
     List<Eventos> listaDestacados = ViewBag.ListaDestacados as List<Eventos>;
 }
 
 <html>
 <body>
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <div id="seccionPrincipal" class="container">
         <div class="row">
             <div class="col-md-12 ">
@@ -24,8 +30,9 @@
                     <div class="carousel-inner" role="listbox">
                         
 
-                        @for (var i = 0; i < listaDestacados.Count; i++ ){
-                                    <div class="@((i==0)?"item active":"item ")">
+                        @for (var i = 0; i < listaDestacados.Count; i++)
+                        {
+                                    <div class="@((i == 0) ? "item active" : "item ")">
                                         
                                         <a href=@Url.Action("VerEvento", "Evento", new { id = listaDestacados[i].codigo })><img src=@listaDestacados[i].ImagenDestacado height="500" width="1200" class="img-responsive" alt=@listaDestacados[i].nombre></a>
                                     </div>
@@ -49,78 +56,241 @@
 
                     <!--Aca iran los eventos en miniatura-->
                     <div class="panel-body">
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="thumbnail">
-                                <img onclick="verEvento()" class="event" src="http://lorempixel.com/400/250/nightlife/" alt="">
-                                <div class="caption" style="text-align:center">
-                                    Fecha: 08-AGO
+
+
+                        @foreach (var evento in Model)
+                        {
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                <div class="thumbnail">
+
+
+                                    <img  class="event" src="@evento.ImagenDestacado" alt="">
+                                    <div class="caption" style="text-align:center">
+                                        @{
+                                            var func = from obj in db.Funcion
+                                                       where (obj.codEvento == evento.codigo && obj.estado.Contains("ACTIVO"))
+                                                       orderby obj.horaIni ascending
+                                                       select obj;
+
+                                            string fecha = "";
+
+                                            if (func.Count() > 0)
+                                            {
+
+                                                var funcion = func.First();
+                                                fecha = funcion.horaIni.Value.ToString("dd/MM/yyyy hh:mm tt");
+                                            }
+                                            else
+                                            {
+
+                                                fecha = "Pronto";
+                                            }
+
+
+                                        }
+
+
+                                        @evento.nombre <br>
+                                        @fecha
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="thumbnail">
-                                <img onclick="verEvento()" class="event" src="http://lorempixel.com/400/250/nightlife/" alt="">
-                                <div class="caption" style="text-align:center">
-                                    Fecha: 09-AGO
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="thumbnail">
-                                <img onclick="verEvento()" class="event" src="http://lorempixel.com/400/250/nightlife/" alt="">
-                                <div class="caption" style="text-align:center">
-                                    Fecha: 10-AGO
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="thumbnail">
-                                <img onclick="verEvento()" class="event" src="http://lorempixel.com/400/250/nightlife/" alt="">
-                                <div class="caption" style="text-align:center">
-                                    Fecha: 08-SEP
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="thumbnail">
-                                <img onclick="verEvento()" class="event" src="http://lorempixel.com/400/250/nightlife/" alt="">
-                                <div class="caption" style="text-align:center">
-                                    Fecha: 08-NOV
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3 col-sm-6 col-xs-12">
-                            <div class="thumbnail">
-                                <img onclick="verEvento()" class="event" src="http://lorempixel.com/400/250/nightlife/" alt="">
-                                <div class="caption" style="text-align:center">
-                                    Fecha: 08-DIC
-                                </div>
-                            </div>
-                        </div>
+
+                                            }
+                       
+                
 
                     </div>
 
-                    <!--Paginacion-->
-                    <ul class="pagination pagination-lg pull-right">
-                        <!--lg    md    sm-->
-                        <li class="disabled"><a href="">&laquo;</a></li>
-                        <li class="active"><a href="">1</a></li>
-                        <li><a href="">2</a></li>
-                        <li><a href="">3</a></li>
-                        <li><a href="">4</a></li>
-                        <li><a href="">5</a></li>
-                        <li><a href="">&raquo;</a></li>
-                    </ul>
+                   
+                   
                 </div>
+
+
+@{ 
+
+
+    var fechaI = "";
+    var fechaF = "";
+
+    if (ViewBag.fech_ini != null)
+    {
+        fechaI = ViewBag.fech_ini.ToString("yyyy-MM-dd");
+
+
+    }
+    else
+    {
+        fechaI = ViewBag.fech_ini;
+
+    }
+
+    if (ViewBag.fech_fin != null)
+    {
+        fechaF = ViewBag.fech_fin.ToString("yyyy-MM-dd");
+
+
+    }
+    else
+    {
+        fechaF = ViewBag.fech_fin;
+
+    }
+
+
+
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, nombre = ViewBag.nombre, fech_ini = fechaI, fech_fin = fechaF, idCategoria = ViewBag.idCategoria, idSubCat = ViewBag.idSubCat, idRegion = ViewBag.idRegion, idProv = ViewBag.idProv }));
+}
 
             </div>
         </div>
     </div>
     <!--librerias-->
     <script>
+
+
+        $(document).ready(function () {
+           
+
+
+            if (!isNaN(@ViewBag.idCategoria)) {
+
+                $("#idCategoria > option[value='" + @ViewBag.idCategoria + "'").attr('selected', 'selected');
+
+
+                if (!isNaN(@ViewBag.idSubCat)) {
+
+
+                    $("#idSubCat > option[value='" + @ViewBag.idSubCat + "'").attr('selected', 'selected');
+
+
+
+                }
+
+
+            }
+
+            if (!isNaN(@ViewBag.idRegion)) {
+
+                $("#idRegion > option[value='" + @ViewBag.idRegion + "'").attr('selected', 'selected');
+
+
+
+                if (!isNaN(@ViewBag.idProv)) {
+
+                    $("#idProv > option[value='" + @ViewBag.idProv + "'").attr('selected', 'selected');
+
+
+
+                }
+
+            }
+
+            $("#adv-search").on('submit', function (e) {
+
+                e.preventDefault();
+           
+
+                var fechI = this['fech_ini'].value;
+                var fechF = this['fech_fin'].value;
+
+                /*Regla 1 para la validadcion de al menos un campo*/
+                if (fechI == '' && fechF == '' && $("#fech_fin").val() == '' && $("#idCategoria").val() == '' &&
+                    $("#idSubCat").val() == '' && $("#idRegion").val() == '') {
+
+                    $("#alerta").append('<strong>Ingrese al menos un campo!</strong>').show();
+                    return;
+                } else {
+
+                    var valor = $("#alerta").children('strong');
+                    if (valor.length > 0) {
+
+                        valor.remove();
+
+                    }
+               
+                    $("#alerta").hide();
+
+                }
+                /*Regla 2 : Validacion para las fechas*/
+                if (fechF != '' && fechI != '') {
+                   
+               
+                    if (new Date(fechF.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1")) < new Date(fechI.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1"))) {
+
+                        $("#alerta").append('<strong>Fecha hasta no puede ser menor que fecha desde</strong>').show();
+                        return;
+                    } else {
+                        var valor = $("#alerta").children('strong');
+                        if (valor.length > 0) {
+
+                            valor.remove();
+
+                        }
+
+                        $("#alerta").hide();
+
+                    }
+
+                }
+
+                this.submit();
+
+
+            });
+
+        });
+
+
+        function cambioCat() {
+
+            fillCombo("idSubCat", $("#idCategoria").val(), "/Home/Subcategorias", "Subcategorias");
+
+        }
+
+        function fillCombo(idCombo, value, linkUrl, optlabel) {
+
+            $("#" + idCombo).empty();
+            $("#" + idCombo).append("<option value=''>" + optlabel + "</option>")
+
+
+            var depId = parseInt(value);
+            if (isNaN(depId)) return;
+            $.ajax({
+                url: linkUrl,
+                type: 'POST',
+                data: { idCategoria: depId },
+                dataType: 'json',
+                success: function (data) {
+                    if (isNaN(data.length)) return;
+                  
+                    $.each(data, function (k, v) {
+                        $("#" + idCombo).append("<option value='" + v.id + "'>" + v.nombre + "</option>");
+                    });
+                },
+                error: function () {
+                    alert("Error :(");
+                }
+            });
+        }
+
+
+
+        function busqueda() {
+
+            $('#search').submit();
+
+        }
+
+        function busquedaAdv(){
+
+            $('#adv-search').submit();
+        }
+            
         function verEvento() {
             window.open("ver_evento.html", "_self");
         }
+
         function buscar() {
             window.open("index1.html", "_self");
         }

@@ -150,6 +150,12 @@
 else
 {
 
+
+    
+        inf245netsoft db = new inf245netsoft();
+    
+
+
     <!DOCTYPE html>
     <html>
     <meta charset="UTF-8">
@@ -175,17 +181,26 @@ else
                     <!--inicia el MENU-->
                     <div class="collapse navbar-collapse" id="navegacion">
                         <!--menu desplegable -->
-                        <form action="" class="navbar-form navbar-left" role="search">
+                        @using (Html.BeginForm("Index", "Home",FormMethod.Get , new {id="search",  @class = "navbar-form navbar-left", role = "search" }))
+                        {
                             <div class="form-group">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="BUSCAR UN EVENTO">
-                                    <span class="input-group-btn"><button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
+                                    <input id="comm-txt" name="nombre" type="text" class="form-control" placeholder="BUSCAR UN EVENTO">
+                                    <span class="input-group-btn"><button class="btn btn-primary" type="button" onclick="busqueda()"><span class="glyphicon glyphicon-search"></span></button></span>
                                 </div>
                             </div>
-                        </form>
+
+                        }
+                        <!--
+                           
+                        <form action="" class="navbar-form navbar-left" role="search">
+                         
+                        </form> 
+
+                        -->
 
 
-                        <form id="busqueda" action="" class="navbar-form navbar-right">
+                        <form class="navbar-form navbar-right">
                             <a class="btn btn-info" href="#busqAvanzada" data-toggle="collapse">Búsqueda Avanzada <span class="glyphicon glyphicon-tasks"></span></a>
                         </form>
                         <div class="navbar-form navbar-right">
@@ -218,59 +233,134 @@ else
 
             <div id="busqAvanzada" class="collapse container">
                 <!--formulario EN LINEA-->
-                <form id="search" action="" class="form-inline">
+                <div id="alerta" name="alerta" class="alert alert-warning" hidden></div>
+                @using (Html.BeginForm("Index", "Home", FormMethod.Get, new { id = "adv-search", @class = "form-inline" }))
+                {
+                    if (this.Request.QueryString.Count != 0)
+                    {
+
+                        if (this.Request.QueryString.AllKeys.Contains("nombre"))
+                        {
+
+                            nombre = this.Request.QueryString["nombre"];
+
+                        }
+
+                    }
+
+                    @Html.Hidden("nombre", nombre, new { id = "adv-nomb" })
+
+
+
+
+
                     <div class="form-group ">
                         <div class="form-group ">
                             <div class="input-group">
                                 <span class="input-group-addon">Desde:</span>
-                                <input type="date" class="form-control">
+
+                                @if (ViewBag.fech_ini != null)
+                                {
+                                    string valor = ViewBag.fech_ini.ToString("yyyy-MM-dd");
+
+                                    <input id="fech_ini" name="fech_ini" type="date" class="form-control" value=@valor>
+                                }
+                                else
+                                {
+
+                                    <input id="fech_ini" name="fech_ini" type="date" class="form-control">
+                                }
+
                             </div>
                         </div>
 
                         <div class="form-group ">
                             <div class="input-group">
                                 <span class="input-group-addon">Hasta:</span>
-                                <input type="date" class="form-control">
+                                @if (ViewBag.fech_fin != null)
+                                {
+                                    string valor = ViewBag.fech_fin.ToString("yyyy-MM-dd");
+
+                                    <input id="fech_fin" name="fech_fin" type="date" value=@valor class="form-control">
+                                }
+                                else
+                                {
+
+                                    <input id="fech_fin" name="fech_fin" type="date" class="form-control">
+                                }
                             </div>
                         </div>
 
 
                         <div class="form-group ">
-                            <select name="" id="Tipo" class="form-control col-lg-2">
-                                <option value="">Evento</option>
-                                <option value="">Teatro</option>
-                                <option value="">Actividad</option>
-                                <option value="">Cine</option>
+
+                            <select name="idCategoria" id="idCategoria" data-val="true" onchange="cambioCat()" class="form-control col-lg-2">
+
+                                <option value="">Categorias</option>
+
+
+                                @foreach (var categoria in ViewBag.categorias)
+                                {
+                                    <option value=@categoria.Value> @categoria.Text</option>
+                                }
+
                             </select>
+
                         </div>
                         <div class="form-group ">
-                            <select name="" id="Categoria" class="form-control col-lg-2">
-                                <option value="">Entretenimiento</option>
-                                <option value="">Comedia</option>
-                                <option value="">Deporte</option>
-                                <option value="">Salud</option>
-                                <option value="">Música</option>
-                                <option value="">Romance</option>
+                            <select name="idSubCat" id="idSubCat" data-val="true" class="form-control col-lg-2">
+
+                                <option value="">Subcategorias</option>
+                                @if (ViewBag.idCategoria != null)
+                                {
+
+                                    int idPadre = ViewBag.idCategoria;
+
+                                    var subcat = from obj in db.Categoria
+                                                 where obj.idCatPadre == idPadre
+                                                 select obj;
+
+                                    foreach (var dato in subcat)
+                                    {
+
+                                        <option value=@dato.idCategoria>@dato.nombre</option>
+
+                                    }
+
+
+
+                                }
+
+
+
                             </select>
                         </div>
 
 
                         <div class="form-group">
-                            <select name="" id="lugares" class="form-control ">
-                                <option value="">Lima</option>
-                                <option value="">Piura</option>
-                                <option value="">Juliaca</option>
-                                <option value="">Trujillo</option>
-                                <option value="">Loreto</option>
-                                <option value="">Ica</option>
+                            <select name="idRegion" id="idRegion" data-val="true" class="form-control col-lg-2">
+                                <option value="">Departamentos</option>
+
+                                @foreach (var departamento in ViewBag.departamentos)
+                                {
+                                    <option value=@departamento.Value> @departamento.Text</option>
+                                }
+
                             </select>
+
                         </div>
                         <div class="form-group">
-                            <a href="@Url.Action("Index", "Home")" class="btn btn-primary ">Buscar <span class="glyphicon glyphicon-search"></span></a>
+                            <a class="btn btn-primary " onclick="busquedaAdv()">Buscar <span class="glyphicon glyphicon-search"></span></a>
                         </div>
 
                     </div>
-                </form>
+
+
+
+
+
+                }
+                
             </div>
 
 
@@ -278,14 +368,14 @@ else
 
 
             @{
-    try
-    {
-        Html.RenderPartial("_LoginPartial", new LoginViewModel());
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine(ex);
-    }
+                    try
+                    {
+                        Html.RenderPartial("_LoginPartial", new LoginViewModel());
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex);
+                    }
             }
 
 

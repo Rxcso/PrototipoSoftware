@@ -663,6 +663,78 @@ System.Collections.ListDictionaryInternal
 2015-11-09 02:53:13,210 [6] ERROR Ticknet - Exception Message - 
 A public action method 'MejorTarifaJson' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
 2015-11-09 02:53:13,210 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 13:07:35,670 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 13:07:35,702 [5] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-09 13:07:35,702 [5] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 13:07:35,705 [5] ERROR Ticknet - Exception Message - 
+e:\Repositorio\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(155): error CS1502: The best overloaded method match for 'System.Web.WebPages.WebPageExecutingBase.Write(System.Web.WebPages.HelperResult)' has some invalid arguments
+2015-11-09 13:07:35,705 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 13:07:35,758 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 13:07:35,758 [5] ERROR Ticknet - Exception Data - 
+HttpCompileException
+2015-11-09 13:07:35,758 [5] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 13:07:35,758 [5] ERROR Ticknet - Exception Message - 
+e:\Repositorio\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(155): error CS1502: The best overloaded method match for 'System.Web.WebPages.WebPageExecutingBase.Write(System.Web.WebPages.HelperResult)' has some invalid arguments
+2015-11-09 13:07:35,758 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 13:09:53,873 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 13:09:53,905 [6] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-09 13:09:53,905 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 13:09:53,907 [6] ERROR Ticknet - Exception Message - 
+e:\Repositorio\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(155): error CS1502: The best overloaded method match for 'System.Web.WebPages.WebPageExecutingBase.Write(System.Web.WebPages.HelperResult)' has some invalid arguments
+2015-11-09 13:09:53,907 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 13:09:53,961 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 13:09:53,961 [6] ERROR Ticknet - Exception Data - 
+HttpCompileException
+2015-11-09 13:09:53,961 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 13:09:53,962 [6] ERROR Ticknet - Exception Message - 
+e:\Repositorio\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(155): error CS1502: The best overloaded method match for 'System.Web.WebPages.WebPageExecutingBase.Write(System.Web.WebPages.HelperResult)' has some invalid arguments
+2015-11-09 13:09:53,962 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 17:28:55,467 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 17:28:55,494 [5] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 17:28:55,495 [5] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 17:28:55,495 [5] ERROR Ticknet - Exception Message - 
+A public action method 'Subcategorias' was not found on controller 'WebApplication4.Controllers.HomeController'.
+2015-11-09 17:28:55,495 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 17:34:13,171 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 17:34:13,221 [8] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 17:34:13,221 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 17:34:13,221 [8] ERROR Ticknet - Exception Message - 
+The controller for path '/Subcategorias' was not found or does not implement IController.
+2015-11-09 17:34:13,221 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 17:34:15,216 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 17:34:15,216 [6] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 17:34:15,216 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 17:34:15,216 [6] ERROR Ticknet - Exception Message - 
+The controller for path '/Subcategorias' was not found or does not implement IController.
+2015-11-09 17:34:15,216 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 17:50:38,389 [29] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 17:50:38,389 [29] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 17:50:38,389 [29] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 17:50:38,389 [29] ERROR Ticknet - Exception Message - 
+The controller for path '/Subcategorias' was not found or does not implement IController.
+2015-11-09 17:50:38,389 [29] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 17:55:50,536 [42] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 17:55:50,536 [42] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 17:55:50,536 [42] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 17:55:50,536 [42] ERROR Ticknet - Exception Message - 
+The controller for path '/Subcategorias' was not found or does not implement IController.
+2015-11-09 17:55:50,537 [42] DEBUG Ticknet - ++++++++++++++++++++++++++++
 2015-11-09 12:13:00,344 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
 2015-11-09 12:13:00,344 [7] ERROR Ticknet - Exception Type - 
 HttpCompileException
