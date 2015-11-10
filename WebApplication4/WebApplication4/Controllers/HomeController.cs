@@ -67,11 +67,7 @@ namespace WebApplication4.Controllers
             ViewBag.Cant = lista.Count();
           
 
-            var categorias = db.Categoria.AsNoTracking().Where(c => c.nivel == 1);
-            ViewBag.categorias = new SelectList(categorias, "idCategoria", "nombre");
-            var departamentos = db.Region.AsNoTracking().Where(c => c.idRegPadre == null);
-            ViewBag.departamentos = new SelectList(departamentos, "idRegion", "nombre");
-            List<Region> listProv = new List<Region>();
+           List<Region> listProv = new List<Region>();
             List<Categoria> listSubCat = new List<Categoria>();
 
             ViewBag.distritos = new SelectList(listProv, "idProv", "nombre");

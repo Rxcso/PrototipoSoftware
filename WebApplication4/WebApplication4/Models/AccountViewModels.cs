@@ -153,21 +153,28 @@ namespace WebApplication4.Models
         //[Display(Name = "Correo Electronico")]
         //public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Campo Requerido.")]
         [Display(Name = "Nombres")]
+        [RegularExpression("^[a-zA-Z ]*$", ErrorMessage = "Nombre no debe ser alfanumerico.")]
         public string nombre { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Campo Requerido.")]
         [Display(Name = "Apellidos")]
+        [RegularExpression("^[a-zA-Z ]*$", ErrorMessage = "Apellidos no deben ser alfanumericos.")]
         public string apellido { get; set; }
 
+        [Required(ErrorMessage = "Campo Requerido.")]
         [Display(Name = "Direccion")]
         public string direccion { get; set; }
 
+        [Required(ErrorMessage = "Campo Requerido.")]
         [Display(Name = "Telefono")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Telefono debe ser numerico.")]
         public string telefono { get; set; }
 
+        [Required(ErrorMessage = "Campo Requerido.")]
         [Display(Name = "Telefono Movil")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Telefono Movil debe ser numerico.")]
         public string telMovil { get; set; }
     }
 
