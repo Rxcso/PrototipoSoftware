@@ -841,3 +841,11 @@ System.Collections.ListDictionaryInternal
 The else block is missing a closing "}" character.  Make sure you have a matching "}" character for all the "{" characters within this block, and that none of the "}" characters are being interpreted as markup.
 
 2015-11-09 20:05:53,887 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 20:56:26,298 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 20:56:26,328 [7] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-09 20:56:26,329 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 20:56:26,329 [7] ERROR Ticknet - Exception Message - 
+c:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\Views\Ventas\Devolucion.cshtml(76): error CS1061: 'WebApplication4.Models.DevolucionModel' does not contain a definition for 'zona' and no extension method 'zona' accepting a first argument of type 'WebApplication4.Models.DevolucionModel' could be found (are you missing a using directive or an assembly reference?)
+2015-11-09 20:56:26,329 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
