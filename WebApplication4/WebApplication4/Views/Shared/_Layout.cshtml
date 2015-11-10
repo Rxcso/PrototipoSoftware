@@ -258,7 +258,7 @@ else
                         <div class="form-group ">
                             <div class="input-group">
                                 <span class="input-group-addon">Desde:</span>
-
+@*
                                 @if (ViewBag.fech_ini != null)
                                 {
                                     string valor = ViewBag.fech_ini.ToString("yyyy-MM-dd");
@@ -266,10 +266,10 @@ else
                                     <input id="fech_ini" name="fech_ini" type="date" class="form-control" value=@valor>
                                 }
                                 else
-                                {
+                                {*@
 
-                                    <input id="fech_ini" name="fech_ini" type="date" class="form-control">
-                                }
+                                    <input id="fech_ini" name="fech_ini" type="date" class="form-control" value="@String.Format("{0:yyyy-MM-dd}",DateTime.Today)">
+                                @*}*@
 
                             </div>
                         </div>
@@ -277,17 +277,17 @@ else
                         <div class="form-group ">
                             <div class="input-group">
                                 <span class="input-group-addon">Hasta:</span>
-                                @if (ViewBag.fech_fin != null)
+                                @*@if (ViewBag.fech_fin != null)
                                 {
                                     string valor = ViewBag.fech_fin.ToString("yyyy-MM-dd");
 
                                     <input id="fech_fin" name="fech_fin" type="date" value=@valor class="form-control">
                                 }
                                 else
-                                {
+                                {*@
 
                                     <input id="fech_fin" name="fech_fin" type="date" class="form-control">
-                                }
+                                @*}*@
                             </div>
                         </div>
 
@@ -299,10 +299,10 @@ else
                                 <option value="">Categorias</option>
 
 
-                                @foreach (var categoria in ViewBag.categorias)
+                                @*@foreach (var categoria in ViewBag.categorias)
                                 {
                                     <option value=@categoria.Value> @categoria.Text</option>
-                                }
+                                }*@
 
                             </select>
 
@@ -311,7 +311,7 @@ else
                             <select name="idSubCat" id="idSubCat" data-val="true" class="form-control col-lg-2">
 
                                 <option value="">Subcategorias</option>
-                                @if (ViewBag.idCategoria != null)
+                                @*@if (ViewBag.idCategoria != null)
                                 {
 
                                     int idPadre = ViewBag.idCategoria;
@@ -329,7 +329,7 @@ else
 
 
 
-                                }
+                                }*@
 
 
 
@@ -341,10 +341,10 @@ else
                             <select name="idRegion" id="idRegion" data-val="true" class="form-control col-lg-2">
                                 <option value="">Departamentos</option>
 
-                                @foreach (var departamento in ViewBag.departamentos)
+                                @*@foreach (var departamento in ViewBag.departamentos)
                                 {
                                     <option value=@departamento.Value> @departamento.Text</option>
-                                }
+                                }*@
 
                             </select>
 

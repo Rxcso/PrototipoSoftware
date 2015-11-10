@@ -791,3 +791,53 @@ System.Collections.ListDictionaryInternal
 2015-11-09 12:22:03,197 [5] ERROR Ticknet - Exception Message - 
 Referencia a objeto no establecida como instancia de un objeto.
 2015-11-09 12:22:03,197 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 19:55:41,826 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 19:55:41,833 [6] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-09 19:55:41,833 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 19:55:41,833 [6] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-09 19:55:41,833 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 19:55:53,839 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 19:55:53,839 [6] ERROR Ticknet - Exception Data - 
+NullReferenceException
+2015-11-09 19:55:53,839 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 19:55:53,839 [6] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-09 19:55:53,839 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 19:56:21,501 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 19:56:21,501 [7] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-09 19:56:21,501 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 19:56:21,501 [7] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-09 19:56:21,501 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 19:56:24,071 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 19:56:24,071 [7] ERROR Ticknet - Exception Data - 
+NullReferenceException
+2015-11-09 19:56:24,071 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 19:56:24,071 [7] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-09 19:56:24,071 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 20:05:53,779 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 20:05:53,789 [6] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-09 20:05:53,789 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 20:05:53,789 [6] ERROR Ticknet - Exception Message - 
+The else block is missing a closing "}" character.  Make sure you have a matching "}" character for all the "{" characters within this block, and that none of the "}" characters are being interpreted as markup.
+
+2015-11-09 20:05:53,789 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 20:05:53,887 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 20:05:53,887 [6] ERROR Ticknet - Exception Data - 
+HttpParseException
+2015-11-09 20:05:53,887 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 20:05:53,887 [6] ERROR Ticknet - Exception Message - 
+The else block is missing a closing "}" character.  Make sure you have a matching "}" character for all the "{" characters within this block, and that none of the "}" characters are being interpreted as markup.
+
+2015-11-09 20:05:53,887 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
