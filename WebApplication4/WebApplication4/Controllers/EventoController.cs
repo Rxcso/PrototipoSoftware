@@ -574,6 +574,8 @@ namespace WebApplication4.Controllers
                     }
                     return RedirectToAction("Funciones");
                 }
+                TempData["tipo"] = "alert alert-warning";
+                TempData["message"] = "Hay bloques de tiempo que se cruzan. Verifique nuevamente.";
                 ViewBag.Resultados = listaVerificacion;
                 return View();
             }
