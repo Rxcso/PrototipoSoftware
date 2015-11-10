@@ -4,6 +4,7 @@
 @{
     var esIntranet = 0;
     var nombre = "";
+    var nomb = "";
     if (Request.IsAuthenticated)
     {
         var act = User.Identity.GetUserName();
@@ -242,13 +243,13 @@ else
                         if (this.Request.QueryString.AllKeys.Contains("nombre"))
                         {
 
-                            nombre = this.Request.QueryString["nombre"];
+                            nomb = this.Request.QueryString["nombre"];
 
                         }
 
                     }
 
-                    @Html.Hidden("nombre", nombre, new { id = "adv-nomb" })
+                    @Html.Hidden("nombre", nomb, new { id = "adv-nomb" })
 
 
 
