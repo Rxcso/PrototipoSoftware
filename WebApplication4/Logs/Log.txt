@@ -849,3 +849,11 @@ System.Collections.ListDictionaryInternal
 2015-11-09 20:56:26,329 [7] ERROR Ticknet - Exception Message - 
 c:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\Views\Ventas\Devolucion.cshtml(76): error CS1061: 'WebApplication4.Models.DevolucionModel' does not contain a definition for 'zona' and no extension method 'zona' accepting a first argument of type 'WebApplication4.Models.DevolucionModel' could be found (are you missing a using directive or an assembly reference?)
 2015-11-09 20:56:26,329 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 11:43:55,255 [34] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 11:43:55,282 [34] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-10 11:43:55,282 [34] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 11:43:55,282 [34] ERROR Ticknet - Exception Message - 
+Object reference not set to an instance of an object.
+2015-11-10 11:43:55,282 [34] DEBUG Ticknet - ++++++++++++++++++++++++++++

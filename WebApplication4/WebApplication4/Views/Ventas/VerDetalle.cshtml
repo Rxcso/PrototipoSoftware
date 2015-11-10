@@ -11,39 +11,90 @@
     </div>
 </div>
 
-
-<div class="container">
-    <div class="row">
-        <div class="form-group">            
-            <div class="col-md-7">                
-                <a class="btn btn-primary" href="#devolver" data-toggle="modal">Devolver Dinero<span class="glyphicon glyphicon-usd"></span></a>
-                <a class="btn btn-primary" data-toggle="modal" href="@Url.Action("Devolucion", "Ventas")">Volver<span class="glyphicon glyphicon-backward"></span></a>
-            </div>            
-        </div>
-    </div>
-    <!--Session["DetalleVenta"]
+<!--Session["DetalleVenta"]
+    Session["VentaXFunDev"]
+    Session["VentasDev"]
     Session["ListaAsientos"] = axf;
-    Session["Bus"] = devolucionModel-->
+    Session["BusquedaDev"] = devolucionModel
+    Session["FuncionDev"]
+    Session["EventoDev"]
+    -->
 
-    @{
-        List<WebApplication4.Models.DevolucionModel> devoluciones;// lista anterior
-        devoluciones = (List<WebApplication4.Models.DevolucionModel>)Session["Bus"];
-        
-        List<WebApplication4.Models.AsientosXFuncion> axf;// asientos a listar
-        axf = (List<WebApplication4.Models.AsientosXFuncion>)Session["ListaAsientos"];
-        //dv actual
-        WebApplication4.Models.DetalleVenta dv=(WebApplication4.Models.DetalleVenta) Session["DetalleVenta"];
-        int i;
-        WebApplication4.Models.DevolucionModel dm;//el que tengo
-        
-        for (i = 0; i < devoluciones.Count; i++) {
-            if (devoluciones[i].codDev == dv.codDetalleVenta)
-            {
-                dm = devoluciones[i];
-                break; 
-            }
+
+@{
+    List<WebApplication4.Models.DevolucionModel> devoluciones;// lista anterior
+    devoluciones = (List<WebApplication4.Models.DevolucionModel>)Session["BusquedaDev"];
+
+    List<WebApplication4.Models.AsientosXFuncion> axf;// asientos a listar
+    axf = (List<WebApplication4.Models.AsientosXFuncion>)Session["ListaAsientos"];
+    //dv actual
+    WebApplication4.Models.DetalleVenta dv = (WebApplication4.Models.DetalleVenta)Session["DetalleVenta"];
+    WebApplication4.Models.VentasXFuncion vxf = (WebApplication4.Models.VentasXFuncion)Session["VentasXFunDev"];
+    WebApplication4.Models.Ventas ventas = (WebApplication4.Models.Ventas)Session["VentasDev"];
+    WebApplication4.Models.Funcion funcion = (WebApplication4.Models.Funcion)Session["FuncionDev"];
+    WebApplication4.Models.Eventos eventos = (WebApplication4.Models.Eventos)Session["EventoDev"];
+    
+    int i;
+    WebApplication4.Models.DevolucionModel dm;//el que tengo
+
+    for (i = 0; i < devoluciones.Count; i++)
+    {
+        if (devoluciones[i].codDev == dv.codDetalleVenta)
+        {
+            dm = devoluciones[i];
+            break;
         }
     }
+}
+
+<div class="container">
+    <div class="row form-group">
+        <label for="idEvento" class="control-label col-md-2">Nombre del Evento:</label>
+        <div class="col-md-10">
+            <input id="eventoN" type="text" class="form-control" value="@eventos.nombre" disabled>
+        </div>
+    </div>
+    <div class="row form-group">
+        <label for="idEvento" class="control-label col-md-2">Función:</label>
+        <div class="col-md-10">
+            <input id="eventoN" type="text" class="form-control" value="@funcion.estado" disabled>
+        </div>
+    </div>
+    <div class="row form-group">
+        <label for="idEvento" class="control-label col-md-2">Fecha de Devolución:</label>
+        <div class="col-md-10">
+            <input id="eventoN" type="text" class="form-control" value="@funcion.FechaDevolucion" disabled>
+        </div>
+    </div>
+    <div class="row form-group">
+        <label for="idEvento" class="control-label col-md-2">Días hábiles para Devolución:</label>
+        <div class="col-md-10">
+            <input id="eventoN" type="text" class="form-control" value="@funcion.cantDiasDevolucion" disabled>
+        </div>
+    </div>
+    <div class="row form-group">
+        <label for="idEvento" class="control-label col-md-2">Cantidad de entradas:</label>
+        <div class="col-md-10">
+            <input id="eventoN" type="text" class="form-control" value="@dv.cantEntradas" disabled>
+        </div>
+    </div>
+    <div class="row form-group">
+        <label for="idEvento" class="control-label col-md-2">Total:</label>
+        <div class="col-md-10">
+            <input id="eventoN" type="text" class="form-control" value="@dv.total" disabled>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group">            
+            <div class="col-md-11">                
+                <a class="btn btn-primary" href="#devolver" data-toggle="modal">Devolver Dinero<span class="glyphicon glyphicon-usd"></span></a>                
+            </div>        
+            <div class="col-md-1">
+                <a class="btn btn-primary" data-toggle="modal" href="@Url.Action("Devolucion", "Ventas")">Volver <span class="glyphicon glyphicon-chevron-left"></span></a>
+            </div>
+    </div>        
+     
     <h4>Resultados:</h4>
     <div class="row">
         <table id="mytable" class="table table-bordered table-hover">
@@ -65,6 +116,7 @@
                 foreach (var row in axf)
                 {
                             <tr id=@row.codAsiento onclick="myFunction(this)">
+                                <td>@row.codAsiento</td>
                                 <td>@row.codFuncion</td>
                                 <td>@row.estado</td>
                                 <td>@row.codDetalleVenta</td>

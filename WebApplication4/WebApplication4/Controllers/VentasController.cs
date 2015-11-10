@@ -291,14 +291,16 @@ namespace WebApplication4.Controllers
             {
                 for (int i = 0; i < v.Count; i++)
                 {
-                    //hallo la lista de VentasXFuncion de cada venta                    
-                    vxf = db.VentasXFuncion.Where(venxf => venxf.codVen == v[i].codVen).ToList();
+                    //hallo la lista de VentasXFuncion de cada venta    
+                    int codiguito = v[i].codVen;
+                    vxf = db.VentasXFuncion.Where(venxf => venxf.codVen == codiguito).ToList();
                     if (vxf != null) 
                     {
                         for (int j = 0; j < vxf.Count; j++)
                         {
+                            int codiguitoF = vxf[j].codFuncion;
                             //filtro
-                            List<Funcion> f = db.Funcion.Where(fun => fun.codFuncion == vxf[j].codFuncion && (fun.estado == "CANCELADO" || fun.estado == "POSTERGADO")).ToList();
+                            List<Funcion> f = db.Funcion.Where(fun => fun.codFuncion == codiguitoF && (fun.estado == "CANCELADO" || fun.estado == "POSTERGADO")).ToList();
                             if (f == null) vxf.RemoveAt(j);
                             //si el evento asociado a ese VXF no es postergado ni cancelado, lo borro
                         }
@@ -310,9 +312,12 @@ namespace WebApplication4.Controllers
                 {
                     for (int i = 0; i < listaRealVxf.Count; i++)
                     {
+                        int codiguitoV = listaRealVxf[i].codVen;
+                        int codiguitoF = listaRealVxf[i].codFuncion;
                         //saco todos los DetallesVentas de todos los VXF
-                        List<DetalleVenta> detVen = db.DetalleVenta.Where(dv => dv.codVen == listaRealVxf[i].codVen &&
-                        dv.codFuncion == listaRealVxf[i].codFuncion).ToList();
+                        List<DetalleVenta> detVen = db.DetalleVenta.Where(dv => dv.codVen == codiguitoV &&
+                        dv.codFuncion == codiguitoF).ToList();
+
                         for (int j = 0; j < detVen.Count; j++)
                         {
                             //se llena la lista de devoluciones por cada detalle de venta
@@ -320,17 +325,30 @@ namespace WebApplication4.Controllers
                             d.codDev = detVen[j].codDetalleVenta;
                             d.numDoc = int.Parse(doc);
                             d.nombre = usuario[0].apellido + ", " + usuario[0].nombre;
-                            List<Funcion> funAux = db.Funcion.Where(fu => fu.codFuncion == detVen[j].codFuncion).ToList();
-                            List<Eventos> eventosAux = db.Eventos.Where(e => e.codigo == funAux[0].codEvento).ToList();
+
+                            int codigoFuncion = detVen[j].codFuncion;
+                            List<Funcion> funAux = db.Funcion.Where(fu => fu.codFuncion == codigoFuncion).ToList();
+
+                            int codigoEvento = funAux[0].codEvento;
+                            List<Eventos> eventosAux = db.Eventos.Where(e => e.codigo == codigoEvento).ToList();
+
                             d.fecha = (DateTime)funAux[0].fecha;
                             d.hora = (DateTime)funAux[0].horaIni;
                             d.evento = eventosAux[0].nombre;
                             d.cantAsientos = (int)detVen[j].cantEntradas;
                             d.monto = (double)detVen[j].total;
                             d.estado = funAux[0].estado;
-                            List<AsientosXFuncion> axf = db.AsientosXFuncion.Where(a=>a.codFuncion==detVen[0].codFuncion && a.codDetalleVenta==detVen[0].codDetalleVenta).ToList();
-                            List<Asientos> asientos = db.Asientos.Where(a=>a.codAsiento==axf[0].codAsiento).ToList();
-                            List<ZonaEvento> ze = db.ZonaEvento.Where(z=>z.codZona==asientos[0].codZona).ToList();
+
+                            codigoFuncion = detVen[0].codFuncion;
+                            int codigoDetVen = detVen[0].codDetalleVenta;
+                            List<AsientosXFuncion> axf = db.AsientosXFuncion.Where(a => a.codFuncion == codigoFuncion && a.codDetalleVenta == codigoDetVen).ToList();
+
+                            int codigoAsiento = axf[0].codAsiento;
+                            List<Asientos> asientos = db.Asientos.Where(a => a.codAsiento == codigoAsiento).ToList();
+
+                            int codigoZona = asientos[0].codZona;
+                            List<ZonaEvento> ze = db.ZonaEvento.Where(z => z.codZona == codigoZona).ToList();
+
                             d.zona = ze[0].nombre;
                             devolucion.Add(d);
                         }
@@ -338,8 +356,8 @@ namespace WebApplication4.Controllers
                 }                
             }                       
                    
-            if (devolucion != null) Session["Bus"] = devolucion;
-            else Session["Bus"] = null;
+            if (devolucion != null) Session["BusquedaDev"] = devolucion;
+            else Session["BusquedaDev"] = null;
             return RedirectToAction("Devolucion", "Ventas");
             //return View("Devolucion");
         }
@@ -379,16 +397,25 @@ namespace WebApplication4.Controllers
         }
 
 
-        public ActionResult VerDetalle(string fila)
+        public ActionResult VerDetalle(string detVen)
         {
             //Session["Bus"] = null;
-            int id = int.Parse(fila);
+            int id = int.Parse(detVen);
             ViewBag.id = id;
             TempData["codigoDet"] = id;
-            DetalleVenta detVen = db.DetalleVenta.Find(id);
-            Session["DetalleVenta"] = detVen;
-            List<AsientosXFuncion> axf = db.AsientosXFuncion.Where(a=>a.codFuncion==detVen.codFuncion && a.codDetalleVenta==detVen.codDetalleVenta).ToList();
+            
+            DetalleVenta detalleVen = db.DetalleVenta.Find(id);
+            Session["DetalleVenta"] = detalleVen;
+            VentasXFuncion venxf = db.VentasXFuncion.Where(v=>v.codFuncion==detalleVen.codFuncion && v.codVen==detalleVen.codVen).ToList()[0];
+            Session["VentaXFunDev"] = venxf;
+            Ventas ven = db.Ventas.Find(venxf.codVen);
+            Session["VentasDev"] = ven;
+            List<AsientosXFuncion> axf = db.AsientosXFuncion.Where(a=>a.codFuncion==detalleVen.codFuncion && a.codDetalleVenta==detalleVen.codDetalleVenta).ToList();
             Session["ListaAsientos"] = axf;
+            Funcion funDev = db.Funcion.Find(detalleVen.codFuncion);
+            Session["FuncionDev"] = funDev;
+            Eventos eventoDev = db.Eventos.Find(funDev.codEvento);
+            Session["EventoDev"] = eventoDev;
 
             return View("VerDetalle");
         }
