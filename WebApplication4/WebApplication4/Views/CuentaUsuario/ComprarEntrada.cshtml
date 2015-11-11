@@ -14,6 +14,9 @@
     }
     List<Promociones> promocionesLista = ViewBag.Promociones as List<Promociones>;
     List<CarritoItem> carrito = Session["CarritoItem"] as List<CarritoItem>;
+    double? importe = ViewBag.Total as double?;
+    double? descuento = ViewBag.Descuento as double?;
+    double? montopagar = ViewBag.Pagar as double?;
 }
 @*<div class="container" id="promocionesLista">
         <p>Mejores descuentos para su compra segun los items en su carrito:</p>
@@ -121,31 +124,31 @@
                         @Html.DropDownListFor(c => c.AnioVen, ViewBag.AnVen as List<SelectListItem>, new { @class = "form-control" })
                     </div>
                 </div>
-
+               
                 <h3>Información de montos</h3><br>
                 <div class="row form-group">
                     @Html.LabelFor(c => c.Importe, new { @class = "control-label col-md-3" })
                     <div class="col-md-4">
-                        @Html.TextBoxFor(c => c.Importe, new { @class = "form-control", @Value = @ViewBag.Total, @readonly = "readonly" })
+                        @Html.TextBoxFor(c => c.Importe, new { @class = "form-control", @Value =importe, @readonly = "readonly" })
                     </div>
                 </div>
 
                 <div class="row form-group">
                     @Html.LabelFor(c => c.Descuento, new { @class = "control-label col-md-3" })
                     <div class="col-md-4">
-                        @Html.TextBoxFor(c => c.Descuento, new { @class = "form-control", @Value = @ViewBag.Descuento, @readonly = "readonly" })
+                        @Html.TextBoxFor(c => c.Descuento, new { @class = "form-control", @Value = descuento, @readonly = "readonly" })
                     </div>
                 </div>
 
                 <div class="row form-group">
                     @Html.LabelFor(c => c.MontoPagar, new { @class = "control-label col-md-3" })
                     <div class="col-md-4">
-                        @Html.TextBoxFor(c => c.MontoPagar, new { @class = "form-control", @Value = @ViewBag.Pagar, @readonly = "readonly" })
+                        @Html.TextBoxFor(c => c.MontoPagar, new { @class = "form-control", @Value = montopagar, @readonly = "readonly" })
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-xs-6">
-                        <a class="btn btn-primary">Finalizar compra <span class="glyphicon glyphicon-check"></span></a>
+                        <input type="submit" value="Finalzar Compra" class="btn btn-default btn-primary" />
                     </div>
                 </div>
             }

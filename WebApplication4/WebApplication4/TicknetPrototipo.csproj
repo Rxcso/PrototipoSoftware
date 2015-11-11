@@ -592,6 +592,9 @@
     <Content Include="Views\Evento\Comentarios.cshtml" />
     <Content Include="Views\CuentaUsuario\MiCarrito.cshtml" />
     <Content Include="Views\Ventas\VerDetalle.cshtml" />
+    <Content Include="Views\Home\Busqueda.cshtml" />
+    <Content Include="Views\Services\Descuento.cshtml" />
+    <Content Include="Views\Services\EliminaItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

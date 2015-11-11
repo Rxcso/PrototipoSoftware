@@ -985,3 +985,110 @@ System.Collections.ListDictionaryInternal
 2015-11-10 18:41:13,453 [6] ERROR Ticknet - Exception Message - 
 c:\Users\alulab14.INF.000\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(23): error CS1002: Se esperaba ;
 2015-11-10 18:41:13,453 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:03:20,992 [37] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:03:20,999 [37] ERROR Ticknet - Exception Type - 
+InvalidCastException
+2015-11-10 22:03:20,999 [37] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 22:03:20,999 [37] ERROR Ticknet - Exception Message - 
+No se puede convertir un objeto de tipo 'System.Int32' al tipo 'System.String'.
+2015-11-10 22:03:20,999 [37] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:04:58,401 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:04:58,401 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:04:58,408 [8] ERROR Ticknet - Exception Type - 
+InvalidCastException
+2015-11-10 22:04:58,408 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 22:04:58,408 [8] ERROR Ticknet - Exception Message - 
+No se puede convertir un objeto de tipo 'System.Int32' al tipo 'System.String'.
+2015-11-10 22:04:58,408 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:04:58,408 [7] ERROR Ticknet - Exception Type - 
+InvalidCastException
+2015-11-10 22:04:58,408 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 22:04:58,408 [7] ERROR Ticknet - Exception Message - 
+No se puede convertir un objeto de tipo 'System.Int32' al tipo 'System.String'.
+2015-11-10 22:04:58,408 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:05:06,484 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:05:06,484 [7] ERROR Ticknet - Exception Type - 
+InvalidCastException
+2015-11-10 22:05:06,484 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 22:05:06,484 [7] ERROR Ticknet - Exception Message - 
+No se puede convertir un objeto de tipo 'System.Int32' al tipo 'System.String'.
+2015-11-10 22:05:06,484 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:06:23,308 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:06:23,308 [7] ERROR Ticknet - Exception Type - 
+InvalidCastException
+2015-11-10 22:06:23,308 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 22:06:23,308 [7] ERROR Ticknet - Exception Message - 
+No se puede convertir un objeto de tipo 'System.Int32' al tipo 'System.String'.
+2015-11-10 22:06:23,308 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:08:34,287 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:08:34,288 [8] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-10 22:08:34,288 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 22:08:34,288 [8] ERROR Ticknet - Exception Message - 
+Unexpected "{" after "@" character. Once inside the body of a code block (@if {}, @{}, etc.) you do not need to use "@{" to switch to code.
+
+2015-11-10 22:08:34,288 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:09:01,963 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:09:01,963 [8] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-10 22:09:01,963 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 22:09:01,963 [8] ERROR Ticknet - Exception Message - 
+Unexpected "{" after "@" character. Once inside the body of a code block (@if {}, @{}, etc.) you do not need to use "@{" to switch to code.
+
+2015-11-10 22:09:01,963 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:11:56,130 [15] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:11:56,130 [15] ERROR Ticknet - Exception Type - 
+RuntimeBinderException
+2015-11-10 22:11:56,130 [15] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 22:11:56,130 [15] ERROR Ticknet - Exception Message - 
+La mejor coincidencia de método sobrecargado para 'double.Parse(string)' tiene algunos argumentos no válidos
+2015-11-10 22:11:56,130 [15] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:11:57,591 [24] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:11:57,591 [24] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-10 22:11:57,591 [24] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 22:11:57,591 [24] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\CuentaUsuario\ComprarEntrada.cshtml(124): error CS0077: El operador as se debe usar con un tipo de referencia o un tipo que acepte valores null ('double' es un tipo de valor que no acepta valores null)
+2015-11-10 22:11:57,591 [24] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:12:10,198 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:12:10,198 [7] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-10 22:12:10,198 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 22:12:10,199 [7] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\CuentaUsuario\ComprarEntrada.cshtml(124): error CS0077: El operador as se debe usar con un tipo de referencia o un tipo que acepte valores null ('double' es un tipo de valor que no acepta valores null)
+2015-11-10 22:12:10,199 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:13:36,308 [23] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:13:36,309 [23] ERROR Ticknet - Exception Type - 
+InvalidCastException
+2015-11-10 22:13:36,309 [23] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 22:13:36,309 [23] ERROR Ticknet - Exception Message - 
+No se puede convertir un objeto de tipo 'System.Int32' al tipo 'System.String'.
+2015-11-10 22:13:36,309 [23] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:49:03,531 [42] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:49:03,538 [42] ERROR Ticknet - Exception Type - 
+DbEntityValidationException
+2015-11-10 22:49:03,538 [42] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 22:49:03,538 [42] ERROR Ticknet - Exception Message - 
+Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+2015-11-10 22:49:03,539 [42] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:52:36,629 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:52:36,637 [7] ERROR Ticknet - Exception Type - 
+ArgumentNullException
+2015-11-10 22:52:36,637 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 22:52:36,637 [7] ERROR Ticknet - Exception Message - 
+El valor no puede ser nulo.
+Nombre del parámetro: source
+2015-11-10 22:52:36,637 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++

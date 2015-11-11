@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Core;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -125,6 +127,7 @@ namespace WebApplication4.Controllers
             {
                 int idVenta = 0;
                 DateTime hoy = DateTime.Today;
+                CuentaUsuario cuenta = new CuentaUsuario();
                 using (var context = new inf245netsoft())
                 {
                     try
@@ -135,9 +138,32 @@ namespace WebApplication4.Controllers
 
                         if (Session["UsuarioLogueado"] != null)
                         {
-                            CuentaUsuario cuenta = (CuentaUsuario)Session["UsuarioLogueado"];
+                            cuenta = (CuentaUsuario)Session["UsuarioLogueado"];
                             ve.CuentaUsuario = cuenta;
                         }
+                        else
+                        {
+                            cuenta.nombre = model.Nombre;
+                            cuenta.apellido = "anonimo";
+                            cuenta.codPerfil = 1;
+                            cuenta.contrasena = "Anonimo1234@";
+                            cuenta.correo = "anonimo@correo.com";
+                            cuenta.direccion = "anonimo";
+                            cuenta.estado = true;
+                            cuenta.fechaNac = DateTime.Today;
+                            cuenta.puntos = 0;
+                            cuenta.sexo = "A";
+                            cuenta.telefono = "1234";
+                            cuenta.telMovil = "1234";
+                            cuenta.tipoUsuario = "Cliente";
+                            cuenta.usuario = "a@anonimo.com";
+                            cuenta.tipoDoc = 1;
+                            cuenta.codDoc = model.Dni;
+                            db.CuentaUsuario.Add(cuenta);
+                            db.SaveChanges();
+                            ve.CuentaUsuario = cuenta;
+                        }
+
                         ve.fecha = DateTime.Now;
                         ve.cantAsientos = cantidadEntradasTotales;
                         ve.cliente = model.Nombre;
@@ -147,7 +173,22 @@ namespace WebApplication4.Controllers
                         ve.montoEfectivoSoles = model.Importe;
                         ve.MontoTotalSoles = model.MontoPagar;
                         db.Ventas.Add(ve);
-                        db.SaveChanges();
+                        try
+                        {
+                            db.SaveChanges();
+                        }
+                        catch (DbEntityValidationException dbEx)
+                        {
+                            foreach (var validationErrors in dbEx.EntityValidationErrors)
+                            {
+                                foreach (var validationError in validationErrors.ValidationErrors)
+                                {
+                                    Trace.TraceInformation("Property: {0} Error: {1}",
+                                                            validationError.PropertyName,
+                                                            validationError.ErrorMessage);
+                                }
+                            }
+                        }
                         //para cada item del carrito
                         for (int w = 0; w < carrito.Count; w++)
                         {
@@ -207,9 +248,15 @@ namespace WebApplication4.Controllers
                                 else
                                     ZXF.cantLibres -= paquete.cantidad;
                             }
+                            if (User.Identity.IsAuthenticated)
+                            {//si es u usuario registrado le aumento los puntos que tiene
+                                CuentaUsuario dbCuenta = db.CuentaUsuario.Find(cuenta.correo);
+                                dbCuenta.puntos += db.Eventos.Find(paquete.idEvento).puntosAlCliente * paquete.cantidad;
+                            }
                         }
 
                         db.SaveChanges();
+
                         context.SaveChanges();
                     }
                     catch (OptimisticConcurrencyException ex)

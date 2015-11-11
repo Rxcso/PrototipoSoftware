@@ -38,7 +38,11 @@ namespace WebApplication4.Controllers
                 }
             return limEntradas - actualEntradas;
         }
-
+        public int BuscaEntradasQueQuedan(int idFuncion, int idZona)
+        {
+            ZonaxFuncion zonaxfuncion = db.ZonaxFuncion.Where(c => c.codFuncion == idFuncion && c.codZona == idZona).First();
+            return zonaxfuncion.cantLibres;
+        }
         public string reservaAsientos(string name, PaqueteEntradas paquete)
         {
             //name es el correo de la persona
@@ -1263,7 +1267,7 @@ namespace WebApplication4.Controllers
             ViewBag.Subcategoria = db.Categoria.Where(c => c.idCategoria == evento.idSubcategoria).First().nombre;
 
             var veoAsientos = true;
-            
+
             //Debo saber si el evento esta a la venta
             if (evento.fecha_fin <= DateTime.Today)
             {
@@ -1362,6 +1366,20 @@ namespace WebApplication4.Controllers
                 }
                 else if (boton.CompareTo("carrito") == 0)
                 {
+                    int quedan = BuscaEntradasQueQuedan(paquete.idFuncion,paquete.idZona);
+
+                    if (quedan == 0)
+                    {
+                        TempData["tipo"] = "alert alert-warning";
+                        TempData["message"] = "Ya quedan entradas disponibles para el evento.";
+                        return Redirect("~/Evento/VerEvento/" + paquete.idEvento);
+                    }
+                    if (quedan < paquete.cantEntradas)
+                    {
+                        TempData["tipo"] = "alert alert-warning";
+                        TempData["message"] = "No se pudo agregar entradas al carrito, solo puede comprar " + quedan + " entradas como maximo.";
+                        return Redirect("~/Evento/VerEvento/" + paquete.idEvento);
+                    }
                     //si el carrito es null, creo un nuevo carrito
                     if (Session["Carrito"] == null)
                     {

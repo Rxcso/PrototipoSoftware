@@ -14,7 +14,7 @@ namespace WebApplication4.Models
         public string Nombre { get; set; }
 
         [Required(ErrorMessage = "Debe ingresar un nombre.")]
-        [Display(Name = "DNI:")]
+        [Display(Name = "DNI/Pasaporte:")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Dni debe ser numérico.")]
         public string Dni { get; set; }
 
@@ -35,7 +35,7 @@ namespace WebApplication4.Models
         [Display(Name = "CCV:")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "El numero de tarjeta debe ser numerico.")]
         [StringLength(3, MinimumLength = 3, ErrorMessage = "El codigo CCV cuenta con 3 digitos.")]
-        public int CodCcv { get; set; }
+        public string CodCcv { get; set; }
 
         [Required(ErrorMessage="Ingrese mes de vencimiento de la tarjeta.")]
         [Display(Name="Mes:")]
