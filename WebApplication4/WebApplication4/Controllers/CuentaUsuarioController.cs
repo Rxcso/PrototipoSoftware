@@ -143,25 +143,7 @@ namespace WebApplication4.Controllers
                         }
                         else
                         {
-                            cuenta.nombre = model.Nombre;
-                            cuenta.apellido = "anonimo";
-                            cuenta.codPerfil = 1;
-                            cuenta.contrasena = "Anonimo1234@";
-                            cuenta.correo = "anonimo@correo.com";
-                            cuenta.direccion = "anonimo";
-                            cuenta.estado = true;
-                            cuenta.fechaNac = DateTime.Today;
-                            cuenta.puntos = 0;
-                            cuenta.sexo = "A";
-                            cuenta.telefono = "1234";
-                            cuenta.telMovil = "1234";
-                            cuenta.tipoUsuario = "Cliente";
-                            cuenta.usuario = "a@anonimo.com";
-                            cuenta.tipoDoc = 1;
-                            cuenta.codDoc = model.Dni;
-                            db.CuentaUsuario.Add(cuenta);
-                            db.SaveChanges();
-                            ve.CuentaUsuario = cuenta;
+                            ve.CuentaUsuario = db.CuentaUsuario.Find(MagicHelpers.AnonimoUniversal);
                         }
 
                         ve.fecha = DateTime.Now;
