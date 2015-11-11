@@ -284,20 +284,47 @@ namespace WebApplication4.Controllers
         [HttpPost]
         public ActionResult ModificarDatos(EditClientModel model)
         {
-            string correo = User.Identity.Name;
-            CuentaUsuario cliente = db.CuentaUsuario.Where(c => c.correo == correo).First();
-            cliente.apellido = model.apellido;
-            cliente.codDoc = model.codDoc;
-            cliente.direccion = model.direccion;
-            cliente.fechaNac = model.fechaNac;
-            cliente.nombre = model.nombre;
-            cliente.telefono = model.telefono;
-            cliente.telMovil = model.telMovil;
-            cliente.tipoDoc = model.tipoDoc;
-            db.SaveChanges();
-            TempData["tipo"] = "alert alert-success";
-            TempData["message"] = "Datos Actualizados Exitosamente";
-            return RedirectToAction("MiCuenta");
+            if (ModelState.IsValid)
+            {
+                string correo = User.Identity.Name;
+                CuentaUsuario cliente = db.CuentaUsuario.Where(c => c.correo == correo).First();
+                cliente.apellido = model.apellido;
+                cliente.codDoc = model.codDoc;
+                cliente.direccion = model.direccion;
+                cliente.fechaNac = model.fechaNac;
+                cliente.nombre = model.nombre;
+                cliente.telefono = model.telefono;
+                cliente.telMovil = model.telMovil;
+                cliente.tipoDoc = model.tipoDoc;
+                if (model.fechaNac > DateTime.Today || model.fechaNac < Convert.ToDateTime("01/01/1900"))
+                {
+                    ModelState.AddModelError("fechaNac", "La fecha con rango inválido");
+                    return View(model);
+                }
+                if (model.tipoDoc == 1)
+                {
+                    if (model.codDoc.Length != 8)
+                    {
+                        ModelState.AddModelError("codDoc", "El DNI debe tener 8 dígitos");
+                        return View(model);
+                    }
+
+                }
+                else
+                {
+                    if (model.codDoc.Length != 12)
+                    {
+                        ModelState.AddModelError("codDoc", "El Pasaporte debe tener 12 dígitos");
+                        return View(model);
+                    }
+
+                }
+                db.SaveChanges();
+                TempData["tipo"] = "alert alert-success";
+                TempData["message"] = "Datos Actualizados Exitosamente";
+                return RedirectToAction("MiCuenta");
+            }
+            return View(model);
         }
 
         [HttpGet]

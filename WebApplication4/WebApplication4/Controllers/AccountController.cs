@@ -282,13 +282,35 @@ namespace WebApplication4.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (model.fechaNac > DateTime.Today || model.fechaNac < Convert.ToDateTime("01/01/1900"))
+                {
+                    ModelState.AddModelError("fechaNac", "La fecha con rango inválido");
+                    return View(model);
+                }
+
+                if (model.tipoDoc == 1)
+                {
+                    if (model.codDoc.Length != 8)
+                    {
+                        ModelState.AddModelError("codDoc", "El DNI debe tener 8 dígitos");
+                        return View(model);
+                    }
+
+                }
+                else
+                {
+                    if (model.codDoc.Length != 12)
+                    {
+                        ModelState.AddModelError("codDoc", "El Pasaporte debe tener 12 dígitos");
+                        return View(model);
+                    }
+
+                }
+
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
-
-
                 if (result.Succeeded)
                 {
-
                     var currentUser = UserManager.FindByName(user.UserName);
                     UserManager.AddToRole(user.Id, "Cliente");
                     CuentaUsuario cuentausuario = new CuentaUsuario();
@@ -310,7 +332,6 @@ namespace WebApplication4.Controllers
                     cuentausuario.tipoUsuario = "Cliente";
                     cuentausuario.usuario = model.Email;
 
-
                     db.CuentaUsuario.Add(cuentausuario);
 
                     db.SaveChanges();
@@ -324,7 +345,6 @@ namespace WebApplication4.Controllers
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                     TempData["tipo"] = "alert alert-success";
                     TempData["message"] = "Registro Exitoso!";
-                    Session["UsuarioLogueado"] = cuentausuario;
                     return RedirectToAction("Index", "Home");
                     //return View("~/Views/Home/Index.cshtml");
                 }
