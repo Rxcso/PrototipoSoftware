@@ -68,7 +68,8 @@
                 }
             else
             {
-                listaCategoria = (List<WebApplication4.Models.Categoria>)Session["Bus"];
+                
+    listaCategoria = (List<WebApplication4.Models.Categoria>)Session["Bus"];
                 Session["ListaC"] = Session["Bus"];
                 Session["Bus"] = null;
             }
