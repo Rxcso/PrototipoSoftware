@@ -23,6 +23,7 @@ namespace WebApplication4.Controllers
         private ApplicationUserManager _userManager;
         private inf245netsoft db = new inf245netsoft();
 
+
         public AccountController()
         {
         }
