@@ -79,7 +79,7 @@ namespace WebApplication4.Controllers
                     {
                         Ventas ve = new Ventas();
                         //Ventas vel = db.Ventas.ToList().Last();
-                        DateTime hoy = DateTime.Now;
+                        DateTime hoy = DateTime.Now.Date;
                         ZonaEvento zo = db.ZonaEvento.Find(paquete.idZona);
                         PeriodoVenta per = db.PeriodoVenta.Where(c => c.codEvento == paquete.idEvento && c.fechaInicio <= hoy && c.fechaFin >= hoy).ToList().First();
                         PrecioEvento pr = db.PrecioEvento.Where(c => c.codZonaEvento == paquete.idZona && c.codPeriodoVenta == per.idPerVent).ToList().First();
