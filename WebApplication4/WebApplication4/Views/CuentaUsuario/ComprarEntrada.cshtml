@@ -140,7 +140,7 @@
                 <div class="row form-group">
                     @Html.LabelFor(c => c.MontoPagar, new { @class = "control-label col-md-3" })
                     <div class="col-md-4">
-                        @Html.LabelFor(c => c.MontoPagar, new { @class = "form-control", @Value = @ViewBag.Pagar, @readonly = "readonly" })
+                        @Html.TextBoxFor(c => c.MontoPagar, new { @class = "form-control", @Value = @ViewBag.Pagar, @readonly = "readonly" })
                     </div>
                 </div>
                 <div class="row">
