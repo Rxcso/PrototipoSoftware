@@ -1666,15 +1666,12 @@ namespace WebApplication4.Controllers
         public ActionResult EnviarComentario(int codEvento, string usuario, string contenido)
         {
             Comentarios new_coment = new Comentarios();
-            // Comentarios list = db.Comentarios.Last();
+          
             new_coment.codEvento = codEvento;
             new_coment.contenido = contenido;
             new_coment.usuario = usuario;
-            /*
-            new_coment.contenido = comentario;
-            new_coment.codEvento = evento_id;
-            new_coment.usuario = user_val;*/
-            new_coment.fecha = DateTime.UtcNow;
+           
+            new_coment.fecha = DateTime.Now;
             db.Comentarios.Add(new_coment);
             db.SaveChanges();
 
@@ -1683,9 +1680,11 @@ namespace WebApplication4.Controllers
                         orderby comentario.fecha descending
                         select new Coment
                         {
+                            flag = (comentario.usuario == usuario) ? true : false,
                             contenido = comentario.contenido,
                             nombre = comentario.CuentaUsuario.nombre,
-                            fecha = comentario.fecha
+                            fecha = comentario.fecha,
+                            codigo = comentario.codComentario
                         };
 
             lista = lista.Take(6);
@@ -1705,14 +1704,68 @@ namespace WebApplication4.Controllers
                         orderby comentario.codComentario descending
                         select new Coment
                         {
+                            flag = (comentario.usuario == usuario) ? true : false,
                             contenido = comentario.contenido,
                             nombre = comentario.CuentaUsuario.nombre,
-                            fecha = comentario.fecha
+                            fecha = comentario.fecha,
+                            codigo = comentario.codComentario
                         };
             lista = lista.Skip(skipVal).Take(cantMax);
             //  lista = lista.Take(6);
             List<Coment> listaNueva = lista.ToList<Coment>();
             return Json(listaNueva, JsonRequestBehavior.AllowGet);
         }
+
+
+
+        [HttpPost]
+        public ActionResult DelComment(int cod, int codEvento)
+        {
+
+            db.Configuration.AutoDetectChangesEnabled = false;
+
+            Comentarios data = new Comentarios();
+            string act = "";
+            if (Request.IsAuthenticated)
+            {
+                act = User.Identity.Name;
+
+
+            }
+
+
+
+            data.codComentario = cod;
+            data.codEvento = codEvento;
+            data.usuario = act;
+            try
+            {
+                db.Comentarios.Attach(data);
+                db.Comentarios.Remove(data);
+                db.SaveChanges();
+
+
+
+            }
+            catch (Exception ex)
+            {
+
+
+
+            }
+            finally
+            {
+                db.Configuration.AutoDetectChangesEnabled = true;
+            }
+
+
+
+
+            return Json("Eliminado exitoso", JsonRequestBehavior.AllowGet);
+
+        }
+
+
+
     }
 }
