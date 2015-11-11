@@ -108,8 +108,20 @@ namespace WebApplication4.Controllers
             }
             catch (Exception ex)
             {
-                TempData["tipo"] = "alert alert-warning";
-                TempData["message"] = "Iniciar Sesión desde un punto de venta registrado.";
+                try
+                {
+                    if (cuentausuario.codPerfil == 2)
+                    {
+                        TempData["tipo"] = "alert alert-warning";
+                        TempData["message"] = "Iniciar Sesión desde un punto de venta registrado.";
+                    }
+                }
+                catch (Exception ex2)
+                {
+                    TempData["tipo"] = "alert alert-warning";
+                    TempData["message"] = "Correo no registrado.";
+                }
+                
                 return Redirect("~/Home/Index");
             }
 

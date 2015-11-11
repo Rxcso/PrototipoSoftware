@@ -865,3 +865,123 @@ System.Collections.ListDictionaryInternal
 2015-11-10 17:29:03,563 [27] ERROR Ticknet - Exception Message - 
 c:\Users\alulab14.INF.000\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\Evento\ModificarEvento.cshtml(134): error CS1061: 'WebApplication4.Models.Local' no contiene una definición de 'aforo' ni se encontró ningún método de extensión 'aforo' que acepte un primer argumento de tipo 'WebApplication4.Models.Local' (¿falta una directiva using o una referencia de ensamblado?)
 2015-11-10 17:29:03,563 [27] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:34:01,235 [33] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:34:01,240 [33] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-10 18:34:01,240 [33] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 18:34:01,240 [33] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-10 18:34:01,240 [33] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:40:52,730 [41] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:40:52,735 [41] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-10 18:40:52,735 [41] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 18:40:52,735 [41] ERROR Ticknet - Exception Message - 
+c:\Users\alulab14.INF.000\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(23): error CS1002: Se esperaba ;
+2015-11-10 18:40:52,735 [41] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:40:52,738 [41] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:40:52,738 [41] ERROR Ticknet - Exception Data - 
+HttpCompileException
+2015-11-10 18:40:52,738 [41] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 18:40:52,738 [41] ERROR Ticknet - Exception Message - 
+c:\Users\alulab14.INF.000\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(23): error CS1002: Se esperaba ;
+2015-11-10 18:40:52,738 [41] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:40:55,897 [35] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:40:55,897 [35] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-10 18:40:55,897 [35] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 18:40:55,897 [35] ERROR Ticknet - Exception Message - 
+c:\Users\alulab14.INF.000\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(23): error CS1002: Se esperaba ;
+2015-11-10 18:40:55,897 [35] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:40:55,897 [35] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:40:55,897 [35] ERROR Ticknet - Exception Data - 
+HttpCompileException
+2015-11-10 18:40:55,897 [35] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 18:40:55,897 [35] ERROR Ticknet - Exception Message - 
+c:\Users\alulab14.INF.000\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(23): error CS1002: Se esperaba ;
+2015-11-10 18:40:55,897 [35] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:01,432 [38] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:01,433 [38] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-10 18:41:01,433 [38] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 18:41:01,433 [38] ERROR Ticknet - Exception Message - 
+c:\Users\alulab14.INF.000\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(23): error CS1002: Se esperaba ;
+2015-11-10 18:41:01,433 [38] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:01,433 [38] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:01,433 [38] ERROR Ticknet - Exception Data - 
+HttpCompileException
+2015-11-10 18:41:01,433 [38] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 18:41:01,433 [38] ERROR Ticknet - Exception Message - 
+c:\Users\alulab14.INF.000\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(23): error CS1002: Se esperaba ;
+2015-11-10 18:41:01,433 [38] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:02,945 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:02,946 [6] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-10 18:41:02,946 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 18:41:02,946 [6] ERROR Ticknet - Exception Message - 
+c:\Users\alulab14.INF.000\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(23): error CS1002: Se esperaba ;
+2015-11-10 18:41:02,946 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:02,946 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:02,946 [6] ERROR Ticknet - Exception Data - 
+HttpCompileException
+2015-11-10 18:41:02,946 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 18:41:02,946 [6] ERROR Ticknet - Exception Message - 
+c:\Users\alulab14.INF.000\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(23): error CS1002: Se esperaba ;
+2015-11-10 18:41:02,946 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:03,120 [41] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:03,120 [41] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-10 18:41:03,120 [41] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 18:41:03,120 [41] ERROR Ticknet - Exception Message - 
+c:\Users\alulab14.INF.000\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(23): error CS1002: Se esperaba ;
+2015-11-10 18:41:03,120 [41] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:03,120 [41] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:03,120 [41] ERROR Ticknet - Exception Data - 
+HttpCompileException
+2015-11-10 18:41:03,120 [41] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 18:41:03,120 [41] ERROR Ticknet - Exception Message - 
+c:\Users\alulab14.INF.000\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(23): error CS1002: Se esperaba ;
+2015-11-10 18:41:03,120 [41] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:03,272 [26] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:03,272 [26] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-10 18:41:03,272 [26] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 18:41:03,272 [26] ERROR Ticknet - Exception Message - 
+c:\Users\alulab14.INF.000\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(23): error CS1002: Se esperaba ;
+2015-11-10 18:41:03,272 [26] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:03,272 [26] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:03,272 [26] ERROR Ticknet - Exception Data - 
+HttpCompileException
+2015-11-10 18:41:03,272 [26] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 18:41:03,272 [26] ERROR Ticknet - Exception Message - 
+c:\Users\alulab14.INF.000\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(23): error CS1002: Se esperaba ;
+2015-11-10 18:41:03,272 [26] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:13,445 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:13,451 [6] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-10 18:41:13,451 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 18:41:13,451 [6] ERROR Ticknet - Exception Message - 
+c:\Users\alulab14.INF.000\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(23): error CS1002: Se esperaba ;
+2015-11-10 18:41:13,451 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:13,453 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:13,453 [6] ERROR Ticknet - Exception Data - 
+HttpCompileException
+2015-11-10 18:41:13,453 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 18:41:13,453 [6] ERROR Ticknet - Exception Message - 
+c:\Users\alulab14.INF.000\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(23): error CS1002: Se esperaba ;
+2015-11-10 18:41:13,453 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
