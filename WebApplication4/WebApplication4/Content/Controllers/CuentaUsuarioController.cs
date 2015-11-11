@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Core;
+using System.Data.Entity.Validation;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -125,6 +127,7 @@ namespace WebApplication4.Controllers
             {
                 int idVenta = 0;
                 DateTime hoy = DateTime.Today;
+                CuentaUsuario cuenta = new CuentaUsuario();
                 using (var context = new inf245netsoft())
                 {
                     try
@@ -135,9 +138,14 @@ namespace WebApplication4.Controllers
 
                         if (Session["UsuarioLogueado"] != null)
                         {
-                            CuentaUsuario cuenta = (CuentaUsuario)Session["UsuarioLogueado"];
+                            cuenta = (CuentaUsuario)Session["UsuarioLogueado"];
                             ve.CuentaUsuario = cuenta;
                         }
+                        else
+                        {
+                            ve.CuentaUsuario = db.CuentaUsuario.Find(MagicHelpers.AnonimoUniversal);
+                        }
+
                         ve.fecha = DateTime.Now;
                         ve.cantAsientos = cantidadEntradasTotales;
                         ve.cliente = model.Nombre;
@@ -147,7 +155,22 @@ namespace WebApplication4.Controllers
                         ve.montoEfectivoSoles = model.Importe;
                         ve.MontoTotalSoles = model.MontoPagar;
                         db.Ventas.Add(ve);
-                        db.SaveChanges();
+                        try
+                        {
+                            db.SaveChanges();
+                        }
+                        catch (DbEntityValidationException dbEx)
+                        {
+                            foreach (var validationErrors in dbEx.EntityValidationErrors)
+                            {
+                                foreach (var validationError in validationErrors.ValidationErrors)
+                                {
+                                    Trace.TraceInformation("Property: {0} Error: {1}",
+                                                            validationError.PropertyName,
+                                                            validationError.ErrorMessage);
+                                }
+                            }
+                        }
                         //para cada item del carrito
                         for (int w = 0; w < carrito.Count; w++)
                         {
@@ -207,9 +230,15 @@ namespace WebApplication4.Controllers
                                 else
                                     ZXF.cantLibres -= paquete.cantidad;
                             }
+                            if (User.Identity.IsAuthenticated)
+                            {//si es u usuario registrado le aumento los puntos que tiene
+                                CuentaUsuario dbCuenta = db.CuentaUsuario.Find(cuenta.correo);
+                                dbCuenta.puntos += db.Eventos.Find(paquete.idEvento).puntosAlCliente * paquete.cantidad;
+                            }
                         }
 
                         db.SaveChanges();
+
                         context.SaveChanges();
                     }
                     catch (OptimisticConcurrencyException ex)
@@ -255,20 +284,47 @@ namespace WebApplication4.Controllers
         [HttpPost]
         public ActionResult ModificarDatos(EditClientModel model)
         {
-            string correo = User.Identity.Name;
-            CuentaUsuario cliente = db.CuentaUsuario.Where(c => c.correo == correo).First();
-            cliente.apellido = model.apellido;
-            cliente.codDoc = model.codDoc;
-            cliente.direccion = model.direccion;
-            cliente.fechaNac = model.fechaNac;
-            cliente.nombre = model.nombre;
-            cliente.telefono = model.telefono;
-            cliente.telMovil = model.telMovil;
-            cliente.tipoDoc = model.tipoDoc;
-            db.SaveChanges();
-            TempData["tipo"] = "alert alert-success";
-            TempData["message"] = "Datos Actualizados Exitosamente";
-            return RedirectToAction("MiCuenta");
+            if (ModelState.IsValid)
+            {
+                string correo = User.Identity.Name;
+                CuentaUsuario cliente = db.CuentaUsuario.Where(c => c.correo == correo).First();
+                cliente.apellido = model.apellido;
+                cliente.codDoc = model.codDoc;
+                cliente.direccion = model.direccion;
+                cliente.fechaNac = model.fechaNac;
+                cliente.nombre = model.nombre;
+                cliente.telefono = model.telefono;
+                cliente.telMovil = model.telMovil;
+                cliente.tipoDoc = model.tipoDoc;
+                if (model.fechaNac > DateTime.Today || model.fechaNac < Convert.ToDateTime("01/01/1900"))
+                {
+                    ModelState.AddModelError("fechaNac", "La fecha con rango inválido");
+                    return View(model);
+                }
+                if (model.tipoDoc == 1)
+                {
+                    if (model.codDoc.Length != 8)
+                    {
+                        ModelState.AddModelError("codDoc", "El DNI debe tener 8 dígitos");
+                        return View(model);
+                    }
+
+                }
+                else
+                {
+                    if (model.codDoc.Length != 12)
+                    {
+                        ModelState.AddModelError("codDoc", "El Pasaporte debe tener 12 dígitos");
+                        return View(model);
+                    }
+
+                }
+                db.SaveChanges();
+                TempData["tipo"] = "alert alert-success";
+                TempData["message"] = "Datos Actualizados Exitosamente";
+                return RedirectToAction("MiCuenta");
+            }
+            return View(model);
         }
 
         [HttpGet]

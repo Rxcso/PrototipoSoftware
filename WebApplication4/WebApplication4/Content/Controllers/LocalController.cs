@@ -43,7 +43,6 @@ namespace WebApplication4.Controllers
                 //Local localL = db.Local.ToList().Last();
                 //local.codLocal = localL.codLocal + 1;
                 local.descripcion = model.descripcion;
-                //local.aforo = model.aforo;
                 local.ubicacion = model.ubicacion;
                 local.estaActivo = true;
                 local.idProvincia = model.idProv;

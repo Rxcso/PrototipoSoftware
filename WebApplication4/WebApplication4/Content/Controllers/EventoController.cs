@@ -23,7 +23,6 @@ namespace WebApplication4.Controllers
 
         public int BuscarEntradasLeQuedan(string name, int idFuncion)
         {
-
             CuentaUsuario cuenta = db.CuentaUsuario.Find(name);
             int tipoDoc = (int)cuenta.tipoDoc;
             string doc = cuenta.codDoc;
@@ -39,7 +38,11 @@ namespace WebApplication4.Controllers
                 }
             return limEntradas - actualEntradas;
         }
-
+        public int BuscaEntradasQueQuedan(int idFuncion, int idZona)
+        {
+            ZonaxFuncion zonaxfuncion = db.ZonaxFuncion.Where(c => c.codFuncion == idFuncion && c.codZona == idZona).First();
+            return zonaxfuncion.cantLibres;
+        }
         public string reservaAsientos(string name, PaqueteEntradas paquete)
         {
             //name es el correo de la persona
@@ -54,7 +57,6 @@ namespace WebApplication4.Controllers
             //Si supera el limite fue ps
             try
             {
-
                 int quedan = BuscarEntradasLeQuedan(name, paquete.idFuncion);
 
                 if (quedan == 0)
@@ -71,14 +73,13 @@ namespace WebApplication4.Controllers
                 //Establecer sincronia es lo mas complicado
                 //Apenas se guarde la reserva todo estara consumado XD 
                 //Eso es todo
-
                 using (var context = new inf245netsoft())
                 {
                     try
                     {
                         Ventas ve = new Ventas();
                         //Ventas vel = db.Ventas.ToList().Last();
-                        DateTime hoy = DateTime.Now;
+                        DateTime hoy = DateTime.Now.Date;
                         ZonaEvento zo = db.ZonaEvento.Find(paquete.idZona);
                         PeriodoVenta per = db.PeriodoVenta.Where(c => c.codEvento == paquete.idEvento && c.fechaInicio <= hoy && c.fechaFin >= hoy).ToList().First();
                         PrecioEvento pr = db.PrecioEvento.Where(c => c.codZonaEvento == paquete.idZona && c.codPeriodoVenta == per.idPerVent).ToList().First();
@@ -119,7 +120,6 @@ namespace WebApplication4.Controllers
                         db.SaveChanges();
                         if (paquete.tieneAsientos)
                         {
-
                             for (int i = 0; i < paquete.cantEntradas; i++)
                             {
                                 int col = paquete.columnas[i];
@@ -130,7 +130,6 @@ namespace WebApplication4.Controllers
                                 actAsiento.codDetalleVenta = dt.codDetalleVenta;
                                 actAsiento.PrecioPagado = pr.precio;
                             }
-
                         }
                         else
                         {
@@ -141,15 +140,12 @@ namespace WebApplication4.Controllers
                         db.SaveChanges();
                         context.SaveChanges();
                     }
-
                     catch (OptimisticConcurrencyException ex)
                     {
                         return "No se pudieron reservar los asientos, alguien más ya lo hizo.";
                     }
 
                 }
-
-
             }
             catch (Exception ex)
             {
@@ -157,7 +153,6 @@ namespace WebApplication4.Controllers
             }
             //Funciones Utilitarias necesarias
             //BuscarEntradasLeQuedan( User , Funcion )
-
             return "Ok";
         }
 
@@ -574,6 +569,8 @@ namespace WebApplication4.Controllers
                     }
                     return RedirectToAction("Funciones");
                 }
+                TempData["tipo"] = "alert alert-warning";
+                TempData["message"] = "Hay bloques de tiempo que se cruzan. Verifique nuevamente.";
                 ViewBag.Resultados = listaVerificacion;
                 return View();
             }
@@ -684,6 +681,7 @@ namespace WebApplication4.Controllers
             evento.fecha_fin = fechaFin;
             db.SaveChanges();
         }
+
         [HttpPost]
         public ActionResult Funciones(FuncionesListModel model)
         {
@@ -893,7 +891,6 @@ namespace WebApplication4.Controllers
                         db.ZonaxFuncion.Add(zonaxfuncion);
                         db.SaveChanges();
                     }
-
                 }
             }
         }
@@ -955,9 +952,7 @@ namespace WebApplication4.Controllers
             {
                 int idEvento = int.Parse(Session["IdEventoModificado"].ToString());
                 Eventos evento = db.Eventos.Find(idEvento);
-
                 model.esDestacado = (evento.ImagenDestacado != null) ? true : false;
-
                 model.IDestacado = evento.ImagenDestacado;
                 model.IEvento = evento.ImagenEvento;
                 model.ISitios = evento.ImagenSitios;
@@ -996,7 +991,6 @@ namespace WebApplication4.Controllers
         [HttpPost]
         public ActionResult ExtrasEvento(ExtrasModel model)
         {
-
             int idEvento = 0;
             if (Session["IdEventoCreado"] != null)
                 idEvento = int.Parse(Session["IdEventoCreado"].ToString());
@@ -1018,7 +1012,6 @@ namespace WebApplication4.Controllers
             {
                 ModelState.AddModelError("ImageDestacado", "Falta Seleccionar Imagen para Evento Destacado");
             }
-
 
             if (ModelState.IsValid)
             {
@@ -1060,7 +1053,6 @@ namespace WebApplication4.Controllers
                 Session["IdEventoCreado"] = null;
                 return RedirectToAction("Index");
             }
-
             return View(model);
         }
 
@@ -1092,7 +1084,6 @@ namespace WebApplication4.Controllers
                     cnt++;
                 }
 
-
                 var actZona = new
                 {
                     filas = (int)zona.cantFilas,
@@ -1102,12 +1093,9 @@ namespace WebApplication4.Controllers
                     tieneAsientos = zona.tieneAsientos,
                     index = zona.codZona,
                 };
-
                 myObject.Add(actZona);
             }
-
             ViewBag.myObject = serializer.Serialize(myObject);
-
             return View();
         }
 
@@ -1115,7 +1103,6 @@ namespace WebApplication4.Controllers
         [HttpPost]
         public ActionResult Asientos(int idZona)
         {
-
             ZonaEvento queryZona = db.ZonaEvento.Where(c => c.codZona == idZona).First();
             db.Entry(queryZona).State = EntityState.Modified;
             queryZona.tieneAsientos = false;
@@ -1137,12 +1124,10 @@ namespace WebApplication4.Controllers
         [HttpPost]
         public ActionResult GenerarAsientos(ZonaModel zona)
         {
-
             ZonaEvento zonaE = db.ZonaEvento.Where(c => c.codZona == zona.idZona).First();
 
             //ACA BORRA LOS ASIENTOS
             Asientos(zona.idZona);
-
             db.Entry(zonaE).State = EntityState.Modified;
             zonaE.cantFilas = zona.filas;
             zonaE.cantColumnas = zona.columnas;
@@ -1150,8 +1135,6 @@ namespace WebApplication4.Controllers
             db.SaveChanges();
 
             int k = zona.posFila.Count;
-
-
 
             // ACA LISTAS LAS FUNCIONES EXISTENTES
             List<Funcion> listFuncion = db.Funcion.Where(x => (x.codEvento == zonaE.codEvento)).ToList();
@@ -1182,10 +1165,8 @@ namespace WebApplication4.Controllers
                     AXF.estado = "libre";
                     db.AsientosXFuncion.Add(AXF);
                 }
-
                 db.SaveChanges();
             }
-
 
             int id = zonaE.codEvento;
             Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();
@@ -1200,8 +1181,6 @@ namespace WebApplication4.Controllers
         //TODAVIA NO FUNCIONA
         public object obtenerJSONAsientos(List<Funcion> listFunciones, List<ZonaEvento> listZE)
         {
-
-
             JavaScriptSerializer serializer = new JavaScriptSerializer();
 
             List<dynamic> todoObject = new List<dynamic>();
@@ -1254,13 +1233,9 @@ namespace WebApplication4.Controllers
                         indexZE = zona.codZona,
                         indexFH = funcion.codFuncion,
                     };
-
-
                     todoObject.Add(act);
                 }
-
             }
-
             return serializer.Serialize(todoObject);
         }
 
@@ -1286,13 +1261,12 @@ namespace WebApplication4.Controllers
             {
                 ViewBag.NombreLocal = "";
             }
+
             ViewBag.Region = db.Region.Where(c => c.idRegion == evento.idRegion).First().nombre;
             ViewBag.Categoria = db.Categoria.Where(c => c.idCategoria == evento.idCategoria).First().nombre;
             ViewBag.Subcategoria = db.Categoria.Where(c => c.idCategoria == evento.idSubcategoria).First().nombre;
 
             var veoAsientos = true;
-
-
 
             //Debo saber si el evento esta a la venta
             if (evento.fecha_fin <= DateTime.Today)
@@ -1306,8 +1280,6 @@ namespace WebApplication4.Controllers
                 {
                     ViewBag.ListZonasNombre = new List<string>();
                     ViewBag.ListZonasId = new List<int>();
-
-
                     int bloqueVenta = db.PeriodoVenta.Where(c => c.codEvento == evento.codigo && c.fechaInicio <= DateTime.Today && c.fechaFin >= DateTime.Today).First().idPerVent;
                     List<ZonaEvento> zonasEvento = db.ZonaEvento.Where(c => c.codEvento == id).ToList();
                     List<SelectListItem> tarifasEvento = new List<SelectListItem>();
@@ -1318,14 +1290,10 @@ namespace WebApplication4.Controllers
                         if (zona.tieneAsientos == true) veoAsientos = true;
 
                         //
-
                         PrecioEvento precio = db.PrecioEvento.Where(c => c.codPeriodoVenta == bloqueVenta && c.codZonaEvento == zona.codZona).ToList().First();
-
                         ViewBag.ListZonasNombre.Add(zona.nombre + " - " + " S/." + precio.precio);
                         ViewBag.ListZonasId.Add(zona.codZona);
                     }
-
-
 
                     try
                     {
@@ -1362,16 +1330,12 @@ namespace WebApplication4.Controllers
                         futuraVenta.Add("- Del " + String.Format("{0:d}", per.fechaInicio) + " al " + String.Format("{0:d}", per.fechaFin) + ".");
                     }
                     ViewBag.EventoNoDisponible = "Las entradas del evento aun no estan a la venta. Ventas disponibles:";
-
                     veoAsientos = false;
-
                     ViewBag.FuturasVentas = futuraVenta;
                 }
             }
 
-
             ViewBag.VeoAsientos = veoAsientos;
-
             return View(new PaqueteEntradas((int)id));
         }
 
@@ -1382,10 +1346,8 @@ namespace WebApplication4.Controllers
             //VALIDAR
             if (ModelState.IsValid)
             {
-
                 if (boton.CompareTo("reservar") == 0)
                 {
-
                     string mensaje = reservaAsientos(User.Identity.Name, paquete);
 
                     TempData["tipo"] = "alert alert-success";
@@ -1397,7 +1359,6 @@ namespace WebApplication4.Controllers
                         TempData["message"] = mensaje;
                     }
 
-
                     return Redirect("~/Evento/VerEvento/" + paquete.idEvento);
                     //logica de reserva
                     //PLZ
@@ -1405,6 +1366,20 @@ namespace WebApplication4.Controllers
                 }
                 else if (boton.CompareTo("carrito") == 0)
                 {
+                    int quedan = BuscaEntradasQueQuedan(paquete.idFuncion,paquete.idZona);
+
+                    if (quedan == 0)
+                    {
+                        TempData["tipo"] = "alert alert-warning";
+                        TempData["message"] = "Ya quedan entradas disponibles para el evento.";
+                        return Redirect("~/Evento/VerEvento/" + paquete.idEvento);
+                    }
+                    if (quedan < paquete.cantEntradas)
+                    {
+                        TempData["tipo"] = "alert alert-warning";
+                        TempData["message"] = "No se pudo agregar entradas al carrito, solo puede comprar " + quedan + " entradas como maximo.";
+                        return Redirect("~/Evento/VerEvento/" + paquete.idEvento);
+                    }
                     //si el carrito es null, creo un nuevo carrito
                     if (Session["Carrito"] == null)
                     {
@@ -1431,44 +1406,6 @@ namespace WebApplication4.Controllers
             return Redirect("~/Evento/VerEvento/" + paquete.idEvento);
         }
 
-
-
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        //[Authorize]
-        public ActionResult Register(EventoModel model)
-        {
-
-            //System.Console.WriteLine("gg");
-            if (model.ImageEvento == null || model.ImageEvento.ContentLength == 0)
-            {
-                ModelState.AddModelError("ImageEvento", "Se necesita la Imagen del Evento");
-            }
-
-            if (ModelState.IsValid)
-            {
-                var eventp = new Eventos();
-                if (model.ImageDestacado != null && model.ImageDestacado.ContentLength > 0)
-                {
-                    var uploadDir = "/Images/";
-                    eventp.ImagenDestacado = uploadDir + "destacado" + model.ImageDestacado.FileName;
-                    model.ImageDestacado.SaveAs(Server.MapPath("~/Images/" + "destacado" + model.ImageDestacado.FileName));
-                }
-
-                eventp.nombre = model.nombre;
-                eventp.idOrganizador = 1;
-                eventp.idRegion = 1;
-
-                db.Eventos.Add(eventp);
-                db.SaveChanges();
-
-                return Redirect("~/Home/Index2");
-            }
-
-            return View(model);
-        }
-
         [AllowAnonymous]
         public ActionResult BusquedaPaging(int? page)
         {
@@ -1488,14 +1425,9 @@ namespace WebApplication4.Controllers
             ViewBag.idSubCat = idSubCat;
             ViewBag.idRegion = idRegion;
             ViewBag.idProv = idProv;
-
-
             var lista = from obj in db.Eventos
                         where (obj.estado.Contains("Activo") == true)
                         select obj;
-
-
-
             /*
            var arreglo = from obj in db.Eventos
                          select obj;
@@ -1516,14 +1448,12 @@ namespace WebApplication4.Controllers
                 ViewBag.departamentos = new SelectList(departamentos2, "idRegion", "nombre");
                 List<Region> listProv2 = new List<Region>();
                 List<Categoria> listSubCat2 = new List<Categoria>();
-
                 ViewBag.distritos = new SelectList(listProv2, "idProv", "nombre");
                 ViewBag.subcategorias = new SelectList(listSubCat2, "idSubcat", "nombre");
 
                 int pageNumber2 = (page ?? 1);
                 int pageSize2 = 8;
                 return View(lista.ToPagedList(pageNumber2, pageSize2));
-
             }
             //if (fech_ini < fech_fin)
             //{
@@ -1563,10 +1493,8 @@ namespace WebApplication4.Controllers
             {
                 lista = lista.Where(c => c.idProvincia == idProv);
             }
-            //}
 
             lista = lista.OrderBy(s => s.codigo);
-
             ViewBag.Cant = lista.Count();
             /*
             if (!nombre.Equals(""))
@@ -1580,21 +1508,18 @@ namespace WebApplication4.Controllers
                   c.idCategoria == idCategoria && c.idRegion == idRegion && c.idProvincia == idProv && c.estado.Contains("Activo"))).ToList();
             }
             */
-
             var categorias = db.Categoria.AsNoTracking().Where(c => c.nivel == 1);
             ViewBag.categorias = new SelectList(categorias, "idCategoria", "nombre");
             var departamentos = db.Region.AsNoTracking().Where(c => c.idRegPadre == null);
             ViewBag.departamentos = new SelectList(departamentos, "idRegion", "nombre");
             List<Region> listProv = new List<Region>();
             List<Categoria> listSubCat = new List<Categoria>();
-
             ViewBag.distritos = new SelectList(listProv, "idProv", "nombre");
             ViewBag.subcategorias = new SelectList(listSubCat, "idSubcat", "nombre");
 
             int pageNumber = (page ?? 1);
             int pageSize = 8;
             return View(lista.ToPagedList(pageNumber, pageSize));
-
         }
 
         [AllowAnonymous]
@@ -1623,12 +1548,8 @@ namespace WebApplication4.Controllers
             int idOrganizador = (int)queryEvento.idOrganizador;
             ViewBag.idEvento = evento;
             ViewBag.organizadorEvento = db.Organizador.Where(c => c.codOrg == idOrganizador).First().nombOrg;
-
             ViewBag.listaFunciones = db.Funcion.Where(c => c.codEvento == id && c.estado != "CANCELADO").ToList();
-
             //lo bravo
-
-
             return View();
         }
 
@@ -1698,7 +1619,6 @@ namespace WebApplication4.Controllers
         [HttpPost]
         public ActionResult CancelarEvento(CancelarModel evento)
         {
-
             if (evento.fechaRecojo <= DateTime.Today)
             {
                 ModelState.AddModelError("fechaRecojo", "Elija una fecha posterior al día de hoy");
@@ -1737,54 +1657,40 @@ namespace WebApplication4.Controllers
 
                 TempData["message"] = "Se cancelar las funciones correctamente";
                 TempData["tipo"] = "alert alert-success";
-
                 return Redirect("~/Evento");
             }
-
             return CancelarEvento("" + evento.idEvento);
         }
-
-
 
         [HttpPost]
         public ActionResult EnviarComentario(int codEvento, string usuario, string contenido)
         {
             Comentarios new_coment = new Comentarios();
-            // Comentarios list = db.Comentarios.Last();
-
-
+          
             new_coment.codEvento = codEvento;
             new_coment.contenido = contenido;
             new_coment.usuario = usuario;
-            /*
-            new_coment.contenido = comentario;
-            new_coment.codEvento = evento_id;
-            new_coment.usuario = user_val;*/
-            new_coment.fecha = DateTime.UtcNow;
-
+           
+            new_coment.fecha = DateTime.Now;
             db.Comentarios.Add(new_coment);
             db.SaveChanges();
-
 
             var lista = from comentario in db.Comentarios
                         where comentario.codEvento == codEvento
                         orderby comentario.fecha descending
                         select new Coment
                         {
+                            flag = (comentario.usuario == usuario) ? true : false,
                             contenido = comentario.contenido,
                             nombre = comentario.CuentaUsuario.nombre,
-                            fecha = comentario.fecha
+                            fecha = comentario.fecha,
+                            codigo = comentario.codComentario
                         };
 
             lista = lista.Take(6);
-
             List<Coment> listaNueva = lista.ToList<Coment>();
-
             return Json(listaNueva, JsonRequestBehavior.AllowGet);
-
         }
-
-
 
         [HttpPost]
         public ActionResult GetComents(int codEvento, string usuario, string contenido, int? offset)
@@ -1793,25 +1699,69 @@ namespace WebApplication4.Controllers
             // Comentarios list = db.Comentarios.Last();
 
             int skipVal = offset ?? 0;
-
-
             var lista = from comentario in db.Comentarios
                         where comentario.codEvento == codEvento
                         orderby comentario.codComentario descending
                         select new Coment
                         {
+                            flag = (comentario.usuario == usuario) ? true : false,
                             contenido = comentario.contenido,
                             nombre = comentario.CuentaUsuario.nombre,
-                            fecha = comentario.fecha
-
+                            fecha = comentario.fecha,
+                            codigo = comentario.codComentario
                         };
-
             lista = lista.Skip(skipVal).Take(cantMax);
             //  lista = lista.Take(6);
-
             List<Coment> listaNueva = lista.ToList<Coment>();
-
             return Json(listaNueva, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+        [HttpPost]
+        public ActionResult DelComment(int cod, int codEvento)
+        {
+
+            db.Configuration.AutoDetectChangesEnabled = false;
+
+            Comentarios data = new Comentarios();
+            string act = "";
+            if (Request.IsAuthenticated)
+            {
+                act = User.Identity.Name;
+
+
+            }
+
+
+
+            data.codComentario = cod;
+            data.codEvento = codEvento;
+            data.usuario = act;
+            try
+            {
+                db.Comentarios.Attach(data);
+                db.Comentarios.Remove(data);
+                db.SaveChanges();
+
+
+
+            }
+            catch (Exception ex)
+            {
+
+
+
+            }
+            finally
+            {
+                db.Configuration.AutoDetectChangesEnabled = true;
+            }
+
+
+
+
+            return Json("Eliminado exitoso", JsonRequestBehavior.AllowGet);
 
         }
 

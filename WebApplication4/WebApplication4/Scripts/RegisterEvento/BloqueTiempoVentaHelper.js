@@ -25,10 +25,10 @@ function validarFechaInicioYFin(fechaInicio, fechaFin) {
     }
 
     if (malInicio) {
-        alert("Fecha de inicio incorrecta: " + fechaInicio + ". Ingrese una fecha valida (Rango de fecha: " + date.getDate() + "/" + (date.getMonth()+1) + "/" + dateYear+ " - " + (dateYear + 20) + ").");
+        alert("Fecha de inicio incorrecta: " + fechaInicio + ". Ingrese una fecha valida (Rango de fecha: " + date.getDate() + "/" + (date.getMonth() + 1) + "/" + dateYear + " - " + (dateYear + 20) + ").");
     }
     if (malFinal) {
-        alert("Fecha de fin incorrecta: " + fechaFin + ". Ingrese una fecha valida (Rango de fecha: " + date.getDate() + "/" + (date.getMonth()+1) + "/" + dateYear + " - " + (dateYear + 20) + ").");
+        alert("Fecha de fin incorrecta: " + fechaFin + ". Ingrese una fecha valida (Rango de fecha: " + date.getDate() + "/" + (date.getMonth() + 1) + "/" + dateYear + " - " + (dateYear + 20) + ").");
     }
     if (!malInicio && !malFinal) {
         return true;
@@ -58,7 +58,7 @@ function nuevoBloque() {
                 row.setAttribute("data-fechaFin", fechaFin);
                 row.id = rowId;
                 var cell0 = row.insertCell(0);
-                cell0.innerHTML = parseInt(row.id) +1;
+                cell0.innerHTML = parseInt(row.id) + 1;
                 var cell1 = row.insertCell(1);//desde
                 cell1.innerHTML = fechaInicio;
                 var cell2 = row.insertCell(2);//hasta
@@ -84,13 +84,14 @@ function quitarBloque() {
     var fila = $('input[name="groupBloquedeVenta"]:checked').val();
     var row = document.getElementById(parseInt(fila));
     row.parentNode.removeChild(row);
-    var cantidad = parseInt($('#histBloque').val());
-    $("#histBloque").val(cantidad - 1);
 }
 function guardarBloques() {
     var nombreLista = "ListaBTM";
     var tableBTV = document.getElementById("bloqueDeTiempo");
-    if (tableBTV.rows.length == 1) return false;
+    if (tableBTV.rows.length == 1) {
+        alert("No hay bloques de tiempo de venta. Agregue un bloque.");
+        return false;
+    };
     for (var i = 1; i < tableBTV.rows.length; i++) {
         var fechaInicio = tableBTV.rows[i].getAttribute("data-fechaInicio");
         var fechaFin = tableBTV.rows[i].getAttribute("data-fechaFin");

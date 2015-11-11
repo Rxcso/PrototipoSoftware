@@ -17,6 +17,8 @@ namespace WebApplication4.Controllers
         public const string Compra = "Comprado";
         //asiento ocupado
         public const string Ocupado = "OCUPADO";
+        //cliente anonimo universal
+        public const string AnonimoUniversal = "a@anonimo.com";
 
 
     }

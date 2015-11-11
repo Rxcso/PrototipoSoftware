@@ -88,14 +88,14 @@ namespace WebApplication4.Models
 
     public class RegisterViewModel
     {
-        [Required(ErrorMessage="Campo Requerido.")]
-        [EmailAddress(ErrorMessage="Formato incorrecto. (usuario@correo.com)")]
+        [Required(ErrorMessage = "Campo Requerido.")]
+        [EmailAddress(ErrorMessage = "Formato incorrecto. (usuario@correo.com)")]
         [Display(Name = "Correo Electronico")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage="Campo Requerido.")]
+        [Required(ErrorMessage = "Campo Requerido.")]
         [StringLength(100, ErrorMessage = "La {0} debe ser de al menos {2} caracteres de largo.", MinimumLength = 6)]
-        [DataType(DataType.Password,ErrorMessage = "Contraseña debe tener al menos un símbolo o un dígito. También al menos una minúscula y una mayúscula")]
+        [DataType(DataType.Password, ErrorMessage = "Contraseña debe tener al menos un símbolo o un dígito. También al menos una minúscula y una mayúscula")]
         [Display(Name = "Contraseña")]
         public string Password { get; set; }
 
@@ -109,18 +109,19 @@ namespace WebApplication4.Models
         public int tipoDoc { get; set; }
 
         [Required(ErrorMessage = "Campo Requerido.")]
+        [StringLength(12, ErrorMessage = "El {0} debe tener entre {2} y {1} caracteres.", MinimumLength = 8)]
         [Display(Name = "#Doc")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Numero de documento debe ser numerico.")]
         public string codDoc { get; set; }
 
         [Required(ErrorMessage = "Campo Requerido.")]
         [Display(Name = "Nombres")]
-        [RegularExpression("^[a-zA-Z ]*$", ErrorMessage = "Nombre no debe ser alfanumerico.")]
+        [RegularExpression("^[a-zA-ZáéíóúÁÉÍÓÚ ]*$", ErrorMessage = "Nombre no debe ser alfanumerico.")]
         public string nombre { get; set; }
 
         [Required(ErrorMessage = "Campo Requerido.")]
         [Display(Name = "Apellidos")]
-        [RegularExpression("^[a-zA-Z ]*$", ErrorMessage = "Apellidos no deben ser alfanumericos.")]
+        [RegularExpression("^[a-zA-ZáéíóúÁÉÍÓÚ ]*$", ErrorMessage = "Apellidos no deben ser alfanumericos.")]
         public string apellido { get; set; }
 
         [Required]
@@ -139,7 +140,7 @@ namespace WebApplication4.Models
         [Display(Name = "Sexo")]
         public string sexo { get; set; }
 
-        [Required(ErrorMessage = "Campo Requerido.")]   
+        [Required(ErrorMessage = "Campo Requerido.")]
         [DataType(DataType.Date, ErrorMessage = "Mal formato de fecha")]
         [Display(Name = "Fecha Nac. ")]
         public System.DateTime fechaNac { get; set; }
@@ -182,12 +183,12 @@ namespace WebApplication4.Models
     {
         [Required(ErrorMessage = "Campo Requerido.")]
         [Display(Name = "Nombres")]
-        [RegularExpression("^[a-zA-Z ]*$", ErrorMessage = "Nombre no debe ser alfanumerico.")]
+        [RegularExpression("^[a-zA-ZáéíóúÁÉÍÓÚ ]*$", ErrorMessage = "Nombre no debe ser alfanumerico.")]
         public string nombre { get; set; }
 
         [Required(ErrorMessage = "Campo Requerido.")]
         [Display(Name = "Apellidos")]
-        [RegularExpression("^[a-zA-Z ]*$", ErrorMessage = "Apellidos no deben ser alfanumericos.")]
+        [RegularExpression("^[a-zA-ZáéíóúÁÉÍÓÚ ]*$", ErrorMessage = "Apellidos no deben ser alfanumericos.")]
         public string apellido { get; set; }
 
         [Required(ErrorMessage = "Campo Requerido.")]
@@ -196,12 +197,13 @@ namespace WebApplication4.Models
         public int tipoDoc { get; set; }
 
         [Required(ErrorMessage = "Campo Requerido.")]
+        [StringLength(12, ErrorMessage = "El {0} debe tener entre {2} y {1} caracteres.", MinimumLength = 8)]
         [Display(Name = "#Doc")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Numero de documento debe ser numerico.")]
         public string codDoc { get; set; }
 
         [Required(ErrorMessage = "Campo Requerido.")]
-        [DataType(DataType.Date)]
+        [DataType(DataType.Date, ErrorMessage = "Mal formato de fecha")]
         [Display(Name = "Fecha Nac. ")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public System.DateTime fechaNac { get; set; }
@@ -210,12 +212,10 @@ namespace WebApplication4.Models
         [Display(Name = "Direccion")]
         public string direccion { get; set; }
 
-        [Required(ErrorMessage = "Campo Requerido.")]
         [Display(Name = "Telefono")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Telefono debe ser numerico.")]
         public string telefono { get; set; }
 
-        [Required(ErrorMessage = "Campo Requerido.")]
         [Display(Name = "Telefono Movil")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Telefono Movil debe ser numerico.")]
         public string telMovil { get; set; }

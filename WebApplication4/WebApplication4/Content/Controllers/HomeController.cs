@@ -14,15 +14,12 @@ namespace WebApplication4.Controllers
 
         public ActionResult Index(string nombre, DateTime? fech_ini, DateTime? fech_fin, int? idCategoria, int? idSubCat, int? idRegion, int? page)
         {
-
             ViewBag.nombre = nombre;
             ViewBag.fech_ini = fech_ini;
             ViewBag.fech_fin = fech_fin;
             ViewBag.idCategoria = idCategoria;
             ViewBag.idSubCat = idSubCat;
             ViewBag.idRegion = idRegion;
-        
-
 
             var lista = from obj in db.Eventos
                         where (obj.estado.Contains("Activo") == true)
@@ -60,30 +57,22 @@ namespace WebApplication4.Controllers
                 lista = lista.Where(c => c.idRegion == idRegion);
             }
 
- 
-
             lista = lista.OrderBy(s => s.fecha_inicio);
-
             ViewBag.Cant = lista.Count();
-          
 
-           List<Region> listProv = new List<Region>();
+            List<Region> listProv = new List<Region>();
             List<Categoria> listSubCat = new List<Categoria>();
 
             ViewBag.distritos = new SelectList(listProv, "idProv", "nombre");
             ViewBag.subcategorias = new SelectList(listSubCat, "idSubcat", "nombre");
 
             int pageNumber = (page ?? 1);
-            int pageSize = 6;
+            int pageSize = 12;
             
-
-
-
             List<Eventos> listaDestacados = db.Eventos.AsNoTracking().Where(c => (c.ImagenDestacado != null)).ToList();
             ViewBag.ListaDestacados = listaDestacados;
 
             return View(lista.ToPagedList(pageNumber, pageSize));
-      
         }
 
         public ActionResult Index2()

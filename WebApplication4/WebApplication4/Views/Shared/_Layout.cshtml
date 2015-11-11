@@ -1,6 +1,5 @@
 ﻿@using Microsoft.AspNet.Identity
 @using WebApplication4.Models
-
 @{
     var esIntranet = 0;
     var nombre = "";
@@ -18,6 +17,10 @@
                 esIntranet = 1;
                 nombre = cuenta.nombre;
             }
+            else
+            {
+                nombre = cuenta.nombre;
+            }
         }
     }
 }
@@ -28,7 +31,6 @@
 
 @if (esIntranet == 1)
 {
-
     <!DOCTYPE html>
     <html>
     <head>
@@ -116,7 +118,6 @@
                                     <li><a href="ReporteCliente.html">Clientes</a></li>
                                 </ul>
                             </li>
-
                         </ul>
                         @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "form" }))
                         {
@@ -145,17 +146,11 @@
         @RenderSection("scripts", required: false)
     </body>
 </html>
-
-
 }
 else
 {
 
-
-    
-        inf245netsoft db = new inf245netsoft();
-    
-
+    inf245netsoft db = new inf245netsoft();
 
     <!DOCTYPE html>
     <html>
@@ -164,8 +159,6 @@ else
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/Content/estilos-index1.css">
-
-
     <body>
         <header class="container-fluid ">
             <nav style="margin-bottom:0" class="navbar navbar-static-top navbar-inverse " role="navigation">
@@ -182,7 +175,7 @@ else
                     <!--inicia el MENU-->
                     <div class="collapse navbar-collapse" id="navegacion">
                         <!--menu desplegable -->
-                        @using (Html.BeginForm("Index", "Home",FormMethod.Get , new {id="search",  @class = "navbar-form navbar-left", role = "search" }))
+                        @using (Html.BeginForm("Index", "Home", FormMethod.Get, new { id = "search", @class = "navbar-form navbar-left", role = "search" }))
                         {
                             <div class="form-group">
                                 <div class="input-group">
@@ -193,14 +186,9 @@ else
 
                         }
                         <!--
-                           
                         <form action="" class="navbar-form navbar-left" role="search">
-                         
-                        </form> 
-
+                        </form>
                         -->
-
-
                         <form class="navbar-form navbar-right">
                             <a class="btn btn-info" href="#busqAvanzada" data-toggle="collapse">Búsqueda Avanzada <span class="glyphicon glyphicon-tasks"></span></a>
                         </form>
@@ -219,7 +207,7 @@ else
                                     @Html.AntiForgeryToken()
 
                                     <div class="nav navbar-nav navbar-right">
-                                        <a type="button" class="btn btn-primary" href="@Url.Action("MiCuenta","CuentaUsuario")"> Hola @User.Identity.Name !</a>
+                                        <a type="button" class="btn btn-primary" href="@Url.Action("MiCuenta","CuentaUsuario")"> Hola @nombre !</a>
                                         <a type="button" class="btn btn-danger" href="javascript:document.getElementById('logoutForm').submit()">Salir <span class="glyphicon glyphicon-log-out"></span></a>
                                     </div>
                                 }
@@ -228,9 +216,6 @@ else
                     </div>
                 </div>
             </nav>
-
-
-
 
             <div id="busqAvanzada" class="collapse container">
                 <!--formulario EN LINEA-->
@@ -242,36 +227,24 @@ else
 
                         if (this.Request.QueryString.AllKeys.Contains("nombre"))
                         {
-
                             nomb = this.Request.QueryString["nombre"];
-
                         }
-
                     }
 
                     @Html.Hidden("nombre", nomb, new { id = "adv-nomb" })
-
-
-
-
-
                     <div class="form-group ">
                         <div class="form-group ">
                             <div class="input-group">
                                 <span class="input-group-addon">Desde:</span>
-
                                 @if (ViewBag.fech_ini != null)
                                 {
                                     string valor = ViewBag.fech_ini.ToString("yyyy-MM-dd");
-
                                     <input id="fech_ini" name="fech_ini" type="date" class="form-control" value=@valor>
                                 }
                                 else
                                 {
-
                                     <input id="fech_ini" name="fech_ini" type="date" class="form-control" value="@String.Format("{0:yyyy-MM-dd}",DateTime.Today)">
                                 }
-
                             </div>
                         </div>
 
@@ -281,17 +254,14 @@ else
                                 @if (ViewBag.fech_fin != null)
                                 {
                                     string valor = ViewBag.fech_fin.ToString("yyyy-MM-dd");
-
                                     <input id="fech_fin" name="fech_fin" type="date" value=@valor class="form-control">
                                 }
                                 else
                                 {
-
                                     <input id="fech_fin" name="fech_fin" type="date" class="form-control">
                                 }
                             </div>
                         </div>
-
 
                         <div class="form-group ">
 
@@ -300,15 +270,9 @@ else
                                 <option value="">Categorias</option>
 
                                 @{
-
-                                    var queryCat = db.Categoria.AsNoTracking().Where(c => c.nivel == 1);
-                                    var categorias = new SelectList(queryCat, "idCategoria", "nombre");
-
-
+                                var queryCat = db.Categoria.AsNoTracking().Where(c => c.nivel == 1);
+                                var categorias = new SelectList(queryCat, "idCategoria", "nombre");
                                 }
-
-
-
 
                                 @foreach (var categoria in categorias)
                                 {
@@ -318,6 +282,7 @@ else
                             </select>
 
                         </div>
+
                         <div class="form-group ">
                             <select name="idSubCat" id="idSubCat" data-val="true" class="form-control col-lg-2">
 
@@ -333,34 +298,20 @@ else
 
                                     foreach (var dato in subcat)
                                     {
-
                                         <option value=@dato.idCategoria>@dato.nombre</option>
-
                                     }
-
-
-
                                 }
-
-
-
+                                
                             </select>
                         </div>
-
 
                         <div class="form-group">
                             <select name="idRegion" id="idRegion" data-val="true" class="form-control col-lg-2">
                                 <option value="">Departamentos</option>
-
-
                                 @{
-
-                                    var queryDepart = db.Region.AsNoTracking().Where(c => c.idRegPadre == null);
-                                    var listaDepart = new SelectList(queryDepart, "idRegion", "nombre");
-
-
+                                var queryDepart = db.Region.AsNoTracking().Where(c => c.idRegPadre == null);
+                                var listaDepart = new SelectList(queryDepart, "idRegion", "nombre");
                                 }
-
 
                                 @foreach (var departamento in listaDepart)
                                 {
@@ -368,37 +319,24 @@ else
                                 }
 
                             </select>
-
                         </div>
                         <div class="form-group">
                             <a class="btn btn-primary " onclick="busquedaAdv()">Buscar <span class="glyphicon glyphicon-search"></span></a>
                         </div>
-
                     </div>
-
-
-
-
-
                 }
-                
             </div>
 
-
-
-
-
             @{
-                    try
-                    {
-                        Html.RenderPartial("_LoginPartial", new LoginViewModel());
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex);
-                    }
+    try
+    {
+        Html.RenderPartial("_LoginPartial", new LoginViewModel());
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex);
+    }
             }
-
 
         </header>
 
@@ -416,6 +354,4 @@ else
         @RenderSection("scripts", required: false)
     </body>
 </html>
-
-
 }
