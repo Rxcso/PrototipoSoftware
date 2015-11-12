@@ -46,6 +46,14 @@
         }
     }
     DateTime today = DateTime.Today;
+    DateTime fechaUlt = ((DateTime)funcion.FechaDevolucion).AddDays((int)funcion.cantDiasDevolucion);
+    int sePuedeDev = 0;
+    if (DateTime.Compare(today, fechaUlt) < 0 &&
+        DateTime.Compare(today, (DateTime)funcion.FechaDevolucion) > 0) { sePuedeDev = 1; }
+        
+    
+    
+    
     
 }
 
@@ -90,19 +98,21 @@
     <div class="row">
         <div class="form-group">            
             @{
-                if (funcion.estado == "POSTERGADO")
+                if (sePuedeDev == 1)
                 {
-                    <div class="col-md-11">                        
-                        <a class="btn btn-primary" href="" data-toggle="modal">Devolver Asiento<span class="glyphicon glyphicon-usd"></span></a>
+                    if (funcion.estado == "POSTERGADO")
+                    {
+                        <div class="col-md-11">
+                            <a class="btn btn-primary" href="" data-toggle="modal">Devolver Asiento<span class="glyphicon glyphicon-usd"></span></a>
+                        </div>
+                    }
+                    <!--Devolver todo-->
+                    <div class="col-md-11">
+                        <a class="btn btn-primary" href="#devolverTodo" data-toggle="modal">Devolver Todo<span class="glyphicon glyphicon-usd"></span></a>
                     </div>
                 }
-
-            }
-                   
-            <!--Devolver todo-->
-            <div class="col-md-11">
-                <a class="btn btn-primary" href="#devolverTodo" data-toggle="modal">Devolver<span class="glyphicon glyphicon-usd"></span></a> 
-            </div>
+            }                               
+            
             <div class="col-md-1">
                 <a class="btn btn-primary" data-toggle="modal" href="@Url.Action("Devolucion", "Ventas")">Volver <span class="glyphicon glyphicon-chevron-left"></span></a>
             </div>
@@ -170,7 +180,18 @@
     }
 
     function devolverTodo() {
-        
+        $.ajax({
+            url: '/Ventas/DevolverTodo/',
+            success: function () {
+                //alert("Eliminado");
+                $('#devolverTodo').modal('hide');                                
+                //angular.element(document.getElementById('Activate'))[0].disabled = true;
+                window.location.href = '/Ventas/Devolucion';
+            },
+            error: function () {
+                alert("Error :(");
+            }
+        });
     }
 </script>
 

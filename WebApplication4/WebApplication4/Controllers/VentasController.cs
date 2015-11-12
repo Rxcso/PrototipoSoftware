@@ -148,8 +148,8 @@ namespace WebApplication4.Controllers
             if (id == "" || id == null) return RedirectToAction("Asignacion", "Ventas");
             string usuario = id.Replace("°", "@");
             CuentaUsuario vend = db.CuentaUsuario.Find(usuario);
-            DateTime hoy = DateTime.Now;
-            List<Turno> listatuvend = db.Turno.AsNoTracking().Where(c => c.usuario == usuario && c.fecha > hoy).ToList();
+            DateTime hoy = DateTime.Now.Date;
+            List<Turno> listatuvend = db.Turno.AsNoTracking().Where(c => c.usuario == usuario && c.fecha >= hoy).ToList();
             Session["ListaTurnoVendedor"] = listatuvend;
             Session["vendAsig"] = vend;
 
@@ -324,7 +324,10 @@ namespace WebApplication4.Controllers
                             DevolucionModel d = new DevolucionModel();
                             d.codDev = detVen[j].codDetalleVenta;
                             d.numDoc = int.Parse(doc);
-                            d.nombre = usuario[0].apellido + ", " + usuario[0].nombre;
+                            if(usuario.Count==0)
+                                d.nombre = "--";
+                            else
+                                d.nombre = usuario[0].apellido + ", " + usuario[0].nombre;
 
                             int codigoFuncion = detVen[j].codFuncion;
                             List<Funcion> funAux = db.Funcion.Where(fu => fu.codFuncion == codigoFuncion).ToList();
@@ -341,15 +344,20 @@ namespace WebApplication4.Controllers
 
                             codigoFuncion = detVen[0].codFuncion;
                             int codigoDetVen = detVen[0].codDetalleVenta;
-                            List<AsientosXFuncion> axf = db.AsientosXFuncion.Where(a => a.codFuncion == codigoFuncion && a.codDetalleVenta == codigoDetVen).ToList();
 
+                            PrecioEvento pe = db.PrecioEvento.Find(detVen[0].codPrecE);
+                            ZonaEvento ze = db.ZonaEvento.Find(pe.codZonaEvento);
+                            /*
+                            List<AsientosXFuncion> axf = db.AsientosXFuncion.Where(a => a.codFuncion == codigoFuncion && a.codDetalleVenta == codigoDetVen).ToList();
+                            
                             int codigoAsiento = axf[0].codAsiento;
                             List<Asientos> asientos = db.Asientos.Where(a => a.codAsiento == codigoAsiento).ToList();
 
                             int codigoZona = asientos[0].codZona;
                             List<ZonaEvento> ze = db.ZonaEvento.Where(z => z.codZona == codigoZona).ToList();
 
-                            d.zona = ze[0].nombre;
+                            d.zona = ze[0].nombre;*/
+                            d.zona = ze.nombre;
                             devolucion.Add(d);
                         }
                     }
@@ -361,9 +369,6 @@ namespace WebApplication4.Controllers
             return RedirectToAction("Devolucion", "Ventas");
             //return View("Devolucion");
         }
-
-
-
 
         public ActionResult Devolver(string fila)
         {
@@ -395,7 +400,23 @@ namespace WebApplication4.Controllers
             //logica de devolucion!
             return View("Devolucion");
         }
+        
+        public ActionResult DevolverTodo()
+        {
+            List<DetalleVenta> dv=(List<DetalleVenta>)Session["DetalleVenta"];
+            /*Session["DetalleVenta"]
+            Session["VentaXFunDev"]
+            Session["VentasDev"]
+            Session["ListaAsientos"] = axf;
+            Session["BusquedaDev"] = devolucionModel
+            Session["FuncionDev"]
+            Session["EventoDev"]
+            */
 
+
+
+            return View("Devolucion");
+        }
 
         public ActionResult VerDetalle(string detVen)
         {
