@@ -1030,6 +1030,9 @@ namespace WebApplication4.Controllers
                 db.RegaloXCuenta.Add(rc);
                 db.SaveChanges();
                 db.Entry(cuenta).State = EntityState.Detached;
+                List<CuentaUsuario> listacl;
+                listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.estado == true && c.codPerfil == 1 && c.puntos > 0).ToList();
+                if (listacl != null) Session["ListaCL"] = listacl;
                 return Json("Regalo Entregado", JsonRequestBehavior.AllowGet);
             }
             //CuentaUsuario cuenta2 = (CuentaUsuario)TempData["EntregaCl"];
