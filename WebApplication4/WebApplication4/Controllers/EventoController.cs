@@ -371,6 +371,7 @@ namespace WebApplication4.Controllers
                         modificado.idLocal = model.Local;
                         modificado.nombre = model.nombre;
                         modificado.fechaUltModificacion = DateTime.Today;
+                        modificado.estado = "Modificado";
                         db.SaveChanges();
                         return RedirectToAction("BloquesTiempoVenta");
                     }
@@ -423,7 +424,7 @@ namespace WebApplication4.Controllers
                     evento.idProvincia = (model.idProv == 0) ? 0 : model.idProv;
                     evento.descripcion = string.IsNullOrEmpty(model.descripcion) ? "" : model.descripcion;
                     evento.fechaRegistro = DateTime.Today;
-                    evento.estado = "Activo";
+                    evento.estado = "Creado";
                     evento.monto_adeudado = 0;
                     evento.monto_transferir = 0;
                     evento.tieneBoletoElectronico = false;
@@ -1090,6 +1091,7 @@ namespace WebApplication4.Controllers
                 evento.permiteReserva = model.PermitirReservasWeb;
                 evento.puntosAlCliente = model.PuntosToCliente;
                 evento.devolverPostergacion = model.PermiteDevolucionPostergacion;
+                evento.estado = "Activo";
                 db.SaveChanges();
 
                 TempData["tipo"] = "alert alert-success";
