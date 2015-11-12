@@ -31,16 +31,16 @@
             <br>
             <div class="row form-group">
                 @Html.LabelFor(model => model.ubicacion, new { @class = "control-label col-md-3" })
-                <div class="col-md-9">
-                    @Html.TextBoxFor(model => model.ubicacion, new { @placeholder = @puntoM.ubicacion, @Value = @puntoM.ubicacion})
+                <div class="col-md-5">
+                    @Html.TextBoxFor(model => model.ubicacion, new { @class = "form-control", @placeholder = @puntoM.ubicacion, @Value = @puntoM.ubicacion })
                     @Html.ValidationMessageFor(model => model.ubicacion)
                 </div>
             </div>
 
             <div class="row form-group">
                 @Html.LabelFor(model => model.mac, new { @class = "control-label col-md-3" })
-                <div class="col-md-9">
-                    @Html.TextBoxFor(model => model.mac, new { @placeholder = @puntoM.mac, @Value = @puntoM.mac })
+                <div class="col-md-5">
+                    @Html.TextBoxFor(model => model.mac, new { @class = "form-control", @placeholder = @puntoM.mac, @Value = @puntoM.mac })
                     @Html.ValidationMessageFor(model => model.mac)
                 </div>
             </div>

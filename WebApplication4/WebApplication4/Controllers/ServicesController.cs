@@ -17,5 +17,13 @@ namespace WebApplication4.Controllers
         {
             return View();
         }
+        public ActionResult EliminaItem()
+        {
+            return View();
+        }
+        public ActionResult Descuento()
+        {
+            return View();
+        }
     }
 }

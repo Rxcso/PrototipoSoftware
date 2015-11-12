@@ -55,7 +55,9 @@
         </div>
 
     </div>
-
+    <a class="btn btn-primary" id="idBusq2" onclick="buscaI()" data-toggle="modal">Ver Inactivos<span class="glyphicon"></span></a>
+    <br>
+    <br>
     @{
         List<WebApplication4.Models.PuntoVenta> listaPunto = db.PuntoVenta.AsNoTracking().Where(c => c.estaActivo == true).ToList();
         if (Session["ListaP"] == null)
@@ -77,7 +79,7 @@
                     <th>Dirección MAC</th>
                     <th>Provincia</th>
                     <th>Departamento</th>
-                    @*<th></th>*@
+                    <th>Estado</th>
                 </tr>
             </thead>
             <tbody id="tbody">
@@ -89,6 +91,7 @@
                         <td>@row.dirMAC</td>
                         <td>@db.Region.Find(row.idProvincia).nombre</td>
                         <td>@db.Region.Find(row.idRegion).nombre</td>
+                        <td>@row.estaActivo</td>
                         @*<td>@Html.ActionLink("Delete", "Delete", new { id = row.codPuntoVenta })</td>
                         <td>@Html.ActionLink("Edit", "Edit", new { id = row.codPuntoVenta })</td>*@
                     </tr>
@@ -103,6 +106,8 @@
 
 
 <input type="hidden" id="idPuntoT" value="" />
+<input type="hidden" id="EstadoPT" value="" />
+
 <script>
     function myFunction(x) {
         if (document.getElementsByClassName("trselected").length > 0) {
@@ -115,8 +120,8 @@
         //var y = x.getCells();
         var elem = document.getElementById("idPuntoT");
         elem.value = x.cells[0].innerHTML;
-        //alert(x.cells[0].innerHTML);
-        //ViewBag.P = x.cells[0].innerHTML;
+        var elem2 = document.getElementById("EstadoPT");
+        elem2.value = x.cells[5].innerHTML;
         x.className = "trselected";
 
         //<a class="btn btn-primary" href="javascript:document.getElementsByClassName('trselected').submit()">Borrar<span class="glyphicon glyphicon-pencil"></span></a>
@@ -124,11 +129,13 @@
     }
     function borrar() {
         var punto = $('#idPuntoT').val();
+        var estado = $('#EstadoPT').val();
         var el = document.getElementById(punto);
         var row = $(el).closest('tr');
         //alert(evento);
         //alert(promocion);
         if (punto != "" && punto != null) {
+            if (estado != "False") {
             $.ajax({
                 url: "@Url.Action("Delete","PuntoVenta")",
                 data: { punto: punto },
@@ -142,6 +149,9 @@
                     alert(data);
                 }
             });
+            } else {
+                alert("No se puede desactivar un Punto de Venta que ya esta desactivado");
+            }
         } else {
             alert("Seleccione un Punto de Venta");
             evento = "";
@@ -149,8 +159,15 @@
     }
     function redirige() {
         var punto = $('#idPuntoT').val();
+        var estado = $('#EstadoPT').val();
         if (punto != "") {
-            window.location.href = '/PuntoVenta/Edit?punto=' + punto;
+            if (estado != "False") {
+                var elem = document.getElementById("idPuntoT");
+                elem.value = "";
+                window.location.href = '/PuntoVenta/Edit?punto=' + punto;
+            } else {
+                alert("El Punto de Venta esta desactivado no se puede editar");
+            }
         } else {
             alert("Seleccione un Punto de Venta");
             evento = "";
@@ -190,6 +207,20 @@
                 alert("Error :(");
             }
         });
+    }
+    function buscaI() {
+        $.ajax({
+            url: "@Url.Action("SearchI", "PuntoVenta")",
+            data: {},
+        success: function (data) {
+            window.location.href = '/PuntoVenta/Index';
+            //alert("Eliminado");
+            //row.remove();
+        },
+        error: function () {
+            alert("Error :(");
+        }
+    });
     }
     function validaS() {
         var cliente = $('#idPuntoT').val();
@@ -256,16 +287,16 @@
                         <br>
                         <div class="row form-group">
                             @Html.LabelFor(model => model.ubicacion, new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
-                                @Html.EditorFor(model => model.ubicacion)
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.ubicacion, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.ubicacion)
                             </div>
                         </div>
 
                         <div class="row form-group">
                             @Html.LabelFor(model => model.mac, new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
-                                @Html.EditorFor(model => model.mac)
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.mac, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.mac)
                             </div>
                         </div>

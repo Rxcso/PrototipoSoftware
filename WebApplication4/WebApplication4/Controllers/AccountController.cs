@@ -23,6 +23,7 @@ namespace WebApplication4.Controllers
         private ApplicationUserManager _userManager;
         private inf245netsoft db = new inf245netsoft();
 
+
         public AccountController()
         {
         }
@@ -108,8 +109,20 @@ namespace WebApplication4.Controllers
             }
             catch (Exception ex)
             {
-                TempData["tipo"] = "alert alert-warning";
-                TempData["message"] = "Iniciar Sesión desde un punto de venta registrado.";
+                try
+                {
+                    if (cuentausuario.codPerfil == 2)
+                    {
+                        TempData["tipo"] = "alert alert-warning";
+                        TempData["message"] = "Iniciar Sesión desde un punto de venta registrado.";
+                    }
+                }
+                catch (Exception ex2)
+                {
+                    TempData["tipo"] = "alert alert-warning";
+                    TempData["message"] = "Correo no registrado.";
+                }
+                
                 return Redirect("~/Home/Index");
             }
 
@@ -179,7 +192,8 @@ namespace WebApplication4.Controllers
                                 {
                                     tu.estado = "Tarde";
                                 }
-                                Session["MensajeIngresoTurno"] = "Ingreso a Turno Registrado" + da.ToString(@"hh\:mm\:ss"); ;
+                                tu.horaRegistro = da.ToString(@"hh\:mm\:ss");
+                                Session["MensajeIngresoTurno"] = "Ingreso a Turno Registrado" + da.ToString(@"hh\:mm\:ss");
                                 db.SaveChanges();
                                 db.Entry(tu).State = EntityState.Detached;
                             }
@@ -268,13 +282,35 @@ namespace WebApplication4.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (model.fechaNac > DateTime.Today || model.fechaNac < Convert.ToDateTime("01/01/1900"))
+                {
+                    ModelState.AddModelError("fechaNac", "La fecha con rango inválido");
+                    return View(model);
+                }
+
+                if (model.tipoDoc == 1)
+                {
+                    if (model.codDoc.Length != 8)
+                    {
+                        ModelState.AddModelError("codDoc", "El DNI debe tener 8 dígitos");
+                        return View(model);
+                    }
+
+                }
+                else
+                {
+                    if (model.codDoc.Length != 12)
+                    {
+                        ModelState.AddModelError("codDoc", "El Pasaporte debe tener 12 dígitos");
+                        return View(model);
+                    }
+
+                }
+
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
-
-
                 if (result.Succeeded)
                 {
-
                     var currentUser = UserManager.FindByName(user.UserName);
                     UserManager.AddToRole(user.Id, "Cliente");
                     CuentaUsuario cuentausuario = new CuentaUsuario();
@@ -296,7 +332,6 @@ namespace WebApplication4.Controllers
                     cuentausuario.tipoUsuario = "Cliente";
                     cuentausuario.usuario = model.Email;
 
-
                     db.CuentaUsuario.Add(cuentausuario);
 
                     db.SaveChanges();
@@ -313,7 +348,13 @@ namespace WebApplication4.Controllers
                     return RedirectToAction("Index", "Home");
                     //return View("~/Views/Home/Index.cshtml");
                 }
-                AddErrors(result);
+
+                foreach (var error in result.Errors)
+                {
+                    if (!error.Contains("nombre"))
+                        ModelState.AddModelError("", error);
+                }
+
             }
 
             // If we got this far, something failed, redisplay form
@@ -341,7 +382,7 @@ namespace WebApplication4.Controllers
                     cuentausuario.apellido = model.apellido;
                     cuentausuario.codDoc = model.codDoc;
                     cuentausuario.codPerfil = 2;
-                    cuentausuario.contrasena = model.Password;
+                    cuentausuario.contrasena = user.PasswordHash;
                     cuentausuario.direccion = model.direccion;
                     cuentausuario.estado = true;
                     cuentausuario.fechaNac = model.fechaNac;
@@ -367,6 +408,7 @@ namespace WebApplication4.Controllers
                     return RedirectToAction("Index", "Empleado");
                     //return View("~/Views/Home/Index.cshtml");
                 }
+
                 AddErrors(result);
             }
 
@@ -388,14 +430,14 @@ namespace WebApplication4.Controllers
                 if (result.Succeeded)
                 {
                     var currentUser = UserManager.FindByName(user.UserName);
-                    UserManager.AddToRole(user.Id, "Otro cargo");
+                    UserManager.AddToRole(user.Id, "Promotor");
                     CuentaUsuario cuentausuario = new CuentaUsuario();
 
                     cuentausuario.correo = model.Email;
                     cuentausuario.apellido = model.apellido;
                     cuentausuario.codDoc = model.codDoc;
                     cuentausuario.codPerfil = 3;
-                    cuentausuario.contrasena = model.Password;
+                    cuentausuario.contrasena = user.PasswordHash;
                     cuentausuario.direccion = model.direccion;
                     cuentausuario.estado = true;
                     cuentausuario.fechaNac = model.fechaNac;
@@ -702,6 +744,7 @@ namespace WebApplication4.Controllers
         {
             foreach (var error in result.Errors)
             {
+               
                 ModelState.AddModelError("", error);
             }
         }

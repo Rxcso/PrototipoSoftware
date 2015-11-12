@@ -25,18 +25,34 @@ namespace WebApplication4.Controllers
         public ActionResult RegisterTipoDeCambio(TipoDeCambioModel model)
         {
             List<WebApplication4.Models.TipoDeCambio> listaCambio = db.TipoDeCambio.AsNoTracking().Where(c => c.estado == "Activo").ToList();
-            TipoDeCambio tipoA = listaCambio.First();
-            db.Entry(tipoA).State = EntityState.Modified;
-            if (ModelState.IsValid)
+            if (listaCambio.Count > 0)
             {
-                TipoDeCambio tipo = new TipoDeCambio();
-                tipo.valor = model.valor;
-                tipo.fecha = DateTime.Now;
-                tipo.estado = "Activo";
-                tipoA.estado = "Inactivo";
-                db.TipoDeCambio.Add(tipo);
-                db.SaveChanges();
-                return RedirectToAction("Index", "TipoDeCambio");
+                TipoDeCambio tipoA = listaCambio.First();
+                db.Entry(tipoA).State = EntityState.Modified;
+                if (ModelState.IsValid)
+                {
+                    TipoDeCambio tipo = new TipoDeCambio();
+                    tipo.valor = model.valor;
+                    tipo.fecha = DateTime.Now;
+                    tipo.estado = "Activo";
+                    tipoA.estado = "Inactivo";
+                    db.TipoDeCambio.Add(tipo);
+                    db.SaveChanges();
+                    return RedirectToAction("Index", "TipoDeCambio");
+                }
+            }
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    TipoDeCambio tipo = new TipoDeCambio();
+                    tipo.valor = model.valor;
+                    tipo.fecha = DateTime.Now;
+                    tipo.estado = "Activo";
+                    db.TipoDeCambio.Add(tipo);
+                    db.SaveChanges();
+                    return RedirectToAction("Index", "TipoDeCambio");
+                }
             }
             return RedirectToAction("Index", "TipoDeCambio");
         }

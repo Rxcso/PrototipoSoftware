@@ -24,7 +24,7 @@
             <div class="form-group">
                 <a class="btn btn-primary" href="#formNuevo" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
                 <a class="btn btn-primary" data-toggle="modal" onclick="redirige()">Modificar<span class="glyphicon glyphicon-pencil"></span></a>
-                <a class="btn btn-primary" href="#eliminar" data-toggle="modal">Borrar<span class="glyphicon glyphicon-remove"></span></a>
+                <a class="btn btn-primary" onclick="validaS()" data-toggle="modal">Borrar<span class="glyphicon glyphicon-remove"></span></a>
             </div>
         </div>
 
@@ -57,7 +57,9 @@
         </div>
 
     </div>
-
+    <a class="btn btn-primary" id="idBusq2" onclick="buscaI()" data-toggle="modal">Ver Inactivos<span class="glyphicon"></span></a>
+    <br>
+    <br>
     @*@{
             Html.RenderPartial("_Search");
         }*@
@@ -80,11 +82,10 @@
                     <th>Id</th>
                     <th>Descripcion</th>
                     <th>Ubicacion</th>
-                    <th>Aforo</th>
+                    @*<th>Aforo</th>*@
                     <th>Provincia</th>
                     <th>Departamento</th>
-                    @*<th></th>
-                        <th></th>*@
+                    <th>Estado</th>
                 </tr>
             </thead>
             <tbody id="tbody">
@@ -94,9 +95,10 @@
                         <td>@row.codLocal</td>
                         <td>@row.descripcion</td>
                         <td>@row.ubicacion</td>
-                        <td>@row.aforo</td>
+                        @*<td>@row.aforo</td>*@
                         <td>@db.Region.Find(row.idProvincia).nombre</td>
                         <td>@db.Region.Find(row.idRegion).nombre</td>
+                        <td>@row.estaActivo</td>
                         @*<td>@Html.ActionLink("Delete", "Delete", new { id = row.codLocal })</td>*@
                         @*<td><a href="@Url.Action("Edit", "Local", new { id = row.codLocal })" class="btn btn-primary">Modificar <span class="glyphicon glyphicon-pencil"></span></a></td>
                             <td><a href="@Url.Action("Delete", "Local", new { id = row.codLocal })" class="btn btn-primary">Dar de Baja <span class="glyphicon glyphicon-remove"></span></a></td>*@
@@ -133,26 +135,26 @@
                 <div class="form-horizontal">
                     @Html.ValidationSummary(true)
                     <br>
-                    <div class="row form-group">
+                    @*<div class="row form-group">
                         @Html.LabelFor(model => model.aforo, new { @class = "control-label col-md-3" })
-                        <div class="col-md-9">
-                            @Html.EditorFor(model => model.aforo)
+                        <div class="col-md-5">
+                            @Html.EditorFor(model => model.aforo, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.aforo)
                         </div>
-                    </div>
+                    </div>*@
 
                     <div class="row form-group">
                         @Html.LabelFor(model => model.descripcion, new { @class = "control-label col-md-3" })
-                        <div class="col-md-9">
-                            @Html.EditorFor(model => model.descripcion)
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.descripcion, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.descripcion)
                         </div>
                     </div>
                     <br>
                     <div class="row form-group">
                         @Html.LabelFor(model => model.ubicacion, new { @class = "control-label col-md-3" })
-                        <div class="col-md-9">
-                            @Html.EditorFor(model => model.ubicacion)
+                        <div class="col-md-5">
+                            @Html.EditorFor(model => model.ubicacion, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.ubicacion)
                         </div>
                     </div>
@@ -187,6 +189,8 @@
 </div>
 
 <input type="hidden" id="idLocalT" value="" />
+<input type="hidden" id="EstadoLT" value="" />
+
 <script>
     function myFunction(x) {
         if (document.getElementsByClassName("trselected").length > 0) {
@@ -199,12 +203,20 @@
         //var y = x.getCells();
         var elem = document.getElementById("idLocalT");
         elem.value = x.cells[0].innerHTML;
-        //alert(x.cells[0].innerHTML);
-        //ViewBag.P = x.cells[0].innerHTML;
+        var elem2 = document.getElementById("EstadoLT");
+        elem2.value = x.cells[5].innerHTML;
         x.className = "trselected";
 
         //<a class="btn btn-primary" href="javascript:document.getElementsByClassName('trselected').submit()">Borrar<span class="glyphicon glyphicon-pencil"></span></a>
         //idProm = x.codp;
+    }
+    function validaS() {
+        var local = $('#idLocalT').val();
+        if (local != null && local != "") {
+            $('#eliminar').modal('show');
+        } else {
+            alert("Seleccione un Local");
+        }
     }
     function cambio() {
 
@@ -259,24 +271,29 @@
     }
     function borrar() {
         var local = $('#idLocalT').val();
+        var estado = $('#EstadoLT').val();
         var el = document.getElementById(local);
         var row = $(el).closest('tr');
         //alert(evento);
         //alert(promocion);
         if (local != "" && local != null) {
+            if (estado != "False") {
             $.ajax({
                 url: "@Url.Action("Delete","Local")",
                 data: { local: local },
                 success: function (data) {
-                    //alert("Eliminado");
+                    alert(data);
                     $('#eliminar').modal('hide');
                     row.remove();
                     window.location.href = '/Local/Index';
                 },
-                error: function () {
-                    alert("Error :(");
+                error: function (data) {
+                    alert(data);
                 }
             });
+            } else {
+                alert("No se puede desactivar un Local que ya esta desactivado");
+            }
         } else {
             alert("Seleccione un Local");
             evento = "";
@@ -284,8 +301,15 @@
     }
     function redirige() {
         var local = $('#idLocalT').val();
+        var estado = $('#EstadoLT').val();
         if (local != "") {
-            window.location.href = '/Local/Edit?local=' + local;
+            if (estado != "False") {
+                var elem = document.getElementById("idLocalT");
+                elem.value = "";
+                window.location.href = '/Local/Edit?local=' + local;
+            } else {
+                alert("El Local esta desactivado no se puede editar");
+            }
         } else {
             alert("Seleccione un Local");
             evento = "";
@@ -310,6 +334,20 @@
                 alert("Error :(");
             }
         });
+    }
+    function buscaI() {
+        $.ajax({
+            url: "@Url.Action("SearchI", "Local")",
+            data: {},
+        success: function (data) {
+            window.location.href = '/Local/Index';
+            //alert("Eliminado");
+            //row.remove();
+        },
+        error: function () {
+            alert("Error :(");
+        }
+    });
     }
     function busca2() {
         var region = $('#comboBusq option:selected').val();

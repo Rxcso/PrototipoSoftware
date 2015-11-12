@@ -27,15 +27,15 @@ namespace WebApplication4.Controllers
             if (ModelState.IsValid)
             {
                 Regalo regalo = new Regalo();
-                Regalo regaloL = db.Regalo.ToList().Last();
-                regalo.idRegalo = regaloL.idRegalo + 1;
+                //Regalo regaloL = db.Regalo.ToList().Last();
+                //regalo.idRegalo = regaloL.idRegalo + 1;
                 regalo.Nombre = model.nombre;
                 regalo.estado = true;
                 regalo.descripcion = model.descripcion;
                 regalo.puntos = model.puntos;
                 db.Regalo.Add(regalo);
                 db.SaveChanges();
-                return View("Index");
+                return RedirectToAction("Index", "Regalo");
             }
             return View("Index");
         }
@@ -51,7 +51,7 @@ namespace WebApplication4.Controllers
             return View("Index");
         }
 
-        public ActionResult Delete(string regalo)
+        public JsonResult Delete(string regalo)
         {
             //if (regalo == "" || regalo == null) return View("Index");
             int idQ = int.Parse(regalo);
@@ -61,7 +61,7 @@ namespace WebApplication4.Controllers
             regaloE.estado = false;
             db.SaveChanges();
             //return RedirectToAction("Index", "Evento");
-            return View("Index");
+            return Json("Regalo Desactivado", JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Edit(string regalo)
@@ -123,6 +123,14 @@ namespace WebApplication4.Controllers
                 return RedirectToAction("Index", "Regalo");
             }
             listaReg = db.Regalo.AsNoTracking().Where(c => c.Nombre.Contains(regalo) && c.estado == true).ToList();
+            if (listaReg != null) Session["ListaR"] = listaReg;
+            else Session["ListaR"] = null;
+            return RedirectToAction("Index", "Regalo");
+        }
+        public ActionResult SearchI()
+        {
+            List<Regalo> listaReg;
+            listaReg = db.Regalo.AsNoTracking().Where(c => c.estado == false).ToList();
             if (listaReg != null) Session["ListaR"] = listaReg;
             else Session["ListaR"] = null;
             return RedirectToAction("Index", "Regalo");

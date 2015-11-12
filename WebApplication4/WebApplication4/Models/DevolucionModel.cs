@@ -16,5 +16,6 @@ namespace WebApplication4.Models
         public int cantAsientos { get; set; }
         public double monto { get; set; }
         public string estado { get; set; }
+        public string zona { get; set; }
     }
 }

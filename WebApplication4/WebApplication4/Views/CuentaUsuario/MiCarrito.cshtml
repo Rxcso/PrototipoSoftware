@@ -20,21 +20,22 @@
 
 @if (Session["Carrito"] == null)
 {
-    <div class="row-md-4">
-        <a class="btn btn-danger pull-right" href="@Url.Action("Index","Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+    <div class="container">
+        <div class="row-md-4">
+            <a class="btn btn-danger pull-right" href="@Url.Action("Index","Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+        </div>
+        <p>Carrito Vacio.</p>
     </div>
-    <p>Carrito Vacio.</p>
 }
 else
 {
     <div class="container">
-        <div>
-            <a class="btn btn-default pull-left" onclick="verDetalle()">Ver Detalle</a>
+        <div class="form-group">
+            <a class="btn btn-primary pull-right" onclick="quitarCarrito()">Quitar  <span class="glyphicon glyphicon-trash"></span></a>
+            <a class="btn btn-danger pull-left" href="@Url.Action("Index","Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
         </div>
-        <a class="btn btn-danger pull-right" href="@Url.Action("Index","Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+
     </div><br />
-
-
     <div class="container">
         <table class="table table-bordered table-hover">
             <thead>
@@ -44,8 +45,9 @@ else
                     <th>Fecha</th>
                     <th>Hora</th>
                     <th>Zona</th>
-                    <th>Precio(S/.)</th>
+                    <th>Subtotal(S/.)</th>
                     <th>Cantidad</th>
+                    <th>Asientos</th>
                     <th>Borrar</th>
                 </tr>
             </thead>
@@ -53,6 +55,7 @@ else
                 @for (int i = 0; i < carritoList.Count; i++)
                 {
                     total += carritoList[i].precio;
+                    string asientos = "";
                     <tr id="@(i)">
                         <td>@carritoList[i].idEvento</td>
                         <td>@carritoList[i].nombreEvento</td>
@@ -61,6 +64,26 @@ else
                         <td>@carritoList[i].zona</td>
                         <td>@carritoList[i].precio</td>
                         <td>@carritoList[i].cantidad</td>
+                        <td>
+                            @{
+
+                    try
+                    {//si tiene asientos, los detallo como un string
+                        int cantAsientos = carritoList[i].filas.Count;
+                        for (int j = 0; j < cantAsientos - 1; j++)
+                        {
+                            asientos += carritoList[i].filas[j] + " - " + carritoList[i].columnas[j] + ", ";
+                        }
+                        asientos += carritoList[i].filas[carritoList[i].filas.Count - 1] + " - " + carritoList[i].columnas[carritoList[i].filas.Count - 1] + ".";
+                    }
+                    catch (Exception ex)
+                    {
+                        //sale una excepcion si es que filas.Count no existe, por lo que solo son entradas
+                        asientos = "" + carritoList[i].cantidad;
+                    }
+                            }
+                            @asientos
+                        </td>
                         <td style="align-content:center"><input type="radio" name="groupCarrito" value="@(i)"></td>
                     </tr>
                 }
@@ -72,16 +95,40 @@ else
         <div class="container col-md-6 form-group pull-right">
             <label for="Total" class="control-label col-md-2">Total a Pagar:</label>
             <div class="col-md-10">
-                <input type="text" class="form-control" id="total" value="@(total)" readonly="readonly">
+                <input id="totalCompra" type="text" class="form-control" value="@(total)" readonly="readonly">
             </div>
         </div>
         <br>
         <br>
         <div class="col-md-12">
-            <a class="btn btn-success pull-right">Comprar<span class="glyphicon glyphicon-usd"></span></a>
+            <a class="btn btn-success pull-right" href="@Url.Action("ComprarEntrada", "CuentaUsuario")">Comprar<span class="glyphicon glyphicon-usd"></span></a>
         </div>
     </div>
-
 }
+<script>
+    function quitarCarrito() {
+        if (confirm("¿Quitar Item?")) {
+            var fila = $('input[name="groupCarrito"]:checked').val();
+            var row = document.getElementById(parseInt(fila));
+            var itemEliminar = row.id;
+            $.ajax({
+                url: "/Services/EliminaItem/",
+                data: { itemEliminar: itemEliminar },
+                datatype: "json",
+                success: function (data) {
+                    alert("Item Eliminado");
+                    var cantidad = parseInt($('#totalCompra').val());
+                    $("#totalCompra").val(cantidad - parseInt(row.cells[5].innerHTML));
+                    row.parentNode.removeChild(row);
+                    window.location.href = "/CuentaUsuario/MiCarrito";
+                },
+                error: function (data) {
+                    alert("Error");
+                }
+            })
+            
+        } else {
 
-
+        }
+    }
+</script>

@@ -38,8 +38,8 @@ namespace WebApplication4.Controllers
             if (ModelState.IsValid)
             {
                 PuntoVenta punto = new PuntoVenta();
-                PuntoVenta puntoL = db.PuntoVenta.ToList().Last();
-                punto.codPuntoVenta = puntoL.codPuntoVenta + 1;
+                //PuntoVenta puntoL = db.PuntoVenta.ToList().Last();
+                //punto.codPuntoVenta = puntoL.codPuntoVenta + 1;
                 punto.dirMAC = model.mac;
                 punto.estaActivo = true;
                 punto.ubicacion = model.ubicacion;
@@ -90,7 +90,7 @@ namespace WebApplication4.Controllers
                 db.Entry(punto2).State = EntityState.Modified;
                 punto2.estaActivo = false;
                 //db.SaveChanges();
-                List<Turno> ltur = db.Turno.Where(c => c.codPuntoVenta == id).ToList();
+                List<Turno> ltur = db.Turno.Where(c => c.codPuntoVenta == id && c.fecha > hoy).ToList();
                 for (int j = 0; j < ltur.Count; j++)
                 {
                     db.Turno.Remove(ltur[j]);
@@ -203,6 +203,15 @@ namespace WebApplication4.Controllers
                 return RedirectToAction("Index", "PuntoVenta");
             }
             listaP = db.PuntoVenta.AsNoTracking().Where(c => c.ubicacion.Contains(punto) && c.estaActivo == true).ToList();
+            if (listaP != null) Session["ListaP"] = listaP;
+            else Session["ListaP"] = null;
+            return RedirectToAction("Index", "PuntoVenta");
+        }
+
+        public ActionResult SearchI()
+        {
+            List<PuntoVenta> listaP;
+            listaP = db.PuntoVenta.AsNoTracking().Where(c => c.estaActivo == false).ToList();
             if (listaP != null) Session["ListaP"] = listaP;
             else Session["ListaP"] = null;
             return RedirectToAction("Index", "PuntoVenta");

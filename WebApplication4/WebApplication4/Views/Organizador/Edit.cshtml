@@ -24,24 +24,24 @@
             @Html.ValidationSummary(true)
             <br>
             <div class="row form-group">
-                @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })
-                <div class="col-md-9">
-                    @Html.TextBoxFor(model => model.nombre, new { @placeholder = @orgM.nombre, @Value = @orgM.nombre })
+                @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-2" })
+                <div class="col-md-5">
+                    @Html.TextBoxFor(model => model.nombre, new {@class = "form-control", @placeholder = @orgM.nombre, @Value = @orgM.nombre })
                     @Html.ValidationMessageFor(model => model.nombre)
                 </div>
             </div>
 
             <div class="row form-group">
-                @Html.LabelFor(model => model.telefono, new { @class = "control-label col-md-3" })
-                <div class="col-md-9">
-                    @Html.TextBoxFor(model => model.telefono, new { @placeholder = @orgM.telefono, @Value = @orgM.telefono })
+                @Html.LabelFor(model => model.telefono, new { @class = "control-label col-md-2" })
+                <div class="col-md-5">
+                    @Html.TextBoxFor(model => model.telefono, new { @class = "form-control", @placeholder = @orgM.telefono, @Value = @orgM.telefono })
                     @Html.ValidationMessageFor(model => model.telefono)
                 </div>
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(model => model.tipoDoc, new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                <div class="col-md-4">
                     @{
         List<SelectListItem> listItems = new List<SelectListItem>();
         listItems.Add(new SelectListItem
@@ -58,22 +58,22 @@
                     @{
         listItems[(int)org.tipoDoc-1].Selected = true;
                     }
-                    @Html.DropDownListFor(model => model.tipoDoc, listItems, "Seleccione tipo de documento")
+                    @Html.DropDownListFor(model => model.tipoDoc, listItems, "Seleccione tipo de documento", new { @class = "form-control" })
                 </div>
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(model => model.codDoc, new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(model => model.codDoc, new { @placeholder = @orgM.codDoc, @Value = @orgM.codDoc })
+                <div class="col-md-5">
+                    @Html.TextBoxFor(model => model.codDoc, new { @class = "form-control", @placeholder = @orgM.codDoc, @Value = @orgM.codDoc })
                     @Html.ValidationMessageFor(model => model.codDoc)
                 </div>
             </div>
 
             <div class="row form-group">
-                @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-3" })
-                <div class="col-md-9">
-                    @Html.TextBoxFor(model => model.Email, new { @placeholder = @orgM.Email, @Value = @orgM.Email })
+                @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
+                <div class="col-md-5">
+                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @placeholder = @orgM.Email, @Value = @orgM.Email })
                     @Html.ValidationMessageFor(model => model.Email)
                 </div>
             </div>

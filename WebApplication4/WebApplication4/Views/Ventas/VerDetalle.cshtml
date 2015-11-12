@@ -1,0 +1,204 @@
+﻿@{
+    ViewBag.Title = "VerDetalle";
+    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li class="active">Detalle de ventas</li>
+        </ol>
+    </div>
+</div>
+
+<!--Session["DetalleVenta"]
+    Session["VentaXFunDev"]
+    Session["VentasDev"]
+    Session["ListaAsientos"] = axf;
+    Session["BusquedaDev"] = devolucionModel
+    Session["FuncionDev"]
+    Session["EventoDev"]
+    -->
+
+
+@{
+    List<WebApplication4.Models.DevolucionModel> devoluciones;// lista anterior
+    devoluciones = (List<WebApplication4.Models.DevolucionModel>)Session["BusquedaDev"];
+
+    List<WebApplication4.Models.AsientosXFuncion> axf;// asientos a listar
+    axf = (List<WebApplication4.Models.AsientosXFuncion>)Session["ListaAsientos"];
+    //dv actual
+    WebApplication4.Models.DetalleVenta dv = (WebApplication4.Models.DetalleVenta)Session["DetalleVenta"];
+    WebApplication4.Models.VentasXFuncion vxf = (WebApplication4.Models.VentasXFuncion)Session["VentasXFunDev"];
+    WebApplication4.Models.Ventas ventas = (WebApplication4.Models.Ventas)Session["VentasDev"];
+    WebApplication4.Models.Funcion funcion = (WebApplication4.Models.Funcion)Session["FuncionDev"];
+    WebApplication4.Models.Eventos eventos = (WebApplication4.Models.Eventos)Session["EventoDev"];
+    
+    int i;
+    WebApplication4.Models.DevolucionModel dm;//el que tengo
+
+    for (i = 0; i < devoluciones.Count; i++)
+    {
+        if (devoluciones[i].codDev == dv.codDetalleVenta)
+        {
+            dm = devoluciones[i];
+            break;
+        }
+    }
+    DateTime today = DateTime.Today;
+    
+}
+
+<div class="container">
+    <div class="row form-group">
+        <label for="idEvento" class="control-label col-md-2">Nombre del Evento:</label>
+        <div class="col-md-10">
+            <input id="eventoN" type="text" class="form-control" value="@eventos.nombre" disabled>
+        </div>
+    </div>
+    <div class="row form-group">
+        <label for="idEvento" class="control-label col-md-2">Función:</label>
+        <div class="col-md-10">
+            <input id="eventoN" type="text" class="form-control" value="@funcion.estado" disabled>
+        </div>
+    </div>
+    <div class="row form-group">
+        <label for="idEvento" class="control-label col-md-2">Fecha de Devolución:</label>
+        <div class="col-md-10">
+            <input id="eventoN" type="text" class="form-control" value="@funcion.FechaDevolucion" disabled>
+        </div>
+    </div>
+    <div class="row form-group">
+        <label for="idEvento" class="control-label col-md-2">Días hábiles para Devolución:</label>
+        <div class="col-md-10">
+            <input id="eventoN" type="text" class="form-control" value="@funcion.cantDiasDevolucion" disabled>
+        </div>
+    </div>
+    <div class="row form-group">
+        <label for="idEvento" class="control-label col-md-2">Cantidad de entradas:</label>
+        <div class="col-md-10">
+            <input id="eventoN" type="text" class="form-control" value="@dv.cantEntradas" disabled>
+        </div>
+    </div>
+    <div class="row form-group">
+        <label for="idEvento" class="control-label col-md-2">Total:</label>
+        <div class="col-md-10">
+            <input id="eventoN" type="text" class="form-control" value="@dv.total" disabled>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group">            
+            @{
+                if (funcion.estado == "POSTERGADO")
+                {
+                    <div class="col-md-11">                        
+                        <a class="btn btn-primary" href="" data-toggle="modal">Devolver Asiento<span class="glyphicon glyphicon-usd"></span></a>
+                    </div>
+                }
+
+            }
+                   
+            <!--Devolver todo-->
+            <div class="col-md-11">
+                <a class="btn btn-primary" href="#devolverTodo" data-toggle="modal">Devolver<span class="glyphicon glyphicon-usd"></span></a> 
+            </div>
+            <div class="col-md-1">
+                <a class="btn btn-primary" data-toggle="modal" href="@Url.Action("Devolucion", "Ventas")">Volver <span class="glyphicon glyphicon-chevron-left"></span></a>
+            </div>
+    </div>        
+     
+    <h4>Resultados:</h4>
+    <div class="row">
+        <table id="mytable" class="table table-bordered table-hover">
+            <thead>
+                <tr class="active">
+                    <th>Cod. Asiento.</th>
+                    <th>Cod Funcion</th>
+                    <th>Estado</th>
+                    <th>Cod Det Venta</th>
+                    <th>Tipo Doc</th>
+                    <th>Doc Asociado</th>
+                    <th>Precio Pagado</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+                @{
+            if (axf != null)
+            {
+                foreach (var row in axf)
+                {
+                            <tr id=@row.codAsiento onclick="myFunction(this)">
+                                <td>@row.codAsiento</td>
+                                <td>@row.codFuncion</td>
+                                <td>@row.estado</td>
+                                <td>@row.codDetalleVenta</td>
+                                <td>@row.TipoDocAsociado</td>
+                                <td>@row.DocAsociado</td>
+                                <td>@row.PrecioPagado</td>
+                            </tr>
+                }
+            }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<input type="hidden" id="idFila" value="" />
+<script>
+    function myFunction(x) {
+        if (document.getElementsByClassName("trselected").length > 0) {
+            var element = document.getElementsByClassName("trselected");
+            //element.item[0].cells[0].innerText;
+            element[0].className = "";
+        }
+        //var tabla = document.getElementById("mytable");
+        //alert(x);
+        //var y = x.getCells();
+        var elem = document.getElementById("idFila");
+        elem.value = x.cells[0].innerHTML;
+        //alert(x.cells[0].innerHTML);
+        //ViewBag.P = x.cells[0].innerHTML;
+        x.className = "trselected";
+        //<a class="btn btn-primary" href="javascript:document.getElementsByClassName('trselected').submit()">Borrar<span class="glyphicon glyphicon-pencil"></span></a>
+        //idProm = x.codp;
+    }
+
+    function closewindowDev() {
+        $('#devolver').modal('hide');
+    }
+
+    function devolverTodo() {
+        
+    }
+</script>
+
+<style>
+    .trselected {
+        background: gray;
+    }
+</style>
+
+<div class="modal fade" id="devolverTodo">
+    <!--esta div pondra la pantalla oscura al presionar el boton-->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--ACA VA EL CONTENIDO DEL MODAL-->
+            <!--header de la ventana-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+                <h4 class="modal-title">Aviso</h4>
+            </div>
+            <!--contenido de la ventana-->
+            <div class="modal-body">
+                ¿Está seguro que quiere devolver todas las entradas?
+            </div>
+            <!--footer de la ventana-->
+            <div class="modal-footer">
+                <button type="button" onclick="devolverTodo()" class="btn btn-primary">Aceptar <span class="glyphicon glyphicon-ok"></span></button>
+                <button type="button" onclick="return closewindowDev();" class="btn btn-danger">Cancelar <span class="glyphicon glyphicon-remove"></span></button>
+            </div>
+        </div>
+    </div>
+</div>

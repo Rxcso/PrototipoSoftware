@@ -11,7 +11,7 @@
     EditViewModel cuentaM = new EditViewModel();
     cuentaM.apellido = cuenta.apellido;
     cuentaM.direccion = cuenta.direccion;
-    cuentaM.Email = cuenta.correo;
+    //cuentaM.Email = cuenta.correo;
     cuentaM.nombre = cuenta.nombre;
     cuentaM.telefono = cuenta.telefono;
     cuentaM.telMovil = cuenta.telMovil;
@@ -24,57 +24,57 @@
     <div class="form-horizontal">
         @Html.ValidationSummary(true)
         <h3>Datos de ingreso</h3><br>
-        <div class="form-group">
+        @*<div class="form-group">
             @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Email, new { @placeholder = @cuentaM.Email, @Value = @cuentaM.Email })
+            <div class="col-md-4">
+                @Html.TextBoxFor(model => model.Email, new {@class = "form-control", @placeholder = @cuentaM.Email, @Value = @cuentaM.Email })
                 @Html.ValidationMessageFor(model => model.Email)
             </div>
-        </div>
+        </div>*@
 
         <div class="form-group">
             @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.nombre, new { @placeholder = @cuentaM.nombre, @Value = @cuentaM.nombre })
+            <div class="col-md-4">
+                @Html.TextBoxFor(model => model.nombre, new {@class = "form-control", @placeholder = @cuentaM.nombre, @Value = @cuentaM.nombre })
                 @Html.ValidationMessageFor(model => model.nombre)
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.apellido, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.apellido, new { @placeholder = @cuentaM.apellido, @Value = @cuentaM.apellido })
+            <div class="col-md-4">
+                @Html.TextBoxFor(model => model.apellido, new {@class = "form-control", @placeholder = @cuentaM.apellido, @Value = @cuentaM.apellido })
                 @Html.ValidationMessageFor(model => model.apellido)
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.direccion, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.direccion, new { @placeholder = @cuentaM.direccion, @Value = @cuentaM.direccion })
+            <div class="col-md-4">
+                @Html.TextBoxFor(model => model.direccion, new { @class = "form-control", @placeholder = @cuentaM.direccion, @Value = @cuentaM.direccion })
                 @Html.ValidationMessageFor(model => model.direccion)
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.telefono, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.telefono, new { @placeholder = @cuentaM.telefono, @Value = @cuentaM.telefono })
+            <div class="col-md-4">
+                @Html.TextBoxFor(model => model.telefono, new { @class = "form-control", @placeholder = @cuentaM.telefono, @Value = @cuentaM.telefono })
                 @Html.ValidationMessageFor(model => model.telefono)
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.telMovil, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.telMovil, new { @placeholder = @cuentaM.telMovil, @Value = @cuentaM.telMovil })
+            <div class="col-md-4">
+                @Html.TextBoxFor(model => model.telMovil, new { @class = "form-control", @placeholder = @cuentaM.telMovil, @Value = @cuentaM.telMovil })
                 @Html.ValidationMessageFor(model => model.telMovil)
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Editar" class="btn btn-primary" />
             </div>
         </div>
     </div>

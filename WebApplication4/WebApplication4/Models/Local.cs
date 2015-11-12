@@ -14,13 +14,12 @@ namespace WebApplication4.Models
     
     public partial class Local
     {
-        public Nullable<int> aforo { get; set; }
         public string ubicacion { get; set; }
         public string descripcion { get; set; }
         public int codLocal { get; set; }
+        public Nullable<bool> estaActivo { get; set; }
         public Nullable<int> idProvincia { get; set; }
         public Nullable<int> idRegion { get; set; }
-        public Nullable<bool> estaActivo { get; set; }
     
         public virtual Region Region { get; set; }
         public virtual Region Region1 { get; set; }

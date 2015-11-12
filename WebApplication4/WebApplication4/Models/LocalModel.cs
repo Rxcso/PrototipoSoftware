@@ -8,17 +8,19 @@ namespace WebApplication4.Models
 {
     public class LocalModel
     {
-        [Required]
-        [PosNumberAttribute(ErrorMessage = "Debe ser un numero Positivo mayor que cero")]
-        [Display(Name = "Aforo: ")]
-        public int aforo { get; set; }
+        //[Required]
+        //[PosNumberAttribute(ErrorMessage = "Debe ser un numero Positivo mayor que cero")]
+        //[Display(Name = "Aforo: ")]
+        //public int aforo { get; set; }
 
         [Required]
         [Display(Name = "Descripcion: ")]
+        [StringLength(100, ErrorMessage = "Maxima longitud de 100 caracteres.")]
         public string descripcion { get; set; }
 
         [Required]
         [Display(Name = "Ubicacion: ")]
+        [StringLength(50, ErrorMessage = "Maxima longitud de 50 caracteres.")]
         public String ubicacion { get; set; }
 
         [Required]
@@ -32,17 +34,19 @@ namespace WebApplication4.Models
 
     public class LocalEditModel
     {
+        //[Required]
+        //[PosNumberAttribute(ErrorMessage = "Debe ser un numero Positivo mayor que cero")]
+        //[Display(Name = "Aforo: ")]
+        //public int aforo { get; set; }
+
         [Required]
-        [PosNumberAttribute(ErrorMessage = "Debe ser un numero Positivo mayor que cero")]
-        [Display(Name = "Aforo: ")]
-        public int aforo { get; set; }
-
-
         [Display(Name = "Descripcion: ")]
+        [StringLength(100, ErrorMessage = "Maxima longitud de 100 caracteres.")]
         public string descripcion { get; set; }
 
         [Required]
         [Display(Name = "Ubicacion: ")]
+        [StringLength(50, ErrorMessage = "Maxima longitud de 50 caracteres.")]
         public String ubicacion { get; set; }
 
         [Required]

@@ -226,10 +226,6 @@ namespace WebApplication4.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
             var db = new inf245netsoft();
             string correo = User.Identity.Name;
             CuentaUsuario cliente = db.CuentaUsuario.Where(c => c.correo == correo).First();
@@ -237,7 +233,6 @@ namespace WebApplication4.Controllers
             {
                 if (cliente.contrasena != model.NewPassword)
                 {
-                    //AQUI FALLA
                     var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
                     if (result.Succeeded)
                     {
@@ -253,20 +248,40 @@ namespace WebApplication4.Controllers
                         /*Aca deberia retornarte a MiCuenta de CuentaUsuario*/
                         return RedirectToAction("MiCuenta", "CuentaUsuario");
                     }
-                    else {
-                        return View(model);
+                    else
+                    {
+                        ModelState.AddModelError("NewPassword", "Las contraseñas deben tener 6 caracteres como mínimo y una combinación de caracteres especiales, letras, letras mayúsculas y números");
+
+                        if (model.NewPassword != model.ConfirmPassword)
+                        {
+                            ModelState.AddModelError("ConfirmPassword", "Las contraseñas no coinciden");
+                        }
+
                     }
                 }
-                else {
+                else //Cuando contraseña igual a antigua
+                {
                     ModelState.AddModelError("NewPassword", "Ingrese una contraseña diferente a la actual.");
-                    return View(model);
+                    var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+                    if (!result.Succeeded)
+                    {
+                        ModelState.AddModelError("NewPassword", "Las contraseñas deben tener 6 caracteres como mínimo y una combinación de caracteres especiales, letras, letras mayúsculas y números");
+                    }
+                    else {
+                        if (model.NewPassword != model.ConfirmPassword)
+                        {
+                            ModelState.AddModelError("ConfirmPassword", "Las contraseñas no coinciden");
+                        }
+                    }
+                    
+                    
                 }
             }
-            else { 
+            else //Cuando contraseña antigua esta mal
+            {
                 ModelState.AddModelError("OldPassword", "Contraseña ingresada no es correcta");
-                //AddErrors(result);
-                return View(model);
             }
+            return View(model);
         }
 
         //

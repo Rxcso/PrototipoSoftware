@@ -176,7 +176,7 @@
                         <option value="">Subcategorias</option>
                         @if (ViewBag.idCategoria != null)
                         {
-                            int idsubcat = ViewBag.idSubCat;
+                          
                             int idPadre = ViewBag.idCategoria;
 
                             var subcat = from obj in db.Categoria
@@ -249,7 +249,7 @@
                         @if (ViewBag.idProv != null)
                         {
                             int idreg = ViewBag.idRegion;
-                            int idpro = ViewBag.idProv;
+                        
 
                             var region = from obj in db.Region
                                          where obj.idRegPadre == idreg
@@ -299,10 +299,37 @@
                 <a href="/Evento/VerEvento/@evento.codigo">
                     <div class="col-md-2 col-sm-4 col-xs-6 bloque">
                         <div class="thumbnail">
-                            <img class="event" src="@evento.ImagenDestacado" alt="">
+                            <img width="200px" class="event event-img" src="@evento.ImagenDestacado" alt="">
                             <div class="caption" style="text-align:center">
                                 <div class="row">@evento.nombre</div>
-                                <div class="row">@evento.fecha_inicio</div>
+                                
+
+
+                                @{
+                                    var func = from obj in db.Funcion
+                                               where (obj.codEvento == evento.codigo && obj.estado.Contains("ACTIVO"))
+                                               orderby obj.horaIni ascending
+                                               select obj;
+
+                                    string fecha = "";
+
+                                    if (func.Count() > 0)
+                                    {
+
+                                        var funcion = func.First();
+                                        fecha = funcion.horaIni.Value.ToString("dd/MM/yyyy hh:mm tt");
+                                    }
+                                    else
+                                    {
+
+                                        fecha = "Pronto";
+                                    }
+
+
+                                }
+
+                                <div class="row">@fecha</div>
+
                             </div>
                         </div>
                     </div>
@@ -490,7 +517,7 @@
             var fechF = this['fech_fin'].value;
 
             /*Regla 1 para la validadcion de al menos un campo*/
-            if (fechI == '' && fechF == '' && $("#fech_fin").val() == '' && $("#idCategoria").val() == '' &&
+            if (fechI == '' && fechF == ''  && $("#idCategoria").val() == '' &&
                 $("#idSubCat").val() == '' && $("#idRegion").val() == '' && $("#idProv").val() == '') {
 
                 $("#alerta").append('<strong>Ingrese al menos un campo!</strong>').show();
@@ -589,6 +616,11 @@
 
 </script>
 <style>
+
+     .thumbnail >  .event-img{
+
+      height:70px;
+  }
     .bloque{
 
         width:250px;

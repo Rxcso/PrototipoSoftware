@@ -8,6 +8,8 @@ namespace WebApplication4.Models
     public class CarritoItem
     {
         public int idEvento { get; set; }
+        public int idFuncion { get; set; }
+        public int idZona { get; set; }
         public string nombreEvento { get; set; }
         public DateTime fecha { get; set; }
         public DateTime hora { get; set; }
@@ -16,5 +18,6 @@ namespace WebApplication4.Models
         public int cantidad { get; set; }
         public List<int> filas { get; set; }
         public List<int> columnas { get; set; }
+        public bool tieneAsientos { get; set; }
     }
 }

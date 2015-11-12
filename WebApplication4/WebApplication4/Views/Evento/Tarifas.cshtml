@@ -12,7 +12,6 @@
     else
     {
         model = ViewBag.TarifasDelEvento as ZonaEventoListModel;
-        nZonas = nombresHeaderTabla.Count;
         modificado = 1;
     }
 }
@@ -51,7 +50,7 @@
                         @{
                 if (ViewBag.TarifasDelEvento != null)
                 {
-                    for (int i = 0; i < nombresHeaderTabla.Count; i++)
+                    for (int i = 0; i < nombresHeaderTabla.Count && i<model.ListaZEM.Count; i++)
                     {
                         <tr id="@(i+1)" data-zona="@(model.ListaZEM[i].Id)">
                             <td>@(i + 1)</td>
@@ -99,8 +98,6 @@
         var fila = $('input[name="groupTarifas"]:checked').val();
         var row = document.getElementById(parseInt(fila));
         row.parentNode.removeChild(row);
-        var cantidad = parseInt($('#nZonas').val());
-        $("#nZonas").val(cantidad - 1);
     }
     function agregaTarifas() {
         var tableBTV = document.getElementById("tarifario");

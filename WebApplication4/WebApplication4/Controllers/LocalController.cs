@@ -40,10 +40,9 @@ namespace WebApplication4.Controllers
             if (ModelState.IsValid)
             {
                 Local local = new Local();
-                Local localL = db.Local.ToList().Last();
-                local.codLocal = localL.codLocal + 1;
+                //Local localL = db.Local.ToList().Last();
+                //local.codLocal = localL.codLocal + 1;
                 local.descripcion = model.descripcion;
-                local.aforo = model.aforo;
                 local.ubicacion = model.ubicacion;
                 local.estaActivo = true;
                 local.idProvincia = model.idProv;
@@ -59,7 +58,7 @@ namespace WebApplication4.Controllers
             return View("Index");
         }
 
-        public ActionResult Delete(string local)
+        public JsonResult Delete(string local)
         {
             int id = int.Parse(local);
             Local localr = db.Local.Find(id);
@@ -67,7 +66,7 @@ namespace WebApplication4.Controllers
             db.Entry(localr).State = EntityState.Modified;
             localr.estaActivo = false;
             db.SaveChanges();
-            return RedirectToAction("Index", "Local");
+            return Json("Local Desactivado", JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Delete2(int id)
@@ -128,7 +127,7 @@ namespace WebApplication4.Controllers
                 var o = ViewBag.id;
                 Local local = db.Local.Find(TempData["codigol"]);
                 db.Entry(local).State = EntityState.Modified;
-                local.aforo = model.aforo;
+                //local.aforo = model.aforo;
                 local.descripcion = model.descripcion;
                 local.ubicacion = model.ubicacion;
                 local.idProvincia = model.idProv;
@@ -163,6 +162,15 @@ namespace WebApplication4.Controllers
                 return RedirectToAction("Index", "Local");
             }
             listaLoc = db.Local.AsNoTracking().Where(c => c.descripcion.Contains(local) && c.estaActivo == true).ToList();
+            if (listaLoc != null) Session["ListaL"] = listaLoc;
+            else Session["ListaL"] = null;
+            return RedirectToAction("Index", "Local");
+        }
+
+        public ActionResult SearchI()
+        {
+            List<Local> listaLoc;
+            listaLoc = db.Local.AsNoTracking().Where(c => c.estaActivo == false).ToList();
             if (listaLoc != null) Session["ListaL"] = listaLoc;
             else Session["ListaL"] = null;
             return RedirectToAction("Index", "Local");

@@ -23,15 +23,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Perfiles">
-      <EntityTypeMapping TypeName="inf245netsoftModel.Perfiles">
-        <MappingFragment StoreEntitySet="Perfiles">
-          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-          <ScalarProperty Name="nombre" ColumnName="nombre" />
-          <ScalarProperty Name="codPerfil" ColumnName="codPerfil" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Banco">
       <EntityTypeMapping TypeName="inf245netsoftModel.Banco">
         <MappingFragment StoreEntitySet="Banco">
@@ -93,19 +84,6 @@
           <ScalarProperty Name="estado" ColumnName="estado" />
           <ScalarProperty Name="valor" ColumnName="valor" />
           <ScalarProperty Name="fecha" ColumnName="fecha" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Local">
-      <EntityTypeMapping TypeName="inf245netsoftModel.Local">
-        <MappingFragment StoreEntitySet="Local">
-          <ScalarProperty Name="estaActivo" ColumnName="estaActivo" />
-          <ScalarProperty Name="idRegion" ColumnName="idRegion" />
-          <ScalarProperty Name="idProvincia" ColumnName="idProvincia" />
-          <ScalarProperty Name="codLocal" ColumnName="codLocal" />
-          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-          <ScalarProperty Name="ubicacion" ColumnName="ubicacion" />
-          <ScalarProperty Name="aforo" ColumnName="aforo" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -226,43 +204,6 @@
         <ScalarProperty Name="idCategoria" ColumnName="idCategoria" />
       </EndProperty>
     </AssociationSetMapping>
-    <EntitySetMapping Name="EventosPrueba">
-      <EntityTypeMapping TypeName="inf245netsoftModel.EventosPrueba">
-        <MappingFragment StoreEntitySet="EventosPrueba">
-          <ScalarProperty Name="codPreferencia" ColumnName="codPreferencia" />
-          <ScalarProperty Name="urlDistribucion" ColumnName="urlDistribucion" />
-          <ScalarProperty Name="urlImagen" ColumnName="urlImagen" />
-          <ScalarProperty Name="urlDestacado" ColumnName="urlDestacado" />
-          <ScalarProperty Name="cantPuntos" ColumnName="cantPuntos" />
-          <ScalarProperty Name="idCategoria" ColumnName="idCategoria" />
-          <ScalarProperty Name="codLocal" ColumnName="codLocal" />
-          <ScalarProperty Name="necDoc" ColumnName="necDoc" />
-          <ScalarProperty Name="idProvincia" ColumnName="idProvincia" />
-          <ScalarProperty Name="idRegion" ColumnName="idRegion" />
-          <ScalarProperty Name="codPromotor" ColumnName="codPromotor" />
-          <ScalarProperty Name="codOrg" ColumnName="codOrg" />
-          <ScalarProperty Name="limReserva" ColumnName="limReserva" />
-          <ScalarProperty Name="maxReserva" ColumnName="maxReserva" />
-          <ScalarProperty Name="esReser" ColumnName="esReser" />
-          <ScalarProperty Name="esImpri" ColumnName="esImpri" />
-          <ScalarProperty Name="fechDev" ColumnName="fechDev" />
-          <ScalarProperty Name="destacado" ColumnName="destacado" />
-          <ScalarProperty Name="esRecurrente" ColumnName="esRecurrente" />
-          <ScalarProperty Name="comision" ColumnName="comision" />
-          <ScalarProperty Name="penPost" ColumnName="penPost" />
-          <ScalarProperty Name="penCan" ColumnName="penCan" />
-          <ScalarProperty Name="lugar" ColumnName="lugar" />
-          <ScalarProperty Name="mTransferir" ColumnName="mTransferir" />
-          <ScalarProperty Name="mAdeudado" ColumnName="mAdeudado" />
-          <ScalarProperty Name="fechaInicio" ColumnName="fechaInicio" />
-          <ScalarProperty Name="estado" ColumnName="estado" />
-          <ScalarProperty Name="fechaFin" ColumnName="fechaFin" />
-          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-          <ScalarProperty Name="nombre" ColumnName="nombre" />
-          <ScalarProperty Name="codEvento" ColumnName="codEvento" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Pago">
       <EntityTypeMapping TypeName="inf245netsoftModel.Pago">
         <MappingFragment StoreEntitySet="Pago">
@@ -301,6 +242,7 @@
     <EntitySetMapping Name="Turno">
       <EntityTypeMapping TypeName="inf245netsoftModel.Turno">
         <MappingFragment StoreEntitySet="Turno">
+          <ScalarProperty Name="horaRegistro" ColumnName="horaRegistro" />
           <ScalarProperty Name="estadoCaja" ColumnName="estadoCaja" />
           <ScalarProperty Name="MontoFinDolares" ColumnName="MontoFinDolares" />
           <ScalarProperty Name="MontoFinSoles" ColumnName="MontoFinSoles" />
@@ -493,6 +435,26 @@
           <ScalarProperty Name="cantLibres" ColumnName="cantLibres" />
           <ScalarProperty Name="codZona" ColumnName="codZona" />
           <ScalarProperty Name="codFuncion" ColumnName="codFuncion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HoraReserva">
+      <EntityTypeMapping TypeName="inf245netsoftModel.HoraReserva">
+        <MappingFragment StoreEntitySet="HoraReserva">
+          <ScalarProperty Name="codigo" ColumnName="codigo" />
+          <ScalarProperty Name="hora" ColumnName="hora" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Local">
+      <EntityTypeMapping TypeName="inf245netsoftModel.Local">
+        <MappingFragment StoreEntitySet="Local">
+          <ScalarProperty Name="idRegion" ColumnName="idRegion" />
+          <ScalarProperty Name="idProvincia" ColumnName="idProvincia" />
+          <ScalarProperty Name="estaActivo" ColumnName="estaActivo" />
+          <ScalarProperty Name="codLocal" ColumnName="codLocal" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="ubicacion" ColumnName="ubicacion" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

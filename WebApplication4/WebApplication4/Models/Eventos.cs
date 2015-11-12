@@ -46,7 +46,7 @@ namespace WebApplication4.Models
         public string ImagenEvento { get; set; }
         public string ImagenDestacado { get; set; }
         public string ImagenSitios { get; set; }
-        public Nullable<int> maxReservas { get; set; }
+        public int maxReservas { get; set; }
         public Nullable<double> montoFijoVentaEntrada { get; set; }
         public bool tieneBoletoElectronico { get; set; }
         public bool permiteReserva { get; set; }

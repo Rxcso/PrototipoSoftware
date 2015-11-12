@@ -16,7 +16,7 @@
 }
 function format_time(date_obj) {
     // formats a javascript Date object into a 12h AM/PM time string
-    var hour = date_obj.getHours() + 5 ;
+    var hour = date_obj.getHours() + 5;
     var minute = date_obj.getMinutes();
     var amPM = (hour > 11) ? "pm" : "am";
     if (hour > 12) {
@@ -73,16 +73,19 @@ function eliminarFuncion() {
     var fila = $('input[name="groupFunciones"]:checked').val();
     var row = document.getElementById(parseInt(fila));
     row.parentNode.removeChild(row);
-    var cantidad = parseInt($('#histFuncion').val());
-    $("#histFuncion").val(cantidad - 1);
 }
 function guardarFunciones() {
     var nombreLista = "ListaFunciones";
     var tableBTV = document.getElementById("bloqueFuncion");
+    if (tableBTV.rows.length == 1) {
+        alert("No hay funciones. Agrege una funcion.");
+        return false;
+    }
     for (var i = 1; i < tableBTV.rows.length; i++) {
         var fecha = tableBTV.rows[i].getAttribute("data-fecha");
         var hora = tableBTV.rows[i].getAttribute("data-hora");
         $("#formPost").prepend("<input type='hidden' name='" + nombreLista + "[" + (i - 1) + "].fechaFuncion' value='" + fecha + "'>");
         $("#formPost").prepend("<input type='hidden' name='" + nombreLista + "[" + (i - 1) + "].horaInicio' value='" + hora + "'>");
     }
+    return true;
 }
