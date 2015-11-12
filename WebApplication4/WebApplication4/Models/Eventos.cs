@@ -54,6 +54,7 @@ namespace WebApplication4.Models
         public Nullable<int> idLocal { get; set; }
         public bool hanCancelado { get; set; }
         public bool hanPostergado { get; set; }
+        public bool devolverPostergacion { get; set; }
     
         public virtual ICollection<Comentarios> Comentarios { get; set; }
         public virtual Organizador Organizador { get; set; }

@@ -179,6 +179,25 @@
       <End Role="ZonaEvento" EntitySet="ZonaEvento" />
       <End Role="PrecioEvento" EntitySet="PrecioEvento" />
     </AssociationSet>
+    <EntitySet Name="ZonaxFuncion" EntityType="inf245netsoftModel.ZonaxFuncion" />
+    <AssociationSet Name="R_50" Association="inf245netsoftModel.R_50">
+      <End Role="Funcion" EntitySet="Funcion" />
+      <End Role="ZonaxFuncion" EntitySet="ZonaxFuncion" />
+    </AssociationSet>
+    <AssociationSet Name="R_51" Association="inf245netsoftModel.R_51">
+      <End Role="ZonaEvento" EntitySet="ZonaEvento" />
+      <End Role="ZonaxFuncion" EntitySet="ZonaxFuncion" />
+    </AssociationSet>
+    <EntitySet Name="HoraReserva" EntityType="inf245netsoftModel.HoraReserva" />
+    <EntitySet Name="Local" EntityType="inf245netsoftModel.Local" />
+    <AssociationSet Name="R_20" Association="inf245netsoftModel.R_20">
+      <End Role="Region" EntitySet="Region" />
+      <End Role="Local" EntitySet="Local" />
+    </AssociationSet>
+    <AssociationSet Name="R_72" Association="inf245netsoftModel.R_72">
+      <End Role="Region" EntitySet="Region" />
+      <End Role="Local" EntitySet="Local" />
+    </AssociationSet>
     <EntitySet Name="Eventos" EntityType="inf245netsoftModel.Eventos" />
     <AssociationSet Name="R_31" Association="inf245netsoftModel.R_31">
       <End Role="Eventos" EntitySet="Eventos" />
@@ -207,25 +226,6 @@
     <AssociationSet Name="R_43" Association="inf245netsoftModel.R_43">
       <End Role="Eventos" EntitySet="Eventos" />
       <End Role="Funcion" EntitySet="Funcion" />
-    </AssociationSet>
-    <EntitySet Name="ZonaxFuncion" EntityType="inf245netsoftModel.ZonaxFuncion" />
-    <AssociationSet Name="R_50" Association="inf245netsoftModel.R_50">
-      <End Role="Funcion" EntitySet="Funcion" />
-      <End Role="ZonaxFuncion" EntitySet="ZonaxFuncion" />
-    </AssociationSet>
-    <AssociationSet Name="R_51" Association="inf245netsoftModel.R_51">
-      <End Role="ZonaEvento" EntitySet="ZonaEvento" />
-      <End Role="ZonaxFuncion" EntitySet="ZonaxFuncion" />
-    </AssociationSet>
-    <EntitySet Name="HoraReserva" EntityType="inf245netsoftModel.HoraReserva" />
-    <EntitySet Name="Local" EntityType="inf245netsoftModel.Local" />
-    <AssociationSet Name="R_20" Association="inf245netsoftModel.R_20">
-      <End Role="Region" EntitySet="Region" />
-      <End Role="Local" EntitySet="Local" />
-    </AssociationSet>
-    <AssociationSet Name="R_72" Association="inf245netsoftModel.R_72">
-      <End Role="Region" EntitySet="Region" />
-      <End Role="Local" EntitySet="Local" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Banco">
@@ -383,9 +383,9 @@
     <NavigationProperty Name="Region2" Relationship="inf245netsoftModel.R_70" FromRole="Region1" ToRole="Region" />
     <NavigationProperty Name="PuntoVenta" Relationship="inf245netsoftModel.R_28" FromRole="Region" ToRole="PuntoVenta" />
     <NavigationProperty Name="PuntoVenta1" Relationship="inf245netsoftModel.R_75" FromRole="Region" ToRole="PuntoVenta" />
-    <NavigationProperty Name="Eventos" Relationship="inf245netsoftModel.fk_EventoRegion" FromRole="Region" ToRole="Eventos" />
     <NavigationProperty Name="Local" Relationship="inf245netsoftModel.R_20" FromRole="Region" ToRole="Local" />
     <NavigationProperty Name="Local1" Relationship="inf245netsoftModel.R_72" FromRole="Region" ToRole="Local" />
+    <NavigationProperty Name="Eventos" Relationship="inf245netsoftModel.fk_EventoRegion" FromRole="Region" ToRole="Eventos" />
   </EntityType>
   <Association Name="R_70">
     <End Type="inf245netsoftModel.Region" Role="Region" Multiplicity="0..1" />
@@ -884,14 +884,14 @@
     <Property Name="horaIni" Type="DateTime" Precision="3" />
     <Property Name="fecha" Type="DateTime" Precision="3" />
     <Property Name="codEvento" Type="Int32" Nullable="false" />
-    <Property Name="estado" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="estado" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="FechaDevolucion" Type="DateTime" Precision="0" />
     <Property Name="cantDiasDevolucion" Type="Int32" />
     <Property Name="motivoCambio" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="AsientosXFuncion" Relationship="inf245netsoftModel.R_46" FromRole="Funcion" ToRole="AsientosXFuncion" />
     <NavigationProperty Name="VentasXFuncion" Relationship="inf245netsoftModel.R_76" FromRole="Funcion" ToRole="VentasXFuncion" />
-    <NavigationProperty Name="Eventos" Relationship="inf245netsoftModel.R_43" FromRole="Funcion" ToRole="Eventos" />
     <NavigationProperty Name="ZonaxFuncion" Relationship="inf245netsoftModel.R_50" FromRole="Funcion" ToRole="ZonaxFuncion" />
+    <NavigationProperty Name="Eventos" Relationship="inf245netsoftModel.R_43" FromRole="Funcion" ToRole="Eventos" />
   </EntityType>
   <EntityType Name="PeriodoVenta">
     <Key>
@@ -917,8 +917,8 @@
     <Property Name="cantColumnas" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Asientos" Relationship="inf245netsoftModel.R_13" FromRole="ZonaEvento" ToRole="Asientos" />
     <NavigationProperty Name="PrecioEvento" Relationship="inf245netsoftModel.fk_ZonaEvent" FromRole="ZonaEvento" ToRole="PrecioEvento" />
-    <NavigationProperty Name="Eventos" Relationship="inf245netsoftModel.R_21" FromRole="ZonaEvento" ToRole="Eventos" />
     <NavigationProperty Name="ZonaxFuncion" Relationship="inf245netsoftModel.R_51" FromRole="ZonaEvento" ToRole="ZonaxFuncion" />
+    <NavigationProperty Name="Eventos" Relationship="inf245netsoftModel.R_21" FromRole="ZonaEvento" ToRole="Eventos" />
   </EntityType>
   <Association Name="R_13">
     <End Type="inf245netsoftModel.ZonaEvento" Role="ZonaEvento" Multiplicity="1">
@@ -990,6 +990,91 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="ZonaxFuncion">
+    <Key>
+      <PropertyRef Name="codFuncion" />
+      <PropertyRef Name="codZona" />
+    </Key>
+    <Property Name="codFuncion" Type="Int32" Nullable="false" />
+    <Property Name="codZona" Type="Int32" Nullable="false" />
+    <Property Name="cantLibres" Type="Int32" Nullable="false" ConcurrencyMode="Fixed" />
+    <NavigationProperty Name="Funcion" Relationship="inf245netsoftModel.R_50" FromRole="ZonaxFuncion" ToRole="Funcion" />
+    <NavigationProperty Name="ZonaEvento" Relationship="inf245netsoftModel.R_51" FromRole="ZonaxFuncion" ToRole="ZonaEvento" />
+    <Property Name="concurrencia" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+    <Property Name="cantReservaOrganizador" Type="Int32" Nullable="false" />
+  </EntityType>
+  <Association Name="R_50">
+    <End Type="inf245netsoftModel.Funcion" Role="Funcion" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="inf245netsoftModel.ZonaxFuncion" Role="ZonaxFuncion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Funcion">
+        <PropertyRef Name="codFuncion" />
+      </Principal>
+      <Dependent Role="ZonaxFuncion">
+        <PropertyRef Name="codFuncion" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_51">
+    <End Type="inf245netsoftModel.ZonaEvento" Role="ZonaEvento" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="inf245netsoftModel.ZonaxFuncion" Role="ZonaxFuncion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ZonaEvento">
+        <PropertyRef Name="codZona" />
+      </Principal>
+      <Dependent Role="ZonaxFuncion">
+        <PropertyRef Name="codZona" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="HoraReserva">
+    <Key>
+      <PropertyRef Name="codigo" />
+    </Key>
+    <Property Name="hora" Type="DateTime" Precision="3" />
+    <Property Name="codigo" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Local">
+    <Key>
+      <PropertyRef Name="codLocal" />
+    </Key>
+    <Property Name="ubicacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="codLocal" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="estaActivo" Type="Boolean" />
+    <Property Name="idProvincia" Type="Int32" />
+    <Property Name="idRegion" Type="Int32" />
+    <NavigationProperty Name="Region" Relationship="inf245netsoftModel.R_20" FromRole="Local" ToRole="Region" />
+    <NavigationProperty Name="Region1" Relationship="inf245netsoftModel.R_72" FromRole="Local" ToRole="Region" />
+  </EntityType>
+  <Association Name="R_20">
+    <End Type="inf245netsoftModel.Region" Role="Region" Multiplicity="0..1" />
+    <End Type="inf245netsoftModel.Local" Role="Local" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Region">
+        <PropertyRef Name="idRegion" />
+      </Principal>
+      <Dependent Role="Local">
+        <PropertyRef Name="idProvincia" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_72">
+    <End Type="inf245netsoftModel.Region" Role="Region" Multiplicity="0..1" />
+    <End Type="inf245netsoftModel.Local" Role="Local" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Region">
+        <PropertyRef Name="idRegion" />
+      </Principal>
+      <Dependent Role="Local">
+        <PropertyRef Name="idRegion" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityType Name="Eventos">
     <Key>
       <PropertyRef Name="codigo" />
@@ -1025,6 +1110,7 @@
     <Property Name="idLocal" Type="Int32" />
     <Property Name="hanCancelado" Type="Boolean" Nullable="false" />
     <Property Name="hanPostergado" Type="Boolean" Nullable="false" />
+    <Property Name="devolverPostergacion" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="Comentarios" Relationship="inf245netsoftModel.R_31" FromRole="Eventos" ToRole="Comentarios" />
     <NavigationProperty Name="Organizador" Relationship="inf245netsoftModel.fk_EventoOrg" FromRole="Eventos" ToRole="Organizador" />
     <NavigationProperty Name="PeriodoVenta" Relationship="inf245netsoftModel.fk_EventoPV" FromRole="Eventos" ToRole="PeriodoVenta" />
@@ -1116,91 +1202,6 @@
       </Principal>
       <Dependent Role="Funcion">
         <PropertyRef Name="codEvento" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <EntityType Name="ZonaxFuncion">
-    <Key>
-      <PropertyRef Name="codFuncion" />
-      <PropertyRef Name="codZona" />
-    </Key>
-    <Property Name="codFuncion" Type="Int32" Nullable="false" />
-    <Property Name="codZona" Type="Int32" Nullable="false" />
-    <Property Name="cantLibres" Type="Int32" Nullable="false" ConcurrencyMode="Fixed" />
-    <NavigationProperty Name="Funcion" Relationship="inf245netsoftModel.R_50" FromRole="ZonaxFuncion" ToRole="Funcion" />
-    <NavigationProperty Name="ZonaEvento" Relationship="inf245netsoftModel.R_51" FromRole="ZonaxFuncion" ToRole="ZonaEvento" />
-    <Property Name="concurrencia" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
-    <Property Name="cantReservaOrganizador" Type="Int32" Nullable="false" />
-  </EntityType>
-  <Association Name="R_50">
-    <End Type="inf245netsoftModel.Funcion" Role="Funcion" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Type="inf245netsoftModel.ZonaxFuncion" Role="ZonaxFuncion" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Funcion">
-        <PropertyRef Name="codFuncion" />
-      </Principal>
-      <Dependent Role="ZonaxFuncion">
-        <PropertyRef Name="codFuncion" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="R_51">
-    <End Type="inf245netsoftModel.ZonaEvento" Role="ZonaEvento" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Type="inf245netsoftModel.ZonaxFuncion" Role="ZonaxFuncion" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ZonaEvento">
-        <PropertyRef Name="codZona" />
-      </Principal>
-      <Dependent Role="ZonaxFuncion">
-        <PropertyRef Name="codZona" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <EntityType Name="HoraReserva">
-    <Key>
-      <PropertyRef Name="codigo" />
-    </Key>
-    <Property Name="hora" Type="DateTime" Precision="3" />
-    <Property Name="codigo" Type="Int32" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Local">
-    <Key>
-      <PropertyRef Name="codLocal" />
-    </Key>
-    <Property Name="ubicacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="codLocal" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="estaActivo" Type="Boolean" />
-    <Property Name="idProvincia" Type="Int32" />
-    <Property Name="idRegion" Type="Int32" />
-    <NavigationProperty Name="Region" Relationship="inf245netsoftModel.R_20" FromRole="Local" ToRole="Region" />
-    <NavigationProperty Name="Region1" Relationship="inf245netsoftModel.R_72" FromRole="Local" ToRole="Region" />
-  </EntityType>
-  <Association Name="R_20">
-    <End Type="inf245netsoftModel.Region" Role="Region" Multiplicity="0..1" />
-    <End Type="inf245netsoftModel.Local" Role="Local" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Region">
-        <PropertyRef Name="idRegion" />
-      </Principal>
-      <Dependent Role="Local">
-        <PropertyRef Name="idProvincia" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="R_72">
-    <End Type="inf245netsoftModel.Region" Role="Region" Multiplicity="0..1" />
-    <End Type="inf245netsoftModel.Local" Role="Local" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Region">
-        <PropertyRef Name="idRegion" />
-      </Principal>
-      <Dependent Role="Local">
-        <PropertyRef Name="idRegion" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

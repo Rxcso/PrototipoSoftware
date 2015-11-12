@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="inf245netsoftModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+<Schema Namespace="inf245netsoftModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityType Name="__MigrationHistory">
     <Key>
       <PropertyRef Name="MigrationId" />
@@ -193,6 +193,7 @@
     <Property Name="idLocal" Type="int" />
     <Property Name="hanCancelado" Type="bit" Nullable="false" />
     <Property Name="hanPostergado" Type="bit" Nullable="false" />
+    <Property Name="devolverPostergacion" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Funcion">
     <Key>
@@ -202,7 +203,7 @@
     <Property Name="horaIni" Type="datetime" />
     <Property Name="fecha" Type="datetime" />
     <Property Name="codEvento" Type="int" Nullable="false" />
-    <Property Name="estado" Type="varchar" MaxLength="50" />
+    <Property Name="estado" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="FechaDevolucion" Type="date" />
     <Property Name="cantDiasDevolucion" Type="int" />
     <Property Name="motivoCambio" Type="varchar" MaxLength="200" />

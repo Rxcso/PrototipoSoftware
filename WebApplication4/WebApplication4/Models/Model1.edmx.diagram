@@ -66,14 +66,6 @@
         <AssociationConnector Association="inf245netsoftModel.R_76" />
         <AssociationConnector Association="inf245netsoftModel.fk_PerVenta" />
         <AssociationConnector Association="inf245netsoftModel.fk_ZonaEvent" />
-        <EntityTypeShape EntityType="inf245netsoftModel.Eventos" Width="1.5" PointX="18.625" PointY="14.125" />
-        <AssociationConnector Association="inf245netsoftModel.R_31" />
-        <AssociationConnector Association="inf245netsoftModel.fk_EventoOrg" />
-        <AssociationConnector Association="inf245netsoftModel.fk_EventoPV" />
-        <AssociationConnector Association="inf245netsoftModel.fk_EventoRegion" />
-        <AssociationConnector Association="inf245netsoftModel.R_18" />
-        <AssociationConnector Association="inf245netsoftModel.R_21" />
-        <AssociationConnector Association="inf245netsoftModel.R_43" />
         <EntityTypeShape EntityType="inf245netsoftModel.ZonaxFuncion" Width="1.5" PointX="23.125" PointY="16" />
         <AssociationConnector Association="inf245netsoftModel.R_50" />
         <AssociationConnector Association="inf245netsoftModel.R_51" />
@@ -81,6 +73,14 @@
         <EntityTypeShape EntityType="inf245netsoftModel.Local" Width="1.5" PointX="8.375" PointY="13.125" />
         <AssociationConnector Association="inf245netsoftModel.R_20" />
         <AssociationConnector Association="inf245netsoftModel.R_72" />
+        <EntityTypeShape EntityType="inf245netsoftModel.Eventos" Width="1.5" PointX="18.625" PointY="14" />
+        <AssociationConnector Association="inf245netsoftModel.R_31" />
+        <AssociationConnector Association="inf245netsoftModel.fk_EventoOrg" />
+        <AssociationConnector Association="inf245netsoftModel.fk_EventoPV" />
+        <AssociationConnector Association="inf245netsoftModel.fk_EventoRegion" />
+        <AssociationConnector Association="inf245netsoftModel.R_18" />
+        <AssociationConnector Association="inf245netsoftModel.R_21" />
+        <AssociationConnector Association="inf245netsoftModel.R_43" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

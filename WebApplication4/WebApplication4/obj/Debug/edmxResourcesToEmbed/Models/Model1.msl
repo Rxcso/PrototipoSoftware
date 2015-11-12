@@ -391,9 +391,41 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="ZonaxFuncion">
+      <EntityTypeMapping TypeName="inf245netsoftModel.ZonaxFuncion">
+        <MappingFragment StoreEntitySet="ZonaxFuncion">
+          <ScalarProperty Name="cantReservaOrganizador" ColumnName="cantReservaOrganizador" />
+          <ScalarProperty Name="concurrencia" ColumnName="concurrencia" />
+          <ScalarProperty Name="cantLibres" ColumnName="cantLibres" />
+          <ScalarProperty Name="codZona" ColumnName="codZona" />
+          <ScalarProperty Name="codFuncion" ColumnName="codFuncion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="HoraReserva">
+      <EntityTypeMapping TypeName="inf245netsoftModel.HoraReserva">
+        <MappingFragment StoreEntitySet="HoraReserva">
+          <ScalarProperty Name="codigo" ColumnName="codigo" />
+          <ScalarProperty Name="hora" ColumnName="hora" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Local">
+      <EntityTypeMapping TypeName="inf245netsoftModel.Local">
+        <MappingFragment StoreEntitySet="Local">
+          <ScalarProperty Name="idRegion" ColumnName="idRegion" />
+          <ScalarProperty Name="idProvincia" ColumnName="idProvincia" />
+          <ScalarProperty Name="estaActivo" ColumnName="estaActivo" />
+          <ScalarProperty Name="codLocal" ColumnName="codLocal" />
+          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+          <ScalarProperty Name="ubicacion" ColumnName="ubicacion" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Eventos">
       <EntityTypeMapping TypeName="inf245netsoftModel.Eventos">
         <MappingFragment StoreEntitySet="Eventos">
+          <ScalarProperty Name="devolverPostergacion" ColumnName="devolverPostergacion" />
           <ScalarProperty Name="hanPostergado" ColumnName="hanPostergado" />
           <ScalarProperty Name="hanCancelado" ColumnName="hanCancelado" />
           <ScalarProperty Name="idLocal" ColumnName="idLocal" />
@@ -425,37 +457,6 @@
           <ScalarProperty Name="descripcion" ColumnName="descripcion" />
           <ScalarProperty Name="nombre" ColumnName="nombre" />
           <ScalarProperty Name="codigo" ColumnName="codigo" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="ZonaxFuncion">
-      <EntityTypeMapping TypeName="inf245netsoftModel.ZonaxFuncion">
-        <MappingFragment StoreEntitySet="ZonaxFuncion">
-          <ScalarProperty Name="cantReservaOrganizador" ColumnName="cantReservaOrganizador" />
-          <ScalarProperty Name="concurrencia" ColumnName="concurrencia" />
-          <ScalarProperty Name="cantLibres" ColumnName="cantLibres" />
-          <ScalarProperty Name="codZona" ColumnName="codZona" />
-          <ScalarProperty Name="codFuncion" ColumnName="codFuncion" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="HoraReserva">
-      <EntityTypeMapping TypeName="inf245netsoftModel.HoraReserva">
-        <MappingFragment StoreEntitySet="HoraReserva">
-          <ScalarProperty Name="codigo" ColumnName="codigo" />
-          <ScalarProperty Name="hora" ColumnName="hora" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Local">
-      <EntityTypeMapping TypeName="inf245netsoftModel.Local">
-        <MappingFragment StoreEntitySet="Local">
-          <ScalarProperty Name="idRegion" ColumnName="idRegion" />
-          <ScalarProperty Name="idProvincia" ColumnName="idProvincia" />
-          <ScalarProperty Name="estaActivo" ColumnName="estaActivo" />
-          <ScalarProperty Name="codLocal" ColumnName="codLocal" />
-          <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-          <ScalarProperty Name="ubicacion" ColumnName="ubicacion" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

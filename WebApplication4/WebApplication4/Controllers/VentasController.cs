@@ -303,11 +303,11 @@ namespace WebApplication4.Controllers
                             List<Funcion> f = db.Funcion.Where(fun => fun.codFuncion == codiguitoF && 
                                 (fun.estado == "CANCELADO" || fun.estado == "POSTERGADO")).ToList();
                             if (f == null) vxf.RemoveAt(j);
-                            else
+                            else//logica de que en caso de postergacion no se permita devolver el dinero
                                 if (f[0].estado == "POSTERGADO")
                                 {
                                     Eventos ev = db.Eventos.Find(f[0].codEvento);
-                                    //if()
+                                    if (!ev.devolverPostergacion) vxf.RemoveAt(j);
                                 }
                             //si el evento asociado a ese VXF no es postergado ni cancelado, lo borro
                         }
