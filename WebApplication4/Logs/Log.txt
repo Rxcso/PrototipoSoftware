@@ -1092,3 +1092,19 @@ System.Collections.ListDictionaryInternal
 El valor no puede ser nulo.
 Nombre del parámetro: source
 2015-11-10 22:52:36,637 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 00:01:29,360 [28] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 00:01:29,368 [28] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-11 00:01:29,368 [28] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-11 00:01:29,368 [28] ERROR Ticknet - Exception Message - 
+A public action method 'CarritoDeCompras' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-11 00:01:29,368 [28] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 00:01:32,819 [24] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 00:01:32,819 [24] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-11 00:01:32,819 [24] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-11 00:01:32,819 [24] ERROR Ticknet - Exception Message - 
+A public action method 'CarritoDeCompras' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-11 00:01:32,819 [24] DEBUG Ticknet - ++++++++++++++++++++++++++++

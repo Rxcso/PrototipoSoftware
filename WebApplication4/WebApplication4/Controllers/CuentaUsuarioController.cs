@@ -145,9 +145,9 @@ namespace WebApplication4.Controllers
                         {
                             ve.CuentaUsuario = db.CuentaUsuario.Find(MagicHelpers.AnonimoUniversal);
                         }
-
                         ve.fecha = DateTime.Now;
                         ve.cantAsientos = cantidadEntradasTotales;
+                        //de todas maneras en la venta se registra el nombre, dni y tipo de documento del que esta comprando.
                         ve.cliente = model.Nombre;
                         ve.codDoc = model.Dni;
                         ve.Estado = MagicHelpers.Compra;
