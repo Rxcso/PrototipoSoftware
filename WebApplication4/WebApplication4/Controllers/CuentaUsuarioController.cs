@@ -143,11 +143,13 @@ namespace WebApplication4.Controllers
                         if (Session["UsuarioLogueado"] != null)
                         {
                             cuenta = (CuentaUsuario)Session["UsuarioLogueado"];
-                            ve.CuentaUsuario = cuenta;
+                            ve.CuentaUsuario = db.CuentaUsuario.Find(cuenta.usuario);
+                            ve.cliente = cuenta.usuario;
                         }
                         else
                         {
                             ve.CuentaUsuario = db.CuentaUsuario.Find(MagicHelpers.AnonimoUniversal);
+                            ve.cliente = model.Nombre;
                         }
 
                         ve.fecha = DateTime.Now;

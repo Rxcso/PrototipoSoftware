@@ -14,7 +14,7 @@ namespace WebApplication4.Controllers
         //crear evento
         public const string NuevoEvento = "Nuevo Evento";
         //comprar evento
-        public const string Compra = "Comprado";
+        public const string Compra = "Pagado";
         //asiento ocupado
         public const string Ocupado = "OCUPADO";
         //cliente anonimo universal
