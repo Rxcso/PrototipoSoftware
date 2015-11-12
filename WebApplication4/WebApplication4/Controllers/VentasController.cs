@@ -300,8 +300,15 @@ namespace WebApplication4.Controllers
                         {
                             int codiguitoF = vxf[j].codFuncion;
                             //filtro
-                            List<Funcion> f = db.Funcion.Where(fun => fun.codFuncion == codiguitoF && (fun.estado == "CANCELADO" || fun.estado == "POSTERGADO")).ToList();
+                            List<Funcion> f = db.Funcion.Where(fun => fun.codFuncion == codiguitoF && 
+                                (fun.estado == "CANCELADO" || fun.estado == "POSTERGADO")).ToList();
                             if (f == null) vxf.RemoveAt(j);
+                            else
+                                if (f[0].estado == "POSTERGADO")
+                                {
+                                    Eventos ev = db.Eventos.Find(f[0].codEvento);
+                                    //if()
+                                }
                             //si el evento asociado a ese VXF no es postergado ni cancelado, lo borro
                         }
                         //la lista que mantendrá absolutamente todos los VXF de todas las ventas
