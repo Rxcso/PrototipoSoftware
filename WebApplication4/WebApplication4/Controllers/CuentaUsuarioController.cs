@@ -223,7 +223,7 @@ namespace WebApplication4.Controllers
                             if (paquete.filas != null && paquete.filas.Count > 0) paquete.tieneAsientos = true;
                             //actualizo el mondo adeudado 
                             Eventos evento = db.Eventos.Find(paquete.idEvento);
-                            evento.monto_adeudado += (double)(paquete.cantidad * pr.precio * evento.porccomision + evento.montoFijoVentaEntrada);
+                            evento.monto_adeudado += (double)(paquete.cantidad * pr.precio * evento.porccomision/100 + evento.montoFijoVentaEntrada);
                             db.SaveChanges();
                             //si tengo asientos, actualizo los asientos a ocupado
                             if (paquete.tieneAsientos)
