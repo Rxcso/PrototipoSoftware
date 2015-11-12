@@ -496,13 +496,19 @@ namespace WebApplication4.Controllers
             Session["VentaXFunDev"] = venxf;
             Ventas ven = db.Ventas.Find(venxf.codVen);
             Session["VentasDev"] = ven;
+
             List<AsientosXFuncion> axf = db.AsientosXFuncion.Where(a=>a.codFuncion==detalleVen.codFuncion && a.codDetalleVenta==detalleVen.codDetalleVenta).ToList();
             Session["ListaAsientos"] = axf;
+
             Funcion funDev = db.Funcion.Find(detalleVen.codFuncion);
             Session["FuncionDev"] = funDev;
             Eventos eventoDev = db.Eventos.Find(funDev.codEvento);
             Session["EventoDev"] = eventoDev;
 
+            PrecioEvento pe = db.PrecioEvento.Find(detalleVen.codPrecE);
+            ZonaEvento ze = db.ZonaEvento.Find(pe.codZonaEvento);
+
+            Session["ZonaEventoDev"] = ze;
             return View("VerDetalle");
         }
 
