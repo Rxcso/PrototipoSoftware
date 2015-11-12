@@ -749,8 +749,8 @@ namespace WebApplication4.Controllers
             Turno tur = ltur.First();
             db.Turno.Remove(tur);
             db.SaveChanges();
-            DateTime hoy = DateTime.Now;
-            List<Turno> listatuvend = db.Turno.AsNoTracking().Where(c => c.usuario == m1 && c.fecha > hoy).ToList();
+            DateTime hoy = DateTime.Now.Date;
+            List<Turno> listatuvend = db.Turno.AsNoTracking().Where(c => c.usuario == m1 && c.fecha >= hoy).ToList();
             Session["ListaTurnoVendedor"] = listatuvend;
             return Json("Turno Eliminado", JsonRequestBehavior.AllowGet);
         }
@@ -774,7 +774,7 @@ namespace WebApplication4.Controllers
             int idPol2 = 7;
             int limite = (int)db.Politicas.Find(idPol).valor;
             int limite2 = (int)db.Politicas.Find(idPol2).valor;
-            if (dt1 <= DateTime.Now) return Json("la fecha debe ser superior de hoy", JsonRequestBehavior.AllowGet);
+            if (dt1 < DateTime.Now.Date) return Json("la fecha debe ser superior de hoy", JsonRequestBehavior.AllowGet);
             if (dt1 > dt2) return Json("Fecha inicio debe ser menor que fecha fin", JsonRequestBehavior.AllowGet);
             if (nd > limite) return Json("No puedo asignar a la vez mas de " + limite + " turnos de manera seguida", JsonRequestBehavior.AllowGet);
             //int cruce = 0;            
@@ -820,8 +820,8 @@ namespace WebApplication4.Controllers
                 db.SaveChanges();
                 dai = dai.AddDays(1);
             }
-            DateTime hoy = DateTime.Now;
-            List<Turno> listatuvend = db.Turno.AsNoTracking().Where(c => c.usuario == idV && c.fecha > hoy).ToList();
+            DateTime hoy = DateTime.Now.Date;
+            List<Turno> listatuvend = db.Turno.AsNoTracking().Where(c => c.usuario == idV && c.fecha >= hoy).ToList();
             Session["ListaTurnoVendedor"] = listatuvend;
             return Json("Registro Correcto", JsonRequestBehavior.AllowGet);
         }
