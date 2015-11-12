@@ -148,8 +148,8 @@ namespace WebApplication4.Controllers
             if (id == "" || id == null) return RedirectToAction("Asignacion", "Ventas");
             string usuario = id.Replace("°", "@");
             CuentaUsuario vend = db.CuentaUsuario.Find(usuario);
-            DateTime hoy = DateTime.Now;
-            List<Turno> listatuvend = db.Turno.AsNoTracking().Where(c => c.usuario == usuario && c.fecha > hoy).ToList();
+            DateTime hoy = DateTime.Now.Date;
+            List<Turno> listatuvend = db.Turno.AsNoTracking().Where(c => c.usuario == usuario && c.fecha >= hoy).ToList();
             Session["ListaTurnoVendedor"] = listatuvend;
             Session["vendAsig"] = vend;
 
@@ -295,17 +295,45 @@ namespace WebApplication4.Controllers
                     int codiguito = v[i].codVen;
                     vxf = db.VentasXFuncion.Where(venxf => venxf.codVen == codiguito).ToList();
                     if (vxf != null) 
-                    {
+                    {                        
                         for (int j = 0; j < vxf.Count; j++)
                         {
                             int codiguitoF = vxf[j].codFuncion;
                             //filtro
-                            List<Funcion> f = db.Funcion.Where(fun => fun.codFuncion == codiguitoF && (fun.estado == "CANCELADO" || fun.estado == "POSTERGADO")).ToList();
-                            if (f == null) vxf.RemoveAt(j);
+                            Funcion f = db.Funcion.Find(codiguitoF);
+                            if (f.estado != "CANCELADO" && f.estado != "POSTERGADO") {
+                                vxf.RemoveAt(j);
+                                j--;
+                            }
+                            //logica de que en caso de postergacion no se permita devolver el dinero                                
+                            if (f.estado == "POSTERGADO")
+                            {
+                                Eventos ev = db.Eventos.Find(f.codEvento);
+                                if(!ev.devolverPostergacion){
+                                    vxf.RemoveAt(j);
+                                    j--;
+                                }
+                            }
+                            
+                            /*List<Funcion> f = db.Funcion.Where(fun => fun.codFuncion == codiguitoF && 
+                                (fun.estado == "Cancelado" || fun.estado == "Postergado")).ToList();
+                            if (f == null) { 
+                                vxf.RemoveAt(j);
+                                j--;
+                            }else
+                                if (f[0].estado == "POSTERGADO")
+                                {
+                                    Eventos ev = db.Eventos.Find(f[0].codEvento);
+                                    if (!ev.devolverPostergacion) { 
+                                        vxf.RemoveAt(j);
+                                        j--;
+                                    }
+                                }*/
+
                             //si el evento asociado a ese VXF no es postergado ni cancelado, lo borro
                         }
-                        //la lista que mantendrá absolutamente todos los VXF de todas las ventas
-                        listaRealVxf.AddRange(vxf);
+                            //la lista que mantendrá absolutamente todos los VXF de todas las ventas
+                            listaRealVxf.AddRange(vxf);
                     }                    
                 }
                 if (listaRealVxf != null)
@@ -324,7 +352,10 @@ namespace WebApplication4.Controllers
                             DevolucionModel d = new DevolucionModel();
                             d.codDev = detVen[j].codDetalleVenta;
                             d.numDoc = int.Parse(doc);
-                            d.nombre = usuario[0].apellido + ", " + usuario[0].nombre;
+                            if(usuario.Count==0)
+                                d.nombre = "--";
+                            else
+                                d.nombre = usuario[0].apellido + ", " + usuario[0].nombre;
 
                             int codigoFuncion = detVen[j].codFuncion;
                             List<Funcion> funAux = db.Funcion.Where(fu => fu.codFuncion == codigoFuncion).ToList();
@@ -341,15 +372,20 @@ namespace WebApplication4.Controllers
 
                             codigoFuncion = detVen[0].codFuncion;
                             int codigoDetVen = detVen[0].codDetalleVenta;
-                            List<AsientosXFuncion> axf = db.AsientosXFuncion.Where(a => a.codFuncion == codigoFuncion && a.codDetalleVenta == codigoDetVen).ToList();
 
+                            PrecioEvento pe = db.PrecioEvento.Find(detVen[0].codPrecE);
+                            ZonaEvento ze = db.ZonaEvento.Find(pe.codZonaEvento);
+                            /*
+                            List<AsientosXFuncion> axf = db.AsientosXFuncion.Where(a => a.codFuncion == codigoFuncion && a.codDetalleVenta == codigoDetVen).ToList();
+                            
                             int codigoAsiento = axf[0].codAsiento;
                             List<Asientos> asientos = db.Asientos.Where(a => a.codAsiento == codigoAsiento).ToList();
 
                             int codigoZona = asientos[0].codZona;
                             List<ZonaEvento> ze = db.ZonaEvento.Where(z => z.codZona == codigoZona).ToList();
 
-                            d.zona = ze[0].nombre;
+                            d.zona = ze[0].nombre;*/
+                            d.zona = ze.nombre;
                             devolucion.Add(d);
                         }
                     }
@@ -361,9 +397,6 @@ namespace WebApplication4.Controllers
             return RedirectToAction("Devolucion", "Ventas");
             //return View("Devolucion");
         }
-
-
-
 
         public ActionResult Devolver(string fila)
         {
@@ -395,7 +428,40 @@ namespace WebApplication4.Controllers
             //logica de devolucion!
             return View("Devolucion");
         }
+        
+        public ActionResult DevolverTodo()
+        {
+            DetalleVenta dv=(DetalleVenta)Session["DetalleVenta"];
+            Eventos ev = (Eventos)Session["EventoDev"];
+            ev.monto_transferir -= (double)dv.total;
+            List<AsientosXFuncion> axf = (List<AsientosXFuncion>)Session["ListaAsientos"];
+            for (int i = 0; i < axf.Count; i++)
+                axf[i].estado = "DEVUELTO";
+            dv.entradasDev = dv.cantEntradas;
+            dv.cantEntradas = 0;
+            VentasXFuncion vxf = (VentasXFuncion)Session["VentaXFunDev"];
+            vxf.cantEntradas -= (int)dv.cantEntradas;
+            Ventas v = (Ventas)Session["VentasDev"];
+            v.cantAsientos -= (int)dv.cantEntradas;
+            v.MontoTotalSoles -= (double)dv.total;
+            PrecioEvento pe = db.PrecioEvento.Find(dv.codPrecE);
+            ZonaEvento ze = db.ZonaEvento.Find(pe.codZonaEvento);
+            if (!ze.tieneAsientos) ze.tieneAsientos = true;
+            ZonaxFuncion zxf =(db.ZonaxFuncion.Where(z => z.codFuncion == dv.codFuncion && z.codZona == ze.codZona).ToList())[0];
+            zxf.cantLibres += (int)dv.cantEntradas;
+                /*Session["DetalleVenta"]
+                Session["VentaXFunDev"]
+                Session["VentasDev"]
+                Session["ListaAsientos"] = axf;
+                Session["BusquedaDev"] = devolucionModel
+                Session["FuncionDev"]
+                Session["EventoDev"]
+                */
 
+
+            db.SaveChanges();
+            return View("Devolucion");
+        }
 
         public ActionResult VerDetalle(string detVen)
         {

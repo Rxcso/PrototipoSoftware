@@ -1092,19 +1092,98 @@ System.Collections.ListDictionaryInternal
 El valor no puede ser nulo.
 Nombre del parámetro: source
 2015-11-10 22:52:36,637 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-11 00:01:29,360 [28] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-11 00:01:29,368 [28] ERROR Ticknet - Exception Data - 
-HttpException
-2015-11-11 00:01:29,368 [28] ERROR Ticknet - Exception Data - 
+2015-11-11 18:51:36,530 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 18:51:36,535 [8] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-11 18:51:36,535 [8] ERROR Ticknet - Exception Data - 
 System.Collections.ListDictionaryInternal
-2015-11-11 00:01:29,368 [28] ERROR Ticknet - Exception Message - 
-A public action method 'CarritoDeCompras' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
-2015-11-11 00:01:29,368 [28] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-11 00:01:32,819 [24] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-11 00:01:32,819 [24] ERROR Ticknet - Exception Data - 
-HttpException
-2015-11-11 00:01:32,819 [24] ERROR Ticknet - Exception Data - 
+2015-11-11 18:51:36,535 [8] ERROR Ticknet - Exception Message - 
+c:\Users\alulab14.INF\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\CuentaUsuario\RegistrarUsuarioVendedor.cshtml(47): error CS0103: El nombre 'disabled' no existe en el contexto actual
+2015-11-11 18:51:36,535 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 18:52:18,315 [13] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 18:52:18,315 [13] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-11 18:52:18,315 [13] ERROR Ticknet - Exception Data - 
 System.Collections.ListDictionaryInternal
-2015-11-11 00:01:32,819 [24] ERROR Ticknet - Exception Message - 
-A public action method 'CarritoDeCompras' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
-2015-11-11 00:01:32,819 [24] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 18:52:18,315 [13] ERROR Ticknet - Exception Message - 
+c:\Users\alulab14.INF\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\CuentaUsuario\RegistrarUsuarioVendedor.cshtml(47): error CS0103: El nombre 'disabled' no existe en el contexto actual
+2015-11-11 18:52:18,315 [13] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 20:16:45,013 [14] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 20:16:45,018 [14] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-11 20:16:45,018 [14] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-11 20:16:45,018 [14] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-11 20:16:45,018 [14] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 20:22:57,897 [52] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 20:22:57,897 [52] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-11 20:22:57,897 [52] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-11 20:22:57,897 [52] ERROR Ticknet - Exception Message - 
+Expected a "{" but found a "codperfilActual".  Block statements must be enclosed in "{" and "}".  You cannot use single-statement control-flow statements in CSHTML pages. For example, the following is not allowed:
+
+@if(isLoggedIn)
+    <p>Hello, @user</p>
+
+Instead, wrap the contents of the block in "{}":
+
+@if(isLoggedIn) {
+    <p>Hello, @user</p>
+}
+
+2015-11-11 20:22:57,897 [52] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 20:23:05,061 [43] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 20:23:05,061 [43] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-11 20:23:05,061 [43] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-11 20:23:05,061 [43] ERROR Ticknet - Exception Message - 
+Expected a "{" but found a "codperfilActual".  Block statements must be enclosed in "{" and "}".  You cannot use single-statement control-flow statements in CSHTML pages. For example, the following is not allowed:
+
+@if(isLoggedIn)
+    <p>Hello, @user</p>
+
+Instead, wrap the contents of the block in "{}":
+
+@if(isLoggedIn) {
+    <p>Hello, @user</p>
+}
+
+2015-11-11 20:23:05,061 [43] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 20:26:43,129 [25] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 20:26:43,129 [25] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-11 20:26:43,129 [25] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-11 20:26:43,129 [25] ERROR Ticknet - Exception Message - 
+Unexpected "{" after "@" character. Once inside the body of a code block (@if {}, @{}, etc.) you do not need to use "@{" to switch to code.
+
+2015-11-11 20:26:43,129 [25] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 20:27:06,183 [50] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 20:27:06,183 [50] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-11 20:27:06,183 [50] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-11 20:27:06,183 [50] ERROR Ticknet - Exception Message - 
+Unexpected "{" after "@" character. Once inside the body of a code block (@if {}, @{}, etc.) you do not need to use "@{" to switch to code.
+
+2015-11-11 20:27:06,183 [50] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 20:27:09,848 [46] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 20:27:09,848 [46] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-11 20:27:09,848 [46] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-11 20:27:09,848 [46] ERROR Ticknet - Exception Message - 
+Unexpected "{" after "@" character. Once inside the body of a code block (@if {}, @{}, etc.) you do not need to use "@{" to switch to code.
+
+2015-11-11 20:27:09,848 [46] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 21:22:50,040 [52] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 21:22:50,045 [52] ERROR Ticknet - Exception Type - 
+RuntimeBinderException
+2015-11-11 21:22:50,045 [52] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-11 21:22:50,045 [52] ERROR Ticknet - Exception Message - 
+No se puede convertir NULL en 'System.DateTime' porque es un tipo de valor que no acepta valores NULL.
+2015-11-11 21:22:50,045 [52] DEBUG Ticknet - ++++++++++++++++++++++++++++

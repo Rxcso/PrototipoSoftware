@@ -11,5 +11,9 @@ namespace WebApplication4.Models
         public string nombre { get; set; }
         public string contenido { get; set; }
         public DateTime? fecha { get; set; }
+        public bool flag { get; set; }
+        public int codigo { get; set; }
+
+
     }
 }

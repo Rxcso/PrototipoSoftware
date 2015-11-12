@@ -38,7 +38,7 @@ namespace WebApplication4.Controllers
                 return View();
         }
 
-
+    /*
        [HttpPost]
         public ActionResult Busqueda( FormCollection collection ) {
 
@@ -53,7 +53,7 @@ namespace WebApplication4.Controllers
             ViewBag.Departamentos = bd.Region.AsNoTracking().Where(c => c.idRegPadre == null);
 
             return View("Index");
-        }
+        }*/
 
 
         [HttpPost]

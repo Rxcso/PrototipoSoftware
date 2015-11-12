@@ -193,6 +193,7 @@
     <Property Name="idLocal" Type="int" />
     <Property Name="hanCancelado" Type="bit" Nullable="false" />
     <Property Name="hanPostergado" Type="bit" Nullable="false" />
+    <Property Name="devolverPostergacion" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Funcion">
     <Key>
@@ -202,7 +203,7 @@
     <Property Name="horaIni" Type="datetime" />
     <Property Name="fecha" Type="datetime" />
     <Property Name="codEvento" Type="int" Nullable="false" />
-    <Property Name="estado" Type="varchar" MaxLength="50" />
+    <Property Name="estado" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="FechaDevolucion" Type="date" />
     <Property Name="cantDiasDevolucion" Type="int" />
     <Property Name="motivoCambio" Type="varchar" MaxLength="200" />
@@ -437,6 +438,7 @@
     <Property Name="codFuncion" Type="int" Nullable="false" />
     <Property Name="cantLibres" Type="int" Nullable="false" />
     <Property Name="concurrencia" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+    <Property Name="cantReservaOrganizador" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="FK__RegaloXCu__usuar__4BAC3F29">
     <End Role="CuentaUsuario" Type="Self.CuentaUsuario" Multiplicity="1" />

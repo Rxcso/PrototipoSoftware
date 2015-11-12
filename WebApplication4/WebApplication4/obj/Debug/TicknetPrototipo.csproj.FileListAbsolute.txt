@@ -664,61 +664,6 @@ F:\down\Ingenieria de software\pruebas\PrototipoSoftware7\WebApplication4\WebApp
 F:\down\Ingenieria de software\pruebas\PrototipoSoftware7\WebApplication4\WebApplication4\obj\Debug\TicknetPrototipo.csprojResolveAssemblyReference.cache
 F:\down\Ingenieria de software\pruebas\PrototipoSoftware7\WebApplication4\WebApplication4\obj\Debug\WebApplication4.dll
 F:\down\Ingenieria de software\pruebas\PrototipoSoftware7\WebApplication4\WebApplication4\obj\Debug\WebApplication4.pdb
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\WebApplication4.dll.config
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\WebApplication4.dll
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\WebApplication4.pdb
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Antlr3.Runtime.dll
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\EntityFramework.dll
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\EntityFramework.SqlServer.dll
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\log4net.dll
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.AspNet.Identity.Core.dll
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.AspNet.Identity.EntityFramework.dll
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.AspNet.Identity.Owin.dll
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.Owin.dll
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.Owin.Host.SystemWeb.dll
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.Cookies.dll
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.dll
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.Facebook.dll
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.Google.dll
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.OAuth.dll
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.Twitter.dll
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.Web.Infrastructure.dll
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Newtonsoft.Json.dll
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Owin.dll
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\System.Web.Helpers.dll
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\System.Web.Mvc.dll
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\System.Web.Optimization.dll
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\System.Web.Razor.dll
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\System.Web.WebPages.Deployment.dll
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\System.Web.WebPages.dll
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\System.Web.WebPages.Razor.dll
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\WebGrease.dll
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\log4net.xml
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\System.Web.Helpers.xml
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\System.Web.Mvc.xml
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\System.Web.Optimization.xml
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\System.Web.Razor.xml
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\System.Web.WebPages.xml
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\System.Web.WebPages.Deployment.xml
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\System.Web.WebPages.Razor.xml
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Newtonsoft.Json.xml
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\EntityFramework.xml
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\EntityFramework.SqlServer.xml
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.AspNet.Identity.Core.xml
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.AspNet.Identity.Owin.xml
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.AspNet.Identity.EntityFramework.xml
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.Owin.xml
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.Owin.Host.SystemWeb.xml
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.xml
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.Facebook.xml
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.Cookies.xml
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.OAuth.xml
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.Google.xml
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.Twitter.xml
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\obj\Debug\WebApplication4.dll
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\obj\Debug\WebApplication4.pdb
 C:\temp\PrototipoSoftware\WebApplication4\WebApplication4\bin\WebApplication4.dll.config
 C:\temp\PrototipoSoftware\WebApplication4\WebApplication4\bin\WebApplication4.dll
 C:\temp\PrototipoSoftware\WebApplication4\WebApplication4\bin\WebApplication4.pdb
@@ -778,9 +723,6 @@ F:\down\Ingenieria de software\pruebas\PrototipoSoftware2\WebApplication4\WebApp
 C:\temp\PrototipoSoftware\WebApplication4\WebApplication4\bin\itextsharp.dll
 C:\temp\PrototipoSoftware\WebApplication4\WebApplication4\bin\itextsharp.xml
 C:\temp\PrototipoSoftware\WebApplication4\WebApplication4\obj\Debug\TicknetPrototipo.csprojResolveAssemblyReference.cache
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\itextsharp.dll
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\itextsharp.xml
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\obj\Debug\TicknetPrototipo.csprojResolveAssemblyReference.cache
 F:\down\Ingenieria de software\pruebas\PrototipoSoftware11\WebApplication4\WebApplication4\bin\WebApplication4.dll.config
 F:\down\Ingenieria de software\pruebas\PrototipoSoftware11\WebApplication4\WebApplication4\bin\WebApplication4.dll
 F:\down\Ingenieria de software\pruebas\PrototipoSoftware11\WebApplication4\WebApplication4\bin\WebApplication4.pdb
@@ -1069,8 +1011,6 @@ C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplicatio
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\obj\Debug\TicknetPrototipo.csprojResolveAssemblyReference.cache
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\obj\Debug\WebApplication4.dll
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\obj\Debug\WebApplication4.pdb
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\MvcPaging.dll
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\MvcPaging.pdb
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\PagedList.dll
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\PagedList.Mvc.dll
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\PagedList.xml
@@ -1538,12 +1478,6 @@ F:\down\Ingenieria de software\Prototipo\PrototipoSoftware7\WebApplication4\WebA
 F:\down\Ingenieria de software\Prototipo\PrototipoSoftware7\WebApplication4\WebApplication4\obj\Debug\WebApplication4.pdb
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\Antlr3.Runtime.dll
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\Antlr3.Runtime.pdb
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\MVC Foolproof Validation.dll
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\PagedList.dll
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\PagedList.Mvc.dll
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\PagedList.xml
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\PagedList.Mvc.xml
-C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\es\Microsoft.AspNet.Identity.Core.resources.dll
 F:\down\Ingenieria de software\Prototipo\PrototipoSoftware25\WebApplication4\WebApplication4\bin\WebApplication4.dll.config
 F:\down\Ingenieria de software\Prototipo\PrototipoSoftware25\WebApplication4\WebApplication4\bin\WebApplication4.dll
 F:\down\Ingenieria de software\Prototipo\PrototipoSoftware25\WebApplication4\WebApplication4\bin\WebApplication4.pdb
@@ -1676,3 +1610,139 @@ C:\Users\angel_000\SW\WebApplication4\WebApplication4\bin\es\Microsoft.AspNet.Id
 C:\Users\angel_000\SW\WebApplication4\WebApplication4\obj\Debug\TicknetPrototipo.csprojResolveAssemblyReference.cache
 C:\Users\angel_000\SW\WebApplication4\WebApplication4\obj\Debug\WebApplication4.dll
 C:\Users\angel_000\SW\WebApplication4\WebApplication4\obj\Debug\WebApplication4.pdb
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\WebApplication4.dll.config
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\WebApplication4.dll
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\WebApplication4.pdb
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\Antlr3.Runtime.dll
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\EntityFramework.dll
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\EntityFramework.SqlServer.dll
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\itextsharp.dll
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\log4net.dll
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\Microsoft.AspNet.Identity.Core.dll
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\Microsoft.AspNet.Identity.Owin.dll
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\Microsoft.Owin.dll
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.Cookies.dll
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.dll
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.Facebook.dll
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.Google.dll
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.OAuth.dll
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.Twitter.dll
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\MVC Foolproof Validation.dll
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\MvcPaging.dll
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\Newtonsoft.Json.dll
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\Owin.dll
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\PagedList.dll
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\PagedList.Mvc.dll
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\System.Web.Helpers.dll
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\System.Web.Mvc.dll
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\System.Web.Optimization.dll
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\System.Web.Razor.dll
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\System.Web.WebPages.Deployment.dll
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\System.Web.WebPages.dll
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\System.Web.WebPages.Razor.dll
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\WebGrease.dll
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\MvcPaging.pdb
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\itextsharp.xml
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\log4net.xml
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\Newtonsoft.Json.xml
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\PagedList.xml
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\PagedList.Mvc.xml
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\System.Web.Helpers.xml
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\System.Web.Mvc.xml
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\System.Web.Optimization.xml
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\System.Web.Razor.xml
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\System.Web.WebPages.xml
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\System.Web.WebPages.Deployment.xml
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\System.Web.WebPages.Razor.xml
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\EntityFramework.xml
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\EntityFramework.SqlServer.xml
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\Microsoft.AspNet.Identity.Core.xml
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\Microsoft.AspNet.Identity.Owin.xml
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\Microsoft.Owin.xml
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.xml
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.Facebook.xml
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.Cookies.xml
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.OAuth.xml
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.Google.xml
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.Twitter.xml
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\bin\es\Microsoft.AspNet.Identity.Core.resources.dll
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\obj\Debug\TicknetPrototipo.csprojResolveAssemblyReference.cache
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\obj\Debug\WebApplication4.dll
+C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\obj\Debug\WebApplication4.pdb
+C:\Users\alulab14.INF\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\bin\Antlr3.Runtime.dll
+C:\Users\alulab14.INF\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\bin\es\Microsoft.AspNet.Identity.Core.resources.dll
+C:\temp\PrototipoSoftware\WebApplication4\WebApplication4\bin\Antlr3.Runtime.dll
+C:\temp\PrototipoSoftware\WebApplication4\WebApplication4\bin\es\Microsoft.AspNet.Identity.Core.resources.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\WebApplication4.dll.config
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\WebApplication4.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\WebApplication4.pdb
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Antlr3.Runtime.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\EntityFramework.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\EntityFramework.SqlServer.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\itextsharp.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\log4net.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.AspNet.Identity.Core.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.AspNet.Identity.Owin.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.Owin.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.Cookies.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.Facebook.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.Google.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.OAuth.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.Twitter.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\MVC Foolproof Validation.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\MvcPaging.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Newtonsoft.Json.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Owin.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\PagedList.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\PagedList.Mvc.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\System.Web.Helpers.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\System.Web.Mvc.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\System.Web.Optimization.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\System.Web.Razor.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\System.Web.WebPages.Deployment.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\System.Web.WebPages.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\System.Web.WebPages.Razor.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\WebGrease.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\MvcPaging.pdb
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\itextsharp.xml
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\log4net.xml
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Newtonsoft.Json.xml
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\PagedList.xml
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\PagedList.Mvc.xml
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\System.Web.Helpers.xml
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\System.Web.Mvc.xml
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\System.Web.Optimization.xml
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\System.Web.Razor.xml
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\System.Web.WebPages.xml
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\System.Web.WebPages.Deployment.xml
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\System.Web.WebPages.Razor.xml
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\EntityFramework.xml
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\EntityFramework.SqlServer.xml
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.AspNet.Identity.Core.xml
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.AspNet.Identity.Owin.xml
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.Owin.xml
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.xml
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.Facebook.xml
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.Cookies.xml
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.OAuth.xml
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.Google.xml
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.Twitter.xml
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\bin\es\Microsoft.AspNet.Identity.Core.resources.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\obj\Debug\TicknetPrototipo.csprojResolveAssemblyReference.cache
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\obj\Debug\WebApplication4.dll
+C:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\obj\Debug\WebApplication4.pdb
