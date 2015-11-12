@@ -6,6 +6,23 @@
 @model PaqueteEntradas
 
 @{
+    var codperfilActual = 0;
+    if (Request.IsAuthenticated)
+    {
+        var act = User.Identity.GetUserName();
+        var usuario = new CuentaUsuario();
+        inf245netsoft db = new inf245netsoft();
+        if (db != null)
+        {
+            usuario = db.CuentaUsuario.Find(act);
+            if (usuario != null)
+            {
+                codperfilActual = usuario.codPerfil;
+            }
+        }
+
+    }
+
     ViewBag.Title = "Ver Evento";
     Layout = "~/Views/Shared/_Layout.cshtml";
     string estiloAsientos = (((Boolean)ViewBag.VeoAsientos) == true) ? "" : "display:none";
@@ -102,7 +119,7 @@
                         }
                         else
                         {
-                            if (ViewBag.EventoNoDisponible != null)
+                            if (ViewBag.EventoNoDisponible != null && codperfilActual!=3 )
                             {
                                 <p>@ViewBag.EventoNoDisponible</p>
                                 List<string> futurasVentas = ViewBag.FuturasVentas as List<string>;
@@ -178,30 +195,32 @@
                                             @Html.TextBoxFor(Model => Model.idZona, new { style = "display:none" })
                                             @Html.TextBoxFor(Model => Model.idFuncion, new { style = "display:none" })
                                             @Html.TextBoxFor(model => model.idEvento, new { style = "display:none" })
-                                            @Html.CheckBoxFor(model => model.tieneAsientos, new { id = "formTieneEntradas", style = "display:none" })
+                                            @Html.TextBoxFor(model => model.tieneAsientos, new { id = "formTieneEntradas", style = "display:none" })
                                             @Html.TextBoxFor(model => model.cantEntradas, new { id = "formCantEntradas", style = "display:none" })
                                             <div id="asientosElegidos">
 
                                             </div>
-
-                                            <div class="col-md-6">
-                                                <button type="submit" name="boton" value="carrito" class="btn btn-success pull-right ">Agregar al carrito <span class="glyphicon glyphicon-shopping-cart"></span></button>
-                                            </div>
-                                            <div class="col-md-6">
-                                                @{
-                                            if (Request.IsAuthenticated)
+                                                
+                                            if (codperfilActual <= 2  )
                                             {
-                                                CuentaUsuario usuario = Session["UsuarioLogueado"] as CuentaUsuario;
-                                                if (usuario.codPerfil != 2)
-                                                {
+                                                <div class="col-md-6">
+                                                    <button type="submit" name="boton" value="carrito" class="btn btn-success pull-right ">Agregar al carrito <span class="glyphicon glyphicon-shopping-cart"></span></button>
+                                                </div>
+                                            }
+                                            if (codperfilActual == 1)
+                                            {
+                                                <div class="col-md-6">
                                                     <button type="submit" name="boton" value="reservar" class="btn btn-primary pull-right">Reservar <span class="glyphicon glyphicon-save"></span></button>
-                                                }
+                                                </div>
+                                            }
+                                            if (codperfilActual == 3)
+                                            {
+                                                <div class="col-md-6">
+                                                    <button type="submit" name="boton" value="reservarOrganizador" class="btn btn-primary pull-right">Reservar Organizador<span class="glyphicon glyphicon-save"></span></button>
+                                                </div>
+                                            }
 
                                             }
-                                                }
-
-                                            </div>
-                                        }
                                     </div>
                                 }
 
@@ -218,8 +237,6 @@
 
         @{
 
-
-
             if (Request.IsAuthenticated)
             {
                 var act = User.Identity.Name;
@@ -230,8 +247,6 @@
                 Html.RenderPartial("Comentarios", com);
 
             }
-
-
 
         }
 
@@ -404,8 +419,9 @@
                 //$("#filas").val(cantFilas);
                 //$("#columnas").val(cantColumnas);
 
-                $("#formTieneEntradas").val(listaAsientos[index].tieneAsientos);
-
+                
+                $("#formTieneEntradas").val(""+listaAsientos[index].tieneAsientos);
+                $("#formTieneEntradas").attr("value", listaAsientos[index].tieneAsientos);
                 $("#numEntradas").val(0);
                 $("#numEntradas").prop('disabled', true);
             }
@@ -416,14 +432,15 @@
                 $("#aux").empty();
                 if (index >= 0) {
                     $("#numEntradas").prop('disabled', false);
-                    $("#formTieneEntradas").val(listaAsientos[index].tieneAsientos);
+                    $("#formTieneEntradas").val(""+listaAsientos[index].tieneAsientos);
+                    $("#formTieneEntradas").attr("value", listaAsientos[index].tieneAsientos);
+
                     $('<div><h3>Quedan ' + listaAsientos[index].totalLibres + ' asientos</h3> </div>').appendTo('#canvas');
 
 
                 }
                 else $("#numEntradas").prop('disabled', true);
                 $("#numEntradas").val(0);
-
 
                 //$("#filas").val("");
                 //$("#columnas").val("");
@@ -440,11 +457,8 @@
             $("#formCantEntradas").val($("#numEntradas").val());
             //validar!!!
 
-
-
             //PIER VALIDA PLZ
             // cantEntradas que no son naturales
-
 
 
             var i = 0;

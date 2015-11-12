@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="inf245netsoftModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="inf245netsoftModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -442,6 +442,7 @@
           <Property Name="codFuncion" Type="int" Nullable="false" />
           <Property Name="cantLibres" Type="int" Nullable="false" />
           <Property Name="concurrencia" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="cantReservaOrganizador" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK__RegaloXCu__usuar__4BAC3F29">
           <End Role="CuentaUsuario" Type="Self.CuentaUsuario" Multiplicity="1" />
@@ -2332,6 +2333,7 @@
           <NavigationProperty Name="Funcion" Relationship="inf245netsoftModel.R_50" FromRole="ZonaxFuncion" ToRole="Funcion" />
           <NavigationProperty Name="ZonaEvento" Relationship="inf245netsoftModel.R_51" FromRole="ZonaxFuncion" ToRole="ZonaEvento" />
           <Property Name="concurrencia" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="cantReservaOrganizador" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="R_50">
           <End Type="inf245netsoftModel.Funcion" Role="Funcion" Multiplicity="1">
@@ -2841,6 +2843,7 @@
           <EntitySetMapping Name="ZonaxFuncion">
             <EntityTypeMapping TypeName="inf245netsoftModel.ZonaxFuncion">
               <MappingFragment StoreEntitySet="ZonaxFuncion">
+                <ScalarProperty Name="cantReservaOrganizador" ColumnName="cantReservaOrganizador" />
                 <ScalarProperty Name="concurrencia" ColumnName="concurrencia" />
                 <ScalarProperty Name="cantLibres" ColumnName="cantLibres" />
                 <ScalarProperty Name="codZona" ColumnName="codZona" />

@@ -43,6 +43,53 @@ namespace WebApplication4.Controllers
             ZonaxFuncion zonaxfuncion = db.ZonaxFuncion.Where(c => c.codFuncion == idFuncion && c.codZona == idZona).First();
             return zonaxfuncion.cantLibres;
         }
+
+        public string reservarOrganizador(PaqueteEntradas paquete)
+        {
+            try
+            {
+                using (var context = new inf245netsoft())
+                {
+                    try
+                    {  
+
+                        if (paquete.tieneAsientos)
+                        {
+                            for (int i = 0; i < paquete.cantEntradas; i++)
+                            {
+                                int col = paquete.columnas[i];
+                                int fil = paquete.filas[i];
+                                List<Asientos> listasiento = context.Asientos.Where(x => x.codZona == paquete.idZona && x.fila == fil && x.columna == col).ToList();
+                                AsientosXFuncion actAsiento = context.AsientosXFuncion.Find(listasiento.First().codAsiento, paquete.idFuncion);
+                                actAsiento.estado = "RESERVAORGANIZADOR";
+                            }
+                        }
+                        else
+                        {
+                            ZonaxFuncion ZXF = context.ZonaxFuncion.Find(paquete.idFuncion, paquete.idZona);
+                            if (ZXF.cantLibres < paquete.cantEntradas) return "No hay suficientes entradas";
+                            ZXF.cantLibres -= paquete.cantEntradas;
+                            ZXF.cantReservaOrganizador += paquete.cantEntradas;
+                        }
+                        context.SaveChanges();
+                    }
+                    catch (OptimisticConcurrencyException ex)
+                    {
+                        return "No se pudieron reservar los asientos, alguien más ya lo hizo.";
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return "Ocurrio un error inesperado.";
+            }
+            //Funciones Utilitarias necesarias
+            //BuscarEntradasLeQuedan( User , Funcion )
+            return "Ok";
+
+        }
+
         public string reservaAsientos(string name, PaqueteEntradas paquete)
         {
             //name es el correo de la persona
@@ -1297,7 +1344,7 @@ namespace WebApplication4.Controllers
 
                     try
                     {
-                        List<Funcion> funciones = db.Funcion.Where(c => c.codEvento == evento.codigo).ToList();
+                        List<Funcion> funciones = db.Funcion.Where(c => c.codEvento == evento.codigo && c.estado!="CANCELADO" &&   c.fecha >= DateTime.Now).ToList();
 
                         //agrupo las fechas unicas de las funciones y las ordeno ascendentemente
                         funciones = funciones.GroupBy(c => c.fecha).Select(p => p.First()).OrderBy(c => c.fecha).ToList();
@@ -1396,6 +1443,20 @@ namespace WebApplication4.Controllers
                     }
                     TempData["tipo"] = "alert alert-success";
                     TempData["message"] = "Entradas agregadas al carrito :)";
+                }
+                else if (boton.CompareTo("reservarOrganizador") == 0)
+                {
+                    string mensaje = reservarOrganizador(  paquete );
+                    TempData["tipo"] = "alert alert-success";
+                    TempData["message"] = "Se reservaron correctamente las entradas";
+
+                    if (mensaje.CompareTo("Ok") != 0)
+                    {
+                        TempData["tipo"] = "alert alert-warning";
+                        TempData["message"] = mensaje;
+                    }
+
+                    return Redirect("~/Evento/VerEvento/" + paquete.idEvento);
                 }
             }
             else

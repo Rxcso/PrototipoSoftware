@@ -431,6 +431,7 @@
     <EntitySetMapping Name="ZonaxFuncion">
       <EntityTypeMapping TypeName="inf245netsoftModel.ZonaxFuncion">
         <MappingFragment StoreEntitySet="ZonaxFuncion">
+          <ScalarProperty Name="cantReservaOrganizador" ColumnName="cantReservaOrganizador" />
           <ScalarProperty Name="concurrencia" ColumnName="concurrencia" />
           <ScalarProperty Name="cantLibres" ColumnName="cantLibres" />
           <ScalarProperty Name="codZona" ColumnName="codZona" />
