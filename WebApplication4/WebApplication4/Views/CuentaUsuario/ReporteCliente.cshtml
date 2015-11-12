@@ -25,10 +25,10 @@
 <div class="container">
     <div class="row">
         <div class="col-md-11">
-            <input id="ept-excel" type="button" class="btn btn-primary" value="Exportar Excel">
+            
             @if (TempData["ListaPU"] != null)
             {
-                <input id="ept-pdf" href="@Url.Action("ReportePdf", "CuentaUsuario")" type="button" class="btn btn-primary" value="Exportar Pdf">
+                <input id="btnExport" type="button" class="btn btn-primary" value="Exportar Excel">
             }
         </div>
         <div class="col-md-1">
@@ -64,29 +64,53 @@
     @if (TempData["ListaPU"] != null)
     {
         listaCliente = (List<WebApplication4.Models.CuentaUsuario>)TempData["ListaPU"];
-        <div class="row">
+        <div id="dvData" class="row">
+            <div>
+                <h3>Reporte de Clientes @DateTime.Now.Date.ToString("dd/MM/yyyy")</h3>
+            </div>
             <table id="mytable" class="table table-bordered table-hover">
                 <thead>
                     <tr class="thead">
                         <th>Usuario</th>
                         <th>Nombre y Apellido</th>
                         <th>No Documento</th>
+                        <th>No Reservas Anuladas</th>
                         <th>Puntos</th>
                     </tr>
                 </thead>
                 <tbody id="tbody">
                     @foreach (var row in listaCliente)
                     {
+
+                        List<Ventas> listaA = db.Ventas.Where(c => c.cliente == row.usuario && (c.Estado == "Anulado" || c.Estado == "Anulado-Job")).ToList();
+
                         <tr id=@row.usuario onclick="myFunction(this)">
                             <td>@row.usuario</td>
                             <td>@row.nombre   @row.apellido</td>
                             <td>@row.codDoc</td>
+                            <td>@listaA.Count</td>
                             <td>@row.puntos</td>
                         </tr>
                     }
                 </tbody>
             </table>
+
         </div>
     }
 </div>
 
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btnExport").click(function (e) {
+            window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('div[id$=dvData]').html()));
+            e.preventDefault();
+        });
+    });
+</script>
+
+<style>
+    h3 {
+        text-align: center;
+    }
+</style>
