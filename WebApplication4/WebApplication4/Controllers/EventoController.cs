@@ -1004,12 +1004,13 @@ namespace WebApplication4.Controllers
                 model.IEvento = evento.ImagenEvento;
                 model.ISitios = evento.ImagenSitios;
                 model.Ganancia = (double)(evento.porccomision == null ? 0 : evento.porccomision);
-                model.MaxReservas = (int)(evento.maxReservas == null ? 0 : evento.maxReservas);
+                model.MaxReservas = evento.maxReservas;
                 model.MontFijoVentEnt = (double)(evento.montoFijoVentaEntrada == null ? 0 : evento.montoFijoVentaEntrada);
                 model.PenCancelacion = (double)(evento.penalidadXcancelacion == null ? 0 : evento.penalidadXcancelacion);
                 model.PenPostergacion = (double)(evento.penalidadXpostergacion == null ? 0 : evento.penalidadXpostergacion);
                 model.PermitirBoletoElectronico = (bool)evento.tieneBoletoElectronico;
                 model.PermitirReservasWeb = (bool)evento.permiteReserva;
+                model.PermiteDevolucionPostergacion = evento.devolverPostergacion;
                 model.PuntosToCliente = evento.puntosAlCliente;
                 return View(model);
             }
@@ -1088,6 +1089,7 @@ namespace WebApplication4.Controllers
                 evento.tieneBoletoElectronico = model.PermitirBoletoElectronico;
                 evento.permiteReserva = model.PermitirReservasWeb;
                 evento.puntosAlCliente = model.PuntosToCliente;
+                evento.devolverPostergacion = model.PermiteDevolucionPostergacion;
                 db.SaveChanges();
 
                 TempData["tipo"] = "alert alert-success";
