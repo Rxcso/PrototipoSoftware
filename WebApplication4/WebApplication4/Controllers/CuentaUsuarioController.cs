@@ -15,6 +15,8 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Services;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using WebApplication4.Models;
 
 namespace WebApplication4.Controllers
@@ -54,6 +56,8 @@ namespace WebApplication4.Controllers
     [Authorize]
     public class CuentaUsuarioController : Controller
     {
+        private ApplicationSignInManager _signInManager;
+        private ApplicationUserManager _userManager;
         private inf245netsoft db = new inf245netsoft();
 
         //solo sirve para el primer caso del banco y tipo tarjeta. Luego uso otra funcion que retorna un json
@@ -1028,26 +1032,113 @@ namespace WebApplication4.Controllers
         }
 
         [HttpPost]
-        public ActionResult RegistrarUsuarioVendedor(RegistrarUsuarioVendedorModel model)
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RegistrarUsuarioVendedor(RegisterCliVendViewModel model)
         {
+            if (ModelState.IsValid)
+            {
+                if (model.fechaNac > DateTime.Today || model.fechaNac < Convert.ToDateTime("01/01/1900"))
+                {
+                    ModelState.AddModelError("fechaNac", "La fecha con rango inválido");
+                    return View(model);
+                }
 
-            CuentaUsuario cu = new CuentaUsuario();
+                if (model.tipoDoc == 1)
+                {
+                    if (model.codDoc.Length != 8)
+                    {
+                        ModelState.AddModelError("codDoc", "El DNI debe tener 8 dígitos");
+                        return View(model);
+                    }
 
-            cu.apellido = model.Apellidos;
-            cu.correo = model.Correo;
-            cu.codDoc = model.Dni;
-            cu.tipoDoc = model.TipoDoc;
-            cu.nombre = model.Nombres;
+                }
+                else
+                {
+                    if (model.codDoc.Length != 12)
+                    {
+                        ModelState.AddModelError("codDoc", "El Pasaporte debe tener 12 dígitos");
+                        return View(model);
+                    }
 
+                }
 
-            db.CuentaUsuario.Add(cu);
-            db.SaveChanges();
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var result = await UserManager.CreateAsync(user, "Peru123*");
+                if (result.Succeeded)
+                {
+                    var currentUser = UserManager.FindByName(user.UserName);
+                    UserManager.AddToRole(user.Id, "Cliente");
+                    CuentaUsuario cu = new CuentaUsuario();
 
+                    cu.apellido = model.apellido;
+                    cu.correo = model.Email;
+                    cu.codDoc = model.codDoc;
+                    cu.tipoDoc = model.tipoDoc;
+                    cu.nombre = model.nombre;
 
-            TempData["tipo"] = "alert alert-success";
-            TempData["message"] = "Datos Actualizados Exitosamente";
-            return RedirectToAction("index2", "Home");
+                    cu.codPerfil = 1;
+                    cu.contrasena = "Peru123*";
+                    cu.direccion = model.direccion;
+                    cu.estado = true;
+                    cu.fechaNac = model.fechaNac;
+                    cu.sexo = model.sexo;
+                    cu.telefono = model.telefono;
+                    cu.usuario = model.Email;
+                    cu.tipoUsuario = "Cliente";
+                    cu.telMovil = model.telMovil;
+                    cu.puntos = 0;
+
+                    db.CuentaUsuario.Add(cu);
+                    db.SaveChanges();
+
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                    // Send an email with this link
+                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    TempData["tipo"] = "alert alert-success";
+                    TempData["message"] = "Registro Exitoso!";
+                    return RedirectToAction("Index", "Home");
+                    //return View("~/Views/Home/Index.cshtml");
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    if (!error.Contains("nombre"))
+                        ModelState.AddModelError("", error);
+                }
+
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+
+            
         }
-
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+        public ApplicationSignInManager SignInManager
+        {
+            get
+            {
+                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            }
+            private set
+            {
+                _signInManager = value;
+            }
+        }
     }
 }

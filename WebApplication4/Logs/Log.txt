@@ -1092,3 +1092,19 @@ System.Collections.ListDictionaryInternal
 El valor no puede ser nulo.
 Nombre del parámetro: source
 2015-11-10 22:52:36,637 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 18:51:36,530 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 18:51:36,535 [8] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-11 18:51:36,535 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-11 18:51:36,535 [8] ERROR Ticknet - Exception Message - 
+c:\Users\alulab14.INF\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\CuentaUsuario\RegistrarUsuarioVendedor.cshtml(47): error CS0103: El nombre 'disabled' no existe en el contexto actual
+2015-11-11 18:51:36,535 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 18:52:18,315 [13] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 18:52:18,315 [13] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-11 18:52:18,315 [13] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-11 18:52:18,315 [13] ERROR Ticknet - Exception Message - 
+c:\Users\alulab14.INF\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\CuentaUsuario\RegistrarUsuarioVendedor.cshtml(47): error CS0103: El nombre 'disabled' no existe en el contexto actual
+2015-11-11 18:52:18,315 [13] DEBUG Ticknet - ++++++++++++++++++++++++++++

@@ -1742,3 +1742,5 @@ C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication
 C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\obj\Debug\TicknetPrototipo.csprojResolveAssemblyReference.cache
 C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\obj\Debug\WebApplication4.dll
 C:\Users\Raul\Desktop\PrototipoSoftware(10.11.15)\WebApplication4\WebApplication4\obj\Debug\WebApplication4.pdb
+C:\Users\alulab14.INF\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\bin\Antlr3.Runtime.dll
+C:\Users\alulab14.INF\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\bin\es\Microsoft.AspNet.Identity.Core.resources.dll
