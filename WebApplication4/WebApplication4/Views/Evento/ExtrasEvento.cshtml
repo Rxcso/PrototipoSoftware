@@ -1,12 +1,12 @@
 ﻿@using WebApplication4.Models
 @model ExtrasModel
 @{
-   
+
 }
 
 
 <div class="tab-pane fade in container" id="extras">
-    @using (Html.BeginForm("ExtrasEvento", "Evento", FormMethod.Post,new { enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("ExtrasEvento", "Evento", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         <div class="container">
             <br>
@@ -81,11 +81,11 @@
                     @Html.LabelFor(m => m.ImageEvento, new { @class = "control-label col-md-2" })
                     <div class="col-md-6">
                         @Html.TextBoxFor(m => m.ImageEvento, new { type = "file", @class = "form-control" })
-                        @if (Model.IEvento!=null)
+                        @if (Model.IEvento != null)
                         {
                             <div>Ya existe Evento cargado</div>
                             //MODIFICAR
-                        } 
+                        }
                         @Html.ValidationMessageFor(model => model.ImageEvento)
                     </div>
                 </div>
@@ -102,11 +102,11 @@
                     @Html.LabelFor(m => m.ImageDestacado, new { @class = "control-label col-md-2" })
                     <div class="col-md-6">
                         @Html.TextBoxFor(m => m.ImageDestacado, new { type = "file", @class = "form-control" })
-                        @if (Model.IDestacado!=null)
+                        @if (Model.IDestacado != null)
                         {
                             <div>Ya existen Destacado cargados</div>
                             //MODIFICAR
-                        } 
+                        }
                         @Html.ValidationMessageFor(model => model.ImageDestacado)
                     </div>
                 </div>
@@ -117,11 +117,11 @@
                     @Html.LabelFor(m => m.ImageSitios, new { @class = "control-label col-md-2" })
                     <div class="col-md-6">
                         @Html.TextBoxFor(m => m.ImageSitios, new { type = "file", @class = "form-control" })
-                        @if (Model.ISitios!=null)
+                        @if (Model.ISitios != null)
                         {
                             <div>Ya existen sitios cargados</div>
                             //MODIFICAR
-                        } 
+                        }
                         @Html.ValidationMessageFor(model => model.ImageSitios)
                     </div>
                 </div>
@@ -136,6 +136,10 @@
                         @Html.LabelFor(c => c.PermitirBoletoElectronico, new { @class = "control-label" })
                         @Html.CheckBoxFor(c => c.PermitirBoletoElectronico)
                     </div>
+                    <div>
+                        @Html.LabelFor(c => c.PermiteDevolucionPostergacion, new { @class = "control-label" })
+                        @Html.CheckBoxFor(c => c.PermiteDevolucionPostergacion)
+                    </div>
                 </div>
             </div>
             <div class="row">
@@ -148,7 +152,7 @@
                     {
                         <button type="submit" class="btn btn-primary">Registrar Evento</button><br /><br />
                     }
-                    
+
                 </div>
             </div>
         </div>
