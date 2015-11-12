@@ -758,6 +758,7 @@ namespace WebApplication4.Controllers
                         funcion.codEvento = idEvento;
                         funcion.fecha = listaVerificacion[i].fechaFuncion;
                         funcion.horaIni = listaVerificacion[i].horaInicio;
+                        funcion.estado = "ACTIVO";
                         db.Funcion.Add(funcion);
                         db.SaveChanges();
                     }
