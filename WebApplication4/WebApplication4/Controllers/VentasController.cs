@@ -295,24 +295,45 @@ namespace WebApplication4.Controllers
                     int codiguito = v[i].codVen;
                     vxf = db.VentasXFuncion.Where(venxf => venxf.codVen == codiguito).ToList();
                     if (vxf != null) 
-                    {
+                    {                        
                         for (int j = 0; j < vxf.Count; j++)
                         {
                             int codiguitoF = vxf[j].codFuncion;
                             //filtro
-                            List<Funcion> f = db.Funcion.Where(fun => fun.codFuncion == codiguitoF && 
-                                (fun.estado == "CANCELADO" || fun.estado == "POSTERGADO")).ToList();
-                            if (f == null) vxf.RemoveAt(j);
-                            else//logica de que en caso de postergacion no se permita devolver el dinero
+                            Funcion f = db.Funcion.Find(codiguitoF);
+                            if (f.estado != "CANCELADO" && f.estado != "POSTERGADO") {
+                                vxf.RemoveAt(j);
+                                j--;
+                            }
+                            //logica de que en caso de postergacion no se permita devolver el dinero                                
+                            if (f.estado == "POSTERGADO")
+                            {
+                                Eventos ev = db.Eventos.Find(f.codEvento);
+                                if(!ev.devolverPostergacion){
+                                    vxf.RemoveAt(j);
+                                    j--;
+                                }
+                            }
+                            
+                            /*List<Funcion> f = db.Funcion.Where(fun => fun.codFuncion == codiguitoF && 
+                                (fun.estado == "Cancelado" || fun.estado == "Postergado")).ToList();
+                            if (f == null) { 
+                                vxf.RemoveAt(j);
+                                j--;
+                            }else
                                 if (f[0].estado == "POSTERGADO")
                                 {
                                     Eventos ev = db.Eventos.Find(f[0].codEvento);
-                                    if (!ev.devolverPostergacion) vxf.RemoveAt(j);
-                                }
+                                    if (!ev.devolverPostergacion) { 
+                                        vxf.RemoveAt(j);
+                                        j--;
+                                    }
+                                }*/
+
                             //si el evento asociado a ese VXF no es postergado ni cancelado, lo borro
                         }
-                        //la lista que mantendrá absolutamente todos los VXF de todas las ventas
-                        listaRealVxf.AddRange(vxf);
+                            //la lista que mantendrá absolutamente todos los VXF de todas las ventas
+                            listaRealVxf.AddRange(vxf);
                     }                    
                 }
                 if (listaRealVxf != null)
@@ -410,7 +431,9 @@ namespace WebApplication4.Controllers
         
         public ActionResult DevolverTodo()
         {
-            List<DetalleVenta> dv=(List<DetalleVenta>)Session["DetalleVenta"];
+            DetalleVenta dv=(DetalleVenta)Session["DetalleVenta"];
+            Eventos ev = (Eventos)Session["EventoDev"];
+            //ev.monto_transferir-=
             /*Session["DetalleVenta"]
             Session["VentaXFunDev"]
             Session["VentasDev"]
