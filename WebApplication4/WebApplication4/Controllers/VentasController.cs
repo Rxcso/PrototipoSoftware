@@ -433,18 +433,33 @@ namespace WebApplication4.Controllers
         {
             DetalleVenta dv=(DetalleVenta)Session["DetalleVenta"];
             Eventos ev = (Eventos)Session["EventoDev"];
-            //ev.monto_transferir-=
-            /*Session["DetalleVenta"]
-            Session["VentaXFunDev"]
-            Session["VentasDev"]
-            Session["ListaAsientos"] = axf;
-            Session["BusquedaDev"] = devolucionModel
-            Session["FuncionDev"]
-            Session["EventoDev"]
-            */
+            ev.monto_transferir -= (double)dv.total;
+            List<AsientosXFuncion> axf = (List<AsientosXFuncion>)Session["ListaAsientos"];
+            for (int i = 0; i < axf.Count; i++)
+                axf[i].estado = "DEVUELTO";
+            dv.entradasDev = dv.cantEntradas;
+            dv.cantEntradas = 0;
+            VentasXFuncion vxf = (VentasXFuncion)Session["VentaXFunDev"];
+            vxf.cantEntradas -= (int)dv.cantEntradas;
+            Ventas v = (Ventas)Session["VentasDev"];
+            v.cantAsientos -= (int)dv.cantEntradas;
+            v.MontoTotalSoles -= (double)dv.total;
+            PrecioEvento pe = db.PrecioEvento.Find(dv.codPrecE);
+            ZonaEvento ze = db.ZonaEvento.Find(pe.codZonaEvento);
+            if (!ze.tieneAsientos) ze.tieneAsientos = true;
+            ZonaxFuncion zxf =(db.ZonaxFuncion.Where(z => z.codFuncion == dv.codFuncion && z.codZona == ze.codZona).ToList())[0];
+            zxf.cantLibres += (int)dv.cantEntradas;
+                /*Session["DetalleVenta"]
+                Session["VentaXFunDev"]
+                Session["VentasDev"]
+                Session["ListaAsientos"] = axf;
+                Session["BusquedaDev"] = devolucionModel
+                Session["FuncionDev"]
+                Session["EventoDev"]
+                */
 
 
-
+            db.SaveChanges();
             return View("Devolucion");
         }
 
