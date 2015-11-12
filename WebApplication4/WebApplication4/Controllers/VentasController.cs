@@ -403,6 +403,7 @@ namespace WebApplication4.Controllers
         
         public ActionResult DevolverTodo()
         {
+            List<DetalleVenta> dv=(List<DetalleVenta>)Session["DetalleVenta"];
             /*Session["DetalleVenta"]
             Session["VentaXFunDev"]
             Session["VentasDev"]
@@ -411,6 +412,7 @@ namespace WebApplication4.Controllers
             Session["FuncionDev"]
             Session["EventoDev"]
             */
+
 
 
             return View("Devolucion");
