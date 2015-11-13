@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "verReservaOrganizador";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+
+    <h2>@ViewBag.nombreEvento - @ViewBag.organizador</h2>
+
+    <br />
+
+
+    <div class="row">
+        <div class="col-md-12 table-responsive">
+            <thsead>
+            </thsead><table class="table table-bordered table-hover">
+                <tbody>
+                    <tr class="thead">
+                        <th>Zona</th>
+                        <th>
+                            Funcion
+                        </th>
+                        <th>
+                            Asiento
+                        </th>
+                    </tr>
+
+                </tbody>
+                <tbody>
+                    @{
+                        int tot = ViewBag.modelo.idZona.Length;
+                        for (int i = 0; i < tot; i++)
+                        {
+                            <tr id="xxx">
+                                <td>@ViewBag.modelo.nameZona[i]</td>
+                                <td>@ViewBag.modelo.nameFuncion[i]</td>
+                                <td> @ViewBag.modelo.AsientoXFuncion[i] </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</div>

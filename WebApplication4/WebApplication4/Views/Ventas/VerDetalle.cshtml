@@ -19,6 +19,7 @@
     Session["FuncionDev"]
     Session["EventoDev"]
     Session["ZonaEventoDev"]
+    Session["AsientosDev"]
     -->
 
 
@@ -28,6 +29,7 @@
 
     List<WebApplication4.Models.AsientosXFuncion> axf;// asientos a listar
     axf = (List<WebApplication4.Models.AsientosXFuncion>)Session["ListaAsientos"];
+
     //dv actual
     WebApplication4.Models.DetalleVenta dv = (WebApplication4.Models.DetalleVenta)Session["DetalleVenta"];
     WebApplication4.Models.VentasXFuncion vxf = (WebApplication4.Models.VentasXFuncion)Session["VentasXFunDev"];
@@ -35,6 +37,8 @@
     WebApplication4.Models.Funcion funcion = (WebApplication4.Models.Funcion)Session["FuncionDev"];
     WebApplication4.Models.Eventos eventos = (WebApplication4.Models.Eventos)Session["EventoDev"];
 
+    List<WebApplication4.Models.Asientos> asientos=(List<WebApplication4.Models.Asientos>)Session["AsientosDev"];
+    
     WebApplication4.Models.ZonaEvento ze = (WebApplication4.Models.ZonaEvento)Session["ZonaEventoDev"];
     
     int i;
@@ -169,36 +173,49 @@
     <h4>Resultados:</h4>
     <div class="row">
         <table id="mytable" class="table table-bordered table-hover">
+        @{
+            if (axf.Count != 0){//caso de numerados
             <thead>
                 <tr class="active">
-                    <th>Cod. Asiento.</th>
-                    <th>Cod Funcion</th>
-                    <th>Estado</th>
-                    <th>Cod Det Venta</th>
+                    <th>Ubicación Asiento.</th>
+                    <th>Estado</th>                    
                     <th>Tipo Doc</th>
                     <th>Doc Asociado</th>
-                    <th>Precio Pagado</th>
+                    <th>Precio</th>
                 </tr>
             </thead>
-            <tbody id="tbody">
-                @{
-                    if (axf != null)
-                    {
-                        foreach (var row in axf)
-                        {
-                            <tr id=@row.codAsiento onclick="myFunction(this)">
-                                <td>@row.codAsiento</td>
-                                <td>@row.codFuncion</td>
-                                <td>@row.estado</td>
-                                <td>@row.codDetalleVenta</td>
-                                <td>@row.TipoDocAsociado</td>
-                                <td>@row.DocAsociado</td>
-                                <td>@row.PrecioPagado</td>
-                            </tr>
-                        }
-                    }
-                }
+            <tbody id="tbody">      
+                @for (int x = 0; x < axf.Count; x++)
+                {
+                    <tr id=@axf[x].codAsiento onclick="myFunction(this)">
+                        <td>@("F:"+asientos[x].columna+", C:"+asientos[x].fila)</td>
+                        <td>@axf[x].estado</td>
+                        <td>@axf[x].TipoDocAsociado</td>
+                        <td>@axf[x].DocAsociado</td>
+                        <td>@axf[x].PrecioPagado</td>
+                    </tr>
+                }                                                        
             </tbody>
+            }
+            else // caso no numerado
+            {
+                <thead>
+                    <tr class="active">
+                        <th>Entrada</th>
+                        <th>Precio</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                    @for (int x = 0; x < dv.cantEntradas; x++)
+                    {
+                        <tr id=@dv.codDetalleVenta onclick="myFunction(this)">
+                            <td>@("Entrada nro: " + (x+1))</td>
+                            <td>@(dv.total/dv.cantEntradas)</td>
+                        </tr>
+                    }
+                </tbody>
+            }
+}
         </table>
     </div>
 </div>

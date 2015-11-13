@@ -230,6 +230,7 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CategoriaModel.cs" />
+    <Compile Include="Models\ReservaOrganizadorModel.cs" />
     <Compile Include="Models\Comentario.cs" />
     <Compile Include="Models\Comentarios.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -597,6 +598,7 @@
     <Content Include="Views\Home\Busqueda.cshtml" />
     <Content Include="Views\Services\Descuento.cshtml" />
     <Content Include="Views\Services\EliminaItem.cshtml" />
+    <Content Include="Views\Evento\verReservaOrganizador.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
