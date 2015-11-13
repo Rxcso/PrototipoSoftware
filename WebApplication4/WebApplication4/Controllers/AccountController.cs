@@ -103,7 +103,6 @@ namespace WebApplication4.Controllers
                         List<PuntoVenta> lpu = db.PuntoVenta.Where(c => c.dirMAC == macAddresses).ToList();
                         punt = lpu.First();
                     }
-                    else { punt.codPuntoVenta = 1; }
                 }
 
             }
@@ -127,8 +126,18 @@ namespace WebApplication4.Controllers
             }
 
             if (cuentausuario.codPerfil != 1 && cuentausuario.estado == false) return Redirect("~/Home/Index");
+            
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-
+            Session["orgPago"] = null;
+            Session["orgPago2"] = null;
+            Session["vendAsig"] = null;
+            Session["Pagos2"] = null;
+            Session["ListaTurnoVendedor"] = null;
+            Session["Pagos"] = null;
+            Session["Pendiente"] = null;
+            Session["Pendiente2"] = null;
+            Session["EventoSeleccionadoPago"] = null;
+            Session["EventoSeleccionadoPago2"] = null;
             TempData["tipo"] = "alert alert-warning";
             TempData["message"] = "Logueo Incorrecto";
 
