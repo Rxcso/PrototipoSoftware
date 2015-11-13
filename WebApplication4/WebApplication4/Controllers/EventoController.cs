@@ -14,7 +14,7 @@ using System.Data.Entity.Core;
 namespace WebApplication4.Controllers
 {
     [Authorize]
-    public class EventoController : Controller
+    public partial class EventoController : Controller
     {
         inf245netsoft db = new inf245netsoft();
         const int maximoPaginas = 2;
@@ -30,7 +30,7 @@ namespace WebApplication4.Controllers
             List<VentasXFuncion> listVXF = db.VentasXFuncion.Where(x => x.codFuncion == idFuncion).ToList();
 
             Funcion funcion = db.Funcion.Find(idFuncion);
-            int limEntradas = (funcion.Eventos.maxReservas == null ? 10000 : (int)funcion.Eventos.maxReservas);
+            int limEntradas = funcion.Eventos.maxReservas;
             int actualEntradas = 0;
             foreach (VentasXFuncion VXF in listVXF) if (VXF.Ventas.codDoc.CompareTo(doc) == 0 && VXF.Ventas.tipoDoc == tipoDoc)
                 {
@@ -47,122 +47,6 @@ namespace WebApplication4.Controllers
 
 
 
-        [HttpGet]
-        public ActionResult verReservaOrganizador(string evento)
-        {
-
-            Eventos ev = db.Eventos.Find(Int32.Parse(evento));
-
-            if (ev == null)
-            {
-                TempData["tipo"] = "alert alert-warning";
-                TempData["message"] = "No existe el evento";
-                return Redirect("~/Evento");
-            }
-
-            var modelo = new ReservaOrganizadorModel();
-
-            ViewBag.nombreEvento = ev.nombre;
-            ViewBag.organizador = ev.Organizador.nombOrg;
-
-            modelo.idEvento = ev.codigo;
-
-            List<int> zonas = new List<int>(0);
-            List<int> funciones = new List<int>(0);
-            List<string> nombresF = new List<string>(0);
-            List<string> nombresZ = new List<string>(0);
-            List<string> asiento = new List<string>(0);
-            List<bool> elimina = new List<bool>(0);
-
-            foreach (var funcion in ev.Funcion)
-            {
-
-                foreach (var asientoReal in funcion.AsientosXFuncion)
-                {
-                    if (asientoReal.estado == "RESERVAORGANIZADOR")
-                    {
-                        zonas.Add(asientoReal.Asientos.codZona);
-                        nombresZ.Add(asientoReal.Asientos.ZonaEvento.nombre); 
-                        funciones.Add(funcion.codFuncion);
-                        nombresF.Add(funcion.fecha + ""); 
-                        asiento.Add(asientoReal.Asientos.fila + " " + asientoReal.Asientos.columna);
-                        elimina.Add(false);
-                    }
-                }
-
-                foreach (var unidad in funcion.ZonaxFuncion)if(!unidad.ZonaEvento.tieneAsientos) {
-                    int tot = unidad.cantReservaOrganizador;
-                    for (int i = 0; i < tot; i++)
-                    {
-                        zonas.Add(unidad.ZonaEvento.codZona);
-                        funciones.Add(funcion.codFuncion);
-                        asiento.Add("No tiene asientos");
-                        nombresZ.Add( unidad.ZonaEvento.nombre );
-                        nombresF.Add(funcion.fecha + "");
-                        elimina.Add(false);
-                    }
-                }
-
-            }
-
-            modelo.idZona = zonas.ToArray();
-            modelo.idFuncion = funciones.ToArray();
-            modelo.AsientoXFuncion = asiento.ToArray();
-            modelo.eliminar = elimina.ToArray();
-            modelo.nameFuncion = nombresF.ToArray();
-            modelo.nameZona = nombresZ.ToArray();
-
-            ViewBag.modelo = modelo;
-
-            return View();
-        }
-
-
-        public string reservarOrganizador(PaqueteEntradas paquete)
-        {
-            try
-            {
-                using (var context = new inf245netsoft())
-                {
-                    try
-                    {
-
-                        if (paquete.tieneAsientos)
-                        {
-                            for (int i = 0; i < paquete.cantEntradas; i++)
-                            {
-                                int col = paquete.columnas[i];
-                                int fil = paquete.filas[i];
-                                List<Asientos> listasiento = context.Asientos.Where(x => x.codZona == paquete.idZona && x.fila == fil && x.columna == col).ToList();
-                                AsientosXFuncion actAsiento = context.AsientosXFuncion.Find(listasiento.First().codAsiento, paquete.idFuncion);
-                                actAsiento.estado = "RESERVAORGANIZADOR";
-                            }
-                        }
-                        else
-                        {
-                            ZonaxFuncion ZXF = context.ZonaxFuncion.Find(paquete.idFuncion, paquete.idZona);
-                            if (ZXF.cantLibres < paquete.cantEntradas) return "No hay suficientes entradas";
-                            ZXF.cantLibres -= paquete.cantEntradas;
-                            ZXF.cantReservaOrganizador += paquete.cantEntradas;
-                        }
-                        context.SaveChanges();
-                    }
-                    catch (OptimisticConcurrencyException ex)
-                    {
-                        return "No se pudieron reservar los asientos, alguien más ya lo hizo.";
-                    }
-
-                }
-            }
-            catch (Exception ex)
-            {
-                return "Ocurrio un error inesperado.";
-            }
-            //Funciones Utilitarias necesarias
-            //BuscarEntradasLeQuedan( User , Funcion )
-            return "Ok";
-
-        }
 
         public string reservaAsientos(string name, PaqueteEntradas paquete)
         {

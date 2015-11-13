@@ -188,6 +188,7 @@
     <Compile Include="Controllers\EmpleadoController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\EventoController.cs" />
+    <Compile Include="Controllers\EventoReservaOrganizadorController.cs" />
     <Compile Include="Controllers\EventosPruebaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LocalController.cs" />
@@ -598,7 +599,7 @@
     <Content Include="Views\Home\Busqueda.cshtml" />
     <Content Include="Views\Services\Descuento.cshtml" />
     <Content Include="Views\Services\EliminaItem.cshtml" />
-    <Content Include="Views\Evento\verReservaOrganizador.cshtml" />
+    <Content Include="Views\Evento\ReservaOrganizador.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
