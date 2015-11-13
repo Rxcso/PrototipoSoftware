@@ -90,6 +90,10 @@ namespace WebApplication4.Controllers
             return View();
         }
 
+        public ActionResult PagarReserva(string reserva)
+        {
+            return View();
+        }
         public ActionResult Detalles(int id)
         {
             List<VentasXFuncion> lv = db.VentasXFuncion.Where(c => c.codVen == id).ToList();

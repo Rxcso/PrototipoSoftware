@@ -12,11 +12,20 @@
         nombre = user.nombre + " " + user.apellido;
         dni = user.codDoc;
     }
-    List<Promociones> promocionesLista = ViewBag.Promociones as List<Promociones>;
-    List<CarritoItem> carrito = Session["CarritoItem"] as List<CarritoItem>;
-    double? importe = ViewBag.Total as double?;
-    double? descuento = ViewBag.Descuento as double?;
-    double? montopagar = ViewBag.Pagar as double?;
+    List<Promociones> promocionesLista = new List<Promociones>();
+    List<CarritoItem> carrito = new List<CarritoItem>();
+    double? importe = 0;
+    double? descuento = 0;
+    double? montopagar = 0;
+    if (Session["CarritoItem"] != null)
+    {
+        promocionesLista = ViewBag.Promociones as List<Promociones>;
+        carrito = Session["CarritoItem"] as List<CarritoItem>;
+        importe = ViewBag.Total as double?;
+        descuento = ViewBag.Descuento as double?;
+        montopagar = ViewBag.Pagar as double?;
+    }
+
 }
 <div class="container" id="promocionesLista">
     <p>Mejores descuentos para su compra segun los items en su carrito:</p>
@@ -216,7 +225,7 @@
             inputSubtotal.setAttribute("name", "subtotalCarrito");
             var subtotalconDescuento = 0;
             if (descuentoCarritos[i] != -1) {
-                subtotalconDescuento += parseInt(subtotalCarritos[i])* descuentoCarritos[i] / 100;
+                subtotalconDescuento += parseInt(subtotalCarritos[i]) * descuentoCarritos[i] / 100;
             }
             descuentoTotal += subtotalconDescuento;
             inputSubtotal.setAttribute("value", subtotalCarritos[i]);

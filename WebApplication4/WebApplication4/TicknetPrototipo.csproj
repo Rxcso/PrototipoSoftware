@@ -598,6 +598,7 @@
     <Content Include="Views\Services\Descuento.cshtml" />
     <Content Include="Views\Services\EliminaItem.cshtml" />
     <Content Include="Views\Evento\ReservaOrganizador.cshtml" />
+    <Content Include="Views\Ventas\PagarReserva.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

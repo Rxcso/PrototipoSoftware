@@ -129,7 +129,7 @@
     function redirigeReserva() {
         var reserva = $('#codVenT').val();
         if (reserva != "") {
-            window.location.href = '/CuentaUsuario/CarritoDeCompras?reserva=' + reserva;
+            window.location.href = '/Ventas/PagarReserva?reserva=' + reserva;
         } else {
             alert("Seleccione una Reserva");
             evento = "";
