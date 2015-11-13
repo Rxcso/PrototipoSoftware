@@ -14,7 +14,7 @@ using System.Data.Entity.Core;
 namespace WebApplication4.Controllers
 {
     [Authorize]
-    public class EventoController : Controller
+    public partial class EventoController : Controller
     {
         inf245netsoft db = new inf245netsoft();
         const int maximoPaginas = 2;
@@ -30,7 +30,7 @@ namespace WebApplication4.Controllers
             List<VentasXFuncion> listVXF = db.VentasXFuncion.Where(x => x.codFuncion == idFuncion).ToList();
 
             Funcion funcion = db.Funcion.Find(idFuncion);
-            int limEntradas = (funcion.Eventos.maxReservas == null ? 10000 : (int)funcion.Eventos.maxReservas);
+            int limEntradas = funcion.Eventos.maxReservas;
             int actualEntradas = 0;
             foreach (VentasXFuncion VXF in listVXF) if (VXF.Ventas.codDoc.CompareTo(doc) == 0 && VXF.Ventas.tipoDoc == tipoDoc)
                 {
@@ -44,51 +44,9 @@ namespace WebApplication4.Controllers
             return zonaxfuncion.cantLibres;
         }
 
-        public string reservarOrganizador(PaqueteEntradas paquete)
-        {
-            try
-            {
-                using (var context = new inf245netsoft())
-                {
-                    try
-                    {  
 
-                        if (paquete.tieneAsientos)
-                        {
-                            for (int i = 0; i < paquete.cantEntradas; i++)
-                            {
-                                int col = paquete.columnas[i];
-                                int fil = paquete.filas[i];
-                                List<Asientos> listasiento = context.Asientos.Where(x => x.codZona == paquete.idZona && x.fila == fil && x.columna == col).ToList();
-                                AsientosXFuncion actAsiento = context.AsientosXFuncion.Find(listasiento.First().codAsiento, paquete.idFuncion);
-                                actAsiento.estado = "RESERVAORGANIZADOR";
-                            }
-                        }
-                        else
-                        {
-                            ZonaxFuncion ZXF = context.ZonaxFuncion.Find(paquete.idFuncion, paquete.idZona);
-                            if (ZXF.cantLibres < paquete.cantEntradas) return "No hay suficientes entradas";
-                            ZXF.cantLibres -= paquete.cantEntradas;
-                            ZXF.cantReservaOrganizador += paquete.cantEntradas;
-                        }
-                        context.SaveChanges();
-                    }
-                    catch (OptimisticConcurrencyException ex)
-                    {
-                        return "No se pudieron reservar los asientos, alguien más ya lo hizo.";
-                    }
 
-                }
-            }
-            catch (Exception ex)
-            {
-                return "Ocurrio un error inesperado.";
-            }
-            //Funciones Utilitarias necesarias
-            //BuscarEntradasLeQuedan( User , Funcion )
-            return "Ok";
 
-        }
 
         public string reservaAsientos(string name, PaqueteEntradas paquete)
         {
@@ -693,6 +651,7 @@ namespace WebApplication4.Controllers
                     fAgr.fecha = lista[i].fechaFuncion;
                     fAgr.horaIni = lista[i].horaInicio;
                     fAgr.codEvento = idEvento;
+                    fAgr.estado = "ACTIVO";
                     agregar.Add(fAgr);
                 }
                 //si existe, no le tengo que hacer nada
@@ -1349,7 +1308,7 @@ namespace WebApplication4.Controllers
 
                     try
                     {
-                        List<Funcion> funciones = db.Funcion.Where(c => c.codEvento == evento.codigo && c.estado!="CANCELADO" &&   c.fecha >= DateTime.Now).ToList();
+                        List<Funcion> funciones = db.Funcion.Where(c => c.codEvento == evento.codigo && c.estado != "CANCELADO" && c.fecha >= DateTime.Now).ToList();
 
                         //agrupo las fechas unicas de las funciones y las ordeno ascendentemente
                         funciones = funciones.GroupBy(c => c.fecha).Select(p => p.First()).OrderBy(c => c.fecha).ToList();
@@ -1369,6 +1328,7 @@ namespace WebApplication4.Controllers
                     }
                     catch (Exception ex)
                     {
+                        ViewBag.ListFunciones = new List<Funcion>(0);
                         ViewBag.MensajeErrorFunciones = "El evento no cuenta con funciones";
                         veoAsientos = false;
                     }
@@ -1381,6 +1341,7 @@ namespace WebApplication4.Controllers
                     {
                         futuraVenta.Add("- Del " + String.Format("{0:d}", per.fechaInicio) + " al " + String.Format("{0:d}", per.fechaFin) + ".");
                     }
+                    ViewBag.ListFunciones = new List<Funcion>(0);
                     ViewBag.EventoNoDisponible = "Las entradas del evento aun no estan a la venta. Ventas disponibles:";
                     veoAsientos = false;
                     ViewBag.FuturasVentas = futuraVenta;
@@ -1418,7 +1379,7 @@ namespace WebApplication4.Controllers
                 }
                 else if (boton.CompareTo("carrito") == 0)
                 {
-                    int quedan = BuscaEntradasQueQuedan(paquete.idFuncion,paquete.idZona);
+                    int quedan = BuscaEntradasQueQuedan(paquete.idFuncion, paquete.idZona);
 
                     if (quedan == 0)
                     {
@@ -1451,7 +1412,7 @@ namespace WebApplication4.Controllers
                 }
                 else if (boton.CompareTo("reservarOrganizador") == 0)
                 {
-                    string mensaje = reservarOrganizador(  paquete );
+                    string mensaje = reservarOrganizador(paquete);
                     TempData["tipo"] = "alert alert-success";
                     TempData["message"] = "Se reservaron correctamente las entradas";
 
@@ -1732,11 +1693,11 @@ namespace WebApplication4.Controllers
         public ActionResult EnviarComentario(int codEvento, string usuario, string contenido)
         {
             Comentarios new_coment = new Comentarios();
-          
+
             new_coment.codEvento = codEvento;
             new_coment.contenido = contenido;
             new_coment.usuario = usuario;
-           
+
             new_coment.fecha = DateTime.Now;
             db.Comentarios.Add(new_coment);
             db.SaveChanges();

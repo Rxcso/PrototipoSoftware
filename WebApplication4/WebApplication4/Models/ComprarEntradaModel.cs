@@ -29,12 +29,13 @@ namespace WebApplication4.Models
         [Required]
         [Display(Name = "Nro. de Tarjeta:")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "El numero de tarjeta debe ser numerico.")]
+        [StringLength(16,MinimumLength=16,ErrorMessage="Ingrese un numero de tarjeta valido.")]
         public string NumeroTarjeta { get; set; }
 
         [Required]
         [Display(Name = "CCV:")]
-        [RegularExpression("^[0-9]*$", ErrorMessage = "El numero de tarjeta debe ser numerico.")]
-        [StringLength(3, MinimumLength = 3, ErrorMessage = "El codigo CCV cuenta con 3 digitos.")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "El codigo CCV debe ser numerico.")]
+        [StringLength(3, MinimumLength = 3, ErrorMessage = "Ingrese un codigo CCV valido.")]
         public string CodCcv { get; set; }
 
         [Required(ErrorMessage="Ingrese mes de vencimiento de la tarjeta.")]
@@ -53,5 +54,8 @@ namespace WebApplication4.Models
 
         [Display(Name = "Monto a pagar:")]
         public double MontoPagar { get; set; }
+
+        public List<int> idEventos { get; set; }
+        public List<int> idPromociones { get; set; }
     }
 }

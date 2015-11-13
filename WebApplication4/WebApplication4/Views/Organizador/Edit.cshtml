@@ -5,7 +5,7 @@
 
 @{
     ViewBag.Title = "Edit";
-    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
     Organizador org = (Organizador)Session["organizador"];
     OrganizadorModel orgM = new OrganizadorModel();
     orgM.codDoc = org.codDoc;

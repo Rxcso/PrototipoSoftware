@@ -19,7 +19,10 @@ namespace WebApplication4.Controllers
         public const string Ocupado = "OCUPADO";
         //cliente anonimo universal
         public const string AnonimoUniversal = "a@anonimo.com";
-
+        //correo ventas
+        public const string CorreoVentas = "ticknetventas@gmail.com";
+        //contraseña ventas
+        public const string ContraVentas = "Asdf1234!@";
 
     }
 }

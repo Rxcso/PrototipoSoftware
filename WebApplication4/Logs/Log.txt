@@ -1195,3 +1195,159 @@ System.Collections.ListDictionaryInternal
 2015-11-12 19:56:06,696 [9] ERROR Ticknet - Exception Message - 
 Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
 2015-11-12 19:56:06,696 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-12 22:57:18,399 [23] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-12 22:57:18,430 [23] ERROR Ticknet - Exception Type - 
+ArgumentNullException
+2015-11-12 22:57:18,430 [23] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-12 22:57:18,430 [23] ERROR Ticknet - Exception Message - 
+El valor no puede ser nulo.
+Nombre del parámetro: String
+2015-11-12 22:57:18,430 [23] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 00:42:54,518 [35] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 00:42:54,526 [35] ERROR Ticknet - Exception Type - 
+NotSupportedException
+2015-11-13 00:42:54,526 [35] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 00:42:54,526 [35] ERROR Ticknet - Exception Message - 
+LINQ to Entities does not recognize the method 'Int32 get_Item(Int32)' method, and this method cannot be translated into a store expression.
+2015-11-13 00:42:54,526 [35] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 02:54:19,835 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 02:54:19,843 [6] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-13 02:54:19,843 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 02:54:19,843 [6] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-13 02:54:19,843 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:32:55,481 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:32:55,486 [11] ERROR Ticknet - Exception Type - 
+InvalidOperationException
+2015-11-13 09:32:55,486 [11] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 09:32:55,486 [11] ERROR Ticknet - Exception Message - 
+The view 'ReservaOrganizador' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/Evento/ReservaOrganizador.aspx
+~/Views/Evento/ReservaOrganizador.ascx
+~/Views/Shared/ReservaOrganizador.aspx
+~/Views/Shared/ReservaOrganizador.ascx
+~/Views/Evento/ReservaOrganizador.cshtml
+~/Views/Evento/ReservaOrganizador.vbhtml
+~/Views/Shared/ReservaOrganizador.cshtml
+~/Views/Shared/ReservaOrganizador.vbhtml
+2015-11-13 09:32:55,486 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:34:55,939 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:34:55,945 [9] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-13 09:34:55,945 [9] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 09:34:55,945 [9] ERROR Ticknet - Exception Message - 
+c:\Users\alulab14.INF.000\AppData\Local\Temp\Temporary ASP.NET Files\vs\40acceee\b0204f83\App_Web_reservaorganizador.cshtml.5eaf6943.fsya5sws.0.cs(37): error CS0246: No se puede encontrar el tipo o el nombre de espacio de nombres 'ResevaOrganizadorModel' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-13 09:34:55,945 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:41:03,796 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:41:03,796 [6] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-13 09:41:03,797 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 09:41:03,797 [6] ERROR Ticknet - Exception Message - 
+c:\temp\PrototipoSoftware\WebApplication4\WebApplication4\Views\Evento\ReservaOrganizador.cshtml(50): error CS1061: 'WebApplication4.Models.ReservaOrganizadorModel' no contiene una definición de 'nameAsiento' ni se encontró ningún método de extensión 'nameAsiento' que acepte un primer argumento de tipo 'WebApplication4.Models.ReservaOrganizadorModel' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-13 09:41:03,797 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:44:37,846 [31] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:44:37,846 [31] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-13 09:44:37,846 [31] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 09:44:37,846 [31] ERROR Ticknet - Exception Message - 
+A public action method 'ReservaOrganizador' was not found on controller 'WebApplication4.Controllers.EventoController'.
+2015-11-13 09:44:37,846 [31] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:45:14,444 [25] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:45:14,450 [25] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-13 09:45:14,450 [25] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 09:45:14,450 [25] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-13 09:45:14,450 [25] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:45:29,910 [25] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:45:29,910 [25] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-13 09:45:29,910 [25] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 09:45:29,910 [25] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-13 09:45:29,910 [25] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:45:33,641 [29] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:45:33,641 [29] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-13 09:45:33,641 [29] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 09:45:33,641 [29] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-13 09:45:33,641 [29] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:46:50,742 [30] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:46:50,742 [30] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-13 09:46:50,742 [30] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 09:46:50,742 [30] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-13 09:46:50,742 [30] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:55:29,814 [31] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:55:29,820 [31] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-13 09:55:29,820 [31] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 09:55:29,820 [31] ERROR Ticknet - Exception Message - 
+Unexpected "using" keyword after "@" character.  Once inside code, you do not need to prefix constructs like "using" with "@".
+
+2015-11-13 09:55:29,820 [31] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:55:39,179 [21] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:55:39,179 [21] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-13 09:55:39,179 [21] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 09:55:39,179 [21] ERROR Ticknet - Exception Message - 
+Unexpected "using" keyword after "@" character.  Once inside code, you do not need to prefix constructs like "using" with "@".
+
+2015-11-13 09:55:39,179 [21] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:58:25,830 [27] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:58:25,830 [27] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-13 09:58:25,830 [27] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 09:58:25,830 [27] ERROR Ticknet - Exception Message - 
+c:\temp\PrototipoSoftware\WebApplication4\WebApplication4\Views\Evento\ReservaOrganizador.cshtml(17): error CS1061: 'WebApplication4.Models.ReservaOrganizadorModel' no contiene una definición de 'nameEvento' ni se encontró ningún método de extensión 'nameEvento' que acepte un primer argumento de tipo 'WebApplication4.Models.ReservaOrganizadorModel' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-13 09:58:25,830 [27] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 10:01:24,756 [33] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 10:01:24,761 [33] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-13 10:01:24,761 [33] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 10:01:24,761 [33] ERROR Ticknet - Exception Message - 
+c:\temp\PrototipoSoftware\WebApplication4\WebApplication4\Views\Evento\ReservaOrganizador.cshtml(66): error CS1002: Se esperaba ;
+2015-11-13 10:01:24,761 [33] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 10:02:16,523 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 10:02:16,523 [6] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-13 10:02:16,523 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 10:02:16,523 [6] ERROR Ticknet - Exception Message - 
+c:\temp\PrototipoSoftware\WebApplication4\WebApplication4\Views\Evento\ReservaOrganizador.cshtml(61): error CS0019: El operador '<' no se puede aplicar a operandos del tipo 'string' y 'string'
+2015-11-13 10:02:16,523 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 11:51:51,572 [35] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 11:51:51,579 [35] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-13 11:51:51,579 [35] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 11:51:51,579 [35] ERROR Ticknet - Exception Message - 
+Unterminated string literal. Strings that start with a quotation mark (") must be terminated before the end of the line.  However, strings that start with @ and a quotation mark (@") can span multiple lines. Closing HTML tags within a string literal may trigger this error message.
+
+2015-11-13 11:51:51,579 [35] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 11:56:32,273 [18] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 11:56:32,273 [18] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-13 11:56:32,273 [18] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 11:56:32,273 [18] ERROR Ticknet - Exception Message - 
+A public action method 'CarritoDeCompras' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-13 11:56:32,273 [18] DEBUG Ticknet - ++++++++++++++++++++++++++++

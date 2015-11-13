@@ -12,13 +12,14 @@
         Promociones primero = promociones.Last();
         var data = new
         {
-            Descuento = primero.descuento
+            Descuento = primero.descuento,
+            IdPromocion = primero.codPromo
         };
         Json.Write(data, Response.Output);
     }
     catch (Exception x)
     {
-        var data = new { Descuento = -1 };
+        var data = new { Descuento = -1,IdPromocion = -1 };
         Json.Write(data, Response.Output);
     }
 }
