@@ -94,6 +94,7 @@ namespace WebApplication4.Controllers
                 //CuentaUsuario cuenta = db.CuentaUsuario.AsNoTracking().Where(c => c.codDoc == usuario).ToList().First();
                 db.Entry(cuenta).State = EntityState.Modified;
                 //cuenta.correo = model.Email;
+                cuenta.direccion = model.direccion;
                 cuenta.nombre = model.nombre;
                 cuenta.telefono = model.telefono;
                 cuenta.telMovil = model.telMovil;
