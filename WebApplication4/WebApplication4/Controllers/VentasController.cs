@@ -487,6 +487,29 @@ namespace WebApplication4.Controllers
             return View("Devolucion");
         }
 
+        public ActionResult devolverParcial(string asiento)
+        {
+            List<AsientosXFuncion> axf = (List<AsientosXFuncion>)Session["ListaAsientos"];
+            if (axf.Count != 0) //numerado
+            {
+
+            }
+            else // no numerado
+            {
+
+            }
+            /*Session["DetalleVenta"]
+            Session["VentaXFunDev"]
+            Session["VentasDev"]
+            Session["ListaAsientos"] = axf;
+            Session["BusquedaDev"] = devolucionModel
+            Session["FuncionDev"]
+            Session["EventoDev"]
+            Session["ZonaEventoDev"]
+            Session["AsientosDev"]*/
+            return View("VerDetalle");
+        }
+
         public ActionResult VerDetalle(string detVen)
         {
             //Session["Bus"] = null;
