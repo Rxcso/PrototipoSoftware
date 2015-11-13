@@ -447,7 +447,7 @@ namespace WebApplication4.Controllers
             List<AsientosXFuncion> axf = db.AsientosXFuncion.Where(a => a.codFuncion == f.codFuncion && a.codDetalleVenta == dv.codDetalleVenta).ToList();
             //List<AsientosXFuncion> axf = (List<AsientosXFuncion>)Session["ListaAsientos"];
             for (int i = 0; i < axf.Count; i++)
-                axf[i].estado = "DEVUELTO";
+                axf[i].estado = "libre";
 
             VentasXFuncion vxf = (db.VentasXFuncion.Where(ven => ven.codVen == v.codVen && ven.codFuncion == f.codFuncion).ToList())[0];
             //VentasXFuncion vxf = (VentasXFuncion)Session["VentaXFunDev"];
