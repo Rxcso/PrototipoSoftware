@@ -151,10 +151,10 @@ namespace WebApplication4.Controllers
             int mes = model.Mes;
             int anio = model.AnioVen;
             DateTime hoy = DateTime.Today;
-            if (mes < hoy.Month)
+            if ((mes<hoy.Month && anio == hoy.Year))
             {
                 ind = false;
-                ModelState.AddModelError("Mes", "La tarjeta ya venció.");
+                ModelState.AddModelError("AnioVen", "La tarjeta ya venció.");
             }
             return ind;
         }
