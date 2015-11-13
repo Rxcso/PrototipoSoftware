@@ -77,6 +77,13 @@ namespace WebApplication4.Controllers
             }
         }
 
+
+        [HttpGet]
+        public ActionResult PagarReserva(string reserva)
+        {
+            return View();
+        }
+
         [HttpGet]
         [AllowAnonymous]
         public ActionResult ComprarEntrada()
@@ -117,16 +124,6 @@ namespace WebApplication4.Controllers
                 ViewBag.Mes = Fechas.Mes();
                 ViewBag.AnVen = Fechas.Anio();
                 return View();
-            }
-            else
-            {
-                //lista de bancos
-                List<Banco> bancos = db.Banco.ToList();
-                ViewBag.Bancos = new SelectList(bancos, "codigo", "nombre");
-                //lista de tarjetas
-                List<TipoTarjeta> tipoTarjeta = db.TipoTarjeta.ToList();
-                ViewBag.TipoTarjeta = new SelectList(tipoTarjeta, "idTipoTar", "nombre");
-
             }
             TempData["tipo"] = "alert alert-warning";
             TempData["message"] = "No hay items en el carrito.";
