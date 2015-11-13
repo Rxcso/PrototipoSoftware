@@ -1187,3 +1187,20 @@ System.Collections.ListDictionaryInternal
 2015-11-11 21:22:50,045 [52] ERROR Ticknet - Exception Message - 
 No se puede convertir NULL en 'System.DateTime' porque es un tipo de valor que no acepta valores NULL.
 2015-11-11 21:22:50,045 [52] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-12 15:55:21,034 [22] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-12 15:55:21,063 [22] ERROR Ticknet - Exception Type - 
+DbEntityValidationException
+2015-11-12 15:55:21,063 [22] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-12 15:55:21,063 [22] ERROR Ticknet - Exception Message - 
+Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+2015-11-12 15:55:21,063 [22] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-12 18:53:08,622 [16] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-12 18:53:08,636 [16] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-12 18:53:08,636 [16] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-12 18:53:08,636 [16] ERROR Ticknet - Exception Message - 
+The code block is missing a closing "}" character.  Make sure you have a matching "}" character for all the "{" characters within this block, and that none of the "}" characters are being interpreted as markup.
+
+2015-11-12 18:53:08,636 [16] DEBUG Ticknet - ++++++++++++++++++++++++++++

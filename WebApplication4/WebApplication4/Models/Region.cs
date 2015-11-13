@@ -19,9 +19,9 @@ namespace WebApplication4.Models
             this.Region1 = new HashSet<Region>();
             this.PuntoVenta = new HashSet<PuntoVenta>();
             this.PuntoVenta1 = new HashSet<PuntoVenta>();
-            this.Eventos = new HashSet<Eventos>();
             this.Local = new HashSet<Local>();
             this.Local1 = new HashSet<Local>();
+            this.Eventos = new HashSet<Eventos>();
         }
     
         public int idRegion { get; set; }
@@ -32,8 +32,8 @@ namespace WebApplication4.Models
         public virtual Region Region2 { get; set; }
         public virtual ICollection<PuntoVenta> PuntoVenta { get; set; }
         public virtual ICollection<PuntoVenta> PuntoVenta1 { get; set; }
-        public virtual ICollection<Eventos> Eventos { get; set; }
         public virtual ICollection<Local> Local { get; set; }
         public virtual ICollection<Local> Local1 { get; set; }
+        public virtual ICollection<Eventos> Eventos { get; set; }
     }
 }

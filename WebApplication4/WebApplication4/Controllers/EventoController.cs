@@ -371,6 +371,7 @@ namespace WebApplication4.Controllers
                         modificado.idLocal = model.Local;
                         modificado.nombre = model.nombre;
                         modificado.fechaUltModificacion = DateTime.Today;
+                        modificado.estado = "Modificado";
                         db.SaveChanges();
                         return RedirectToAction("BloquesTiempoVenta");
                     }
@@ -423,7 +424,7 @@ namespace WebApplication4.Controllers
                     evento.idProvincia = (model.idProv == 0) ? 0 : model.idProv;
                     evento.descripcion = string.IsNullOrEmpty(model.descripcion) ? "" : model.descripcion;
                     evento.fechaRegistro = DateTime.Today;
-                    evento.estado = "Activo";
+                    evento.estado = "Creado";
                     evento.monto_adeudado = 0;
                     evento.monto_transferir = 0;
                     evento.tieneBoletoElectronico = false;
@@ -758,6 +759,7 @@ namespace WebApplication4.Controllers
                         funcion.codEvento = idEvento;
                         funcion.fecha = listaVerificacion[i].fechaFuncion;
                         funcion.horaIni = listaVerificacion[i].horaInicio;
+                        funcion.estado = "ACTIVO";
                         db.Funcion.Add(funcion);
                         db.SaveChanges();
                     }
@@ -1004,12 +1006,13 @@ namespace WebApplication4.Controllers
                 model.IEvento = evento.ImagenEvento;
                 model.ISitios = evento.ImagenSitios;
                 model.Ganancia = (double)(evento.porccomision == null ? 0 : evento.porccomision);
-                model.MaxReservas = (int)(evento.maxReservas == null ? 0 : evento.maxReservas);
+                model.MaxReservas = evento.maxReservas;
                 model.MontFijoVentEnt = (double)(evento.montoFijoVentaEntrada == null ? 0 : evento.montoFijoVentaEntrada);
                 model.PenCancelacion = (double)(evento.penalidadXcancelacion == null ? 0 : evento.penalidadXcancelacion);
                 model.PenPostergacion = (double)(evento.penalidadXpostergacion == null ? 0 : evento.penalidadXpostergacion);
                 model.PermitirBoletoElectronico = (bool)evento.tieneBoletoElectronico;
                 model.PermitirReservasWeb = (bool)evento.permiteReserva;
+                model.PermiteDevolucionPostergacion = evento.devolverPostergacion;
                 model.PuntosToCliente = evento.puntosAlCliente;
                 return View(model);
             }
@@ -1088,6 +1091,8 @@ namespace WebApplication4.Controllers
                 evento.tieneBoletoElectronico = model.PermitirBoletoElectronico;
                 evento.permiteReserva = model.PermitirReservasWeb;
                 evento.puntosAlCliente = model.PuntosToCliente;
+                evento.devolverPostergacion = model.PermiteDevolucionPostergacion;
+                evento.estado = "Activo";
                 db.SaveChanges();
 
                 TempData["tipo"] = "alert alert-success";

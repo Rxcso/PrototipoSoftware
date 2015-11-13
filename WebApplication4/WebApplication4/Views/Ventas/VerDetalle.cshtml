@@ -18,10 +18,11 @@
     Session["BusquedaDev"] = devolucionModel
     Session["FuncionDev"]
     Session["EventoDev"]
+    Session["ZonaEventoDev"]
     -->
 
 
-@{
+@{    
     List<WebApplication4.Models.DevolucionModel> devoluciones;// lista anterior
     devoluciones = (List<WebApplication4.Models.DevolucionModel>)Session["BusquedaDev"];
 
@@ -33,6 +34,8 @@
     WebApplication4.Models.Ventas ventas = (WebApplication4.Models.Ventas)Session["VentasDev"];
     WebApplication4.Models.Funcion funcion = (WebApplication4.Models.Funcion)Session["FuncionDev"];
     WebApplication4.Models.Eventos eventos = (WebApplication4.Models.Eventos)Session["EventoDev"];
+
+    WebApplication4.Models.ZonaEvento ze = (WebApplication4.Models.ZonaEvento)Session["ZonaEventoDev"];
     
     int i;
     WebApplication4.Models.DevolucionModel dm;//el que tengo
@@ -45,16 +48,23 @@
             break;
         }
     }
-    DateTime today = DateTime.Today;
-    DateTime fechaUlt = ((DateTime)funcion.FechaDevolucion).AddDays((int)funcion.cantDiasDevolucion);
     int sePuedeDev = 0;
-    if (DateTime.Compare(today, fechaUlt) < 0 &&
-        DateTime.Compare(today, (DateTime)funcion.FechaDevolucion) > 0) { sePuedeDev = 1; }
+    DateTime today = DateTime.Today;
+    if (funcion.estado == "CANCELADO")
+    {
         
-    
-    
-    
-    
+        DateTime fechaUlt = ((DateTime)funcion.FechaDevolucion).AddDays((int)funcion.cantDiasDevolucion);
+        if (DateTime.Compare(today, fechaUlt) <= 0 &&
+            DateTime.Compare(today, (DateTime)funcion.FechaDevolucion) >= 0) { sePuedeDev = 1; }
+    }
+    else//POSTERGADO
+    {
+        if (DateTime.Compare(today, (DateTime)funcion.FechaDevolucion) <= 0)
+        {
+            sePuedeDev = 1; 
+        }
+           
+    }        
 }
 
 <div class="container">
@@ -65,23 +75,50 @@
         </div>
     </div>
     <div class="row form-group">
+        <label for="idEvento" class="control-label col-md-2">Fecha Función:</label>
+        <div class="col-md-10">
+            <input id="eventoN" type="text" class="form-control" value="@funcion.fecha" disabled>
+        </div>
+    </div>
+    <div class="row form-group">
         <label for="idEvento" class="control-label col-md-2">Función:</label>
         <div class="col-md-10">
             <input id="eventoN" type="text" class="form-control" value="@funcion.estado" disabled>
         </div>
     </div>
     <div class="row form-group">
-        <label for="idEvento" class="control-label col-md-2">Fecha de Devolución:</label>
+        <label for="idEvento" class="control-label col-md-2">Zona:</label>
         <div class="col-md-10">
-            <input id="eventoN" type="text" class="form-control" value="@funcion.FechaDevolucion" disabled>
+            <input id="eventoN" type="text" class="form-control" value="@ze.nombre" disabled>
         </div>
     </div>
-    <div class="row form-group">
-        <label for="idEvento" class="control-label col-md-2">Días hábiles para Devolución:</label>
-        <div class="col-md-10">
-            <input id="eventoN" type="text" class="form-control" value="@funcion.cantDiasDevolucion" disabled>
-        </div>
-    </div>
+    @{
+        if (funcion.estado == "CANCELADO")
+        {
+            <div class="row form-group">
+                <label for="idEvento" class="control-label col-md-2">Fecha Inicio de Devolución:</label>
+                <div class="col-md-10">
+                    <input id="eventoN" type="text" class="form-control" value="@funcion.FechaDevolucion" disabled>
+                </div>
+            </div>
+            <div class="row form-group">
+                <label for="idEvento" class="control-label col-md-2">Días hábiles para Devolución:</label>
+                <div class="col-md-10">
+                    <input id="eventoN" type="text" class="form-control" value="@funcion.cantDiasDevolucion" disabled>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="row form-group">
+                <label for="idEvento" class="control-label col-md-2">Fecha hasta Devolución:</label>
+                <div class="col-md-10">
+                    <input id="eventoN" type="text" class="form-control" value="@funcion.FechaDevolucion" disabled>
+                </div>
+            </div>
+        }
+}
+    
     <div class="row form-group">
         <label for="idEvento" class="control-label col-md-2">Cantidad de entradas:</label>
         <div class="col-md-10">
@@ -103,7 +140,7 @@
                     if (funcion.estado == "POSTERGADO")
                     {
                         <div class="col-md-11">
-                            <a class="btn btn-primary" href="" data-toggle="modal">Devolver Asiento<span class="glyphicon glyphicon-usd"></span></a>
+                        <a class="btn btn-primary" href="" data-toggle="modal">Devolver Asiento<span class="glyphicon glyphicon-usd"></span></a>
                         </div>
                     }
                     <!--Devolver todo-->
@@ -111,11 +148,22 @@
                         <a class="btn btn-primary" href="#devolverTodo" data-toggle="modal">Devolver Todo<span class="glyphicon glyphicon-usd"></span></a>
                     </div>
                 }
-            }                               
+            }            
+            @{
+                if (sePuedeDev == 1)
+                {
+                    <div class="col-md-1">
+                        <a class="btn btn-primary" data-toggle="modal" href="@Url.Action("Devolucion", "Ventas")">Volver <span class="glyphicon glyphicon-chevron-left"></span></a>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-md-12">
+                        <a class="btn btn-primary" data-toggle="modal" href="@Url.Action("Devolucion", "Ventas")">Volver <span class="glyphicon glyphicon-chevron-left"></span></a>
+                    </div>
+                }
+}                               
             
-            <div class="col-md-1">
-                <a class="btn btn-primary" data-toggle="modal" href="@Url.Action("Devolucion", "Ventas")">Volver <span class="glyphicon glyphicon-chevron-left"></span></a>
-            </div>
     </div>        
      
     <h4>Resultados:</h4>
@@ -134,10 +182,10 @@
             </thead>
             <tbody id="tbody">
                 @{
-            if (axf != null)
-            {
-                foreach (var row in axf)
-                {
+                    if (axf != null)
+                    {
+                        foreach (var row in axf)
+                        {
                             <tr id=@row.codAsiento onclick="myFunction(this)">
                                 <td>@row.codAsiento</td>
                                 <td>@row.codFuncion</td>
@@ -147,8 +195,8 @@
                                 <td>@row.DocAsociado</td>
                                 <td>@row.PrecioPagado</td>
                             </tr>
-                }
-            }
+                        }
+                    }
                 }
             </tbody>
         </table>

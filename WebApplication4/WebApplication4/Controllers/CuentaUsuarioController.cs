@@ -151,9 +151,9 @@ namespace WebApplication4.Controllers
                             ve.CuentaUsuario = db.CuentaUsuario.Find(MagicHelpers.AnonimoUniversal);
                             ve.cliente = model.Nombre;
                         }
-
                         ve.fecha = DateTime.Now;
                         ve.cantAsientos = cantidadEntradasTotales;
+                        //de todas maneras en la venta se registra el nombre, dni y tipo de documento del que esta comprando.
                         ve.cliente = model.Nombre;
                         ve.codDoc = model.Dni;
                         ve.Estado = MagicHelpers.Compra;
@@ -188,15 +188,27 @@ namespace WebApplication4.Controllers
                             PrecioEvento pr = db.PrecioEvento.Where(c => c.codZonaEvento == paquete.idZona && c.codPeriodoVenta == per.idPerVent).ToList().First();
                             //la venta x funcion requerida
                             VentasXFuncion vf = new VentasXFuncion();
-                            vf.codVen = ve.codVen;
-                            vf.cantEntradas = paquete.cantidad;
-                            vf.codFuncion = paquete.idFuncion;
-                            vf.Ventas = ve;
-                            vf.Funcion = db.Funcion.Find(paquete.idFuncion);
-                            vf.descuento = 0;
-                            vf.subtotal = paquete.cantidad * pr.precio;
-                            vf.total = paquete.cantidad * pr.precio;
-                            db.VentasXFuncion.Add(vf);
+                            //si ya existe una venta x funcion de esta venta
+                            if (db.VentasXFuncion.Any(c => c.codVen == ve.codVen && c.codFuncion == paquete.idFuncion))
+                            {
+                                vf = db.VentasXFuncion.Where(c => c.codVen == ve.codVen && c.codFuncion == paquete.idFuncion).First();
+                                vf.cantEntradas += paquete.cantidad;
+                                vf.subtotal += paquete.cantidad * pr.precio;
+                                vf.total += paquete.cantidad * pr.precio;
+                            }
+                            else
+                            {
+                                //creo una nueva ventaxfuncion
+                                vf.codVen = ve.codVen;
+                                vf.cantEntradas = paquete.cantidad;
+                                vf.codFuncion = paquete.idFuncion;
+                                vf.Ventas = ve;
+                                vf.Funcion = db.Funcion.Find(paquete.idFuncion);
+                                vf.descuento = 0;
+                                vf.subtotal = paquete.cantidad * pr.precio;
+                                vf.total = paquete.cantidad * pr.precio;
+                                db.VentasXFuncion.Add(vf);
+                            }
                             db.SaveChanges();
                             //detalle de venta
                             DetalleVenta dt = new DetalleVenta();
@@ -209,6 +221,9 @@ namespace WebApplication4.Controllers
                             dt.codVen = vf.codVen;
                             db.DetalleVenta.Add(dt);
                             if (paquete.filas != null && paquete.filas.Count > 0) paquete.tieneAsientos = true;
+                            //actualizo el mondo adeudado 
+                            Eventos evento = db.Eventos.Find(paquete.idEvento);
+                            evento.monto_adeudado += (double)(paquete.cantidad * pr.precio * evento.porccomision/100 + evento.montoFijoVentaEntrada);
                             db.SaveChanges();
                             //si tengo asientos, actualizo los asientos a ocupado
                             if (paquete.tieneAsientos)
@@ -1015,6 +1030,9 @@ namespace WebApplication4.Controllers
                 db.RegaloXCuenta.Add(rc);
                 db.SaveChanges();
                 db.Entry(cuenta).State = EntityState.Detached;
+                List<CuentaUsuario> listacl;
+                listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.estado == true && c.codPerfil == 1 && c.puntos > 0).ToList();
+                if (listacl != null) Session["ListaCL"] = listacl;
                 return Json("Regalo Entregado", JsonRequestBehavior.AllowGet);
             }
             //CuentaUsuario cuenta2 = (CuentaUsuario)TempData["EntregaCl"];

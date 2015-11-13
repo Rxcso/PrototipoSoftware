@@ -295,17 +295,45 @@ namespace WebApplication4.Controllers
                     int codiguito = v[i].codVen;
                     vxf = db.VentasXFuncion.Where(venxf => venxf.codVen == codiguito).ToList();
                     if (vxf != null) 
-                    {
+                    {                        
                         for (int j = 0; j < vxf.Count; j++)
                         {
                             int codiguitoF = vxf[j].codFuncion;
                             //filtro
-                            List<Funcion> f = db.Funcion.Where(fun => fun.codFuncion == codiguitoF && (fun.estado == "CANCELADO" || fun.estado == "POSTERGADO")).ToList();
-                            if (f == null) vxf.RemoveAt(j);
+                            Funcion f = db.Funcion.Find(codiguitoF);
+                            if (f.estado != "CANCELADO" && f.estado != "POSTERGADO") {
+                                vxf.RemoveAt(j);
+                                j--;
+                            }
+                            //logica de que en caso de postergacion no se permita devolver el dinero                                
+                            if (f.estado == "POSTERGADO")
+                            {
+                                Eventos ev = db.Eventos.Find(f.codEvento);
+                                if(!ev.devolverPostergacion){
+                                    vxf.RemoveAt(j);
+                                    j--;
+                                }
+                            }
+                            
+                            /*List<Funcion> f = db.Funcion.Where(fun => fun.codFuncion == codiguitoF && 
+                                (fun.estado == "Cancelado" || fun.estado == "Postergado")).ToList();
+                            if (f == null) { 
+                                vxf.RemoveAt(j);
+                                j--;
+                            }else
+                                if (f[0].estado == "POSTERGADO")
+                                {
+                                    Eventos ev = db.Eventos.Find(f[0].codEvento);
+                                    if (!ev.devolverPostergacion) { 
+                                        vxf.RemoveAt(j);
+                                        j--;
+                                    }
+                                }*/
+
                             //si el evento asociado a ese VXF no es postergado ni cancelado, lo borro
                         }
-                        //la lista que mantendrá absolutamente todos los VXF de todas las ventas
-                        listaRealVxf.AddRange(vxf);
+                            //la lista que mantendrá absolutamente todos los VXF de todas las ventas
+                            listaRealVxf.AddRange(vxf);
                     }                    
                 }
                 if (listaRealVxf != null)
@@ -403,18 +431,55 @@ namespace WebApplication4.Controllers
         
         public ActionResult DevolverTodo()
         {
-            List<DetalleVenta> dv=(List<DetalleVenta>)Session["DetalleVenta"];
-            /*Session["DetalleVenta"]
-            Session["VentaXFunDev"]
-            Session["VentasDev"]
-            Session["ListaAsientos"] = axf;
-            Session["BusquedaDev"] = devolucionModel
-            Session["FuncionDev"]
-            Session["EventoDev"]
-            */
+            DetalleVenta dv=(DetalleVenta)Session["DetalleVenta"];
 
+            Ventas v = db.Ventas.Find(dv.codVen);
+            //Ventas v = (Ventas)Session["VentasDev"];
+            v.cantAsientos -= (int)dv.cantEntradas;
+            v.MontoTotalSoles -= (double)dv.total;
+            v.Estado = "Devuelto";
 
+            Funcion f = db.Funcion.Find(dv.codFuncion);
+            Eventos ev = db.Eventos.Find(f.codEvento);
+            //Eventos ev = (Eventos)Session["EventoDev"];
+            ev.monto_adeudado -= (double)dv.total;
 
+            List<AsientosXFuncion> axf = db.AsientosXFuncion.Where(a => a.codFuncion == f.codFuncion && a.codDetalleVenta == dv.codDetalleVenta).ToList();
+            //List<AsientosXFuncion> axf = (List<AsientosXFuncion>)Session["ListaAsientos"];
+            for (int i = 0; i < axf.Count; i++)
+                axf[i].estado = "DEVUELTO";
+
+            VentasXFuncion vxf = (db.VentasXFuncion.Where(ven => ven.codVen == v.codVen && ven.codFuncion == f.codFuncion).ToList())[0];
+            //VentasXFuncion vxf = (VentasXFuncion)Session["VentaXFunDev"];
+            vxf.cantEntradas -= (int)dv.cantEntradas;
+            
+            PrecioEvento pe = db.PrecioEvento.Find(dv.codPrecE);
+            ZonaEvento ze = db.ZonaEvento.Find(pe.codZonaEvento);
+            if (!ze.tieneAsientos) ze.tieneAsientos = true;
+
+            ZonaxFuncion zxf =(db.ZonaxFuncion.Where(z => z.codFuncion == dv.codFuncion && z.codZona == ze.codZona).ToList())[0];
+            zxf.cantLibres += (int)dv.cantEntradas;
+
+            DetalleVenta dvAux = db.DetalleVenta.Find(dv.codDetalleVenta);
+            dvAux.entradasDev = dvAux.cantEntradas;
+            dvAux.cantEntradas = 0;
+                /*Session["DetalleVenta"]
+                Session["VentaXFunDev"]
+                Session["VentasDev"]
+                Session["ListaAsientos"] = axf;
+                Session["BusquedaDev"] = devolucionModel
+                Session["FuncionDev"]
+                Session["EventoDev"]
+                */
+
+            //elimina de la lista de busqueda! 
+            List<DevolucionModel> dev = (List<DevolucionModel>)Session["BusquedaDev"];
+            for (int i = 0; i < dev.Count;i++ )
+                if (dev[i].codDev == dv.codDetalleVenta)
+                    dev.RemoveAt(i);
+            Session["BusquedaDev"] = dev;    
+                    
+            db.SaveChanges();
             return View("Devolucion");
         }
 
@@ -431,13 +496,19 @@ namespace WebApplication4.Controllers
             Session["VentaXFunDev"] = venxf;
             Ventas ven = db.Ventas.Find(venxf.codVen);
             Session["VentasDev"] = ven;
+
             List<AsientosXFuncion> axf = db.AsientosXFuncion.Where(a=>a.codFuncion==detalleVen.codFuncion && a.codDetalleVenta==detalleVen.codDetalleVenta).ToList();
             Session["ListaAsientos"] = axf;
+
             Funcion funDev = db.Funcion.Find(detalleVen.codFuncion);
             Session["FuncionDev"] = funDev;
             Eventos eventoDev = db.Eventos.Find(funDev.codEvento);
             Session["EventoDev"] = eventoDev;
 
+            PrecioEvento pe = db.PrecioEvento.Find(detalleVen.codPrecE);
+            ZonaEvento ze = db.ZonaEvento.Find(pe.codZonaEvento);
+
+            Session["ZonaEventoDev"] = ze;
             return View("VerDetalle");
         }
 

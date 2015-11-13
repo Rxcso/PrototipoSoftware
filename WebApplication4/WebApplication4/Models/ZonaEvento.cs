@@ -31,7 +31,7 @@ namespace WebApplication4.Models
     
         public virtual ICollection<Asientos> Asientos { get; set; }
         public virtual ICollection<PrecioEvento> PrecioEvento { get; set; }
-        public virtual Eventos Eventos { get; set; }
         public virtual ICollection<ZonaxFuncion> ZonaxFuncion { get; set; }
+        public virtual Eventos Eventos { get; set; }
     }
 }
