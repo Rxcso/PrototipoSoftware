@@ -120,6 +120,7 @@
                     @Html.LabelFor(c => c.AnioVen, new { @class = "control-label col-md-2" })
                     <div class="col-md-2">
                         @Html.DropDownListFor(c => c.AnioVen, ViewBag.AnVen as List<SelectListItem>, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(c => c.AnioVen)
                     </div>
                 </div>
 
@@ -193,15 +194,6 @@
                 }
             });
         }
-        //<input id="eventosCarrito" name="eventosCarrito" type="hidden" value="1095">
-        //<input id="promocionesCarrito" name="promocionesCarrito" type="hidden" value="-1">
-        //<input id="subtotalCarrito" name="subtotalCarrito" type="hidden" value="250">
-        //<p style="margin-left:2em">razon</p>
-        /*console.log(arrRazon);
-        console.log(eventosCarritos);
-        console.log(promocionCarritos);
-        console.log(descuentoCarritos);
-        console.log(subtotalCarritos);*/
         //relleno denuevo el esto :v
         $('#listaEventoPromocion').empty();
         var descuentoTotal = 0;

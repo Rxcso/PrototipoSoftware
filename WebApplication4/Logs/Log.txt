@@ -1212,3 +1212,11 @@ System.Collections.ListDictionaryInternal
 2015-11-13 00:42:54,526 [35] ERROR Ticknet - Exception Message - 
 LINQ to Entities does not recognize the method 'Int32 get_Item(Int32)' method, and this method cannot be translated into a store expression.
 2015-11-13 00:42:54,526 [35] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 02:54:19,835 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 02:54:19,843 [6] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-13 02:54:19,843 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 02:54:19,843 [6] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-13 02:54:19,843 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++

@@ -18,6 +18,7 @@ using System.Web.Services;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using WebApplication4.Models;
+using System.Net.Mail;
 
 namespace WebApplication4.Controllers
 {
@@ -122,182 +123,261 @@ namespace WebApplication4.Controllers
             TempData["message"] = "No hay items en el carrito.";
             return RedirectToAction("MiCarrito");
         }
-        
+
+        private bool ValidacionesCompra(ComprarEntradaModel model)
+        {
+            bool ind = true;
+            //Verficar que la tarjeta pertenezca al banco
+            Banco banco = db.Banco.Find(model.idBanco);
+            string identificador = "" + banco.identificador;
+            string tarjeta = model.NumeroTarjeta;
+            string comparador = tarjeta.Substring(0, identificador.Length);
+            int pertenece = comparador.CompareTo(identificador);
+            if (pertenece != 0)
+            {
+                ind = false;
+                ModelState.AddModelError("NumeroTarjeta", "El numero de tarjeta no pertenece al banco indicado.");
+            }
+            //verificar que no haya vencido la tarjeta
+            int mes = model.Mes;
+            int anio = model.AnioVen;
+            DateTime hoy = DateTime.Today;
+            if (mes < hoy.Month)
+            {
+                ind = false;
+                ModelState.AddModelError("Mes", "La tarjeta ya venció.");
+            }
+            return ind;
+        }
+
+        private void EnviarCorreo(int idVenta)
+        {
+            try
+            {
+                SmtpClient SmtpServer = new SmtpClient();
+                SmtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
+                SmtpServer.EnableSsl = true;
+                SmtpServer.Host = "smtp.gmail.com";
+                SmtpServer.Port = 587;
+                //credenciales
+                System.Net.NetworkCredential credentials = new System.Net.NetworkCredential(MagicHelpers.CorreoVentas, MagicHelpers.ContraVentas);
+                SmtpServer.UseDefaultCredentials = false;
+                SmtpServer.Credentials = credentials;
+                
+                MailMessage mail = new MailMessage();
+                mail.From = new MailAddress(MagicHelpers.CorreoVentas);
+                mail.To.Add(User.Identity.Name);
+                mail.Subject = "Compra de Entradas - Venta " + idVenta + ".";
+
+                mail.IsBodyHtml = true;
+                string htmlBody = "<table class='table table-bordered table-hover'><thsead><tr class='thead'>";
+                htmlBody += "<th>Evento</th><th>Fecha</th><th>Hora</th><th>Cantidad de Entradas</th><th>Total</th></thsead><tbody>";
+                string relleno = "";
+                List<VentasXFuncion> ventasxf = db.VentasXFuncion.Where(c => c.codVen == idVenta).ToList();
+                foreach (var row in ventasxf)
+                {
+                    Funcion fu = db.Funcion.Find(row.codFuncion);
+                    relleno += "<tr>";
+                    relleno += "<td>" + db.Eventos.Find(fu.codEvento).nombre + "</td>";
+                    relleno += "<td>" + String.Format("{0:d}", fu.fecha) + "</td>";
+                    relleno += "<td>" + String.Format("{0:t}", fu.horaIni) + "</td>";
+                    relleno += "<td>" + row.cantEntradas + "</td>";
+                    relleno += "<td>" + row.total + "</td>";
+                    relleno += "</tr>";
+                }
+                mail.Body = htmlBody + relleno;
+                
+              
+                SmtpServer.Send(mail);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
+
         [HttpPost]
         [AllowAnonymous]
         public ActionResult ComprarEntrada(ComprarEntradaModel model)
         {
             if (ModelState.IsValid)
             {
-
-                int idVenta = 0;
-                DateTime hoy = DateTime.Today;
-                CuentaUsuario cuenta = new CuentaUsuario();
-                using (var context = new inf245netsoft())
+                if (ValidacionesCompra(model))
                 {
-                    try
+                    int idVenta = 0;
+                    DateTime hoy = DateTime.Today;
+                    CuentaUsuario cuenta = new CuentaUsuario();
+                    using (var context = new inf245netsoft())
                     {
-                        List<CarritoItem> carrito = (List<CarritoItem>)Session["CarritoItem"];
-                        Ventas ve = new Ventas();
-                        int cantidadEntradasTotales = carrito.Sum(c => c.cantidad);
-
-                        if (Session["UsuarioLogueado"] != null)
-                        {
-                            cuenta = (CuentaUsuario)Session["UsuarioLogueado"];
-                            ve.CuentaUsuario = db.CuentaUsuario.Find(cuenta.usuario);
-                            ve.cliente = cuenta.usuario;
-                        }
-                        else
-                        {
-                            ve.CuentaUsuario = db.CuentaUsuario.Find(MagicHelpers.AnonimoUniversal);
-                            ve.cliente = model.Nombre;
-                        }
-                        ve.fecha = DateTime.Now;
-                        ve.cantAsientos = cantidadEntradasTotales;
-                        //de todas maneras en la venta se registra el nombre, dni y tipo de documento del que esta comprando.
-                        ve.cliente = model.Nombre;
-                        ve.codDoc = model.Dni;
-                        //--
-                        ve.Estado = MagicHelpers.Compra;
-                        ve.tipoDoc = 1;
-                        ve.montoEfectivoSoles = model.Importe;
-                        ve.MontoTotalSoles = model.MontoPagar;
-                        db.Ventas.Add(ve);
                         try
                         {
-                            db.SaveChanges();
-                        }
-                        catch (DbEntityValidationException dbEx)
-                        {
-                            foreach (var validationErrors in dbEx.EntityValidationErrors)
+                            List<CarritoItem> carrito = (List<CarritoItem>)Session["CarritoItem"];
+                            Ventas ve = new Ventas();
+                            int cantidadEntradasTotales = carrito.Sum(c => c.cantidad);
+
+                            if (Session["UsuarioLogueado"] != null)
                             {
-                                foreach (var validationError in validationErrors.ValidationErrors)
-                                {
-                                    Trace.TraceInformation("Property: {0} Error: {1}",
-                                                            validationError.PropertyName,
-                                                            validationError.ErrorMessage);
-                                }
-                            }
-                        }
-                        //para cada item del carrito
-                        for (int w = 0; w < carrito.Count; w++)
-                        {
-                            CarritoItem paquete = carrito[w];
-                            //zona del evento
-                            ZonaEvento zo = db.ZonaEvento.Find(paquete.idZona);
-                            //en que perdiodo de venta estamos
-                            PeriodoVenta per = db.PeriodoVenta.Where(c => c.codEvento == paquete.idEvento && c.fechaInicio <= hoy && c.fechaFin >= hoy).ToList().First();
-                            PrecioEvento pr = db.PrecioEvento.Where(c => c.codZonaEvento == paquete.idZona && c.codPeriodoVenta == per.idPerVent).ToList().First();
-                            //la venta x funcion requerida
-                            VentasXFuncion vf = new VentasXFuncion();
-                            //si ya existe una venta x funcion de esta venta
-                            if (db.VentasXFuncion.Any(c => c.codVen == ve.codVen && c.codFuncion == paquete.idFuncion))
-                            {
-                                vf = db.VentasXFuncion.Where(c => c.codVen == ve.codVen && c.codFuncion == paquete.idFuncion).First();
-                                vf.cantEntradas += paquete.cantidad;
-                                vf.subtotal += paquete.cantidad * pr.precio;
-                                float? porcDescuento = 0;
-                                if (model.idPromociones[w] != -1)
-                                {
-                                    int idPromocion = model.idPromociones[w];
-                                    Promociones promocion = db.Promociones.Where(c => c.codPromo == idPromocion && c.codEvento == paquete.idEvento).First();
-                                    porcDescuento = promocion.descuento / 100;
-                                }
-                                vf.descuento += (int?)(vf.subtotal * porcDescuento);
-                                vf.total += paquete.cantidad * pr.precio - vf.descuento;
+                                cuenta = (CuentaUsuario)Session["UsuarioLogueado"];
+                                ve.CuentaUsuario = db.CuentaUsuario.Find(cuenta.usuario);
+                                ve.cliente = cuenta.usuario;
                             }
                             else
                             {
-                                //creo una nueva ventaxfuncion
-                                vf.codVen = ve.codVen;
-                                vf.cantEntradas = paquete.cantidad;
-                                vf.codFuncion = paquete.idFuncion;
-                                vf.Ventas = ve;
-                                vf.Funcion = db.Funcion.Find(paquete.idFuncion);
-                                float? porcDescuento = 0;
-                                if (model.idPromociones[w] != -1)
-                                {
-                                    int idPromocion = model.idPromociones[w];
-                                    Promociones promocion = db.Promociones.Where(c => c.codPromo == idPromocion && c.codEvento == paquete.idEvento).First();
-                                    porcDescuento = promocion.descuento / 100;
-                                }
-                                vf.subtotal = paquete.cantidad * pr.precio;
-                                vf.descuento = (int?)(vf.subtotal * porcDescuento);
-                                vf.total = vf.subtotal - vf.descuento;
-                                db.VentasXFuncion.Add(vf);
+                                ve.CuentaUsuario = db.CuentaUsuario.Find(MagicHelpers.AnonimoUniversal);
+                                ve.cliente = model.Nombre;
                             }
-                            db.SaveChanges();
-                            //detalle de venta
-                            DetalleVenta dt = new DetalleVenta();
-                            dt.cantEntradas = paquete.cantidad;
-                            dt.codFuncion = paquete.idFuncion;
-                            dt.codPrecE = pr.codPrecioEvento;
-                            dt.total = vf.total;
-                            dt.entradasDev = 0;
-                            dt.descTot = vf.descuento;
-                            dt.codVen = vf.codVen;
-                            db.DetalleVenta.Add(dt);
-                            if (paquete.filas != null && paquete.filas.Count > 0) paquete.tieneAsientos = true;
-                            //actualizo el mondo adeudado 
-                            Eventos evento = db.Eventos.Find(paquete.idEvento);
-                            evento.monto_adeudado += (double)(paquete.cantidad * pr.precio * evento.porccomision / 100 + evento.montoFijoVentaEntrada);
-                            db.SaveChanges();
-                            //si tengo asientos, actualizo los asientos a ocupado
-                            if (paquete.tieneAsientos)
+                            ve.fecha = DateTime.Now;
+                            ve.cantAsientos = cantidadEntradasTotales;
+                            //de todas maneras en la venta se registra el nombre, dni y tipo de documento del que esta comprando.
+                            ve.cliente = model.Nombre;
+                            ve.codDoc = model.Dni;
+                            //--
+                            ve.Estado = MagicHelpers.Compra;
+                            ve.tipoDoc = 1;
+                            ve.montoEfectivoSoles = model.Importe;
+                            ve.MontoTotalSoles = model.MontoPagar;
+                            db.Ventas.Add(ve);
+                            try
                             {
-                                for (int i = 0; i < paquete.cantidad; i++)
+                                db.SaveChanges();
+                                idVenta = ve.codVen;
+                            }
+                            catch (DbEntityValidationException dbEx)
+                            {
+                                foreach (var validationErrors in dbEx.EntityValidationErrors)
                                 {
-                                    int col = paquete.columnas[i];
-                                    int fil = paquete.filas[i];
-                                    List<Asientos> listasiento = context.Asientos.Where(x => x.codZona == paquete.idZona && x.fila == fil && x.columna == col).ToList();
-                                    AsientosXFuncion actAsiento = context.AsientosXFuncion.Find(listasiento.First().codAsiento, paquete.idFuncion);
-                                    actAsiento.estado = MagicHelpers.Ocupado;
-                                    actAsiento.codDetalleVenta = dt.codDetalleVenta;
-                                    actAsiento.PrecioPagado = pr.precio;
+                                    foreach (var validationError in validationErrors.ValidationErrors)
+                                    {
+                                        Trace.TraceInformation("Property: {0} Error: {1}",
+                                                                validationError.PropertyName,
+                                                                validationError.ErrorMessage);
+                                    }
                                 }
                             }
-                            else
+                            //para cada item del carrito
+                            for (int w = 0; w < carrito.Count; w++)
                             {
-                                //si no tiene asientos es una zonax funcion
-                                ZonaxFuncion ZXF = context.ZonaxFuncion.Find(paquete.idFuncion, paquete.idZona);
-                                if (ZXF.cantLibres < paquete.cantidad)
+                                CarritoItem paquete = carrito[w];
+                                //zona del evento
+                                ZonaEvento zo = db.ZonaEvento.Find(paquete.idZona);
+                                //en que perdiodo de venta estamos
+                                PeriodoVenta per = db.PeriodoVenta.Where(c => c.codEvento == paquete.idEvento && c.fechaInicio <= hoy && c.fechaFin >= hoy).ToList().First();
+                                PrecioEvento pr = db.PrecioEvento.Where(c => c.codZonaEvento == paquete.idZona && c.codPeriodoVenta == per.idPerVent).ToList().First();
+                                //la venta x funcion requerida
+                                VentasXFuncion vf = new VentasXFuncion();
+                                //si ya existe una venta x funcion de esta venta
+                                if (db.VentasXFuncion.Any(c => c.codVen == ve.codVen && c.codFuncion == paquete.idFuncion))
                                 {
-                                    //genero una exception para detener la compra?
-                                    throw new Exception();
+                                    vf = db.VentasXFuncion.Where(c => c.codVen == ve.codVen && c.codFuncion == paquete.idFuncion).First();
+                                    vf.cantEntradas += paquete.cantidad;
+                                    vf.subtotal += paquete.cantidad * pr.precio;
+                                    float? porcDescuento = 0;
+                                    if (model.idPromociones[w] != -1)
+                                    {
+                                        int idPromocion = model.idPromociones[w];
+                                        Promociones promocion = db.Promociones.Where(c => c.codPromo == idPromocion && c.codEvento == paquete.idEvento).First();
+                                        porcDescuento = promocion.descuento / 100;
+                                    }
+                                    vf.descuento += (int?)(vf.subtotal * porcDescuento);
+                                    vf.total += paquete.cantidad * pr.precio - vf.descuento;
                                 }
                                 else
-                                    ZXF.cantLibres -= paquete.cantidad;
+                                {
+                                    //creo una nueva ventaxfuncion
+                                    vf.codVen = ve.codVen;
+                                    vf.cantEntradas = paquete.cantidad;
+                                    vf.codFuncion = paquete.idFuncion;
+                                    vf.Ventas = ve;
+                                    vf.Funcion = db.Funcion.Find(paquete.idFuncion);
+                                    float? porcDescuento = 0;
+                                    if (model.idPromociones[w] != -1)
+                                    {
+                                        int idPromocion = model.idPromociones[w];
+                                        Promociones promocion = db.Promociones.Where(c => c.codPromo == idPromocion && c.codEvento == paquete.idEvento).First();
+                                        porcDescuento = promocion.descuento / 100;
+                                    }
+                                    vf.subtotal = paquete.cantidad * pr.precio;
+                                    vf.descuento = (int?)(vf.subtotal * porcDescuento);
+                                    vf.total = vf.subtotal - vf.descuento;
+                                    db.VentasXFuncion.Add(vf);
+                                }
+                                db.SaveChanges();
+                                //detalle de venta
+                                DetalleVenta dt = new DetalleVenta();
+                                dt.cantEntradas = paquete.cantidad;
+                                dt.codFuncion = paquete.idFuncion;
+                                dt.codPrecE = pr.codPrecioEvento;
+                                dt.total = vf.total;
+                                dt.entradasDev = 0;
+                                dt.descTot = vf.descuento;
+                                dt.codVen = vf.codVen;
+                                db.DetalleVenta.Add(dt);
+                                if (paquete.filas != null && paquete.filas.Count > 0) paquete.tieneAsientos = true;
+                                //actualizo el mondo adeudado 
+                                Eventos evento = db.Eventos.Find(paquete.idEvento);
+                                evento.monto_adeudado += (double)(paquete.cantidad * pr.precio * evento.porccomision / 100 + evento.montoFijoVentaEntrada);
+                                db.SaveChanges();
+                                //si tengo asientos, actualizo los asientos a ocupado
+                                if (paquete.tieneAsientos)
+                                {
+                                    for (int i = 0; i < paquete.cantidad; i++)
+                                    {
+                                        int col = paquete.columnas[i];
+                                        int fil = paquete.filas[i];
+                                        List<Asientos> listasiento = context.Asientos.Where(x => x.codZona == paquete.idZona && x.fila == fil && x.columna == col).ToList();
+                                        AsientosXFuncion actAsiento = context.AsientosXFuncion.Find(listasiento.First().codAsiento, paquete.idFuncion);
+                                        actAsiento.estado = MagicHelpers.Ocupado;
+                                        actAsiento.codDetalleVenta = dt.codDetalleVenta;
+                                        actAsiento.PrecioPagado = pr.precio;
+                                    }
+                                }
+                                else
+                                {
+                                    //si no tiene asientos es una zonax funcion
+                                    ZonaxFuncion ZXF = context.ZonaxFuncion.Find(paquete.idFuncion, paquete.idZona);
+                                    if (ZXF.cantLibres < paquete.cantidad)
+                                    {
+                                        //genero una exception para detener la compra?
+                                        throw new Exception();
+                                    }
+                                    else
+                                        ZXF.cantLibres -= paquete.cantidad;
+                                }
+                                if (User.Identity.IsAuthenticated)
+                                {//si es u usuario registrado le aumento los puntos que tiene
+                                    CuentaUsuario dbCuenta = db.CuentaUsuario.Find(cuenta.correo);
+                                    dbCuenta.puntos += db.Eventos.Find(paquete.idEvento).puntosAlCliente * paquete.cantidad;
+                                }
                             }
-                            if (User.Identity.IsAuthenticated)
-                            {//si es u usuario registrado le aumento los puntos que tiene
-                                CuentaUsuario dbCuenta = db.CuentaUsuario.Find(cuenta.correo);
-                                dbCuenta.puntos += db.Eventos.Find(paquete.idEvento).puntosAlCliente * paquete.cantidad;
-                            }
+
+                            db.SaveChanges();
+
+                            context.SaveChanges();
                         }
-
-                        db.SaveChanges();
-
-                        context.SaveChanges();
-                    }
-                    catch (OptimisticConcurrencyException ex)
-                    {
-                        //hubo un problema con la compra, remuevo el item
-                        if (idVenta != 0)
+                        catch (OptimisticConcurrencyException ex)
                         {
-                            Ventas remover = db.Ventas.Find(idVenta);
-                            db.Ventas.Remove(remover);
+                            //hubo un problema con la compra, remuevo el item
+                            if (idVenta != 0)
+                            {
+                                Ventas remover = db.Ventas.Find(idVenta);
+                                db.Ventas.Remove(remover);
+                            }
+                            TempData["tipo"] = "alert alert-warning";
+                            TempData["message"] = "Error en la compra.";
+                            return View(model);
                         }
-                        TempData["tipo"] = "alert alert-warning";
-                        TempData["message"] = "Error en la compra.";
-                        return View(model);
                     }
+                    TempData["tipo"] = "alert alert-success";
+                    TempData["message"] = "Compra Realizada. Muchas Gracias.";
+                    //si toda la compra se procesa de manera correcta eliminamos los session
+                    Session["CarritoItem"] = null;
+                    Session["Carrito"] = null;
+                    if (Request.IsAuthenticated)
+                    {
+                        EnviarCorreo(idVenta);
+                    }
+                    return RedirectToAction("Index", "Home");
                 }
-                TempData["tipo"] = "alert alert-success";
-                TempData["message"] = "Compra Realizada. Muchas Gracias.";
-                //si toda la compra se procesa de manera correcta eliminamos los session
-                Session["CarritoItem"] = null;
-                Session["Carrito"] = null;
-                return RedirectToAction("Index", "Home");
             }
             //saco el carrito del session
             List<CarritoItem> carrito2 = (List<CarritoItem>)Session["CarritoItem"];
