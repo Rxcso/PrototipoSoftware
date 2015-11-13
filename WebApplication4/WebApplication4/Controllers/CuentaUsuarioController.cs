@@ -354,8 +354,17 @@ namespace WebApplication4.Controllers
                                 }
                                 if (User.Identity.IsAuthenticated)
                                 {//si es u usuario registrado le aumento los puntos que tiene
-                                    CuentaUsuario dbCuenta = db.CuentaUsuario.Find(cuenta.correo);
-                                    dbCuenta.puntos += db.Eventos.Find(paquete.idEvento).puntosAlCliente * paquete.cantidad;
+                                    try
+                                    {
+                                        CuentaUsuario dbCuenta = db.CuentaUsuario.Find(cuenta.correo);
+                                        dbCuenta.puntos += db.Eventos.Find(paquete.idEvento).puntosAlCliente * paquete.cantidad;
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Ventas remover = db.Ventas.Find(idVenta);
+                                        db.Ventas.Remove(remover);
+                                    }
+                                    
                                 }
                             }
 
