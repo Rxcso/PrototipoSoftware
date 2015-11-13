@@ -223,7 +223,7 @@ namespace WebApplication4.Controllers
                             if (paquete.filas != null && paquete.filas.Count > 0) paquete.tieneAsientos = true;
                             //actualizo el mondo adeudado 
                             Eventos evento = db.Eventos.Find(paquete.idEvento);
-                            evento.monto_adeudado += (double)(paquete.cantidad * pr.precio * evento.porccomision/100 + evento.montoFijoVentaEntrada);
+                            evento.monto_adeudado += (double)(paquete.cantidad * pr.precio * evento.porccomision / 100 + evento.montoFijoVentaEntrada);
                             db.SaveChanges();
                             //si tengo asientos, actualizo los asientos a ocupado
                             if (paquete.tieneAsientos)
@@ -282,6 +282,39 @@ namespace WebApplication4.Controllers
                 Session["Carrito"] = null;
                 return RedirectToAction("Index", "Home");
             }
+            //saco el carrito del session
+            List<CarritoItem> carrito2 = (List<CarritoItem>)Session["CarritoItem"];
+            //lista de bancos
+            List<Banco> bancos = db.Banco.ToList();
+            ViewBag.Bancos = new SelectList(bancos, "codigo", "nombre",model.idBanco);
+            //lista de tarjetas
+            List<TipoTarjeta> tipoTarjeta = db.TipoTarjeta.ToList();
+            ViewBag.TipoTarjeta = new SelectList(tipoTarjeta, "idTipoTar", "nombre",model.idTipoTarjeta);
+            List<Promociones> listaPromociones = new List<Promociones>();
+            double total = 0;
+            double descuento = 0;
+            foreach (CarritoItem item in carrito2)
+            {
+                total += item.precio;
+                Promociones promocion = CalculaMejorPromocionTarjeta(item.idEvento,model.idBanco, model.idTipoTarjeta);
+                if (promocion == null)
+                {
+                    Promociones dummy = new Promociones();
+                    dummy.codPromo = -1;
+                    listaPromociones.Add(dummy);
+                }
+                else
+                {
+                    descuento += item.precio * promocion.descuento.Value / 100;
+                    listaPromociones.Add(promocion);
+                }
+            }
+            ViewBag.Descuento = descuento;
+            ViewBag.Promociones = listaPromociones;
+            ViewBag.Total = total;
+            ViewBag.Pagar = total - descuento;
+            ViewBag.Mes = Fechas.Mes();
+            ViewBag.AnVen = Fechas.Anio();
             return View(model);
         }
 
@@ -1133,7 +1166,7 @@ namespace WebApplication4.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
 
-            
+
         }
         public ApplicationUserManager UserManager
         {
