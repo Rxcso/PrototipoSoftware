@@ -286,17 +286,17 @@ namespace WebApplication4.Controllers
             List<CarritoItem> carrito2 = (List<CarritoItem>)Session["CarritoItem"];
             //lista de bancos
             List<Banco> bancos = db.Banco.ToList();
-            ViewBag.Bancos = new SelectList(bancos, "codigo", "nombre",model.idBanco);
+            ViewBag.Bancos = new SelectList(bancos, "codigo", "nombre", model.idBanco);
             //lista de tarjetas
             List<TipoTarjeta> tipoTarjeta = db.TipoTarjeta.ToList();
-            ViewBag.TipoTarjeta = new SelectList(tipoTarjeta, "idTipoTar", "nombre",model.idTipoTarjeta);
+            ViewBag.TipoTarjeta = new SelectList(tipoTarjeta, "idTipoTar", "nombre", model.idTipoTarjeta);
             List<Promociones> listaPromociones = new List<Promociones>();
             double total = 0;
             double descuento = 0;
             foreach (CarritoItem item in carrito2)
             {
                 total += item.precio;
-                Promociones promocion = CalculaMejorPromocionTarjeta(item.idEvento,model.idBanco, model.idTipoTarjeta);
+                Promociones promocion = CalculaMejorPromocionTarjeta(item.idEvento, model.idBanco, model.idTipoTarjeta);
                 if (promocion == null)
                 {
                     Promociones dummy = new Promociones();
@@ -497,7 +497,34 @@ namespace WebApplication4.Controllers
             else Session["ListaCL"] = null;
             return RedirectToAction("BuscaCliente", "CuentaUsuario");
         }
+        public ActionResult SearchEntrega(string usuario, string tipo)
+        {
+            int ti = 0;
+            if (tipo != "") ti = int.Parse(tipo);
+            if (usuario == "" || usuario == null)
+            {
+                Session["EntregaBusca"] = null;
+                return RedirectToAction("Entrega", "Ventas");
+            }
+            List<Ventas> listareservas = new List<Ventas>();
+            if (ti == 0) listareservas = db.Ventas.AsNoTracking().Where(c => c.codDoc.Contains(usuario) && c.Estado == "Pagado").ToList();
+            else listareservas = db.Ventas.AsNoTracking().Where(c => c.tipoDoc == ti && c.codDoc.Contains(usuario) && c.Estado == "Pagado").ToList();
+            if (listareservas == null) return RedirectToAction("Entrega", "Ventas");
 
+            List<VentasXFuncion> listaRxF = new List<VentasXFuncion>();
+            for (int i = 0; i < listareservas.Count; i++)
+            {
+                int cov = listareservas[i].codVen;
+                List<VentasXFuncion> lvf = db.VentasXFuncion.Where(c => c.codVen == cov).ToList();
+                for (int j = 0; j < lvf.Count; j++)
+                {
+                    listaRxF.Add(lvf[j]);
+                }
+            }
+            if (listaRxF != null) Session["EntregaBusca"] = listaRxF;
+            else Session["EntregaBusca"] = null;
+            return RedirectToAction("Entrega", "Ventas");
+        }
         public ActionResult SearchReserva(string usuario, string tipo)
         {
             //if (tipo == "")
@@ -1171,6 +1198,7 @@ namespace WebApplication4.Controllers
 
 
         }
+
         public ApplicationUserManager UserManager
         {
             get

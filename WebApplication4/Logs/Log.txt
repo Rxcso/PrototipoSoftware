@@ -1195,3 +1195,12 @@ System.Collections.ListDictionaryInternal
 2015-11-12 19:56:06,696 [9] ERROR Ticknet - Exception Message - 
 Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
 2015-11-12 19:56:06,696 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-12 22:57:18,399 [23] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-12 22:57:18,430 [23] ERROR Ticknet - Exception Type - 
+ArgumentNullException
+2015-11-12 22:57:18,430 [23] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-12 22:57:18,430 [23] ERROR Ticknet - Exception Message - 
+El valor no puede ser nulo.
+Nombre del parámetro: String
+2015-11-12 22:57:18,430 [23] DEBUG Ticknet - ++++++++++++++++++++++++++++

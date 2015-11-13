@@ -1,7 +1,15 @@
-﻿
+﻿@using Microsoft.AspNet.Identity;
+@using WebApplication4.Models;
+
 @{
     ViewBag.Title = "Entrega";
     Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+    var db = new WebApplication4.Models.inf245netsoft();
+    List<VentasXFuncion> listaEntrega = null;
+    if (Session["EntregaBusca"] != null)
+    {
+        listaEntrega = (List<WebApplication4.Models.VentasXFuncion>)Session["EntregaBusca"];
+    }
 }
 
 <div class="container-fluid">
@@ -18,91 +26,123 @@
             <label for="dni" class="control-label">Tipo Doc:</label>
         </div>
         <div class="col-md-2">
-            <select for="dni" class="form-control">
-                <option value="">DNI</option>
-                <option value="">Pasaporte</option>
-                <option value="">Carnet Extranj</option>
+            <select class="form-control" name="" id="comboBusq">
+                <option value="0">Ambos</option>
+                <option value="1">DNI</option>
+                <option value="2">Pasaporte</option>
             </select>
         </div>
         <div class="col-md-2">
-            <label for="dni" class="control-label">Número Documento:</label>
+            <label for="dni" class="control-label">N° Documento:</label>
         </div>
         <div class="col-md-2">
             <div class="input-group">
-                <input id="dni" type="text" class="form-control">
-                <span class="input-group-btn"><button class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
+                <input id="idBusq" type="text" class="form-control">
+                <span class="input-group-btn"><button onclick="busca()" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
             </div>
         </div>
 
-        <div class="col-md-5 ">
+        <div class="col-md-5">
             <a href="#imprimir" class="btn btn-primary " data-toggle="modal">Entregar boletos <span class="glyphicon glyphicon-tags"></span></a>
-            <a href="index2.html" class="btn btn-danger pull-right">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+            <a href="@Url.Action("Index2", "Home")" class="btn btn-danger pull-right">Salir <span class="glyphicon glyphicon-log-out"></span></a>
         </div>
-        <div class="col-md-2">
-
-        </div>
-
     </div>
 
+
     <div class="row">
-        <h4>Resultados:</h4>
-        <table class="table table-bordered table-hover">
-            <tr class="active">
-                <th>Código Venta</th>
-                <th>N° Doc</th>
-                <th>Apellido Paterno</th>
-                <th>Apellido Materno</th>
-                <th>Nombres</th>
-                <th>Evento</th>
-                <th>Cant. boletos</th>
-                <th>Fecha</th>
-                <th>Hora</th>
-            </tr>
-            <tr>
-                <td>105060</td>
-                <td>46618582</td>
-                <td>Espinoza</td>
-                <td>Torres</td>
-                <td>Henry Antonio</td>
-                <td>Circo de Kiko</td>
-                <td>4</td>
-                <td>31/10/2015</td>
-                <td>14:00</td>
-            </tr>
-            <tr>
-                <td>105060</td>
-                <td>46618582</td>
-                <td>Espinoza</td>
-                <td>Torres</td>
-                <td>Henry Antonio</td>
-                <td>La Tarumba</td>
-                <td>8</td>
-                <td>02/11/2015</td>
-                <td>19:00</td>
-            </tr>
-            </tr>
-            <tr>
-                <td>105060</td>
-                <td>46618582</td>
-                <td>Espinoza</td>
-                <td>Torres</td>
-                <td>Henry Antonio</td>
-                <td>Los 3 chiflados</td>
-                <td>2</td>
-                <td>09/10/2015</td>
-                <td>19:00</td>
-            </tr>
-            </tr>
-        </table>
+        <h4>Resultados:</h4><br>
+        <div class="row">
+            <table id="mytable" class="table table-bordered table-hover">
+                <thead>
+                    <tr class="thead">
+                        <th>Código Venta</th>
+                        <th>N° Doc</th>
+                        <th>Nombre</th>
+                        <th>Evento</th>
+                        <th>Cantidad Entradas</th>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Monto Total</th>
+
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                    @if (listaEntrega != null)
+                    {
+                        foreach (var row in listaEntrega)
+                        {
+                            <tr id=@row.codVen onclick="myFunction(this)">
+                                <td>@row.codVen</td>
+                                @{
+                            Ventas ve = db.Ventas.Find(row.codVen);
+                            Funcion fu = db.Funcion.Find(row.codFuncion);
+                            CuentaUsuario cu = db.CuentaUsuario.Find(ve.cliente);
+                            TimeSpan ti = fu.horaIni.Value.TimeOfDay;
+                                }
+                                <td>@ve.codDoc</td>
+                                @if (cu != null && cu.usuario != "a@anonimo.com")
+                                {
+                                    <td>@cu.nombre @cu.apellido</td>
+                                }
+                                else
+                                {
+                                    <td>--</td>
+                                }
+                                <td>@db.Eventos.Find(fu.codEvento).nombre</td>
+                                <td>@row.cantEntradas</td>
+                                <td>@fu.fecha.Value.ToString("dd/MM/yyyy")</td>
+                                <td>@ti.ToString(@"hh\:mm\:ss")</td>
+                                <td>@ve.MontoTotalSoles</td>
+
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
     </div><br>
 
+</div>
 
+<input type="hidden" id="codVenT" value="" />
+<script>
+    function myFunction(x) {
+        if (document.getElementsByClassName("trselected").length > 0) {
+            var element = document.getElementsByClassName("trselected");
+            //element.item[0].cells[0].innerText;
+            element[0].className = "";
+        }
+        //var tabla = document.getElementById("mytable");
+        //alert(x);
+        //var y = x.getCells();
+        var elem = document.getElementById("codVenT");
+        elem.value = x.cells[0].innerHTML;
+        x.className = "trselected";
 
+    }
+    function busca() {
+        var usuario = $('#idBusq').val();
+        var tipo = $('#comboBusq option:selected').val();
 
-    <br><br>
+        $.ajax({
+            url: "@Url.Action("SearchEntrega", "CuentaUsuario")",
+            data: { usuario: usuario, tipo: tipo },
+            success: function (data) {
+                window.location.href = '/Ventas/Entrega';
+            },
+            error: function () {
+                alert("Error :(");
+            }
+        });
 
+    }
 
-</div><!--Fin del container-->
+</script>
+<style>
+    .trselected {
+        background: gray;
+    }
+</style>
 
 
 <div class="modal fade" id="imprimir">
