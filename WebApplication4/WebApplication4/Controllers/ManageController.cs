@@ -233,30 +233,31 @@ namespace WebApplication4.Controllers
             {
                 if (cliente.contrasena != model.NewPassword)
                 {
-                    var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
-                    if (result.Succeeded)
+                    if (model.NewPassword == model.ConfirmPassword)
                     {
-                        var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-                        cliente.contrasena = model.NewPassword;
-                        db.SaveChanges();
-                        TempData["tipo"] = "alert alert-success";
-                        TempData["message"] = "Contraseña cambiada Exitosamente";
-                        if (user != null)
+                        var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+                        if (result.Succeeded)
                         {
-                            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                            cliente.contrasena = model.NewPassword;
+                            db.SaveChanges();
+                            TempData["tipo"] = "alert alert-success";
+                            TempData["message"] = "Contraseña cambiada Exitosamente";
+                            if (user != null)
+                            {
+                                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                            }
+                            /*Aca deberia retornarte a MiCuenta de CuentaUsuario*/
+                            return RedirectToAction("MiCuenta", "CuentaUsuario");
                         }
-                        /*Aca deberia retornarte a MiCuenta de CuentaUsuario*/
-                        return RedirectToAction("MiCuenta", "CuentaUsuario");
+                        else
+                        {
+                            ModelState.AddModelError("NewPassword", "Las contraseñas deben tener 6 caracteres como mínimo y una combinación de caracteres especiales, letras, letras mayúsculas y números");
+                        }    
                     }
                     else
                     {
-                        ModelState.AddModelError("NewPassword", "Las contraseñas deben tener 6 caracteres como mínimo y una combinación de caracteres especiales, letras, letras mayúsculas y números");
-
-                        if (model.NewPassword != model.ConfirmPassword)
-                        {
-                            ModelState.AddModelError("ConfirmPassword", "Las contraseñas no coinciden");
-                        }
-
+                        ModelState.AddModelError("ConfirmPassword", "Las contraseñas no coinciden");
                     }
                 }
                 else //Cuando contraseña igual a antigua
