@@ -1,0 +1,84 @@
+﻿@using WebApplication4.Models
+@model ReservaOrganizadorModel
+
+
+@{
+    ViewBag.Title = "Reservas de Organizador";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int tot =Model.idZona.Length;
+
+
+
+
+}
+
+<div class="container">
+
+    <h2>@Model.nameEvento</h2>
+
+    <br />
+    @if( tot>0 ){
+
+using (Html.BeginForm("ReservaOrganizador", "Evento", FormMethod.Post, new { id="ReservaForm" }))
+{
+
+    <div class=" row">
+        <button class="btn btn-primary" type="sumit">Descartar Reserva</button>
+        </div>
+    <br />
+    <div class="row">
+        <div class="col-md-12 table-responsive">
+            <thsead>
+            </thsead><table class="table table-bordered table-hover">
+                <tbody>
+                    <tr class="thead">
+                        <th>Funcion</th>
+                        <th>
+                            Zona
+                        </th>
+                        <th>
+                            Asiento
+                        </th>
+                        <th>Eliminar</th>
+
+                    </tr>
+
+                </tbody>
+                <tbody>
+                    @Html.HiddenFor(c=>c.idEvento)
+                    @{
+                        
+                        for (int i = 0; i < tot; i++)
+                        {
+                            <tr id="xxx">
+                                
+                                @Html.HiddenFor(c => c.idFuncion[i])
+                                @Html.HiddenFor(c => c.idZona[i])
+                                @Html.HiddenFor(c => c.idAsiento[i])
+                                <td> @Html.DisplayFor(c => c.nameFuncion[i]) </td>
+                                <td>@Html.DisplayFor(c => c.nameZona[i])</td>
+                                <td> @Html.DisplayFor(c => c.AsientoXFuncion[i]) </td>
+                                <td> @if( DateTime.Parse(Model.nameFuncion[i]) > DateTime.Now ){
+                                 @Html.CheckBoxFor(c => c.eliminar[i])
+                                
+                                }
+                                else{
+                                @("Pasado");
+}
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+}
+
+    }
+    else{
+    <div> El Organizador no realizo ninguna reserva</div>
+
+}
+</div>
