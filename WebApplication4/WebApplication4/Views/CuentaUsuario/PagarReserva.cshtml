@@ -1,8 +1,119 @@
-﻿
+﻿@using WebApplication4.Models
+@model ComprarEntradaModel
 @{
     ViewBag.Title = "PagarReserva";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    inf245netsoft db = new inf245netsoft();
+    string nombre = "";
+    string dni = "";
+    if (Request.IsAuthenticated)
+    {
+        CuentaUsuario user = db.CuentaUsuario.Where(c => c.correo == User.Identity.Name).First();
+        nombre = user.nombre + " " + user.apellido;
+        dni = user.codDoc;
+    }
+    List<Promociones> promocionesLista = new List<Promociones>();
+    List<CarritoItem> carrito = new List<CarritoItem>();
+    double? importe = 0;
+    double? descuento = 0;
+    double? montopagar = 0;
 }
 
-<h2>PagarReserva</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8" id="tarjeta">
+            <h3>Información de la tarjeta</h3><br />
+            @using (Html.BeginForm("ComprarEntrada", "CuentaUsuario", FormMethod.Post, new { @id = "formPost" }))
+            {
+                <div class="row form-group">
+                    @Html.LabelFor(c => c.Nombre, new { @class = "control-label col-md-3" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(c => c.Nombre, new { @class = "form-control", @readonly = "readonly", @Value = nombre })
+                    </div>
+                </div>
+                <div class="row form-group">
+                    @Html.LabelFor(c => c.Dni, new { @class = "control-label col-md-3" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(c => c.Dni, new { @class = "form-control", @readonly = "readonly", @Value = dni })
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    @Html.LabelFor(c => c.idBanco, new { @class = "control-label col-md-3" })
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(c => c.idBanco, ViewBag.Bancos as SelectList, new { @class = "form-control", @onchange = "calculaPromo()" })
+                        @Html.ValidationMessageFor(c => c.idBanco)
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    @Html.LabelFor(c => c.idTipoTarjeta, new { @class = "control-label col-md-3" })
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(c => c.idTipoTarjeta, ViewBag.TipoTarjeta as SelectList, new { @class = "form-control", @onchange = "calculaPromo()" })
+                        @Html.ValidationMessageFor(c => c.idTipoTarjeta)
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    @Html.LabelFor(c => c.NumeroTarjeta, new { @class = "control-label col-md-3" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(c => c.NumeroTarjeta, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(c => c.NumeroTarjeta)
+                    </div>
+
+                </div>
+
+                <div class="row form-group">
+                    @Html.LabelFor(c => c.CodCcv, new { @class = "control-label col-md-3" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(c => c.CodCcv, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(c => c.CodCcv)
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    @Html.LabelFor(c => c.Mes, new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        @Html.DropDownListFor(c => c.Mes, ViewBag.Mes as List<SelectListItem>, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(c => c.Mes)
+                    </div>
+                    @Html.LabelFor(c => c.AnioVen, new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        @Html.DropDownListFor(c => c.AnioVen, ViewBag.AnVen as List<SelectListItem>, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(c => c.AnioVen)
+                    </div>
+                </div>
+
+                <h3>Información de montos</h3><br>
+                <div class="row form-group">
+                    @Html.LabelFor(c => c.Importe, new { @class = "control-label col-md-3" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(c => c.Importe, new { @class = "form-control", @Value = importe, @readonly = "readonly" })
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    @Html.LabelFor(c => c.Descuento, new { @class = "control-label col-md-3" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(c => c.Descuento, new { @class = "form-control", @Value = descuento, @readonly = "readonly" })
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    @Html.LabelFor(c => c.MontoPagar, new { @class = "control-label col-md-3" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(c => c.MontoPagar, new { @class = "form-control", @Value = montopagar, @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <input type="submit" value="Finalizar Compra" onclick="llenaArreglo()" class="btn btn-default btn-primary" />
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <br />
+    @*<button onclick="llenaArreglo()">Test</button>*@
+</div>
 

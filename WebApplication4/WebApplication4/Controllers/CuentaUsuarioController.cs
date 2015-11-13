@@ -81,6 +81,46 @@ namespace WebApplication4.Controllers
         [HttpGet]
         public ActionResult PagarReserva(string reserva)
         {
+            //model
+            ComprarEntradaModel model = new ComprarEntradaModel();
+            //venta involucrada
+            int codVenta = int.Parse(reserva);
+            Ventas venta = db.Ventas.Where(c => c.codVen == codVenta).First();
+            //sacamos el detalle de venta
+            VentasXFuncion vxf = db.VentasXFuncion.Where(c => c.codVen == codVenta).First();
+            //llenamos el model
+            
+            //lista de bancos
+            List<Banco> bancos = db.Banco.ToList();
+            ViewBag.Bancos = new SelectList(bancos, "codigo", "nombre");
+            //lista de tarjetas
+            List<TipoTarjeta> tipoTarjeta = db.TipoTarjeta.ToList();
+            ViewBag.TipoTarjeta = new SelectList(tipoTarjeta, "idTipoTar", "nombre");
+            List<Promociones> listaPromociones = new List<Promociones>();
+            double total = 0;
+            double descuento = 0;
+            /*foreach (CarritoItem item in carrito)
+            {
+                total += item.precio;
+                Promociones promocion = CalculaMejorPromocionTarjeta(item.idEvento, bancos.First().codigo, tipoTarjeta.First().idTipoTar);
+                if (promocion == null)
+                {
+                    Promociones dummy = new Promociones();
+                    dummy.codPromo = -1;
+                    listaPromociones.Add(dummy);
+                }
+                else
+                {
+                    descuento += item.precio * promocion.descuento.Value / 100;
+                    listaPromociones.Add(promocion);
+                }
+            }*/
+            ViewBag.Descuento = descuento;
+            ViewBag.Promociones = listaPromociones;
+            ViewBag.Total = total;
+            ViewBag.Pagar = total - descuento;
+            ViewBag.Mes = Fechas.Mes();
+            ViewBag.AnVen = Fechas.Anio();
             return View();
         }
 
@@ -148,7 +188,7 @@ namespace WebApplication4.Controllers
             int mes = model.Mes;
             int anio = model.AnioVen;
             DateTime hoy = DateTime.Today;
-            if ((mes<hoy.Month && anio == hoy.Year))
+            if ((mes < hoy.Month && anio == hoy.Year))
             {
                 ind = false;
                 ModelState.AddModelError("AnioVen", "La tarjeta ya venció.");
@@ -169,7 +209,7 @@ namespace WebApplication4.Controllers
                 System.Net.NetworkCredential credentials = new System.Net.NetworkCredential(MagicHelpers.CorreoVentas, MagicHelpers.ContraVentas);
                 SmtpServer.UseDefaultCredentials = false;
                 SmtpServer.Credentials = credentials;
-                
+
                 MailMessage mail = new MailMessage();
                 mail.From = new MailAddress(MagicHelpers.CorreoVentas);
                 mail.To.Add(User.Identity.Name);
@@ -192,8 +232,8 @@ namespace WebApplication4.Controllers
                     relleno += "</tr>";
                 }
                 mail.Body = htmlBody + relleno;
-                
-              
+
+
                 SmtpServer.Send(mail);
             }
             catch (Exception ex)
@@ -361,7 +401,7 @@ namespace WebApplication4.Controllers
                                         Ventas remover = db.Ventas.Find(idVenta);
                                         db.Ventas.Remove(remover);
                                     }
-                                    
+
                                 }
                             }
 
