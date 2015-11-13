@@ -85,6 +85,7 @@ namespace WebApplication4.Controllers
             ComprarEntradaModel model = new ComprarEntradaModel();
             //venta involucrada
             int codVenta = int.Parse(reserva);
+            ViewBag.Venta = codVenta;
             Ventas venta = db.Ventas.Where(c => c.codVen == codVenta).First();
             //sacamos el detalle de venta
             VentasXFuncion vxf = db.VentasXFuncion.Where(c => c.codVen == codVenta).First();
@@ -116,6 +117,46 @@ namespace WebApplication4.Controllers
             model.MontoPagar = (double)vxf.total - model.Descuento;
             ViewBag.Mes = Fechas.Mes();
             ViewBag.AnVen = Fechas.Anio();
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult PagarReserva(ComprarEntradaModel model)
+        {
+            int codVenta = int.Parse((string)ViewBag.Venta);
+            if (ModelState.IsValid)
+            {
+                if (ValidacionesCompra(model))
+                {
+                    Ventas venta = db.Ventas.Find(codVenta);
+                    venta.Estado = MagicHelpers.Compra;
+                    VentasXFuncion vxf = db.VentasXFuncion.Where(c => c.codVen == venta.codVen).First();
+                    DetalleVenta detalle = db.DetalleVenta.Where(c => c.codVen == venta.codVen && c.codFuncion == vxf.Funcion.codFuncion).First();
+                    if (db.AsientosXFuncion.Any(c => c.codFuncion == vxf.Funcion.codFuncion && c.codDetalleVenta == detalle.codDetalleVenta))
+                    {
+                        List<AsientosXFuncion> axf = db.AsientosXFuncion.Where(c => c.codFuncion == vxf.Funcion.codFuncion && c.codDetalleVenta == detalle.codDetalleVenta).ToList();
+                        foreach (AsientosXFuncion asientoxf in axf)
+                        {
+                            asientoxf.estado = MagicHelpers.Ocupado;
+
+                        }
+                    }
+                    try
+                    {
+                        db.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        TempData["tipo"] = "alert alert-warning";
+                        TempData["message"] = "Error el pago.";
+                        return RedirectToAction("MiCuenta");
+                    }
+                }
+                TempData["tipo"] = "alert alert-success";
+                TempData["message"] = "Reserva Pagada. Muchas Gracias.";
+                EnviarCorreo(codVenta);
+                return RedirectToAction("MiCuenta");
+            }
             return View(model);
         }
 
