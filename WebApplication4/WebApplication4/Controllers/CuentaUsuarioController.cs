@@ -77,6 +77,13 @@ namespace WebApplication4.Controllers
             }
         }
 
+
+        [HttpGet]
+        public ActionResult PagarReserva(string reserva)
+        {
+            return View();
+        }
+
         [HttpGet]
         [AllowAnonymous]
         public ActionResult ComprarEntrada()
@@ -118,16 +125,6 @@ namespace WebApplication4.Controllers
                 ViewBag.AnVen = Fechas.Anio();
                 return View();
             }
-            else
-            {
-                //lista de bancos
-                List<Banco> bancos = db.Banco.ToList();
-                ViewBag.Bancos = new SelectList(bancos, "codigo", "nombre");
-                //lista de tarjetas
-                List<TipoTarjeta> tipoTarjeta = db.TipoTarjeta.ToList();
-                ViewBag.TipoTarjeta = new SelectList(tipoTarjeta, "idTipoTar", "nombre");
-
-            }
             TempData["tipo"] = "alert alert-warning";
             TempData["message"] = "No hay items en el carrito.";
             return RedirectToAction("MiCarrito");
@@ -151,10 +148,10 @@ namespace WebApplication4.Controllers
             int mes = model.Mes;
             int anio = model.AnioVen;
             DateTime hoy = DateTime.Today;
-            if (mes < hoy.Month)
+            if ((mes<hoy.Month && anio == hoy.Year))
             {
                 ind = false;
-                ModelState.AddModelError("Mes", "La tarjeta ya venció.");
+                ModelState.AddModelError("AnioVen", "La tarjeta ya venció.");
             }
             return ind;
         }
@@ -354,8 +351,17 @@ namespace WebApplication4.Controllers
                                 }
                                 if (User.Identity.IsAuthenticated)
                                 {//si es u usuario registrado le aumento los puntos que tiene
-                                    CuentaUsuario dbCuenta = db.CuentaUsuario.Find(cuenta.correo);
-                                    dbCuenta.puntos += db.Eventos.Find(paquete.idEvento).puntosAlCliente * paquete.cantidad;
+                                    try
+                                    {
+                                        CuentaUsuario dbCuenta = db.CuentaUsuario.Find(cuenta.correo);
+                                        dbCuenta.puntos += db.Eventos.Find(paquete.idEvento).puntosAlCliente * paquete.cantidad;
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Ventas remover = db.Ventas.Find(idVenta);
+                                        db.Ventas.Remove(remover);
+                                    }
+                                    
                                 }
                             }
 

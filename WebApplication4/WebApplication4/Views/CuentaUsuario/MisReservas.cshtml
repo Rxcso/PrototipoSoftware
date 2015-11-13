@@ -42,7 +42,7 @@
                     <h4>Mis reservas vigentes:</h4>
                 </div>
                 <div class="col-md-6">
-                    <a href="@Url.Action("ComprarEntrada","CuentaUsuario")" class="btn btn-primary pull-right">Pagar reserva <span class="glyphicon glyphicon-usd"></span></a>
+                    <a href="@Url.Action("PagarReserva","CuentaUsuario")" class="btn btn-primary pull-right">Pagar reserva <span class="glyphicon glyphicon-usd"></span></a>
                 </div>
 
             </div>
@@ -75,7 +75,7 @@
                                         }
                                         <td>@db.Eventos.Find(fu.codEvento).nombre</td>
                                         <td>@fu.fecha.Value.ToString("dd/MM/yyyy")</td>
-                                        <td>@String.Format("{0:t}",fu.horaIni)</td>
+                                        <td>@String.Format("{0:t}", fu.horaIni)</td>
                                         <td>@row.cantEntradas</td>
                                         @{
                                         List<DetalleVenta> ld = db.DetalleVenta.Where(c => c.codFuncion == fu.codFuncion && c.codVen == row.codVen).ToList();
@@ -84,7 +84,7 @@
                                         List<AsientosXFuncion> laf = null;
                                         AsientosXFuncion af = null;
                                         ZonaEvento zon = null;
-                                        string asientos="";
+                                        string asientos = "";
                                         if (ld != null && ld.Count != 0)
                                         {
                                             de = ld.First();
@@ -95,14 +95,16 @@
                                             laf = db.AsientosXFuncion.Where(c => c.codFuncion == de.codFuncion && c.codDetalleVenta == de.codDetalleVenta).ToList();
                                         }
                                         if (laf != null && laf.Count != 0)
-                                        {                                            
+                                        {
                                             af = laf.First();
                                             for (int j = 0; j < laf.Count; j++)
                                             {
-                                                if (j == 0){
+                                                if (j == 0)
+                                                {
                                                     asientos = "" + db.Asientos.Find(laf[j].codAsiento).fila + "-" + db.Asientos.Find(laf[j].codAsiento).columna;
                                                 }
-                                                else{
+                                                else
+                                                {
                                                     asientos = asientos + ", " + db.Asientos.Find(laf[j].codAsiento).fila + "-" + db.Asientos.Find(laf[j].codAsiento).columna;
                                                 }
                                             }
@@ -137,72 +139,56 @@
 
             <br>
         </div>
-        <!--LOS EVENTOS DESTACADOS-->
-        @*<div class="col-md-4">
-                <div class="headDestacados">
-                    EVENTOS DESTACADOS
-                </div>
-                <div id="carousel-1" class="carousel slide" data-ride="carousel">
-                    <!--indicadores primero-->
-                    <ol class="carousel-indicators">
-                        <!--
-                                          <li data-target="#carousel-1" data-slide-to="0" class="active"></li>
-                                          <li data-target="#carousel-1" data-slide-to="1"></li>
-                                          <li data-target="#carousel-1" data-slide-to="2"></li>
-                                          <li data-target="#carousel-1" data-slide-to="3"></li>
-                                          <li data-target="#carousel-1" data-slide-to="4"></li>
-                                          <li data-target="#carousel-1" data-slide-to="5"></li>
-                        -->
-                    </ol>
-                    <!--Contenedor de los slide-->
-                    <div class="carousel-inner" role="listbox">
-                        <div class="item active">
-                            <a href="verEvento.html"><img src="images/destacados/img1.jpg" width="1200px" class="img-responsive" alt=""></a>
-                        </div>
-                        <div class="item">
-                            <a href="verEvento.html"><img src="images/destacados/image2.jpg" width="1200px" class="img-responsive" alt=""></a>
-                        </div>
-                        <div class="item">
-                            <a href="verEvento.html"><img src="images/destacados/img3.jpg" width="1200px" class="img-responsive" alt=""></a>
-                        </div>
-                        <div class="item">
-                            <a href="verEvento.html"><img src="images/destacados/img4.jpg" width="1200px" class="img-responsive" alt=""></a>
-                        </div>
-                        <div class="item">
-                            <a href="verEvento.html"><img src="images/destacados/img5.jpg" width="1200px" class="img-responsive" alt=""></a>
-                        </div>
-                        <div class="item">
-                            <a href="verEvento.html"><img src="images/destacados/img6.jpg" width="1200px" class="img-responsive" alt=""></a>
-                        </div>
-                    </div>
-                    <!--Controles-->
-                    <a href="#carousel-1" class="left carousel-control" role="button" data-slide="prev">
-                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                    </a>
-                    <a href="#carousel-1" class="right carousel-control" role="button" data-slide="next">
-                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                    </a>
-                </div>
-            </div>*@
-
     </div>
 </div><!--Fin del container-->
 
+<input type="hidden" id="codVenT" value="" />
 <script>
-    function verEvento() {
-        window.open("ver_evento.html", "_self");
-    }
-    function buscar() {
-        window.open("index1.html", "_self");
-    }
-    function ingresar() {
-        window.open("mi_cuenta.html", "_self");
-    }
-</script>
+    function myFunction(x) {
+        if (document.getElementsByClassName("trselected").length > 0) {
+            var element = document.getElementsByClassName("trselected");
+            //element.item[0].cells[0].innerText;
+            element[0].className = "";
+        }
+        //var tabla = document.getElementById("mytable");
+        //alert(x);
+        //var y = x.getCells();
+        var elem = document.getElementById("codVenT");
+        elem.value = x.cells[0].innerHTML;
+        x.className = "trselected";
 
-<script>
-    function select() {
-        document.getElementById("fila3").style.backgroundColor = "#ddd";
     }
-</script>
+    function busca() {
+        var usuario = $('#idBusq').val();
+        var tipo = $('#comboBusq option:selected').val();
 
+        $.ajax({
+            url: "@Url.Action("SearchReserva", "CuentaUsuario")",
+            data: { usuario: usuario, tipo: tipo },
+            success: function (data) {
+                window.location.href = '/CuentaUsuario/BuscaReserva';
+            },
+            error: function () {
+                alert("Error :(");
+            }
+        });
+
+    }
+
+    function redirigeReserva() {
+        var reserva = $('#codVenT').val();
+        if (reserva != "") {
+            window.location.href = '/Ventas/PagarReserva?reserva=' + reserva;
+        } else {
+            alert("Seleccione una Reserva");
+            evento = "";
+        }
+
+    }
+
+</script>
+<style>
+    .trselected {
+        background: gray;
+    }
+</style>

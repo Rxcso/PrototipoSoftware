@@ -123,7 +123,7 @@
                             @Html.AntiForgeryToken()
 
                             <div class="nav navbar-nav navbar-right">
-                                <font color="white"> Hello @nombre!</font>
+                                <font color="white"> Bienvenido @nombre ! </font>
                                 <a type="button" class="btn btn-default" href="javascript:document.getElementById('logoutForm').submit()">Cerrar Sesion <span class="glyphicon glyphicon-log-out"></span></a>
                             </div>
                         }
@@ -206,7 +206,7 @@ else
                                     @Html.AntiForgeryToken()
 
                                     <div class="nav navbar-nav navbar-right">
-                                        <a type="button" class="btn btn-primary" href="@Url.Action("MiCuenta","CuentaUsuario")"> Hola @nombre !</a>
+                                        <a type="button" class="btn btn-primary" href="@Url.Action("MiCuenta","CuentaUsuario")"> Bienvenido @nombre !</a>
                                         <a type="button" class="btn btn-danger" href="javascript:document.getElementById('logoutForm').submit()">Salir <span class="glyphicon glyphicon-log-out"></span></a>
                                     </div>
                                 }

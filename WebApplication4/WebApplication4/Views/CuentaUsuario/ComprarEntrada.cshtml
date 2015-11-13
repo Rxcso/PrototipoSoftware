@@ -88,6 +88,7 @@
                         }
                     </div>
                 </div>
+                
                 <div class="row form-group">
                     @Html.LabelFor(c => c.idBanco, new { @class = "control-label col-md-3" })
                     <div class="col-md-4">
@@ -125,6 +126,7 @@
                     @Html.LabelFor(c => c.Mes, new { @class = "control-label col-md-2" })
                     <div class="col-md-2">
                         @Html.DropDownListFor(c => c.Mes, ViewBag.Mes as List<SelectListItem>, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(c => c.Mes)
                     </div>
                     @Html.LabelFor(c => c.AnioVen, new { @class = "control-label col-md-2" })
                     <div class="col-md-2">

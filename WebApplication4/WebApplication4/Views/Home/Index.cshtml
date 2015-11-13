@@ -60,10 +60,10 @@
 
                         @foreach (var evento in Model)
                         {
-                            <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="col-md-3 col-sm-6 col-xs-12 bloque-imagen">
                                 <div class="thumbnail">
                                     <a href=@Url.Action("VerEvento", "Evento", new { id = evento.codigo })>
-                                        <img class="event" src="@evento.ImagenDestacado" alt="">
+                                        <img  height="58px" class="event" src="@evento.ImagenDestacado" alt="">
                                     </a>
                                     <div class="caption" style="text-align:center">
                                         @{
@@ -78,7 +78,8 @@
                             {
 
                                 var funcion = func.First();
-                                fecha = funcion.horaIni.Value.ToString("dd/MM/yyyy hh:mm tt");
+                                fecha = funcion.fecha.Value.ToString("dd/MM/yyyy");
+                                fecha = fecha + " " + funcion.horaIni.Value.ToString("hh:mm tt");
                             }
                             else
                             {
@@ -176,13 +177,6 @@
 
 
 
-                if (!isNaN(@ViewBag.idProv)) {
-
-                    $("#idProv > option[value='" + @ViewBag.idProv + "'").attr('selected', 'selected');
-
-
-
-                }
 
             }
 
@@ -295,5 +289,20 @@
             window.open("mi_cuenta.html", "_self");
         }
     </script>
+
+    <style>
+
+         .thumbnail >  .event{
+
+      height:50px;
+  }
+    .bloque-imagen{
+
+        width:250px;
+        height: 150px;
+    }
+
+
+    </style>
 </body>
 </html>
