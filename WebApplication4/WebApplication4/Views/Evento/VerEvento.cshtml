@@ -483,6 +483,61 @@
         });
 
 
+
+
+        //Obtiene subcategoria
+
+        function cambioCat() {
+
+            fillCombo("idSubCat", $("#idCategoria").val(), "/Home/Subcategorias", "Subcategorias");
+
+        }
+
+        function fillCombo(idCombo, value, linkUrl, optlabel) {
+
+            $("#" + idCombo).empty();
+            $("#" + idCombo).append("<option value=''>" + optlabel + "</option>")
+
+
+            var depId = parseInt(value);
+            if (isNaN(depId)) return;
+            $.ajax({
+                url: linkUrl,
+                type: 'POST',
+                data: { idCategoria: depId },
+                dataType: 'json',
+                success: function (data) {
+                    if (isNaN(data.length)) return;
+
+                    $.each(data, function (k, v) {
+                        $("#" + idCombo).append("<option value='" + v.id + "'>" + v.nombre + "</option>");
+                    });
+                },
+                error: function () {
+                    alert("Error :(");
+                }
+            });
+        }
+
+
+        //Submit para envio de formularios
+         function busqueda() {
+
+
+        $("#search").submit();
+    }
+
+
+
+
+    function busquedaAdv() {
+      
+            $("#adv-search").submit();
+
+    }
+
+
+
     </script>
 }
 
