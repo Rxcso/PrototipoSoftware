@@ -44,6 +44,80 @@ namespace WebApplication4.Controllers
             return zonaxfuncion.cantLibres;
         }
 
+
+
+
+        [HttpGet]
+        public ActionResult verReservaOrganizador(string evento)
+        {
+
+            Eventos ev = db.Eventos.Find(Int32.Parse(evento));
+
+            if (ev == null)
+            {
+                TempData["tipo"] = "alert alert-warning";
+                TempData["message"] = "No existe el evento";
+                return Redirect("~/Evento");
+            }
+
+            var modelo = new ReservaOrganizadorModel();
+
+            ViewBag.nombreEvento = ev.nombre;
+            ViewBag.organizador = ev.Organizador.nombOrg;
+
+            modelo.idEvento = ev.codigo;
+
+            List<int> zonas = new List<int>(0);
+            List<int> funciones = new List<int>(0);
+            List<string> nombresF = new List<string>(0);
+            List<string> nombresZ = new List<string>(0);
+            List<string> asiento = new List<string>(0);
+            List<bool> elimina = new List<bool>(0);
+
+            foreach (var funcion in ev.Funcion)
+            {
+
+                foreach (var asientoReal in funcion.AsientosXFuncion)
+                {
+                    if (asientoReal.estado == "RESERVAORGANIZADOR")
+                    {
+                        zonas.Add(asientoReal.Asientos.codZona);
+                        nombresZ.Add(asientoReal.Asientos.ZonaEvento.nombre); 
+                        funciones.Add(funcion.codFuncion);
+                        nombresF.Add(funcion.fecha + ""); 
+                        asiento.Add(asientoReal.Asientos.fila + " " + asientoReal.Asientos.columna);
+                        elimina.Add(false);
+                    }
+                }
+
+                foreach (var unidad in funcion.ZonaxFuncion)if(!unidad.ZonaEvento.tieneAsientos) {
+                    int tot = unidad.cantReservaOrganizador;
+                    for (int i = 0; i < tot; i++)
+                    {
+                        zonas.Add(unidad.ZonaEvento.codZona);
+                        funciones.Add(funcion.codFuncion);
+                        asiento.Add("No tiene asientos");
+                        nombresZ.Add( unidad.ZonaEvento.nombre );
+                        nombresF.Add(funcion.fecha + "");
+                        elimina.Add(false);
+                    }
+                }
+
+            }
+
+            modelo.idZona = zonas.ToArray();
+            modelo.idFuncion = funciones.ToArray();
+            modelo.AsientoXFuncion = asiento.ToArray();
+            modelo.eliminar = elimina.ToArray();
+            modelo.nameFuncion = nombresF.ToArray();
+            modelo.nameZona = nombresZ.ToArray();
+
+            ViewBag.modelo = modelo;
+
+            return View();
+        }
+
+
         public string reservarOrganizador(PaqueteEntradas paquete)
         {
             try
@@ -51,7 +125,7 @@ namespace WebApplication4.Controllers
                 using (var context = new inf245netsoft())
                 {
                     try
-                    {  
+                    {
 
                         if (paquete.tieneAsientos)
                         {
@@ -1349,7 +1423,7 @@ namespace WebApplication4.Controllers
 
                     try
                     {
-                        List<Funcion> funciones = db.Funcion.Where(c => c.codEvento == evento.codigo && c.estado!="CANCELADO" &&   c.fecha >= DateTime.Now).ToList();
+                        List<Funcion> funciones = db.Funcion.Where(c => c.codEvento == evento.codigo && c.estado != "CANCELADO" && c.fecha >= DateTime.Now).ToList();
 
                         //agrupo las fechas unicas de las funciones y las ordeno ascendentemente
                         funciones = funciones.GroupBy(c => c.fecha).Select(p => p.First()).OrderBy(c => c.fecha).ToList();
@@ -1369,6 +1443,7 @@ namespace WebApplication4.Controllers
                     }
                     catch (Exception ex)
                     {
+                        ViewBag.ListFunciones = new List<Funcion>(0);
                         ViewBag.MensajeErrorFunciones = "El evento no cuenta con funciones";
                         veoAsientos = false;
                     }
@@ -1381,6 +1456,7 @@ namespace WebApplication4.Controllers
                     {
                         futuraVenta.Add("- Del " + String.Format("{0:d}", per.fechaInicio) + " al " + String.Format("{0:d}", per.fechaFin) + ".");
                     }
+                    ViewBag.ListFunciones = new List<Funcion>(0);
                     ViewBag.EventoNoDisponible = "Las entradas del evento aun no estan a la venta. Ventas disponibles:";
                     veoAsientos = false;
                     ViewBag.FuturasVentas = futuraVenta;
@@ -1418,7 +1494,7 @@ namespace WebApplication4.Controllers
                 }
                 else if (boton.CompareTo("carrito") == 0)
                 {
-                    int quedan = BuscaEntradasQueQuedan(paquete.idFuncion,paquete.idZona);
+                    int quedan = BuscaEntradasQueQuedan(paquete.idFuncion, paquete.idZona);
 
                     if (quedan == 0)
                     {
@@ -1451,7 +1527,7 @@ namespace WebApplication4.Controllers
                 }
                 else if (boton.CompareTo("reservarOrganizador") == 0)
                 {
-                    string mensaje = reservarOrganizador(  paquete );
+                    string mensaje = reservarOrganizador(paquete);
                     TempData["tipo"] = "alert alert-success";
                     TempData["message"] = "Se reservaron correctamente las entradas";
 
@@ -1732,11 +1808,11 @@ namespace WebApplication4.Controllers
         public ActionResult EnviarComentario(int codEvento, string usuario, string contenido)
         {
             Comentarios new_coment = new Comentarios();
-          
+
             new_coment.codEvento = codEvento;
             new_coment.contenido = contenido;
             new_coment.usuario = usuario;
-           
+
             new_coment.fecha = DateTime.Now;
             db.Comentarios.Add(new_coment);
             db.SaveChanges();

@@ -1204,3 +1204,27 @@ System.Collections.ListDictionaryInternal
 The code block is missing a closing "}" character.  Make sure you have a matching "}" character for all the "{" characters within this block, and that none of the "}" characters are being interpreted as markup.
 
 2015-11-12 18:53:08,636 [16] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-12 21:05:46,619 [95] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-12 21:05:46,624 [95] ERROR Ticknet - Exception Type - 
+RuntimeBinderException
+2015-11-12 21:05:46,624 [95] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-12 21:05:46,624 [95] ERROR Ticknet - Exception Message - 
+'System.Array' no contiene una definición para 'Count'.
+2015-11-12 21:05:46,624 [95] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-12 21:09:38,827 [87] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-12 21:09:38,833 [87] ERROR Ticknet - Exception Type - 
+RuntimeBinderException
+2015-11-12 21:09:38,833 [87] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-12 21:09:38,833 [87] ERROR Ticknet - Exception Message - 
+No se puede realizar enlace en tiempo de ejecución en una referencia NULL.
+2015-11-12 21:09:38,833 [87] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-12 21:12:08,906 [76] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-12 21:12:08,912 [76] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-12 21:12:08,912 [76] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-12 21:12:08,912 [76] ERROR Ticknet - Exception Message - 
+c:\temp\PrototipoSoftware\WebApplication4\WebApplication4\Views\Evento\verReservaOrganizador.cshtml(8): error CS0103: El nombre 'Viewbag' no existe en el contexto actual
+2015-11-12 21:12:08,912 [76] DEBUG Ticknet - ++++++++++++++++++++++++++++
