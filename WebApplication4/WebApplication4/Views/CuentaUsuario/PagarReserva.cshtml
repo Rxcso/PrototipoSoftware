@@ -12,13 +12,25 @@
         nombre = user.nombre + " " + user.apellido;
         dni = user.codDoc;
     }
-    List<Promociones> promocionesLista = new List<Promociones>();
-    List<CarritoItem> carrito = new List<CarritoItem>();
-    double? importe = 0;
-    double? descuento = 0;
-    double? montopagar = 0;
+    Promociones promocion = ViewBag.Promociones as Promociones;
 }
+<div class="container" id="promocionesLista">
+    <p>Mejores descuentos para su compra segun los items en su carrito:</p>
+    <div id="listaEventoPromocion">
+        @Html.Hidden("eventosCarrito", "" + Model.idEventos[0])
+        @Html.Hidden("promocionesCarrito", "" + Model.idPromociones[0])
+        @Html.Hidden("subtotalCarrito", "" + Model.Importe)
+        @if (Model.idPromociones[0] == -1)
+        {
+            <p style="margin-left:2em">- No cuenta con promocion.</p>
+        }
+        else
+        {
+            <p style="margin-left:2em">- Descuento del @promocion.descuento%.</p>
+        }
 
+    </div>
+</div>
 <div class="container">
     <div class="row">
         <div class="col-md-8" id="tarjeta">
@@ -88,21 +100,21 @@
                 <div class="row form-group">
                     @Html.LabelFor(c => c.Importe, new { @class = "control-label col-md-3" })
                     <div class="col-md-4">
-                        @Html.TextBoxFor(c => c.Importe, new { @class = "form-control", @Value = importe, @readonly = "readonly" })
+                        @Html.TextBoxFor(c => c.Importe, new { @class = "form-control", @readonly = "readonly" })
                     </div>
                 </div>
 
                 <div class="row form-group">
                     @Html.LabelFor(c => c.Descuento, new { @class = "control-label col-md-3" })
                     <div class="col-md-4">
-                        @Html.TextBoxFor(c => c.Descuento, new { @class = "form-control", @Value = descuento, @readonly = "readonly" })
+                        @Html.TextBoxFor(c => c.Descuento, new { @class = "form-control", @readonly = "readonly" })
                     </div>
                 </div>
 
                 <div class="row form-group">
                     @Html.LabelFor(c => c.MontoPagar, new { @class = "control-label col-md-3" })
                     <div class="col-md-4">
-                        @Html.TextBoxFor(c => c.MontoPagar, new { @class = "form-control", @Value = montopagar, @readonly = "readonly" })
+                        @Html.TextBoxFor(c => c.MontoPagar, new { @class = "form-control", @readonly = "readonly" })
                     </div>
                 </div>
                 <div class="row">

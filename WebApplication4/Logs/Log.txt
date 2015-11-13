@@ -1359,3 +1359,95 @@ System.Collections.ListDictionaryInternal
 2015-11-13 16:12:51,642 [8] ERROR Ticknet - Exception Message - 
 c:\Users\alulab14\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\CuentaUsuario\MiCuenta.cshtml(28): error CS1061: 'WebApplication4.Models.ReporteClienteModel' no contiene una definición de 'nombre' ni se encontró ningún método de extensión 'nombre' que acepte un primer argumento de tipo 'WebApplication4.Models.ReporteClienteModel' (¿falta una directiva using o una referencia de ensamblado?)
 2015-11-13 16:12:51,642 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:02:41,598 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:02:41,605 [6] ERROR Ticknet - Exception Type - 
+ArgumentNullException
+2015-11-13 17:02:41,605 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 17:02:41,605 [6] ERROR Ticknet - Exception Message - 
+El valor no puede ser nulo.
+Nombre del parámetro: String
+2015-11-13 17:02:41,605 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:03:09,771 [12] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:03:09,771 [12] ERROR Ticknet - Exception Type - 
+ArgumentNullException
+2015-11-13 17:03:09,771 [12] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 17:03:09,771 [12] ERROR Ticknet - Exception Message - 
+El valor no puede ser nulo.
+Nombre del parámetro: String
+2015-11-13 17:03:09,771 [12] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:03:52,899 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:03:52,899 [9] ERROR Ticknet - Exception Type - 
+ArgumentNullException
+2015-11-13 17:03:52,899 [9] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 17:03:52,899 [9] ERROR Ticknet - Exception Message - 
+El valor no puede ser nulo.
+Nombre del parámetro: String
+2015-11-13 17:03:52,899 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:04:40,541 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:04:40,541 [7] ERROR Ticknet - Exception Type - 
+ArgumentNullException
+2015-11-13 17:04:40,541 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 17:04:40,541 [7] ERROR Ticknet - Exception Message - 
+El valor no puede ser nulo.
+Nombre del parámetro: String
+2015-11-13 17:04:40,541 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:05:15,454 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:05:15,454 [11] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-13 17:05:15,454 [11] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 17:05:15,454 [11] ERROR Ticknet - Exception Message - 
+A public action method 'redirigeReserva()' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-13 17:05:15,455 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:06:09,672 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:06:09,672 [6] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-13 17:06:09,672 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 17:06:09,672 [6] ERROR Ticknet - Exception Message - 
+A public action method 'redirigeReserva()' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-13 17:06:09,672 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:06:50,953 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:06:50,953 [6] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-13 17:06:50,953 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 17:06:50,953 [6] ERROR Ticknet - Exception Message - 
+A public action method 'redirigeReserva()' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-13 17:06:50,953 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:06:56,168 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:06:56,168 [10] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-13 17:06:56,168 [10] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 17:06:56,168 [10] ERROR Ticknet - Exception Message - 
+A public action method 'redirigeReserva()' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-13 17:06:56,168 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:07:20,184 [31] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:07:20,184 [31] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-13 17:07:20,184 [31] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 17:07:20,184 [31] ERROR Ticknet - Exception Message - 
+A public action method 'redirigeReserva()' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-13 17:07:20,184 [31] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:08:07,882 [21] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:08:07,882 [21] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-13 17:08:07,882 [21] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 17:08:07,882 [21] ERROR Ticknet - Exception Message - 
+A public action method 'redirigeReserva()' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-13 17:08:07,882 [21] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:46:34,637 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:46:34,644 [7] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-13 17:46:34,644 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 17:46:34,644 [7] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-13 17:46:34,644 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
