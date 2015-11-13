@@ -5,7 +5,7 @@
 @model LocalModel
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
     var db = new WebApplication4.Models.inf245netsoft();
     List<WebApplication4.Models.Region> listaSearch = db.Region.AsNoTracking().Where(c => c.idRegPadre == null).ToList();
 

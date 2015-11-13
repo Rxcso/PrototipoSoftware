@@ -1334,3 +1334,20 @@ System.Collections.ListDictionaryInternal
 2015-11-13 10:02:16,523 [6] ERROR Ticknet - Exception Message - 
 c:\temp\PrototipoSoftware\WebApplication4\WebApplication4\Views\Evento\ReservaOrganizador.cshtml(61): error CS0019: El operador '<' no se puede aplicar a operandos del tipo 'string' y 'string'
 2015-11-13 10:02:16,523 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 11:51:51,572 [35] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 11:51:51,579 [35] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-13 11:51:51,579 [35] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 11:51:51,579 [35] ERROR Ticknet - Exception Message - 
+Unterminated string literal. Strings that start with a quotation mark (") must be terminated before the end of the line.  However, strings that start with @ and a quotation mark (@") can span multiple lines. Closing HTML tags within a string literal may trigger this error message.
+
+2015-11-13 11:51:51,579 [35] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 11:56:32,273 [18] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 11:56:32,273 [18] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-13 11:56:32,273 [18] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 11:56:32,273 [18] ERROR Ticknet - Exception Message - 
+A public action method 'CarritoDeCompras' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-13 11:56:32,273 [18] DEBUG Ticknet - ++++++++++++++++++++++++++++

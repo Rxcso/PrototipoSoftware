@@ -323,7 +323,6 @@
     <Compile Include="Models\Region.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\RegistarEventoModel.cs" />
     <Compile Include="Models\RequireRequestValueAttribute.cs" />
     <Compile Include="Models\Subcategoria.cs" />
     <Compile Include="Models\TarifaModel.cs" />
@@ -532,7 +531,6 @@
     <Content Include="Views\Organizador\Index.cshtml" />
     <Content Include="Views\PuntoVenta\Index.cshtml" />
     <Content Include="Views\Account\IndexEmpleado.cshtml" />
-    <Content Include="Views\Evento\Register2.cshtml" />
     <Content Include="Views\PuntoVenta\Edit.cshtml" />
     <Content Include="Views\Organizador\Edit.cshtml" />
     <Content Include="Views\Empleado\Edit.cshtml" />

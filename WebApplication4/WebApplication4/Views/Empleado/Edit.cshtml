@@ -6,7 +6,7 @@
 
 @{
     ViewBag.Title = "Edit";
-    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
     CuentaUsuario cuenta = (CuentaUsuario)Session["usuarioE"];
     EditViewModel cuentaM = new EditViewModel();
     cuentaM.apellido = cuenta.apellido;
