@@ -1204,3 +1204,11 @@ System.Collections.ListDictionaryInternal
 El valor no puede ser nulo.
 Nombre del parámetro: String
 2015-11-12 22:57:18,430 [23] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 00:42:54,518 [35] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 00:42:54,526 [35] ERROR Ticknet - Exception Type - 
+NotSupportedException
+2015-11-13 00:42:54,526 [35] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 00:42:54,526 [35] ERROR Ticknet - Exception Message - 
+LINQ to Entities does not recognize the method 'Int32 get_Item(Int32)' method, and this method cannot be translated into a store expression.
+2015-11-13 00:42:54,526 [35] DEBUG Ticknet - ++++++++++++++++++++++++++++

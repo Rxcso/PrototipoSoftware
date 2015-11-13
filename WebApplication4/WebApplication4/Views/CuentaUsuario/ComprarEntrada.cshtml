@@ -35,6 +35,7 @@
                 }
                 @Html.Hidden("eventosCarrito", "" + carrito[i].idEvento)
                 @Html.Hidden("promocionesCarrito", "" + promocionesLista[i].codPromo)
+                @Html.Hidden("subtotalCarrito", "" + carrito[i].precio)
                 <p style="margin-left:2em">@razon</p>
             }
         }
@@ -145,7 +146,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-xs-6">
-                        <input type="submit" value="Finalzar Compra" onclick="llenaArreglo()" class="btn btn-default btn-primary" />
+                        <input type="submit" value="Finalizar Compra" onclick="llenaArreglo()" class="btn btn-default btn-primary" />
                     </div>
                 </div>
             }
@@ -159,19 +160,21 @@
         var idBanco = parseInt($('#idBanco').val());
         var tipoTarjeta = parseInt($('#idTipoTarjeta').val());
         var eventosBTV = document.getElementsByName('eventosCarrito');
-        //listaEventoPromocion
-        //var divPromocionesLista = $('#listaEventoPromocion').empty();
+        var subtotalBTV = document.getElementsByName('subtotalCarrito');
         var arrRazon = [];
         var eventosCarritos = [];
-        var promocionCarritos = []
-        var descuentoCarritos = []
+        var promocionCarritos = [];
+        var descuentoCarritos = [];
+        var subtotalCarritos = [];
         for (var i = 0; i < eventosBTV.length ; i++) {
             var codEvento = eventosBTV[i].value;
             eventosCarritos.push(codEvento);
+            subtotalCarritos.push(subtotalBTV[i].value);
             $.ajax({
                 url: '/Services/Descuento/',
                 data: { codEvento: codEvento, idBanco: idBanco, tipoTarjeta: tipoTarjeta },
                 datatype: "json",
+                async: false,
                 success: function (data) {
                     var obj = $.parseJSON(data);
                     //si tenemos data, escribimos denuevo el valor
@@ -192,8 +195,58 @@
         }
         //<input id="eventosCarrito" name="eventosCarrito" type="hidden" value="1095">
         //<input id="promocionesCarrito" name="promocionesCarrito" type="hidden" value="-1">
+        //<input id="subtotalCarrito" name="subtotalCarrito" type="hidden" value="250">
         //<p style="margin-left:2em">razon</p>
+        /*console.log(arrRazon);
+        console.log(eventosCarritos);
+        console.log(promocionCarritos);
+        console.log(descuentoCarritos);
+        console.log(subtotalCarritos);*/
+        //relleno denuevo el esto :v
+        $('#listaEventoPromocion').empty();
+        var descuentoTotal = 0;
+        for (var i = 0; i < arrRazon.length; i++) {
+            var inputEventos = document.createElement("input");
+            inputEventos.setAttribute("type", "hidden");
+            inputEventos.setAttribute("id", "eventosCarrito");
+            inputEventos.setAttribute("name", "eventosCarrito");
+            inputEventos.setAttribute("value", eventosCarritos[i]);
 
+            var inputPromociones = document.createElement("input");
+            inputPromociones.setAttribute("type", "hidden");
+            inputPromociones.setAttribute("id", "promocionesCarrito");
+            inputPromociones.setAttribute("name", "promocionesCarrito");
+            inputPromociones.setAttribute("value", promocionCarritos[i]);
+
+            var inputSubtotal = document.createElement("input");
+            inputSubtotal.setAttribute("type", "hidden");
+            inputSubtotal.setAttribute("id", "subtotalCarrito");
+            inputSubtotal.setAttribute("name", "subtotalCarrito");
+            var subtotalconDescuento = 0;
+            if (descuentoCarritos[i] != -1) {
+                subtotalconDescuento += parseInt(subtotalCarritos[i])* descuentoCarritos[i] / 100;
+            }
+            descuentoTotal += subtotalconDescuento;
+            inputSubtotal.setAttribute("value", subtotalCarritos[i]);
+
+            var razonP = document.createElement("p");
+            razonP.setAttribute("style", "margin-left:2em");
+            var texto = document.createTextNode(arrRazon[i]);
+            razonP.appendChild(texto);
+            $('#listaEventoPromocion').append(inputEventos);
+            $('#listaEventoPromocion').append(inputPromociones);
+            $('#listaEventoPromocion').append(inputSubtotal);
+            $('#listaEventoPromocion').append(razonP);
+        }
+        //actualizamos el nuevo total
+        console.log(descuentoCarritos);
+        console.log(subtotalCarritos);
+        var importe = parseFloat($('#Importe').val());
+        console.log(importe);
+        var montoPagar = importe - descuentoTotal;
+        console.log(descuentoTotal);
+        $('#Descuento').val(descuentoTotal);
+        $('#MontoPagar').val(montoPagar);
     }
 
     function llenaArreglo() {

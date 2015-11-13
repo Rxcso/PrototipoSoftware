@@ -122,13 +122,14 @@ namespace WebApplication4.Controllers
             TempData["message"] = "No hay items en el carrito.";
             return RedirectToAction("MiCarrito");
         }
-
+        
         [HttpPost]
         [AllowAnonymous]
         public ActionResult ComprarEntrada(ComprarEntradaModel model)
         {
             if (ModelState.IsValid)
             {
+
                 int idVenta = 0;
                 DateTime hoy = DateTime.Today;
                 CuentaUsuario cuenta = new CuentaUsuario();
@@ -156,6 +157,7 @@ namespace WebApplication4.Controllers
                         //de todas maneras en la venta se registra el nombre, dni y tipo de documento del que esta comprando.
                         ve.cliente = model.Nombre;
                         ve.codDoc = model.Dni;
+                        //--
                         ve.Estado = MagicHelpers.Compra;
                         ve.tipoDoc = 1;
                         ve.montoEfectivoSoles = model.Importe;
@@ -194,7 +196,15 @@ namespace WebApplication4.Controllers
                                 vf = db.VentasXFuncion.Where(c => c.codVen == ve.codVen && c.codFuncion == paquete.idFuncion).First();
                                 vf.cantEntradas += paquete.cantidad;
                                 vf.subtotal += paquete.cantidad * pr.precio;
-                                vf.total += paquete.cantidad * pr.precio;
+                                float? porcDescuento = 0;
+                                if (model.idPromociones[w] != -1)
+                                {
+                                    int idPromocion = model.idPromociones[w];
+                                    Promociones promocion = db.Promociones.Where(c => c.codPromo == idPromocion && c.codEvento == paquete.idEvento).First();
+                                    porcDescuento = promocion.descuento / 100;
+                                }
+                                vf.descuento += (int?)(vf.subtotal * porcDescuento);
+                                vf.total += paquete.cantidad * pr.precio - vf.descuento;
                             }
                             else
                             {
@@ -204,9 +214,16 @@ namespace WebApplication4.Controllers
                                 vf.codFuncion = paquete.idFuncion;
                                 vf.Ventas = ve;
                                 vf.Funcion = db.Funcion.Find(paquete.idFuncion);
-                                vf.descuento = 0;
+                                float? porcDescuento = 0;
+                                if (model.idPromociones[w] != -1)
+                                {
+                                    int idPromocion = model.idPromociones[w];
+                                    Promociones promocion = db.Promociones.Where(c => c.codPromo == idPromocion && c.codEvento == paquete.idEvento).First();
+                                    porcDescuento = promocion.descuento / 100;
+                                }
                                 vf.subtotal = paquete.cantidad * pr.precio;
-                                vf.total = paquete.cantidad * pr.precio;
+                                vf.descuento = (int?)(vf.subtotal * porcDescuento);
+                                vf.total = vf.subtotal - vf.descuento;
                                 db.VentasXFuncion.Add(vf);
                             }
                             db.SaveChanges();
@@ -215,9 +232,9 @@ namespace WebApplication4.Controllers
                             dt.cantEntradas = paquete.cantidad;
                             dt.codFuncion = paquete.idFuncion;
                             dt.codPrecE = pr.codPrecioEvento;
-                            dt.total = paquete.cantidad * pr.precio;
+                            dt.total = vf.total;
                             dt.entradasDev = 0;
-                            dt.descTot = 0;
+                            dt.descTot = vf.descuento;
                             dt.codVen = vf.codVen;
                             db.DetalleVenta.Add(dt);
                             if (paquete.filas != null && paquete.filas.Count > 0) paquete.tieneAsientos = true;
