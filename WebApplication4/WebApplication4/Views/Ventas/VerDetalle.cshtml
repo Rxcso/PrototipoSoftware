@@ -121,8 +121,8 @@
                 </div>
             </div>
         }
-}
-    
+    }
+
     <div class="row form-group">
         <label for="idEvento" class="control-label col-md-2">Cantidad de entradas:</label>
         <div class="col-md-10">
@@ -137,14 +137,14 @@
     </div>
 
     <div class="row">
-        <div class="form-group">            
+        <div class="form-group">
             @{
                 if (sePuedeDev == 1)
                 {
                     if (funcion.estado == "POSTERGADO")
                     {
                         <!--<div class="col-md-11">
-                        <a class="btn btn-primary" href="" data-toggle="modal">Devolver Asiento<span class="glyphicon glyphicon-usd"></span></a>
+                        <a class="btn btn-primary" href="#devolverParcial" data-toggle="modal">Devolver Asiento<span class="glyphicon glyphicon-usd"></span></a>
                         </div>-->
                     }
                     <!--Devolver todo-->
@@ -152,7 +152,7 @@
                         <a class="btn btn-primary" href="#devolverTodo" data-toggle="modal">Devolver Todo<span class="glyphicon glyphicon-usd"></span></a>
                     </div>
                 }
-            }            
+            }
             @{
                 if (sePuedeDev == 1)
                 {
@@ -166,125 +166,179 @@
                         <a class="btn btn-primary" data-toggle="modal" href="@Url.Action("Devolucion", "Ventas")">Volver <span class="glyphicon glyphicon-chevron-left"></span></a>
                     </div>
                 }
-}                               
-            
-    </div>        
-     
-    <h4>Resultados:</h4>
-    <div class="row">
-        <table id="mytable" class="table table-bordered table-hover">
-        @{
-            if (axf.Count != 0){//caso de numerados
-            <thead>
-                <tr class="active">
-                    <th>Ubicación Asiento.</th>
-                    <th>Estado</th>                    
-                    <th>Tipo Doc</th>
-                    <th>Doc Asociado</th>
-                    <th>Precio</th>
-                </tr>
-            </thead>
-            <tbody id="tbody">      
-                @for (int x = 0; x < axf.Count; x++)
-                {
-                    <tr id=@axf[x].codAsiento onclick="myFunction(this)">
-                        <td>@("F:"+asientos[x].columna+", C:"+asientos[x].fila)</td>
-                        <td>@axf[x].estado</td>
-                        <td>@axf[x].TipoDocAsociado</td>
-                        <td>@axf[x].DocAsociado</td>
-                        <td>@axf[x].PrecioPagado</td>
-                    </tr>
-                }                                                        
-            </tbody>
             }
-            else // caso no numerado
-            {
-                <thead>
-                    <tr class="active">
-                        <th>Entrada</th>
-                        <th>Precio</th>
-                    </tr>
-                </thead>
-                <tbody id="tbody">
-                    @for (int x = 0; x < dv.cantEntradas; x++)
-                    {
-                        <tr id=@dv.codDetalleVenta onclick="myFunction(this)">
-                            <td>@("Entrada nro: " + (x+1))</td>
-                            <td>@(dv.total/dv.cantEntradas)</td>
-                        </tr>
+
+        </div>
+
+        <h4>Resultados:</h4>
+        <div class="row">
+            <table id="mytable" class="table table-bordered table-hover">
+                @{
+                    if (axf.Count != 0)
+                    {//caso de numerados
+                        <thead>
+                            <tr class="active">
+                                <th>Ubicación Asiento.</th>
+                                <th>Estado</th>
+                                <th>Tipo Doc</th>
+                                <th>Doc Asociado</th>
+                                <th>Precio</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody">
+                            @for (int x = 0; x < axf.Count; x++)
+                            {
+                                <tr id=@axf[x].codAsiento onclick="myFunction(this)">
+                                    <td>@("F:" + asientos[x].columna + ", C:" + asientos[x].fila)</td>
+                                    <td>@axf[x].estado</td>
+                                    <td>@axf[x].TipoDocAsociado</td>
+                                    <td>@axf[x].DocAsociado</td>
+                                    <td>@axf[x].PrecioPagado</td>
+                                </tr>
+                            }
+                        </tbody>
                     }
-                </tbody>
-            }
-}
-        </table>
+                    else // caso no numerado
+                    {
+                        <thead>
+                            <tr class="active">
+                                <th>Entrada</th>
+                                <th>Precio</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody">
+                            @for (int x = 0; x < dv.cantEntradas; x++)
+                            {
+                                <tr id=@dv.codDetalleVenta onclick="myFunction(this)">
+                                    <td>@("Entrada nro: " + (x + 1))</td>
+                                    <td>@(dv.total / dv.cantEntradas)</td>
+                                </tr>
+                            }
+                        </tbody>
+                    }
+                }
+            </table>
+        </div>
     </div>
-</div>
 
-<input type="hidden" id="idFila" value="" />
-<script>
-    function myFunction(x) {
-        if (document.getElementsByClassName("trselected").length > 0) {
-            var element = document.getElementsByClassName("trselected");
-            //element.item[0].cells[0].innerText;
-            element[0].className = "";
-        }
-        //var tabla = document.getElementById("mytable");
-        //alert(x);
-        //var y = x.getCells();
-        var elem = document.getElementById("idFila");
-        elem.value = x.cells[0].innerHTML;
-        //alert(x.cells[0].innerHTML);
-        //ViewBag.P = x.cells[0].innerHTML;
-        x.className = "trselected";
-        //<a class="btn btn-primary" href="javascript:document.getElementsByClassName('trselected').submit()">Borrar<span class="glyphicon glyphicon-pencil"></span></a>
-        //idProm = x.codp;
-    }
-
-    function closewindowDev() {
-        $('#devolver').modal('hide');
-    }
-
-    function devolverTodo() {
-        $.ajax({
-            url: '/Ventas/DevolverTodo/',
-            success: function () {
-                //alert("Eliminado");
-                $('#devolverTodo').modal('hide');                                
-                //angular.element(document.getElementById('Activate'))[0].disabled = true;
-                window.location.href = '/Ventas/Devolucion';
-            },
-            error: function () {
-                alert("Error :(");
+    <input type="hidden" id="idFila" value="" />
+    <script>
+        function myFunction(x) {
+            if (document.getElementsByClassName("trselected").length > 0) {
+                var element = document.getElementsByClassName("trselected");
+                //element.item[0].cells[0].innerText;
+                element[0].className = "";
             }
-        });
-    }
-</script>
+            //var tabla = document.getElementById("mytable");
+            //alert(x);
+            //var y = x.getCells();
+            var elem = document.getElementById("idFila");
+            elem.value = x.cells[0].innerHTML;
+            //alert(x.cells[0].innerHTML);
+            //ViewBag.P = x.cells[0].innerHTML;
+            x.className = "trselected";
+            //<a class="btn btn-primary" href="javascript:document.getElementsByClassName('trselected').submit()">Borrar<span class="glyphicon glyphicon-pencil"></span></a>
+            //idProm = x.codp;
+        }
 
-<style>
-    .trselected {
-        background: gray;
-    }
-</style>
+        function closewindowDev() {
+            $('#devolverTodo').modal('hide');
+        }
 
-<div class="modal fade" id="devolverTodo">
-    <!--esta div pondra la pantalla oscura al presionar el boton-->
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <!--ACA VA EL CONTENIDO DEL MODAL-->
-            <!--header de la ventana-->
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
-                <h4 class="modal-title">Aviso</h4>
-            </div>
-            <!--contenido de la ventana-->
-            <div class="modal-body">
-                ¿Está seguro que quiere devolver todas las entradas?
-            </div>
-            <!--footer de la ventana-->
-            <div class="modal-footer">
-                <button type="button" onclick="devolverTodo()" class="btn btn-primary">Aceptar <span class="glyphicon glyphicon-ok"></span></button>
-                <button type="button" onclick="return closewindowDev();" class="btn btn-danger">Cancelar <span class="glyphicon glyphicon-remove"></span></button>
+        function closewindowDevPa() {
+            $('#devolverParcial').modal('hide');
+        }
+
+        function devolverTodo() {
+            $.ajax({
+                url: '/Ventas/DevolverTodo/',
+                success: function () {
+                    //alert("Eliminado");
+                    $('#devolverTodo').modal('hide');
+                    //angular.element(document.getElementById('Activate'))[0].disabled = true;
+                    window.location.href = '/Ventas/Devolucion';
+                },
+                error: function () {
+                    alert("Error :(");
+                }
+            });
+        }
+
+        function devolverParcial() {
+            var asiento = $('#idFila').val();
+            //var el = document.getElementById(detalle);
+            //var row = $(el).closest('tr');
+            if (fila != "" && fla != null) {
+                $.ajax({
+                    url: '/Ventas/DevolverParcial/',
+                    data: { asiento: asiento },
+                    success: function (data) {
+                        //alert("Eliminado");
+                        $('#devolverParcial').modal('hide');
+                        //row.add();
+                        //angular.element(document.getElementById('Activate'))[0].disabled = true;
+                        window.location.href = '/Ventas/VerDetalle';
+                    },
+                    error: function () {
+                        alert("Error :(");
+                    }
+                });
+            } else {
+                alert("Seleccione un Asiento ");
+                evento = "";
+            }                        
+        }
+
+    </script>
+
+    <style>
+        .trselected {
+            background: gray;
+        }
+    </style>
+
+    <div class="modal fade" id="devolverTodo">
+        <!--esta div pondra la pantalla oscura al presionar el boton-->
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!--ACA VA EL CONTENIDO DEL MODAL-->
+                <!--header de la ventana-->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+                    <h4 class="modal-title">Aviso</h4>
+                </div>
+                <!--contenido de la ventana-->
+                <div class="modal-body">
+                    ¿Está seguro que quiere devolver todas las entradas?
+                </div>
+                <!--footer de la ventana-->
+                <div class="modal-footer">
+                    <button type="button" onclick="devolverTodo()" class="btn btn-primary">Aceptar <span class="glyphicon glyphicon-ok"></span></button>
+                    <button type="button" onclick="return closewindowDev();" class="btn btn-danger">Cancelar <span class="glyphicon glyphicon-remove"></span></button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+    <div class="modal fade" id="devolverParcial">
+        <!--esta div pondra la pantalla oscura al presionar el boton-->
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!--ACA VA EL CONTENIDO DEL MODAL-->
+                <!--header de la ventana-->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+                    <h4 class="modal-title">Aviso</h4>
+                </div>
+                <!--contenido de la ventana-->
+                <div class="modal-body">
+                    ¿Está seguro que quiere devolver esta entrada?
+                </div>
+                <!--footer de la ventana-->
+                <div class="modal-footer">
+                    <button type="button" onclick="devolverParcial()" class="btn btn-primary">Aceptar <span class="glyphicon glyphicon-ok"></span></button>
+                    <button type="button" onclick="return closewindowDevPa();" class="btn btn-danger">Cancelar <span class="glyphicon glyphicon-remove"></span></button>
+                </div>
+            </div>
+        </div>
+    </div>
