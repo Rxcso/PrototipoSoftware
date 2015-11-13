@@ -239,24 +239,24 @@ namespace WebApplication4.Controllers
                     }
                     else
                     {
-                        var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
-                        if (result.Succeeded)
+                    var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+                    if (result.Succeeded)
+                    {
+                        var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                        cliente.contrasena = model.NewPassword;
+                        db.SaveChanges();
+                        TempData["tipo"] = "alert alert-success";
+                        TempData["message"] = "Contraseña cambiada Exitosamente";
+                        if (user != null)
                         {
-                            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-                            cliente.contrasena = model.NewPassword;
-                            db.SaveChanges();
-                            TempData["tipo"] = "alert alert-success";
-                            TempData["message"] = "Contraseña cambiada Exitosamente";
-                            if (user != null)
-                            {
-                                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                            }
-                            /*Aca deberia retornarte a MiCuenta de CuentaUsuario*/
-                            return RedirectToAction("MiCuenta", "CuentaUsuario");
+                            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                         }
-                        else
-                        {
-                            ModelState.AddModelError("NewPassword", "Las contraseñas deben tener 6 caracteres como mínimo y una combinación de caracteres especiales, letras, letras mayúsculas y números");
+                        /*Aca deberia retornarte a MiCuenta de CuentaUsuario*/
+                        return RedirectToAction("MiCuenta", "CuentaUsuario");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("NewPassword", "Las contraseñas deben tener 6 caracteres como mínimo y una combinación de caracteres especiales, letras, letras mayúsculas y números");
 
                         }
                     }
@@ -264,17 +264,18 @@ namespace WebApplication4.Controllers
                 else //Cuando contraseña igual a antigua
                 {
                     if (model.NewPassword != model.ConfirmPassword)
-                    {
-                        ModelState.AddModelError("ConfirmPassword", "Las contraseñas no coinciden");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("NewPassword", "Ingrese una contraseña diferente a la actual.");
-                        var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
-                        if (!result.Succeeded)
                         {
-                            ModelState.AddModelError("NewPassword", "Las contraseñas deben tener 6 caracteres como mínimo y una combinación de caracteres especiales, letras, letras mayúsculas y números");
+                            ModelState.AddModelError("ConfirmPassword", "Las contraseñas no coinciden");
                         }
+                }
+                else //Cuando contraseña igual a antigua
+                {
+                    ModelState.AddModelError("NewPassword", "Ingrese una contraseña diferente a la actual.");
+                    var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+                    if (!result.Succeeded)
+                    {
+                        ModelState.AddModelError("NewPassword", "Las contraseñas deben tener 6 caracteres como mínimo y una combinación de caracteres especiales, letras, letras mayúsculas y números");
+                    }
                     }
                     
                 }

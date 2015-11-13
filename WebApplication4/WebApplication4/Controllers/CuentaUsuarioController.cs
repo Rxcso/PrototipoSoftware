@@ -85,43 +85,112 @@ namespace WebApplication4.Controllers
             ComprarEntradaModel model = new ComprarEntradaModel();
             //venta involucrada
             int codVenta = int.Parse(reserva);
+            ViewBag.Venta = codVenta;
             Ventas venta = db.Ventas.Where(c => c.codVen == codVenta).First();
             //sacamos el detalle de venta
             VentasXFuncion vxf = db.VentasXFuncion.Where(c => c.codVen == codVenta).First();
             //llenamos el model
-            
+            model.Importe = (double)vxf.subtotal;
             //lista de bancos
             List<Banco> bancos = db.Banco.ToList();
             ViewBag.Bancos = new SelectList(bancos, "codigo", "nombre");
             //lista de tarjetas
             List<TipoTarjeta> tipoTarjeta = db.TipoTarjeta.ToList();
             ViewBag.TipoTarjeta = new SelectList(tipoTarjeta, "idTipoTar", "nombre");
-            List<Promociones> listaPromociones = new List<Promociones>();
-            double total = 0;
-            double descuento = 0;
-            /*foreach (CarritoItem item in carrito)
+            //Vemos el descuento del evento
+            int codEvento = vxf.Funcion.codEvento;
+            model.idEventos = new List<int>();
+            model.idPromociones = new List<int>();
+            model.idEventos.Add(codEvento);
+            Promociones promocion = CalculaMejorPromocionTarjeta(codEvento, bancos.First().codigo, tipoTarjeta.First().idTipoTar);
+            if (promocion == null)
             {
-                total += item.precio;
-                Promociones promocion = CalculaMejorPromocionTarjeta(item.idEvento, bancos.First().codigo, tipoTarjeta.First().idTipoTar);
-                if (promocion == null)
-                {
-                    Promociones dummy = new Promociones();
-                    dummy.codPromo = -1;
-                    listaPromociones.Add(dummy);
-                }
-                else
-                {
-                    descuento += item.precio * promocion.descuento.Value / 100;
-                    listaPromociones.Add(promocion);
-                }
-            }*/
-            ViewBag.Descuento = descuento;
-            ViewBag.Promociones = listaPromociones;
-            ViewBag.Total = total;
-            ViewBag.Pagar = total - descuento;
+                model.Descuento = 0;
+                model.idPromociones.Add(-1);
+            }
+            else
+            {
+                model.Descuento = promocion.descuento.Value * model.Importe / 100;
+                model.idPromociones.Add(promocion.codPromo);
+            }
+            ViewBag.Promociones = promocion;
+            model.MontoPagar = (double)vxf.total - model.Descuento;
             ViewBag.Mes = Fechas.Mes();
             ViewBag.AnVen = Fechas.Anio();
-            return View();
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult PagarReserva(ComprarEntradaModel model)
+        {
+            int codVenta = int.Parse((string)ViewBag.Venta);
+            if (ModelState.IsValid)
+            {
+                if (ValidacionesCompra(model))
+                {
+                    Ventas venta = db.Ventas.Find(codVenta);
+                    venta.Estado = MagicHelpers.Compra;
+                    VentasXFuncion vxf = db.VentasXFuncion.Where(c => c.codVen == venta.codVen).First();
+                    DetalleVenta detalle = db.DetalleVenta.Where(c => c.codVen == venta.codVen && c.codFuncion == vxf.Funcion.codFuncion).First();
+                    //si es que tiene asientos, debo cambiar el estado de todos los asientos que ha comprado
+                    if (db.AsientosXFuncion.Any(c => c.codFuncion == vxf.Funcion.codFuncion && c.codDetalleVenta == detalle.codDetalleVenta))
+                    {
+                        List<AsientosXFuncion> axf = db.AsientosXFuncion.Where(c => c.codFuncion == vxf.Funcion.codFuncion && c.codDetalleVenta == detalle.codDetalleVenta).ToList();
+                        foreach (AsientosXFuncion asientoxf in axf)
+                        {
+                            asientoxf.estado = MagicHelpers.Ocupado;
+                            asientoxf.PrecioPagado = model.MontoPagar;
+                        }
+                    }
+                    try
+                    {
+                        db.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        TempData["tipo"] = "alert alert-warning";
+                        TempData["message"] = "Error el pago.";
+                        return RedirectToAction("MiCuenta");
+                    }
+                }
+                TempData["tipo"] = "alert alert-success";
+                TempData["message"] = "Reserva Pagada. Muchas Gracias.";
+                EnviarCorreo(codVenta);
+                return RedirectToAction("MiCuenta");
+            }
+            ViewBag.Venta = codVenta;
+            Ventas venta2 = db.Ventas.Where(c => c.codVen == codVenta).First();
+            //sacamos el detalle de venta
+            VentasXFuncion vxf2 = db.VentasXFuncion.Where(c => c.codVen == codVenta).First();
+            //llenamos el model
+            model.Importe = (double)vxf2.subtotal;
+            //lista de bancos
+            List<Banco> bancos = db.Banco.ToList();
+            ViewBag.Bancos = new SelectList(bancos, "codigo", "nombre",model.idBanco);
+            //lista de tarjetas
+            List<TipoTarjeta> tipoTarjeta = db.TipoTarjeta.ToList();
+            ViewBag.TipoTarjeta = new SelectList(tipoTarjeta, "idTipoTar", "nombre",model.idTipoTarjeta);
+            //Vemos el descuento del evento
+            int codEvento = vxf2.Funcion.codEvento;
+            model.idEventos = new List<int>();
+            model.idPromociones = new List<int>();
+            model.idEventos.Add(codEvento);
+            Promociones promocion = CalculaMejorPromocionTarjeta(codEvento, model.idBanco, model.idTipoTarjeta);
+            if (promocion == null)
+            {
+                model.Descuento = 0;
+                model.idPromociones.Add(-1);
+            }
+            else
+            {
+                model.Descuento = promocion.descuento.Value * model.Importe / 100;
+                model.idPromociones.Add(promocion.codPromo);
+            }
+            ViewBag.Promociones = promocion;
+            model.MontoPagar = (double)vxf2.total - model.Descuento;
+            ViewBag.Mes = Fechas.Mes();
+            ViewBag.AnVen = Fechas.Anio();
+            return View(model);
         }
 
         [HttpGet]

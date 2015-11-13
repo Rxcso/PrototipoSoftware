@@ -1,0 +1,1461 @@
+2015-11-06 17:31:02,123 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 17:31:02,131 [9] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-06 17:31:02,131 [9] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 17:31:02,131 [9] ERROR Ticknet - Exception Message - 
+The explicit expression block is missing a closing ")" character.  Make sure you have a matching ")" character for all the "(" characters within this block, and that none of the ")" characters are being interpreted as markup.
+
+2015-11-06 17:31:02,131 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 17:31:18,450 [20] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 17:31:18,450 [20] ERROR Ticknet - Exception Type - 
+RuntimeBinderException
+2015-11-06 17:31:18,450 [20] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 17:31:18,450 [20] ERROR Ticknet - Exception Message - 
+No se puede realizar enlace en tiempo de ejecución en una referencia NULL.
+2015-11-06 17:31:18,450 [20] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:06:24,383 [48] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:06:24,393 [48] ERROR Ticknet - Exception Type - 
+DbUpdateException
+2015-11-06 18:06:24,393 [48] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:06:24,393 [48] ERROR Ticknet - Exception Message - 
+An error occurred while updating the entries. See the inner exception for details.
+2015-11-06 18:06:24,393 [48] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:13:29,071 [48] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:13:29,071 [48] ERROR Ticknet - Exception Type - 
+DbUpdateException
+2015-11-06 18:13:29,071 [48] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:13:29,071 [48] ERROR Ticknet - Exception Message - 
+An error occurred while updating the entries. See the inner exception for details.
+2015-11-06 18:13:29,071 [48] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:24:10,451 [13] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:24:10,460 [13] ERROR Ticknet - Exception Type - 
+InvalidOperationException
+2015-11-06 18:24:10,460 [13] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:24:10,460 [13] ERROR Ticknet - Exception Message - 
+La secuencia no contiene elementos
+2015-11-06 18:24:10,460 [13] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:26:57,352 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:26:57,361 [7] ERROR Ticknet - Exception Type - 
+ArgumentOutOfRangeException
+2015-11-06 18:26:57,361 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:26:57,361 [7] ERROR Ticknet - Exception Message - 
+El índice estaba fuera del intervalo. Debe ser un valor no negativo e inferior al tamaño de la colección.
+Nombre del parámetro: index
+2015-11-06 18:26:57,361 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:27:56,727 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:27:56,728 [7] ERROR Ticknet - Exception Type - 
+ArgumentOutOfRangeException
+2015-11-06 18:27:56,728 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:27:56,728 [7] ERROR Ticknet - Exception Message - 
+El índice estaba fuera del intervalo. Debe ser un valor no negativo e inferior al tamaño de la colección.
+Nombre del parámetro: index
+2015-11-06 18:27:56,728 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:29:43,988 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:29:43,988 [5] ERROR Ticknet - Exception Type - 
+ArgumentOutOfRangeException
+2015-11-06 18:29:43,988 [5] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:29:43,988 [5] ERROR Ticknet - Exception Message - 
+El índice estaba fuera del intervalo. Debe ser un valor no negativo e inferior al tamaño de la colección.
+Nombre del parámetro: index
+2015-11-06 18:29:43,988 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:47:22,834 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:47:22,834 [6] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:47:22,834 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:47:22,834 [6] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:47:22,834 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:47:26,567 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:47:26,567 [7] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:47:26,567 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:47:26,567 [7] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:47:26,567 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:47:31,630 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:47:31,630 [6] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:47:31,630 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:47:31,630 [6] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:47:31,630 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:48:50,762 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:48:50,762 [11] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:48:50,762 [11] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:48:50,762 [11] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:48:50,762 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:48:57,058 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:48:57,058 [7] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:48:57,058 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:48:57,058 [7] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:48:57,058 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:49:00,073 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:49:00,073 [10] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-06 18:49:00,074 [10] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:49:00,074 [10] ERROR Ticknet - Exception Message - 
+A public action method 'BuscarReservas' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-06 18:49:00,074 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:49:02,946 [13] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:49:02,946 [13] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:49:02,946 [13] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:49:02,946 [13] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:49:02,946 [13] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:49:37,980 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:49:37,980 [8] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:49:37,980 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:49:37,980 [8] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:49:37,980 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:50:07,495 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:50:07,495 [10] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:50:07,495 [10] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:50:07,495 [10] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:50:07,495 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:50:47,008 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:50:47,008 [6] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:50:47,008 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:50:47,008 [6] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:50:47,008 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:51:46,332 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:51:46,332 [7] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:51:46,332 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:51:46,332 [7] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:51:46,332 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:51:52,657 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:51:52,657 [6] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:51:52,657 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:51:52,657 [6] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:51:52,657 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:52:05,455 [15] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:52:05,455 [15] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:52:05,455 [15] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:52:05,455 [15] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:52:05,455 [15] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:52:23,742 [22] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:52:23,742 [22] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:52:23,742 [22] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:52:23,742 [22] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:52:23,743 [22] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:52:45,549 [32] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:52:45,549 [32] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:52:45,549 [32] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:52:45,549 [32] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:52:45,549 [32] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:55:42,183 [34] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:55:42,183 [34] ERROR Ticknet - Exception Type - 
+ObjectDisposedException
+2015-11-06 18:55:42,183 [34] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:55:42,183 [34] ERROR Ticknet - Exception Message - 
+The ObjectContext instance has been disposed and can no longer be used for operations that require a connection.
+2015-11-06 18:55:42,183 [34] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:56:59,583 [17] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 18:56:59,584 [17] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-06 18:56:59,584 [17] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 18:56:59,584 [17] ERROR Ticknet - Exception Message - 
+A public action method 'CarritoDeCompras' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-06 18:56:59,584 [17] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:04:18,804 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:04:18,824 [6] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-06 20:04:18,824 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 20:04:18,825 [6] ERROR Ticknet - Exception Message - 
+A public action method 'Comentarios' was not found on controller 'WebApplication4.Controllers.EventoController'.
+2015-11-06 20:04:18,825 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:15:53,252 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:15:53,261 [6] ERROR Ticknet - Exception Type - 
+DbUpdateException
+2015-11-06 20:15:53,261 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 20:15:53,261 [6] ERROR Ticknet - Exception Message - 
+An error occurred while updating the entries. See the inner exception for details.
+2015-11-06 20:15:53,261 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:16:19,561 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:16:19,561 [6] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-06 20:16:19,561 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 20:16:19,561 [6] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\Evento\VerEvento.cshtml(219): error CS0246: No se puede encontrar el tipo o el nombre de espacio de nombres 'Comentario' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-06 20:16:19,561 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:19:20,085 [23] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:19:20,085 [23] ERROR Ticknet - Exception Type - 
+RuntimeBinderException
+2015-11-06 20:19:20,085 [23] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 20:19:20,085 [23] ERROR Ticknet - Exception Message - 
+No se puede convertir NULL en 'int' porque es un tipo de valor que no acepta valores NULL.
+2015-11-06 20:19:20,085 [23] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:26:24,074 [40] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:26:24,074 [40] ERROR Ticknet - Exception Type - 
+ArgumentOutOfRangeException
+2015-11-06 20:26:24,074 [40] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 20:26:24,074 [40] ERROR Ticknet - Exception Message - 
+El índice estaba fuera del intervalo. Debe ser un valor no negativo e inferior al tamaño de la colección.
+Nombre del parámetro: index
+2015-11-06 20:26:24,074 [40] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:36:40,282 [41] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:36:40,282 [41] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-06 20:36:40,282 [41] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 20:36:40,282 [41] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\Evento\VerEvento.cshtml(219): error CS0246: No se puede encontrar el tipo o el nombre de espacio de nombres 'Comentario' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-06 20:36:40,282 [41] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:36:45,186 [44] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:36:45,187 [44] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-06 20:36:45,187 [44] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 20:36:45,187 [44] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\Evento\VerEvento.cshtml(219): error CS0246: No se puede encontrar el tipo o el nombre de espacio de nombres 'Comentario' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-06 20:36:45,187 [44] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:36:49,619 [41] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:36:49,619 [41] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-06 20:36:49,619 [41] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 20:36:49,619 [41] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\Evento\VerEvento.cshtml(219): error CS0246: No se puede encontrar el tipo o el nombre de espacio de nombres 'Comentario' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-06 20:36:49,619 [41] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:36:59,046 [41] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:36:59,046 [41] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-06 20:36:59,047 [41] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 20:36:59,047 [41] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\Evento\VerEvento.cshtml(219): error CS0246: No se puede encontrar el tipo o el nombre de espacio de nombres 'Comentario' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-06 20:36:59,047 [41] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:37:35,903 [18] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-06 20:37:35,903 [18] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-06 20:37:35,903 [18] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-06 20:37:35,903 [18] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\Evento\VerEvento.cshtml(219): error CS0246: No se puede encontrar el tipo o el nombre de espacio de nombres 'Comentario' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-06 20:37:35,903 [18] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-07 21:03:40,398 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-07 21:03:40,405 [5] ERROR Ticknet - Exception Type - 
+ArgumentOutOfRangeException
+2015-11-07 21:03:40,405 [5] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-07 21:03:40,405 [5] ERROR Ticknet - Exception Message - 
+El índice estaba fuera del intervalo. Debe ser un valor no negativo e inferior al tamaño de la colección.
+Nombre del parámetro: index
+2015-11-07 21:03:40,405 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-07 21:04:47,995 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-07 21:04:47,995 [5] ERROR Ticknet - Exception Type - 
+ArgumentOutOfRangeException
+2015-11-07 21:04:47,995 [5] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-07 21:04:47,995 [5] ERROR Ticknet - Exception Message - 
+El índice estaba fuera del intervalo. Debe ser un valor no negativo e inferior al tamaño de la colección.
+Nombre del parámetro: index
+2015-11-07 21:04:47,995 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-07 21:49:35,449 [37] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-07 21:49:35,457 [37] ERROR Ticknet - Exception Type - 
+ArgumentOutOfRangeException
+2015-11-07 21:49:35,457 [37] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-07 21:49:35,457 [37] ERROR Ticknet - Exception Message - 
+El índice estaba fuera del intervalo. Debe ser un valor no negativo e inferior al tamaño de la colección.
+Nombre del parámetro: index
+2015-11-07 21:49:35,457 [37] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-07 21:49:58,450 [17] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-07 21:49:58,458 [17] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-07 21:49:58,458 [17] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-07 21:49:58,458 [17] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\CuentaUsuario\MiCarrito.cshtml(74): error CS1012: Demasiados caracteres en literal de carácter
+2015-11-07 21:49:58,458 [17] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-07 22:00:44,777 [27] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-07 22:00:44,777 [27] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-07 22:00:44,777 [27] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-07 22:00:44,777 [27] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\CuentaUsuario\ComprarEntrada.cshtml(43): error CS1061: 'WebApplication4.Models.ComprarEntradaModel' no contiene una definición de 'Dni' ni se encontró ningún método de extensión 'Dni' que acepte un primer argumento de tipo 'WebApplication4.Models.ComprarEntradaModel' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-07 22:00:44,777 [27] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-07 22:12:39,533 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-07 22:12:39,540 [7] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-07 22:12:39,540 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-07 22:12:39,540 [7] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-07 22:12:39,540 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-08 17:16:02,588 [24] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-08 17:16:02,609 [24] ERROR Ticknet - Exception Type - 
+InvalidOperationException
+2015-11-08 17:16:02,609 [24] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-08 17:16:02,609 [24] ERROR Ticknet - Exception Message - 
+Role Cliente does not exist.
+2015-11-08 17:16:02,609 [24] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-08 20:15:33,326 [13] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-08 20:15:33,334 [13] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-08 20:15:33,334 [13] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-08 20:15:33,334 [13] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-08 20:15:33,334 [13] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 01:10:29,141 [476] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 01:10:29,148 [476] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-09 01:10:29,149 [476] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 01:10:29,149 [476] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\CuentaUsuario\ComprarEntrada.cshtml(28): error CS1002: Se esperaba ;
+2015-11-09 01:10:29,149 [476] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 01:30:02,296 [12] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 01:30:02,304 [12] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-09 01:30:02,304 [12] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 01:30:02,304 [12] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-09 01:30:02,304 [12] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 01:30:23,455 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 01:30:23,455 [8] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-09 01:30:23,455 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 01:30:23,455 [8] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-09 01:30:23,455 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 01:31:02,477 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 01:31:02,477 [9] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-09 01:31:02,477 [9] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 01:31:02,477 [9] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-09 01:31:02,477 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 01:32:19,988 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 01:32:19,988 [9] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-09 01:32:19,988 [9] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 01:32:19,988 [9] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-09 01:32:19,988 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 01:32:42,303 [26] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 01:32:42,303 [26] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-09 01:32:42,303 [26] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 01:32:42,303 [26] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-09 01:32:42,303 [26] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 01:34:58,398 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 01:34:58,398 [8] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-09 01:34:58,398 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 01:34:58,398 [8] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-09 01:34:58,398 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 01:36:41,514 [41] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 01:36:41,522 [41] ERROR Ticknet - Exception Type - 
+ArgumentOutOfRangeException
+2015-11-09 01:36:41,522 [41] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 01:36:41,522 [41] ERROR Ticknet - Exception Message - 
+El índice estaba fuera del intervalo. Debe ser un valor no negativo e inferior al tamaño de la colección.
+Nombre del parámetro: index
+2015-11-09 01:36:41,522 [41] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:37:42,960 [22] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:37:42,967 [22] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:37:42,967 [22] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:37:42,967 [22] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:37:42,967 [22] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:37:43,001 [19] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:37:43,001 [19] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:37:43,001 [19] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:37:43,001 [19] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:37:43,001 [19] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:37:44,282 [16] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:37:44,282 [16] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:37:44,282 [16] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:37:44,282 [16] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:37:44,282 [16] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:37:44,285 [22] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:37:44,285 [22] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:37:44,285 [22] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:37:44,285 [22] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:37:44,285 [22] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:38:00,384 [33] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:38:00,384 [33] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:38:00,384 [33] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:38:00,384 [33] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:38:00,384 [33] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:38:00,977 [16] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:38:00,977 [16] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:38:00,977 [16] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:38:00,977 [16] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:38:00,977 [16] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:38:22,288 [21] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:38:22,288 [21] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:38:22,288 [21] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:38:22,288 [21] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:38:22,288 [21] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:38:22,290 [22] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:38:22,290 [22] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:38:22,290 [22] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:38:22,290 [22] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:38:22,290 [22] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:38:57,083 [24] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:38:57,083 [24] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:38:57,083 [24] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:38:57,083 [24] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:38:57,083 [24] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:38:57,086 [22] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:38:57,086 [22] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:38:57,086 [22] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:38:57,086 [22] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:38:57,086 [22] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:39:13,838 [21] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:39:13,838 [21] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:39:13,838 [21] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:39:13,838 [21] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:39:13,838 [21] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:39:13,849 [16] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:39:13,849 [16] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:39:13,849 [16] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:39:13,849 [16] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:39:13,849 [16] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:39:28,236 [24] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:39:28,236 [24] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:39:28,236 [24] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:39:28,236 [24] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:39:28,236 [24] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:39:28,239 [21] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:39:28,239 [21] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:39:28,239 [21] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:39:28,239 [21] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:39:28,239 [21] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:41:40,621 [18] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:41:40,628 [18] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:41:40,628 [18] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:41:40,628 [18] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:41:40,628 [18] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:41:49,020 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:41:49,020 [6] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:41:49,020 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:41:49,020 [6] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:41:49,020 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:41:49,882 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:41:49,882 [8] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:41:49,882 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:41:49,882 [8] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:41:49,882 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:42:01,881 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:42:01,881 [6] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:42:01,881 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:42:01,881 [6] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:42:01,881 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:42:03,215 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:42:03,215 [8] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:42:03,215 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:42:03,215 [8] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:42:03,215 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:42:41,439 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:42:41,439 [6] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:42:41,439 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:42:41,439 [6] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:42:41,439 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:42:45,443 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:42:45,443 [6] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:42:45,443 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:42:45,443 [6] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:42:45,443 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:42:46,066 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:42:46,066 [8] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:42:46,066 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:42:46,066 [8] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:42:46,066 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:42:48,040 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:42:48,041 [6] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:42:48,041 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:42:48,041 [6] ERROR Ticknet - Exception Message - 
+A public action method 'CalculaMejorPromocionTarjeta' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:42:48,041 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:45:13,211 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:45:13,219 [6] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:45:13,219 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:45:13,219 [6] ERROR Ticknet - Exception Message - 
+A public action method 'MejorTarifaJson' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:45:13,219 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:49:16,203 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:49:16,211 [6] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:49:16,211 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:49:16,211 [6] ERROR Ticknet - Exception Message - 
+A public action method 'MejorTarifaJson' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:49:16,211 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:49:17,645 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:49:17,645 [10] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:49:17,646 [10] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:49:17,646 [10] ERROR Ticknet - Exception Message - 
+A public action method 'MejorTarifaJson' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:49:17,646 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:49:20,255 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:49:20,255 [6] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:49:20,255 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:49:20,255 [6] ERROR Ticknet - Exception Message - 
+A public action method 'MejorTarifaJson' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:49:20,255 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:49:20,943 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:49:20,943 [6] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:49:20,943 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:49:20,943 [6] ERROR Ticknet - Exception Message - 
+A public action method 'MejorTarifaJson' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:49:20,943 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:50:29,131 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:50:29,131 [6] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:50:29,131 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:50:29,131 [6] ERROR Ticknet - Exception Message - 
+A public action method 'MejorTarifaJson' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:50:29,131 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:52:06,594 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:52:06,594 [8] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:52:06,594 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:52:06,595 [8] ERROR Ticknet - Exception Message - 
+A public action method 'MejorTarifaJson' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:52:06,595 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:53:13,210 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 02:53:13,210 [6] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 02:53:13,210 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 02:53:13,210 [6] ERROR Ticknet - Exception Message - 
+A public action method 'MejorTarifaJson' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-09 02:53:13,210 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 13:07:35,670 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 13:07:35,702 [5] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-09 13:07:35,702 [5] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 13:07:35,705 [5] ERROR Ticknet - Exception Message - 
+e:\Repositorio\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(155): error CS1502: The best overloaded method match for 'System.Web.WebPages.WebPageExecutingBase.Write(System.Web.WebPages.HelperResult)' has some invalid arguments
+2015-11-09 13:07:35,705 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 13:07:35,758 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 13:07:35,758 [5] ERROR Ticknet - Exception Data - 
+HttpCompileException
+2015-11-09 13:07:35,758 [5] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 13:07:35,758 [5] ERROR Ticknet - Exception Message - 
+e:\Repositorio\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(155): error CS1502: The best overloaded method match for 'System.Web.WebPages.WebPageExecutingBase.Write(System.Web.WebPages.HelperResult)' has some invalid arguments
+2015-11-09 13:07:35,758 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 13:09:53,873 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 13:09:53,905 [6] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-09 13:09:53,905 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 13:09:53,907 [6] ERROR Ticknet - Exception Message - 
+e:\Repositorio\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(155): error CS1502: The best overloaded method match for 'System.Web.WebPages.WebPageExecutingBase.Write(System.Web.WebPages.HelperResult)' has some invalid arguments
+2015-11-09 13:09:53,907 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 13:09:53,961 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 13:09:53,961 [6] ERROR Ticknet - Exception Data - 
+HttpCompileException
+2015-11-09 13:09:53,961 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 13:09:53,962 [6] ERROR Ticknet - Exception Message - 
+e:\Repositorio\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(155): error CS1502: The best overloaded method match for 'System.Web.WebPages.WebPageExecutingBase.Write(System.Web.WebPages.HelperResult)' has some invalid arguments
+2015-11-09 13:09:53,962 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 17:28:55,467 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 17:28:55,494 [5] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 17:28:55,495 [5] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 17:28:55,495 [5] ERROR Ticknet - Exception Message - 
+A public action method 'Subcategorias' was not found on controller 'WebApplication4.Controllers.HomeController'.
+2015-11-09 17:28:55,495 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 17:34:13,171 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 17:34:13,221 [8] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 17:34:13,221 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 17:34:13,221 [8] ERROR Ticknet - Exception Message - 
+The controller for path '/Subcategorias' was not found or does not implement IController.
+2015-11-09 17:34:13,221 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 17:34:15,216 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 17:34:15,216 [6] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 17:34:15,216 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 17:34:15,216 [6] ERROR Ticknet - Exception Message - 
+The controller for path '/Subcategorias' was not found or does not implement IController.
+2015-11-09 17:34:15,216 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 17:50:38,389 [29] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 17:50:38,389 [29] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 17:50:38,389 [29] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 17:50:38,389 [29] ERROR Ticknet - Exception Message - 
+The controller for path '/Subcategorias' was not found or does not implement IController.
+2015-11-09 17:50:38,389 [29] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 17:55:50,536 [42] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 17:55:50,536 [42] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-09 17:55:50,536 [42] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 17:55:50,536 [42] ERROR Ticknet - Exception Message - 
+The controller for path '/Subcategorias' was not found or does not implement IController.
+2015-11-09 17:55:50,537 [42] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 12:13:00,344 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 12:13:00,344 [7] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-09 12:13:00,344 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 12:13:00,344 [7] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\Services\EliminaItem.cshtml(3): error CS0246: No se puede encontrar el tipo o el nombre de espacio de nombres 'PaqueteEntradas' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-09 12:13:00,344 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 12:13:44,821 [31] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 12:13:44,821 [31] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-09 12:13:44,821 [31] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 12:13:44,821 [31] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\Services\EliminaItem.cshtml(3): error CS0246: No se puede encontrar el tipo o el nombre de espacio de nombres 'PaqueteEntradas' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-09 12:13:44,821 [31] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 12:14:05,067 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 12:14:05,067 [7] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-09 12:14:05,067 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 12:14:05,067 [7] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\Services\EliminaItem.cshtml(3): error CS0246: No se puede encontrar el tipo o el nombre de espacio de nombres 'PaqueteEntradas' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-09 12:14:05,067 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 12:14:59,133 [49] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 12:14:59,133 [49] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-09 12:14:59,133 [49] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 12:14:59,133 [49] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\Services\EliminaItem.cshtml(3): error CS0246: No se puede encontrar el tipo o el nombre de espacio de nombres 'PaqueteEntradas' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-09 12:14:59,133 [49] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 12:17:12,213 [15] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 12:17:12,213 [15] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-09 12:17:12,213 [15] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 12:17:12,213 [15] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\Services\EliminaItem.cshtml(3): error CS0246: No se puede encontrar el tipo o el nombre de espacio de nombres 'PaqueteEntradas' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-09 12:17:12,213 [15] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 12:19:01,206 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 12:19:01,729 [5] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-09 12:19:46,373 [5] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 12:19:47,187 [5] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\Services\EliminaItem.cshtml(3): error CS0246: No se puede encontrar el tipo o el nombre de espacio de nombres 'PaqueteEntradas' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-09 12:19:48,073 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 12:22:03,190 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 12:22:03,197 [5] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-09 12:22:03,197 [5] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 12:22:03,197 [5] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-09 12:22:03,197 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 19:55:41,826 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 19:55:41,833 [6] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-09 19:55:41,833 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 19:55:41,833 [6] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-09 19:55:41,833 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 19:55:53,839 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 19:55:53,839 [6] ERROR Ticknet - Exception Data - 
+NullReferenceException
+2015-11-09 19:55:53,839 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 19:55:53,839 [6] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-09 19:55:53,839 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 19:56:21,501 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 19:56:21,501 [7] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-09 19:56:21,501 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 19:56:21,501 [7] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-09 19:56:21,501 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 19:56:24,071 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 19:56:24,071 [7] ERROR Ticknet - Exception Data - 
+NullReferenceException
+2015-11-09 19:56:24,071 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 19:56:24,071 [7] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-09 19:56:24,071 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 20:05:53,779 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 20:05:53,789 [6] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-09 20:05:53,789 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 20:05:53,789 [6] ERROR Ticknet - Exception Message - 
+The else block is missing a closing "}" character.  Make sure you have a matching "}" character for all the "{" characters within this block, and that none of the "}" characters are being interpreted as markup.
+
+2015-11-09 20:05:53,789 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 20:05:53,887 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 20:05:53,887 [6] ERROR Ticknet - Exception Data - 
+HttpParseException
+2015-11-09 20:05:53,887 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 20:05:53,887 [6] ERROR Ticknet - Exception Message - 
+The else block is missing a closing "}" character.  Make sure you have a matching "}" character for all the "{" characters within this block, and that none of the "}" characters are being interpreted as markup.
+
+2015-11-09 20:05:53,887 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 20:56:26,298 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-09 20:56:26,328 [7] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-09 20:56:26,329 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-09 20:56:26,329 [7] ERROR Ticknet - Exception Message - 
+c:\Users\Administrador\Desktop\SW\Proyecto GIT\WebApplication4\WebApplication4\Views\Ventas\Devolucion.cshtml(76): error CS1061: 'WebApplication4.Models.DevolucionModel' does not contain a definition for 'zona' and no extension method 'zona' accepting a first argument of type 'WebApplication4.Models.DevolucionModel' could be found (are you missing a using directive or an assembly reference?)
+2015-11-09 20:56:26,329 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 11:43:55,255 [34] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 11:43:55,282 [34] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-10 11:43:55,282 [34] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 11:43:55,282 [34] ERROR Ticknet - Exception Message - 
+Object reference not set to an instance of an object.
+2015-11-10 11:43:55,282 [34] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 17:29:03,557 [27] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 17:29:03,563 [27] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-10 17:29:03,563 [27] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 17:29:03,563 [27] ERROR Ticknet - Exception Message - 
+c:\Users\alulab14.INF.000\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\Evento\ModificarEvento.cshtml(134): error CS1061: 'WebApplication4.Models.Local' no contiene una definición de 'aforo' ni se encontró ningún método de extensión 'aforo' que acepte un primer argumento de tipo 'WebApplication4.Models.Local' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-10 17:29:03,563 [27] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:34:01,235 [33] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:34:01,240 [33] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-10 18:34:01,240 [33] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 18:34:01,240 [33] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-10 18:34:01,240 [33] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:40:52,730 [41] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:40:52,735 [41] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-10 18:40:52,735 [41] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 18:40:52,735 [41] ERROR Ticknet - Exception Message - 
+c:\Users\alulab14.INF.000\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(23): error CS1002: Se esperaba ;
+2015-11-10 18:40:52,735 [41] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:40:52,738 [41] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:40:52,738 [41] ERROR Ticknet - Exception Data - 
+HttpCompileException
+2015-11-10 18:40:52,738 [41] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 18:40:52,738 [41] ERROR Ticknet - Exception Message - 
+c:\Users\alulab14.INF.000\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(23): error CS1002: Se esperaba ;
+2015-11-10 18:40:52,738 [41] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:40:55,897 [35] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:40:55,897 [35] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-10 18:40:55,897 [35] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 18:40:55,897 [35] ERROR Ticknet - Exception Message - 
+c:\Users\alulab14.INF.000\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(23): error CS1002: Se esperaba ;
+2015-11-10 18:40:55,897 [35] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:40:55,897 [35] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:40:55,897 [35] ERROR Ticknet - Exception Data - 
+HttpCompileException
+2015-11-10 18:40:55,897 [35] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 18:40:55,897 [35] ERROR Ticknet - Exception Message - 
+c:\Users\alulab14.INF.000\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(23): error CS1002: Se esperaba ;
+2015-11-10 18:40:55,897 [35] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:01,432 [38] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:01,433 [38] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-10 18:41:01,433 [38] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 18:41:01,433 [38] ERROR Ticknet - Exception Message - 
+c:\Users\alulab14.INF.000\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(23): error CS1002: Se esperaba ;
+2015-11-10 18:41:01,433 [38] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:01,433 [38] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:01,433 [38] ERROR Ticknet - Exception Data - 
+HttpCompileException
+2015-11-10 18:41:01,433 [38] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 18:41:01,433 [38] ERROR Ticknet - Exception Message - 
+c:\Users\alulab14.INF.000\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(23): error CS1002: Se esperaba ;
+2015-11-10 18:41:01,433 [38] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:02,945 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:02,946 [6] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-10 18:41:02,946 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 18:41:02,946 [6] ERROR Ticknet - Exception Message - 
+c:\Users\alulab14.INF.000\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(23): error CS1002: Se esperaba ;
+2015-11-10 18:41:02,946 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:02,946 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:02,946 [6] ERROR Ticknet - Exception Data - 
+HttpCompileException
+2015-11-10 18:41:02,946 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 18:41:02,946 [6] ERROR Ticknet - Exception Message - 
+c:\Users\alulab14.INF.000\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(23): error CS1002: Se esperaba ;
+2015-11-10 18:41:02,946 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:03,120 [41] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:03,120 [41] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-10 18:41:03,120 [41] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 18:41:03,120 [41] ERROR Ticknet - Exception Message - 
+c:\Users\alulab14.INF.000\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(23): error CS1002: Se esperaba ;
+2015-11-10 18:41:03,120 [41] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:03,120 [41] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:03,120 [41] ERROR Ticknet - Exception Data - 
+HttpCompileException
+2015-11-10 18:41:03,120 [41] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 18:41:03,120 [41] ERROR Ticknet - Exception Message - 
+c:\Users\alulab14.INF.000\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(23): error CS1002: Se esperaba ;
+2015-11-10 18:41:03,120 [41] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:03,272 [26] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:03,272 [26] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-10 18:41:03,272 [26] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 18:41:03,272 [26] ERROR Ticknet - Exception Message - 
+c:\Users\alulab14.INF.000\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(23): error CS1002: Se esperaba ;
+2015-11-10 18:41:03,272 [26] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:03,272 [26] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:03,272 [26] ERROR Ticknet - Exception Data - 
+HttpCompileException
+2015-11-10 18:41:03,272 [26] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 18:41:03,272 [26] ERROR Ticknet - Exception Message - 
+c:\Users\alulab14.INF.000\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(23): error CS1002: Se esperaba ;
+2015-11-10 18:41:03,272 [26] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:13,445 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:13,451 [6] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-10 18:41:13,451 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 18:41:13,451 [6] ERROR Ticknet - Exception Message - 
+c:\Users\alulab14.INF.000\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(23): error CS1002: Se esperaba ;
+2015-11-10 18:41:13,451 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:13,453 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 18:41:13,453 [6] ERROR Ticknet - Exception Data - 
+HttpCompileException
+2015-11-10 18:41:13,453 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 18:41:13,453 [6] ERROR Ticknet - Exception Message - 
+c:\Users\alulab14.INF.000\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(23): error CS1002: Se esperaba ;
+2015-11-10 18:41:13,453 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:03:20,992 [37] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:03:20,999 [37] ERROR Ticknet - Exception Type - 
+InvalidCastException
+2015-11-10 22:03:20,999 [37] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 22:03:20,999 [37] ERROR Ticknet - Exception Message - 
+No se puede convertir un objeto de tipo 'System.Int32' al tipo 'System.String'.
+2015-11-10 22:03:20,999 [37] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:04:58,401 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:04:58,401 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:04:58,408 [8] ERROR Ticknet - Exception Type - 
+InvalidCastException
+2015-11-10 22:04:58,408 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 22:04:58,408 [8] ERROR Ticknet - Exception Message - 
+No se puede convertir un objeto de tipo 'System.Int32' al tipo 'System.String'.
+2015-11-10 22:04:58,408 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:04:58,408 [7] ERROR Ticknet - Exception Type - 
+InvalidCastException
+2015-11-10 22:04:58,408 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 22:04:58,408 [7] ERROR Ticknet - Exception Message - 
+No se puede convertir un objeto de tipo 'System.Int32' al tipo 'System.String'.
+2015-11-10 22:04:58,408 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:05:06,484 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:05:06,484 [7] ERROR Ticknet - Exception Type - 
+InvalidCastException
+2015-11-10 22:05:06,484 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 22:05:06,484 [7] ERROR Ticknet - Exception Message - 
+No se puede convertir un objeto de tipo 'System.Int32' al tipo 'System.String'.
+2015-11-10 22:05:06,484 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:06:23,308 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:06:23,308 [7] ERROR Ticknet - Exception Type - 
+InvalidCastException
+2015-11-10 22:06:23,308 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 22:06:23,308 [7] ERROR Ticknet - Exception Message - 
+No se puede convertir un objeto de tipo 'System.Int32' al tipo 'System.String'.
+2015-11-10 22:06:23,308 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:08:34,287 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:08:34,288 [8] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-10 22:08:34,288 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 22:08:34,288 [8] ERROR Ticknet - Exception Message - 
+Unexpected "{" after "@" character. Once inside the body of a code block (@if {}, @{}, etc.) you do not need to use "@{" to switch to code.
+
+2015-11-10 22:08:34,288 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:09:01,963 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:09:01,963 [8] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-10 22:09:01,963 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 22:09:01,963 [8] ERROR Ticknet - Exception Message - 
+Unexpected "{" after "@" character. Once inside the body of a code block (@if {}, @{}, etc.) you do not need to use "@{" to switch to code.
+
+2015-11-10 22:09:01,963 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:11:56,130 [15] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:11:56,130 [15] ERROR Ticknet - Exception Type - 
+RuntimeBinderException
+2015-11-10 22:11:56,130 [15] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 22:11:56,130 [15] ERROR Ticknet - Exception Message - 
+La mejor coincidencia de método sobrecargado para 'double.Parse(string)' tiene algunos argumentos no válidos
+2015-11-10 22:11:56,130 [15] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:11:57,591 [24] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:11:57,591 [24] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-10 22:11:57,591 [24] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 22:11:57,591 [24] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\CuentaUsuario\ComprarEntrada.cshtml(124): error CS0077: El operador as se debe usar con un tipo de referencia o un tipo que acepte valores null ('double' es un tipo de valor que no acepta valores null)
+2015-11-10 22:11:57,591 [24] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:12:10,198 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:12:10,198 [7] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-10 22:12:10,198 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 22:12:10,199 [7] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\CuentaUsuario\ComprarEntrada.cshtml(124): error CS0077: El operador as se debe usar con un tipo de referencia o un tipo que acepte valores null ('double' es un tipo de valor que no acepta valores null)
+2015-11-10 22:12:10,199 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:13:36,308 [23] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:13:36,309 [23] ERROR Ticknet - Exception Type - 
+InvalidCastException
+2015-11-10 22:13:36,309 [23] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 22:13:36,309 [23] ERROR Ticknet - Exception Message - 
+No se puede convertir un objeto de tipo 'System.Int32' al tipo 'System.String'.
+2015-11-10 22:13:36,309 [23] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:49:03,531 [42] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:49:03,538 [42] ERROR Ticknet - Exception Type - 
+DbEntityValidationException
+2015-11-10 22:49:03,538 [42] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 22:49:03,538 [42] ERROR Ticknet - Exception Message - 
+Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+2015-11-10 22:49:03,539 [42] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:52:36,629 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-10 22:52:36,637 [7] ERROR Ticknet - Exception Type - 
+ArgumentNullException
+2015-11-10 22:52:36,637 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-10 22:52:36,637 [7] ERROR Ticknet - Exception Message - 
+El valor no puede ser nulo.
+Nombre del parámetro: source
+2015-11-10 22:52:36,637 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 18:51:36,530 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 18:51:36,535 [8] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-11 18:51:36,535 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-11 18:51:36,535 [8] ERROR Ticknet - Exception Message - 
+c:\Users\alulab14.INF\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\CuentaUsuario\RegistrarUsuarioVendedor.cshtml(47): error CS0103: El nombre 'disabled' no existe en el contexto actual
+2015-11-11 18:51:36,535 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 18:52:18,315 [13] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 18:52:18,315 [13] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-11 18:52:18,315 [13] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-11 18:52:18,315 [13] ERROR Ticknet - Exception Message - 
+c:\Users\alulab14.INF\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\CuentaUsuario\RegistrarUsuarioVendedor.cshtml(47): error CS0103: El nombre 'disabled' no existe en el contexto actual
+2015-11-11 18:52:18,315 [13] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 20:16:45,013 [14] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 20:16:45,018 [14] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-11 20:16:45,018 [14] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-11 20:16:45,018 [14] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-11 20:16:45,018 [14] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 20:22:57,897 [52] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 20:22:57,897 [52] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-11 20:22:57,897 [52] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-11 20:22:57,897 [52] ERROR Ticknet - Exception Message - 
+Expected a "{" but found a "codperfilActual".  Block statements must be enclosed in "{" and "}".  You cannot use single-statement control-flow statements in CSHTML pages. For example, the following is not allowed:
+
+@if(isLoggedIn)
+    <p>Hello, @user</p>
+
+Instead, wrap the contents of the block in "{}":
+
+@if(isLoggedIn) {
+    <p>Hello, @user</p>
+}
+
+2015-11-11 20:22:57,897 [52] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 20:23:05,061 [43] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 20:23:05,061 [43] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-11 20:23:05,061 [43] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-11 20:23:05,061 [43] ERROR Ticknet - Exception Message - 
+Expected a "{" but found a "codperfilActual".  Block statements must be enclosed in "{" and "}".  You cannot use single-statement control-flow statements in CSHTML pages. For example, the following is not allowed:
+
+@if(isLoggedIn)
+    <p>Hello, @user</p>
+
+Instead, wrap the contents of the block in "{}":
+
+@if(isLoggedIn) {
+    <p>Hello, @user</p>
+}
+
+2015-11-11 20:23:05,061 [43] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 20:26:43,129 [25] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 20:26:43,129 [25] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-11 20:26:43,129 [25] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-11 20:26:43,129 [25] ERROR Ticknet - Exception Message - 
+Unexpected "{" after "@" character. Once inside the body of a code block (@if {}, @{}, etc.) you do not need to use "@{" to switch to code.
+
+2015-11-11 20:26:43,129 [25] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 20:27:06,183 [50] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 20:27:06,183 [50] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-11 20:27:06,183 [50] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-11 20:27:06,183 [50] ERROR Ticknet - Exception Message - 
+Unexpected "{" after "@" character. Once inside the body of a code block (@if {}, @{}, etc.) you do not need to use "@{" to switch to code.
+
+2015-11-11 20:27:06,183 [50] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 20:27:09,848 [46] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 20:27:09,848 [46] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-11 20:27:09,848 [46] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-11 20:27:09,848 [46] ERROR Ticknet - Exception Message - 
+Unexpected "{" after "@" character. Once inside the body of a code block (@if {}, @{}, etc.) you do not need to use "@{" to switch to code.
+
+2015-11-11 20:27:09,848 [46] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 21:22:50,040 [52] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-11 21:22:50,045 [52] ERROR Ticknet - Exception Type - 
+RuntimeBinderException
+2015-11-11 21:22:50,045 [52] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-11 21:22:50,045 [52] ERROR Ticknet - Exception Message - 
+No se puede convertir NULL en 'System.DateTime' porque es un tipo de valor que no acepta valores NULL.
+2015-11-11 21:22:50,045 [52] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-12 19:56:06,688 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-12 19:56:06,696 [9] ERROR Ticknet - Exception Type - 
+DbEntityValidationException
+2015-11-12 19:56:06,696 [9] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-12 19:56:06,696 [9] ERROR Ticknet - Exception Message - 
+Validation failed for one or more entities. See 'EntityValidationErrors' property for more details.
+2015-11-12 19:56:06,696 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-12 22:57:18,399 [23] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-12 22:57:18,430 [23] ERROR Ticknet - Exception Type - 
+ArgumentNullException
+2015-11-12 22:57:18,430 [23] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-12 22:57:18,430 [23] ERROR Ticknet - Exception Message - 
+El valor no puede ser nulo.
+Nombre del parámetro: String
+2015-11-12 22:57:18,430 [23] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 00:42:54,518 [35] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 00:42:54,526 [35] ERROR Ticknet - Exception Type - 
+NotSupportedException
+2015-11-13 00:42:54,526 [35] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 00:42:54,526 [35] ERROR Ticknet - Exception Message - 
+LINQ to Entities does not recognize the method 'Int32 get_Item(Int32)' method, and this method cannot be translated into a store expression.
+2015-11-13 00:42:54,526 [35] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 02:54:19,835 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 02:54:19,843 [6] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-13 02:54:19,843 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 02:54:19,843 [6] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-13 02:54:19,843 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:32:55,481 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:32:55,486 [11] ERROR Ticknet - Exception Type - 
+InvalidOperationException
+2015-11-13 09:32:55,486 [11] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 09:32:55,486 [11] ERROR Ticknet - Exception Message - 
+The view 'ReservaOrganizador' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/Evento/ReservaOrganizador.aspx
+~/Views/Evento/ReservaOrganizador.ascx
+~/Views/Shared/ReservaOrganizador.aspx
+~/Views/Shared/ReservaOrganizador.ascx
+~/Views/Evento/ReservaOrganizador.cshtml
+~/Views/Evento/ReservaOrganizador.vbhtml
+~/Views/Shared/ReservaOrganizador.cshtml
+~/Views/Shared/ReservaOrganizador.vbhtml
+2015-11-13 09:32:55,486 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:34:55,939 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:34:55,945 [9] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-13 09:34:55,945 [9] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 09:34:55,945 [9] ERROR Ticknet - Exception Message - 
+c:\Users\alulab14.INF.000\AppData\Local\Temp\Temporary ASP.NET Files\vs\40acceee\b0204f83\App_Web_reservaorganizador.cshtml.5eaf6943.fsya5sws.0.cs(37): error CS0246: No se puede encontrar el tipo o el nombre de espacio de nombres 'ResevaOrganizadorModel' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-13 09:34:55,945 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:41:03,796 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:41:03,796 [6] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-13 09:41:03,797 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 09:41:03,797 [6] ERROR Ticknet - Exception Message - 
+c:\temp\PrototipoSoftware\WebApplication4\WebApplication4\Views\Evento\ReservaOrganizador.cshtml(50): error CS1061: 'WebApplication4.Models.ReservaOrganizadorModel' no contiene una definición de 'nameAsiento' ni se encontró ningún método de extensión 'nameAsiento' que acepte un primer argumento de tipo 'WebApplication4.Models.ReservaOrganizadorModel' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-13 09:41:03,797 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:44:37,846 [31] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:44:37,846 [31] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-13 09:44:37,846 [31] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 09:44:37,846 [31] ERROR Ticknet - Exception Message - 
+A public action method 'ReservaOrganizador' was not found on controller 'WebApplication4.Controllers.EventoController'.
+2015-11-13 09:44:37,846 [31] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:45:14,444 [25] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:45:14,450 [25] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-13 09:45:14,450 [25] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 09:45:14,450 [25] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-13 09:45:14,450 [25] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:45:29,910 [25] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:45:29,910 [25] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-13 09:45:29,910 [25] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 09:45:29,910 [25] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-13 09:45:29,910 [25] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:45:33,641 [29] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:45:33,641 [29] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-13 09:45:33,641 [29] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 09:45:33,641 [29] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-13 09:45:33,641 [29] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:46:50,742 [30] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:46:50,742 [30] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-13 09:46:50,742 [30] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 09:46:50,742 [30] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-13 09:46:50,742 [30] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:55:29,814 [31] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:55:29,820 [31] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-13 09:55:29,820 [31] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 09:55:29,820 [31] ERROR Ticknet - Exception Message - 
+Unexpected "using" keyword after "@" character.  Once inside code, you do not need to prefix constructs like "using" with "@".
+
+2015-11-13 09:55:29,820 [31] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:55:39,179 [21] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:55:39,179 [21] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-13 09:55:39,179 [21] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 09:55:39,179 [21] ERROR Ticknet - Exception Message - 
+Unexpected "using" keyword after "@" character.  Once inside code, you do not need to prefix constructs like "using" with "@".
+
+2015-11-13 09:55:39,179 [21] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:58:25,830 [27] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 09:58:25,830 [27] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-13 09:58:25,830 [27] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 09:58:25,830 [27] ERROR Ticknet - Exception Message - 
+c:\temp\PrototipoSoftware\WebApplication4\WebApplication4\Views\Evento\ReservaOrganizador.cshtml(17): error CS1061: 'WebApplication4.Models.ReservaOrganizadorModel' no contiene una definición de 'nameEvento' ni se encontró ningún método de extensión 'nameEvento' que acepte un primer argumento de tipo 'WebApplication4.Models.ReservaOrganizadorModel' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-13 09:58:25,830 [27] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 10:01:24,756 [33] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 10:01:24,761 [33] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-13 10:01:24,761 [33] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 10:01:24,761 [33] ERROR Ticknet - Exception Message - 
+c:\temp\PrototipoSoftware\WebApplication4\WebApplication4\Views\Evento\ReservaOrganizador.cshtml(66): error CS1002: Se esperaba ;
+2015-11-13 10:01:24,761 [33] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 10:02:16,523 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 10:02:16,523 [6] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-13 10:02:16,523 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 10:02:16,523 [6] ERROR Ticknet - Exception Message - 
+c:\temp\PrototipoSoftware\WebApplication4\WebApplication4\Views\Evento\ReservaOrganizador.cshtml(61): error CS0019: El operador '<' no se puede aplicar a operandos del tipo 'string' y 'string'
+2015-11-13 10:02:16,523 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 11:51:51,572 [35] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 11:51:51,579 [35] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-13 11:51:51,579 [35] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 11:51:51,579 [35] ERROR Ticknet - Exception Message - 
+Unterminated string literal. Strings that start with a quotation mark (") must be terminated before the end of the line.  However, strings that start with @ and a quotation mark (@") can span multiple lines. Closing HTML tags within a string literal may trigger this error message.
+
+2015-11-13 11:51:51,579 [35] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 11:56:32,273 [18] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 11:56:32,273 [18] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-13 11:56:32,273 [18] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 11:56:32,273 [18] ERROR Ticknet - Exception Message - 
+A public action method 'CarritoDeCompras' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-13 11:56:32,273 [18] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 16:12:51,637 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 16:12:51,642 [8] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-13 16:12:51,642 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 16:12:51,642 [8] ERROR Ticknet - Exception Message - 
+c:\Users\alulab14\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\CuentaUsuario\MiCuenta.cshtml(28): error CS1061: 'WebApplication4.Models.ReporteClienteModel' no contiene una definición de 'nombre' ni se encontró ningún método de extensión 'nombre' que acepte un primer argumento de tipo 'WebApplication4.Models.ReporteClienteModel' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-13 16:12:51,642 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:02:41,598 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:02:41,605 [6] ERROR Ticknet - Exception Type - 
+ArgumentNullException
+2015-11-13 17:02:41,605 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 17:02:41,605 [6] ERROR Ticknet - Exception Message - 
+El valor no puede ser nulo.
+Nombre del parámetro: String
+2015-11-13 17:02:41,605 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:03:09,771 [12] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:03:09,771 [12] ERROR Ticknet - Exception Type - 
+ArgumentNullException
+2015-11-13 17:03:09,771 [12] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 17:03:09,771 [12] ERROR Ticknet - Exception Message - 
+El valor no puede ser nulo.
+Nombre del parámetro: String
+2015-11-13 17:03:09,771 [12] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:03:52,899 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:03:52,899 [9] ERROR Ticknet - Exception Type - 
+ArgumentNullException
+2015-11-13 17:03:52,899 [9] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 17:03:52,899 [9] ERROR Ticknet - Exception Message - 
+El valor no puede ser nulo.
+Nombre del parámetro: String
+2015-11-13 17:03:52,899 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:04:40,541 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:04:40,541 [7] ERROR Ticknet - Exception Type - 
+ArgumentNullException
+2015-11-13 17:04:40,541 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 17:04:40,541 [7] ERROR Ticknet - Exception Message - 
+El valor no puede ser nulo.
+Nombre del parámetro: String
+2015-11-13 17:04:40,541 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:05:15,454 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:05:15,454 [11] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-13 17:05:15,454 [11] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 17:05:15,454 [11] ERROR Ticknet - Exception Message - 
+A public action method 'redirigeReserva()' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-13 17:05:15,455 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:06:09,672 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:06:09,672 [6] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-13 17:06:09,672 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 17:06:09,672 [6] ERROR Ticknet - Exception Message - 
+A public action method 'redirigeReserva()' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-13 17:06:09,672 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:06:50,953 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:06:50,953 [6] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-13 17:06:50,953 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 17:06:50,953 [6] ERROR Ticknet - Exception Message - 
+A public action method 'redirigeReserva()' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-13 17:06:50,953 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:06:56,168 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:06:56,168 [10] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-13 17:06:56,168 [10] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 17:06:56,168 [10] ERROR Ticknet - Exception Message - 
+A public action method 'redirigeReserva()' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-13 17:06:56,168 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:07:20,184 [31] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:07:20,184 [31] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-13 17:07:20,184 [31] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 17:07:20,184 [31] ERROR Ticknet - Exception Message - 
+A public action method 'redirigeReserva()' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-13 17:07:20,184 [31] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:08:07,882 [21] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:08:07,882 [21] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-13 17:08:07,882 [21] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 17:08:07,882 [21] ERROR Ticknet - Exception Message - 
+A public action method 'redirigeReserva()' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-13 17:08:07,882 [21] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:46:34,637 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 17:46:34,644 [7] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-13 17:46:34,644 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 17:46:34,644 [7] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-13 17:46:34,644 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 18:02:07,733 [62] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 18:02:07,742 [62] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-13 18:02:07,742 [62] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 18:02:07,742 [62] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\CuentaUsuario\PagarReserva.cshtml(29): error CS1061: 'WebApplication4.Models.Promociones' no contiene una definición de 'de' ni se encontró ningún método de extensión 'de' que acepte un primer argumento de tipo 'WebApplication4.Models.Promociones' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-13 18:02:07,742 [62] DEBUG Ticknet - ++++++++++++++++++++++++++++
