@@ -20,7 +20,7 @@
 }
 <div class="container" id="promocionesLista">
     <p>Mejores descuentos para su compra segun los items en su carrito:</p>
-    <div>
+    <div id="listaEventoPromocion">
         @{
             for (int i = 0; i < promocionesLista.Count; i++)
             {
@@ -33,9 +33,9 @@
                 {
                     razon = "- Descuento de " + promocionesLista[i].descuento + "%.";
                 }
-                    @Html.Hidden("codEvento", "" + carrito[i].idEvento)
-                    @Html.Hidden("descuentoEvento", "" + promocionesLista[i].descuento)
-                    <p style="margin-left:2em">@razon</p>
+                @Html.Hidden("eventosCarrito", "" + carrito[i].idEvento)
+                @Html.Hidden("promocionesCarrito", "" + promocionesLista[i].codPromo)
+                <p style="margin-left:2em">@razon</p>
             }
         }
     </div>
@@ -44,7 +44,7 @@
     <div class="row">
         <div class="col-md-8" id="tarjeta">
             <h3>Información de la tarjeta</h3><br />
-            @using (Html.BeginForm("ComprarEntrada", "CuentaUsuario", FormMethod.Post))
+            @using (Html.BeginForm("ComprarEntrada", "CuentaUsuario", FormMethod.Post, new { @id = "formPost" }))
             {
                 <div class="row form-group">
                     @Html.LabelFor(c => c.Nombre, new { @class = "control-label col-md-3" })
@@ -81,7 +81,7 @@
                 <div class="row form-group">
                     @Html.LabelFor(c => c.idBanco, new { @class = "control-label col-md-3" })
                     <div class="col-md-4">
-                        @Html.DropDownListFor(c => c.idBanco, ViewBag.Bancos as SelectList, new { @class = "form-control" })
+                        @Html.DropDownListFor(c => c.idBanco, ViewBag.Bancos as SelectList, new { @class = "form-control", @onchange = "calculaPromo()" })
                         @Html.ValidationMessageFor(c => c.idBanco)
                     </div>
                 </div>
@@ -89,7 +89,7 @@
                 <div class="row form-group">
                     @Html.LabelFor(c => c.idTipoTarjeta, new { @class = "control-label col-md-3" })
                     <div class="col-md-4">
-                        @Html.DropDownListFor(c => c.idTipoTarjeta, ViewBag.TipoTarjeta as SelectList, new { @class = "form-control" })
+                        @Html.DropDownListFor(c => c.idTipoTarjeta, ViewBag.TipoTarjeta as SelectList, new { @class = "form-control", @onchange = "calculaPromo()" })
                         @Html.ValidationMessageFor(c => c.idTipoTarjeta)
                     </div>
                 </div>
@@ -145,16 +145,70 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-xs-6">
-                        <input type="submit" value="Finalzar Compra" class="btn btn-default btn-primary" />
+                        <input type="submit" value="Finalzar Compra" onclick="llenaArreglo()" class="btn btn-default btn-primary" />
                     </div>
                 </div>
             }
         </div>
     </div>
     <br />
+    @*<button onclick="llenaArreglo()">Test</button>*@
 </div>
 <script>
     function calculaPromo() {
+        var idBanco = parseInt($('#idBanco').val());
+        var tipoTarjeta = parseInt($('#idTipoTarjeta').val());
+        var eventosBTV = document.getElementsByName('eventosCarrito');
+        //listaEventoPromocion
+        //var divPromocionesLista = $('#listaEventoPromocion').empty();
+        var arrRazon = [];
+        var eventosCarritos = [];
+        var promocionCarritos = []
+        var descuentoCarritos = []
+        for (var i = 0; i < eventosBTV.length ; i++) {
+            var codEvento = eventosBTV[i].value;
+            eventosCarritos.push(codEvento);
+            $.ajax({
+                url: '/Services/Descuento/',
+                data: { codEvento: codEvento, idBanco: idBanco, tipoTarjeta: tipoTarjeta },
+                datatype: "json",
+                success: function (data) {
+                    var obj = $.parseJSON(data);
+                    //si tenemos data, escribimos denuevo el valor
+                    var razon = "";
+                    if (parseInt(obj.Descuento) == -1) {
+                        razon = "- No cuenta con promocion";
+                    } else {
+                        razon = "- Descuento de " + obj.Descuento + "%.";
+                    }
+                    arrRazon.push(razon);
+                    descuentoCarritos.push(obj.Descuento);
+                    promocionCarritos.push(obj.IdPromocion);
+                },
+                error: function () {
+                    alert("Error :(");
+                }
+            });
+        }
+        //<input id="eventosCarrito" name="eventosCarrito" type="hidden" value="1095">
+        //<input id="promocionesCarrito" name="promocionesCarrito" type="hidden" value="-1">
+        //<p style="margin-left:2em">razon</p>
 
+    }
+
+    function llenaArreglo() {
+        var nombreLista1 = "idEventos";
+        var nombreLista2 = "idPromociones";
+        var promocionesBTV = document.getElementsByName('promocionesCarrito');
+        var eventosBTV = document.getElementsByName('eventosCarrito');
+        for (var i = 0; i < promocionesBTV.length; i++) {
+            var idProm = promocionesBTV[i].value;
+            $("#formPost").prepend("<input type='hidden' name='" + nombreLista2 + "[" + (i) + "]' value='" + idProm + "'>");
+        }
+        for (var i = 0; i < eventosBTV.length; i++) {
+            var idEvento = eventosBTV[i].value;
+            $("#formPost").prepend("<input type='hidden' name='" + nombreLista1 + "[" + (i) + "]' value='" + idEvento + "'>");
+        }
+        return true;
     }
 </script>

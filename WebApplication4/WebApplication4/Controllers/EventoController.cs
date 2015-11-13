@@ -693,6 +693,7 @@ namespace WebApplication4.Controllers
                     fAgr.fecha = lista[i].fechaFuncion;
                     fAgr.horaIni = lista[i].horaInicio;
                     fAgr.codEvento = idEvento;
+                    fAgr.estado = "ACTIVO";
                     agregar.Add(fAgr);
                 }
                 //si existe, no le tengo que hacer nada
