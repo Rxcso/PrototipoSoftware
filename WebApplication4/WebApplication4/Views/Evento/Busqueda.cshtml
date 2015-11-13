@@ -317,7 +317,9 @@
                                     {
 
                                         var funcion = func.First();
-                                        fecha = funcion.horaIni.Value.ToString("dd/MM/yyyy hh:mm tt");
+
+                                        fecha = funcion.fecha.Value.ToString("dd/MM/yyyy");
+                                        fecha = fecha + " " + funcion.horaIni.Value.ToString("hh:mm tt"); 
                                     }
                                     else
                                     {
