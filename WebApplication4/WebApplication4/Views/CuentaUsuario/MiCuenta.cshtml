@@ -1,6 +1,7 @@
 ﻿@{
-    ViewBag.Title = "MiCuenta";
+    ViewBag.Title = "Mi Cuenta";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    int ptos = ViewBag.ptos;
 }
 <div class="container-fluid">
     <ol class="breadcrumb">
@@ -22,7 +23,8 @@
             </form>
         </div>
         <div class="col-md-3">
-            <h3>Puntos: </h3>
+            <h3>Puntos: @ptos</h3>
+
         </div>
         <div class="col-md-4">
             <div class="headDestacados">

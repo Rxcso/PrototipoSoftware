@@ -701,6 +701,9 @@ namespace WebApplication4.Controllers
 
         public ActionResult MiCuenta()
         {
+            string correo = User.Identity.Name;
+            CuentaUsuario cliente = db.CuentaUsuario.Where(c => c.correo == correo).First();
+            ViewBag.ptos = cliente.puntos;
             return View();
         }
 
