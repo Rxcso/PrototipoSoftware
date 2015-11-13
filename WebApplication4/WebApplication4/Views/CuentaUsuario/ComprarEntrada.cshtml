@@ -18,31 +18,28 @@
     double? descuento = ViewBag.Descuento as double?;
     double? montopagar = ViewBag.Pagar as double?;
 }
-@*<div class="container" id="promocionesLista">
-        <p>Mejores descuentos para su compra segun los items en su carrito:</p>
+<div class="container" id="promocionesLista">
+    <p>Mejores descuentos para su compra segun los items en su carrito:</p>
+    <div>
         @{
             for (int i = 0; i < promocionesLista.Count; i++)
             {
                 string razon = "";
                 if (promocionesLista[i].codPromo == -1)
                 {
-                    razon = (i + 1) + ". No cuenta con promocion";
+                    razon = "- No cuenta con promocion";
                 }
                 else
                 {
-                    razon = (i + 1) + ". Descuento de " + promocionesLista[i].descuento + "%.";
+                    razon = "- Descuento de " + promocionesLista[i].descuento + "%.";
                 }
-                string id = "eventosydescuentos" + (i + 1);
-                string idrazon = "razon" + (i + 1);
-                <div id="@id">
-                    @Html.Hidden("evento", "" + carrito[i].idEvento)
-                    @Html.Hidden("descuentoE", "" + promocionesLista[i].descuento)
-                    <p style="margin-left:2em" id="@idrazon">@razon</p>
-                </div>
-
+                    @Html.Hidden("codEvento", "" + carrito[i].idEvento)
+                    @Html.Hidden("descuentoEvento", "" + promocionesLista[i].descuento)
+                    <p style="margin-left:2em">@razon</p>
             }
         }
-    </div>*@
+    </div>
+</div>
 <div class="container">
     <div class="row">
         <div class="col-md-8" id="tarjeta">
@@ -124,12 +121,12 @@
                         @Html.DropDownListFor(c => c.AnioVen, ViewBag.AnVen as List<SelectListItem>, new { @class = "form-control" })
                     </div>
                 </div>
-               
+
                 <h3>Información de montos</h3><br>
                 <div class="row form-group">
                     @Html.LabelFor(c => c.Importe, new { @class = "control-label col-md-3" })
                     <div class="col-md-4">
-                        @Html.TextBoxFor(c => c.Importe, new { @class = "form-control", @Value =importe, @readonly = "readonly" })
+                        @Html.TextBoxFor(c => c.Importe, new { @class = "form-control", @Value = importe, @readonly = "readonly" })
                     </div>
                 </div>
 
@@ -158,40 +155,6 @@
 </div>
 <script>
     function calculaPromo() {
-        //sacamos el id del banco y tipo tarjeta
-        var idBanco = $("#idBanco").val();
-        var tipoTarjeta = $("#idTipoTarjeta").val();
-        var divPadre = document.getElementById("promocionesLista");
-        var hijosDiv = divPadre.getElementsByTagName('div');
-        for (var i = 0 ; i < hijosDiv.length; i++) {
-            //obtengo el hijo del div
-            var e = hijosDiv[i];
-            //obtengo el idEvento
-            var codEvento = e.getElementsByTagName('input')[0].value;
-            var cntDescuento = e.getElementsByTagName('input')[1].value;
-            var razon = $('#razon' + (i + 1));
-            var indice = (i + 1);
-            alert("indice afuera: " + indice);
-            $.ajax({
-                url: "/Services/Descuento/",
-                data: { codEvento: codEvento, idBanco: idBanco, tipoTarjeta: tipoTarjeta },
-                success: function (data) {
-                    var obj = $.parseJSON(data);
-                    var descuento = parseInt(obj.Descuento);
-                    alert("indice adentro: " + indice);
-                    if (descuento == -1) {
-                        razon.append(indice + ". No cuenta con promocion");
-                        alert("resultado " + razon.innerHTML);
-                    } else {
-                        razon.append(indice + ". Descuento de " + descuento + "%.");
-                        alert("resultado " + razon.innerHTML);
-                    }
-                },
-                error: function (data) {
-                    alert("Error");
-                }
-            })
-        }
 
     }
 </script>
