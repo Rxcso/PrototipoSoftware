@@ -500,6 +500,19 @@ namespace WebApplication4.Controllers
             List<AsientosXFuncion> axf = db.AsientosXFuncion.Where(a=>a.codFuncion==detalleVen.codFuncion && a.codDetalleVenta==detalleVen.codDetalleVenta).ToList();
             Session["ListaAsientos"] = axf;
 
+            List<Asientos> asientos=null;
+            if(axf.Count!=0){
+            //if(axf!=null){
+                asientos = new List<Asientos>();
+                for (int i = 0; i < axf.Count; i++)
+                {
+                    Asientos asi = db.Asientos.Find(axf[i].codAsiento);
+                    asientos.Add(asi);
+                }
+            }
+            Session["AsientosDev"] = asientos;
+            
+
             Funcion funDev = db.Funcion.Find(detalleVen.codFuncion);
             Session["FuncionDev"] = funDev;
             Eventos eventoDev = db.Eventos.Find(funDev.codEvento);
