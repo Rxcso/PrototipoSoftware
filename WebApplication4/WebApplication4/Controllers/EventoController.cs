@@ -1646,7 +1646,7 @@ namespace WebApplication4.Controllers
         [HttpPost]
         public ActionResult CancelarEvento(CancelarModel evento)
         {
-            if (evento.fechaRecojo <= DateTime.Today)
+            if (evento.fechaRecojo < DateTime.Today)
             {
                 ModelState.AddModelError("fechaRecojo", "Elija una fecha posterior al día de hoy");
             }
