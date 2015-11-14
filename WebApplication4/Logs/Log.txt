@@ -1459,3 +1459,12 @@ System.Collections.ListDictionaryInternal
 2015-11-13 18:02:07,742 [62] ERROR Ticknet - Exception Message - 
 c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\CuentaUsuario\PagarReserva.cshtml(29): error CS1061: 'WebApplication4.Models.Promociones' no contiene una definición de 'de' ni se encontró ningún método de extensión 'de' que acepte un primer argumento de tipo 'WebApplication4.Models.Promociones' (¿falta una directiva using o una referencia de ensamblado?)
 2015-11-13 18:02:07,742 [62] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 18:45:00,689 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 18:45:00,701 [7] ERROR Ticknet - Exception Type - 
+ArgumentNullException
+2015-11-13 18:45:00,701 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 18:45:00,701 [7] ERROR Ticknet - Exception Message - 
+El valor no puede ser nulo.
+Nombre del parámetro: String
+2015-11-13 18:45:00,701 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++

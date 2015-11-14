@@ -965,7 +965,7 @@ namespace WebApplication4.Controllers
                 model.IEvento = evento.ImagenEvento;
                 model.ISitios = evento.ImagenSitios;
                 model.Ganancia = (double)(evento.porccomision == null ? 0 : evento.porccomision);
-                model.MaxReservas = evento.maxReservas;
+                model.MaxReservas = db.Politicas.Find(2).valor.Value;
                 model.MontFijoVentEnt = (double)(evento.montoFijoVentaEntrada == null ? 0 : evento.montoFijoVentaEntrada);
                 model.PenCancelacion = (double)(evento.penalidadXcancelacion == null ? 0 : evento.penalidadXcancelacion);
                 model.PenPostergacion = (double)(evento.penalidadXpostergacion == null ? 0 : evento.penalidadXpostergacion);

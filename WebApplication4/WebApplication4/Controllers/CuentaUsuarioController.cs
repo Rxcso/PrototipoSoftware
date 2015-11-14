@@ -85,7 +85,6 @@ namespace WebApplication4.Controllers
             ComprarEntradaModel model = new ComprarEntradaModel();
             //venta involucrada
             int codVenta = int.Parse(reserva);
-            ViewBag.Venta = codVenta;
             Ventas venta = db.Ventas.Where(c => c.codVen == codVenta).First();
             //sacamos el detalle de venta
             VentasXFuncion vxf = db.VentasXFuncion.Where(c => c.codVen == codVenta).First();
@@ -115,6 +114,7 @@ namespace WebApplication4.Controllers
             }
             ViewBag.Promociones = promocion;
             model.MontoPagar = (double)vxf.total - model.Descuento;
+            model.idVenta = codVenta;
             ViewBag.Mes = Fechas.Mes();
             ViewBag.AnVen = Fechas.Anio();
             return View(model);
@@ -123,12 +123,11 @@ namespace WebApplication4.Controllers
         [HttpPost]
         public ActionResult PagarReserva(ComprarEntradaModel model)
         {
-            int codVenta = int.Parse((string)ViewBag.Venta);
             if (ModelState.IsValid)
             {
                 if (ValidacionesCompra(model))
                 {
-                    Ventas venta = db.Ventas.Find(codVenta);
+                    Ventas venta = db.Ventas.Find(model.idVenta);
                     venta.Estado = MagicHelpers.Compra;
                     VentasXFuncion vxf = db.VentasXFuncion.Where(c => c.codVen == venta.codVen).First();
                     DetalleVenta detalle = db.DetalleVenta.Where(c => c.codVen == venta.codVen && c.codFuncion == vxf.Funcion.codFuncion).First();
@@ -152,16 +151,15 @@ namespace WebApplication4.Controllers
                         TempData["message"] = "Error el pago.";
                         return RedirectToAction("MiCuenta");
                     }
+                    TempData["tipo"] = "alert alert-success";
+                    TempData["message"] = "Reserva Pagada. Muchas Gracias.";
+                    EnviarCorreo(model.idVenta);
+                    return RedirectToAction("MiCuenta");
                 }
-                TempData["tipo"] = "alert alert-success";
-                TempData["message"] = "Reserva Pagada. Muchas Gracias.";
-                EnviarCorreo(codVenta);
-                return RedirectToAction("MiCuenta");
             }
-            ViewBag.Venta = codVenta;
-            Ventas venta2 = db.Ventas.Where(c => c.codVen == codVenta).First();
+            Ventas venta2 = db.Ventas.Where(c => c.codVen == model.idVenta).First();
             //sacamos el detalle de venta
-            VentasXFuncion vxf2 = db.VentasXFuncion.Where(c => c.codVen == codVenta).First();
+            VentasXFuncion vxf2 = db.VentasXFuncion.Where(c => c.codVen == model.idVenta).First();
             //llenamos el model
             model.Importe = (double)vxf2.subtotal;
             //lista de bancos
