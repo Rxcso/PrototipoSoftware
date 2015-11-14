@@ -233,32 +233,40 @@ namespace WebApplication4.Controllers
             {
                 if (cliente.contrasena != model.NewPassword)
                 {
-                    if (model.NewPassword == model.ConfirmPassword)
-                    {
-                        var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
-                        if (result.Succeeded)
-                        {
-                            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-                            cliente.contrasena = model.NewPassword;
-                            db.SaveChanges();
-                            TempData["tipo"] = "alert alert-success";
-                            TempData["message"] = "Contraseña cambiada Exitosamente";
-                            if (user != null)
-                            {
-                                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                            }
-                            /*Aca deberia retornarte a MiCuenta de CuentaUsuario*/
-                            return RedirectToAction("MiCuenta", "CuentaUsuario");
-                        }
-                        else
-                        {
-                            ModelState.AddModelError("NewPassword", "Las contraseñas deben tener 6 caracteres como mínimo y una combinación de caracteres especiales, letras, letras mayúsculas y números");
-                        }    
-                    }
-                    else
+                    if (model.NewPassword != model.ConfirmPassword)
                     {
                         ModelState.AddModelError("ConfirmPassword", "Las contraseñas no coinciden");
                     }
+                    else
+                    {
+                    var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+                    if (result.Succeeded)
+                    {
+                        var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                        cliente.contrasena = model.NewPassword;
+                        db.SaveChanges();
+                        TempData["tipo"] = "alert alert-success";
+                        TempData["message"] = "Contraseña cambiada Exitosamente";
+                        if (user != null)
+                        {
+                            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        }
+                        /*Aca deberia retornarte a MiCuenta de CuentaUsuario*/
+                        return RedirectToAction("MiCuenta", "CuentaUsuario");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("NewPassword", "Las contraseñas deben tener 6 caracteres como mínimo y una combinación de caracteres especiales, letras, letras mayúsculas y números");
+
+                        }
+                    }
+                }
+                else //Cuando contraseña igual a antigua
+                {
+                    if (model.NewPassword != model.ConfirmPassword)
+                        {
+                            ModelState.AddModelError("ConfirmPassword", "Las contraseñas no coinciden");
+                        }
                 }
                 else //Cuando contraseña igual a antigua
                 {
@@ -268,13 +276,7 @@ namespace WebApplication4.Controllers
                     {
                         ModelState.AddModelError("NewPassword", "Las contraseñas deben tener 6 caracteres como mínimo y una combinación de caracteres especiales, letras, letras mayúsculas y números");
                     }
-                    else {
-                        if (model.NewPassword != model.ConfirmPassword)
-                        {
-                            ModelState.AddModelError("ConfirmPassword", "Las contraseñas no coinciden");
-                        }
                     }
-                    
                     
                 }
             }
