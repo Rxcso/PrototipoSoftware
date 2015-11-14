@@ -24,6 +24,7 @@
                 <a class="btn btn-primary" href="#formNuevo" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
                 <a class="btn btn-primary" data-toggle="modal" onclick="redirige()">Modificar<span class="glyphicon glyphicon-pencil"></span></a>
                 <a class="btn btn-primary" onclick="validaS()" data-toggle="modal">Borrar<span class="glyphicon glyphicon-remove"></span></a>
+                <a class="btn btn-primary" onclick="activa()" data-toggle="modal" id="Activate">Activar<span class="glyphicon glyphicon-ok"></span></a>
             </div>
         </div>
 
@@ -67,8 +68,8 @@
         else
         {
             listaPunto = (List<WebApplication4.Models.PuntoVenta>)Session["ListaP"];
-        } 
-         }
+        }
+    }
 
     <div class="row">
         <table id="mytable" class="table table-bordered table-hover">
@@ -93,7 +94,7 @@
                         <td>@db.Region.Find(row.idRegion).nombre</td>
                         <td>@row.estaActivo</td>
                         @*<td>@Html.ActionLink("Delete", "Delete", new { id = row.codPuntoVenta })</td>
-                        <td>@Html.ActionLink("Edit", "Edit", new { id = row.codPuntoVenta })</td>*@
+                            <td>@Html.ActionLink("Edit", "Edit", new { id = row.codPuntoVenta })</td>*@
                     </tr>
                 }
             </tbody>
@@ -136,21 +137,49 @@
         //alert(promocion);
         if (punto != "" && punto != null) {
             if (estado != "False") {
-            $.ajax({
-                url: "@Url.Action("Delete","PuntoVenta")",
-                data: { punto: punto },
-                success: function (data) {
-                    alert(data);
-                    $('#eliminar').modal('hide');
-                    row.remove();
-                    window.location.href = '/PuntoVenta/Index';
-                },
-                error: function (data) {
-                    alert(data);
-                }
-            });
+                $.ajax({
+                    url: "@Url.Action("Delete","PuntoVenta")",
+                    data: { punto: punto },
+                    success: function (data) {
+                        alert(data);
+                        $('#eliminar').modal('hide');
+                        row.remove();
+                        window.location.href = '/PuntoVenta/Index';
+                    },
+                    error: function (data) {
+                        alert(data);
+                    }
+                });
             } else {
                 alert("No se puede desactivar un Punto de Venta que ya esta desactivado");
+            }
+        } else {
+            alert("Seleccione un Punto de Venta");
+            evento = "";
+        }
+    }
+    function activa() {
+        var punto = $('#idPuntoT').val();
+        var estado = $('#EstadoPT').val();
+        var el = document.getElementById(punto);
+        var row = $(el).closest('tr');
+        //alert(evento);
+        //alert(promocion);
+        if (punto != "" && punto != null) {
+            if (estado != "True") {
+                $.ajax({
+                    url: "@Url.Action("Active","PuntoVenta")",
+                    data: { punto: punto },
+                    success: function (data) {
+                        alert(data);
+                        window.location.href = '/PuntoVenta/Index';
+                    },
+                    error: function (data) {
+                        alert(data);
+                    }
+                });
+            } else {
+                alert("No se puede activar un Punto de Venta que ya esta activado");
             }
         } else {
             alert("Seleccione un Punto de Venta");
@@ -212,15 +241,15 @@
         $.ajax({
             url: "@Url.Action("SearchI", "PuntoVenta")",
             data: {},
-        success: function (data) {
-            window.location.href = '/PuntoVenta/Index';
-            //alert("Eliminado");
-            //row.remove();
-        },
-        error: function () {
-            alert("Error :(");
-        }
-    });
+            success: function (data) {
+                window.location.href = '/PuntoVenta/Index';
+                //alert("Eliminado");
+                //row.remove();
+            },
+            error: function () {
+                alert("Error :(");
+            }
+        });
     }
     function validaS() {
         var cliente = $('#idPuntoT').val();

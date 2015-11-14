@@ -51,6 +51,7 @@
                             <th>Fecha</th>
                             <th>Cantidad de Boletos</th>
                             <th>Monto (S/.)</th>
+                            <th>Estado</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -64,6 +65,7 @@
                                     <td>@row.fecha.Value.ToString("dd/MM/yyyy")</td>
                                     <td>@row.cantAsientos</td>
                                     <td>@row.MontoTotalSoles</td>
+                                    <td>@row.Estado</td>
                                     <td><a href="@Url.Action("Detalles", "Ventas", new { id = row.codVen })" class="btn btn-primary">Detalles <span class="glyphicon glyphicon-pencil"></span></a></td>
                                 </tr>
                             }

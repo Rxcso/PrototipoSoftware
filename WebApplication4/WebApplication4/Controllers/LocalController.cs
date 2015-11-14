@@ -69,6 +69,20 @@ namespace WebApplication4.Controllers
             return Json("Local Desactivado", JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult Active(string local)
+        {
+            //List<WebApplication4.Models.Local> listaLocal;
+            int id = int.Parse(local);
+            Local localr = db.Local.Find(id);
+            //db.Local.Remove(localr);
+            db.Entry(localr).State = EntityState.Modified;
+            localr.estaActivo = true;
+            db.SaveChanges();
+            //listaLocal = db.Local.AsNoTracking().Where(c => c.estaActivo == true).ToList();
+            Session["ListaL"] = null;
+            return Json("Local Activado", JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult Delete2(int id)
         {
             Local local = db.Local.Find(id);

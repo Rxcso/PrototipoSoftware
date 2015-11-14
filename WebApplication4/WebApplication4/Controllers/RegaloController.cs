@@ -64,6 +64,20 @@ namespace WebApplication4.Controllers
             return Json("Regalo Desactivado", JsonRequestBehavior.AllowGet);
         }
 
+
+        public JsonResult Active(string regalo)
+        {
+            List<Regalo> listaReg;
+            int idQ = int.Parse(regalo);
+            Regalo regaloE = db.Regalo.Find(idQ);
+            db.Entry(regaloE).State = EntityState.Modified;
+            regaloE.estado = true;
+            db.SaveChanges();
+            listaReg = db.Regalo.AsNoTracking().Where(c => c.estado == true).ToList();
+            Session["ListaR"] = listaReg;
+            return Json("Regalo Activado", JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult Edit(string regalo)
         {
             int id = int.Parse(regalo);
