@@ -38,6 +38,7 @@
             <h3>Información de la tarjeta</h3><br />
             @using (Html.BeginForm("PagarReserva", "CuentaUsuario", FormMethod.Post, new { @id = "formPost" }))
             {
+                @Html.HiddenFor(c => c.idVenta)
                 <div class="row form-group">
                     @Html.LabelFor(c => c.Nombre, new { @class = "control-label col-md-3" })
                     <div class="col-md-4">

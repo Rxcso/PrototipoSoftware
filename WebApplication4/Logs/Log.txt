@@ -1516,3 +1516,12 @@ System.Collections.ListDictionaryInternal
 2015-11-13 19:34:17,882 [8] ERROR Ticknet - Exception Message - 
 El objeto que acepta valores Null debe tener un valor.
 2015-11-13 19:34:17,882 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-15 01:54:10,173 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-15 01:54:10,182 [6] ERROR Ticknet - Exception Type - 
+ArgumentNullException
+2015-11-15 01:54:10,182 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-15 01:54:10,182 [6] ERROR Ticknet - Exception Message - 
+El valor no puede ser nulo.
+Nombre del parámetro: String
+2015-11-15 01:54:10,182 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++

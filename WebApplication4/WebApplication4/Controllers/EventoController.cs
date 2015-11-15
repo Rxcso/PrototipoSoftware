@@ -1597,13 +1597,12 @@ namespace WebApplication4.Controllers
             db.Entry(queryEvento).State = EntityState.Modified;
             queryEvento.hanPostergado = true;
             db.SaveChanges();
-
+            EmailController.EnviarCorreoPostergarcionFuncion(evento.idFuncion);
             ViewBag.nombreEvento = queryEvento.nombre;
             int idOrganizador = (int)queryEvento.idOrganizador;
             ViewBag.idEvento = "" + id;
             ViewBag.organizadorEvento = db.Organizador.Where(c => c.codOrg == idOrganizador).First().nombOrg;
             ViewBag.listaFunciones = db.Funcion.Where(c => c.codEvento == id && c.estado != "CANCELADO").ToList();
-
             return View();
         }
 

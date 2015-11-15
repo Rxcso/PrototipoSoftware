@@ -94,6 +94,52 @@ namespace WebApplication4.Controllers
                 Console.WriteLine(ex.ToString());
             }
         }
+        public static void EnviarCorreoPostergarcionFuncion(int codFuncion)
+        {
+            Funcion funcion = db.Funcion.Where(c => c.codFuncion == codFuncion).First();
+            Eventos evento = db.Eventos.Find(funcion.codEvento);
+            MailMessage mail = new MailMessage();
+            mail.From = new MailAddress(MagicHelpers.CorreoVentas);
+            //quienes compraron o reservaron la funcion
+            List<DetalleVenta> detalles = db.DetalleVenta.Where(c => c.codFuncion == codFuncion).ToList();
+            //saco del detalle las ordenes de venta
+            List<Ventas> ventas = new List<Ventas>();
+            foreach (DetalleVenta detalle in detalles)
+            {
+                Ventas venta = db.Ventas.Find(detalle.codVen);
+                ventas.Add(venta);
+            }
+            //con las ordenes de venta puedo saber quienes han comprado 
+            List<CuentaUsuario> compradores = new List<CuentaUsuario>();
+            foreach (Ventas venta in ventas)
+            {
+                CuentaUsuario comprador = db.CuentaUsuario.Find(venta.CuentaUsuario.correo);
+                compradores.Add(comprador);
+            }
+            compradores = compradores.GroupBy(c => c.correo).Select(s => s.First()).ToList();
+            //una vez que tengo la lista de compradores les mando un correo a cada uno
+            foreach (CuentaUsuario cliente in compradores)
+            {
+                try
+                {
+                    mail.To.Add(cliente.correo);
+                    mail.Subject = "Postegarcion de Funcion del Evento '" + evento.nombre + "'";
+                    mail.IsBodyHtml = true;
+                    string htmlBody = "<p>Estimado " + cliente.nombre + " " + cliente.apellido + ", </p>";
+                    htmlBody += "<p>Le informamos que la funcion del evento al que va asistir se ha postergado para el dia " + String.Format("{0:d}", funcion.fecha) + " a la hora " + String.Format("{0:t}", funcion.horaIni) + "</p>";
+                    //htmlBody += "<p>Por el siguiente motivo:</p><p>" + funcion.motivoCambio + ".</p>";
+                    htmlBody += "<br><p>Esperamos su compresion,</p><p>TickNet</p>";
+                    mail.Body = htmlBody;
+                    SmtpServer.Send(mail);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
+                //para enviar indivualmente a cada cliente en vez de englobar a todos
+                mail.To.Clear();
+            }
+        }
     }
 
     public class Fechas
@@ -215,6 +261,8 @@ namespace WebApplication4.Controllers
                             asientoxf.PrecioPagado = model.MontoPagar;
                         }
                     }
+                    CuentaUsuario cuenta = db.CuentaUsuario.Find(User.Identity.Name);
+                    cuenta.puntos += db.Eventos.Find(vxf.Funcion.codEvento).puntosAlCliente * (int)detalle.cantEntradas;
                     try
                     {
                         db.SaveChanges();
@@ -222,11 +270,12 @@ namespace WebApplication4.Controllers
                     catch (Exception ex)
                     {
                         TempData["tipo"] = "alert alert-warning";
-                        TempData["message"] = "Error el pago.";
+                        TempData["message"] = "Error en el pago.";
                         return RedirectToAction("MiCuenta");
                     }
                     TempData["tipo"] = "alert alert-success";
                     TempData["message"] = "Reserva Pagada. Muchas Gracias.";
+
                     EmailController.EnviarCorreoCompra(model.idVenta, User.Identity.Name);
                     return RedirectToAction("MiCuenta");
                 }

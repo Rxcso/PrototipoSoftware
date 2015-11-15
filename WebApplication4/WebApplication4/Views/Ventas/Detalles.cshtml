@@ -12,11 +12,13 @@
     }
 }
 
-<h2>Detalles</h2>
-
-<a href="@Url.Action("MisCompras", "CuentaUsuario")" class="btn btn-danger">Salir <span class="glyphicon glyphicon-log-out"></span></a>
-
 <div class="container">
+    <h2>Detalles</h2>
+    <a href="@Url.Action("MisCompras", "CuentaUsuario")" class="btn btn-danger">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+</div>
+<br />
+<div class="container">
+
     <div class="row">
         <table id="mytable" class="table table-bordered table-hover">
             <thead>
@@ -37,8 +39,8 @@
                             @{Funcion fu = db.Funcion.Find(row.codFuncion);
                             }
                             <td>@db.Eventos.Find(fu.codEvento).nombre</td>
-                            <td>@fu.fecha.Value.ToString("dd/MM/yyyy")</td>
-                            <td>@fu.horaIni.Value.TimeOfDay</td>
+                            <td>@String.Format("{0:d}", fu.fecha)</td>
+                            <td>@String.Format("{0:t}", fu.horaIni)</td>
                             <td>@row.cantEntradas</td>
                             <td>@row.total</td>
                         </tr>
