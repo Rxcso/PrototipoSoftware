@@ -388,8 +388,6 @@ namespace WebApplication4.Controllers
             return ind;
         }
 
-
-
         [HttpPost]
         [AllowAnonymous]
         public ActionResult ComprarEntrada(ComprarEntradaModel model)
