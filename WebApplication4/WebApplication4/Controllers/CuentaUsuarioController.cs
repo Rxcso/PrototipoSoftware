@@ -494,10 +494,10 @@ namespace WebApplication4.Controllers
                     //si toda la compra se procesa de manera correcta eliminamos los session
                     Session["CarritoItem"] = null;
                     Session["Carrito"] = null;
-                    /*if (Request.IsAuthenticated)
+                    if (Request.IsAuthenticated)
                     {
                         EnviarCorreo(idVenta);
-                    }*/
+                    }
                     return RedirectToAction("Index", "Home");
                 }
             }

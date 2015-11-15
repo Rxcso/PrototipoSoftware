@@ -225,7 +225,7 @@ namespace WebApplication4.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
-        {
+        {/*
             var db = new inf245netsoft();
             string correo = User.Identity.Name;
             CuentaUsuario cliente = db.CuentaUsuario.Where(c => c.correo == correo).First();
@@ -252,7 +252,7 @@ namespace WebApplication4.Controllers
                             await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                         }
                         /*Aca deberia retornarte a MiCuenta de CuentaUsuario*/
-                        return RedirectToAction("MiCuenta", "CuentaUsuario");
+                  /*      return RedirectToAction("MiCuenta", "CuentaUsuario");
                     }
                     else
                     {
@@ -283,7 +283,7 @@ namespace WebApplication4.Controllers
             else //Cuando contraseña antigua esta mal
             {
                 ModelState.AddModelError("OldPassword", "Contraseña ingresada no es correcta");
-            }
+            }*/
             return View(model);
         }
 

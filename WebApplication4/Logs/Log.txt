@@ -1468,3 +1468,51 @@ System.Collections.ListDictionaryInternal
 El valor no puede ser nulo.
 Nombre del parámetro: String
 2015-11-13 18:45:00,701 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 19:09:45,227 [14] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 19:09:45,243 [14] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-13 19:09:45,243 [14] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 19:09:45,243 [14] ERROR Ticknet - Exception Message - 
+A public action method 'Asignacion' was not found on controller 'WebApplication4.Controllers.VentasController'.
+2015-11-13 19:09:45,243 [14] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 19:10:06,850 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 19:10:06,850 [6] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-13 19:10:06,850 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 19:10:06,850 [6] ERROR Ticknet - Exception Message - 
+A public action method 'Asignacion' was not found on controller 'WebApplication4.Controllers.VentasController'.
+2015-11-13 19:10:06,850 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 19:10:30,902 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 19:10:30,902 [7] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-13 19:10:30,903 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 19:10:30,903 [7] ERROR Ticknet - Exception Message - 
+A public action method 'Asignacion' was not found on controller 'WebApplication4.Controllers.VentasController'.
+2015-11-13 19:10:30,903 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 19:12:48,811 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 19:12:48,811 [7] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-13 19:12:48,811 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 19:12:48,811 [7] ERROR Ticknet - Exception Message - 
+A public action method 'Asignacion' was not found on controller 'WebApplication4.Controllers.VentasController'.
+2015-11-13 19:12:48,811 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 19:31:39,185 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 19:31:39,192 [8] ERROR Ticknet - Exception Type - 
+InvalidOperationException
+2015-11-13 19:31:39,192 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 19:31:39,192 [8] ERROR Ticknet - Exception Message - 
+El objeto que acepta valores Null debe tener un valor.
+2015-11-13 19:31:39,192 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 19:34:17,882 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-13 19:34:17,882 [8] ERROR Ticknet - Exception Type - 
+InvalidOperationException
+2015-11-13 19:34:17,882 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-13 19:34:17,882 [8] ERROR Ticknet - Exception Message - 
+El objeto que acepta valores Null debe tener un valor.
+2015-11-13 19:34:17,882 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
