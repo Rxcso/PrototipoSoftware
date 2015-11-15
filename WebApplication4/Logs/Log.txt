@@ -1525,3 +1525,43 @@ System.Collections.ListDictionaryInternal
 El valor no puede ser nulo.
 Nombre del parámetro: String
 2015-11-15 01:54:10,182 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-15 15:05:03,371 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-15 15:05:03,419 [7] ERROR Ticknet - Exception Type - 
+EntityException
+2015-11-15 15:05:03,419 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-15 15:05:03,419 [7] ERROR Ticknet - Exception Message - 
+The underlying provider failed on Open.
+2015-11-15 15:05:03,419 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-15 15:27:27,159 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-15 15:27:27,183 [6] ERROR Ticknet - Exception Type - 
+EntityException
+2015-11-15 15:27:27,183 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-15 15:27:27,183 [6] ERROR Ticknet - Exception Message - 
+The underlying provider failed on Open.
+2015-11-15 15:27:27,183 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-15 15:30:56,413 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-15 15:30:56,449 [7] ERROR Ticknet - Exception Type - 
+EntityException
+2015-11-15 15:30:56,449 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-15 15:30:56,449 [7] ERROR Ticknet - Exception Message - 
+The underlying provider failed on Open.
+2015-11-15 15:30:56,449 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-15 15:31:59,485 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-15 15:31:59,485 [7] ERROR Ticknet - Exception Data - 
+EntityException
+2015-11-15 15:31:59,485 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-15 15:31:59,485 [7] ERROR Ticknet - Exception Message - 
+The underlying provider failed on Open.
+2015-11-15 15:31:59,485 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-15 15:36:15,591 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-15 15:36:15,618 [10] ERROR Ticknet - Exception Type - 
+EntityException
+2015-11-15 15:36:15,618 [10] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-15 15:36:15,618 [10] ERROR Ticknet - Exception Message - 
+The underlying provider failed on Open.
+2015-11-15 15:36:15,618 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
