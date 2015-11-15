@@ -70,6 +70,28 @@ namespace WebApplication4.Controllers
             return Json("Empleado desactivado", JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult Active(string usuario)
+        {
+            string usuario2 = usuario.Replace("°", "@");
+            CuentaUsuario cuenta = db.CuentaUsuario.Find(usuario2);
+            if (cuenta.codPerfil == 2)
+            {
+                db.Entry(cuenta).State = EntityState.Modified;
+                cuenta.estado = true;
+                db.SaveChanges();
+                Session["ListaV1"] = null;
+            }
+            else
+            {
+                db.Entry(cuenta).State = EntityState.Modified;
+                cuenta.estado = true;
+                db.SaveChanges();
+                Session["ListaT"] = null;
+                return Json("Promotor activado", JsonRequestBehavior.AllowGet);
+            }
+            return Json("Empleado activado", JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult Edit(string usuario)
         {
             string usuario2 = usuario.Replace("°", "@");
