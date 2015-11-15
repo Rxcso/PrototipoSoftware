@@ -82,7 +82,10 @@ namespace WebApplication4.Controllers
                 mail.Subject = "Registro de Usuario";
 
                 mail.IsBodyHtml = true;
-                string htmlBody = "Su cuenta ha sido registrada exitosamente.";
+                string htmlBody = "<p>Su cuenta ha sido registrada exitosamente.</p>";
+                CuentaUsuario cuenta = db.CuentaUsuario.Find(correo);
+                htmlBody += "<p>Usuario: " + correo + "</p>";
+                htmlBody += "<p>Contraseña: " + cuenta.contrasena + "</p>";
                 mail.Body = htmlBody;
                 SmtpServer.Send(mail);
             }
@@ -1430,8 +1433,8 @@ namespace WebApplication4.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                     TempData["tipo"] = "alert alert-success";
-                    TempData["message"] = "Registro Exitoso!";
-                    return RedirectToAction("Index", "Home");
+                    TempData["message"] = "Registro de cliente exitoso!";
+                    return RedirectToAction("Index2", "Home");
                     //return View("~/Views/Home/Index.cshtml");
                 }
 
