@@ -8,7 +8,7 @@ namespace WebApplication4.Controllers
     public class MagicHelpers
     {
         //Padre de todas las categorias
-        public const  int Categorias = 1;
+        public const int Categorias = 1;
         //Identificador de un evento nuevo
         public const string NuevoEventoImagen = "/Doesnt/Exists/Yet";
         //crear evento
@@ -23,6 +23,33 @@ namespace WebApplication4.Controllers
         public const string CorreoVentas = "ticknetventas@gmail.com";
         //contraseña ventas
         public const string ContraVentas = "Asdf1234!@";
+        //crear una contraseña nueva aleatoria cuando un vendedor registra a un cliente
+        public static string CreaPassword()
+        {
+            string caracteresValidosMinuscula = "abcdefghijkmnopqrstuvwxyz"; // 6 minusculas
+            string caracteresValidosMayuscula = "ABCDEFGHJKLMNOPQRSTUVWXYZ"; // 1 mayuscula
+            string caracteresNumeros = "0123456789"; // 2 numeros
+            string caracteresSimbolos = "!@$#%&-+"; // 1 simbolo
+            Random randNum = new Random((int)DateTime.Now.Ticks);
+            char[] chars = new char[10];
+            //primera letra mayuscula
+            chars[0] = caracteresValidosMayuscula[randNum.Next(caracteresValidosMayuscula.Length)];
+            //6 caracteres minuscula
+            for (int i = 1; i < 7; i++)
+            {
+                chars[i] = caracteresValidosMinuscula[randNum.Next(caracteresValidosMinuscula.Length)];
+            }
+            //2 numeros
+            for (int i = 7; i < 9; i++)
+            {
+                chars[i] = caracteresNumeros[randNum.Next(caracteresNumeros.Length)];
+            }
+            //1 simbolo
+            chars[9] = caracteresSimbolos[randNum.Next(caracteresSimbolos.Length)];
+            return new string(chars);
+        }
 
     }
+
+
 }

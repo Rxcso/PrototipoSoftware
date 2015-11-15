@@ -22,6 +22,77 @@ using System.Net.Mail;
 
 namespace WebApplication4.Controllers
 {
+    public class EmailController
+    {
+        public static inf245netsoft db = new inf245netsoft();
+        //credenciales del correo
+        public static NetworkCredential credentials = new System.Net.NetworkCredential(MagicHelpers.CorreoVentas, MagicHelpers.ContraVentas);
+        //configuracion del cliente smtp
+        public static SmtpClient SmtpServer = new SmtpClient
+        {
+            DeliveryMethod = SmtpDeliveryMethod.Network,
+            EnableSsl = true,
+            Host = "smtp.gmail.com",
+            Port = 587,
+            UseDefaultCredentials = false,
+            Credentials = credentials
+        };
+
+        public static void EnviarCorreoCompra(int idVenta, string correo)
+        {
+            try
+            {
+                MailMessage mail = new MailMessage();
+                mail.From = new MailAddress(MagicHelpers.CorreoVentas);
+                mail.To.Add(correo);
+                mail.Subject = "Compra de Entradas - Venta " + idVenta + ".";
+
+                mail.IsBodyHtml = true;
+                string htmlBody = "<table class='table table-bordered table-hover'><thsead><tr class='thead'>";
+                htmlBody += "<th>Evento</th><th>Fecha</th><th>Hora</th><th>Cantidad de Entradas</th><th>Total</th></thsead><tbody>";
+                string relleno = "";
+                List<VentasXFuncion> ventasxf = db.VentasXFuncion.Where(c => c.codVen == idVenta).ToList();
+                foreach (var row in ventasxf)
+                {
+                    Funcion fu = db.Funcion.Find(row.codFuncion);
+                    relleno += "<tr>";
+                    relleno += "<td>" + db.Eventos.Find(fu.codEvento).nombre + "</td>";
+                    relleno += "<td>" + String.Format("{0:d}", fu.fecha) + "</td>";
+                    relleno += "<td>" + String.Format("{0:t}", fu.horaIni) + "</td>";
+                    relleno += "<td>" + row.cantEntradas + "</td>";
+                    relleno += "<td>" + row.total + "</td>";
+                    relleno += "</tr>";
+                }
+                mail.Body = htmlBody + relleno;
+                SmtpServer.Send(mail);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
+
+        public static void EnviarCorreoRegistro(string correo)
+        {
+            try
+            {
+                MailMessage mail = new MailMessage();
+                mail.From = new MailAddress(MagicHelpers.CorreoVentas);
+                mail.To.Add(correo);
+                mail.Subject = "Registro de Usuario";
+
+                mail.IsBodyHtml = true;
+                string htmlBody = "Su cuenta ha sido registrada exitosamente.";
+                mail.Body = htmlBody;
+                SmtpServer.Send(mail);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
+    }
+
     public class Fechas
     {
         public static List<SelectListItem> Mes()
@@ -153,7 +224,7 @@ namespace WebApplication4.Controllers
                     }
                     TempData["tipo"] = "alert alert-success";
                     TempData["message"] = "Reserva Pagada. Muchas Gracias.";
-                    EnviarCorreo(model.idVenta);
+                    EmailController.EnviarCorreoCompra(model.idVenta, User.Identity.Name);
                     return RedirectToAction("MiCuenta");
                 }
             }
@@ -164,10 +235,10 @@ namespace WebApplication4.Controllers
             model.Importe = (double)vxf2.subtotal;
             //lista de bancos
             List<Banco> bancos = db.Banco.ToList();
-            ViewBag.Bancos = new SelectList(bancos, "codigo", "nombre",model.idBanco);
+            ViewBag.Bancos = new SelectList(bancos, "codigo", "nombre", model.idBanco);
             //lista de tarjetas
             List<TipoTarjeta> tipoTarjeta = db.TipoTarjeta.ToList();
-            ViewBag.TipoTarjeta = new SelectList(tipoTarjeta, "idTipoTar", "nombre",model.idTipoTarjeta);
+            ViewBag.TipoTarjeta = new SelectList(tipoTarjeta, "idTipoTar", "nombre", model.idTipoTarjeta);
             //Vemos el descuento del evento
             int codEvento = vxf2.Funcion.codEvento;
             model.idEventos = new List<int>();
@@ -263,51 +334,7 @@ namespace WebApplication4.Controllers
             return ind;
         }
 
-        private void EnviarCorreo(int idVenta)
-        {
-            try
-            {
-                SmtpClient SmtpServer = new SmtpClient();
-                SmtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
-                SmtpServer.EnableSsl = true;
-                SmtpServer.Host = "smtp.gmail.com";
-                SmtpServer.Port = 587;
-                //credenciales
-                System.Net.NetworkCredential credentials = new System.Net.NetworkCredential(MagicHelpers.CorreoVentas, MagicHelpers.ContraVentas);
-                SmtpServer.UseDefaultCredentials = false;
-                SmtpServer.Credentials = credentials;
 
-                MailMessage mail = new MailMessage();
-                mail.From = new MailAddress(MagicHelpers.CorreoVentas);
-                mail.To.Add(User.Identity.Name);
-                mail.Subject = "Compra de Entradas - Venta " + idVenta + ".";
-
-                mail.IsBodyHtml = true;
-                string htmlBody = "<table class='table table-bordered table-hover'><thsead><tr class='thead'>";
-                htmlBody += "<th>Evento</th><th>Fecha</th><th>Hora</th><th>Cantidad de Entradas</th><th>Total</th></thsead><tbody>";
-                string relleno = "";
-                List<VentasXFuncion> ventasxf = db.VentasXFuncion.Where(c => c.codVen == idVenta).ToList();
-                foreach (var row in ventasxf)
-                {
-                    Funcion fu = db.Funcion.Find(row.codFuncion);
-                    relleno += "<tr>";
-                    relleno += "<td>" + db.Eventos.Find(fu.codEvento).nombre + "</td>";
-                    relleno += "<td>" + String.Format("{0:d}", fu.fecha) + "</td>";
-                    relleno += "<td>" + String.Format("{0:t}", fu.horaIni) + "</td>";
-                    relleno += "<td>" + row.cantEntradas + "</td>";
-                    relleno += "<td>" + row.total + "</td>";
-                    relleno += "</tr>";
-                }
-                mail.Body = htmlBody + relleno;
-
-
-                SmtpServer.Send(mail);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
-        }
 
         [HttpPost]
         [AllowAnonymous]
@@ -496,7 +523,7 @@ namespace WebApplication4.Controllers
                     Session["Carrito"] = null;
                     if (Request.IsAuthenticated)
                     {
-                        EnviarCorreo(idVenta);
+                        EmailController.EnviarCorreoCompra(idVenta, User.Identity.Name);
                     }
                     return RedirectToAction("Index", "Home");
                 }
@@ -1366,7 +1393,8 @@ namespace WebApplication4.Controllers
                 }
 
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, "Peru123*");
+                string password = MagicHelpers.CreaPassword();
+                var result = await UserManager.CreateAsync(user, password);
                 if (result.Succeeded)
                 {
                     var currentUser = UserManager.FindByName(user.UserName);
@@ -1380,7 +1408,7 @@ namespace WebApplication4.Controllers
                     cu.nombre = model.nombre;
 
                     cu.codPerfil = 1;
-                    cu.contrasena = "Peru123*";
+                    cu.contrasena = password;
                     cu.direccion = model.direccion;
                     cu.estado = true;
                     cu.fechaNac = model.fechaNac;
@@ -1393,9 +1421,9 @@ namespace WebApplication4.Controllers
 
                     db.CuentaUsuario.Add(cu);
                     db.SaveChanges();
-
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
+                    //cuando un vendedor registra a un cliente no debe logarme con la cuenta creada
+                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    EmailController.EnviarCorreoRegistro(model.Email);
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);

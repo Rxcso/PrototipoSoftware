@@ -344,6 +344,7 @@ namespace WebApplication4.Controllers
                     db.CuentaUsuario.Add(cuentausuario);
                     db.SaveChanges();
                     Session["UsuarioLogueado"] = cuentausuario;
+                    EmailController.EnviarCorreoRegistro(model.Email);
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
