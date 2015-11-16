@@ -1523,5 +1523,13 @@ namespace WebApplication4.Controllers
                 _signInManager = value;
             }
         }
+
+        public ActionResult ReporteAsistencia() {
+
+            return View();
+
+
+        }
+
     }
 }

@@ -1812,3 +1812,11 @@ C:\Users\alulab14\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4
 C:\Users\alulab14\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\obj\Debug\TicknetPrototipo.csprojResolveAssemblyReference.cache
 C:\Users\alulab14\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\obj\Debug\WebApplication4.dll
 C:\Users\alulab14\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\obj\Debug\WebApplication4.pdb
+E:\Repositorio2\WebApplication4\WebApplication4\bin\MVC Foolproof Validation.dll
+E:\Repositorio2\WebApplication4\WebApplication4\bin\MvcPaging.dll
+E:\Repositorio2\WebApplication4\WebApplication4\bin\PagedList.dll
+E:\Repositorio2\WebApplication4\WebApplication4\bin\PagedList.Mvc.dll
+E:\Repositorio2\WebApplication4\WebApplication4\bin\MvcPaging.pdb
+E:\Repositorio2\WebApplication4\WebApplication4\bin\PagedList.xml
+E:\Repositorio2\WebApplication4\WebApplication4\bin\PagedList.Mvc.xml
+E:\Repositorio2\WebApplication4\WebApplication4\bin\es\Microsoft.AspNet.Identity.Core.resources.dll
