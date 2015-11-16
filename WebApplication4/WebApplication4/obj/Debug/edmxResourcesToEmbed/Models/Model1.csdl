@@ -563,6 +563,7 @@
     <NavigationProperty Name="Ventas" Relationship="inf245netsoftModel.R_38" FromRole="VentasXFuncion" ToRole="Ventas" />
     <NavigationProperty Name="DetalleVenta" Relationship="inf245netsoftModel.R_62" FromRole="VentasXFuncion" ToRole="DetalleVenta" />
     <NavigationProperty Name="Funcion" Relationship="inf245netsoftModel.R_76" FromRole="VentasXFuncion" ToRole="Funcion" />
+    <Property Name="hanEntregado" Type="Boolean" />
   </EntityType>
   <Association Name="R_4">
     <End Type="inf245netsoftModel.Banco" Role="Banco" Multiplicity="1" />
