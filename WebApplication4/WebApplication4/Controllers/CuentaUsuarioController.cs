@@ -36,7 +36,7 @@ namespace WebApplication4.Controllers
             Port = 587,
             UseDefaultCredentials = false,
             Credentials = credentials
-        };
+        }; 
 
         public static void EnviarCorreoCompra(int idVenta, string correo)
         {
