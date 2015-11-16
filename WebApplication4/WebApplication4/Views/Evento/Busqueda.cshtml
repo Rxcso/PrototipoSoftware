@@ -511,7 +511,7 @@
                 $("#idSubCat").val() == '' && $("#idRegion").val() == '' && $("#idProv").val() == '') {
 
                 $("#alerta").append('<strong>Ingrese al menos un campo!</strong>').show();
-                return;
+                return false;
             } else {
 
                 var valor = $("#alerta").children('strong');

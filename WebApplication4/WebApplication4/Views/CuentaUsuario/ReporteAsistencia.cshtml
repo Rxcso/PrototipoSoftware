@@ -1,4 +1,8 @@
-﻿
+﻿@using Microsoft.AspNet.Identity
+@using WebApplication4.Models;
+
+
+
 @{
     ViewBag.Title = "ReporteAsistencia";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -23,91 +27,188 @@
 			<a class="btn btn-danger pull-right" href="index2.html">Salir <span class="glyphicon glyphicon-log-out"></span></a>
 		</div>
 		<div class="row">
-			<form id="rptAsist" action="" class="form-horizontal">
 
-				<div class="form-group">
-				  <label for="fIni" class="control-label col-md-2">Fecha de Inicio:</label>
-				   <div class="col-md-4">
-					   <input name="calendario" type="date" class="form-control" id="fIni" placeholder="">
-				   </div>
-				</div>
 
-				<div class="form-group">
-				  <label for="fFin" class="control-label col-md-2">Fecha de Fin:</label>
-				   <div class="col-md-4">
-					   <input name="calendario" type="date" class="form-control" id="fFin" placeholder="">
-				   </div>
-				</div>
+            @using (Html.BeginForm("ReporteAsistencia", "CuentaUsuario", FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                <div id="alerta" class="alert alert-warning" hidden></div>
+                <div class="form-group">
+                    <label for="fIni" class="control-label col-md-2">Fecha de Inicio:</label>
+                    <div class="col-md-4">
+                        <input name="calendario" type="date" class="form-control" id="fIni" placeholder="">
+                    </div>
+                </div>
 
-				<div class="form-group">
-				  <label for="nombre" class="control-label col-md-2">Nombre del Vendedor:</label>
-				   <div class="col-md-10">
-					   <input name="nomvendedor" type="text" class="form-control" id="nombre" placeholder="">
-				   </div>
-				</div>
+                <div class="form-group">
+                    <label for="fFin" class="control-label col-md-2">Fecha de Fin:</label>
+                    <div class="col-md-4">
+                        <input name="calendario" type="date" class="form-control" id="fFin" placeholder="">
+                    </div>
+                </div>
 
-				<div class="form-group">
-				  <label for="puntoVenta" class="control-label col-md-2">Punto de venta:</label>
+                <div class="form-group">
+                    <label for="nombre" class="control-label col-md-2">Nombre del Vendedor:</label>
+                    <div class="col-md-10">
+                        <input name="nomvendedor" type="text" class="form-control" id="nombre" placeholder="">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="puntoVenta" class="control-label col-md-2">Punto de venta:</label>
 
                     @{
 
 
+                        try
+                        {
+                            var data = from obj in db.PuntoVenta
+                                       select obj;
 
 
+                            <div class="col-md-3">
+                                <select id="puntoVenta" class="form-control ">
+                                    @foreach (var punto in data)
+                                    {
+                                        <option value="@punto.codPuntoVenta">@punto.ubicacion</option>
 
-                     }}
+                                    }
 
-				   <div class="col-md-3">
-					   <select id="puntoVenta" class="form-control " >
-						   
-					   </select>
-				   </div>
-				</div>
 
-			</form>
+                                </select>
+                            </div>
+
+
+                        }
+                        catch (Exception ex)
+                        {
+                            //No pudo cargar los puntos de venta
+                            Console.WriteLine(ex.StackTrace);
+
+                        }
+
+
+                    }
+
+
+                </div>
+
+                <div class="row">
+                    <div style="text-align: center">
+                        
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="realizar()" aria-hidden="true">Realizar <span class="glyphicon glyphicon-book"></span></button>
+                        <button hidden="hidden" type="button" class="btn btn-primary" data-dismiss="modal" onclick="exportar()" aria-hidden="true">Exportar<span class="glyphicon glyphicon-book"></span></button>
+                    </div>
+                </div>
+
+
+                        }
+			
+
 		</div>
-		<div class="row">
-			<div style="text-align: center">
-				 
-				<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="realizar()" aria-hidden="true">Realizar <span class="glyphicon glyphicon-book"></span></button> 
-			</div>
-		</div>
+		
 		<div class="row">
 			<div id = "my_result_table"><p></p></div>
 		</div>
     </div>
     
     <script>
-        function realizar(){
-			var nombV = document.getElementById("nombre").value
-			var ini = document.getElementById("fIni").value
-            var fin = document.getElementById("fFin").value
-			var pVent = document.getElementById("puntoVenta")
-			var str = pVent.options[pVent.selectedIndex].text
-            <!--TITULOS-->
-            t1 = "<h2> Punto de Venta: " + str + "</h2>";
-            t2 = "<h2>  Vendedor: " + nombV + "</h2>";
-            myTable = t1 + t2 + "<table class='table table-bordered table-hover'>";
-            if (nombV.localeCompare("") == 0){
-                myTable += "<tr><th>Fecha</th>";
-                myTable += "<th>Vendedor</th><th>Hora de Ingreso</th><th>Hora de Salida</th>";
-                myTable += "<th>Asistio</th></tr>";
-            }else{
-                myTable += "<tr><th>Fecha</th>";
-                myTable += "<th>Hora de Ingreso</th><th>Hora de Salida</th>";
-                myTable += "<th>Asistio</th></tr>";
+        function realizar() {
+
+            //Validacion de fechas
+
+
+
+            var valor = $("#alerta").children('strong');
+            if (valor.length > 0) {
+
+                valor.remove();
+
             }
-			
-            for(i=1;i<9;i++)   {
-                if (i<5)
-                    myTable += "<tr><td> " + ini + "</td>";  
-                else
-                    myTable += "<tr><td> " + fin + "</td>";  
-                if (nombV.localeCompare("") == 0)
-                    myTable += "<td> Vendedor " + i + "</td>";        
-                myTable += "<td>08:00am</td><td>09:00pm</td><td>Si</td></tr>";    
+
+            $("#alerta").hide();
+
+            fechF  =  $("#fFin").val();
+            fechI =  $("#fIni").val();
+
+            if (fechF != '' && fechI != '') {
+
+
+                if (new Date(fechF.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1")) < new Date(fechI.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1"))) {
+
+                    $("#alerta").append('<strong>Fecha hasta no puede ser menor que fecha desde</strong>').show();
+                    return;
+                } 
+
             }
-			myTable += "</table>";
-			document.getElementById("my_result_table").innerHTML = myTable;
+
+
+
+
+            $.ajax({
+                type: "POST",
+                url: "/CuentaUsuario/ObtenerAsistencia",
+                data: { fechIni: fechI  , fechFin: fechF, nombre: $("#nombre").val() ,puntoEventa: $("#puntoVenta").val()   },
+                datatype: "json",
+                success: function (data) {
+
+
+                    var nombV = document.getElementById("nombre").value;
+                    var pVent = document.getElementById("puntoVenta");
+                    var str = pVent.options[pVent.selectedIndex].text;
+
+                    t1 = "<h2> Punto de Venta: " + str + "</h2>";
+                    t2 = "<h2>  Vendedor: " + nombV + "</h2>";
+                    myTable = t1 + t2 + "<table class='table table-bordered table-hover'>";
+                    if (nombV.localeCompare("") == 0) {
+                        myTable += "<tr><th>Fecha</th>";
+                        myTable += "<th>Vendedor</th><th>Hora de Ingreso</th><th>Hora de Salida</th>";
+                        myTable += "<th>Asistio</th></tr>";
+                    } else {
+                        myTable += "<tr><th>Fecha</th>";
+                        myTable += "<th>Hora de Ingreso</th><th>Hora de Salida</th>";
+                        myTable += "<th>Asistio</th></tr>";
+                    }
+                 
+                    $.each(data, function (k, v) {
+
+
+                   
+
+
+
+                        var date = new Date(parseInt(v.Fecha.substr(6)));
+                        var fecha = date.getDate().toString() +"/" + (date.getMonth() + 1).toString()  +"/" + date.getFullYear();
+                    
+                                myTable += "<tr><td> " + fecha + "</td>";
+                           
+                        
+                            if (nombV.localeCompare("") == 0)
+                                myTable += "<td> "+ v.Nombre + "</td>";
+                            myTable += "<td>" + v.HoraEntrada + "</td><td>" + v.HoraSalida  + "</td><td>" + (v.Asistio?"Si":"No") + "</td></tr>";
+                        
+                     
+
+
+                    });
+
+
+                    myTable += "</table>";
+                    document.getElementById("my_result_table").innerHTML = myTable;
+                },
+                error: function () {
+                    alert("Error :(");
+                }
+            });
+
+            
+            
         }
+        
+        function exportar() {
+           
+            window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('div[id$=my_result_table]').html()));
+                    e.preventDefault();
+        
+            }
+
 	</script>

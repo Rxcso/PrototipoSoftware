@@ -1523,13 +1523,145 @@ namespace WebApplication4.Controllers
                 _signInManager = value;
             }
         }
-
+        
         public ActionResult ReporteAsistencia() {
 
             return View();
 
 
         }
+
+
+        public ActionResult ReporteAsignacion() {
+
+
+            return View();
+
+        }
+
+
+        [HttpPost]
+        public ActionResult ObtenerAsistencia(DateTime? fechIni, DateTime? fechFin, string nombre, int? puntoVenta)
+        {
+
+            var lista = from turno in db.Turno
+                        join turnoSis in db.TurnoSistema on turno.codTurnoSis equals turnoSis.codTurnoSis
+                        join usuario in db.CuentaUsuario on turno.usuario equals usuario.usuario
+                        where turno.estado.Equals("Pendiente") == false
+                        select new
+                        {
+                            usuario.nombre,
+                            turnoSis.horIni,
+                            turnoSis.horFin,
+                            turno.horaRegistro,
+                            turno.fecha,
+                            turno.estado,
+                            turno.codPuntoVenta
+
+                        };
+
+            if (!String.IsNullOrEmpty(nombre))
+            {
+                lista = lista.Where(c => c.nombre.Contains(nombre));
+
+            }
+
+            if (fechIni.HasValue)
+            {
+
+
+                lista = lista.Where(c => c.fecha >= fechIni);
+            }
+            if (fechFin.HasValue)
+            {
+                lista = lista.Where(c => c.fecha <= fechFin);
+
+            }
+            
+
+            if (puntoVenta.HasValue)
+            {
+
+                lista = lista.Where(c => c.codPuntoVenta == puntoVenta);
+            }
+
+            List<Asistencia> listaAsistencia = new List<Asistencia>();
+
+
+
+
+            if (lista.Count() > 0)
+            {
+                listaAsistencia = lista.Select(f => new Asistencia {
+
+                    Nombre = f.nombre,
+                    Fecha = f.fecha,
+                    HoraEntrada = f.horIni,
+                    HoraSalida = f.horFin,
+
+                    Asistio = f.estado.Contains("Asistio") || f.estado.Contains("Tarde") ? true : false
+
+                }).ToList<Asistencia>();
+            }
+            
+            
+
+
+            return Json( listaAsistencia,JsonRequestBehavior.AllowGet);
+
+        }
+
+        [HttpPost]
+        public ActionResult ObtenerAsignacion(ReporteAsignacionModel model)
+        {
+
+
+
+
+
+            var lista = from turno in db.Turno
+                        select new
+                        {
+                            turno.PuntoVenta.ubicacion,
+                            turno.CuentaUsuario.nombre,
+                            turno.CuentaUsuario.apellido,
+
+                            turno.TurnoSistema.horIni,
+                            turno.TurnoSistema.horFin,
+                            turno.fecha,
+                         
+
+                        };
+
+
+
+            lista = lista.Where(c => c.fecha >= model.fechaInicio && c.fecha <= model.fechaFin);
+
+            List<Asignacion> listaAsignacion = new List<Asignacion>();
+
+
+            if(lista.Count() > 0)
+            {
+                listaAsignacion = lista.Select(f => new Asignacion
+                {
+                    Dia = f.fecha,
+                    PuntoVenta = f.ubicacion,
+                    Nombre = f.nombre + " " + f.apellido,
+                    Horas  = f.horIni + " - " + f.horFin
+
+                }).ToList();
+
+
+            }
+         
+
+           
+           
+            return Json(listaAsignacion, JsonRequestBehavior.AllowGet);
+
+        }
+
+
 
     }
 }
