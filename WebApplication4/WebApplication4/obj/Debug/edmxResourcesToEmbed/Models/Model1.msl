@@ -230,6 +230,7 @@
     <EntitySetMapping Name="VentasXFuncion">
       <EntityTypeMapping TypeName="inf245netsoftModel.VentasXFuncion">
         <MappingFragment StoreEntitySet="VentasXFuncion">
+          <ScalarProperty Name="hanEntregado" ColumnName="hanEntregado" />
           <ScalarProperty Name="codFuncion" ColumnName="codFuncion" />
           <ScalarProperty Name="total" ColumnName="total" />
           <ScalarProperty Name="descuento" ColumnName="descuento" />

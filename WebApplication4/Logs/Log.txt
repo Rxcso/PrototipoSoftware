@@ -1677,3 +1677,39 @@ System.Collections.ListDictionaryInternal
 2015-11-16 16:44:25,891 [11] ERROR Ticknet - Exception Message - 
 A public action method 'ObtenerAsignacion' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
 2015-11-16 16:44:25,891 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 13:42:32,258 [47] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 13:42:32,286 [47] ERROR Ticknet - Exception Type - 
+ArgumentNullException
+2015-11-16 13:42:32,286 [47] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-16 13:42:32,286 [47] ERROR Ticknet - Exception Message - 
+El valor no puede ser nulo.
+Nombre del parámetro: String
+2015-11-16 13:42:32,286 [47] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 13:42:40,723 [48] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 13:42:40,723 [48] ERROR Ticknet - Exception Type - 
+ArgumentNullException
+2015-11-16 13:42:40,723 [48] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-16 13:42:40,723 [48] ERROR Ticknet - Exception Message - 
+El valor no puede ser nulo.
+Nombre del parámetro: String
+2015-11-16 13:42:40,723 [48] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 13:42:55,737 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 13:42:55,737 [8] ERROR Ticknet - Exception Type - 
+ArgumentNullException
+2015-11-16 13:42:55,737 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-16 13:42:55,737 [8] ERROR Ticknet - Exception Message - 
+El valor no puede ser nulo.
+Nombre del parámetro: String
+2015-11-16 13:42:55,738 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 13:43:03,468 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 13:43:03,468 [9] ERROR Ticknet - Exception Type - 
+ArgumentNullException
+2015-11-16 13:43:03,468 [9] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-16 13:43:03,468 [9] ERROR Ticknet - Exception Message - 
+El valor no puede ser nulo.
+Nombre del parámetro: String
+2015-11-16 13:43:03,468 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
