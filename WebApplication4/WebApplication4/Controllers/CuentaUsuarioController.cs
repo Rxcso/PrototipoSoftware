@@ -813,7 +813,7 @@ namespace WebApplication4.Controllers
             for (int i = 0; i < listareservas.Count; i++)
             {
                 int cov = listareservas[i].codVen;
-                List<VentasXFuncion> lvf = db.VentasXFuncion.Where(c => c.codVen == cov).ToList();
+                List<VentasXFuncion> lvf = db.VentasXFuncion.Where(c => c.codVen == cov && c.hanEntregado==false).ToList();
                 for (int j = 0; j < lvf.Count; j++)
                 {
                     listaRxF.Add(lvf[j]);
