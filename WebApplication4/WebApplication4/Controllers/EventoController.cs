@@ -965,7 +965,7 @@ namespace WebApplication4.Controllers
                 model.IEvento = evento.ImagenEvento;
                 model.ISitios = evento.ImagenSitios;
                 model.Ganancia = (double)(evento.porccomision == null ? 0 : evento.porccomision);
-                model.MaxReservas = evento.maxReservas;
+                model.MaxReservas = db.Politicas.Find(2).valor.Value;
                 model.MontFijoVentEnt = (double)(evento.montoFijoVentaEntrada == null ? 0 : evento.montoFijoVentaEntrada);
                 model.PenCancelacion = (double)(evento.penalidadXcancelacion == null ? 0 : evento.penalidadXcancelacion);
                 model.PenPostergacion = (double)(evento.penalidadXpostergacion == null ? 0 : evento.penalidadXpostergacion);
@@ -1597,13 +1597,12 @@ namespace WebApplication4.Controllers
             db.Entry(queryEvento).State = EntityState.Modified;
             queryEvento.hanPostergado = true;
             db.SaveChanges();
-
+            EmailController.EnviarCorreoPostergarcionFuncion(evento.idFuncion);
             ViewBag.nombreEvento = queryEvento.nombre;
             int idOrganizador = (int)queryEvento.idOrganizador;
             ViewBag.idEvento = "" + id;
             ViewBag.organizadorEvento = db.Organizador.Where(c => c.codOrg == idOrganizador).First().nombOrg;
             ViewBag.listaFunciones = db.Funcion.Where(c => c.codEvento == id && c.estado != "CANCELADO").ToList();
-
             return View();
         }
 
@@ -1646,7 +1645,7 @@ namespace WebApplication4.Controllers
         [HttpPost]
         public ActionResult CancelarEvento(CancelarModel evento)
         {
-            if (evento.fechaRecojo <= DateTime.Today)
+            if (evento.fechaRecojo < DateTime.Today)
             {
                 ModelState.AddModelError("fechaRecojo", "Elija una fecha posterior al día de hoy");
             }

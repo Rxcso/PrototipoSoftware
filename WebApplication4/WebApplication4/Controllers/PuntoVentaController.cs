@@ -107,6 +107,20 @@ namespace WebApplication4.Controllers
             return Json("Punto de Venta desactivado", JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult Active(string punto)
+        {
+            //List<WebApplication4.Models.Local> listaLocal;
+            int id = int.Parse(punto);
+            PuntoVenta punto2 = db.PuntoVenta.Find(id);
+            //db.Local.Remove(localr);
+            db.Entry(punto2).State = EntityState.Modified;
+            punto2.estaActivo = true;
+            db.SaveChanges();
+            //listaLocal = db.Local.AsNoTracking().Where(c => c.estaActivo == true).ToList();
+            Session["ListaP"] = null;
+            return Json("Punto de Venta activado", JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult Delete2(int id)
         {
             PuntoVenta punto = db.PuntoVenta.Find(id);

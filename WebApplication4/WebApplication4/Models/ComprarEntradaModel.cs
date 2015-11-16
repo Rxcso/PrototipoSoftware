@@ -10,10 +10,10 @@ namespace WebApplication4.Models
     {
         [Required(ErrorMessage="Debe ingresar un nombre.")]
         [Display(Name="Nombre:")]
-        [RegularExpression("^[a-zA-Z ]*$", ErrorMessage = "Nombre no debe ser alfanumerico.")]
+        [RegularExpression("^[a-zA-ZáéíóúÁÉÍÓÚ ]*$", ErrorMessage = "Nombre no debe ser alfanumerico.")]
         public string Nombre { get; set; }
 
-        [Required(ErrorMessage = "Debe ingresar un nombre.")]
+        [Required(ErrorMessage = "Debe ingresar un DNI o Pasaporte.")]
         [Display(Name = "DNI/Pasaporte:")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Dni debe ser numérico.")]
         public string Dni { get; set; }
@@ -57,5 +57,6 @@ namespace WebApplication4.Models
 
         public List<int> idEventos { get; set; }
         public List<int> idPromociones { get; set; }
+        public int idVenta { get; set; }
     }
 }

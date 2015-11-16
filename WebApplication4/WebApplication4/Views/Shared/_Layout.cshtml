@@ -51,7 +51,6 @@
                         </button>
                         <a href="@Url.Action("Index2", "Home")" class="navbar-brand">TICKNET </a><!--nos redirige a la pag principal-->
                     </div>
-                    <!--inicia el MENU-->
                     <div class="collapse navbar-collapse" id="navegacion">
                         <!--menu desplegable -->
                         <ul class="nav navbar-nav">
@@ -60,12 +59,11 @@
                                     Módulo de venta <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="buscar-evento(vendedor).html">Buscar eventos</a></li>
-                                    <li><a href="@Url.Action("Entrega","Ventas")">Entregar boletos</a></li>
-                                    <li><a href="@Url.Action("BuscaReserva", "CuentaUsuario")">Buscar reserva</a></li>
-                                    <li><a href="devolucion_entradas.html">Devolución</a></li>
+                                    <li><a href="@Url.Action("Busqueda", "Evento")">Buscar eventos</a></li>
+                                    <li><a href="@Url.Action("Entrega", "Ventas")">Entregar boletos</a></li>
+                                    <li><a href="@Url.Action("BuscaReserva","CuentaUsuario")">Buscar reserva</a></li>
+                                    <li><a href="@Url.Action("Devolucion", "Ventas")">Devolución</a></li>
                                     <li class="divider"></li>
-
                                     <li><a href="@Url.Action("BuscaCliente", "CuentaUsuario")">Buscar cliente</a></li>
                                     <li><a href="@Url.Action("RegistrarUsuarioVendedor", "CuentaUsuario")">Registrar Cliente</a></li>
                                     <li class="divider"></li>
@@ -110,21 +108,22 @@
                                     Reportes <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="repVentas.html">Ventas</a></li>
+                                    <li><a href="@Url.Action("ReporteVentas", "Ventas")">Ventas</a></li>
                                     <li><a href="reporte_eventos.html">Eventos</a></li>
                                     <li class="divider"></li>
                                     <li><a href="Reporte_Asignacion_de_Vendedores.html">Asignación de vendedores</a></li>
                                     <li><a href="reporte_asistencia_vendedores.html">Asistencia</a></li>
-                                    <li><a href="ReporteCliente.html">Clientes</a></li>
+                                    <li><a href="@Url.Action("ReporteCliente", "CuentaUsuario")">Clientes</a></li>
                                 </ul>
                             </li>
+
                         </ul>
                         @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "form" }))
                         {
                             @Html.AntiForgeryToken()
 
                             <div class="nav navbar-nav navbar-right">
-                                Hola @nombre
+                                <font color="white"> Bienvenido @nombre ! </font>
                                 <a type="button" class="btn btn-default" href="javascript:document.getElementById('logoutForm').submit()">Cerrar Sesion <span class="glyphicon glyphicon-log-out"></span></a>
                             </div>
                         }
@@ -207,7 +206,7 @@ else
                                     @Html.AntiForgeryToken()
 
                                     <div class="nav navbar-nav navbar-right">
-                                        <a type="button" class="btn btn-primary" href="@Url.Action("MiCuenta","CuentaUsuario")"> Hola @nombre !</a>
+                                        <a type="button" class="btn btn-primary" href="@Url.Action("MiCuenta","CuentaUsuario")"> Bienvenido @nombre !</a>
                                         <a type="button" class="btn btn-danger" href="javascript:document.getElementById('logoutForm').submit()">Salir <span class="glyphicon glyphicon-log-out"></span></a>
                                     </div>
                                 }
@@ -301,7 +300,7 @@ else
                                         <option value=@dato.idCategoria>@dato.nombre</option>
                                     }
                                 }
-                                
+
                             </select>
                         </div>
 

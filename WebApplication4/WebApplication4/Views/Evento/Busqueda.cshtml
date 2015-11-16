@@ -11,7 +11,7 @@
     ViewBag.MaximoPaginas = 5;
     var nombre = "";
     ViewBag.Title = "Busqueda";
-    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
     inf245netsoft db = new inf245netsoft();
 }
 
@@ -308,7 +308,7 @@
                                 @{
                                     var func = from obj in db.Funcion
                                                where (obj.codEvento == evento.codigo && obj.estado.Contains("ACTIVO"))
-                                               orderby obj.horaIni ascending
+                                               orderby obj.fecha ascending
                                                select obj;
 
                                     string fecha = "";
@@ -317,7 +317,9 @@
                                     {
 
                                         var funcion = func.First();
-                                        fecha = funcion.horaIni.Value.ToString("dd/MM/yyyy hh:mm tt");
+
+                                        fecha = funcion.fecha.Value.ToString("dd/MM/yyyy");
+                                        fecha = fecha + " " + funcion.horaIni.Value.ToString("hh:mm tt"); 
                                     }
                                     else
                                     {
@@ -460,19 +462,7 @@
 <script>
 
     $(document).ready(function () {
-      /*  $.validator.addMethod("greaterThan", function (value, element, params) {
-
-            console.log(element);
-            console.log(value);
-            console.log(params);
-
-               if (!/Invalid|NaN/.test(new Date(value))) {
-                   return new Date(value) > new Date($(params).val());
-               }
-
-               return isNaN(value) && isNaN($(params).val()) || (Number(value) > Number($(params).val()));
-        }, 'Must be greater than {0}.');
-        */
+      
 
 
         if (!isNaN(@ViewBag.idCategoria)) {

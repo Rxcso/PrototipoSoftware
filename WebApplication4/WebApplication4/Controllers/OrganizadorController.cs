@@ -52,6 +52,19 @@ namespace WebApplication4.Controllers
             return Json("Organizador Desactivado", JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult Active(string organizador)
+        {
+            int id = int.Parse(organizador);
+            Organizador org = db.Organizador.Find(id);
+            //db.Regalo.Remove(regalo);
+            db.Entry(org).State = EntityState.Modified;
+            org.estadoOrg = "Activo";
+            db.SaveChanges();
+            //return RedirectToAction("Index", "Evento");
+            Session["ListaO"] = null;
+            return Json("Organizador activado", JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult Delete2(int id)
         {
             Organizador org = db.Organizador.Find(id);

@@ -416,6 +416,7 @@
     <Property Name="descuento" Type="int" />
     <Property Name="total" Type="float" />
     <Property Name="codFuncion" Type="int" Nullable="false" />
+    <Property Name="hanEntregado" Type="bit" />
   </EntityType>
   <EntityType Name="ZonaEvento">
     <Key>

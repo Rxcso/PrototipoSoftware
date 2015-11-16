@@ -70,6 +70,28 @@ namespace WebApplication4.Controllers
             return Json("Empleado desactivado", JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult Active(string usuario)
+        {
+            string usuario2 = usuario.Replace("°", "@");
+            CuentaUsuario cuenta = db.CuentaUsuario.Find(usuario2);
+            if (cuenta.codPerfil == 2)
+            {
+                db.Entry(cuenta).State = EntityState.Modified;
+                cuenta.estado = true;
+                db.SaveChanges();
+                Session["ListaV1"] = null;
+            }
+            else
+            {
+                db.Entry(cuenta).State = EntityState.Modified;
+                cuenta.estado = true;
+                db.SaveChanges();
+                Session["ListaT"] = null;
+                return Json("Promotor activado", JsonRequestBehavior.AllowGet);
+            }
+            return Json("Empleado activado", JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult Edit(string usuario)
         {
             string usuario2 = usuario.Replace("°", "@");
@@ -94,6 +116,7 @@ namespace WebApplication4.Controllers
                 //CuentaUsuario cuenta = db.CuentaUsuario.AsNoTracking().Where(c => c.codDoc == usuario).ToList().First();
                 db.Entry(cuenta).State = EntityState.Modified;
                 //cuenta.correo = model.Email;
+                cuenta.direccion = model.direccion;
                 cuenta.nombre = model.nombre;
                 cuenta.telefono = model.telefono;
                 cuenta.telMovil = model.telMovil;

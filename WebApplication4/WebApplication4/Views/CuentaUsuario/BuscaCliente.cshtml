@@ -6,7 +6,7 @@
 
 @{
     ViewBag.Title = "BuscaCliente";
-    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
     var db = new WebApplication4.Models.inf245netsoft();
     List<WebApplication4.Models.Regalo> listaSearch = db.Regalo.AsNoTracking().Where(c => c.estado == true).ToList();
 }

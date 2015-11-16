@@ -5,7 +5,7 @@
 
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="container-fluid">
@@ -29,9 +29,7 @@
                     <a class="btn btn-primary" href="#formNuevo" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
                     <a class="btn btn-primary" data-toggle="modal" onclick="redirige()">Modificar<span class="glyphicon glyphicon-pencil"></span></a>
                     <a class="btn btn-primary" onclick="validaS()" data-toggle="modal">Borrar<span class="glyphicon glyphicon-remove"></span></a>
-                    @*@{
-                        Html.RenderPartial("_Search");
-                    }*@
+                    <a class="btn btn-primary" onclick="activa()" data-toggle="modal" id="Activate">Activar<span class="glyphicon glyphicon-ok"></span></a>
                     <br>
                     <br>
                 </div>
@@ -153,7 +151,7 @@
                     url: "@Url.Action("Delete", "Organizador")",
                     data: { organizador: organizador },
                     success: function (data) {
-                        //alert("Eliminado");
+                        alert(data);
                         $('#eliminar').modal('hide');
                         row.remove();
                         window.location.href = '/Organizador/Index';
@@ -170,6 +168,34 @@
             evento = "";
         }
     }
+    function activa() {
+        var organizador = $('#idOrganizadorT').val();
+        var estado = $('#EstadoOrgT').val();
+        var el = document.getElementById(organizador);
+        var row = $(el).closest('tr');
+        //alert(evento);
+        //alert(promocion);
+        if (organizador != "" && organizador != null) {
+            if (estado != "Activo") {
+                $.ajax({
+                    url: "@Url.Action("Active", "Organizador")",
+                    data: { organizador: organizador },
+                    success: function (data) {
+                        alert(data);
+                        window.location.href = '/Organizador/Index';
+                    },
+                    error: function () {
+                        alert("Error :(");
+                    }
+                });
+            } else {
+                alert("No se puede dactivar un Organizador que ya esta activado");
+            }
+        } else {
+            alert("Seleccione un Organizador");
+            evento = "";
+        }
+    }
     function busca() {
         var organizador = $('#idBusq').val();
         //var el = document.getElementById(regalo);
@@ -179,29 +205,29 @@
         $.ajax({
             url: "@Url.Action("Search2", "Organizador")",
             data: { organizador: organizador },
-        success: function (data) {
-            window.location.href = '/Organizador/Index';
-            //alert("Eliminado");
-            //row.remove();
-        },
-        error: function () {
-            alert("Error :(");
-        }
-    });
+            success: function (data) {
+                window.location.href = '/Organizador/Index';
+                //alert("Eliminado");
+                //row.remove();
+            },
+            error: function () {
+                alert("Error :(");
+            }
+        });
     }
     function buscaI() {
         $.ajax({
             url: "@Url.Action("SearchI", "Organizador")",
             data: {},
-        success: function (data) {
-            window.location.href = '/Organizador/Index';
-            //alert("Eliminado");
-            //row.remove();
-        },
-        error: function () {
-            alert("Error :(");
-        }
-    });
+            success: function (data) {
+                window.location.href = '/Organizador/Index';
+                //alert("Eliminado");
+                //row.remove();
+            },
+            error: function () {
+                alert("Error :(");
+            }
+        });
     }
     function redirige() {
         var organizador = $('#idOrganizadorT').val();

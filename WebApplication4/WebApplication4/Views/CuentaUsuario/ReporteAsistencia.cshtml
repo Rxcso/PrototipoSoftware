@@ -1,0 +1,113 @@
+﻿
+@{
+    ViewBag.Title = "ReporteAsistencia";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+    inf245netsoft db = new inf245netsoft();
+
+}
+
+
+
+ <div class="container-fluid">           
+           <div class="col-md-5">
+               <ol class="breadcrumb">                   
+                   <li class="active">Reporte de Asistencia de Vendedores</li>
+               </ol>
+           </div>
+    </div>
+
+	<div class="container">
+		<div class="row">
+			<a class="btn btn-danger pull-right" href="index2.html">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+		</div>
+		<div class="row">
+			<form id="rptAsist" action="" class="form-horizontal">
+
+				<div class="form-group">
+				  <label for="fIni" class="control-label col-md-2">Fecha de Inicio:</label>
+				   <div class="col-md-4">
+					   <input name="calendario" type="date" class="form-control" id="fIni" placeholder="">
+				   </div>
+				</div>
+
+				<div class="form-group">
+				  <label for="fFin" class="control-label col-md-2">Fecha de Fin:</label>
+				   <div class="col-md-4">
+					   <input name="calendario" type="date" class="form-control" id="fFin" placeholder="">
+				   </div>
+				</div>
+
+				<div class="form-group">
+				  <label for="nombre" class="control-label col-md-2">Nombre del Vendedor:</label>
+				   <div class="col-md-10">
+					   <input name="nomvendedor" type="text" class="form-control" id="nombre" placeholder="">
+				   </div>
+				</div>
+
+				<div class="form-group">
+				  <label for="puntoVenta" class="control-label col-md-2">Punto de venta:</label>
+
+                    @{
+
+
+
+
+
+                     }}
+
+				   <div class="col-md-3">
+					   <select id="puntoVenta" class="form-control " >
+						   
+					   </select>
+				   </div>
+				</div>
+
+			</form>
+		</div>
+		<div class="row">
+			<div style="text-align: center">
+				 
+				<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="realizar()" aria-hidden="true">Realizar <span class="glyphicon glyphicon-book"></span></button> 
+			</div>
+		</div>
+		<div class="row">
+			<div id = "my_result_table"><p></p></div>
+		</div>
+    </div>
+    
+    <script>
+        function realizar(){
+			var nombV = document.getElementById("nombre").value
+			var ini = document.getElementById("fIni").value
+            var fin = document.getElementById("fFin").value
+			var pVent = document.getElementById("puntoVenta")
+			var str = pVent.options[pVent.selectedIndex].text
+            <!--TITULOS-->
+            t1 = "<h2> Punto de Venta: " + str + "</h2>";
+            t2 = "<h2>  Vendedor: " + nombV + "</h2>";
+            myTable = t1 + t2 + "<table class='table table-bordered table-hover'>";
+            if (nombV.localeCompare("") == 0){
+                myTable += "<tr><th>Fecha</th>";
+                myTable += "<th>Vendedor</th><th>Hora de Ingreso</th><th>Hora de Salida</th>";
+                myTable += "<th>Asistio</th></tr>";
+            }else{
+                myTable += "<tr><th>Fecha</th>";
+                myTable += "<th>Hora de Ingreso</th><th>Hora de Salida</th>";
+                myTable += "<th>Asistio</th></tr>";
+            }
+			
+            for(i=1;i<9;i++)   {
+                if (i<5)
+                    myTable += "<tr><td> " + ini + "</td>";  
+                else
+                    myTable += "<tr><td> " + fin + "</td>";  
+                if (nombV.localeCompare("") == 0)
+                    myTable += "<td> Vendedor " + i + "</td>";        
+                myTable += "<td>08:00am</td><td>09:00pm</td><td>Si</td></tr>";    
+            }
+			myTable += "</table>";
+			document.getElementById("my_result_table").innerHTML = myTable;
+        }
+	</script>

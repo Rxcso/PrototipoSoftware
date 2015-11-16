@@ -5,7 +5,7 @@
 @model LocalModel
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
     var db = new WebApplication4.Models.inf245netsoft();
     List<WebApplication4.Models.Region> listaSearch = db.Region.AsNoTracking().Where(c => c.idRegPadre == null).ToList();
 
@@ -25,6 +25,7 @@
                 <a class="btn btn-primary" href="#formNuevo" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
                 <a class="btn btn-primary" data-toggle="modal" onclick="redirige()">Modificar<span class="glyphicon glyphicon-pencil"></span></a>
                 <a class="btn btn-primary" onclick="validaS()" data-toggle="modal">Borrar<span class="glyphicon glyphicon-remove"></span></a>
+                <a class="btn btn-primary" onclick="activa()" data-toggle="modal" id="Activate">Activar<span class="glyphicon glyphicon-ok"></span></a>
             </div>
         </div>
 
@@ -136,12 +137,12 @@
                     @Html.ValidationSummary(true)
                     <br>
                     @*<div class="row form-group">
-                        @Html.LabelFor(model => model.aforo, new { @class = "control-label col-md-3" })
-                        <div class="col-md-5">
-                            @Html.EditorFor(model => model.aforo, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.aforo)
-                        </div>
-                    </div>*@
+                            @Html.LabelFor(model => model.aforo, new { @class = "control-label col-md-3" })
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.aforo, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.aforo)
+                            </div>
+                        </div>*@
 
                     <div class="row form-group">
                         @Html.LabelFor(model => model.descripcion, new { @class = "control-label col-md-3" })
@@ -278,21 +279,49 @@
         //alert(promocion);
         if (local != "" && local != null) {
             if (estado != "False") {
-            $.ajax({
-                url: "@Url.Action("Delete","Local")",
-                data: { local: local },
-                success: function (data) {
-                    alert(data);
-                    $('#eliminar').modal('hide');
-                    row.remove();
-                    window.location.href = '/Local/Index';
-                },
-                error: function (data) {
-                    alert(data);
-                }
-            });
+                $.ajax({
+                    url: "@Url.Action("Delete","Local")",
+                    data: { local: local },
+                    success: function (data) {
+                        alert(data);
+                        $('#eliminar').modal('hide');
+                        row.remove();
+                        window.location.href = '/Local/Index';
+                    },
+                    error: function (data) {
+                        alert(data);
+                    }
+                });
             } else {
                 alert("No se puede desactivar un Local que ya esta desactivado");
+            }
+        } else {
+            alert("Seleccione un Local");
+            evento = "";
+        }
+    }
+    function activa() {
+        var local = $('#idLocalT').val();
+        var estado = $('#EstadoLT').val();
+        var el = document.getElementById(local);
+        var row = $(el).closest('tr');
+        //alert(evento);
+        //alert(promocion);
+        if (local != "" && local != null) {
+            if (estado != "True") {
+                $.ajax({
+                    url: "@Url.Action("Active","Local")",
+                    data: { local: local },
+                    success: function (data) {
+                        alert(data);
+                        window.location.href = '/Local/Index';
+                    },
+                    error: function (data) {
+                        alert(data);
+                    }
+                });
+            } else {
+                alert("No se puede activar un Local que ya esta activado");
             }
         } else {
             alert("Seleccione un Local");
@@ -339,15 +368,15 @@
         $.ajax({
             url: "@Url.Action("SearchI", "Local")",
             data: {},
-        success: function (data) {
-            window.location.href = '/Local/Index';
-            //alert("Eliminado");
-            //row.remove();
-        },
-        error: function () {
-            alert("Error :(");
-        }
-    });
+            success: function (data) {
+                window.location.href = '/Local/Index';
+                //alert("Eliminado");
+                //row.remove();
+            },
+            error: function () {
+                alert("Error :(");
+            }
+        });
     }
     function busca2() {
         var region = $('#comboBusq option:selected').val();

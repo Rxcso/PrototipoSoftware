@@ -5,7 +5,7 @@
 @model RegaloModel
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="container-fluid">
@@ -22,6 +22,7 @@
                 <a class="btn btn-primary" href="#formNuevo" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
                 <a class="btn btn-primary" data-toggle="modal" onclick="redirigeRegalo()">Modificar<span class="glyphicon glyphicon-pencil"></span></a>
                 <a class="btn btn-primary" onclick="validaS()" data-toggle="modal">Borrar<span class="glyphicon glyphicon-remove"></span></a>
+                <a class="btn btn-primary" onclick="activa()" data-toggle="modal" id="Activate">Activar<span class="glyphicon glyphicon-ok"></span></a>
             </div>
         </div>
         <div class="col-md-3">
@@ -39,7 +40,7 @@
         </div>
 
     </div>
-    
+
     <a class="btn btn-primary" id="idBusq2" onclick="buscaI()" data-toggle="modal">Ver Inactivos<span class="glyphicon"></span></a>
     <br>
     <br>
@@ -146,6 +147,33 @@
             evento = "";
         }
     }
+    function activa() {
+        var regalo = $('#idRegaloT').val();
+        var estado = $('#EstadoRT').val();
+        var el = document.getElementById(regalo);
+        var row = $(el).closest('tr');
+        //alert(evento);
+        //alert(promocion);
+        if (regalo != "" && regalo != null) {
+            if (estado != "True") {
+                $.ajax({
+                    url: "@Url.Action("Active","Regalo")",
+                    data: { regalo: regalo },
+                    success: function (data) {
+                        alert(data);
+                        window.location.href = '/Regalo/Index';
+                    },
+                    error: function (data) {
+                        alert(data);
+                    }
+                });
+            } else {
+                alert("No se puede activar un Regalo que ya esta activado");
+            }
+        } else {
+            alert("Seleccione un Regalo");
+        }
+    }
     function redirigeRegalo() {
         var regalo = $('#idRegaloT').val();
         var estado = $('#EstadoRT').val();
@@ -186,15 +214,15 @@
         $.ajax({
             url: "@Url.Action("SearchI", "Regalo")",
             data: {},
-        success: function (data) {
-            window.location.href = '/Regalo/Index';
-            //alert("Eliminado");
-            //row.remove();
-        },
-        error: function () {
-            alert("Error :(");
-        }
-    });
+            success: function (data) {
+                window.location.href = '/Regalo/Index';
+                //alert("Eliminado");
+                //row.remove();
+            },
+            error: function () {
+                alert("Error :(");
+            }
+        });
     }
     function modificar() {
         var regalo = $('#idRegaloT').val();
@@ -305,4 +333,5 @@
         </div>
     </div>
 </div>
+
 

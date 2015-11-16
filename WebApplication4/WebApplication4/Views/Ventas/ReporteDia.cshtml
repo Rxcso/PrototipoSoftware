@@ -1,7 +1,62 @@
-﻿
+﻿@using Microsoft.AspNet.Identity
+@using WebApplication4.Models
+
 @{
     ViewBag.Title = "ReporteDia";
-    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var db = new WebApplication4.Models.inf245netsoft();
+    DateTime dn = DateTime.Now;
+    DateTime dd = dn.Date;
+    List<Ventas> listaVentas;
+    List<VentasXFuncion> listaVxF = new List<VentasXFuncion>();
+    List<VentasXFuncion> listavfU = new List<VentasXFuncion>();
+    List<Eventos> lev = new List<Eventos>();
+    List<Eventos> le = new List<Eventos>();
+    List<double> lt = new List<double>();
+    List<int> lte = new List<int>();
+    double totalf = 0;
+    if (Session["UsuarioLogueado"] != null && Session["TurnoHoy"] != null)
+    {
+        CuentaUsuario cu = (CuentaUsuario)Session["UsuarioLogueado"];
+        Turno tu = (Turno)Session["TurnoHoy"];
+        listaVentas = db.Ventas.Where(c => c.vendedor == cu.usuario && c.fecha == dd && c.Estado == "Pagado").ToList();
+        if (listaVentas != null && listaVentas.Count > 0)
+        {
+            for (int i = 0; i < listaVentas.Count; i++)
+            {
+                List<VentasXFuncion> lv = db.VentasXFuncion.Where(c => c.codVen == listaVentas[i].codVen).ToList();
+                for (int j = 0; j < lv.Count; j++)
+                {
+                    if (lv != null && lv.Count > 0)
+                    {
+                        listaVxF.Add(lv[j]);
+                    }
+                }
+            }
+            lev = db.Eventos.Where(c => c.estado == "Activo").ToList();
+            for (int j = 0; j < lev.Count; j++)
+            {
+                double total = 0;
+                int totale = 0;
+                for (int k = 0; k < listaVxF.Count; k++)
+                {
+                    int cf = listaVxF[k].codFuncion;
+                    Funcion fu = db.Funcion.Find(cf);
+                    if (fu.codEvento == lev[j].codigo)
+                    {
+                        total += (double)listaVxF[k].total;
+                        totale += (int)listaVxF[k].cantEntradas;
+                    }
+                }
+                lt.Add(total);
+                totalf += total;
+                lte.Add(totale);
+            }
+
+        }
+
+    }
+
 }
 
 <div class="container-fluid">
@@ -13,14 +68,14 @@
 </div>
 <div class="container">
     <div class="row">
-        <a class="btn btn-danger pull-right" href="index2">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+        <a class="btn btn-danger pull-right" href="@Url.Action("Index2", "Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
     </div>
     <div class="row">
         <div class="col-md-1">
             <label for="dni" class="control-label">Fecha:</label>
         </div>
         <div class="col-md-2">
-            <input type="date" class="form-control" readonly="true">
+            <input class="form-control" value="@dn.Date.ToString("dd/MM/yyyy")" readonly="true">
         </div>
     </div><br>
 </div>
@@ -34,44 +89,38 @@
         </div>
 
     </div>
+
     <div class="row">
-        <table class="table table-bordered table-hover" align="center">
-            <tr class="active">
-                <th>Código del evento</th>
-                <th>Nombre del evento</th>
-                <th>Número de entradas vendidas del evento</th>
-                <th>Monto de las ventas</th>
-            </tr>
-            <tr>
-                <td>3221</td>
-                <td>Dinosaurios Gigantes </td>
-                <td>25</td>
-                <td>725.00</td>
-            </tr>
-            <tr>
-                <td>5542</td>
-                <td>Family Park</td>
-                <td>10</td>
-                <td>700.00</td>
-            </tr>
-            <tr>
-                <td>2213</td>
-                <td>Fuerza Bruta</td>
-                <td>4</td>
-                <td>200.00</td>
-            </tr>
-            <tr>
-                <td>404</td>
-                <td>PIAF DE PAM GEMS</td>
-                <td>4</td>
-                <td>220.00</td>
-            </tr>
-            <tr>
-                <td colspan="3"><strong>TOTAL VENDIDO</strong></td>
-                <td contenteditable id="reg"><strong>1845.00</strong></td>
-            </tr>
+        <table id="mytable" class="table table-bordered table-hover">
+            <thead>
+                <tr class="thead">
+                    <th>Código del evento</th>
+                    <th>Nombre del evento</th>
+                    <th>Número de entradas vendidas del evento</th>
+                    <th>Monto de las ventas</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+                @if (lev != null)
+                {
+                    foreach (var row in lev)
+                    {
+                        int j = 0;
+                        if (lt[j] > 0)
+                        {
+                            <tr id=@row.codigo>
+                                <td>@row.codigo</td>
+                                <td>@row.nombre</td>
+                                <td>@lte[j]</td>
+                                <td>@lt[j]</td>
+                            </tr>
+                        }
+                        j++;
+                    }
+                }
+            </tbody>
         </table>
+        <h1>Total Vendido: @totalf</h1>
     </div>
 
 </div>
-
