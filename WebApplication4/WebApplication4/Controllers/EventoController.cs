@@ -60,6 +60,7 @@ namespace WebApplication4.Controllers
             //Que significa todo Ok?
             //Primero busca cuantas entradas mas puede comprar/reservar esta persona para esa funcion
             //Si supera el limite fue ps
+            int idVenta = 0;
             try
             {
                 int quedan = BuscarEntradasLeQuedan(name, paquete.idFuncion);
@@ -73,11 +74,11 @@ namespace WebApplication4.Controllers
                 {
                     return "No se pudo realizar la reserva, solo puede reservar hasta  " + quedan + "entradas";
                 }
-
                 //Luego se hace la reserva de esto, 
                 //Establecer sincronia es lo mas complicado
                 //Apenas se guarde la reserva todo estara consumado XD 
                 //Eso es todo
+
                 using (var context = new inf245netsoft())
                 {
                     try
@@ -102,6 +103,7 @@ namespace WebApplication4.Controllers
                         db.SaveChanges();
                         VentasXFuncion vf = new VentasXFuncion();
                         vf.codVen = ve.codVen;
+                        idVenta = ve.codVen;
                         vf.cantEntradas = paquete.cantEntradas;
                         vf.codFuncion = paquete.idFuncion;
                         vf.Ventas = ve;
@@ -158,6 +160,7 @@ namespace WebApplication4.Controllers
             }
             //Funciones Utilitarias necesarias
             //BuscarEntradasLeQuedan( User , Funcion )
+            EmailController.EnviarCorreoReserva(idVenta, User.Identity.Name);
             return "Ok";
         }
 

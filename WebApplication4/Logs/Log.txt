@@ -1565,3 +1565,39 @@ System.Collections.ListDictionaryInternal
 2015-11-15 15:36:15,618 [10] ERROR Ticknet - Exception Message - 
 The underlying provider failed on Open.
 2015-11-15 15:36:15,618 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 13:42:32,258 [47] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 13:42:32,286 [47] ERROR Ticknet - Exception Type - 
+ArgumentNullException
+2015-11-16 13:42:32,286 [47] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-16 13:42:32,286 [47] ERROR Ticknet - Exception Message - 
+El valor no puede ser nulo.
+Nombre del parámetro: String
+2015-11-16 13:42:32,286 [47] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 13:42:40,723 [48] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 13:42:40,723 [48] ERROR Ticknet - Exception Type - 
+ArgumentNullException
+2015-11-16 13:42:40,723 [48] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-16 13:42:40,723 [48] ERROR Ticknet - Exception Message - 
+El valor no puede ser nulo.
+Nombre del parámetro: String
+2015-11-16 13:42:40,723 [48] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 13:42:55,737 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 13:42:55,737 [8] ERROR Ticknet - Exception Type - 
+ArgumentNullException
+2015-11-16 13:42:55,737 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-16 13:42:55,737 [8] ERROR Ticknet - Exception Message - 
+El valor no puede ser nulo.
+Nombre del parámetro: String
+2015-11-16 13:42:55,738 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 13:43:03,468 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 13:43:03,468 [9] ERROR Ticknet - Exception Type - 
+ArgumentNullException
+2015-11-16 13:43:03,468 [9] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-16 13:43:03,468 [9] ERROR Ticknet - Exception Message - 
+El valor no puede ser nulo.
+Nombre del parámetro: String
+2015-11-16 13:43:03,468 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
