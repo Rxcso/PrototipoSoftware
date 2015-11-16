@@ -2,7 +2,7 @@
 @using WebApplication4.Models
 
 @{
-    ViewBag.Title = "ReporteVentas";
+    ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var db = new WebApplication4.Models.inf245netsoft();
     List<ReporteModel.ReporteVentas1Model> lev = new List<ReporteModel.ReporteVentas1Model>();
@@ -78,7 +78,7 @@
                     <!--PRIMERA PESTAÑA-->
                     <div class="tab-pane fade in active" id="xEntrada">
                         <button id="butred" onclick="redirige()" class="btn btn-primary"><span class="glyphicon glyphicon-file"></span> Gendfsg</button>
-                        
+
                         <div class="container">
                             <br>
                             <button onclick="redirige()" style="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-file"></span> Gen</button>
@@ -354,7 +354,7 @@
 
 <script>
     function redirige() {
-        window.location.href = '/Ventas/ReporteVentas';
+        window.location.href = '/ReporteVentas/Index';
     }
     function reporte1() {
         var fd = $('#fd1').val();
@@ -365,11 +365,11 @@
                 data: {fd:fd,fh:fh},
                 success: function (data) {
                     alert(data);
-                    window.location.href = '/Ventas/ReporteVentas';
+                    window.location.href = '/ReporteVentas/Index';
                 },
                 error: function (data) {
                     alert(data);
-                    window.location.href = '/Ventas/ReporteVentas';
+                    window.location.href = '/ReporteVentas/Index';
                 }
             });
         }
@@ -383,7 +383,7 @@
                 data: { fd: fd, fh: fh },
                 success: function (data) {
                     alert(data);
-                    window.location.href = '/Ventas/ReporteVentas';
+                    window.location.href = '/ReporteVentas/Index';
                     //alert("Eliminado");
                     //row.remove();
                 },
@@ -402,7 +402,7 @@
                 data: { fd: fd, fh: fh },
                 success: function (data) {
                     alert(data);
-                    window.location.href = '/Ventas/ReporteVentas';
+                    window.location.href = '/ReporteVentas/Index';
                     //alert("Eliminado");
                     //row.remove();
                 },
@@ -421,7 +421,7 @@
                 data: { fd: fd, fh: fh },
                 success: function (data) {
                     alert(data);
-                    window.location.href = '/Ventas/ReporteVentas';
+                    window.location.href = '/ReporteVentas/Index';
                     //alert("Eliminado");
                     //row.remove();
                 },

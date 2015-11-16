@@ -14,6 +14,7 @@
             cuenta = db.CuentaUsuario.Find(act);
             if (cuenta != null && cuenta.codPerfil != 1)
             {
+                Session["UsuarioLogueado"] = cuenta;
                 esIntranet = 1;
                 nombre = cuenta.nombre;
             }
@@ -108,7 +109,7 @@
                                     Reportes <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="@Url.Action("ReporteVentas", "Ventas")">Ventas</a></li>
+                                    <li><a href="@Url.Action("Index", "ReporteVentas")">Ventas</a></li>
                                     <li><a href="reporte_eventos.html">Eventos</a></li>
                                     <li class="divider"></li>
                                     <li><a href="Reporte_Asignacion_de_Vendedores.html">Asignación de vendedores</a></li>

@@ -147,10 +147,55 @@ namespace WebApplication4.Controllers
             return RedirectToAction("PagoOrganizador", "Ventas");
         }
 
-
         public ActionResult ReporteVentas()
         {
             return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult ReporteV1a(ReporteModel.ReporteBuscaModel model)
+        {
+            
+            double to = 0;
+            DateTime dt1 = model.fechaI;
+            DateTime dt2 = model.fechaF;
+            TimeSpan ts = dt2.Subtract(dt1);
+            int nd = (int)ts.Days;
+            nd = nd + 1;
+            DateTime di = dt1;
+            List<ReporteModel.ReporteVentas1Model> lr = new List<ReporteModel.ReporteVentas1Model>();
+            List<CuentaUsuario> lv = db.CuentaUsuario.Where(c => c.codPerfil == 2 && c.estado == true).ToList();
+            for (int j = 0; j < nd; j++)
+            {
+                for (int i = 0; i < lv.Count; i++)
+                {
+                    ReporteModel.ReporteVentas1Model r = new ReporteModel.ReporteVentas1Model();
+                    r.fecha = di.Date;
+                    String no = lv[i].usuario;
+                    r.nombre = lv[i].nombre;
+                    r.codigo = lv[i].usuario;
+                    List<Turno> lt = db.Turno.Where(c => c.usuario == no && c.fecha == di).ToList();
+                    if (lt.Count > 0)
+                    {
+                        double total = 0;
+                        Turno t = lt.First();
+                        r.punto = db.PuntoVenta.Find(t.codPuntoVenta).ubicacion;
+                        List<Ventas> lven = db.Ventas.Where(c => c.fecha == di && c.Estado == "Pagado" && c.vendedor == no).ToList();
+                        for (int k = 0; k < lven.Count; k++)
+                        {
+                            total += (double)lven[i].MontoTotalSoles;
+                        }
+                        r.total = total;
+                        to += total;
+                        lr.Add(r);
+                    }
+                }
+                di = di.AddDays(1);
+            }
+            Session["ReporteVentasTotal"] = lr;
+            Session["ReporteTotal"] = to;
+            return RedirectToAction("ReporteVentas", "Ventas");
         }
 
         public JsonResult ReporteV1(string fd, string fh)
