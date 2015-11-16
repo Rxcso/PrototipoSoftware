@@ -71,6 +71,17 @@ namespace WebApplication4.Models
             public double total { get; set; }
         }
 
+        public class ReporteVentasDiaModel
+        {
+            public int codigo { get; set; }
+
+            public string nombre { get; set; }
+
+            public int cant { get; set; }
+
+            public double total { get; set; }
+        }
+
     
     }
 }

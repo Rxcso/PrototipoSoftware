@@ -64,6 +64,8 @@ namespace WebApplication4.Controllers
             double to = 0;
             DateTime dt1 = DateTime.Parse(fd);
             DateTime dt2 = DateTime.Parse(fh);
+            Session["FechaRI2"] = dt1;
+            Session["FechaRF2"] = dt2;
             TimeSpan ts = dt2.Subtract(dt1);
             int nd = (int)ts.Days;
             nd = nd + 1;
@@ -73,13 +75,15 @@ namespace WebApplication4.Controllers
             {
                 ReporteModel.ReporteVentas2Model r = new ReporteModel.ReporteVentas2Model();
                 r.codigo = lv[i].usuario;
+                string us = lv[i].usuario;
                 r.nombre = lv[i].nombre;
+                List<Ventas> lven2 = db.Ventas.Where(c => c.Estado == "Pagado" && c.vendedor == us).ToList();
                 double total = 0;
                 DateTime di = dt1;
                 for (int j = 0; j < nd; j++)
                 {
-                    string us = lv[i].usuario;
-                    List<Ventas> lven = db.Ventas.Where(c => c.fecha == di && c.Estado == "Pagado" && c.vendedor == us).ToList();
+                    DateTime dat = di.Date;
+                    List<Ventas> lven = lven2.Where(c => c.fecha.Value.Date == dat).ToList();
                     for (int k = 0; k < lven.Count; k++)
                     {
                         total += (double)lven[k].MontoTotalSoles;
@@ -149,6 +153,8 @@ namespace WebApplication4.Controllers
             DateTime dt1 = DateTime.Parse(fd);
             DateTime dt2 = DateTime.Parse(fh);
             TimeSpan ts = dt2.Subtract(dt1);
+            Session["FechaRI4"] = dt1;
+            Session["FechaRF4"] = dt2;
             int nd = (int)ts.Days;
             nd = nd + 1;
             List<ReporteModel.ReporteVentas4Model> lr = new List<ReporteModel.ReporteVentas4Model>();
@@ -169,7 +175,9 @@ namespace WebApplication4.Controllers
                     if (lt.Count > 0)
                     {
                         Turno t = lt.First();
-                        List<Ventas> lven = db.Ventas.Where(c => c.fecha == di && c.Estado == "Pagado" && c.vendedor == t.usuario).ToList();
+                        List<Ventas> lven2 = db.Ventas.Where(c => c.Estado == "Pagado" && c.vendedor == t.usuario).ToList();
+                        DateTime dat = di.Date;
+                        List<Ventas> lven = lven2.Where(c => c.fecha.Value.Date == dat).ToList();
                         for (int k = 0; k < lven.Count; k++)
                         {
                             total += (double)lven[k].MontoTotalSoles;
