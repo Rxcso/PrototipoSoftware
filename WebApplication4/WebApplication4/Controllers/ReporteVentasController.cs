@@ -55,6 +55,7 @@ namespace WebApplication4.Controllers
             int nd = (int)ts.Days;
             nd = nd + 1;
             DateTime di = dt1;
+            if (dt1 > dt2) return Json("Fecha inicio debe ser menor que fecha fin", JsonRequestBehavior.AllowGet);
             List<ReporteModel.ReporteVentas1Model> lr = new List<ReporteModel.ReporteVentas1Model>();
             List<CuentaUsuario> lv = db.CuentaUsuario.Where(c => c.codPerfil == 2 && c.estado == true).ToList();
             for (int j = 0; j < nd; j++)
@@ -101,6 +102,7 @@ namespace WebApplication4.Controllers
             TimeSpan ts = dt2.Subtract(dt1);
             int nd = (int)ts.Days;
             nd = nd + 1;
+            if (dt1 > dt2) return Json("Fecha inicio debe ser menor que fecha fin", JsonRequestBehavior.AllowGet);
             List<ReporteModel.ReporteVentas2Model> lr = new List<ReporteModel.ReporteVentas2Model>();
             List<CuentaUsuario> lv = db.CuentaUsuario.Where(c => c.codPerfil == 2 && c.estado == true).ToList();
             for (int i = 0; i < lv.Count; i++)
@@ -136,12 +138,15 @@ namespace WebApplication4.Controllers
             double to = 0;
             DateTime dt1 = DateTime.Parse(fd);
             DateTime dt2 = DateTime.Parse(fh);
+            Session["FechaRI3"] = dt1;
+            Session["FechaRF3"] = dt2;
             TimeSpan ts = dt2.Subtract(dt1);
             int nd = (int)ts.Days;
             nd = nd + 1;
+            if (dt1 > dt2) return Json("Fecha inicio debe ser menor que fecha fin", JsonRequestBehavior.AllowGet);
             List<ReporteModel.ReporteVentas3Model> lr = new List<ReporteModel.ReporteVentas3Model>();
-            List<Eventos> lev = db.Eventos.ToList();
-
+            List<Eventos> lv2 = db.Eventos.ToList();
+            List<Eventos> lev = lv2.Where(r => r.estado == "Activo").ToList(); 
             for (int i = 0; i < lev.Count; i++)
             {
                 ReporteModel.ReporteVentas3Model r = new ReporteModel.ReporteVentas3Model();
@@ -152,21 +157,29 @@ namespace WebApplication4.Controllers
                 List<Funcion> lf = db.Funcion.Where(c => c.codEvento == ce).ToList();
                 for (int k = 0; k < lf.Count; k++)
                 {
+                    int cf=lf[k].codFuncion;
                     double total = 0;
                     int totale = 0;
-                    //        DateTime di = dt1;
-
-                    //        for (int j = 0; j < nd; j++)
-                    //        {
-                    //            List<Ventas> lven = db.Ventas.Where(c => c.fecha == di && c.Estado == "Pagado").ToList();
-
-                    //            for (int t = 0; t < lven.Count; t++)
-                    //            {
-                    //                total += (double)lven[t].MontoTotalSoles;
-                    //            }
-                    //            di = di.AddDays(1);
-                    //        }
-                    //        r.total = total;
+                    List<VentasXFuncion> lvxf = db.VentasXFuncion.Where(c => c.codFuncion == cf).ToList();
+                    DateTime di = dt1;
+                    DateTime dat = di.Date;
+                    for (int j = 0; j < nd; j++)
+                    {
+                        List<Ventas> lven2 = db.Ventas.Where(c =>c.Estado == "Pagado").ToList();
+                        List<Ventas> lven = lven2.Where(c => c.fecha.Value.Date == dat).ToList();
+                        for (int t = 0; t < lven.Count; t++)
+                        {
+                            int cvf = lven[t].codVen;
+                            VentasXFuncion vxfE = db.VentasXFuncion.Find(cvf, cf);
+                            if (vxfE != null)
+                            {
+                                totale += (int)vxfE.cantEntradas;
+                                total += (double)vxfE.total;
+                            }
+                        }
+                        di = di.AddDays(1);
+                    }
+                    r.total = total;
                     r.funcion = db.Funcion.Find(lf[k].codFuncion).horaIni.Value.ToString(@"hh\:mm\:ss"); ;
                     r.total = total;
                     r.cant = totale;
@@ -189,6 +202,7 @@ namespace WebApplication4.Controllers
             Session["FechaRF4"] = dt2;
             int nd = (int)ts.Days;
             nd = nd + 1;
+            if (dt1 > dt2) return Json("Fecha inicio debe ser menor que fecha fin", JsonRequestBehavior.AllowGet);
             List<ReporteModel.ReporteVentas4Model> lr = new List<ReporteModel.ReporteVentas4Model>();
             List<PuntoVenta> lv = db.PuntoVenta.Where(c => c.estaActivo == true).ToList();
             for (int i = 0; i < lv.Count; i++)

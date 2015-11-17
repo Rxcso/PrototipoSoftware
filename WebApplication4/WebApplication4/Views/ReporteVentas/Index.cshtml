@@ -241,7 +241,10 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <button style="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Exportar a Excel</button>
+                                        @if (Session["ReporteVentasTotal3"] != null)
+                                        {
+                                            <button id="btnExport3" style="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Exportar a Excel</button>
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -260,43 +263,52 @@
                                     </div>
                                 </div>
                             </div><br>
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <table class="table table-bordered table-hover" align="center">
-                                        <tr class="active">
-                                            <th>Cód evento</th>
-                                            <th>Nombre Evento</th>
-                                            <th>Organizador</th>
-                                            <th>Funcion</th>
-                                            <th>Cant. boletos</th>
-                                            <th>Total (S/.)</th>
-                                        </tr>
-                                        <tbody id="tbody">
-                                            @foreach (var row in lev3)
-                                            {
-                                                <tr>
-                                                    <td>@row.codigo</td>
-                                                    <td>@row.nombre</td>
-                                                    <td>@row.organizador</td>
-                                                    <td>@row.funcion</td>
-                                                    <td>@row.cant</td>
-                                                    <td>@row.total</td>
-                                                </tr>
-                                            }
-                                        </tbody>
-                                    </table>
+                            <div id="dvData3">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        @if (Session["ReporteVentasTotal3"] != null)
+                                        {
+                                            DateTime di2 = (DateTime)Session["FechaRI3"];
+                                            DateTime df2 = (DateTime)Session["FechaRF3"];
+                                            <div>
+                                                <h3>Reporte de Ventas por Vendedor del @di2.Date.ToString("dd/MM/yyyy") - @df2.Date.ToString("dd/MM/yyyy")</h3>
+                                            </div>
+                                        }
+                                        <table class="table table-bordered table-hover" align="center">
+                                            <tr class="active">
+                                                <th>Cód evento</th>
+                                                <th>Nombre Evento</th>
+                                                <th>Organizador</th>
+                                                <th>Funcion</th>
+                                                <th>Cant. boletos</th>
+                                                <th>Total (S/.)</th>
+                                            </tr>
+                                            <tbody id="tbody">
+                                                @foreach (var row in lev3)
+                                                {
+                                                    <tr>
+                                                        <td>@row.codigo</td>
+                                                        <td>@row.nombre</td>
+                                                        <td>@row.organizador</td>
+                                                        <td>@row.funcion</td>
+                                                        <td>@row.cant</td>
+                                                        <td>@row.total</td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 col-md-offset-8">
+                                        <span>TOTAL (S/.)</span>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" readonly="true" value="@to3">
+                                    </div>
+                                </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-2 col-md-offset-8">
-                                    <span>TOTAL (S/.)</span>
-                                </div>
-                                <div class="col-md-2">
-                                    <input type="text" class="form-control" readonly="true" value="@to3">
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <!--CUARTA PESTAÑA-->
                     <div class="tab-pane fade" id="xPunto">
