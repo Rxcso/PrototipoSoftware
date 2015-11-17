@@ -58,16 +58,12 @@
         <EntityTypeShape EntityType="inf245netsoftModel.Comentarios" Width="1.5" PointX="18" PointY="10.375" />
         <AssociationConnector Association="inf245netsoftModel.R_44" />
         <AssociationConnector Association="inf245netsoftModel.R_32" />
-        <EntityTypeShape EntityType="inf245netsoftModel.Funcion" Width="1.5" PointX="20.875" PointY="17.125" />
         <EntityTypeShape EntityType="inf245netsoftModel.PeriodoVenta" Width="1.5" PointX="20.875" PointY="21" />
         <EntityTypeShape EntityType="inf245netsoftModel.ZonaEvento" Width="1.5" PointX="20.875" PointY="13.5" />
         <AssociationConnector Association="inf245netsoftModel.R_13" />
-        <AssociationConnector Association="inf245netsoftModel.R_46" />
-        <AssociationConnector Association="inf245netsoftModel.R_76" />
         <AssociationConnector Association="inf245netsoftModel.fk_PerVenta" />
         <AssociationConnector Association="inf245netsoftModel.fk_ZonaEvent" />
         <EntityTypeShape EntityType="inf245netsoftModel.ZonaxFuncion" Width="1.5" PointX="23.125" PointY="16" />
-        <AssociationConnector Association="inf245netsoftModel.R_50" />
         <AssociationConnector Association="inf245netsoftModel.R_51" />
         <EntityTypeShape EntityType="inf245netsoftModel.HoraReserva" Width="1.5" PointX="5.375" PointY="8.75" />
         <EntityTypeShape EntityType="inf245netsoftModel.Local" Width="1.5" PointX="8.375" PointY="13.125" />
@@ -80,7 +76,11 @@
         <AssociationConnector Association="inf245netsoftModel.fk_EventoRegion" />
         <AssociationConnector Association="inf245netsoftModel.R_18" />
         <AssociationConnector Association="inf245netsoftModel.R_21" />
+        <EntityTypeShape EntityType="inf245netsoftModel.Funcion" Width="1.5" PointX="20.875" PointY="24.375" />
+        <AssociationConnector Association="inf245netsoftModel.R_46" />
         <AssociationConnector Association="inf245netsoftModel.R_43" />
+        <AssociationConnector Association="inf245netsoftModel.R_50" />
+        <AssociationConnector Association="inf245netsoftModel.R_76" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -212,6 +212,8 @@
           <Property Name="FechaDevolucion" Type="date" />
           <Property Name="cantDiasDevolucion" Type="int" />
           <Property Name="motivoCambio" Type="varchar" MaxLength="200" />
+          <Property Name="fechaPostergado" Type="datetime" />
+          <Property Name="fechaCancelado" Type="datetime" />
         </EntityType>
         <EntityType Name="HoraReserva">
           <Key>
@@ -1361,20 +1363,11 @@
             <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
             <End Role="Comentarios" EntitySet="Comentarios" />
           </AssociationSet>
-          <EntitySet Name="Funcion" EntityType="inf245netsoftModel.Funcion" />
           <EntitySet Name="PeriodoVenta" EntityType="inf245netsoftModel.PeriodoVenta" />
           <EntitySet Name="ZonaEvento" EntityType="inf245netsoftModel.ZonaEvento" />
           <AssociationSet Name="R_13" Association="inf245netsoftModel.R_13">
             <End Role="ZonaEvento" EntitySet="ZonaEvento" />
             <End Role="Asientos" EntitySet="Asientos" />
-          </AssociationSet>
-          <AssociationSet Name="R_46" Association="inf245netsoftModel.R_46">
-            <End Role="Funcion" EntitySet="Funcion" />
-            <End Role="AsientosXFuncion" EntitySet="AsientosXFuncion" />
-          </AssociationSet>
-          <AssociationSet Name="R_76" Association="inf245netsoftModel.R_76">
-            <End Role="Funcion" EntitySet="Funcion" />
-            <End Role="VentasXFuncion" EntitySet="VentasXFuncion" />
           </AssociationSet>
           <AssociationSet Name="fk_PerVenta" Association="inf245netsoftModel.fk_PerVenta">
             <End Role="PeriodoVenta" EntitySet="PeriodoVenta" />
@@ -1385,10 +1378,6 @@
             <End Role="PrecioEvento" EntitySet="PrecioEvento" />
           </AssociationSet>
           <EntitySet Name="ZonaxFuncion" EntityType="inf245netsoftModel.ZonaxFuncion" />
-          <AssociationSet Name="R_50" Association="inf245netsoftModel.R_50">
-            <End Role="Funcion" EntitySet="Funcion" />
-            <End Role="ZonaxFuncion" EntitySet="ZonaxFuncion" />
-          </AssociationSet>
           <AssociationSet Name="R_51" Association="inf245netsoftModel.R_51">
             <End Role="ZonaEvento" EntitySet="ZonaEvento" />
             <End Role="ZonaxFuncion" EntitySet="ZonaxFuncion" />
@@ -1428,9 +1417,22 @@
             <End Role="Eventos" EntitySet="Eventos" />
             <End Role="ZonaEvento" EntitySet="ZonaEvento" />
           </AssociationSet>
+          <EntitySet Name="Funcion" EntityType="inf245netsoftModel.Funcion" />
+          <AssociationSet Name="R_46" Association="inf245netsoftModel.R_46">
+            <End Role="Funcion" EntitySet="Funcion" />
+            <End Role="AsientosXFuncion" EntitySet="AsientosXFuncion" />
+          </AssociationSet>
           <AssociationSet Name="R_43" Association="inf245netsoftModel.R_43">
             <End Role="Eventos" EntitySet="Eventos" />
             <End Role="Funcion" EntitySet="Funcion" />
+          </AssociationSet>
+          <AssociationSet Name="R_50" Association="inf245netsoftModel.R_50">
+            <End Role="Funcion" EntitySet="Funcion" />
+            <End Role="ZonaxFuncion" EntitySet="ZonaxFuncion" />
+          </AssociationSet>
+          <AssociationSet Name="R_76" Association="inf245netsoftModel.R_76">
+            <End Role="Funcion" EntitySet="Funcion" />
+            <End Role="VentasXFuncion" EntitySet="VentasXFuncion" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Banco">
@@ -1767,8 +1769,8 @@
           <Property Name="codFuncion" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Ventas" Relationship="inf245netsoftModel.R_38" FromRole="VentasXFuncion" ToRole="Ventas" />
           <NavigationProperty Name="DetalleVenta" Relationship="inf245netsoftModel.R_62" FromRole="VentasXFuncion" ToRole="DetalleVenta" />
-          <NavigationProperty Name="Funcion" Relationship="inf245netsoftModel.R_76" FromRole="VentasXFuncion" ToRole="Funcion" />
           <Property Name="hanEntregado" Type="Boolean" />
+          <NavigationProperty Name="Funcion" Relationship="inf245netsoftModel.R_76" FromRole="VentasXFuncion" ToRole="Funcion" />
         </EntityType>
         <Association Name="R_4">
           <End Type="inf245netsoftModel.Banco" Role="Banco" Multiplicity="1" />
@@ -2041,8 +2043,8 @@
           <Property Name="DocAsociado" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="PrecioPagado" Type="Double" />
           <NavigationProperty Name="Asientos" Relationship="inf245netsoftModel.R_44" FromRole="AsientosXFuncion" ToRole="Asientos" />
-          <NavigationProperty Name="Funcion" Relationship="inf245netsoftModel.R_46" FromRole="AsientosXFuncion" ToRole="Funcion" />
           <Property Name="concurrencia" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" ConcurrencyMode="None" />
+          <NavigationProperty Name="Funcion" Relationship="inf245netsoftModel.R_46" FromRole="AsientosXFuncion" ToRole="Funcion" />
         </EntityType>
         <EntityType Name="Comentarios">
           <Key>
@@ -2082,23 +2084,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Funcion">
-          <Key>
-            <PropertyRef Name="codFuncion" />
-          </Key>
-          <Property Name="codFuncion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="horaIni" Type="DateTime" Precision="3" />
-          <Property Name="fecha" Type="DateTime" Precision="3" />
-          <Property Name="codEvento" Type="Int32" Nullable="false" />
-          <Property Name="estado" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="FechaDevolucion" Type="DateTime" Precision="0" />
-          <Property Name="cantDiasDevolucion" Type="Int32" />
-          <Property Name="motivoCambio" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="AsientosXFuncion" Relationship="inf245netsoftModel.R_46" FromRole="Funcion" ToRole="AsientosXFuncion" />
-          <NavigationProperty Name="VentasXFuncion" Relationship="inf245netsoftModel.R_76" FromRole="Funcion" ToRole="VentasXFuncion" />
-          <NavigationProperty Name="ZonaxFuncion" Relationship="inf245netsoftModel.R_50" FromRole="Funcion" ToRole="ZonaxFuncion" />
-          <NavigationProperty Name="Eventos" Relationship="inf245netsoftModel.R_43" FromRole="Funcion" ToRole="Eventos" />
-        </EntityType>
         <EntityType Name="PeriodoVenta">
           <Key>
             <PropertyRef Name="idPerVent" />
@@ -2140,34 +2125,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="R_46">
-          <End Type="inf245netsoftModel.Funcion" Role="Funcion" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="inf245netsoftModel.AsientosXFuncion" Role="AsientosXFuncion" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Funcion">
-              <PropertyRef Name="codFuncion" />
-            </Principal>
-            <Dependent Role="AsientosXFuncion">
-              <PropertyRef Name="codFuncion" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="R_76">
-          <End Type="inf245netsoftModel.Funcion" Role="Funcion" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="inf245netsoftModel.VentasXFuncion" Role="VentasXFuncion" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Funcion">
-              <PropertyRef Name="codFuncion" />
-            </Principal>
-            <Dependent Role="VentasXFuncion">
-              <PropertyRef Name="codFuncion" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_PerVenta">
           <End Type="inf245netsoftModel.PeriodoVenta" Role="PeriodoVenta" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
@@ -2204,25 +2161,11 @@
           <Property Name="codFuncion" Type="Int32" Nullable="false" />
           <Property Name="codZona" Type="Int32" Nullable="false" />
           <Property Name="cantLibres" Type="Int32" Nullable="false" ConcurrencyMode="Fixed" />
-          <NavigationProperty Name="Funcion" Relationship="inf245netsoftModel.R_50" FromRole="ZonaxFuncion" ToRole="Funcion" />
           <NavigationProperty Name="ZonaEvento" Relationship="inf245netsoftModel.R_51" FromRole="ZonaxFuncion" ToRole="ZonaEvento" />
           <Property Name="concurrencia" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="cantReservaOrganizador" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Funcion" Relationship="inf245netsoftModel.R_50" FromRole="ZonaxFuncion" ToRole="Funcion" />
         </EntityType>
-        <Association Name="R_50">
-          <End Type="inf245netsoftModel.Funcion" Role="Funcion" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="inf245netsoftModel.ZonaxFuncion" Role="ZonaxFuncion" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Funcion">
-              <PropertyRef Name="codFuncion" />
-            </Principal>
-            <Dependent Role="ZonaxFuncion">
-              <PropertyRef Name="codFuncion" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="R_51">
           <End Type="inf245netsoftModel.ZonaEvento" Role="ZonaEvento" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -2399,6 +2342,39 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Funcion">
+          <Key>
+            <PropertyRef Name="codFuncion" />
+          </Key>
+          <Property Name="codFuncion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="horaIni" Type="DateTime" Precision="3" />
+          <Property Name="fecha" Type="DateTime" Precision="3" />
+          <Property Name="codEvento" Type="Int32" Nullable="false" />
+          <Property Name="estado" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FechaDevolucion" Type="DateTime" Precision="0" />
+          <Property Name="cantDiasDevolucion" Type="Int32" />
+          <Property Name="motivoCambio" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="fechaPostergado" Type="DateTime" Precision="3" />
+          <Property Name="fechaCancelado" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="AsientosXFuncion" Relationship="inf245netsoftModel.R_46" FromRole="Funcion" ToRole="AsientosXFuncion" />
+          <NavigationProperty Name="Eventos" Relationship="inf245netsoftModel.R_43" FromRole="Funcion" ToRole="Eventos" />
+          <NavigationProperty Name="ZonaxFuncion" Relationship="inf245netsoftModel.R_50" FromRole="Funcion" ToRole="ZonaxFuncion" />
+          <NavigationProperty Name="VentasXFuncion" Relationship="inf245netsoftModel.R_76" FromRole="Funcion" ToRole="VentasXFuncion" />
+        </EntityType>
+        <Association Name="R_46">
+          <End Type="inf245netsoftModel.Funcion" Role="Funcion" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="inf245netsoftModel.AsientosXFuncion" Role="AsientosXFuncion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Funcion">
+              <PropertyRef Name="codFuncion" />
+            </Principal>
+            <Dependent Role="AsientosXFuncion">
+              <PropertyRef Name="codFuncion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="R_43">
           <End Type="inf245netsoftModel.Eventos" Role="Eventos" Multiplicity="1" />
           <End Type="inf245netsoftModel.Funcion" Role="Funcion" Multiplicity="*" />
@@ -2408,6 +2384,34 @@
             </Principal>
             <Dependent Role="Funcion">
               <PropertyRef Name="codEvento" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_50">
+          <End Type="inf245netsoftModel.Funcion" Role="Funcion" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="inf245netsoftModel.ZonaxFuncion" Role="ZonaxFuncion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Funcion">
+              <PropertyRef Name="codFuncion" />
+            </Principal>
+            <Dependent Role="ZonaxFuncion">
+              <PropertyRef Name="codFuncion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_76">
+          <End Type="inf245netsoftModel.Funcion" Role="Funcion" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="inf245netsoftModel.VentasXFuncion" Role="VentasXFuncion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Funcion">
+              <PropertyRef Name="codFuncion" />
+            </Principal>
+            <Dependent Role="VentasXFuncion">
+              <PropertyRef Name="codFuncion" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2771,20 +2775,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Funcion">
-            <EntityTypeMapping TypeName="inf245netsoftModel.Funcion">
-              <MappingFragment StoreEntitySet="Funcion">
-                <ScalarProperty Name="motivoCambio" ColumnName="motivoCambio" />
-                <ScalarProperty Name="cantDiasDevolucion" ColumnName="cantDiasDevolucion" />
-                <ScalarProperty Name="FechaDevolucion" ColumnName="FechaDevolucion" />
-                <ScalarProperty Name="estado" ColumnName="estado" />
-                <ScalarProperty Name="codEvento" ColumnName="codEvento" />
-                <ScalarProperty Name="fecha" ColumnName="fecha" />
-                <ScalarProperty Name="horaIni" ColumnName="horaIni" />
-                <ScalarProperty Name="codFuncion" ColumnName="codFuncion" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="PeriodoVenta">
             <EntityTypeMapping TypeName="inf245netsoftModel.PeriodoVenta">
               <MappingFragment StoreEntitySet="PeriodoVenta">
@@ -2874,6 +2864,22 @@
                 <ScalarProperty Name="descripcion" ColumnName="descripcion" />
                 <ScalarProperty Name="nombre" ColumnName="nombre" />
                 <ScalarProperty Name="codigo" ColumnName="codigo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Funcion">
+            <EntityTypeMapping TypeName="inf245netsoftModel.Funcion">
+              <MappingFragment StoreEntitySet="Funcion">
+                <ScalarProperty Name="fechaCancelado" ColumnName="fechaCancelado" />
+                <ScalarProperty Name="fechaPostergado" ColumnName="fechaPostergado" />
+                <ScalarProperty Name="motivoCambio" ColumnName="motivoCambio" />
+                <ScalarProperty Name="cantDiasDevolucion" ColumnName="cantDiasDevolucion" />
+                <ScalarProperty Name="FechaDevolucion" ColumnName="FechaDevolucion" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="codEvento" ColumnName="codEvento" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="horaIni" ColumnName="horaIni" />
+                <ScalarProperty Name="codFuncion" ColumnName="codFuncion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

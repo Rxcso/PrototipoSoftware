@@ -569,7 +569,8 @@ namespace WebApplication4.Controllers
                         int codiguitoF = listaRealVxf[i].codFuncion;
                         //saco todos los DetallesVentas de todos los VXF
                         List<DetalleVenta> detVen = db.DetalleVenta.Where(dv => dv.codVen == codiguitoV &&
-                        dv.codFuncion == codiguitoF).ToList();
+                        dv.codFuncion == codiguitoF && dv.cantEntradas!=0).ToList();
+                        //dv.cantEntradas!=0 en caso se haya realizado una devolucion de un dv y no de la v total
 
                         for (int j = 0; j < detVen.Count; j++)
                         {
@@ -657,17 +658,20 @@ namespace WebApplication4.Controllers
         public ActionResult DevolverTodo()
         {
             DetalleVenta dv=(DetalleVenta)Session["DetalleVenta"];
-
+            
             Ventas v = db.Ventas.Find(dv.codVen);
             //Ventas v = (Ventas)Session["VentasDev"];
             v.cantAsientos -= (int)dv.cantEntradas;
             v.MontoTotalSoles -= (double)dv.total;
-            v.Estado = "Devuelto";
+            if(v.cantAsientos==0) v.Estado = "Devuelto";
 
             Funcion f = db.Funcion.Find(dv.codFuncion);
             Eventos ev = db.Eventos.Find(f.codEvento);
             //Eventos ev = (Eventos)Session["EventoDev"];
             ev.monto_adeudado -= (double)dv.total;
+
+            CuentaUsuario cu = db.CuentaUsuario.Find(v.cliente);
+            cu.puntos -= (int)ev.puntosAlCliente * (int)dv.cantEntradas;            
 
             List<AsientosXFuncion> axf = db.AsientosXFuncion.Where(a => a.codFuncion == f.codFuncion && a.codDetalleVenta == dv.codDetalleVenta).ToList();
             //List<AsientosXFuncion> axf = (List<AsientosXFuncion>)Session["ListaAsientos"];
