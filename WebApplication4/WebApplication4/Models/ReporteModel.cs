@@ -8,6 +8,7 @@ namespace WebApplication4.Models
 {
     public class ReporteModel
     {
+
         public class ReporteBuscaModel
         {
             [Required]
@@ -19,6 +20,19 @@ namespace WebApplication4.Models
             [DataType(DataType.Date)]
             [Display(Name = "Fecha Fin:")]
             public System.DateTime fechaF { get; set; }
+        }
+
+       
+
+        public class ReporteVentasDiaModel
+        {
+            public int codigo { get; set; }
+
+            public string nombre { get; set; }
+
+            public int cant { get; set; }
+
+            public double total { get; set; }
         }
 
         public class ReporteVentas1Model
@@ -37,7 +51,6 @@ namespace WebApplication4.Models
         public class ReporteVentas2Model
         {
             public string codigo { get; set; }
-
             public string nombre { get; set; }
 
             public double total { get; set; }
@@ -53,7 +66,7 @@ namespace WebApplication4.Models
 
             public string funcion { get; set; }
 
-            public int cant { get; set; }
+           public int cant { get; set; }
 
             public double total { get; set; }
         }
@@ -68,20 +81,7 @@ namespace WebApplication4.Models
 
             public string provincia { get; set; }
 
-            public double total { get; set; }
+           public double total { get; set; }
         }
-
-        public class ReporteVentasDiaModel
-        {
-            public int codigo { get; set; }
-
-            public string nombre { get; set; }
-
-            public int cant { get; set; }
-
-            public double total { get; set; }
-        }
-
-    
-    }
 }
+    }
