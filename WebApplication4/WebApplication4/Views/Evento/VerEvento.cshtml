@@ -381,7 +381,7 @@
 
         $('body').on('click', '.ficha', function () {
 
-            if (!$(this).hasClass("ocupado")) {   //solo si no esta ocupado se podra elegir o deselegir un asiento
+            if (!$(this).hasClass("ocupado") && !$(this).hasClass("eliminado")) {   //solo si no esta ocupado se podra elegir o deselegir un asiento
                 if ($(this).hasClass("elegido")) {//lo sacamos
                     $(this).removeClass("elegido");
                     $("#numEntradas").val(parseInt($("#numEntradas").val()) - 1);

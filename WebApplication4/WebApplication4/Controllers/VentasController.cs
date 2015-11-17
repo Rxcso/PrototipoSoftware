@@ -524,8 +524,10 @@ namespace WebApplication4.Controllers
                         for (int j = 0; j < vxf.Count; j++)
                         {
                             int codiguitoF = vxf[j].codFuncion;
+                            int codiguitoV = vxf[j].codVen;
                             //filtro
                             Funcion f = db.Funcion.Find(codiguitoF);
+                            Ventas vent = db.Ventas.Find(codiguitoV);
                             if (f.estado != "CANCELADO" && f.estado != "POSTERGADO") {
                                 vxf.RemoveAt(j);
                                 j--;
@@ -537,6 +539,13 @@ namespace WebApplication4.Controllers
                                 if(!ev.devolverPostergacion){
                                     vxf.RemoveAt(j);
                                     j--;
+                                }
+                                else{//sí se puede devolver
+                                    if (DateTime.Compare((DateTime)vent.fecha, (DateTime)f.fechaPostergado) > 0)
+                                    {//se realizo la compra fuera del rango en que se puede devolver
+                                        vxf.RemoveAt(j);
+                                        j--;
+                                    }
                                 }
                             }
                             
