@@ -5,7 +5,7 @@
 
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="container-fluid">
@@ -22,7 +22,7 @@
     List<WebApplication4.Models.CuentaUsuario> listaPromotor;
     if (Session["ListaV1"] == null)
     {
-        listaEmpleado = db.CuentaUsuario.AsNoTracking().Where(c => c.codPerfil == 2 && c.estado==true).ToList();
+        listaEmpleado = db.CuentaUsuario.AsNoTracking().Where(c => c.codPerfil == 2 && c.estado == true).ToList();
     }
     else
     {
@@ -57,7 +57,7 @@
                             <a class="btn btn-primary" href="#formNuevo1" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
                             <a class="btn btn-primary" data-toggle="modal" onclick="redirigeV()">Modificar<span class="glyphicon glyphicon-pencil"></span></a>
                             <a class="btn btn-primary" onclick="validaS()" data-toggle="modal">Dar de Baja <span class="glyphicon glyphicon-remove"></span></a>
-                            @*<button id=botonOculto1 style="visibility:hidden" type="button" class="btn btn-primary" onclick="msjConfirmacion2_1()">Guardar Cambios <span class="glyphicon glyphicon-save"></span></button>*@
+                            <a class="btn btn-primary" onclick="activa1()" data-toggle="modal" id="Activate">Activar<span class="glyphicon glyphicon-ok"></span></a>
                         </div>
                     </div>
 
@@ -78,8 +78,8 @@
 
                 </div>
                 @*@{
-                    Html.RenderPartial("_Search1");
-                }*@
+                        Html.RenderPartial("_Search1");
+                    }*@
                 <a class="btn btn-primary" id="idBusq2E" onclick="buscaIE()" data-toggle="modal">Ver Inactivos<span class="glyphicon"></span></a>
                 <br>
                 <br>
@@ -107,10 +107,10 @@
                                     <td>@row.telefono</td>
                                     <td>@row.estado</td>
                                     @*<td>@Html.ActionLink("Delete", "Delete", new { usuario = row.usuario.Replace("@", "°") })</td>
-                                    <td>@Html.ActionLink("Edit", "Edit", new { usuario = row.usuario.Replace("@", "°") })</td>*@
+                                        <td>@Html.ActionLink("Edit", "Edit", new { usuario = row.usuario.Replace("@", "°") })</td>*@
                                     @*<td><a href="@Url.Action("Edit", "Empleado", new { id = row.codDoc })" class="btn btn-primary">Modificar <span class="glyphicon glyphicon-pencil"></span></a></td>*@
                                     @*<td>@Html.ActionLink("Delete", "Delete", new { id = row.idRegalo })</td>
-                                    <td>@Html.ActionLink("Edit", "Edit", new { id = row.idRegalo })</td>*@
+                                        <td>@Html.ActionLink("Edit", "Edit", new { id = row.idRegalo })</td>*@
                                 </tr>
                             }
                         </tbody>
@@ -129,7 +129,7 @@
                             <a class="btn btn-primary" href="#formNuevo2" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
                             <a class="btn btn-primary" data-toggle="modal" onclick="redirigeP()">Modificar<span class="glyphicon glyphicon-pencil"></span></a>
                             <a class="btn btn-primary" onclick="validaS2()" data-toggle="modal">Dar de Baja <span class="glyphicon glyphicon-remove"></span></a>
-                            @*<button id=botonOculto2 style="visibility:hidden" type="button" class="btn btn-primary" onclick="msjConfirmacion2_2()">Guardar cambios <span class="glyphicon glyphicon-save"></span></button>*@
+                            <a class="btn btn-primary" onclick="activa2()" data-toggle="modal" id="Activate">Activar<span class="glyphicon glyphicon-ok"></span></a>
                         </div>
                     </div>
 
@@ -151,8 +151,8 @@
                 </div>
 
                 @*@{
-                    Html.RenderPartial("_Search2");
-                }*@
+                        Html.RenderPartial("_Search2");
+                    }*@
                 <a class="btn btn-primary" id="idBusq2P" onclick="buscaIP()" data-toggle="modal">Ver Inactivos<span class="glyphicon"></span></a>
                 <br>
                 <br>
@@ -180,9 +180,9 @@
                                     <td>@row.telefono</td>
                                     <td>@row.estado</td>
                                     @*<td>@Html.ActionLink("Delete", "Delete", new { usuario = row.usuario.Replace("@", "°") })</td>
-                                    <td>@Html.ActionLink("Edit", "Edit", new { usuario = row.usuario.Replace("@", "°") })</td>*@
+                                        <td>@Html.ActionLink("Edit", "Edit", new { usuario = row.usuario.Replace("@", "°") })</td>*@
                                     @*<td>@Html.ActionLink("Delete", "Delete", new { id = row.idRegalo })</td>
-                            <td>@Html.ActionLink("Edit", "Edit", new { id = row.idRegalo })</td>*@
+                                        <td>@Html.ActionLink("Edit", "Edit", new { id = row.idRegalo })</td>*@
                                 </tr>
                             }
                         </tbody>
@@ -317,17 +317,17 @@
                             @Html.LabelFor(model => model.sexo, new { @class = "control-label col-md-2" })
                             <div class="col-md-4">
                                 @{
-                                    List<SelectListItem> listItemsS = new List<SelectListItem>();
-                                    listItemsS.Add(new SelectListItem
-                                    {
-                                        Text = "Masculino",
-                                        Value = "H",
-                                    });
-                                    listItemsS.Add(new SelectListItem
-                                    {
-                                        Text = "Femenino",
-                                        Value = "F"
-                                    });
+                    List<SelectListItem> listItemsS = new List<SelectListItem>();
+                    listItemsS.Add(new SelectListItem
+                    {
+                        Text = "Masculino",
+                        Value = "H",
+                    });
+                    listItemsS.Add(new SelectListItem
+                    {
+                        Text = "Femenino",
+                        Value = "F"
+                    });
                                 }
                                 @Html.DropDownListFor(model => model.sexo, listItemsS, new { @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.sexo)
@@ -352,8 +352,8 @@
             </div>
             <!--footer de la ventana-->
             @*<div class="modal-footer">
-                <button type="button" onclick="registrar1()" class="btn btn-primary">Agregar <span class="glyphicon glyphicon-ok"></span></button>
-            </div>*@
+                    <button type="button" onclick="registrar1()" class="btn btn-primary">Agregar <span class="glyphicon glyphicon-ok"></span></button>
+                </div>*@
         </div>
     </div>
 </div>
@@ -374,37 +374,37 @@
                 {
                     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        @Html.ValidationSummary(true)
-        <h3>Datos de ingreso</h3><br>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Email)
-            </div>
-        </div>
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true)
+                        <h3>Datos de ingreso</h3><br>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Email)
+                            </div>
+                        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Password, new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Password)
-            </div>
-        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Password, new { @class = "control-label col-md-2" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Password)
+                            </div>
+                        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.ConfirmPassword, new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ConfirmPassword)
-            </div>
-        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ConfirmPassword, new { @class = "control-label col-md-2" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.ConfirmPassword)
+                            </div>
+                        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.tipoDoc, new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @{
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.tipoDoc, new { @class = "control-label col-md-2" })
+                            <div class="col-md-6">
+                                @{
                     List<SelectListItem> listItems = new List<SelectListItem>();
                     listItems.Add(new SelectListItem
                     {
@@ -416,64 +416,64 @@
                         Text = "Pasaporte",
                         Value = "2"
                     });
-                }
-                @Html.DropDownListFor(model => model.tipoDoc, listItems, "Seleccione tipo de documento", new { @class = "form-control" })
-            </div>
+                                }
+                                @Html.DropDownListFor(model => model.tipoDoc, listItems, "Seleccione tipo de documento", new { @class = "form-control" })
+                            </div>
 
-        </div>
+                        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.codDoc, new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.codDoc, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.codDoc)
-            </div>
-        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.codDoc, new { @class = "control-label col-md-2" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.codDoc, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.codDoc)
+                            </div>
+                        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.nombre)
-            </div>
-        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-2" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.nombre)
+                            </div>
+                        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.apellido, new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.apellido, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.apellido)
-            </div>
-        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.apellido, new { @class = "control-label col-md-2" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.apellido, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.apellido)
+                            </div>
+                        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.direccion, new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.direccion, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.direccion)
-            </div>
-        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.direccion, new { @class = "control-label col-md-2" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.direccion, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.direccion)
+                            </div>
+                        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.telefono, new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.telefono, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.telefono)
-            </div>
-        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.telefono, new { @class = "control-label col-md-2" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.telefono, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.telefono)
+                            </div>
+                        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.telMovil, new { @class = "control-label col-md-2" })
-            <div class="col-md-6">
-                @Html.EditorFor(model => model.telMovil, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.telMovil)
-            </div>
-        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.telMovil, new { @class = "control-label col-md-2" })
+                            <div class="col-md-6">
+                                @Html.EditorFor(model => model.telMovil, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.telMovil)
+                            </div>
+                        </div>
 
-        <div class="row form-group">
-            @Html.LabelFor(model => model.sexo, new { @class = "control-label col-md-2" })
-            <div class="col-md-4">
-                @{
+                        <div class="row form-group">
+                            @Html.LabelFor(model => model.sexo, new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @{
                     List<SelectListItem> listItemsS = new List<SelectListItem>();
                     listItemsS.Add(new SelectListItem
                     {
@@ -485,32 +485,32 @@
                         Text = "Femenino",
                         Value = "F"
                     });
-                }
-                @Html.DropDownListFor(model => model.sexo, listItemsS, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.sexo)
-            </div>
-        </div>
+                                }
+                                @Html.DropDownListFor(model => model.sexo, listItemsS, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.sexo)
+                            </div>
+                        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.fechaNac, new { @class = "control-label col-md-2" })
-            <div class="col-md-4">
-                @Html.EditorFor(model => model.fechaNac, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.fechaNac)
-            </div>
-        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.fechaNac, new { @class = "control-label col-md-2" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.fechaNac, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.fechaNac)
+                            </div>
+                        </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Agregar" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Agregar" class="btn btn-default" />
+                            </div>
+                        </div>
+                    </div>
                 }
             </div>
             <!--footer de la ventana-->
             @*<div class="modal-footer">
-                <button type="button" onclick="registrar2()" class="btn btn-primary">Agregar <span class="glyphicon glyphicon-ok"></span></button>
-            </div>*@
+                    <button type="button" onclick="registrar2()" class="btn btn-primary">Agregar <span class="glyphicon glyphicon-ok"></span></button>
+                </div>*@
         </div>
     </div>
 </div>
@@ -625,7 +625,35 @@
                     }
                 });
             } else {
-                alert("No se puede desactivar un Empleado que ya esta esactivado");
+                alert("No se puede desactivar un Empleado que ya esta desactivado");
+            }
+        } else {
+            alert("Seleccione un Vendedor");
+            evento = "";
+        }
+    }
+    function activa1() {
+        var usuario = $('#idEmpleadoT').val();
+        var estado = $('#EstadoEmpT').val();
+        var el = document.getElementById(usuario);
+        var row = $(el).closest('tr');
+        //alert(evento);
+        //alert(promocion);
+        if (usuario != "" && usuario != null) {
+            if (estado != "True") {
+                $.ajax({
+                    url: "@Url.Action("Active", "Empleado")",
+                    data: { usuario: usuario },
+                    success: function (data) {
+                        alert(data);
+                        window.location.href = '/Empleado/Index';
+                    },
+                    error: function (data) {
+                        alert(data);
+                    }
+                });
+            } else {
+                alert("No se puede activar un Empleado que ya esta activado");
             }
         } else {
             alert("Seleccione un Vendedor");
@@ -655,7 +683,37 @@
                     }
                 });
             } else {
-                alert("No se puede desactivar un Promotor que ya esta esactivado");
+                alert("No se puede desactivar un Promotor que ya esta desactivado");
+            }
+        } else {
+            alert("Seleccione un Promotor");
+            evento = "";
+        }
+    }
+    function activa2() {
+        var usuario = $('#idPromotorT').val();
+        var estado = $('#EstadoProT').val();
+        var el = document.getElementById(usuario);
+        var row = $(el).closest('tr');
+        //alert(evento);
+        //alert(promocion);
+        if (usuario != "" && usuario != null) {
+            if (estado != "True") {
+                $.ajax({
+                    url: "@Url.Action("Active", "Empleado")",
+                    data: { usuario: usuario },
+                    success: function (data) {
+                        alert(data);
+                        $('#eliminar').modal('hide');
+                        //row.remove();
+                        window.location.href = '/Empleado/Index';
+                    },
+                    error: function (data) {
+                        alert(data);
+                    }
+                });
+            } else {
+                alert("No se puede activar un Promotor que ya esta activado");
             }
         } else {
             alert("Seleccione un Promotor");

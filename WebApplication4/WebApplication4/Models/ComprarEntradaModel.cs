@@ -57,5 +57,6 @@ namespace WebApplication4.Models
 
         public List<int> idEventos { get; set; }
         public List<int> idPromociones { get; set; }
+        public int idVenta { get; set; }
     }
 }

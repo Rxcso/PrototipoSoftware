@@ -121,12 +121,12 @@ namespace WebApplication4.Controllers
                     TempData["tipo"] = "alert alert-warning";
                     TempData["message"] = "Correo no registrado.";
                 }
-                
+
                 return Redirect("~/Home/Index");
             }
 
             if (cuentausuario.codPerfil != 1 && cuentausuario.estado == false) return Redirect("~/Home/Index");
-            
+
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             Session["orgPago"] = null;
             Session["orgPago2"] = null;
@@ -234,8 +234,6 @@ namespace WebApplication4.Controllers
             return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
 
-        //a
-
         //
         // POST: /Account/VerifyCode
         [HttpPost]
@@ -280,7 +278,6 @@ namespace WebApplication4.Controllers
         {
             return View("RegisterClient");
         }
-
 
         //
         // POST: /Account/Register
@@ -344,6 +341,7 @@ namespace WebApplication4.Controllers
                     db.CuentaUsuario.Add(cuentausuario);
                     db.SaveChanges();
                     Session["UsuarioLogueado"] = cuentausuario;
+                    EmailController.EnviarCorreoRegistro(model.Email);
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
@@ -370,7 +368,7 @@ namespace WebApplication4.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "Administrador")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RegisterVendedor(RegisterViewModel model)
         {
@@ -425,7 +423,7 @@ namespace WebApplication4.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "Administrador")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RegisterPromotor(RegisterViewModel model)
         {
@@ -752,7 +750,7 @@ namespace WebApplication4.Controllers
         {
             foreach (var error in result.Errors)
             {
-               
+
                 ModelState.AddModelError("", error);
             }
         }

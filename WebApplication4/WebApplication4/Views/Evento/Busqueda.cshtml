@@ -308,7 +308,7 @@
                                 @{
                                     var func = from obj in db.Funcion
                                                where (obj.codEvento == evento.codigo && obj.estado.Contains("ACTIVO"))
-                                               orderby obj.horaIni ascending
+                                               orderby obj.fecha ascending
                                                select obj;
 
                                     string fecha = "";
@@ -511,7 +511,7 @@
                 $("#idSubCat").val() == '' && $("#idRegion").val() == '' && $("#idProv").val() == '') {
 
                 $("#alerta").append('<strong>Ingrese al menos un campo!</strong>').show();
-                return;
+                return false;
             } else {
 
                 var valor = $("#alerta").children('strong');

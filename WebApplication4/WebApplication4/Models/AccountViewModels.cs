@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace WebApplication4.Models
@@ -298,6 +299,17 @@ namespace WebApplication4.Models
         [Required]
         [Display(Name = "Puntos: ")]
         public int puntos { get; set; }
+    }
+
+    public class ReporteAsignacionModel
+    {
+       [Required]
+        [DataType(DataType.Date)]
+        public DateTime fechaInicio { get; set; }
+        [Required]
+        [DataType(DataType.Date)]
+        public DateTime  fechaFin{ get; set;}
+
     }
 
     public class ResetPasswordViewModel

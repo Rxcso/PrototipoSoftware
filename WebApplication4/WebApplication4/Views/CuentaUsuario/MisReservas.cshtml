@@ -42,7 +42,7 @@
                     <h4>Mis reservas vigentes:</h4>
                 </div>
                 <div class="col-md-6">
-                    <a href="@Url.Action("PagarReserva","CuentaUsuario")" class="btn btn-primary pull-right">Pagar reserva <span class="glyphicon glyphicon-usd"></span></a>
+                    <a onclick="redirigeReserva()" class="btn btn-primary pull-right">Pagar reserva <span class="glyphicon glyphicon-usd"></span></a>
                 </div>
 
             </div>
@@ -178,7 +178,7 @@
     function redirigeReserva() {
         var reserva = $('#codVenT').val();
         if (reserva != "") {
-            window.location.href = '/Ventas/PagarReserva?reserva=' + reserva;
+            window.location.href = '/CuentaUsuario/PagarReserva?reserva=' + reserva;
         } else {
             alert("Seleccione una Reserva");
             evento = "";

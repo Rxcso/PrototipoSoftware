@@ -60,6 +60,7 @@ namespace WebApplication4.Controllers
             //Que significa todo Ok?
             //Primero busca cuantas entradas mas puede comprar/reservar esta persona para esa funcion
             //Si supera el limite fue ps
+            int idVenta = 0;
             try
             {
                 int quedan = BuscarEntradasLeQuedan(name, paquete.idFuncion);
@@ -73,11 +74,11 @@ namespace WebApplication4.Controllers
                 {
                     return "No se pudo realizar la reserva, solo puede reservar hasta  " + quedan + "entradas";
                 }
-
                 //Luego se hace la reserva de esto, 
                 //Establecer sincronia es lo mas complicado
                 //Apenas se guarde la reserva todo estara consumado XD 
                 //Eso es todo
+
                 using (var context = new inf245netsoft())
                 {
                     try
@@ -102,6 +103,7 @@ namespace WebApplication4.Controllers
                         db.SaveChanges();
                         VentasXFuncion vf = new VentasXFuncion();
                         vf.codVen = ve.codVen;
+                        idVenta = ve.codVen;
                         vf.cantEntradas = paquete.cantEntradas;
                         vf.codFuncion = paquete.idFuncion;
                         vf.Ventas = ve;
@@ -158,6 +160,7 @@ namespace WebApplication4.Controllers
             }
             //Funciones Utilitarias necesarias
             //BuscarEntradasLeQuedan( User , Funcion )
+            EmailController.EnviarCorreoReserva(idVenta, User.Identity.Name);
             return "Ok";
         }
 
@@ -965,7 +968,7 @@ namespace WebApplication4.Controllers
                 model.IEvento = evento.ImagenEvento;
                 model.ISitios = evento.ImagenSitios;
                 model.Ganancia = (double)(evento.porccomision == null ? 0 : evento.porccomision);
-                model.MaxReservas = evento.maxReservas;
+                model.MaxReservas = db.Politicas.Find(2).valor.Value;
                 model.MontFijoVentEnt = (double)(evento.montoFijoVentaEntrada == null ? 0 : evento.montoFijoVentaEntrada);
                 model.PenCancelacion = (double)(evento.penalidadXcancelacion == null ? 0 : evento.penalidadXcancelacion);
                 model.PenPostergacion = (double)(evento.penalidadXpostergacion == null ? 0 : evento.penalidadXpostergacion);
@@ -1597,13 +1600,12 @@ namespace WebApplication4.Controllers
             db.Entry(queryEvento).State = EntityState.Modified;
             queryEvento.hanPostergado = true;
             db.SaveChanges();
-
+            EmailController.EnviarCorreoPostergarcionFuncion(evento.idFuncion);
             ViewBag.nombreEvento = queryEvento.nombre;
             int idOrganizador = (int)queryEvento.idOrganizador;
             ViewBag.idEvento = "" + id;
             ViewBag.organizadorEvento = db.Organizador.Where(c => c.codOrg == idOrganizador).First().nombOrg;
             ViewBag.listaFunciones = db.Funcion.Where(c => c.codEvento == id && c.estado != "CANCELADO").ToList();
-
             return View();
         }
 

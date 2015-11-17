@@ -3,7 +3,7 @@
 
 @{
     ViewBag.Title = "Asignacion";
-    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
     var db = new WebApplication4.Models.inf245netsoft();
     //string mensaje = "";
     List<WebApplication4.Models.TurnoSistema> listaTurno = db.TurnoSistema.AsNoTracking().Where(c => c.activo == true).ToList();

@@ -22,6 +22,162 @@ using System.Net.Mail;
 
 namespace WebApplication4.Controllers
 {
+    public class EmailController
+    {
+        //para el manejo de base de datos
+        public static inf245netsoft db = new inf245netsoft();
+        //credenciales del correo
+        public static NetworkCredential credentials = new System.Net.NetworkCredential(MagicHelpers.CorreoVentas, MagicHelpers.ContraVentas);
+        //configuracion del cliente smtp
+        public static SmtpClient SmtpServer = new SmtpClient
+        {
+            DeliveryMethod = SmtpDeliveryMethod.Network,
+            EnableSsl = true,
+            Host = "smtp.gmail.com",
+            Port = 587,
+            UseDefaultCredentials = false,
+            Credentials = credentials
+        };
+
+        public static void EnviarCorreoCompra(int idVenta, string correo)
+        {
+            try
+            {
+                MailMessage mail = new MailMessage();
+                mail.From = new MailAddress(MagicHelpers.CorreoVentas);
+                mail.To.Add(correo);
+                mail.Subject = "Compra de Entradas - Venta " + idVenta + ".";
+
+                mail.IsBodyHtml = true;
+                string htmlBody = "<table class='table table-bordered table-hover'><thsead><tr class='thead'>";
+                htmlBody += "<th>Evento</th><th>Fecha</th><th>Hora</th><th>Cantidad de Entradas</th><th>Total</th></thsead><tbody>";
+                string relleno = "";
+                List<VentasXFuncion> ventasxf = db.VentasXFuncion.Where(c => c.codVen == idVenta).ToList();
+                foreach (var row in ventasxf)
+                {
+                    Funcion fu = db.Funcion.Find(row.codFuncion);
+                    relleno += "<tr>";
+                    relleno += "<td>" + db.Eventos.Find(fu.codEvento).nombre + "</td>";
+                    relleno += "<td>" + String.Format("{0:d}", fu.fecha) + "</td>";
+                    relleno += "<td>" + String.Format("{0:t}", fu.horaIni) + "</td>";
+                    relleno += "<td>" + row.cantEntradas + "</td>";
+                    relleno += "<td>" + row.total + "</td>";
+                    relleno += "</tr>";
+                }
+                mail.Body = htmlBody + relleno;
+                SmtpServer.Send(mail);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
+
+        public static void EnviarCorreoRegistro(string correo)
+        {
+            try
+            {
+                MailMessage mail = new MailMessage();
+                mail.From = new MailAddress(MagicHelpers.CorreoVentas);
+                mail.To.Add(correo);
+                mail.Subject = "Registro de Usuario";
+
+                mail.IsBodyHtml = true;
+                string htmlBody = "<p>Su cuenta ha sido registrada exitosamente.</p>";
+                CuentaUsuario cuenta = db.CuentaUsuario.Find(correo);
+                htmlBody += "<p>Usuario: " + correo + "</p>";
+                htmlBody += "<p>Contraseña: " + cuenta.contrasena + "</p>";
+                mail.Body = htmlBody;
+                SmtpServer.Send(mail);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
+        
+        public static void EnviarCorreoPostergarcionFuncion(int codFuncion)
+        {
+            Funcion funcion = db.Funcion.Where(c => c.codFuncion == codFuncion).First();
+            Eventos evento = db.Eventos.Find(funcion.codEvento);
+            MailMessage mail = new MailMessage();
+            mail.From = new MailAddress(MagicHelpers.CorreoVentas);
+            //quienes compraron o reservaron la funcion
+            List<DetalleVenta> detalles = db.DetalleVenta.Where(c => c.codFuncion == codFuncion).ToList();
+            //saco del detalle las ordenes de venta
+            List<Ventas> ventas = new List<Ventas>();
+            foreach (DetalleVenta detalle in detalles)
+            {
+                Ventas venta = db.Ventas.Find(detalle.codVen);
+                ventas.Add(venta);
+            }
+            //con las ordenes de venta puedo saber quienes han comprado 
+            List<CuentaUsuario> compradores = new List<CuentaUsuario>();
+            foreach (Ventas venta in ventas)
+            {
+                CuentaUsuario comprador = db.CuentaUsuario.Find(venta.CuentaUsuario.correo);
+                compradores.Add(comprador);
+            }
+            compradores = compradores.GroupBy(c => c.correo).Select(s => s.First()).ToList();
+            //una vez que tengo la lista de compradores les mando un correo a cada uno
+            foreach (CuentaUsuario cliente in compradores)
+            {
+                try
+                {
+                    mail.To.Add(cliente.correo);
+                    mail.Subject = "Postegarcion de Funcion del Evento '" + evento.nombre + "'";
+                    mail.IsBodyHtml = true;
+                    string htmlBody = "<p>Estimado " + cliente.nombre + " " + cliente.apellido + ", </p>";
+                    htmlBody += "<p>Le informamos que la funcion del evento al que va asistir se ha postergado para el dia " + String.Format("{0:d}", funcion.fecha) + " a la hora " + String.Format("{0:t}", funcion.horaIni) + "</p>";
+                    //htmlBody += "<p>Por el siguiente motivo:</p><p>" + funcion.motivoCambio + ".</p>";
+                    htmlBody += "<br><p>Esperamos su compresion,</p><p>TickNet</p>";
+                    mail.Body = htmlBody;
+                    SmtpServer.Send(mail);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
+                //para enviar indivualmente a cada cliente en vez de englobar a todos
+                mail.To.Clear();
+            }
+        }
+
+        public static void EnviarCorreoReserva(int idVenta, string correo)
+        {
+            try
+            {
+                MailMessage mail = new MailMessage();
+                mail.From = new MailAddress(MagicHelpers.CorreoVentas);
+                mail.To.Add(correo);
+                mail.Subject = "Reserva de Entrada";
+
+                mail.IsBodyHtml = true;
+                string htmlBody = "<table class='table table-bordered table-hover'><thsead><tr class='thead'>";
+                htmlBody += "<th>Evento</th><th>Fecha</th><th>Hora</th><th>Cantidad de Entradas</th><th>Total</th></thsead><tbody>";
+                string relleno = "";
+                List<VentasXFuncion> ventasxf = db.VentasXFuncion.Where(c => c.codVen == idVenta).ToList();
+                foreach (var row in ventasxf)
+                {
+                    Funcion fu = db.Funcion.Find(row.codFuncion);
+                    relleno += "<tr>";
+                    relleno += "<td>" + db.Eventos.Find(fu.codEvento).nombre + "</td>";
+                    relleno += "<td>" + String.Format("{0:d}", fu.fecha) + "</td>";
+                    relleno += "<td>" + String.Format("{0:t}", fu.horaIni) + "</td>";
+                    relleno += "<td>" + row.cantEntradas + "</td>";
+                    relleno += "<td>" + row.total + "</td>";
+                    relleno += "</tr>";
+                }
+                mail.Body = htmlBody + relleno;
+                SmtpServer.Send(mail);
+    }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+        }
+    }
+
     public class Fechas
     {
         public static List<SelectListItem> Mes()
@@ -77,7 +233,6 @@ namespace WebApplication4.Controllers
             }
         }
 
-
         [HttpGet]
         public ActionResult PagarReserva(string reserva)
         {
@@ -89,39 +244,111 @@ namespace WebApplication4.Controllers
             //sacamos el detalle de venta
             VentasXFuncion vxf = db.VentasXFuncion.Where(c => c.codVen == codVenta).First();
             //llenamos el model
-            
+            model.Importe = (double)vxf.subtotal;
             //lista de bancos
             List<Banco> bancos = db.Banco.ToList();
             ViewBag.Bancos = new SelectList(bancos, "codigo", "nombre");
             //lista de tarjetas
             List<TipoTarjeta> tipoTarjeta = db.TipoTarjeta.ToList();
             ViewBag.TipoTarjeta = new SelectList(tipoTarjeta, "idTipoTar", "nombre");
-            List<Promociones> listaPromociones = new List<Promociones>();
-            double total = 0;
-            double descuento = 0;
-            /*foreach (CarritoItem item in carrito)
+            //Vemos el descuento del evento
+            int codEvento = vxf.Funcion.codEvento;
+            model.idEventos = new List<int>();
+            model.idPromociones = new List<int>();
+            model.idEventos.Add(codEvento);
+            Promociones promocion = CalculaMejorPromocionTarjeta(codEvento, bancos.First().codigo, tipoTarjeta.First().idTipoTar);
+            if (promocion == null)
             {
-                total += item.precio;
-                Promociones promocion = CalculaMejorPromocionTarjeta(item.idEvento, bancos.First().codigo, tipoTarjeta.First().idTipoTar);
-                if (promocion == null)
-                {
-                    Promociones dummy = new Promociones();
-                    dummy.codPromo = -1;
-                    listaPromociones.Add(dummy);
-                }
-                else
-                {
-                    descuento += item.precio * promocion.descuento.Value / 100;
-                    listaPromociones.Add(promocion);
-                }
-            }*/
-            ViewBag.Descuento = descuento;
-            ViewBag.Promociones = listaPromociones;
-            ViewBag.Total = total;
-            ViewBag.Pagar = total - descuento;
+                model.Descuento = 0;
+                model.idPromociones.Add(-1);
+            }
+            else
+            {
+                model.Descuento = promocion.descuento.Value * model.Importe / 100;
+                model.idPromociones.Add(promocion.codPromo);
+            }
+            ViewBag.Promociones = promocion;
+            model.MontoPagar = (double)vxf.total - model.Descuento;
+            model.idVenta = codVenta;
             ViewBag.Mes = Fechas.Mes();
             ViewBag.AnVen = Fechas.Anio();
-            return View();
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult PagarReserva(ComprarEntradaModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                if (ValidacionesCompra(model))
+                {
+                    Ventas venta = db.Ventas.Find(model.idVenta);
+                    venta.Estado = MagicHelpers.Compra;
+                    VentasXFuncion vxf = db.VentasXFuncion.Where(c => c.codVen == venta.codVen).First();
+                    Eventos evento = db.Eventos.Find(vxf.Funcion.codEvento);
+                    DetalleVenta detalle = db.DetalleVenta.Where(c => c.codVen == venta.codVen && c.codFuncion == vxf.Funcion.codFuncion).First();
+                    evento.monto_adeudado += evento.montoFijoVentaEntrada.Value + evento.porccomision.Value * detalle.cantEntradas.Value / 100;
+                    //si es que tiene asientos, debo cambiar el estado de todos los asientos que ha comprado
+                    if (db.AsientosXFuncion.Any(c => c.codFuncion == vxf.Funcion.codFuncion && c.codDetalleVenta == detalle.codDetalleVenta))
+                    {
+                        List<AsientosXFuncion> axf = db.AsientosXFuncion.Where(c => c.codFuncion == vxf.Funcion.codFuncion && c.codDetalleVenta == detalle.codDetalleVenta).ToList();
+                        foreach (AsientosXFuncion asientoxf in axf)
+                        {
+                            asientoxf.estado = MagicHelpers.Ocupado;
+                            asientoxf.PrecioPagado = model.MontoPagar;
+                        }
+                    }
+                    CuentaUsuario cuenta = db.CuentaUsuario.Find(User.Identity.Name);
+                    cuenta.puntos += db.Eventos.Find(vxf.Funcion.codEvento).puntosAlCliente * (int)detalle.cantEntradas;
+                    try
+                    {
+                        db.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        TempData["tipo"] = "alert alert-warning";
+                        TempData["message"] = "Error en el pago.";
+                        return RedirectToAction("MiCuenta");
+                    }
+                    TempData["tipo"] = "alert alert-success";
+                    TempData["message"] = "Reserva Pagada. Muchas Gracias.";
+
+                    EmailController.EnviarCorreoCompra(model.idVenta, User.Identity.Name);
+                    return RedirectToAction("MiCuenta");
+                }
+            }
+            Ventas venta2 = db.Ventas.Where(c => c.codVen == model.idVenta).First();
+            //sacamos el detalle de venta
+            VentasXFuncion vxf2 = db.VentasXFuncion.Where(c => c.codVen == model.idVenta).First();
+            //llenamos el model
+            model.Importe = (double)vxf2.subtotal;
+            //lista de bancos
+            List<Banco> bancos = db.Banco.ToList();
+            ViewBag.Bancos = new SelectList(bancos, "codigo", "nombre", model.idBanco);
+            //lista de tarjetas
+            List<TipoTarjeta> tipoTarjeta = db.TipoTarjeta.ToList();
+            ViewBag.TipoTarjeta = new SelectList(tipoTarjeta, "idTipoTar", "nombre", model.idTipoTarjeta);
+            //Vemos el descuento del evento
+            int codEvento = vxf2.Funcion.codEvento;
+            model.idEventos = new List<int>();
+            model.idPromociones = new List<int>();
+            model.idEventos.Add(codEvento);
+            Promociones promocion = CalculaMejorPromocionTarjeta(codEvento, model.idBanco, model.idTipoTarjeta);
+            if (promocion == null)
+            {
+                model.Descuento = 0;
+                model.idPromociones.Add(-1);
+            }
+            else
+            {
+                model.Descuento = promocion.descuento.Value * model.Importe / 100;
+                model.idPromociones.Add(promocion.codPromo);
+            }
+            ViewBag.Promociones = promocion;
+            model.MontoPagar = (double)vxf2.total - model.Descuento;
+            ViewBag.Mes = Fechas.Mes();
+            ViewBag.AnVen = Fechas.Anio();
+            return View(model);
         }
 
         [HttpGet]
@@ -194,52 +421,6 @@ namespace WebApplication4.Controllers
                 ModelState.AddModelError("AnioVen", "La tarjeta ya venció.");
             }
             return ind;
-        }
-
-        private void EnviarCorreo(int idVenta)
-        {
-            try
-            {
-                SmtpClient SmtpServer = new SmtpClient();
-                SmtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
-                SmtpServer.EnableSsl = true;
-                SmtpServer.Host = "smtp.gmail.com";
-                SmtpServer.Port = 587;
-                //credenciales
-                System.Net.NetworkCredential credentials = new System.Net.NetworkCredential(MagicHelpers.CorreoVentas, MagicHelpers.ContraVentas);
-                SmtpServer.UseDefaultCredentials = false;
-                SmtpServer.Credentials = credentials;
-
-                MailMessage mail = new MailMessage();
-                mail.From = new MailAddress(MagicHelpers.CorreoVentas);
-                mail.To.Add(User.Identity.Name);
-                mail.Subject = "Compra de Entradas - Venta " + idVenta + ".";
-
-                mail.IsBodyHtml = true;
-                string htmlBody = "<table class='table table-bordered table-hover'><thsead><tr class='thead'>";
-                htmlBody += "<th>Evento</th><th>Fecha</th><th>Hora</th><th>Cantidad de Entradas</th><th>Total</th></thsead><tbody>";
-                string relleno = "";
-                List<VentasXFuncion> ventasxf = db.VentasXFuncion.Where(c => c.codVen == idVenta).ToList();
-                foreach (var row in ventasxf)
-                {
-                    Funcion fu = db.Funcion.Find(row.codFuncion);
-                    relleno += "<tr>";
-                    relleno += "<td>" + db.Eventos.Find(fu.codEvento).nombre + "</td>";
-                    relleno += "<td>" + String.Format("{0:d}", fu.fecha) + "</td>";
-                    relleno += "<td>" + String.Format("{0:t}", fu.horaIni) + "</td>";
-                    relleno += "<td>" + row.cantEntradas + "</td>";
-                    relleno += "<td>" + row.total + "</td>";
-                    relleno += "</tr>";
-                }
-                mail.Body = htmlBody + relleno;
-
-
-                SmtpServer.Send(mail);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
         }
 
         [HttpPost]
@@ -427,10 +608,10 @@ namespace WebApplication4.Controllers
                     //si toda la compra se procesa de manera correcta eliminamos los session
                     Session["CarritoItem"] = null;
                     Session["Carrito"] = null;
-                    /*if (Request.IsAuthenticated)
+                    if (Request.IsAuthenticated)
                     {
-                        EnviarCorreo(idVenta);
-                    }*/
+                        EmailController.EnviarCorreoCompra(idVenta, User.Identity.Name);
+                    }
                     return RedirectToAction("Index", "Home");
                 }
             }
@@ -609,7 +790,7 @@ namespace WebApplication4.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles="Vendedor")]
         public ActionResult Search(ClienteSearchModel cliente)
         {
             if (ModelState.IsValid)
@@ -623,6 +804,7 @@ namespace WebApplication4.Controllers
             return RedirectToAction("BuscaCliente", "CuentaUsuario");
         }
 
+        [Authorize(Roles = "Vendedor")]
         public ActionResult Search2(string usuario, string tipo)
         {
             //if (tipo == "")
@@ -649,6 +831,8 @@ namespace WebApplication4.Controllers
             else Session["ListaCL"] = null;
             return RedirectToAction("BuscaCliente", "CuentaUsuario");
         }
+
+        [Authorize(Roles = "Vendedor")]
         public ActionResult SearchEntrega(string usuario, string tipo)
         {
             int ti = 0;
@@ -667,7 +851,7 @@ namespace WebApplication4.Controllers
             for (int i = 0; i < listareservas.Count; i++)
             {
                 int cov = listareservas[i].codVen;
-                List<VentasXFuncion> lvf = db.VentasXFuncion.Where(c => c.codVen == cov).ToList();
+                List<VentasXFuncion> lvf = db.VentasXFuncion.Where(c => c.codVen == cov && c.hanEntregado==false).ToList();
                 for (int j = 0; j < lvf.Count; j++)
                 {
                     listaRxF.Add(lvf[j]);
@@ -677,6 +861,8 @@ namespace WebApplication4.Controllers
             else Session["EntregaBusca"] = null;
             return RedirectToAction("Entrega", "Ventas");
         }
+
+        [Authorize(Roles = "Vendedor")]
         public ActionResult SearchReserva(string usuario, string tipo)
         {
             //if (tipo == "")
@@ -731,6 +917,7 @@ namespace WebApplication4.Controllers
             return RedirectToAction("BuscaReserva", "CuentaUsuario");
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult Politicas()
         {
             return View();
@@ -744,6 +931,7 @@ namespace WebApplication4.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult Asignacion()
         {
             //if (Session["nError"] != null)
@@ -951,6 +1139,7 @@ namespace WebApplication4.Controllers
             return Json(mensaje, JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize(Roles = "Vendedor")]
         public ActionResult BuscaReserva()
         {
             return View();
@@ -1094,6 +1283,7 @@ namespace WebApplication4.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult ReporteCliente()
         {
             return View();
@@ -1142,7 +1332,7 @@ namespace WebApplication4.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "Administrador")]
         public ActionResult ReporteCliente(ReporteClienteModel cliente)
         {
             if (ModelState.IsValid)
@@ -1156,6 +1346,7 @@ namespace WebApplication4.Controllers
             return RedirectToAction("ReporteCliente", "CuentaUsuario");
         }
 
+        [Authorize(Roles = "Vendedor")]
         public ActionResult Entrega(string usuario)
         {
             string usuario2 = usuario.Replace("°", "@");
@@ -1164,6 +1355,7 @@ namespace WebApplication4.Controllers
             return RedirectToAction("BuscaCliente", "CuentaUsuario");
         }
 
+        [Authorize(Roles = "Vendedor")]
         public ActionResult Entrega2(string cliente)
         {
             string usuario2 = cliente.Replace("°", "@");
@@ -1172,6 +1364,7 @@ namespace WebApplication4.Controllers
             return RedirectToAction("BuscaCliente", "CuentaUsuario");
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult PagoPendiente(string evId)
         {
             int m1;
@@ -1183,6 +1376,7 @@ namespace WebApplication4.Controllers
             return RedirectToAction("Pago", "Ventas");
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult PagoPendiente2(string evId)
         {
             int m1, np, nc;
@@ -1210,7 +1404,7 @@ namespace WebApplication4.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "Vendedor")]
         public ActionResult EntregaRegalo(RegaloListModel regalo)
         {
             CuentaUsuario cuenta2 = (CuentaUsuario)TempData["EntregaCl"];
@@ -1259,16 +1453,16 @@ namespace WebApplication4.Controllers
             return Json("Error El cliente no tiene puntos suficientes para conseguir este regalo", JsonRequestBehavior.AllowGet);
         }
 
-
         [HttpGet]
+        [Authorize(Roles = "Vendedor")]
         public ActionResult RegistrarUsuarioVendedor()
         {
             return View();
         }
 
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Vendedor")]
         public async Task<ActionResult> RegistrarUsuarioVendedor(RegisterCliVendViewModel model)
         {
             if (ModelState.IsValid)
@@ -1299,7 +1493,8 @@ namespace WebApplication4.Controllers
                 }
 
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, "Peru123*");
+                string password = MagicHelpers.CreaPassword();
+                var result = await UserManager.CreateAsync(user, password);
                 if (result.Succeeded)
                 {
                     var currentUser = UserManager.FindByName(user.UserName);
@@ -1313,7 +1508,7 @@ namespace WebApplication4.Controllers
                     cu.nombre = model.nombre;
 
                     cu.codPerfil = 1;
-                    cu.contrasena = "Peru123*";
+                    cu.contrasena = password;
                     cu.direccion = model.direccion;
                     cu.estado = true;
                     cu.fechaNac = model.fechaNac;
@@ -1326,17 +1521,17 @@ namespace WebApplication4.Controllers
 
                     db.CuentaUsuario.Add(cu);
                     db.SaveChanges();
-
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
+                    //cuando un vendedor registra a un cliente no debe logarme con la cuenta creada
+                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    EmailController.EnviarCorreoRegistro(model.Email);
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                     TempData["tipo"] = "alert alert-success";
-                    TempData["message"] = "Registro Exitoso!";
-                    return RedirectToAction("Index", "Home");
+                    TempData["message"] = "Registro de cliente exitoso!";
+                    return RedirectToAction("Index2", "Home");
                     //return View("~/Views/Home/Index.cshtml");
                 }
 
@@ -1376,5 +1571,146 @@ namespace WebApplication4.Controllers
                 _signInManager = value;
             }
         }
+
+        [Authorize(Roles = "Administrador")]
+        public ActionResult ReporteAsistencia() {
+
+            return View();
+
+
+        }
+
+
+        public ActionResult ReporteAsignacion() {
+
+
+            return View();
+
+        }
+
+
+        [HttpPost]
+        public ActionResult ObtenerAsistencia(DateTime? fechIni, DateTime? fechFin, string nombre, int? puntoVenta)
+        {
+
+            var lista = from turno in db.Turno
+                        join turnoSis in db.TurnoSistema on turno.codTurnoSis equals turnoSis.codTurnoSis
+                        join usuario in db.CuentaUsuario on turno.usuario equals usuario.usuario
+                        where turno.estado.Equals("Pendiente") == false
+                        select new
+                        {
+                            usuario.nombre,
+                            turnoSis.horIni,
+                            turnoSis.horFin,
+                            turno.horaRegistro,
+                            turno.fecha,
+                            turno.estado,
+                            turno.codPuntoVenta
+
+                        };
+
+            if (!String.IsNullOrEmpty(nombre))
+            {
+                lista = lista.Where(c => c.nombre.Contains(nombre));
+
+            }
+
+            if (fechIni.HasValue)
+            {
+
+
+                lista = lista.Where(c => c.fecha >= fechIni);
+            }
+            if (fechFin.HasValue)
+            {
+                lista = lista.Where(c => c.fecha <= fechFin);
+
+            }
+            
+
+            if (puntoVenta.HasValue)
+            {
+
+                lista = lista.Where(c => c.codPuntoVenta == puntoVenta);
+            }
+
+            List<Asistencia> listaAsistencia = new List<Asistencia>();
+
+
+
+
+            if (lista.Count() > 0)
+            {
+                listaAsistencia = lista.Select(f => new Asistencia {
+
+                    Nombre = f.nombre,
+                    Fecha = f.fecha,
+                    HoraEntrada = f.horIni,
+                    HoraSalida = f.horFin,
+
+                    Asistio = f.estado.Contains("Asistio") || f.estado.Contains("Tarde") ? true : false
+
+                }).ToList<Asistencia>();
+            }
+            
+            
+
+
+            return Json( listaAsistencia,JsonRequestBehavior.AllowGet);
+
+        }
+
+        [HttpPost]
+        public ActionResult ObtenerAsignacion(ReporteAsignacionModel model)
+        {
+
+
+
+
+
+            var lista = from turno in db.Turno
+                        select new
+                        {
+                            turno.PuntoVenta.ubicacion,
+                            turno.CuentaUsuario.nombre,
+                            turno.CuentaUsuario.apellido,
+
+                            turno.TurnoSistema.horIni,
+                            turno.TurnoSistema.horFin,
+                            turno.fecha,
+                         
+
+                        };
+
+
+
+            lista = lista.Where(c => c.fecha >= model.fechaInicio && c.fecha <= model.fechaFin);
+
+            List<Asignacion> listaAsignacion = new List<Asignacion>();
+
+
+            if(lista.Count() > 0)
+            {
+                listaAsignacion = lista.Select(f => new Asignacion
+                {
+                    Dia = f.fecha,
+                    PuntoVenta = f.ubicacion,
+                    Nombre = f.nombre + " " + f.apellido,
+                    Horas  = f.horIni + " - " + f.horFin
+
+                }).ToList();
+
+
+            }
+         
+
+           
+           
+            return Json(listaAsignacion, JsonRequestBehavior.AllowGet);
+
+        }
+
+
+
     }
 }
