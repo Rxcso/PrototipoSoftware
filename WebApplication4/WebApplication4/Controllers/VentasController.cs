@@ -492,7 +492,60 @@ namespace WebApplication4.Controllers
             List<AsientosXFuncion> axf = (List<AsientosXFuncion>)Session["ListaAsientos"];
             if (axf.Count != 0) //numerado
             {
+                int codAsiento = int.Parse(asiento);
+                /*
+                 		DetalleVenta dv=(DetalleVenta)Session["DetalleVenta"];
+			AsientosXFuncion axf=db.AsientosXFuncion.Find(codAsiento);
+            Ventas v = db.Ventas.Find(dv.codVen);
+            //Ventas v = (Ventas)Session["VentasDev"];
+            v.cantAsientos -= 1;
+            v.MontoTotalSoles -= (double)axf.PrecioPagado;
+            //v.Estado = "DevueltoParcial"; por evaluar!!!!!!!
 
+            Funcion f = db.Funcion.Find(dv.codFuncion);
+            Eventos ev = db.Eventos.Find(f.codEvento);
+            //Eventos ev = (Eventos)Session["EventoDev"];
+            ev.monto_adeudado -= (double)axf.PrecioPagado;
+
+            //List<AsientosXFuncion> axf = db.AsientosXFuncion.Where(a => a.codFuncion == f.codFuncion && a.codDetalleVenta == dv.codDetalleVenta).ToList();
+            //List<AsientosXFuncion> axf = (List<AsientosXFuncion>)Session["ListaAsientos"];
+            //for (int i = 0; i < axf.Count; i++)
+            //    axf[i].estado = "libre";
+			axf.estado = "libre";
+
+            VentasXFuncion vxf = (db.VentasXFuncion.Where(ven => ven.codVen == v.codVen && ven.codFuncion == f.codFuncion).ToList())[0];
+            //VentasXFuncion vxf = (VentasXFuncion)Session["VentaXFunDev"];
+            vxf.cantEntradas -= 1;
+            
+            PrecioEvento pe = db.PrecioEvento.Find(dv.codPrecE);
+            ZonaEvento ze = db.ZonaEvento.Find(pe.codZonaEvento);
+            if (!ze.tieneAsientos) ze.tieneAsientos = true;
+
+            ZonaxFuncion zxf =(db.ZonaxFuncion.Where(z => z.codFuncion == dv.codFuncion && z.codZona == ze.codZona).ToList())[0];
+            zxf.cantLibres += 1;
+
+            DetalleVenta dvAux = db.DetalleVenta.Find(dv.codDetalleVenta);
+            dvAux.entradasDev +=1;
+            dvAux.cantEntradas -=1;
+                /*Session["DetalleVenta"]
+                Session["VentaXFunDev"]
+                Session["VentasDev"]
+                Session["ListaAsientos"] = axf;
+                Session["BusquedaDev"] = devolucionModel
+                Session["FuncionDev"]
+                Session["EventoDev"]
+                */
+
+            //elimina de la lista de busqueda! 
+            /*List<DevolucionModel> dev = (List<DevolucionModel>)Session["BusquedaDev"];
+            for (int i = 0; i < dev.Count;i++ )
+                if (dev[i].codDev == dv.codDetalleVenta)
+                    dev.RemoveAt(i);
+            Session["BusquedaDev"] = dev;    */
+             /*       
+            db.SaveChanges();
+            return View("Devolucion");
+                 */
             }
             else // no numerado
             {
