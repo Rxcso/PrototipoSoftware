@@ -541,11 +541,16 @@ namespace WebApplication4.Controllers
                                     j--;
                                 }
                                 else{//sí se puede devolver
-                                    if (DateTime.Compare((DateTime)vent.fecha, (DateTime)f.fechaPostergado) > 0)
-                                    {//se realizo la compra fuera del rango en que se puede devolver
-                                        vxf.RemoveAt(j);
-                                        j--;
+                                    //DateTime fPost = (DateTime)f.fechaPostergado;
+                                    if (f.fechaPostergado != null)
+                                    {
+                                        if (DateTime.Compare((DateTime)vent.fecha, (DateTime)f.fechaPostergado) > 0)
+                                        {//se realizo la compra fuera del rango en que se puede devolver
+                                            vxf.RemoveAt(j);
+                                            j--;
+                                        }
                                     }
+                                    
                                 }
                             }
                             
