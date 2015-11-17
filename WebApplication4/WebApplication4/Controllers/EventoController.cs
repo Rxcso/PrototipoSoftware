@@ -1593,6 +1593,7 @@ namespace WebApplication4.Controllers
             funcionAPostergar.fecha = evento.proximaFecha;
             funcionAPostergar.horaIni = evento.proximaHora;
             funcionAPostergar.estado = "POSTERGADO";
+            funcionAPostergar.fechaPostergado = DateTime.Now;//se guarda la fechaHora del acto de postergar
 
             int id = evento.idEvento;
             Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();
