@@ -85,7 +85,10 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Exportar a Excel</button>
+                                        @if (Session["ReporteVentasTotal"] != null)
+                                        {
+                                            <button id="btnExport1" style="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Exportar a Excel</button>
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -104,19 +107,28 @@
                                 </div>
                             </div>
                             <br>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <table class="table table-bordered table-hover" align="center">
-                                        <tr class="active">
-                                            <th>Fecha</th>
-                                            <th>Codigo del Vendedor</th>
-                                            <th>Nombre del Vendedor</th>
-                                            <th>Punto de Venta</th>
-                                            <th>Total</th>
-                                        </tr>
-                                        <tbody id="tbody">
-                                            @foreach (var row in lev)
-                                            {
+                            <div id="dvData">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        @if (Session["ReporteVentasTotal"] != null)
+                                        {
+                                        DateTime di2 = (DateTime)Session["FechaRI"];
+                                        DateTime df2 = (DateTime)Session["FechaRF"];
+                                        <div>
+                                            <h3>Reporte de Ventas por Vendedor del @di2.Date.ToString("dd/MM/yyyy") - @df2.Date.ToString("dd/MM/yyyy")</h3>
+                                        </div>
+                                        }
+                                        <table class="table table-bordered table-hover" align="center">
+                                            <tr class="active">
+                                                <th>Fecha</th>
+                                                <th>Codigo del Vendedor</th>
+                                                <th>Nombre del Vendedor</th>
+                                                <th>Punto de Venta</th>
+                                                <th>Total</th>
+                                            </tr>
+                                            <tbody id="tbody">
+                                                @foreach (var row in lev)
+                                                {
                                                 <tr>
                                                     <td>@row.fecha</td>
                                                     <td>@row.codigo</td>
@@ -124,20 +136,21 @@
                                                     <td>@row.punto</td>
                                                     <td>@row.total</td>
                                                 </tr>
-                                            }
-                                        </tbody>
-                                    </table>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2 col-md-offset-8">
+                                        <span>TOTAL (S/.)</span>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" readonly="true" value="@to1">
+                                    </div>
+                                </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-2 col-md-offset-8">
-                                    <span>TOTAL (S/.)</span>
-                                </div>
-                                <div class="col-md-2">
-                                    <input type="text" class="form-control" readonly="true" value="@to1">
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
 
@@ -391,6 +404,18 @@
                     window.location.href = '/ReporteVentas/Index';
                 }
             });
+        } else {
+            $.ajax({
+                url: "@Url.Action("LimpiaR1", "ReporteVentas")",
+                data: {},
+            success: function () {
+                window.location.href = '/ReporteVentas/Index';
+            },
+            error: function (data) {
+                alert(data);
+                window.location.href = '/ReporteVentas/Index';
+            }
+        });
         }
     }
     function reporte2() {
@@ -410,7 +435,19 @@
                     alert("Error :(");
                 }
             });
-        }
+        }else {
+            $.ajax({
+                url: "@Url.Action("LimpiaR2", "ReporteVentas")",
+                data: {},
+            success: function () {
+                window.location.href = '/ReporteVentas/Index';
+            },
+            error: function (data) {
+                alert(data);
+                window.location.href = '/ReporteVentas/Index';
+            }
+        });
+    }
     }
     function reporte3() {
         var fd = $('#fd3').val();
@@ -429,7 +466,19 @@
                     alert("Error :(");
                 }
             });
-        }
+        }else {
+            $.ajax({
+                url: "@Url.Action("LimpiaR3", "ReporteVentas")",
+                data: {},
+            success: function () {
+                window.location.href = '/ReporteVentas/Index';
+            },
+            error: function (data) {
+                alert(data);
+                window.location.href = '/ReporteVentas/Index';
+            }
+        });
+    }
     }
     function reporte4() {
         var fd = $('#fd4').val();
@@ -448,7 +497,19 @@
                     alert("Error :(");
                 }
             });
-        }
+        }else {
+            $.ajax({
+                url: "@Url.Action("LimpiaR4", "ReporteVentas")",
+                data: {},
+            success: function () {
+                window.location.href = '/ReporteVentas/Index';
+            },
+            error: function (data) {
+                alert(data);
+                window.location.href = '/ReporteVentas/Index';
+            }
+        });
+    }
     }
 
 </script>
@@ -456,8 +517,28 @@
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
+        $("#btnExport1").click(function (e) {
+            window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('div[id$=dvData]').html()));
+            e.preventDefault();
+        });
+    });
+</script>
+
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
         $("#btnExport2").click(function (e) {
             window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('div[id$=dvData2]').html()));
+            e.preventDefault();
+        });
+    });
+</script>
+
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#btnExport3").click(function (e) {
+            window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('div[id$=dvData3]').html()));
             e.preventDefault();
         });
     });
