@@ -58,7 +58,7 @@
 
 <div class="container">
     <div class="row">
-        <a class="btn btn-danger pull-right" href="index2.html">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+        <a class="btn btn-danger pull-right" href="@Url.Action("Index2", "Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
     </div>
     <div class="row">
         <div class="modal-body">
@@ -115,7 +115,7 @@
                                         DateTime di2 = (DateTime)Session["FechaRI"];
                                         DateTime df2 = (DateTime)Session["FechaRF"];
                                         <div>
-                                            <h3>Reporte de Ventas por Vendedor del @di2.Date.ToString("dd/MM/yyyy") - @df2.Date.ToString("dd/MM/yyyy")</h3>
+                                            <h3>Reporte de Ventas Total del @di2.Date.ToString("dd/MM/yyyy") - @df2.Date.ToString("dd/MM/yyyy")</h3>
                                         </div>
                                         }
                                         <table class="table table-bordered table-hover" align="center">
