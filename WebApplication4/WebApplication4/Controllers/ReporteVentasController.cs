@@ -49,7 +49,11 @@ namespace WebApplication4.Controllers
         {
             double to = 0;
             DateTime dt1 = DateTime.Parse(fd);
-            DateTime dt2 = DateTime.Parse(fh);
+            DateTime dt2 = DateTime.Now;
+            if (fh != null && fh != "")
+            {
+                dt2 = DateTime.Parse(fh);
+            }
             Session["FechaRI"] = dt1;
             Session["FechaRF"] = dt2;
             TimeSpan ts = dt2.Subtract(dt1);
@@ -97,7 +101,11 @@ namespace WebApplication4.Controllers
         {
             double to = 0;
             DateTime dt1 = DateTime.Parse(fd);
-            DateTime dt2 = DateTime.Parse(fh);
+            DateTime dt2 = DateTime.Now;
+            if (fh != null && fh != "")
+            {
+                dt2 = DateTime.Parse(fh);
+            }
             Session["FechaRI2"] = dt1;
             Session["FechaRF2"] = dt2;
             TimeSpan ts = dt2.Subtract(dt1);
@@ -138,7 +146,11 @@ namespace WebApplication4.Controllers
         {
             double to = 0;
             DateTime dt1 = DateTime.Parse(fd);
-            DateTime dt2 = DateTime.Parse(fh);
+            DateTime dt2 = DateTime.Now;
+            if (fh != null && fh != "")
+            {
+                dt2 = DateTime.Parse(fh);
+            }
             Session["FechaRI3"] = dt1;
             Session["FechaRF3"] = dt2;
             TimeSpan ts = dt2.Subtract(dt1);
@@ -205,7 +217,11 @@ namespace WebApplication4.Controllers
         {
             double to = 0;
             DateTime dt1 = DateTime.Parse(fd);
-            DateTime dt2 = DateTime.Parse(fh);
+            DateTime dt2 = DateTime.Now;
+            if (fh != null && fh != "")
+            {
+                dt2 = DateTime.Parse(fh);
+            }
             TimeSpan ts = dt2.Subtract(dt1);
             Session["FechaRI4"] = dt1;
             Session["FechaRF4"] = dt2;
