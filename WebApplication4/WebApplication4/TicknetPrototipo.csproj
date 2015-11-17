@@ -199,6 +199,7 @@
     <Compile Include="Controllers\PruebaController.cs" />
     <Compile Include="Controllers\PuntoVentaController.cs" />
     <Compile Include="Controllers\RegaloController.cs" />
+    <Compile Include="Controllers\ReporteVentasController.cs" />
     <Compile Include="Controllers\ServicesController.cs" />
     <Compile Include="Controllers\TipoDeCambioController.cs" />
     <Compile Include="Controllers\Validaciones.cs" />
@@ -209,6 +210,8 @@
     <Compile Include="Models\AsientosXFuncion.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Asignacion.cs" />
+    <Compile Include="Models\Asistencia.cs" />
     <Compile Include="Models\AspNetRoles.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -231,6 +234,7 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CategoriaModel.cs" />
+    <Compile Include="Models\ReporteModel.cs" />
     <Compile Include="Models\ReservaOrganizadorModel.cs" />
     <Compile Include="Models\Comentario.cs" />
     <Compile Include="Models\Comentarios.cs">
@@ -600,6 +604,11 @@
     <Content Include="Views\Evento\ReservaOrganizador.cshtml" />
     <Content Include="Views\Ventas\PagarReserva.cshtml" />
     <Content Include="Views\CuentaUsuario\PagarReserva.cshtml" />
+    <Content Include="Views\ReporteVentas\Index.cshtml" />
+    <Content Include="Views\Ventas\ReporteVentas.cshtml" />
+    <Content Include="Views\CuentaUsuario\ReporteAsignacion.cshtml" />
+    <Content Include="Views\CuentaUsuario\ReporteAsistencia.cshtml" />
+    <Content Include="Views\Ventas\_ReporteV1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
