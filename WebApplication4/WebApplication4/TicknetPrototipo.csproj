@@ -201,6 +201,7 @@
     <Compile Include="Controllers\PruebaController.cs" />
     <Compile Include="Controllers\PuntoVentaController.cs" />
     <Compile Include="Controllers\RegaloController.cs" />
+    <Compile Include="Controllers\ReporteVentasController.cs" />
     <Compile Include="Controllers\ServicesController.cs" />
     <Compile Include="Controllers\TipoDeCambioController.cs" />
     <Compile Include="Controllers\Validaciones.cs" />
@@ -211,6 +212,8 @@
     <Compile Include="Models\AsientosXFuncion.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Asignacion.cs" />
+    <Compile Include="Models\Asistencia.cs" />
     <Compile Include="Models\AspNetRoles.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -603,12 +606,13 @@
     <Content Include="Views\Evento\ReservaOrganizador.cshtml" />
     <Content Include="Views\Ventas\PagarReserva.cshtml" />
     <Content Include="Views\CuentaUsuario\PagarReserva.cshtml" />
+    <Content Include="Views\ReporteVentas\Index.cshtml">
+      <SubType>Code</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="obj\" />
-    <Folder Include="Views\Devolucion\" />
-    <Folder Include="Views\Reservas\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
