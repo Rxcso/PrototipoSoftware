@@ -24,7 +24,7 @@
 
 	<div class="container">
 		<div class="row">
-			<a class="btn btn-danger pull-right" href="index2.html">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+			<a class="btn btn-danger pull-right" href=@Url.Action("Index2", "Home")>Salir <span class="glyphicon glyphicon-log-out"></span></a>
 		</div>
 		<div class="row">
 
@@ -95,8 +95,9 @@
                 <div class="row">
                     <div style="text-align: center">
                         
-                        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="realizar()" aria-hidden="true">Realizar <span class="glyphicon glyphicon-book"></span></button>
-                        <button hidden="hidden" type="button" class="btn btn-primary" data-dismiss="modal" onclick="exportar()" aria-hidden="true">Exportar<span class="glyphicon glyphicon-book"></span></button>
+
+                        <a class="btn btn-primary" onclick="realizar()">Generar <span class="glyphicon glyphicon-file"></span></a>
+                        <a id="export-btn" onclick="exportar()" target="_blank" class="btn btn-primary "> Exportar a Excel </a>
                     </div>
                 </div>
 
@@ -111,7 +112,17 @@
 		</div>
     </div>
     
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script>
+
+
+        $(document).ready(function () {
+
+            $("#export-btn").hide();
+
+
+
+        });
         function realizar() {
 
             //Validacion de fechas
@@ -152,6 +163,7 @@
                 success: function (data) {
 
 
+                    
                     var nombV = document.getElementById("nombre").value;
                     var pVent = document.getElementById("puntoVenta");
                     var str = pVent.options[pVent.selectedIndex].text;
@@ -194,6 +206,8 @@
 
                     myTable += "</table>";
                     document.getElementById("my_result_table").innerHTML = myTable;
+
+                    $("#export-btn").show();
                 },
                 error: function () {
                     alert("Error :(");

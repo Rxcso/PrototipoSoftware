@@ -19,7 +19,9 @@
 </div>
 
 <div class="container">
- 
+    <div class="row">
+        <a class="btn btn-danger pull-right" href=@Url.Action("Index2", "Home")>Salir <span class="glyphicon glyphicon-log-out"></span></a>
+    </div>
     <div id="busqAvanzada" class="row" style="text-align:center">
        
             <!--formulario EN LINEA-->
@@ -63,19 +65,15 @@
        
     </div>
     <br />
+
     <div class="row">
-        <div class="col-md-2">
+        <div style="text-align: center">
+
             <a class="btn btn-primary" onclick="submitReport()">Generar <span class="glyphicon glyphicon-file"></span></a>
+            <a id="export-btn" onclick="generarExcel()" target="_blank" class="btn btn-primary "> Exportar a Excel </a>
         </div>
-        <div class="col-md-9">
-            <a href="Reportes/ReporteAsignacion.xlsx" onclick="generarExcel()"    target="_blank" class="btn btn-primary "> Exportar a Excel </a>
-
-        </div>
-        <div class="col-md-1">
-            <a class="btn btn-danger" href="index2.html">Salir <span class="glyphicon glyphicon-log-out"></span></a>
-        </div>
-
-    </div><br>
+    </div>
+    
 
     <br>
     <br>
@@ -92,7 +90,9 @@
     $(document).ready(function () {
 
 
-      
+        $("#fechaInicio").addClass("form-control");
+        $("#fechaFin").addClass("form-control");
+        $("#export-btn").hide();
      
 
 
@@ -101,7 +101,7 @@
     function generarTabla(data) {
 
         
-
+        $("#export-btn").show();
 
         var fechI = document.getElementById("fechaInicio").value;
         var fechF = document.getElementById("fechaFin").value;
@@ -150,6 +150,19 @@
 
         var fechI = $('#fechaInicio').val();
         var fechF = $('#fechaFin').val();
+
+        if (fechI == '') {
+            $("#alerta").append('<strong>Fecha desde es obligatorio</strong>').show();
+            return;
+
+        }
+        if (fechF == '') {
+            $("#alerta").append('<strong>Fecha hasta es obligatorio</strong>').show();
+            return;
+
+        }
+
+
 
         if (fechF != '' && fechI != '') {
 
