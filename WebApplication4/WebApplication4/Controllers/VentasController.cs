@@ -147,10 +147,55 @@ namespace WebApplication4.Controllers
             return RedirectToAction("PagoOrganizador", "Ventas");
         }
 
-
         public ActionResult ReporteVentas()
         {
             return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult ReporteV1a(ReporteModel.ReporteBuscaModel model)
+        {
+            
+            double to = 0;
+            DateTime dt1 = model.fechaI;
+            DateTime dt2 = model.fechaF;
+            TimeSpan ts = dt2.Subtract(dt1);
+            int nd = (int)ts.Days;
+            nd = nd + 1;
+            DateTime di = dt1;
+            List<ReporteModel.ReporteVentas1Model> lr = new List<ReporteModel.ReporteVentas1Model>();
+            List<CuentaUsuario> lv = db.CuentaUsuario.Where(c => c.codPerfil == 2 && c.estado == true).ToList();
+            for (int j = 0; j < nd; j++)
+            {
+                for (int i = 0; i < lv.Count; i++)
+                {
+                    ReporteModel.ReporteVentas1Model r = new ReporteModel.ReporteVentas1Model();
+                    r.fecha = di.Date;
+                    String no = lv[i].usuario;
+                    r.nombre = lv[i].nombre;
+                    r.codigo = lv[i].usuario;
+                    List<Turno> lt = db.Turno.Where(c => c.usuario == no && c.fecha == di).ToList();
+                    if (lt.Count > 0)
+                    {
+                        double total = 0;
+                        Turno t = lt.First();
+                        r.punto = db.PuntoVenta.Find(t.codPuntoVenta).ubicacion;
+                        List<Ventas> lven = db.Ventas.Where(c => c.fecha == di && c.Estado == "Pagado" && c.vendedor == no).ToList();
+                        for (int k = 0; k < lven.Count; k++)
+                        {
+                            total += (double)lven[i].MontoTotalSoles;
+                        }
+                        r.total = total;
+                        to += total;
+                        lr.Add(r);
+                    }
+                }
+                di = di.AddDays(1);
+            }
+            Session["ReporteVentasTotal"] = lr;
+            Session["ReporteTotal"] = to;
+            return RedirectToAction("ReporteVentas", "Ventas");
         }
 
         public JsonResult ReporteV1(string fd, string fh)
@@ -668,7 +713,60 @@ namespace WebApplication4.Controllers
             List<AsientosXFuncion> axf = (List<AsientosXFuncion>)Session["ListaAsientos"];
             if (axf.Count != 0) //numerado
             {
+                int codAsiento = int.Parse(asiento);
+                /*
+                 		DetalleVenta dv=(DetalleVenta)Session["DetalleVenta"];
+			AsientosXFuncion axf=db.AsientosXFuncion.Find(codAsiento);
+            Ventas v = db.Ventas.Find(dv.codVen);
+            //Ventas v = (Ventas)Session["VentasDev"];
+            v.cantAsientos -= 1;
+            v.MontoTotalSoles -= (double)axf.PrecioPagado;
+            //v.Estado = "DevueltoParcial"; por evaluar!!!!!!!
 
+            Funcion f = db.Funcion.Find(dv.codFuncion);
+            Eventos ev = db.Eventos.Find(f.codEvento);
+            //Eventos ev = (Eventos)Session["EventoDev"];
+            ev.monto_adeudado -= (double)axf.PrecioPagado;
+
+            //List<AsientosXFuncion> axf = db.AsientosXFuncion.Where(a => a.codFuncion == f.codFuncion && a.codDetalleVenta == dv.codDetalleVenta).ToList();
+            //List<AsientosXFuncion> axf = (List<AsientosXFuncion>)Session["ListaAsientos"];
+            //for (int i = 0; i < axf.Count; i++)
+            //    axf[i].estado = "libre";
+			axf.estado = "libre";
+
+            VentasXFuncion vxf = (db.VentasXFuncion.Where(ven => ven.codVen == v.codVen && ven.codFuncion == f.codFuncion).ToList())[0];
+            //VentasXFuncion vxf = (VentasXFuncion)Session["VentaXFunDev"];
+            vxf.cantEntradas -= 1;
+            
+            PrecioEvento pe = db.PrecioEvento.Find(dv.codPrecE);
+            ZonaEvento ze = db.ZonaEvento.Find(pe.codZonaEvento);
+            if (!ze.tieneAsientos) ze.tieneAsientos = true;
+
+            ZonaxFuncion zxf =(db.ZonaxFuncion.Where(z => z.codFuncion == dv.codFuncion && z.codZona == ze.codZona).ToList())[0];
+            zxf.cantLibres += 1;
+
+            DetalleVenta dvAux = db.DetalleVenta.Find(dv.codDetalleVenta);
+            dvAux.entradasDev +=1;
+            dvAux.cantEntradas -=1;
+                /*Session["DetalleVenta"]
+                Session["VentaXFunDev"]
+                Session["VentasDev"]
+                Session["ListaAsientos"] = axf;
+                Session["BusquedaDev"] = devolucionModel
+                Session["FuncionDev"]
+                Session["EventoDev"]
+                */
+
+            //elimina de la lista de busqueda! 
+            /*List<DevolucionModel> dev = (List<DevolucionModel>)Session["BusquedaDev"];
+            for (int i = 0; i < dev.Count;i++ )
+                if (dev[i].codDev == dv.codDetalleVenta)
+                    dev.RemoveAt(i);
+            Session["BusquedaDev"] = dev;    */
+             /*       
+            db.SaveChanges();
+            return View("Devolucion");
+                 */
             }
             else // no numerado
             {

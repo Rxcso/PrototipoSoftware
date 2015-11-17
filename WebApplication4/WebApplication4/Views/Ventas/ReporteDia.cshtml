@@ -8,23 +8,28 @@
     DateTime dn = DateTime.Now;
     DateTime dd = dn.Date;
     List<Ventas> listaVentas;
+    List<Ventas> listaVentas2;
     List<VentasXFuncion> listaVxF = new List<VentasXFuncion>();
     List<VentasXFuncion> listavfU = new List<VentasXFuncion>();
     List<Eventos> lev = new List<Eventos>();
     List<Eventos> le = new List<Eventos>();
     List<double> lt = new List<double>();
     List<int> lte = new List<int>();
+    List<ReporteModel.ReporteVentasDiaModel> lvd = new List<ReporteModel.ReporteVentasDiaModel>();
     double totalf = 0;
     if (Session["UsuarioLogueado"] != null && Session["TurnoHoy"] != null)
     {
         CuentaUsuario cu = (CuentaUsuario)Session["UsuarioLogueado"];
         Turno tu = (Turno)Session["TurnoHoy"];
-        listaVentas = db.Ventas.Where(c => c.vendedor == cu.usuario && c.fecha == dd && c.Estado == "Pagado").ToList();
+        listaVentas2 = db.Ventas.Where(c => c.vendedor == cu.usuario && c.Estado == "Pagado").ToList();
+        DateTime dat = dd.Date;
+        listaVentas = listaVentas2.Where(c => c.fecha.Value.Date == dat).ToList();
         if (listaVentas != null && listaVentas.Count > 0)
         {
             for (int i = 0; i < listaVentas.Count; i++)
             {
-                List<VentasXFuncion> lv = db.VentasXFuncion.Where(c => c.codVen == listaVentas[i].codVen).ToList();
+                int idven = listaVentas[i].codVen;
+                List<VentasXFuncion> lv = db.VentasXFuncion.Where(c => c.codVen == idven).ToList();
                 for (int j = 0; j < lv.Count; j++)
                 {
                     if (lv != null && lv.Count > 0)
@@ -33,11 +38,14 @@
                     }
                 }
             }
-            lev = db.Eventos.Where(c => c.estado == "Activo").ToList();
+            lev = db.Eventos.ToList();
             for (int j = 0; j < lev.Count; j++)
             {
+                ReporteModel.ReporteVentasDiaModel re = new ReporteModel.ReporteVentasDiaModel();
                 double total = 0;
                 int totale = 0;
+                re.codigo = lev[j].codigo;
+                re.nombre = lev[j].nombre;
                 for (int k = 0; k < listaVxF.Count; k++)
                 {
                     int cf = listaVxF[k].codFuncion;
@@ -48,9 +56,14 @@
                         totale += (int)listaVxF[k].cantEntradas;
                     }
                 }
-                lt.Add(total);
+                //lt.Add(total);
+                re.cant = totale;
+                re.total = total;
+                if(total>0){
+                    lvd.Add(re);
+                }
                 totalf += total;
-                lte.Add(totale);
+                //lte.Add(totale);
             }
 
         }
@@ -101,21 +114,16 @@
                 </tr>
             </thead>
             <tbody id="tbody">
-                @if (lev != null)
+                @if (lvd != null)
                 {
-                    foreach (var row in lev)
+                    foreach (var row in lvd)
                     {
-                        int j = 0;
-                        if (lt[j] > 0)
-                        {
                             <tr id=@row.codigo>
                                 <td>@row.codigo</td>
                                 <td>@row.nombre</td>
-                                <td>@lte[j]</td>
-                                <td>@lt[j]</td>
+                                <td>@row.cant</td>
+                                <td>@row.total</td>
                             </tr>
-                        }
-                        j++;
                     }
                 }
             </tbody>

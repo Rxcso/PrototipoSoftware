@@ -1565,3 +1565,159 @@ System.Collections.ListDictionaryInternal
 2015-11-15 15:36:15,618 [10] ERROR Ticknet - Exception Message - 
 The underlying provider failed on Open.
 2015-11-15 15:36:15,618 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-15 17:31:26,168 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-15 17:31:26,267 [6] ERROR Ticknet - Exception Type - 
+EntityException
+2015-11-15 17:31:26,267 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-15 17:31:26,267 [6] ERROR Ticknet - Exception Message - 
+The underlying provider failed on Open.
+2015-11-15 17:31:26,267 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-15 22:29:27,475 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-15 22:29:27,497 [6] ERROR Ticknet - Exception Data - 
+DataException
+2015-11-15 22:29:27,497 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-15 22:29:27,497 [6] ERROR Ticknet - Exception Message - 
+An exception occurred while initializing the database. See the InnerException for details.
+2015-11-15 22:29:27,497 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 11:56:31,309 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 11:56:31,312 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 11:56:31,340 [7] ERROR Ticknet - Exception Type - 
+EntityException
+2015-11-16 11:56:31,340 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-16 11:56:31,340 [7] ERROR Ticknet - Exception Message - 
+The underlying provider failed on Open.
+2015-11-16 11:56:31,340 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 11:56:31,340 [6] ERROR Ticknet - Exception Type - 
+EntityException
+2015-11-16 11:56:31,341 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-16 11:56:31,341 [6] ERROR Ticknet - Exception Message - 
+The underlying provider failed on Open.
+2015-11-16 11:56:31,341 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 13:04:41,746 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 13:04:41,781 [6] ERROR Ticknet - Exception Type - 
+EntityException
+2015-11-16 13:04:41,781 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-16 13:04:41,781 [6] ERROR Ticknet - Exception Message - 
+The underlying provider failed on Open.
+2015-11-16 13:04:41,781 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 13:34:08,589 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 13:34:08,624 [11] ERROR Ticknet - Exception Type - 
+EntityException
+2015-11-16 13:34:08,625 [11] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-16 13:34:08,625 [11] ERROR Ticknet - Exception Message - 
+The underlying provider failed on Open.
+2015-11-16 13:34:08,625 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 13:56:34,544 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 13:56:34,574 [6] ERROR Ticknet - Exception Type - 
+EntityException
+2015-11-16 13:56:34,575 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-16 13:56:34,575 [6] ERROR Ticknet - Exception Message - 
+The underlying provider failed on Open.
+2015-11-16 13:56:34,575 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 15:11:44,499 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 15:11:44,530 [6] ERROR Ticknet - Exception Type - 
+EntityException
+2015-11-16 15:11:44,530 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-16 15:11:44,530 [6] ERROR Ticknet - Exception Message - 
+The underlying provider failed on Open.
+2015-11-16 15:11:44,530 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 15:31:35,906 [15] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 15:31:35,957 [15] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-16 15:31:35,958 [15] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-16 15:31:35,958 [15] ERROR Ticknet - Exception Message - 
+The controller for path '/__browserLink/requestData/307208fcf57b44b6930aeaf4d2430414' was not found or does not implement IController.
+2015-11-16 15:31:35,958 [15] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 15:57:59,273 [19] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 15:57:59,301 [19] ERROR Ticknet - Exception Data - 
+DataException
+2015-11-16 15:57:59,301 [19] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-16 15:57:59,301 [19] ERROR Ticknet - Exception Message - 
+An exception occurred while initializing the database. See the InnerException for details.
+2015-11-16 15:57:59,301 [19] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 16:01:25,226 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 16:01:25,256 [8] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-16 16:01:25,256 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-16 16:01:25,256 [8] ERROR Ticknet - Exception Message - 
+A public action method 'ObtenerAsignacion' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-16 16:01:25,256 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 16:43:59,977 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 16:44:00,019 [7] ERROR Ticknet - Exception Type - 
+InvalidOperationException
+2015-11-16 16:44:00,019 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-16 16:44:00,019 [7] ERROR Ticknet - Exception Message - 
+The view 'ObtenerAsignacion' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/CuentaUsuario/ObtenerAsignacion.aspx
+~/Views/CuentaUsuario/ObtenerAsignacion.ascx
+~/Views/Shared/ObtenerAsignacion.aspx
+~/Views/Shared/ObtenerAsignacion.ascx
+~/Views/CuentaUsuario/ObtenerAsignacion.cshtml
+~/Views/CuentaUsuario/ObtenerAsignacion.vbhtml
+~/Views/Shared/ObtenerAsignacion.cshtml
+~/Views/Shared/ObtenerAsignacion.vbhtml
+2015-11-16 16:44:00,019 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 16:44:25,891 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 16:44:25,891 [11] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-16 16:44:25,891 [11] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-16 16:44:25,891 [11] ERROR Ticknet - Exception Message - 
+A public action method 'ObtenerAsignacion' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-16 16:44:25,891 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 13:42:32,258 [47] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 13:42:32,286 [47] ERROR Ticknet - Exception Type - 
+ArgumentNullException
+2015-11-16 13:42:32,286 [47] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-16 13:42:32,286 [47] ERROR Ticknet - Exception Message - 
+El valor no puede ser nulo.
+Nombre del parámetro: String
+2015-11-16 13:42:32,286 [47] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 13:42:40,723 [48] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 13:42:40,723 [48] ERROR Ticknet - Exception Type - 
+ArgumentNullException
+2015-11-16 13:42:40,723 [48] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-16 13:42:40,723 [48] ERROR Ticknet - Exception Message - 
+El valor no puede ser nulo.
+Nombre del parámetro: String
+2015-11-16 13:42:40,723 [48] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 13:42:55,737 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 13:42:55,737 [8] ERROR Ticknet - Exception Type - 
+ArgumentNullException
+2015-11-16 13:42:55,737 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-16 13:42:55,737 [8] ERROR Ticknet - Exception Message - 
+El valor no puede ser nulo.
+Nombre del parámetro: String
+2015-11-16 13:42:55,738 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 13:43:03,468 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 13:43:03,468 [9] ERROR Ticknet - Exception Type - 
+ArgumentNullException
+2015-11-16 13:43:03,468 [9] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-16 13:43:03,468 [9] ERROR Ticknet - Exception Message - 
+El valor no puede ser nulo.
+Nombre del parámetro: String
+2015-11-16 13:43:03,468 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 22:45:34,050 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-16 22:45:34,097 [7] ERROR Ticknet - Exception Type - 
+EntityException
+2015-11-16 22:45:34,097 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-16 22:45:34,097 [7] ERROR Ticknet - Exception Message - 
+The underlying provider failed on Open.
+2015-11-16 22:45:34,097 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++

@@ -55,6 +55,9 @@
         </ol>
     </div>
 </div>
+
+<button onclick="redirige()" style="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-file"></span> Gen</button>
+
 <div class="container">
     <div class="row">
         <a class="btn btn-danger pull-right" href="index2.html">Salir <span class="glyphicon glyphicon-log-out"></span></a>
@@ -64,8 +67,8 @@
             <form action="" class="">
                 <!--DECLARAMOS EL TABS Y LA CANTIDAD DE PESTAÑAS QUE TENDRA -->
                 <ul class="nav nav-tabs">
-                    <li class="active"><a href="#xEntrada" data-toggle="tab">Total</a></li>
-                    <li><a href="#xTarjeta" data-toggle="tab">Por Vendedor</a></li>
+                    <li class="active"><a href="#xEntrada" id="ptot" data-toggle="tab">Total</a></li>
+                    <li><a href="#xTarjeta" id="ptot2" data-toggle="tab">Por Vendedor</a></li>
                     <li><a href="#xEvento" data-toggle="tab">Por Evento</a></li>
                     <li><a href="#xPunto" data-toggle="tab">Por Punto de Venta</a></li>
                 </ul>
@@ -74,8 +77,11 @@
                 <div class="tab-content">
                     <!--PRIMERA PESTAÑA-->
                     <div class="tab-pane fade in active" id="xEntrada">
+                        <button id="butred" onclick="redirige()" class="btn btn-primary"><span class="glyphicon glyphicon-file"></span> Gendfsg</button>
+                        
                         <div class="container">
                             <br>
+                            <button onclick="redirige()" style="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-file"></span> Gen</button>
                             <div class="row">
                                 <div class="col-md-9">
                                     <div class="form-group">
@@ -84,11 +90,11 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <button style="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Exportar a Excel</button>
+                                        <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Exportar a Excel</button>
                                     </div>
                                 </div>
                             </div>
-
+                            <button onclick="redirige()" style="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-file"></span> Gen</button>
                             <div class="row">
                                 <div class="col-md-3 col-md-offset-3">
                                     <div class="input-group">
@@ -347,6 +353,9 @@
 </div>
 
 <script>
+    function redirige() {
+        window.location.href = '/Ventas/ReporteVentas';
+    }
     function reporte1() {
         var fd = $('#fd1').val();
         var fh = $('#fh1').val();

@@ -24,6 +24,7 @@ namespace WebApplication4.Controllers
 {
     public class EmailController
     {
+        //para el manejo de base de datos
         public static inf245netsoft db = new inf245netsoft();
         //credenciales del correo
         public static NetworkCredential credentials = new System.Net.NetworkCredential(MagicHelpers.CorreoVentas, MagicHelpers.ContraVentas);
@@ -36,7 +37,7 @@ namespace WebApplication4.Controllers
             Port = 587,
             UseDefaultCredentials = false,
             Credentials = credentials
-        }; 
+        };
 
         public static void EnviarCorreoCompra(int idVenta, string correo)
         {
@@ -94,6 +95,7 @@ namespace WebApplication4.Controllers
                 Console.WriteLine(ex.ToString());
             }
         }
+        
         public static void EnviarCorreoPostergarcionFuncion(int codFuncion)
         {
             Funcion funcion = db.Funcion.Where(c => c.codFuncion == codFuncion).First();
@@ -138,6 +140,40 @@ namespace WebApplication4.Controllers
                 }
                 //para enviar indivualmente a cada cliente en vez de englobar a todos
                 mail.To.Clear();
+            }
+        }
+
+        public static void EnviarCorreoReserva(int idVenta, string correo)
+        {
+            try
+            {
+                MailMessage mail = new MailMessage();
+                mail.From = new MailAddress(MagicHelpers.CorreoVentas);
+                mail.To.Add(correo);
+                mail.Subject = "Reserva de Entrada";
+
+                mail.IsBodyHtml = true;
+                string htmlBody = "<table class='table table-bordered table-hover'><thsead><tr class='thead'>";
+                htmlBody += "<th>Evento</th><th>Fecha</th><th>Hora</th><th>Cantidad de Entradas</th><th>Total</th></thsead><tbody>";
+                string relleno = "";
+                List<VentasXFuncion> ventasxf = db.VentasXFuncion.Where(c => c.codVen == idVenta).ToList();
+                foreach (var row in ventasxf)
+                {
+                    Funcion fu = db.Funcion.Find(row.codFuncion);
+                    relleno += "<tr>";
+                    relleno += "<td>" + db.Eventos.Find(fu.codEvento).nombre + "</td>";
+                    relleno += "<td>" + String.Format("{0:d}", fu.fecha) + "</td>";
+                    relleno += "<td>" + String.Format("{0:t}", fu.horaIni) + "</td>";
+                    relleno += "<td>" + row.cantEntradas + "</td>";
+                    relleno += "<td>" + row.total + "</td>";
+                    relleno += "</tr>";
+                }
+                mail.Body = htmlBody + relleno;
+                SmtpServer.Send(mail);
+    }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
             }
         }
     }
@@ -196,7 +232,6 @@ namespace WebApplication4.Controllers
                 return null;
             }
         }
-
 
         [HttpGet]
         public ActionResult PagarReserva(string reserva)
@@ -755,7 +790,7 @@ namespace WebApplication4.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles="Vendedor")]
         public ActionResult Search(ClienteSearchModel cliente)
         {
             if (ModelState.IsValid)
@@ -769,6 +804,7 @@ namespace WebApplication4.Controllers
             return RedirectToAction("BuscaCliente", "CuentaUsuario");
         }
 
+        [Authorize(Roles = "Vendedor")]
         public ActionResult Search2(string usuario, string tipo)
         {
             //if (tipo == "")
@@ -795,6 +831,8 @@ namespace WebApplication4.Controllers
             else Session["ListaCL"] = null;
             return RedirectToAction("BuscaCliente", "CuentaUsuario");
         }
+
+        [Authorize(Roles = "Vendedor")]
         public ActionResult SearchEntrega(string usuario, string tipo)
         {
             int ti = 0;
@@ -823,6 +861,8 @@ namespace WebApplication4.Controllers
             else Session["EntregaBusca"] = null;
             return RedirectToAction("Entrega", "Ventas");
         }
+
+        [Authorize(Roles = "Vendedor")]
         public ActionResult SearchReserva(string usuario, string tipo)
         {
             //if (tipo == "")
@@ -877,6 +917,7 @@ namespace WebApplication4.Controllers
             return RedirectToAction("BuscaReserva", "CuentaUsuario");
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult Politicas()
         {
             return View();
@@ -890,6 +931,7 @@ namespace WebApplication4.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult Asignacion()
         {
             //if (Session["nError"] != null)
@@ -1097,6 +1139,7 @@ namespace WebApplication4.Controllers
             return Json(mensaje, JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize(Roles = "Vendedor")]
         public ActionResult BuscaReserva()
         {
             return View();
@@ -1240,6 +1283,7 @@ namespace WebApplication4.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult ReporteCliente()
         {
             return View();
@@ -1287,8 +1331,35 @@ namespace WebApplication4.Controllers
             return RedirectToAction("ReporteCliente", "CuentaUsuario");
         }
 
+        public JsonResult LimpiaR()
+        {
+            Session["ListaPU"] = null;
+            return Json("Reporte Limpio", JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult ReporteC(string fd)
+        {
+            int m4;
+            if (int.TryParse(fd, out m4) == true)
+            {
+                int val = int.Parse(fd);
+                if (val >= 0)
+                {
+                    List<CuentaUsuario> listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.puntos > val && c.estado == true && c.codPerfil == 1).ToList();
+                    if (listacl != null) Session["ListaPU"] = listacl;
+                    else Session["ListaPU"] = null;
+                    return Json("Reporte Generado", JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json("Numero debe ser mayor igual a cero", JsonRequestBehavior.AllowGet);
+                }
+            }
+            return Json("Ingrese un Numero Valido", JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "Administrador")]
         public ActionResult ReporteCliente(ReporteClienteModel cliente)
         {
             if (ModelState.IsValid)
@@ -1302,6 +1373,7 @@ namespace WebApplication4.Controllers
             return RedirectToAction("ReporteCliente", "CuentaUsuario");
         }
 
+        [Authorize(Roles = "Vendedor")]
         public ActionResult Entrega(string usuario)
         {
             string usuario2 = usuario.Replace("°", "@");
@@ -1310,6 +1382,7 @@ namespace WebApplication4.Controllers
             return RedirectToAction("BuscaCliente", "CuentaUsuario");
         }
 
+        [Authorize(Roles = "Vendedor")]
         public ActionResult Entrega2(string cliente)
         {
             string usuario2 = cliente.Replace("°", "@");
@@ -1318,6 +1391,7 @@ namespace WebApplication4.Controllers
             return RedirectToAction("BuscaCliente", "CuentaUsuario");
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult PagoPendiente(string evId)
         {
             int m1;
@@ -1329,6 +1403,7 @@ namespace WebApplication4.Controllers
             return RedirectToAction("Pago", "Ventas");
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult PagoPendiente2(string evId)
         {
             int m1, np, nc;
@@ -1356,7 +1431,7 @@ namespace WebApplication4.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "Vendedor")]
         public ActionResult EntregaRegalo(RegaloListModel regalo)
         {
             CuentaUsuario cuenta2 = (CuentaUsuario)TempData["EntregaCl"];
@@ -1405,16 +1480,16 @@ namespace WebApplication4.Controllers
             return Json("Error El cliente no tiene puntos suficientes para conseguir este regalo", JsonRequestBehavior.AllowGet);
         }
 
-
         [HttpGet]
+        [Authorize(Roles = "Vendedor")]
         public ActionResult RegistrarUsuarioVendedor()
         {
             return View();
         }
 
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Vendedor")]
         public async Task<ActionResult> RegistrarUsuarioVendedor(RegisterCliVendViewModel model)
         {
             if (ModelState.IsValid)
@@ -1524,12 +1599,145 @@ namespace WebApplication4.Controllers
             }
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult ReporteAsistencia() {
 
             return View();
 
 
         }
+
+
+        public ActionResult ReporteAsignacion() {
+
+
+            return View();
+
+        }
+
+
+        [HttpPost]
+        public ActionResult ObtenerAsistencia(DateTime? fechIni, DateTime? fechFin, string nombre, int? puntoVenta)
+        {
+
+            var lista = from turno in db.Turno
+                        join turnoSis in db.TurnoSistema on turno.codTurnoSis equals turnoSis.codTurnoSis
+                        join usuario in db.CuentaUsuario on turno.usuario equals usuario.usuario
+                        where turno.estado.Equals("Pendiente") == false
+                        select new
+                        {
+                            usuario.nombre,
+                            turnoSis.horIni,
+                            turnoSis.horFin,
+                            turno.horaRegistro,
+                            turno.fecha,
+                            turno.estado,
+                            turno.codPuntoVenta
+
+                        };
+
+            if (!String.IsNullOrEmpty(nombre))
+            {
+                lista = lista.Where(c => c.nombre.Contains(nombre));
+
+            }
+
+            if (fechIni.HasValue)
+            {
+
+
+                lista = lista.Where(c => c.fecha >= fechIni);
+            }
+            if (fechFin.HasValue)
+            {
+                lista = lista.Where(c => c.fecha <= fechFin);
+
+            }
+            
+
+            if (puntoVenta.HasValue)
+            {
+
+                lista = lista.Where(c => c.codPuntoVenta == puntoVenta);
+            }
+
+            List<Asistencia> listaAsistencia = new List<Asistencia>();
+
+
+
+
+            if (lista.Count() > 0)
+            {
+                listaAsistencia = lista.Select(f => new Asistencia {
+
+                    Nombre = f.nombre,
+                    Fecha = f.fecha,
+                    HoraEntrada = f.horIni,
+                    HoraSalida = f.horFin,
+
+                    Asistio = f.estado.Contains("Asistio") || f.estado.Contains("Tarde") ? true : false
+
+                }).ToList<Asistencia>();
+            }
+            
+            
+
+
+            return Json( listaAsistencia,JsonRequestBehavior.AllowGet);
+
+        }
+
+        [HttpPost]
+        public ActionResult ObtenerAsignacion(ReporteAsignacionModel model)
+        {
+
+
+
+
+
+            var lista = from turno in db.Turno
+                        select new
+                        {
+                            turno.PuntoVenta.ubicacion,
+                            turno.CuentaUsuario.nombre,
+                            turno.CuentaUsuario.apellido,
+
+                            turno.TurnoSistema.horIni,
+                            turno.TurnoSistema.horFin,
+                            turno.fecha,
+                         
+
+                        };
+
+
+
+            lista = lista.Where(c => c.fecha >= model.fechaInicio && c.fecha <= model.fechaFin);
+
+            List<Asignacion> listaAsignacion = new List<Asignacion>();
+
+
+            if(lista.Count() > 0)
+            {
+                listaAsignacion = lista.Select(f => new Asignacion
+                {
+                    Dia = f.fecha,
+                    PuntoVenta = f.ubicacion,
+                    Nombre = f.nombre + " " + f.apellido,
+                    Horas  = f.horIni + " - " + f.horFin
+
+                }).ToList();
+
+
+            }
+         
+
+           
+           
+            return Json(listaAsignacion, JsonRequestBehavior.AllowGet);
+
+        }
+
+
 
     }
 }
