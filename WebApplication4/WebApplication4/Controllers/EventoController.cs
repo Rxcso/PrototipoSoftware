@@ -1035,7 +1035,7 @@ namespace WebApplication4.Controllers
                      * al ser un HttpPostFileBase no se puede recuperar porque es una clase abstracta.
                      * si no es destacado simplemente dejar la imagen en null. si agrega otra imagen recien se guarda, si no hay nada simplemente dejarla como estaba antes.
                      * Hay una situacion con poner evento.ImagenDestacado en null, al realizar db.SaveChanges(), me dice que el campo debe ser obligatorio a pesar de que no se especifica en ningun lado de que lo sea. Incluso en base de datos esta permitido el valor de null.*/
-                    if (Session["IdEventoCreado"] != null)
+                    if (Session["IdEventoCreado"] != null || Session["IdEventoModificado"]!=null)
                     {
                         if (guardarImagen("destacado" + evento.codigo + ".jpg", model.ImageDestacado))
                             evento.ImagenDestacado = "/Images/" + "destacado" + evento.codigo + ".jpg";

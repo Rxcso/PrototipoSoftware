@@ -1331,6 +1331,33 @@ namespace WebApplication4.Controllers
             return RedirectToAction("ReporteCliente", "CuentaUsuario");
         }
 
+        public JsonResult LimpiaR()
+        {
+            Session["ListaPU"] = null;
+            return Json("Reporte Limpio", JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult ReporteC(string fd)
+        {
+            int m4;
+            if (int.TryParse(fd, out m4) == true)
+            {
+                int val = int.Parse(fd);
+                if (val >= 0)
+                {
+                    List<CuentaUsuario> listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.puntos > val && c.estado == true && c.codPerfil == 1).ToList();
+                    if (listacl != null) Session["ListaPU"] = listacl;
+                    else Session["ListaPU"] = null;
+                    return Json("Reporte Generado", JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json("Numero debe ser mayor igual a cero", JsonRequestBehavior.AllowGet);
+                }
+            }
+            return Json("Ingrese un Numero Valido", JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         [Authorize(Roles = "Administrador")]
         public ActionResult ReporteCliente(ReporteClienteModel cliente)

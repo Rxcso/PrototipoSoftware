@@ -30,6 +30,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <FilesToIncludeForPublish>OnlyFilesToRunTheApp</FilesToIncludeForPublish>
+    <IncludeIisSettings>false</IncludeIisSettings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -199,6 +201,7 @@
     <Compile Include="Controllers\PruebaController.cs" />
     <Compile Include="Controllers\PuntoVentaController.cs" />
     <Compile Include="Controllers\RegaloController.cs" />
+    <Compile Include="Controllers\ReporteVentasController.cs" />
     <Compile Include="Controllers\ServicesController.cs" />
     <Compile Include="Controllers\TipoDeCambioController.cs" />
     <Compile Include="Controllers\Validaciones.cs" />
@@ -209,6 +212,7 @@
     <Compile Include="Models\AsientosXFuncion.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Asignacion.cs" />
     <Compile Include="Models\Asistencia.cs" />
     <Compile Include="Models\AspNetRoles.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -455,6 +459,8 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="Properties\PublishProfiles\Admin.pubxml" />
+    <None Include="Properties\PublishProfiles\Rxcso.pubxml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Scripts\jquery-2.1.4.js" />
@@ -472,8 +478,6 @@
     <Content Include="Scripts\RegisterEvento\DatosGeneralesHelper.js" />
     <Content Include="Scripts\RegisterEvento\FuncionesHelper.js" />
     <Content Include="Scripts\respond.js" />
-    <Content Include="Scripts\respond.matchmedia.addListener.js" />
-    <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\jquery-2.1.4.min.map" />
     <None Include="Scripts\_references.js" />
@@ -602,12 +606,13 @@
     <Content Include="Views\Evento\ReservaOrganizador.cshtml" />
     <Content Include="Views\Ventas\PagarReserva.cshtml" />
     <Content Include="Views\CuentaUsuario\PagarReserva.cshtml" />
+    <Content Include="Views\ReporteVentas\Index.cshtml">
+      <SubType>Code</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="obj\" />
-    <Folder Include="Views\Devolucion\" />
-    <Folder Include="Views\Reservas\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
