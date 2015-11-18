@@ -3,7 +3,7 @@
 
 @{
     ViewBag.Title = "BuscaReserva";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
     var db = new WebApplication4.Models.inf245netsoft();
     List<VentasXFuncion> listaReserva = null;
     if (Session["ReservaBusca"] != null)
@@ -129,12 +129,11 @@
     function redirigeReserva() {
         var reserva = $('#codVenT').val();
         if (reserva != "") {
-            window.location.href = '/Ventas/PagarReserva?reserva=' + reserva;
+            window.location.href = '/CuentaUsuario/ComprarEntradaReservadaA?reserva=' + reserva;
         } else {
             alert("Seleccione una Reserva");
             evento = "";
         }
-
     }
 
 </script>

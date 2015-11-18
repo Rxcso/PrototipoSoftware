@@ -236,6 +236,7 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CategoriaModel.cs" />
+    <Compile Include="Models\ComprarEntradaReservadaA.cs" />
     <Compile Include="Models\ReporteModel.cs" />
     <Compile Include="Models\ReservaOrganizadorModel.cs" />
     <Compile Include="Models\Comentario.cs" />
@@ -609,6 +610,7 @@
     <Content Include="Views\ReporteVentas\Index.cshtml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="Views\CuentaUsuario\ComprarEntradaReservadaA.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
