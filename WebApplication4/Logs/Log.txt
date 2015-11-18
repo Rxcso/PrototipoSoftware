@@ -1753,3 +1753,11 @@ The view 'ComprarEntradaReservadaA' or its master was not found or no view engin
 ~/Views/Shared/ComprarEntradaReservadaA.cshtml
 ~/Views/Shared/ComprarEntradaReservadaA.vbhtml
 2015-11-17 19:58:01,516 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-18 10:12:36,089 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-18 10:12:36,095 [9] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-18 10:12:36,095 [9] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-18 10:12:36,095 [9] ERROR Ticknet - Exception Message - 
+The controller for path '/__browserLink/requestData/d2f9f651ec2843f595db1f875f818f2b' was not found or does not implement IController.
+2015-11-18 10:12:36,095 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++

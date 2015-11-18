@@ -1327,7 +1327,13 @@ namespace WebApplication4.Controllers
 
                         //todo: cantidad de entradas depende del numero de asientos que escoja
                         ViewBag.ListFunciones = funciones;
+
                         ViewBag.ObjectArrayAsientos = obtenerJSONAsientos(funciones, zonasEvento);
+
+                        funciones = db.Funcion.Where(c => c.codEvento == evento.codigo && c.estado != "CANCELADO").ToList();
+
+                        if (funciones.Count > 1) ViewBag.textoFunciones = "Desde " + funciones[0].fecha.Value.ToShortDateString() + " hasta " + funciones[funciones.Count - 1].fecha.Value.ToShortDateString();
+                        else ViewBag.textoFunciones = "Única funcion " + funciones[0].fecha.Value.ToShortDateString();
                     }
                     catch (Exception ex)
                     {
@@ -1353,6 +1359,8 @@ namespace WebApplication4.Controllers
 
             ViewBag.VeoAsientos = veoAsientos;
             return View(new PaqueteEntradas((int)id));
+
+
         }
 
         [HttpPost]
