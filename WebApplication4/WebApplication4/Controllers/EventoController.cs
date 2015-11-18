@@ -1494,7 +1494,7 @@ namespace WebApplication4.Controllers
 
             if (fech_ini.HasValue)
             {
-                lista = lista.Where(c => c.fecha_inicio >= fech_ini);
+                lista = lista.Where(c => c.fecha_inicio >= fech_ini || (c.fecha_fin >= fech_ini && c.fecha_inicio < fech_ini));
             }
 
             if (fech_fin.HasValue)
@@ -1593,6 +1593,7 @@ namespace WebApplication4.Controllers
             funcionAPostergar.fecha = evento.proximaFecha;
             funcionAPostergar.horaIni = evento.proximaHora;
             funcionAPostergar.estado = "POSTERGADO";
+            funcionAPostergar.fechaPostergado = DateTime.Now;//se guarda la fechaHora del acto de postergar
 
             int id = evento.idEvento;
             Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();

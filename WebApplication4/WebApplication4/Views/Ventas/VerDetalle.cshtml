@@ -63,7 +63,7 @@
     }
     else//POSTERGADO
     {
-        if (DateTime.Compare(today, (DateTime)funcion.FechaDevolucion) <= 0)
+        if (DateTime.Compare(today, (DateTime)funcion.fecha) <= 0)
         {
             sePuedeDev = 1; 
         }
@@ -143,9 +143,9 @@
                 {
                     if (funcion.estado == "POSTERGADO")
                     {
-                        <!--<div class="col-md-11">
+                        <div class="col-md-11">
                         <a class="btn btn-primary" href="#devolverParcial" data-toggle="modal">Devolver Asiento<span class="glyphicon glyphicon-usd"></span></a>
-                        </div>-->
+                        </div>
                     }
                     <!--Devolver todo-->
                     <div class="col-md-11">
@@ -277,6 +277,7 @@
                         $('#devolverParcial').modal('hide');
                         //row.add();
                         //angular.element(document.getElementById('Activate'))[0].disabled = true;
+                        //window.location.href = '/Ventas/VerDetalle?DetVen=' + detVen;
                         window.location.href = '/Ventas/VerDetalle';
                     },
                     error: function () {

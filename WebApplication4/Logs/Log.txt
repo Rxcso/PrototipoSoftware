@@ -1721,3 +1721,35 @@ System.Collections.ListDictionaryInternal
 2015-11-16 22:45:34,097 [7] ERROR Ticknet - Exception Message - 
 The underlying provider failed on Open.
 2015-11-16 22:45:34,097 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-17 19:46:32,957 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-17 19:46:32,998 [8] ERROR Ticknet - Exception Type - 
+InvalidOperationException
+2015-11-17 19:46:32,998 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-17 19:46:32,998 [8] ERROR Ticknet - Exception Message - 
+The view 'ComprarEntradaReservadaA' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/CuentaUsuario/ComprarEntradaReservadaA.aspx
+~/Views/CuentaUsuario/ComprarEntradaReservadaA.ascx
+~/Views/Shared/ComprarEntradaReservadaA.aspx
+~/Views/Shared/ComprarEntradaReservadaA.ascx
+~/Views/CuentaUsuario/ComprarEntradaReservadaA.cshtml
+~/Views/CuentaUsuario/ComprarEntradaReservadaA.vbhtml
+~/Views/Shared/ComprarEntradaReservadaA.cshtml
+~/Views/Shared/ComprarEntradaReservadaA.vbhtml
+2015-11-17 19:46:32,998 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-17 19:58:01,481 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-17 19:58:01,516 [9] ERROR Ticknet - Exception Type - 
+InvalidOperationException
+2015-11-17 19:58:01,516 [9] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-17 19:58:01,516 [9] ERROR Ticknet - Exception Message - 
+The view 'ComprarEntradaReservadaA' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/CuentaUsuario/ComprarEntradaReservadaA.aspx
+~/Views/CuentaUsuario/ComprarEntradaReservadaA.ascx
+~/Views/Shared/ComprarEntradaReservadaA.aspx
+~/Views/Shared/ComprarEntradaReservadaA.ascx
+~/Views/CuentaUsuario/ComprarEntradaReservadaA.cshtml
+~/Views/CuentaUsuario/ComprarEntradaReservadaA.vbhtml
+~/Views/Shared/ComprarEntradaReservadaA.cshtml
+~/Views/Shared/ComprarEntradaReservadaA.vbhtml
+2015-11-17 19:58:01,516 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++

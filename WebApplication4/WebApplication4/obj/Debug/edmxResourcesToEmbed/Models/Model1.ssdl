@@ -207,6 +207,8 @@
     <Property Name="FechaDevolucion" Type="date" />
     <Property Name="cantDiasDevolucion" Type="int" />
     <Property Name="motivoCambio" Type="varchar" MaxLength="200" />
+    <Property Name="fechaPostergado" Type="datetime" />
+    <Property Name="fechaCancelado" Type="datetime" />
   </EntityType>
   <EntityType Name="HoraReserva">
     <Key>

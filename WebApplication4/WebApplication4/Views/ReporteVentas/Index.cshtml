@@ -403,7 +403,7 @@
     function reporte1() {
         var fd = $('#fd1').val();
         var fh = $('#fh1').val();
-        if (fd != null && fh != null && fd != "" && fh != "") {
+        if (fd != null && fd != "") {
             $.ajax({
                 url: "@Url.Action("ReporteV1", "ReporteVentas")",
                 data: {fd:fd,fh:fh},
@@ -433,7 +433,7 @@
     function reporte2() {
         var fd = $('#fd2').val();
         var fh = $('#fh2').val();
-        if (fd != null && fh != null && fd != "" && fh != "") {
+        if (fd != null && fd != "") {
             $.ajax({
                 url: "@Url.Action("ReporteV2", "ReporteVentas")",
                 data: { fd: fd, fh: fh },
@@ -464,7 +464,7 @@
     function reporte3() {
         var fd = $('#fd3').val();
         var fh = $('#fh3').val();
-        if (fd != null && fh != null && fd != "" && fh != "") {
+        if (fd != null && fd != "") {
             $.ajax({
                 url: "@Url.Action("ReporteV3", "ReporteVentas")",
                 data: { fd: fd, fh: fh },
@@ -495,7 +495,7 @@
     function reporte4() {
         var fd = $('#fd4').val();
         var fh = $('#fh4').val();
-        if (fd!=null && fh!=null && fd != "" && fh != "") {
+        if (fd!=null && fd != "") {
             $.ajax({
                 url: "@Url.Action("ReporteV4", "ReporteVentas")",
                 data: { fd: fd, fh: fh },
