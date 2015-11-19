@@ -12,7 +12,10 @@ namespace WebApplication4.Models
         public string HoraSalida { get; set; }
         public DateTime? Fecha { get; set; }
         public string Nombre { get; set; }
-        public bool Asistio { get; set; }
+      
+        public string Asistio { get; set; }
+        public string HoraRegistro { get; set; }
+
 
     }
 }
