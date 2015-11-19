@@ -1580,6 +1580,10 @@ namespace WebApplication4.Controllers
         [HttpGet]
         public ActionResult PostergarEvento(string evento)
         {
+            if (String.IsNullOrEmpty(evento))
+            {
+                return RedirectToAction("Index2", "Home");
+            }
             int id = int.Parse(evento);
             Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();
             ViewBag.nombreEvento = queryEvento.nombre;

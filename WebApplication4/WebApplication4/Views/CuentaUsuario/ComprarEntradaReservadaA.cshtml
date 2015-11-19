@@ -14,7 +14,6 @@
         dni = user.codDoc;
     }
     List<Promociones> promocionesLista = ViewBag.Promociones as List<Promociones>;
-    List<CarritoItem> carrito = Session["CarritoItem"] as List<CarritoItem>;
     double? importe = ViewBag.Total as double?;
     double? descuento = ViewBag.Descuento as double?;
     double? montopagar = ViewBag.Pagar as double?;
@@ -105,10 +104,12 @@
                     @Html.LabelFor(c => c.Mes, new { @class = "control-label col-md-2" })
                     <div class="col-md-2">
                         @Html.DropDownListFor(c => c.Mes, ViewBag.Mes as List<SelectListItem>, new { @disabled = "disabled", @class = "form-control" })
+                        @Html.ValidationMessageFor(c => c.Mes)
                     </div>
                     @Html.LabelFor(c => c.AnioVen, new { @class = "control-label col-md-2" })
                     <div class="col-md-2">
                         @Html.DropDownListFor(c => c.AnioVen, ViewBag.AnVen as List<SelectListItem>, new { @disabled = "disabled", @class = "form-control" })
+                        @Html.ValidationMessageFor(c => c.AnioVen)
                     </div>
                 </div>
 
