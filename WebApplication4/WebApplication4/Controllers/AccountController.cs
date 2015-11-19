@@ -170,8 +170,13 @@ namespace WebApplication4.Controllers
                                     ts = listaturno[i];
                                 }
                             }
+                            Session["ListaTurnoHoy"] = null;
                             List<Turno> liT = new List<Turno>();
+                            List<Turno> liTV = new List<Turno>();
                             liT = db.Turno.AsNoTracking().Where(j => j.usuario == cuentausuario.usuario && j.codPuntoVenta == punt.codPuntoVenta && j.codTurnoSis == ts.codTurnoSis).ToList();
+                            liTV = db.Turno.AsNoTracking().Where(j => j.codPuntoVenta == punt.codPuntoVenta && j.codTurnoSis == ts.codTurnoSis).ToList();
+                            liTV = liTV.Where(c => c.fecha == hoy.Date).ToList();
+                            Session["ListaTurnoHoy"] = liTV;
                             Session["PuntoVentaLoguedo"] = punt.codPuntoVenta;
                             if (liT != null)
                             {
