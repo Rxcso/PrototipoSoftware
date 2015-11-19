@@ -1796,3 +1796,35 @@ System.Collections.ListDictionaryInternal
 El valor no puede ser nulo.
 Nombre del parámetro: String
 2015-11-19 01:31:45,538 [60] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 11:21:25,560 [13] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 11:21:25,566 [13] ERROR Ticknet - Exception Type - 
+EntityCommandExecutionException
+2015-11-19 11:21:25,566 [13] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-19 11:21:25,566 [13] ERROR Ticknet - Exception Message - 
+An error occurred while executing the command definition. See the inner exception for details.
+2015-11-19 11:21:25,566 [13] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 11:21:28,097 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 11:21:28,097 [7] ERROR Ticknet - Exception Type - 
+EntityCommandExecutionException
+2015-11-19 11:21:28,097 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-19 11:21:28,097 [7] ERROR Ticknet - Exception Message - 
+An error occurred while executing the command definition. See the inner exception for details.
+2015-11-19 11:21:28,097 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 11:21:51,901 [13] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 11:21:51,907 [13] ERROR Ticknet - Exception Type - 
+EntityCommandExecutionException
+2015-11-19 11:21:51,907 [13] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-19 11:21:51,907 [13] ERROR Ticknet - Exception Message - 
+An error occurred while executing the command definition. See the inner exception for details.
+2015-11-19 11:21:51,907 [13] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 11:22:10,720 [14] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 11:22:10,720 [14] ERROR Ticknet - Exception Type - 
+EntityCommandExecutionException
+2015-11-19 11:22:10,720 [14] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-19 11:22:10,720 [14] ERROR Ticknet - Exception Message - 
+An error occurred while executing the command definition. See the inner exception for details.
+2015-11-19 11:22:10,720 [14] DEBUG Ticknet - ++++++++++++++++++++++++++++

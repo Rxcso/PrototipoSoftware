@@ -54,6 +54,10 @@ namespace WebApplication4.Models
         [Display(Name = "Es Destacado?")]
         public Boolean esDestacado { get; set; }
 
+        [Required]
+        [Display(Name = "Tiene Imagen Sitios?")]
+        public Boolean tieneSitios{ get; set; }
+
         [Display(Name = "Permitir reservas vía web")]
         public bool PermitirReservasWeb { get; set; }
 

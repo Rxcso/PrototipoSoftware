@@ -50,11 +50,6 @@ namespace WebApplication4.Controllers
 
         public string reservaAsientos(string name, PaqueteEntradas paquete)
         {
-            //name es el correo de la persona
-            //PIER ACA VA LA LOGICA DEL GUARDAR
-            //LA IDEA ES QUE RETORNE UN STRING CON EL ERROR EN CASO HUBIERA ALGUNO
-            //"Superaria el limte de reservas para esta funcion ya tiene n entradas"
-            //"Ya no se encuentran disponibles esas entradas"            
 
             //Si todo esta bien se devuelve OK
             //Que significa todo Ok?
@@ -170,6 +165,7 @@ namespace WebApplication4.Controllers
             Session["IdEventoModificado"] = null;
             Session["IdEventoCreado"] = null;
             //----//
+
             ViewBag.nombre = nombre;
             ViewBag.fech_ini = fech_ini;
             ViewBag.fech_fin = fech_fin;
@@ -679,17 +675,27 @@ namespace WebApplication4.Controllers
 
         private void ObtenerFechaFin(int idEvento)
         {
-            List<Funcion> funciones = db.Funcion.Where(c => c.codEvento == idEvento).ToList();
-            List<DateTime> fin = new List<DateTime>();
-            foreach (Funcion funcion in funciones)
+            try
             {
-                fin.Add((DateTime)funcion.fecha);
+                //cambio solo funciones no canceladas
+                List<Funcion> funciones = db.Funcion.Where(c => c.codEvento == idEvento && c.estado.CompareTo("CANCELADO") != 0).ToList();
+                List<DateTime> fin = new List<DateTime>();
+                foreach (Funcion funcion in funciones)
+                {
+                    fin.Add((DateTime)funcion.fecha);
+                }
+                fin.Sort((a, b) => a.CompareTo(b));
+                DateTime fechaFin = fin.Last();
+                Eventos evento = db.Eventos.Find(idEvento);
+                evento.fecha_fin = fechaFin;
+                db.SaveChanges();
             }
-            fin.Sort((a, b) => a.CompareTo(b));
-            DateTime fechaFin = fin.Last();
-            Eventos evento = db.Eventos.Find(idEvento);
-            evento.fecha_fin = fechaFin;
-            db.SaveChanges();
+            catch
+            {
+                Eventos evento = db.Eventos.Find(idEvento);
+                evento.fecha_fin = evento.fecha_inicio;
+                db.SaveChanges();
+            }
         }
 
         [HttpPost]
@@ -964,6 +970,7 @@ namespace WebApplication4.Controllers
                 int idEvento = int.Parse(Session["IdEventoModificado"].ToString());
                 Eventos evento = db.Eventos.Find(idEvento);
                 model.esDestacado = (evento.ImagenDestacado != null) ? true : false;
+                model.tieneSitios = (evento.ImagenSitios != null) ? true : false;
                 model.IDestacado = evento.ImagenDestacado;
                 model.IEvento = evento.ImagenEvento;
                 model.ISitios = evento.ImagenSitios;
@@ -1015,7 +1022,7 @@ namespace WebApplication4.Controllers
                 ModelState.AddModelError("ImageEvento", "Falta Seleccionar Imagen para Evento");
             }
 
-            if (evento.ImagenSitios == null && (model.ImageSitios == null || model.ImageSitios.ContentLength == 0))
+            if (evento.ImagenSitios == null && model.tieneSitios && (model.ImageSitios == null || model.ImageSitios.ContentLength == 0))
             {
                 ModelState.AddModelError("ImageSitios", "Falta Seleccionar Imagen para los Sitios");
             }
@@ -1035,16 +1042,30 @@ namespace WebApplication4.Controllers
                      * al ser un HttpPostFileBase no se puede recuperar porque es una clase abstracta.
                      * si no es destacado simplemente dejar la imagen en null. si agrega otra imagen recien se guarda, si no hay nada simplemente dejarla como estaba antes.
                      * Hay una situacion con poner evento.ImagenDestacado en null, al realizar db.SaveChanges(), me dice que el campo debe ser obligatorio a pesar de que no se especifica en ningun lado de que lo sea. Incluso en base de datos esta permitido el valor de null.*/
-                    if (Session["IdEventoCreado"] != null || Session["IdEventoModificado"]!=null)
+                    if (Session["IdEventoCreado"] != null || Session["IdEventoModificado"] != null)
                     {
                         if (guardarImagen("destacado" + evento.codigo + ".jpg", model.ImageDestacado))
                             evento.ImagenDestacado = "/Images/" + "destacado" + evento.codigo + ".jpg";
                         else evento.ImagenDestacado = null;
                     }
                 }
+                else evento.ImagenDestacado = null;
+
+
+
+                if (model.tieneSitios)
+                {
+                    if (Session["IdEventoCreado"] != null || Session["IdEventoModificado"] != null)
+                    {
+                        if (guardarImagen("sitios" + evento.codigo + ".jpg", model.ImageSitios))
+                            evento.ImagenSitios = "/Images/" + "sitios" + evento.codigo + ".jpg";
+                        else evento.ImagenSitios = null;
+                    }
+                }
+                else evento.ImagenDestacado = null;
+
 
                 if (guardarImagen("evento" + evento.codigo + ".jpg", model.ImageEvento)) evento.ImagenEvento = "/Images/" + "evento" + evento.codigo + ".jpg";
-                if (guardarImagen("sitios" + evento.codigo + ".jpg", model.ImageSitios)) evento.ImagenSitios = "/Images/" + "sitios" + evento.codigo + ".jpg";
 
                 evento.maxReservas = model.MaxReservas;
                 evento.montoFijoVentaEntrada = model.MontFijoVentEnt;
@@ -1257,16 +1278,20 @@ namespace WebApplication4.Controllers
         [AllowAnonymous]
         public ActionResult VerEvento(int? id)
         {
+            // Si no hay id retorna al Index
             if (id == null) return RedirectToAction("Index");
             var evento = db.Eventos.Find(id);
+            // Si no hay evento tambien retorna al Index
             if (evento == null)
             {
                 ModelState.AddModelError(string.Empty, "No hay Evento");
                 return Redirect("~/Home/Index");
             }
 
-            ViewBag.evento = evento;
 
+            //Cargamos en el ViewBag el evento
+            ViewBag.evento = evento;
+            //Cargamos el nombre del local
             try
             {
                 ViewBag.NombreLocal = db.Local.Where(c => c.codLocal == evento.idLocal).First().ubicacion;
@@ -1274,100 +1299,133 @@ namespace WebApplication4.Controllers
             catch (Exception ex)
             {
                 ViewBag.NombreLocal = "";
+                ViewBag.NombreLocal = evento.direccion;
             }
 
+            //Detalle ... Como se considera si ya hay local?
             ViewBag.Region = db.Region.Where(c => c.idRegion == evento.idRegion).First().nombre;
+
             ViewBag.Categoria = db.Categoria.Where(c => c.idCategoria == evento.idCategoria).First().nombre;
             ViewBag.Subcategoria = db.Categoria.Where(c => c.idCategoria == evento.idSubcategoria).First().nombre;
 
             var veoAsientos = true;
 
             //Debo saber si el evento esta a la venta
-            if (evento.fecha_fin <= DateTime.Today)
+            if (evento.fecha_fin < DateTime.Today)
             {
                 ViewBag.EventoAcabo = "El evento ya no se encuentra disponible.";
                 veoAsientos = false;
             }
             else
             {
+
+                int bloqueVenta = 0;
                 try
                 {
-                    ViewBag.ListZonasNombre = new List<string>();
-                    ViewBag.ListZonasId = new List<int>();
-                    int bloqueVenta = db.PeriodoVenta.Where(c => c.codEvento == evento.codigo && c.fechaInicio <= DateTime.Today && c.fechaFin >= DateTime.Today).First().idPerVent;
-                    List<ZonaEvento> zonasEvento = db.ZonaEvento.Where(c => c.codEvento == id).ToList();
-                    List<SelectListItem> tarifasEvento = new List<SelectListItem>();
-                    foreach (ZonaEvento zona in zonasEvento)
-                    {
-
-                        // Modificacion Oscar
-                        if (zona.tieneAsientos == true) veoAsientos = true;
-
-                        //
-                        PrecioEvento precio = db.PrecioEvento.Where(c => c.codPeriodoVenta == bloqueVenta && c.codZonaEvento == zona.codZona).ToList().First();
-                        ViewBag.ListZonasNombre.Add(zona.nombre + " - " + " S/." + precio.precio);
-                        ViewBag.ListZonasId.Add(zona.codZona);
-                    }
-
-                    try
-                    {
-                        List<Funcion> funciones = db.Funcion.Where(c => c.codEvento == evento.codigo && c.estado != "CANCELADO" && c.fecha >= DateTime.Now).ToList();
-
-                        //agrupo las fechas unicas de las funciones y las ordeno ascendentemente
-                        funciones = funciones.GroupBy(c => c.fecha).Select(p => p.First()).OrderBy(c => c.fecha).ToList();
-                        List<SelectListItem> listaNFunciones = new List<SelectListItem>();
-                        int i = 0;
-                        foreach (Funcion fun in funciones)
-                        {
-                            listaNFunciones.Add(new SelectListItem { Text = String.Format("{0:t}", fun.fecha), Value = "" + i });
-                            i++;
-                        }
-                        ViewBag.FechaFunciones = listaNFunciones;
-                        //todo: buscar tarifa y precio y ver segun que bloque de tiempo estamos
-
-                        //todo: cantidad de entradas depende del numero de asientos que escoja
-                        ViewBag.ListFunciones = funciones;
-
-                        ViewBag.ObjectArrayAsientos = obtenerJSONAsientos(funciones, zonasEvento);
-
-                        funciones = db.Funcion.Where(c => c.codEvento == evento.codigo && c.estado != "CANCELADO").ToList();
-
-                        if (funciones.Count > 1) ViewBag.textoFunciones = "Desde " + funciones[0].fecha.Value.ToShortDateString() + " hasta " + funciones[funciones.Count - 1].fecha.Value.ToShortDateString();
-                        else ViewBag.textoFunciones = "Única funcion " + funciones[0].fecha.Value.ToShortDateString();
-                    }
-                    catch (Exception ex)
-                    {
-                        ViewBag.ListFunciones = new List<Funcion>(0);
-                        ViewBag.MensajeErrorFunciones = "El evento no cuenta con funciones";
-                        veoAsientos = false;
-                    }
+                    var buscarPeriodoVenta = db.PeriodoVenta.Where(c => c.codEvento == evento.codigo && c.fechaInicio <= DateTime.Today && c.fechaFin >= DateTime.Today);
+                    bloqueVenta = buscarPeriodoVenta.First().idPerVent;
                 }
                 catch (Exception ex)
                 {
-                    List<PeriodoVenta> periodos = db.PeriodoVenta.Where(c => DateTime.Today < c.fechaInicio && c.codEvento == id).OrderBy(c => c.fechaInicio).ToList();
+
+                }
+
+                if (bloqueVenta == 0)
+                {
+                    ViewBag.NoHayVenta = "No es posible comprar Entradas";
+                    List<PeriodoVenta> periodos = db.PeriodoVenta.Where(c => DateTime.Today <= c.fechaInicio && c.codEvento == id).OrderBy(c => c.fechaInicio).ToList();
                     List<string> futuraVenta = new List<string>();
                     foreach (PeriodoVenta per in periodos)
                     {
                         futuraVenta.Add("- Del " + String.Format("{0:d}", per.fechaInicio) + " al " + String.Format("{0:d}", per.fechaFin) + ".");
                     }
-                    ViewBag.ListFunciones = new List<Funcion>(0);
                     ViewBag.EventoNoDisponible = "Las entradas del evento aun no estan a la venta. Ventas disponibles:";
-                    veoAsientos = false;
                     ViewBag.FuturasVentas = futuraVenta;
                 }
+
+
+                List<ZonaEvento> zonasEvento = new List<ZonaEvento>();
+
+                try
+                {
+                    ViewBag.ListZonasNombre = new List<string>();
+                    ViewBag.ListZonasId = new List<int>();
+
+                    zonasEvento = db.ZonaEvento.Where(c => c.codEvento == id).ToList();
+                    foreach (ZonaEvento zona in zonasEvento)
+                    {
+                        string prec = " No hay venta ";
+                        try
+                        {
+                            PrecioEvento precio = db.PrecioEvento.Where(c => c.codPeriodoVenta == bloqueVenta && c.codZonaEvento == zona.codZona).ToList().First();
+                            prec = " S/." + precio.precio;
+                        }
+                        catch (Exception ex)
+                        {
+                            //Si no precioEvento se deja con "No hay venta"
+                        }
+                        ViewBag.ListZonasNombre.Add(zona.nombre + " - " + prec);
+                        ViewBag.ListZonasId.Add(zona.codZona);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.ListFunciones = new List<Funcion>(0);
+                    ViewBag.MensajeErrorFunciones = "Ya no hay más funciones :(";
+                    veoAsientos = false;
+                }
+
+                List<Funcion> funciones = new List<Funcion>();
+
+                try
+                {
+                    funciones = db.Funcion.Where(c => c.codEvento == evento.codigo && c.estado != "CANCELADO").ToList();
+                    if (funciones.Count > 1) ViewBag.textoFunciones = "Desde " + funciones[0].fecha.Value.ToShortDateString() + " hasta " + funciones[funciones.Count - 1].fecha.Value.ToShortDateString();
+                    else ViewBag.textoFunciones = "Única funcion " + funciones[0].fecha.Value.ToShortDateString();
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.textoFunciones = "No hay funciones";
+                }
+
+                try
+                {
+                    funciones = db.Funcion.Where(c => c.codEvento == evento.codigo && c.estado != "CANCELADO" && c.fecha >= DateTime.Now).ToList();
+                    //agrupo las fechas unicas de las funciones y las ordeno ascendentemente
+                    //funciones = funciones.GroupBy(c => c.fecha).Select(p => p.First()).OrderBy(c => c.fecha).ToList();
+                    List<SelectListItem> listaNFunciones = new List<SelectListItem>();
+                    int i = 0;
+                    foreach (Funcion fun in funciones)
+                    {
+                        listaNFunciones.Add(new SelectListItem { Text = String.Format("{0:t}", fun.fecha), Value = "" + i });
+                        i++;
+                    }
+                    ViewBag.FechaFunciones = listaNFunciones;
+
+                    ViewBag.ListFunciones = funciones;
+
+                    ViewBag.ObjectArrayAsientos = obtenerJSONAsientos(funciones, zonasEvento);
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.ListFunciones = new List<Funcion>(0);
+                    veoAsientos = false;
+                }
+
+
+
             }
 
             ViewBag.VeoAsientos = veoAsientos;
+
             return View(new PaqueteEntradas((int)id));
-
-
         }
 
         [HttpPost]
         [AllowAnonymous]
         public ActionResult Entradas(PaqueteEntradas paquete, string boton)
         {
-            //VALIDAR
+
             if (ModelState.IsValid)
             {
                 if (boton.CompareTo("reservar") == 0)
@@ -1384,8 +1442,6 @@ namespace WebApplication4.Controllers
                     }
 
                     return Redirect("~/Evento/VerEvento/" + paquete.idEvento);
-                    //logica de reserva
-                    //PLZ
 
                 }
                 else if (boton.CompareTo("carrito") == 0)
@@ -1655,6 +1711,8 @@ namespace WebApplication4.Controllers
             cancelarEvento.listIdFuncion = auxlistIdFuncion.ToArray();
             cancelarEvento.seCancela = auxlistBool.ToArray();
 
+            
+
             return View("Cancelar", cancelarEvento);
         }
 
@@ -1696,6 +1754,8 @@ namespace WebApplication4.Controllers
                         f.cantDiasDevolucion = evento.diasRecojo;
                         db.SaveChanges();
                     }
+                // Cambiamos la fecha fin del evento , pues se ha cancelado una funcion
+                ObtenerFechaFin(evento.idEvento);
 
                 TempData["message"] = "Se cancelar las funciones correctamente";
                 TempData["tipo"] = "alert alert-success";

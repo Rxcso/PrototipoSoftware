@@ -67,16 +67,7 @@
                             <p><strong><u>Fechas:</u></strong> @ViewBag.textoFunciones </p>
                             <p>
                                 <strong><u>Dirección:</u></strong>
-                                @{
-                                    if (ViewBag.evento.idLocal == null || ViewBag.evento.idLocal != 0)
-                                    {
-                                        @ViewBag.NombreLocal
-                                    }
-                                    else
-                                    {
-                                        @(ViewBag.evento.direccion)
-                                    }
-                                }
+                                @ViewBag.NombreLocal
                             </p>
                             <p><strong><u>Región:</u></strong> @ViewBag.Region</p>
                             @*<p><strong><u>Ofertas:</u></strong> 20% dcto. con tarjeta VISA</p>*@
@@ -96,14 +87,22 @@
                 </div>
             </div>
         </div>
-        <div id="zonas" class="row">
-            <div class="thumbnail">
-                <div class="container-fluid">
-                    <h4><u>Distribución de zonas</u></h4>
-                    <img class="event" src=@ViewBag.evento.ImagenSitios alt="Zonas de evento">
+
+
+
+        @if (ViewBag.evento.ImagenSitios != null)
+        {
+            <div id="zonas" class="row">
+                <div class="thumbnail">
+                    <div class="container-fluid">
+                        <h4><u>Distribución de zonas</u></h4>
+                        <img class="event" src=@ViewBag.evento.ImagenSitios alt="Zonas de evento">
+                    </div>
                 </div>
             </div>
-        </div>
+        }
+
+
         <div id="tarifas" class="row">
             <div class="thumbnail">
                 <div class="container-fluid">
@@ -119,7 +118,7 @@
                         }
                         else
                         {
-                            if (ViewBag.EventoNoDisponible != null && codperfilActual != 3)
+                            if (ViewBag.EventoNoDisponible != null && codperfilActual < 3)
                             {
                                 <p>@ViewBag.EventoNoDisponible</p>
                                 List<string> futurasVentas = ViewBag.FuturasVentas as List<string>;
@@ -143,7 +142,6 @@
                                     if (ViewBag.ListFunciones.Count == 0)
                                     {
                                         <p>Ya no hay funciones para este evento</p>
-
                                     }
                                     else
                                     {
@@ -219,7 +217,7 @@
                                                         <button type="submit" name="boton" value="reservar" class="btn btn-primary pull-right">Reservar <span class="glyphicon glyphicon-save"></span></button>
                                                     </div>
                                                 }
-                                                if (codperfilActual == 3)
+                                                if (codperfilActual >= 3)
                                                 {
                                                     <div class="col-md-6">
                                                         <button type="submit" name="boton" value="reservarOrganizador" class="btn btn-primary pull-right">Reservar Organizador<span class="glyphicon glyphicon-save"></span></button>
@@ -615,20 +613,20 @@
 
 
         //Submit para envio de formularios
-         function busqueda() {
+        function busqueda() {
 
 
-        $("#search").submit();
-    }
+            $("#search").submit();
+        }
 
 
 
 
-    function busquedaAdv() {
-      
+        function busquedaAdv() {
+
             $("#adv-search").submit();
 
-    }
+        }
 
 
 
