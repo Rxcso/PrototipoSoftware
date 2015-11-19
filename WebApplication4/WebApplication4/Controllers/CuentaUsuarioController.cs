@@ -1180,6 +1180,11 @@ namespace WebApplication4.Controllers
             return View();
         }
 
+        public ActionResult VerRegalos()
+        {
+            return View();
+        }
+
         public ActionResult DeleteReserva(int codE, int codF, int codEv, int codZ)
         {
             Ventas v = db.Ventas.Find(codE);

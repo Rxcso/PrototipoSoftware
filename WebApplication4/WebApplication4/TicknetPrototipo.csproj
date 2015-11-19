@@ -614,6 +614,7 @@
     <Content Include="Views\CuentaUsuario\ReporteAsignacion.cshtml" />
     <Content Include="Views\CuentaUsuario\ReporteAsistencia.cshtml" />
     <Content Include="Views\Home\PuntoVentas.cshtml" />
+    <Content Include="Views\CuentaUsuario\VerRegalos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
