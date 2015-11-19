@@ -58,7 +58,7 @@
 
 <div class="container">
     <div class="row">
-        <a class="btn btn-danger pull-right" href="@Url.Action("Index2", "Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+        @*<a class="btn btn-danger pull-right" href="@Url.Action("Index2", "Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>*@
     </div>
     <div class="row">
         <div class="modal-body">
@@ -121,7 +121,7 @@
                                         <table class="table table-bordered table-hover" align="center">
                                             <tr class="active">
                                                 <th>Fecha</th>
-                                                <th>Codigo del Vendedor</th>
+                                                <th>DNI del Vendedor</th>
                                                 <th>Nombre del Vendedor</th>
                                                 <th>Punto de Venta</th>
                                                 <th>Total</th>
@@ -130,7 +130,7 @@
                                                 @foreach (var row in lev)
                                                 {
                                                 <tr>
-                                                    <td>@row.fecha</td>
+                                                    <td>@row.fecha.ToString("dd/MM/yyyy")</td>
                                                     <td>@row.codigo</td>
                                                     <td>@row.nombre</td>
                                                     <td>@row.punto</td>
