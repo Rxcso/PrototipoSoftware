@@ -185,6 +185,9 @@ else
                             </div>
 
                         }
+                        <div class="navbar-form navbar-right">
+                        <a href="@Url.Action("PuntoVentas","Home")" name="boton" value="carrito" class="btn btn-success pull-right ">Puntos de Venta <span class="glyphicon glyphicon-shopping-cart"></span></a>
+                        </div>
                         <!--
                         <form action="" class="navbar-form navbar-left" role="search">
                         </form>
@@ -196,6 +199,7 @@ else
                             <a href="@Url.Action("MiCarrito","CuentaUsuario")" name="boton" value="carrito" class="btn btn-success pull-right ">Carrito <span class="glyphicon glyphicon-shopping-cart"></span></a>
                         </div>
                         <div class="navbar-form navbar-right">
+                            
                             @if (!Request.IsAuthenticated)
                             {
                                 <a id="logIn" href="#logInCliente" class="btn btn-primary" data-toggle="modal">Iniciar Sesión <span class="glyphicon glyphicon-user"></span> </a>

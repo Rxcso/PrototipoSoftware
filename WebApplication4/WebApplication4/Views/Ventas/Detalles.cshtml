@@ -12,10 +12,22 @@
     }
 }
 
-<div class="container">
+
+<div class="container-fluid">
+    <ol class="breadcrumb">
+        <li class=""><a href="@Url.Action("MiCuenta", "CuentaUsuario")">Mi cuenta</a></li>
+        <li class=""><a href="@Url.Action("MisCompras", "CuentaUsuario")">Mis Compras</a></li>
+        <li class="">Detalles</li>
+    </ol>
+</div>
+
+
+<h2>Detalles</h2>
+
+@*<div class="container">
     <h2>Detalles</h2>
     <a href="@Url.Action("MisCompras", "CuentaUsuario")" class="btn btn-danger">Salir <span class="glyphicon glyphicon-log-out"></span></a>
-</div>
+</div>*@
 <br />
 <div class="container">
 
