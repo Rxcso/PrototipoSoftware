@@ -3,7 +3,7 @@
 
 @{
     ViewBag.Title = "BuscaReserva";
-    Layout = "~/Views/Shared/_LayoutPersonal.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
     var db = new WebApplication4.Models.inf245netsoft();
     List<VentasXFuncion> listaReserva = null;
     if (Session["ReservaBusca"] != null)
@@ -46,7 +46,7 @@
             <a onclick="redirigeReserva()" class="btn btn-primary pull-right">Pagar reserva <span class="glyphicon glyphicon-usd"></span></a>
         </div>
         <div class="col-md-2">
-            <a href="@Url.Action("Index2", "Home")" class="btn btn-danger pull-right">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+            @*<a href="@Url.Action("Index2", "Home")" class="btn btn-danger pull-right">Salir <span class="glyphicon glyphicon-log-out"></span></a>*@
         </div>
     </div>
 

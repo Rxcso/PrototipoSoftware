@@ -783,12 +783,15 @@ namespace WebApplication4.Controllers
                 */
 
                 //elimina de la lista de busqueda! 
-                /*
-                List<DevolucionModel> dev = (List<DevolucionModel>)Session["BusquedaDev"];
-                for (int i = 0; i < dev.Count; i++)
-                    if (dev[i].codDev == dv.codDetalleVenta)
-                        dev.RemoveAt(i);
-                Session["BusquedaDev"] = dev;*/
+                
+                //List<DevolucionModel> dev = (List<DevolucionModel>)Session["BusquedaDev"];
+                for (int i = 0; i < axf.Count; i++)
+                    if (axf[i].codAsiento == codAsiento)
+                    {
+                        axf.RemoveAt(i);
+                        break;
+                    }                        
+                Session["ListaAsientos"] = axf;
 
             }
             else // no numerado

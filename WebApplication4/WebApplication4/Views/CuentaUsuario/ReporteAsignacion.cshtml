@@ -20,7 +20,7 @@
 
 <div class="container">
     <div class="row">
-        <a class="btn btn-danger pull-right" href=@Url.Action("Index2", "Home")>Salir <span class="glyphicon glyphicon-log-out"></span></a>
+        @*<a class="btn btn-danger pull-right" href=@Url.Action("Index2", "Home")>Salir <span class="glyphicon glyphicon-log-out"></span></a>*@
     </div>
     <div id="busqAvanzada" class="row" style="text-align:center">
        
@@ -70,6 +70,8 @@
         <div style="text-align: center">
 
             <a class="btn btn-primary" onclick="submitReport()">Generar <span class="glyphicon glyphicon-file"></span></a>
+            <a id="newReport" class="btn btn-primary" onclick="nuevoReporte()">Nuevo Reporte <span class=""></span></a>
+
             <a id="export-btn" onclick="generarExcel()" target="_blank" class="btn btn-primary "> Exportar a Excel </a>
         </div>
     </div>
@@ -88,12 +90,13 @@
 <script>
 
     $(document).ready(function () {
-
+      
 
         $("#fechaInicio").addClass("form-control");
         $("#fechaFin").addClass("form-control");
         $("#export-btn").hide();
-     
+        $("#newReport").hide();
+
 
 
     });
@@ -101,10 +104,16 @@
     function generarTabla(data) {
 
         
-        $("#export-btn").show();
 
         var fechI = document.getElementById("fechaInicio").value;
         var fechF = document.getElementById("fechaFin").value;
+
+
+        fIni = new Date(fechI.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1"));
+        fFin = new Date(fechF.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1"));
+        var fechI = fIni.getDate().toString() + "/" + (fIni.getMonth() + 1).toString() + "/" + fIni.getFullYear();
+        var fechF = fFin.getDate().toString() + "/" + (fFin.getMonth() + 1).toString() + "/" + fFin.getFullYear();
+
     
 
         t1 = "<h2> Reporte de Asignacion de Vendedores</h1>";
@@ -126,6 +135,8 @@
 
 
 
+            $("#export-btn").show();
+            $("#newReport").show();
 
         });
 
@@ -133,6 +144,17 @@
         myTable += "</table>";
         document.getElementById("my_result_table").innerHTML = myTable;
       
+
+
+    }
+
+       function nuevoReporte() {
+
+        $('#export-btn').hide();
+        $("#my_result_table").empty();
+        $("#newReport").hide();
+        $("#fechaInicio").val("");
+        $("#fechaFin").val("");
 
 
     }
@@ -157,8 +179,10 @@
 
         }
         if (fechF == '') {
-            $("#alerta").append('<strong>Fecha hasta es obligatorio</strong>').show();
-            return;
+
+            var date = new Date();
+            fechF = date.getFullYear() + "-" + (date.getMonth() + 1).toString() + "-" + date.getDate().toString();
+            $('#fechaFin').val(fechF);
 
         }
 

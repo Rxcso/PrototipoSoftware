@@ -72,7 +72,7 @@ namespace WebApplication4.Controllers
                     DateTime dat = di.Date;
                     String no = lv[i].usuario;
                     r.nombre = lv[i].nombre;
-                    r.codigo = lv[i].usuario;
+                    r.codigo = lv[i].codDoc;
                     List<Turno> lt = db.Turno.Where(c => c.usuario == no && c.fecha == dat).ToList();
                     if (lt.Count > 0)
                     {
@@ -182,26 +182,8 @@ namespace WebApplication4.Controllers
                         totale += (int)lvxf[j].cantEntradas;
                         total += (double)lvxf[j].total;
                     }
-
-                        //for (int j = 0; j < nd; j++)
-                        //{
-                        //    List<Ventas> lven2 = db.Ventas.Where(c =>c.Estado == "Pagado").ToList();
-                        //    List<Ventas> lven = lven2.Where(c => c.fecha.Value.Date == dat).ToList();
-                        //    for (int t = 0; t < lven.Count; t++)
-                        //    {
-                        //        int cvf = lven[t].codVen;
-                        //        VentasXFuncion vxfE = db.VentasXFuncion.Find(cvf, cf);
-                        //        if (vxfE != null)
-                        //        {
-                        //            totale += (int)vxfE.cantEntradas;
-                        //            total += (double)vxfE.total;
-                        //        }
-                        //    }
-                        //    di = di.AddDays(1);
-                        //}
-
                         r.total = total;
-                    r.funcion = db.Funcion.Find(lf[k].codFuncion).horaIni.Value.ToString(@"hh\:mm\:ss"); ;
+                        r.funcion = db.Funcion.Find(lf[k].codFuncion).fecha.Value.ToString("dd/MM/yyyy") + " - " + db.Funcion.Find(lf[k].codFuncion).horaIni.Value.ToString(@"hh\:mm\:ss"); 
                     r.total = total;
                     r.cant = totale;
                     to += total;

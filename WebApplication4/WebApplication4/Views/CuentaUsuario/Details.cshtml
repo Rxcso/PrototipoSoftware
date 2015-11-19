@@ -4,7 +4,14 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<div class="container-fluid">
+    <ol class="breadcrumb">
+        <li class=""><a href="@Url.Action("MiCuenta", "CuentaUsuario")">Mi cuenta</a></li>
+        <li class=""><a href="@Url.Action("MisCompras", "CuentaUsuario")">Mis Compras</a></li>
+    </ol>
+</div>
+
+<h2>Detalle</h2>
 
 <div>
     <h4>CuentaUsuario</h4>

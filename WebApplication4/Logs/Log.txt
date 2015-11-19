@@ -1761,3 +1761,38 @@ System.Collections.ListDictionaryInternal
 2015-11-18 10:12:36,095 [9] ERROR Ticknet - Exception Message - 
 The controller for path '/__browserLink/requestData/d2f9f651ec2843f595db1f875f818f2b' was not found or does not implement IController.
 2015-11-18 10:12:36,095 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-18 20:54:45,497 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-18 20:54:45,505 [6] ERROR Ticknet - Exception Type - 
+ArgumentException
+2015-11-18 20:54:45,505 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-18 20:54:45,515 [6] ERROR Ticknet - Exception Message - 
+The parameters dictionary contains a null entry for parameter 'id' of non-nullable type 'System.Int32' for method 'System.Web.Mvc.ActionResult Detalles(Int32)' in 'WebApplication4.Controllers.VentasController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Nombre del parámetro: parameters
+2015-11-18 20:54:45,515 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 00:11:37,628 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 00:11:37,628 [8] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-19 00:11:37,628 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-19 00:11:37,628 [8] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-19 00:11:37,628 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 00:46:51,560 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 00:46:51,568 [10] ERROR Ticknet - Exception Type - 
+ArgumentNullException
+2015-11-19 00:46:51,568 [10] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-19 00:46:51,568 [10] ERROR Ticknet - Exception Message - 
+El valor no puede ser nulo.
+Nombre del parámetro: String
+2015-11-19 00:46:51,568 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 01:31:45,530 [60] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 01:31:45,538 [60] ERROR Ticknet - Exception Type - 
+ArgumentNullException
+2015-11-19 01:31:45,538 [60] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-19 01:31:45,538 [60] ERROR Ticknet - Exception Message - 
+El valor no puede ser nulo.
+Nombre del parámetro: String
+2015-11-19 01:31:45,538 [60] DEBUG Ticknet - ++++++++++++++++++++++++++++

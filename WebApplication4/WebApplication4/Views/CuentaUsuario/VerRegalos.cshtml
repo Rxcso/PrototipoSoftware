@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewBag.Title = "VerRegalos";
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
+    var db = new WebApplication4.Models.inf245netsoft();
+    List<WebApplication4.Models.Regalo> listaRegalo;
+    listaRegalo = db.Regalo.AsNoTracking().Where(c => c.estado == true).ToList();
+}
+
+<div class="container-fluid">
+    <ol class="breadcrumb">
+        <li class=""><a href="@Url.Action("MiCuenta", "CuentaUsuario")">Mi cuenta</a></li>
+        <li class="active">Ver Regalos</li>
+    </ol>
+</div>
+
+<html>
+<body>
+    <div class="container">
+        <div class="row">
+            <table id="mytable" class="table table-bordered table-hover">
+                <thead>
+                    <tr class="thead">
+                        <th>Nombre</th>
+                        <th>Descripcion</th>
+                        <th>Puntos</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                    @foreach (var row in listaRegalo)
+                    {
+                        <tr id=@row.idRegalo onclick="myFunction(this)">
+                            <td>@row.Nombre</td>
+                            <td>@row.descripcion</td>
+                            <td>@row.puntos</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

@@ -252,7 +252,6 @@ namespace WebApplication4.Controllers
             }
         }
 
-
         public ActionResult ActivateTree(string categoria)
         {
             //if (regalo == "" || regalo == null) return View("Index");
@@ -270,7 +269,6 @@ namespace WebApplication4.Controllers
             return View("Index");
         }
 
-
         public ActionResult Activate(string categoria)
         {
             //if (regalo == "" || regalo == null) return View("Index");
@@ -286,6 +284,4 @@ namespace WebApplication4.Controllers
             return View("Index");
         }
     }
-
-    
 }
