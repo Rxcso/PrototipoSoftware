@@ -1828,3 +1828,83 @@ System.Collections.ListDictionaryInternal
 2015-11-19 11:22:10,720 [14] ERROR Ticknet - Exception Message - 
 An error occurred while executing the command definition. See the inner exception for details.
 2015-11-19 11:22:10,720 [14] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 13:38:49,909 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 13:38:49,918 [7] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-19 13:38:49,918 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-19 13:38:49,918 [7] ERROR Ticknet - Exception Message - 
+c:\Users\Pier\Source\Repos\PrototipoSoftware2\WebApplication4\WebApplication4\Views\Regalo\Index.cshtml(9): error CS0103: El nombre 'muestraBtnActivar' no existe en el contexto actual
+2015-11-19 13:38:49,918 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 14:00:46,345 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 14:00:46,353 [11] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-19 14:00:46,353 [11] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-19 14:00:46,353 [11] ERROR Ticknet - Exception Message - 
+c:\Users\Pier\Source\Repos\PrototipoSoftware2\WebApplication4\WebApplication4\Views\Regalo\Index.cshtml(77): error CS1002: Se esperaba ;
+2015-11-19 14:00:46,354 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 14:00:59,691 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 14:00:59,691 [6] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-19 14:00:59,691 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-19 14:00:59,691 [6] ERROR Ticknet - Exception Message - 
+c:\Users\Pier\Source\Repos\PrototipoSoftware2\WebApplication4\WebApplication4\Views\Regalo\Index.cshtml(77): error CS1525: El término de la expresión '?' no es válido
+2015-11-19 14:00:59,691 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 14:02:16,929 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 14:02:16,929 [6] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-19 14:02:16,929 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-19 14:02:16,929 [6] ERROR Ticknet - Exception Message - 
+c:\Users\Pier\Source\Repos\PrototipoSoftware2\WebApplication4\WebApplication4\Views\Regalo\Index.cshtml(77): error CS1525: El término de la expresión '?' no es válido
+2015-11-19 14:02:16,930 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 14:08:19,464 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 14:08:19,472 [5] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-19 14:08:19,472 [5] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-19 14:08:19,472 [5] ERROR Ticknet - Exception Message - 
+c:\Users\Pier\Source\Repos\PrototipoSoftware2\WebApplication4\WebApplication4\Views\Regalo\Index.cshtml(79): error CS0266: No se puede convertir implícitamente el tipo 'bool?' en 'bool'. Ya existe una conversión explícita (compruebe si le falta una conversión)
+2015-11-19 14:08:19,472 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 14:09:13,141 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 14:09:13,141 [5] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-19 14:09:13,141 [5] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-19 14:09:13,141 [5] ERROR Ticknet - Exception Message - 
+c:\Users\Pier\Source\Repos\PrototipoSoftware2\WebApplication4\WebApplication4\Views\Regalo\Index.cshtml(79): error CS0019: El operador '==' no se puede aplicar a operandos del tipo 'bool?' y 'string'
+2015-11-19 14:09:13,141 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 14:09:49,913 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 14:09:49,914 [5] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-19 14:09:49,914 [5] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-19 14:09:49,914 [5] ERROR Ticknet - Exception Message - 
+c:\Users\Pier\Source\Repos\PrototipoSoftware2\WebApplication4\WebApplication4\Views\Regalo\Index.cshtml(79): error CS0266: No se puede convertir implícitamente el tipo 'bool?' en 'bool'. Ya existe una conversión explícita (compruebe si le falta una conversión)
+2015-11-19 14:09:49,914 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 14:10:29,584 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 14:10:29,585 [5] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-19 14:10:29,585 [5] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-19 14:10:29,585 [5] ERROR Ticknet - Exception Message - 
+c:\Users\Pier\Source\Repos\PrototipoSoftware2\WebApplication4\WebApplication4\Views\Regalo\Index.cshtml(79): error CS1525: El término de la expresión 'bool' no es válido
+2015-11-19 14:10:29,585 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 14:11:03,786 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 14:11:03,786 [5] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-19 14:11:03,786 [5] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-19 14:11:03,786 [5] ERROR Ticknet - Exception Message - 
+c:\Users\Pier\Source\Repos\PrototipoSoftware2\WebApplication4\WebApplication4\Views\Regalo\Index.cshtml(79): error CS1525: El término de la expresión 'bool' no es válido
+2015-11-19 14:11:03,786 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 14:11:37,900 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 14:11:37,900 [8] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-19 14:11:37,900 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-19 14:11:37,900 [8] ERROR Ticknet - Exception Message - 
+c:\Users\Pier\Source\Repos\PrototipoSoftware2\WebApplication4\WebApplication4\Views\Regalo\Index.cshtml(79): error CS0266: No se puede convertir implícitamente el tipo 'bool?' en 'bool'. Ya existe una conversión explícita (compruebe si le falta una conversión)
+2015-11-19 14:11:37,900 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
