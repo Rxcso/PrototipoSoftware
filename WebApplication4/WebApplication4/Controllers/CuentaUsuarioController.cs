@@ -1908,9 +1908,8 @@ namespace WebApplication4.Controllers
                     Fecha = f.fecha,
                     HoraEntrada = f.horIni,
                     HoraSalida = f.horFin,
-
-                    Asistio = f.estado.Contains("Asistio") || f.estado.Contains("Tarde") ? true : false
-
+                    HoraRegistro = f.horaRegistro,
+                    Asistio = f.estado.Contains("Tarde") ? "Tarde" : "Asistio"
                 }).ToList<Asistencia>();
             }
 
