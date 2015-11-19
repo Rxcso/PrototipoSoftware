@@ -1,0 +1,86 @@
+﻿@{
+    ViewBag.Title = "PuntoVentas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var db = new WebApplication4.Models.inf245netsoft();
+    List<WebApplication4.Models.PuntoVenta> listaPunto = db.PuntoVenta.AsNoTracking().Where(c => c.estaActivo == true).ToList();
+    listaPunto = db.PuntoVenta.AsNoTracking().Where(c => c.estaActivo == true).ToList();
+    List<WebApplication4.Models.Region> listaSearch = db.Region.AsNoTracking().Where(c => c.idRegPadre == null).ToList();
+    if (Session["ListaP2"] == null)
+    {
+        listaPunto = db.PuntoVenta.AsNoTracking().Where(c => c.estaActivo == true).ToList();
+    }
+    else
+    {
+        listaPunto = (List<WebApplication4.Models.PuntoVenta>)Session["ListaP2"];
+    }
+}
+
+
+<h2>Puntos de Venta</h2>
+
+<html>
+<body>
+
+    <div class="col-md-2">
+        <form action="" class="" role="search">
+            <select class="form-control" name="" id="comboBusq" onchange="busca2()">
+                <option>Departamento</option>
+                <option value="0">Todos</option>
+                @foreach (var item in listaSearch)
+                {
+                    <option value="@item.idRegion">
+                        @item.nombre
+                    </option>
+                }
+            </select>
+        </form>
+</div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="container">
+        <div class="row">
+            <table id="mytable" class="table table-bordered table-hover">
+                <thead>
+                    <tr class="thead">
+                        <th>Ubicacion</th>
+                        <th>Provincia</th>
+                        <th>Departamento</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                    @foreach (var row in listaPunto)
+                    {
+                        <tr id=@row.codPuntoVenta onclick="myFunction(this)">
+                            <td>@row.ubicacion</td>
+                            <td>@db.Region.Find(row.idProvincia).nombre</td>
+                            <td>@db.Region.Find(row.idRegion).nombre</td>
+                            @*<td>@Html.ActionLink("Delete", "Delete", new { id = row.codPuntoVenta })</td>
+                                <td>@Html.ActionLink("Edit", "Edit", new { id = row.codPuntoVenta })</td>*@
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+    function busca2() {
+        var region = $('#comboBusq option:selected').val();
+        $.ajax({
+            url: "@Url.Action("Search3", "Home")",
+            data: { region: region },
+        success: function (data) {
+            window.location.href = '/Home/PuntoVentas';
+            //alert("Eliminado");
+            //row.remove();
+        },
+        error: function () {
+            alert("Error :(");
+        }
+    });
+    }
+</script>

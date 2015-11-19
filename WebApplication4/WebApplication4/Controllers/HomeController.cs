@@ -87,11 +87,39 @@ namespace WebApplication4.Controllers
             return View();
         }
 
+        public ActionResult PuntoVentas()
+        {
+            ViewBag.Message = "Your application description page.";
+
+            return View();
+        }
+
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        public ActionResult Search3(string region)
+        {
+            int id = int.Parse(region);
+            List<PuntoVenta> listaPunto;
+            if (region == "")
+            {
+                //listaReg = db.Regalo.AsNoTracking().Where(c => c.estado == true).ToList();
+                Session["ListaP2"] = null;
+                return RedirectToAction("PuntoVentas", "Home");
+            }
+            if (region == "0")
+            {
+                Session["ListaP2"] = db.PuntoVenta.AsNoTracking().Where(c => c.estaActivo == true).ToList();
+                return RedirectToAction("PuntoVentas", "Home");
+            }
+            listaPunto = db.PuntoVenta.AsNoTracking().Where(c => c.idRegion == id && c.estaActivo == true).ToList();
+            if (listaPunto != null) Session["ListaP2"] = listaPunto;
+            else Session["ListaP2"] = null;
+            return RedirectToAction("PuntoVentas", "Home");
         }
 
         [HttpPost]
