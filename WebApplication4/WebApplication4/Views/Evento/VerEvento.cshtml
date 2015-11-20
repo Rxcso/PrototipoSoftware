@@ -67,16 +67,7 @@
                             <p><strong><u>Fechas:</u></strong> @ViewBag.textoFunciones </p>
                             <p>
                                 <strong><u>Dirección:</u></strong>
-                                @{
-                                    if (ViewBag.evento.idLocal == null || ViewBag.evento.idLocal != 0)
-                                    {
-                                        @ViewBag.NombreLocal
-                                    }
-                                    else
-                                    {
-                                        @(ViewBag.evento.direccion)
-                                    }
-                                }
+                                @ViewBag.NombreLocal
                             </p>
                             <p><strong><u>Región:</u></strong> @ViewBag.Region</p>
                             @*<p><strong><u>Ofertas:</u></strong> 20% dcto. con tarjeta VISA</p>*@
@@ -96,14 +87,22 @@
                 </div>
             </div>
         </div>
-        <div id="zonas" class="row">
-            <div class="thumbnail">
-                <div class="container-fluid">
-                    <h4><u>Distribución de zonas</u></h4>
-                    <img class="event" src=@ViewBag.evento.ImagenSitios alt="Zonas de evento">
+
+
+
+        @if (ViewBag.evento.ImagenSitios != null)
+        {
+            <div id="zonas" class="row">
+                <div class="thumbnail">
+                    <div class="container-fluid">
+                        <h4><u>Distribución de zonas</u></h4>
+                        <img class="event" src=@ViewBag.evento.ImagenSitios alt="Zonas de evento">
+                    </div>
                 </div>
             </div>
-        </div>
+        }
+
+
         <div id="tarifas" class="row">
             <div class="thumbnail">
                 <div class="container-fluid">
@@ -119,7 +118,7 @@
                         }
                         else
                         {
-                            if (ViewBag.EventoNoDisponible != null && codperfilActual != 3)
+                            if (ViewBag.EventoNoDisponible != null && codperfilActual < 3)
                             {
                                 <p>@ViewBag.EventoNoDisponible</p>
                                 List<string> futurasVentas = ViewBag.FuturasVentas as List<string>;
@@ -143,20 +142,9 @@
                                     if (ViewBag.ListFunciones.Count == 0)
                                     {
                                         <p>Ya no hay funciones para este evento</p>
-
                                     }
                                     else
                                     {
-                                        <!--div class="row form-group">
-                                            <label for="funcion" class="control-label col-md-4">Función:</label>
-                                            <div id="funcion" class="col-md-8">
-                                                <select class="form-control">
-                                                    <option>Seleccione</option>
-                                                    <option>12/10/15</option>
-                                                    <option>15/10/15</option>
-                                                </select>
-                                            </div>
-                                        </div-->
                                         <div class="row form-group">
                                             <label for="hora" class="control-label col-md-4">Funciones:</label>
                                             <div id="funcion" class="col-md-8">
@@ -207,25 +195,32 @@
 
                                                 </div>
 
-                                                if (codperfilActual <= 2)
+                                                if (codperfilActual == 1 || !Request.IsAuthenticated)
                                                 {
                                                     <div class="col-md-6">
                                                         <button type="submit" name="boton" value="carrito" class="btn btn-success pull-right ">Agregar al carrito <span class="glyphicon glyphicon-shopping-cart"></span></button>
                                                     </div>
+                                                    if (Request.IsAuthenticated)
+                                                    {
+                                                        <div class="col-md-6">
+                                                            <button type="submit" name="boton" value="reservar" class="btn btn-primary pull-right">Reservar <span class="glyphicon glyphicon-save"></span></button>
+                                                        </div>
+                                                    }
+
                                                 }
-                                                if (codperfilActual == 1)
-                                                {
-                                                    <div class="col-md-6">
-                                                        <button type="submit" name="boton" value="reservar" class="btn btn-primary pull-right">Reservar <span class="glyphicon glyphicon-save"></span></button>
-                                                    </div>
-                                                }
-                                                if (codperfilActual == 3)
+                                                if (codperfilActual >= 3)
                                                 {
                                                     <div class="col-md-6">
                                                         <button type="submit" name="boton" value="reservarOrganizador" class="btn btn-primary pull-right">Reservar Organizador<span class="glyphicon glyphicon-save"></span></button>
                                                     </div>
                                                 }
-
+                                                //para el vendedor tendra un carrito distinto
+                                                if (codperfilActual == 2)
+                                                {
+                                                    <div class="col-md-6">
+                                                        <button type="submit" name="boton" value="carritoVendedor" class="btn btn-success pull-right ">Agregar al carrito <span class="glyphicon glyphicon-shopping-cart"></span></button>
+                                                    </div>
+                                                }
                                             }
 
                                         </div>
@@ -243,8 +238,8 @@
 
 
         @{
-
-            if (Request.IsAuthenticated)
+            //solo los clientes o administradores pueden comentan
+            if (Request.IsAuthenticated && (codperfilActual == 1 || codperfilActual == 4))
             {
                 var act = User.Identity.Name;
 
@@ -615,20 +610,20 @@
 
 
         //Submit para envio de formularios
-         function busqueda() {
+        function busqueda() {
 
 
-        $("#search").submit();
-    }
+            $("#search").submit();
+        }
 
 
 
 
-    function busquedaAdv() {
-      
+        function busquedaAdv() {
+
             $("#adv-search").submit();
 
-    }
+        }
 
 
 

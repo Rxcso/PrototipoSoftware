@@ -1,23 +1,19 @@
 ﻿@using WebApplication4.Models
-@model ComprarEntradaReservadaAModel
+@model VenderEntradaModel
 @{
     ViewBag.Title = "ComprarEntradaReservadaA";
     Layout = "~/Views/Shared/_Layout.cshtml";
     inf245netsoft db = new inf245netsoft();
-    string nombre = "";
-    string dni = (string)Session["dniCli"];
-
-    if (Request.IsAuthenticated)
-    {
-        CuentaUsuario user = db.CuentaUsuario.Where(c => c.codDoc == dni).First();
-        nombre = user.nombre + " " + user.apellido;
-        dni = user.codDoc;
-    }
     List<Promociones> promocionesLista = ViewBag.Promociones as List<Promociones>;
     double? importe = ViewBag.Total as double?;
     double? descuento = ViewBag.Descuento as double?;
     double? montopagar = ViewBag.Pagar as double?;
-
+    List<CarritoItem> carrito = new List<CarritoItem>();
+    if (Session["CarritoItemVentas"] != null)
+    {
+        promocionesLista = ViewBag.Promociones as List<Promociones>;
+        carrito = Session["CarritoItemVentas"] as List<CarritoItem>;
+    }
 }
 
 <div class="container-fluid">
@@ -28,7 +24,29 @@
         </ol>
     </div>
 </div>
-
+<div class="container" id="promocionesLista">
+    <p>Mejores descuentos para su compra segun los items en su carrito:</p>
+    <div id="listaEventoPromocion">
+        @{
+            for (int i = 0; i < promocionesLista.Count; i++)
+            {
+                string razon = "";
+                if (promocionesLista[i].codPromo == -1)
+                {
+                    razon = "- No cuenta con promocion";
+                }
+                else
+                {
+                    razon = "- Descuento de " + promocionesLista[i].descuento + "%.";
+                }
+                @Html.Hidden("eventosCarrito", "" + carrito[i].idEvento)
+                @Html.Hidden("promocionesCarrito", "" + promocionesLista[i].codPromo)
+                @Html.Hidden("subtotalCarrito", "" + carrito[i].precio)
+                <p style="margin-left:2em">@razon</p>
+            }
+        }
+    </div>
+</div>
 <div class="container">
     <div class="row">
         <div class="col-md-8" id="tarjeta">
@@ -41,7 +59,7 @@
                         @{//si esque es un usuario registrado
                 if (Request.IsAuthenticated)
                 {
-                    @Html.TextBoxFor(c => c.Nombre, new { @class = "form-control", @readonly = "readonly", @Value = nombre })
+                    @Html.TextBoxFor(c => c.Nombre, new { @class = "form-control", @readonly = "readonly" })
                 }
                 else
                 {
@@ -57,7 +75,7 @@
                         @{//si esque es un usuario regitrado
                 if (Request.IsAuthenticated)
                 {
-                    @Html.TextBoxFor(c => c.Dni, new { @class = "form-control", @readonly = "readonly", @Value = dni })
+                    @Html.TextBoxFor(c => c.Dni, new { @class = "form-control", @readonly = "readonly" })
                 }
                 else
                 {
@@ -70,7 +88,7 @@
                 <div class="row form-group">
                     @Html.LabelFor(c => c.idBanco, new { @class = "control-label col-md-3" })
                     <div class="col-md-4">
-                        @Html.DropDownListFor(c => c.idBanco, ViewBag.Bancos as SelectList, new { @disabled = "disabled", @class = "form-control" })
+                        @Html.DropDownListFor(c => c.idBanco, ViewBag.Bancos as SelectList, new { @disabled = "disabled", @class = "form-control", @onchange = "calculaPromo()" })
                         @Html.ValidationMessageFor(c => c.idBanco)
                     </div>
                 </div>
@@ -78,7 +96,7 @@
                 <div class="row form-group">
                     @Html.LabelFor(c => c.idTipoTarjeta, new { @class = "control-label col-md-3" })
                     <div class="col-md-4">
-                        @Html.DropDownListFor(c => c.idTipoTarjeta, ViewBag.TipoTarjeta as SelectList, new { @disabled = "disabled", @class = "form-control" })
+                        @Html.DropDownListFor(c => c.idTipoTarjeta, ViewBag.TipoTarjeta as SelectList, new { @disabled = "disabled", @class = "form-control", @onchange = "calculaPromo()" })
                         @Html.ValidationMessageFor(c => c.idTipoTarjeta)
                     </div>
                 </div>
@@ -145,10 +163,15 @@
                 <div class="row form-group">
                     @Html.LabelFor(c => c.MontoTar, new { @class = "control-label col-md-3" })
                     <div class="col-md-4">
-                        @Html.TextBoxFor(c => c.MontoTar, new { @class = "form-control", @onchange = "verifivar()", @readonly = "readonly" })
+                        @Html.TextBoxFor(c => c.MontoTar, new { @class = "form-control", @readonly = "readonly" })
                     </div>
                 </div>
-
+                <div class="row form-group">
+                    @Html.LabelFor(c => c.Vuelto, new { @class = "control-label col-md-3" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(c => c.Vuelto, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-xs-6">
                         <input type="submit" value="Finalzar Compra" class="btn btn-default btn-primary" />
@@ -174,15 +197,19 @@
         }
 
         if (parseFloat(montoefe) > parseFloat(montopagar)) {
-            alert("El monto en efectivo debe ser menor al monto a pagar");
-            return false;
+            var vuelto = montoefe - montopagar;
+            $('#Vuelto').val(vuelto);
+        } else {
+            var montotar = montopagar - montoefe;
+            $("#MontoTar").val(montotar);
+            $('#Vuelto').val(0);
         }
 
-        var hola;
-        hola = String((parseFloat(montopagar) - parseFloat(montoefe)));
-        document.getElementById("MontoTar").value = hola;
+        //var hola;
+        //hola = String((parseFloat(montopagar) - parseFloat(montoefe)));
+        //document.getElementById("MontoTar").value = hola;
 
-        var montoTar = $("#MontoTar").val();
+        //var montoTar = $("#MontoTar").val();
 
         if (parseFloat(montoTar) == 0) {
             document.getElementById("AnioVen").disabled = true;
@@ -204,40 +231,101 @@
     }
 
     function calculaPromo() {
-        //sacamos el id del banco y tipo tarjeta
-        var idBanco = $("#idBanco").val();
-        var tipoTarjeta = $("#idTipoTarjeta").val();
-        var divPadre = document.getElementById("promocionesLista");
-        var hijosDiv = divPadre.getElementsByTagName('div');
-        for (var i = 0 ; i < hijosDiv.length; i++) {
-            //obtengo el hijo del div
-            var e = hijosDiv[i];
-            //obtengo el idEvento
-            var codEvento = e.getElementsByTagName('input')[0].value;
-            var cntDescuento = e.getElementsByTagName('input')[1].value;
-            var razon = $('#razon' + (i + 1));
-            var indice = (i + 1);
-            alert("indice afuera: " + indice);
+        var idBanco = parseInt($('#idBanco').val());
+        var tipoTarjeta = parseInt($('#idTipoTarjeta').val());
+        var eventosBTV = document.getElementsByName('eventosCarrito');
+        var subtotalBTV = document.getElementsByName('subtotalCarrito');
+        var arrRazon = [];
+        var eventosCarritos = [];
+        var promocionCarritos = [];
+        var descuentoCarritos = [];
+        var subtotalCarritos = [];
+        for (var i = 0; i < eventosBTV.length ; i++) {
+            var codEvento = eventosBTV[i].value;
+            eventosCarritos.push(codEvento);
+            subtotalCarritos.push(subtotalBTV[i].value);
             $.ajax({
-                url: "/Services/Descuento/",
+                url: '/Services/Descuento/',
                 data: { codEvento: codEvento, idBanco: idBanco, tipoTarjeta: tipoTarjeta },
+                datatype: "json",
+                async: false,
                 success: function (data) {
                     var obj = $.parseJSON(data);
-                    var descuento = parseInt(obj.Descuento);
-                    alert("indice adentro: " + indice);
-                    if (descuento == -1) {
-                        razon.append(indice + ". No cuenta con promocion");
-                        alert("resultado " + razon.innerHTML);
+                    //si tenemos data, escribimos denuevo el valor
+                    var razon = "";
+                    if (parseInt(obj.Descuento) == -1) {
+                        razon = "- No cuenta con promocion";
                     } else {
-                        razon.append(indice + ". Descuento de " + descuento + "%.");
-                        alert("resultado " + razon.innerHTML);
+                        razon = "- Descuento de " + obj.Descuento + "%.";
                     }
+                    arrRazon.push(razon);
+                    descuentoCarritos.push(obj.Descuento);
+                    promocionCarritos.push(obj.IdPromocion);
                 },
-                error: function (data) {
-                    alert("Error");
+                error: function () {
+                    alert("Error :(");
                 }
-            })
+            });
         }
+        //relleno denuevo el esto :v
+        $('#listaEventoPromocion').empty();
+        var descuentoTotal = 0;
+        for (var i = 0; i < arrRazon.length; i++) {
+            var inputEventos = document.createElement("input");
+            inputEventos.setAttribute("type", "hidden");
+            inputEventos.setAttribute("id", "eventosCarrito");
+            inputEventos.setAttribute("name", "eventosCarrito");
+            inputEventos.setAttribute("value", eventosCarritos[i]);
 
+            var inputPromociones = document.createElement("input");
+            inputPromociones.setAttribute("type", "hidden");
+            inputPromociones.setAttribute("id", "promocionesCarrito");
+            inputPromociones.setAttribute("name", "promocionesCarrito");
+            inputPromociones.setAttribute("value", promocionCarritos[i]);
+
+            var inputSubtotal = document.createElement("input");
+            inputSubtotal.setAttribute("type", "hidden");
+            inputSubtotal.setAttribute("id", "subtotalCarrito");
+            inputSubtotal.setAttribute("name", "subtotalCarrito");
+            var subtotalconDescuento = 0;
+            if (descuentoCarritos[i] != -1) {
+                subtotalconDescuento += parseInt(subtotalCarritos[i]) * descuentoCarritos[i] / 100;
+            }
+            descuentoTotal += subtotalconDescuento;
+            inputSubtotal.setAttribute("value", subtotalCarritos[i]);
+
+            var razonP = document.createElement("p");
+            razonP.setAttribute("style", "margin-left:2em");
+            var texto = document.createTextNode(arrRazon[i]);
+            razonP.appendChild(texto);
+            $('#listaEventoPromocion').append(inputEventos);
+            $('#listaEventoPromocion').append(inputPromociones);
+            $('#listaEventoPromocion').append(inputSubtotal);
+            $('#listaEventoPromocion').append(razonP);
+        }
+        //actualizamos el nuevo total
+        var importe = parseFloat($('#Importe').val());
+        var montoPagar = importe - descuentoTotal;
+        $('#Descuento').val(descuentoTotal);
+        $('#MontoPagar').val(montoPagar);
+        var montoTar = montoPagar - parseFloat($('#MontoEfe').val());
+        $('#MontoTar').val(montoTar);
     }
+
+    function llenaArreglo() {
+        var nombreLista1 = "idEventos";
+        var nombreLista2 = "idPromociones";
+        var promocionesBTV = document.getElementsByName('promocionesCarrito');
+        var eventosBTV = document.getElementsByName('eventosCarrito');
+        for (var i = 0; i < promocionesBTV.length; i++) {
+            var idProm = promocionesBTV[i].value;
+            $("#formPost").prepend("<input type='hidden' name='" + nombreLista2 + "[" + (i) + "]' value='" + idProm + "'>");
+        }
+        for (var i = 0; i < eventosBTV.length; i++) {
+            var idEvento = eventosBTV[i].value;
+            $("#formPost").prepend("<input type='hidden' name='" + nombreLista1 + "[" + (i) + "]' value='" + idEvento + "'>");
+        }
+        return true;
+    }
+
 </script>

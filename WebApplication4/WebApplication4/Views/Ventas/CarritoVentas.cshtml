@@ -12,19 +12,19 @@
 <div class="container-fluid">
     <div class="col-md-5">
         <ol class="breadcrumb">
-            <li><a href="@Url.Action("Index","Home")">Inicio</a></li>
-            <li class="active">Carrito de compras</li>
+            <li><a href="@Url.Action("Index2","Home")">Inicio</a></li>
+            <li class="active">Carrito de Ventas</li>
         </ol>
     </div>
 </div>
 
-@if (Session["Carrito"] == null)
+@if (Session["CarritoVendedor"] == null)
 {
     <div class="container">
         <div class="row-md-4">
-            <a class="btn btn-danger pull-right" href="@Url.Action("Index","Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+            <a class="btn btn-danger pull-right" href="@Url.Action("Index2","Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
         </div>
-        <p>Carrito Vacio.</p>
+        <p>Carrito de Ventas Vacio.</p>
     </div>
 }
 else
@@ -32,7 +32,7 @@ else
     <div class="container">
         <div class="form-group">
             <a class="btn btn-primary pull-right" onclick="quitarCarrito()">Quitar  <span class="glyphicon glyphicon-trash"></span></a>
-            <a class="btn btn-danger pull-left" href="@Url.Action("Index","Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+            <a class="btn btn-danger pull-left" href="@Url.Action("Index2","Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
         </div>
 
     </div><br />
@@ -101,7 +101,7 @@ else
         <br>
         <br>
         <div class="col-md-12">
-            <a class="btn btn-success pull-right" href="@Url.Action("ComprarEntrada", "CuentaUsuario")">Comprar<span class="glyphicon glyphicon-usd"></span></a>
+            <a class="btn btn-success pull-right" href="@Url.Action("VenderEntrada", "Ventas")">Comprar<span class="glyphicon glyphicon-usd"></span></a>
         </div>
     </div>
 }
@@ -112,15 +112,15 @@ else
             var row = document.getElementById(parseInt(fila));
             var itemEliminar = row.id;
             $.ajax({
-                url: "/Services/EliminaItem/",
+                url: "/Services/EliminaItemVentas/",
                 data: { itemEliminar: itemEliminar },
                 datatype: "json",
                 success: function (data) {
-                    alert("Item Eliminado");
+                    alert(data);
                     var cantidad = parseInt($('#totalCompra').val());
                     $("#totalCompra").val(cantidad - parseInt(row.cells[5].innerHTML));
                     row.parentNode.removeChild(row);
-                    window.location.href = "/CuentaUsuario/MiCarrito";
+                    window.location.href = "/Ventas/CarritoVentas";
                 },
                 error: function (data) {
                     alert("Error");

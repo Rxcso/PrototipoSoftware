@@ -95,7 +95,7 @@ namespace WebApplication4.Controllers
                 Console.WriteLine(ex.ToString());
             }
         }
-        
+
         public static void EnviarCorreoPostergarcionFuncion(int codFuncion)
         {
             Funcion funcion = db.Funcion.Where(c => c.codFuncion == codFuncion).First();
@@ -116,30 +116,36 @@ namespace WebApplication4.Controllers
             foreach (Ventas venta in ventas)
             {
                 CuentaUsuario comprador = db.CuentaUsuario.Find(venta.CuentaUsuario.correo);
-                compradores.Add(comprador);
+                //agregamos a compradores que no sean anonimos o  null
+                if (comprador != null)
+                    compradores.Add(comprador);
             }
-            compradores = compradores.GroupBy(c => c.correo).Select(s => s.First()).ToList();
-            //una vez que tengo la lista de compradores les mando un correo a cada uno
-            foreach (CuentaUsuario cliente in compradores)
+            //nadie compro entradas al evento aun o todos son anonimos
+            if (compradores.Count != 0)
             {
-                try
+                compradores = compradores.GroupBy(c => c.correo).Select(s => s.First()).ToList();
+                //una vez que tengo la lista de compradores les mando un correo a cada uno
+                foreach (CuentaUsuario cliente in compradores)
                 {
-                    mail.To.Add(cliente.correo);
-                    mail.Subject = "Postegarcion de Funcion del Evento '" + evento.nombre + "'";
-                    mail.IsBodyHtml = true;
-                    string htmlBody = "<p>Estimado " + cliente.nombre + " " + cliente.apellido + ", </p>";
-                    htmlBody += "<p>Le informamos que la funcion del evento al que va asistir se ha postergado para el dia " + String.Format("{0:d}", funcion.fecha) + " a la hora " + String.Format("{0:t}", funcion.horaIni) + "</p>";
-                    //htmlBody += "<p>Por el siguiente motivo:</p><p>" + funcion.motivoCambio + ".</p>";
-                    htmlBody += "<br><p>Esperamos su compresion,</p><p>TickNet</p>";
-                    mail.Body = htmlBody;
-                    SmtpServer.Send(mail);
+                    try
+                    {
+                        mail.To.Add(cliente.correo);
+                        mail.Subject = "Postegarcion de Funcion del Evento '" + evento.nombre + "'";
+                        mail.IsBodyHtml = true;
+                        string htmlBody = "<p>Estimado " + cliente.nombre + " " + cliente.apellido + ", </p>";
+                        htmlBody += "<p>Le informamos que la funcion del evento al que va asistir se ha postergado para el dia " + String.Format("{0:d}", funcion.fecha) + " a la hora " + String.Format("{0:t}", funcion.horaIni) + "</p>";
+                        //htmlBody += "<p>Por el siguiente motivo:</p><p>" + funcion.motivoCambio + ".</p>";
+                        htmlBody += "<br><p>Esperamos su compresion,</p><p>TickNet</p>";
+                        mail.Body = htmlBody;
+                        SmtpServer.Send(mail);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
+                    }
+                    //para enviar indivualmente a cada cliente en vez de englobar a todos
+                    mail.To.Clear();
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.ToString());
-                }
-                //para enviar indivualmente a cada cliente en vez de englobar a todos
-                mail.To.Clear();
             }
         }
 
@@ -170,7 +176,7 @@ namespace WebApplication4.Controllers
                 }
                 mail.Body = htmlBody + relleno;
                 SmtpServer.Send(mail);
-    }
+            }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
@@ -233,48 +239,97 @@ namespace WebApplication4.Controllers
             }
         }
 
-        [HttpGet]
-        public ActionResult PagarReserva(string reserva)
+        public ActionResult ComprarEntradaReservadaA(string reserva)
         {
-            //model
-            ComprarEntradaModel model = new ComprarEntradaModel();
-            //venta involucrada
-            int codVenta = int.Parse(reserva);
-            Ventas venta = db.Ventas.Where(c => c.codVen == codVenta).First();
-            //sacamos el detalle de venta
-            VentasXFuncion vxf = db.VentasXFuncion.Where(c => c.codVen == codVenta).First();
-            //llenamos el model
-            model.Importe = (double)vxf.subtotal;
-            //lista de bancos
-            List<Banco> bancos = db.Banco.ToList();
-            ViewBag.Bancos = new SelectList(bancos, "codigo", "nombre");
-            //lista de tarjetas
-            List<TipoTarjeta> tipoTarjeta = db.TipoTarjeta.ToList();
-            ViewBag.TipoTarjeta = new SelectList(tipoTarjeta, "idTipoTar", "nombre");
-            //Vemos el descuento del evento
-            int codEvento = vxf.Funcion.codEvento;
-            model.idEventos = new List<int>();
-            model.idPromociones = new List<int>();
-            model.idEventos.Add(codEvento);
-            Promociones promocion = CalculaMejorPromocionTarjeta(codEvento, bancos.First().codigo, tipoTarjeta.First().idTipoTar);
-            if (promocion == null)
+
+            TempData["idReservaCompra"] = reserva;
+            Session["idReservaCompra"] = reserva;
+
+            if (reserva != "" && reserva != null)
             {
-                model.Descuento = 0;
-                model.idPromociones.Add(-1);
+                int id = int.Parse(reserva);
+
+                Ventas queryVentas = db.Ventas.Where(c => c.codVen == id).First();
+                VentasXFuncion queryVF = db.VentasXFuncion.Where(c => c.codVen == id).First();
+                int codFun = queryVF.codFuncion;
+
+                Funcion queryF = db.Funcion.Where(c => c.codFuncion == codFun).First();
+
+                int codEvento = queryF.codEvento;
+
+                double? precio = queryVF.subtotal;
+
+                TempData["dniCli"] = queryVentas.codDoc;
+                Session["dniCli"] = queryVentas.codDoc;
+                ViewBag.dniCli = queryVentas.codDoc;
+
+                //lista de bancos
+                List<Banco> bancos = db.Banco.ToList();
+                ViewBag.Bancos = new SelectList(bancos, "codigo", "nombre");
+                //lista de tarjetas
+                List<TipoTarjeta> tipoTarjeta = db.TipoTarjeta.ToList();
+
+                ViewBag.TipoTarjeta = new SelectList(tipoTarjeta, "idTipoTar", "nombre");
+                List<Promociones> listaPromociones = new List<Promociones>();
+
+                double? descuento = 0;
+
+
+                Promociones promocion = CalculaMejorPromocionTarjeta(codEvento, bancos.First().codigo, tipoTarjeta.First().idTipoTar);
+                if (promocion == null)
+                {
+                    Promociones dummy = new Promociones();
+                    dummy.codPromo = -1;
+                    listaPromociones.Add(dummy);
+                }
+                else
+                {
+                    descuento += precio * promocion.descuento.Value / 100;
+                    listaPromociones.Add(promocion);
+                }
+
+                ViewBag.Descuento = descuento;
+                ViewBag.Promociones = listaPromociones;
+                ViewBag.Total = precio;
+                ViewBag.Pagar = precio - descuento;
+                ViewBag.Mes = Fechas.Mes();
+                ViewBag.AnVen = Fechas.Anio();
+
+                return View();
             }
-            else
-            {
-                model.Descuento = promocion.descuento.Value * model.Importe / 100;
-                model.idPromociones.Add(promocion.codPromo);
-            }
-            ViewBag.Promociones = promocion;
-            model.MontoPagar = (double)vxf.total - model.Descuento;
-            model.idVenta = codVenta;
-            ViewBag.Mes = Fechas.Mes();
-            ViewBag.AnVen = Fechas.Anio();
-            return View(model);
+
+            return View();
         }
 
+        private bool validaCompraEntradaReservadaVendedor(ComprarEntradaReservadaAModel model)
+        {
+            bool indicador = true;
+            //si es una compra mixta
+            if (model.MontoEfe <= model.MontoPagar)
+            {
+                //usa tarjeta, verificar que hayan datos de la tarjeta
+                if (String.IsNullOrEmpty(model.NumeroTarjeta))
+                {//reviso si no hay una tarjeta seleccionadad
+                    ModelState.AddModelError("NumeroTarjeta", "El campo Nro. de Tarjeta: es obligatorio.");
+                    indicador = false;
+                }
+                else
+                {//si hay una tarjeta tengo que ver si pertenece al banco
+                    ComprarEntradaModel compra = new ComprarEntradaModel();
+                    compra.idBanco = model.idBanco;
+                    compra.NumeroTarjeta = model.NumeroTarjeta;
+                    compra.Mes = model.Mes;
+                    compra.AnioVen = model.AnioVen;
+                    indicador = ValidacionesCompra(compra);
+                }
+                if (String.IsNullOrEmpty(model.CodCcv))
+                {//reviso si no hay codigo ccv
+                    ModelState.AddModelError("CodCcv", "El campo CCV: es obligatorio.");
+                    indicador = false;
+                }
+            }
+            return indicador;
+        }
 
         [HttpPost]
         [AllowAnonymous]
@@ -282,8 +337,8 @@ namespace WebApplication4.Controllers
         {
             int codVenta = int.Parse((string)Session["idReservaCompra"]);
 
-
-            if (ModelState.IsValid)
+            //propio validador
+            if (validaCompraEntradaReservadaVendedor(model))
             {
                 int idVenta = codVenta;
                 DateTime hoy = DateTime.Today;
@@ -293,10 +348,13 @@ namespace WebApplication4.Controllers
                     try
                     {
                         Ventas ve = db.Ventas.Where(c => c.codVen == idVenta).First();
-
                         ve.fecha = DateTime.Now;
 
                         //de todas maneras en la venta se registra el nombre, dni y tipo de documento del que esta comprando.                    
+                        CuentaUsuario cu = (CuentaUsuario)Session["UsuarioLogueado"];
+                        CuentaUsuario cu2 = db.CuentaUsuario.Find(cu.usuario);
+                        ve.vendedor = cu2.usuario;
+                        ve.CuentaUsuario1 = cu2;
                         ve.Estado = "Pagado";
                         ve.fecha = hoy;
                         ve.montoEfectivoSoles = model.MontoEfe;
@@ -342,20 +400,17 @@ namespace WebApplication4.Controllers
                         dv.Subtotal = model.Importe;
                         dv.total = model.MontoPagar;
 
-                        if (User.Identity.IsAuthenticated)
-                        {//si es u usuario registrado le aumento los puntos que tiene
-                            CuentaUsuario dbCuenta = db.CuentaUsuario.Where(c => c.codDoc == model.Dni).First();
-                            dbCuenta.puntos += db.Eventos.Find(codEvento).puntosAlCliente * cantidad;
-                        }
+                        //si es u usuario registrado le aumento los puntos que tiene
+                        CuentaUsuario dbCuenta = db.CuentaUsuario.Where(c => c.codDoc == model.Dni).First();
+                        dbCuenta.puntos += db.Eventos.Find(codEvento).puntosAlCliente * cantidad;
 
                         db.SaveChanges();
 
                         context.SaveChanges();
+                        Session["ReservaBusca"] = null;
                     }
                     catch (OptimisticConcurrencyException ex)
                     {
-                        //hubo un problema con la compra, remuevo el item
-
                         TempData["tipo"] = "alert alert-warning";
                         TempData["message"] = "Error en la compra.";
                         return View(model);
@@ -366,72 +421,89 @@ namespace WebApplication4.Controllers
                 //si toda la compra se procesa de manera correcta eliminamos los session
                 return RedirectToAction("Index", "Home");
             }
+            Ventas queryVentas = db.Ventas.Where(c => c.codVen == codVenta).First();
+            VentasXFuncion queryVF = db.VentasXFuncion.Where(c => c.codVen == codVenta).First();
+            int codFun = queryVF.codFuncion;
+            Funcion queryF = db.Funcion.Where(c => c.codFuncion == codFun).First();
+            int codEvento2 = queryF.codEvento;
+            double? precio = queryVF.subtotal;
+
+            TempData["dniCli"] = queryVentas.codDoc;
+            Session["dniCli"] = queryVentas.codDoc;
+            ViewBag.dniCli = queryVentas.codDoc;
+
+            //lista de bancos
+            List<Banco> bancos = db.Banco.ToList();
+            ViewBag.Bancos = new SelectList(bancos, "codigo", "nombre", model.idBanco);
+            //lista de tarjetas
+            List<TipoTarjeta> tipoTarjeta = db.TipoTarjeta.ToList();
+            ViewBag.TipoTarjeta = new SelectList(tipoTarjeta, "idTipoTar", "nombre", model.idTipoTarjeta);
+            List<Promociones> listaPromociones = new List<Promociones>();
+
+            double? descuento = 0;
+            Promociones promocion = CalculaMejorPromocionTarjeta(codEvento2, model.idBanco, model.idTipoTarjeta);
+            if (promocion == null)
+            {
+                Promociones dummy = new Promociones();
+                dummy.codPromo = -1;
+                listaPromociones.Add(dummy);
+            }
+            else
+            {
+                descuento += precio * promocion.descuento.Value / 100;
+                listaPromociones.Add(promocion);
+            }
+
+            ViewBag.Descuento = descuento;
+            ViewBag.Promociones = listaPromociones;
+            ViewBag.Total = precio;
+            ViewBag.Pagar = precio - descuento;
+            ViewBag.Mes = Fechas.Mes();
+            ViewBag.AnVen = Fechas.Anio();
+
             return View(model);
         }
 
-
-        public ActionResult ComprarEntradaReservadaA(string reserva)
+        [HttpGet]
+        public ActionResult PagarReserva(string reserva)
         {
-
-            TempData["idReservaCompra"] = reserva;
-            Session["idReservaCompra"] = reserva;
-
-            if (reserva != "" && reserva != null)
+            //model
+            ComprarEntradaModel model = new ComprarEntradaModel();
+            //venta involucrada
+            int codVenta = int.Parse(reserva);
+            Ventas venta = db.Ventas.Where(c => c.codVen == codVenta).First();
+            //sacamos el detalle de venta
+            VentasXFuncion vxf = db.VentasXFuncion.Where(c => c.codVen == codVenta).First();
+            //llenamos el model
+            model.Importe = (double)vxf.subtotal;
+            //lista de bancos
+            List<Banco> bancos = db.Banco.ToList();
+            ViewBag.Bancos = new SelectList(bancos, "codigo", "nombre");
+            //lista de tarjetas
+            List<TipoTarjeta> tipoTarjeta = db.TipoTarjeta.ToList();
+            ViewBag.TipoTarjeta = new SelectList(tipoTarjeta, "idTipoTar", "nombre");
+            //Vemos el descuento del evento
+            int codEvento = vxf.Funcion.codEvento;
+            model.idEventos = new List<int>();
+            model.idPromociones = new List<int>();
+            model.idEventos.Add(codEvento);
+            Promociones promocion = CalculaMejorPromocionTarjeta(codEvento, bancos.First().codigo, tipoTarjeta.First().idTipoTar);
+            if (promocion == null)
             {
-                int id = int.Parse(reserva);
-
-                Ventas queryVentas = db.Ventas.Where(c => c.codVen == id).First();
-                VentasXFuncion queryVF = db.VentasXFuncion.Where(c => c.codVen == id).First();
-                int codFun = queryVF.codFuncion;
-
-                Funcion queryF = db.Funcion.Where(c => c.codFuncion == codFun).First();
-
-                int codEvento = queryF.codEvento;
-
-                double? precio = queryVF.subtotal;
-
-                TempData["dniCli"] = queryVentas.codDoc;
-                Session["dniCli"] = queryVentas.codDoc;
-                ViewBag.dniCli = queryVentas.codDoc;
-
-                //saco el carrito del session
-                List<CarritoItem> carrito = (List<CarritoItem>)Session["CarritoItem"];
-                //lista de bancos
-                List<Banco> bancos = db.Banco.ToList();
-                ViewBag.Bancos = new SelectList(bancos, "codigo", "nombre");
-                //lista de tarjetas
-                List<TipoTarjeta> tipoTarjeta = db.TipoTarjeta.ToList();
-
-                ViewBag.TipoTarjeta = new SelectList(tipoTarjeta, "idTipoTar", "nombre");
-                List<Promociones> listaPromociones = new List<Promociones>();
-
-                double? descuento = 0;
-
-
-                Promociones promocion = CalculaMejorPromocionTarjeta(codEvento, bancos.First().codigo, tipoTarjeta.First().idTipoTar);
-                if (promocion == null)
-                {
-                    Promociones dummy = new Promociones();
-                    dummy.codPromo = -1;
-                    listaPromociones.Add(dummy);
-                }
-                else
-                {
-                    descuento += precio * promocion.descuento.Value / 100;
-                    listaPromociones.Add(promocion);
-                }
-
-                ViewBag.Descuento = descuento;
-                ViewBag.Promociones = listaPromociones;
-                ViewBag.Total = precio;
-                ViewBag.Pagar = precio - descuento;
-                ViewBag.Mes = Fechas.Mes();
-                ViewBag.AnVen = Fechas.Anio();
-
-                return View();
+                model.Descuento = 0;
+                model.idPromociones.Add(-1);
             }
-
-            return View();
+            else
+            {
+                model.Descuento = promocion.descuento.Value * model.Importe / 100;
+                model.idPromociones.Add(promocion.codPromo);
+            }
+            ViewBag.Promociones = promocion;
+            model.MontoPagar = (double)vxf.total - model.Descuento;
+            model.idVenta = codVenta;
+            ViewBag.Mes = Fechas.Mes();
+            ViewBag.AnVen = Fechas.Anio();
+            return View(model);
         }
 
         [HttpPost]
@@ -949,7 +1021,7 @@ namespace WebApplication4.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles="Vendedor")]
+        [Authorize(Roles = "Vendedor")]
         public ActionResult Search(ClienteSearchModel cliente)
         {
             if (ModelState.IsValid)
@@ -1010,7 +1082,7 @@ namespace WebApplication4.Controllers
             for (int i = 0; i < listareservas.Count; i++)
             {
                 int cov = listareservas[i].codVen;
-                List<VentasXFuncion> lvf = db.VentasXFuncion.Where(c => c.codVen == cov && c.hanEntregado==false).ToList();
+                List<VentasXFuncion> lvf = db.VentasXFuncion.Where(c => c.codVen == cov && c.hanEntregado == false).ToList();
                 for (int j = 0; j < lvf.Count; j++)
                 {
                     listaRxF.Add(lvf[j]);
@@ -1109,6 +1181,11 @@ namespace WebApplication4.Controllers
         }
 
         public ActionResult MisReservas()
+        {
+            return View();
+        }
+
+        public ActionResult VerRegalos()
         {
             return View();
         }
@@ -1759,7 +1836,8 @@ namespace WebApplication4.Controllers
         }
 
         [Authorize(Roles = "Administrador")]
-        public ActionResult ReporteAsistencia() {
+        public ActionResult ReporteAsistencia()
+        {
 
             return View();
 
@@ -1767,7 +1845,8 @@ namespace WebApplication4.Controllers
         }
 
 
-        public ActionResult ReporteAsignacion() {
+        public ActionResult ReporteAsignacion()
+        {
 
 
             return View();
@@ -1812,7 +1891,7 @@ namespace WebApplication4.Controllers
                 lista = lista.Where(c => c.fecha <= fechFin);
 
             }
-            
+
 
             if (puntoVenta.HasValue)
             {
@@ -1827,22 +1906,22 @@ namespace WebApplication4.Controllers
 
             if (lista.Count() > 0)
             {
-                listaAsistencia = lista.Select(f => new Asistencia {
+                listaAsistencia = lista.Select(f => new Asistencia
+                {
 
                     Nombre = f.nombre,
                     Fecha = f.fecha,
                     HoraEntrada = f.horIni,
                     HoraSalida = f.horFin,
-
-                    Asistio = f.estado.Contains("Asistio") || f.estado.Contains("Tarde") ? true : false
-
+                    HoraRegistro = f.horaRegistro,
+                    Asistio = f.estado.Contains("Tarde") ? "Tarde" : "Asistio"
                 }).ToList<Asistencia>();
             }
-            
-            
 
 
-            return Json( listaAsistencia,JsonRequestBehavior.AllowGet);
+
+
+            return Json(listaAsistencia, JsonRequestBehavior.AllowGet);
 
         }
 
@@ -1864,7 +1943,7 @@ namespace WebApplication4.Controllers
                             turno.TurnoSistema.horIni,
                             turno.TurnoSistema.horFin,
                             turno.fecha,
-                         
+
 
                         };
 
@@ -1875,23 +1954,23 @@ namespace WebApplication4.Controllers
             List<Asignacion> listaAsignacion = new List<Asignacion>();
 
 
-            if(lista.Count() > 0)
+            if (lista.Count() > 0)
             {
                 listaAsignacion = lista.Select(f => new Asignacion
                 {
                     Dia = f.fecha,
                     PuntoVenta = f.ubicacion,
                     Nombre = f.nombre + " " + f.apellido,
-                    Horas  = f.horIni + " - " + f.horFin
+                    Horas = f.horIni + " - " + f.horFin
 
                 }).ToList();
 
 
             }
-         
 
-           
-           
+
+
+
             return Json(listaAsignacion, JsonRequestBehavior.AllowGet);
 
         }

@@ -12,6 +12,101 @@ namespace WebApplication4.Controllers
     public class VentasController : Controller
     {
         private inf245netsoft db = new inf245netsoft();
+
+        [HttpGet]
+        [Authorize(Roles = "Vendedor")]
+        public ActionResult CarritoVentas()
+        {
+            if (Session["CarritoVendedor"] != null)
+            {
+                List<PaqueteEntradas> carrito = (List<PaqueteEntradas>)Session["CarritoVendedor"];
+                List<CarritoItem> item = new List<CarritoItem>();
+                foreach (PaqueteEntradas paquete in carrito)
+                {
+                    Eventos evento = db.Eventos.Find(paquete.idEvento);
+                    PeriodoVenta periodo = db.PeriodoVenta.Where(c => c.codEvento == paquete.idEvento && c.fechaInicio <= DateTime.Today && DateTime.Today <= c.fechaFin).First();
+                    CarritoItem cItem = new CarritoItem();
+                    cItem.idEvento = paquete.idEvento;
+                    cItem.idFuncion = paquete.idFuncion;
+                    cItem.idZona = paquete.idZona;
+                    cItem.nombreEvento = db.Eventos.Find(paquete.idEvento).nombre;
+                    Funcion funcion = db.Funcion.Find(paquete.idFuncion);
+                    cItem.fecha = (DateTime)funcion.fecha;
+                    cItem.hora = (DateTime)funcion.horaIni;
+                    cItem.zona = db.ZonaEvento.Find(paquete.idZona).nombre;
+                    cItem.precio = (double)db.PrecioEvento.Where(c => c.codZonaEvento == paquete.idZona && c.codPeriodoVenta == periodo.idPerVent).First().precio * paquete.cantEntradas;
+                    cItem.filas = paquete.filas;
+                    cItem.columnas = paquete.columnas;
+                    cItem.tieneAsientos = paquete.tieneAsientos;
+                    cItem.cantidad = paquete.cantEntradas;
+                    item.Add(cItem);
+                }
+                Session["CarritoItemVentas"] = item;
+                ViewBag.Carrito = item;
+            }
+            return View();
+        }
+        private Promociones CalculaMejorPromocionTarjeta(int codEvento, int idBanco, int tipoTarjeta)
+        {
+            try
+            {
+                //busco las promociones que se encuentren activas
+                List<Promociones> promociones = db.Promociones.Where(c => c.codEvento == codEvento && c.codBanco == idBanco && c.codTipoTarjeta == tipoTarjeta && c.estado == true && c.fechaIni <= DateTime.Today && DateTime.Today <= DateTime.Today).ToList();
+                promociones.Sort((a, b) => ((double)a.descuento).CompareTo((double)b.descuento));
+                return promociones.Last();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        [HttpGet]
+        [Authorize(Roles="Vendedor")]
+        public ActionResult VenderEntrada()
+        {
+            if (Session["CarritoItemVentas"] != null)
+            {
+                //saco el carrito del session
+                List<CarritoItem> carrito = (List<CarritoItem>)Session["CarritoItemVentas"];
+                //lista de bancos
+                List<Banco> bancos = db.Banco.ToList();
+                ViewBag.Bancos = new SelectList(bancos, "codigo", "nombre");
+                //lista de tarjetas
+                List<TipoTarjeta> tipoTarjeta = db.TipoTarjeta.ToList();
+                ViewBag.TipoTarjeta = new SelectList(tipoTarjeta, "idTipoTar", "nombre");
+                List<Promociones> listaPromociones = new List<Promociones>();
+                double total = 0;
+                double descuento = 0;
+                foreach (CarritoItem item in carrito)
+                {
+                    total += item.precio;
+                    Promociones promocion = CalculaMejorPromocionTarjeta(item.idEvento, bancos.First().codigo, tipoTarjeta.First().idTipoTar);
+                    if (promocion == null)
+                    {
+                        Promociones dummy = new Promociones();
+                        dummy.codPromo = -1;
+                        listaPromociones.Add(dummy);
+                    }
+                    else
+                    {
+                        descuento += item.precio * promocion.descuento.Value / 100;
+                        listaPromociones.Add(promocion);
+                    }
+                }
+                ViewBag.Descuento = descuento;
+                ViewBag.Promociones = listaPromociones;
+                ViewBag.Total = total;
+                ViewBag.Pagar = total - descuento;
+                ViewBag.Mes = Fechas.Mes();
+                ViewBag.AnVen = Fechas.Anio();
+                return View();
+            }
+            TempData["tipo"] = "alert alert-warning";
+            TempData["message"] = "No hay items en el carrito.";
+            return RedirectToAction("CarritoVentas");
+        }
+
         // GET: Ventas
         public ActionResult Index()
         {
@@ -783,14 +878,14 @@ namespace WebApplication4.Controllers
                 */
 
                 //elimina de la lista de busqueda! 
-                
+
                 //List<DevolucionModel> dev = (List<DevolucionModel>)Session["BusquedaDev"];
                 for (int i = 0; i < axf.Count; i++)
                     if (axf[i].codAsiento == codAsiento)
                     {
                         axf.RemoveAt(i);
                         break;
-                    }                        
+                    }
                 Session["ListaAsientos"] = axf;
 
             }

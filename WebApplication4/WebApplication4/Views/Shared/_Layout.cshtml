@@ -4,6 +4,7 @@
     var esIntranet = 0;
     var nombre = "";
     var nomb = "";
+    int codigoUsuario = 0;
     if (Request.IsAuthenticated)
     {
         var act = User.Identity.GetUserName();
@@ -12,6 +13,7 @@
         if (db != null)
         {
             cuenta = db.CuentaUsuario.Find(act);
+            codigoUsuario = cuenta.codPerfil;
             if (cuenta != null && cuenta.codPerfil != 1)
             {
                 Session["UsuarioLogueado"] = cuenta;
@@ -119,13 +121,20 @@
                             </li>
 
                         </ul>
+
                         @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "form" }))
                         {
                             @Html.AntiForgeryToken()
 
-                            <div class="nav navbar-nav navbar-right">
+                            <div class="navbar-form navbar-right">
                                 <font color="white"> Bienvenido @nombre ! </font>
                                 <a type="button" class="btn btn-default" href="javascript:document.getElementById('logoutForm').submit()">Cerrar Sesion <span class="glyphicon glyphicon-log-out"></span></a>
+                            </div>
+                        }
+                        @if (codigoUsuario == 2)
+                        {
+                            <div class="navbar-form navbar-right">
+                                <a href="@Url.Action("CarritoVentas","Ventas")" name="boton" value="carrito" class="btn btn-success pull-right ">Carrito Ventas  <span class="glyphicon glyphicon-shopping-cart"></span></a>
                             </div>
                         }
                     </div>
@@ -186,7 +195,7 @@ else
 
                         }
                         <div class="navbar-form navbar-right">
-                        <a href="@Url.Action("PuntoVentas","Home")" name="boton" value="carrito" class="btn btn-success pull-right ">Puntos de Venta <span class="glyphicon glyphicon-shopping-cart"></span></a>
+                            <a href="@Url.Action("PuntoVentas","Home")" name="boton" value="carrito" class="btn btn-success pull-right ">Puntos de Venta <span class="glyphicon glyphicon-shopping-cart"></span></a>
                         </div>
                         <!--
                         <form action="" class="navbar-form navbar-left" role="search">
@@ -199,7 +208,7 @@ else
                             <a href="@Url.Action("MiCarrito","CuentaUsuario")" name="boton" value="carrito" class="btn btn-success pull-right ">Carrito <span class="glyphicon glyphicon-shopping-cart"></span></a>
                         </div>
                         <div class="navbar-form navbar-right">
-                            
+
                             @if (!Request.IsAuthenticated)
                             {
                                 <a id="logIn" href="#logInCliente" class="btn btn-primary" data-toggle="modal">Iniciar Sesión <span class="glyphicon glyphicon-user"></span> </a>

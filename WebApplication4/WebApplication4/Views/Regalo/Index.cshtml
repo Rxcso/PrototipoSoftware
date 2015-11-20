@@ -5,11 +5,27 @@
 @model RegaloModel
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";    
 }
+<style>
+    tbody {
+        cursor: pointer;
+    }
+    tr:hover{font-weight:bold}
+    .trselected {
+        background: #F1F1F1;
+        font-weight: bold;
+    }
+
+    thead {
+        background-color: #337AB7;
+        color: white;
+        font-weight: bold;
+    }
+</style>
 
 <div class="container-fluid">
-    <div class="col-md-5">
+    <div class="col-md-3">
         <ol class="breadcrumb">
             <li class="active">Mantenimiento de regalos</li>
         </ol>
@@ -17,15 +33,17 @@
 </div>
 <div class="container">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-7">
             <div class="form-group">
-                <a class="btn btn-primary" href="#formNuevo" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
-                <a class="btn btn-primary" data-toggle="modal" onclick="redirigeRegalo()">Modificar<span class="glyphicon glyphicon-pencil"></span></a>
-                <a class="btn btn-primary" onclick="validaS()" data-toggle="modal">Borrar<span class="glyphicon glyphicon-remove"></span></a>
-                <a class="btn btn-primary" onclick="activa()" data-toggle="modal" id="Activate">Activar<span class="glyphicon glyphicon-ok"></span></a>
+                <a class="btn btn-success" href="#formNuevo" data-toggle="modal"><span class="glyphicon glyphicon-plus"></span> Agregar</a>
+                <a class="btn btn-primary" data-toggle="modal" onclick="redirigeRegalo()"><span class="glyphicon glyphicon-pencil"></span> Modificar</a>
+                <a class="btn btn-danger" onclick="validaS()" data-toggle="modal"><span class="glyphicon glyphicon-remove"></span> Eliminar</a>
+                <a class="btn btn-default" id="idBusq2" onclick="buscaI()"><span class="glyphicon glyphicon-eye-open"></span> Inactivos</a>                
+                <a class="btn btn-default" id="Activate" onclick="activa()"><span class="glyphicon glyphicon-ok"></span> Activar</a>                
+                
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-5">
             <form action="" class="" role="search">
                 <div class="form-group">
                     <div class="input-group">
@@ -34,16 +52,9 @@
                     </div>
                 </div>
             </form>
-        </div>
-        <div class="col-md-3">
-            @*<a class="btn btn-danger pull-right" href="@Url.Action("Index2", "Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>*@
-        </div>
-
+        </div>  
     </div>
 
-    <a class="btn btn-primary" id="idBusq2" onclick="buscaI()" data-toggle="modal">Ver Inactivos<span class="glyphicon"></span></a>
-    <br>
-    <br>
     @{
         var db = new WebApplication4.Models.inf245netsoft();
         List<WebApplication4.Models.Regalo> listaRegalo;
@@ -58,37 +69,134 @@
     }
 
     <div class="row">
-        <table id="mytable" class="table table-bordered table-hover">
-            <thead>
-                <tr class="thead">
-                    <th>Codigo</th>
-                    <th>Nombre</th>
-                    <th>Descripcion</th>
-                    <th>Puntos</th>
-                    <th>Estado</th>
-                </tr>
-            </thead>
-            <tbody id="tbody">
-                @foreach (var row in listaRegalo)
-                {
-                    <tr id=@row.idRegalo onclick="myFunction(this)">
-                        <td>@row.idRegalo</td>
-                        <td>@row.Nombre</td>
-                        <td>@row.descripcion</td>
-                        <td>@row.puntos</td>
-                        <td>@row.estado</td>
-                        @*<td>@Html.ActionLink("Delete", "Delete2", new { id = row.idRegalo})</td>
-                            <td>@Html.ActionLink("Edit", "Edit2", new { id = row.idRegalo })</td>*@
+        <div class="table-responsive">
+            <table id="mytable" class="table table-bordered  table-hover">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Puntos</th>
+                        <th>Estado</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody id="tbody">
+                    @foreach (var row in listaRegalo)
+                    {
+                        <tr id=@row.idRegalo onclick="myFunction(this)">
+                            <td>@row.idRegalo</td>
+                            <td>@row.Nombre</td>
+                            <td>@row.descripcion</td>
+                            <td>@row.puntos</td>
+                            @{
+                        string state = "";
+                        if (row.estado.HasValue)
+                        {
+                            if ((bool)row.estado)
+                            { state = "Activo"; }
+                            else { state = "Inactivo"; }
+                        }
+                            }
+                            <td>@state</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        </div>        
     </div>
 </div>
 
 <input type="hidden" id="idRegaloT" value="" />
 <input type="hidden" id="EstadoRT" value="" />
-<script>
+
+
+
+
+
+<div class="modal fade" id="formNuevo">
+    <!--esta div pondra la pantalla oscura al presionar el boton-->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--ACA VA EL CONTENIDO DEL MODAL-->
+            <!--header de la ventana-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+                <h4 class="modal-title">Nuevo Regalo</h4>
+            </div>
+            <!--contenido de la ventana-->
+            <div class="modal-body">
+                @using (Html.BeginForm("RegisterRegalo", "Regalo", FormMethod.Post, new { }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true)
+                        <br>
+                        <div class="row form-group">
+                            @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.nombre)
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            @Html.LabelFor(model => model.descripcion, new { @class = "control-label col-md-3" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.descripcion)
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row form-group">
+                            @Html.LabelFor(model => model.puntos, new { @class = "control-label col-md-3" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.puntos, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.puntos)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="Agregar" class="btn btn-primary" />
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="eliminar">
+    <!--esta div pondra la pantalla oscura al presionar el boton-->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--ACA VA EL CONTENIDO DEL MODAL-->
+            <!--header de la ventana-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+                <h4 class="modal-title">Aviso</h4>
+            </div>
+            <!--contenido de la ventana-->
+            <div class="modal-body">
+                ¿Está seguro que quiere dar de baja el registro?
+            </div>
+            <!--footer de la ventana-->
+            <div class="modal-footer">
+                <button type="button" onclick="borrar()" class="btn btn-primary">Aceptar <span class="glyphicon glyphicon-ok"></span></button>
+                <button type="button" onclick="return closewindow();" class="btn btn-danger">Cancelar <span class="glyphicon glyphicon-remove"></span></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script>    
     function myFunction(x) {
         if (document.getElementsByClassName("trselected").length > 0) {
             var element = document.getElementsByClassName("trselected");
@@ -210,7 +318,7 @@
             }
         });
     }
-    function buscaI() {
+    function buscaI() {        
         $.ajax({
             url: "@Url.Action("SearchI", "Regalo")",
             data: {},
@@ -245,93 +353,5 @@
     function closewindow() {
         $('#eliminar').modal('hide');
     }
-</script>
-
-<style>
-    .trselected {
-        background: gray;
-    }
-</style>
-
-
-<div class="modal fade" id="formNuevo">
-    <!--esta div pondra la pantalla oscura al presionar el boton-->
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <!--ACA VA EL CONTENIDO DEL MODAL-->
-            <!--header de la ventana-->
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
-                <h4 class="modal-title">Nuevo Regalo</h4>
-            </div>
-            <!--contenido de la ventana-->
-            <div class="modal-body">
-                @using (Html.BeginForm("RegisterRegalo", "Regalo", FormMethod.Post, new { }))
-                {
-                    @Html.AntiForgeryToken()
-
-                    <div class="form-horizontal">
-                        @Html.ValidationSummary(true)
-                        <br>
-                        <div class="row form-group">
-                            @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })
-                            <div class="col-md-4">
-                                @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.nombre)
-                            </div>
-                        </div>
-
-                        <div class="row form-group">
-                            @Html.LabelFor(model => model.descripcion, new { @class = "control-label col-md-3" })
-                            <div class="col-md-4">
-                                @Html.EditorFor(model => model.descripcion, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.descripcion)
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row form-group">
-                            @Html.LabelFor(model => model.puntos, new { @class = "control-label col-md-3" })
-                            <div class="col-md-4">
-                                @Html.EditorFor(model => model.puntos, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.puntos)
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-offset-2 col-md-10">
-                                <input type="submit" value="Agregar" class="btn btn-primary" />
-                            </div>
-                        </div>
-                    </div>
-                }
-
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div class="modal fade" id="eliminar">
-    <!--esta div pondra la pantalla oscura al presionar el boton-->
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <!--ACA VA EL CONTENIDO DEL MODAL-->
-            <!--header de la ventana-->
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
-                <h4 class="modal-title">Aviso</h4>
-            </div>
-            <!--contenido de la ventana-->
-            <div class="modal-body">
-                ¿Está seguro que quiere dar de baja el registro?
-            </div>
-            <!--footer de la ventana-->
-            <div class="modal-footer">
-                <button type="button" onclick="borrar()" class="btn btn-primary">Aceptar <span class="glyphicon glyphicon-ok"></span></button>
-                <button type="button" onclick="return closewindow();" class="btn btn-danger">Cancelar <span class="glyphicon glyphicon-remove"></span></button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
+    </script>
+}

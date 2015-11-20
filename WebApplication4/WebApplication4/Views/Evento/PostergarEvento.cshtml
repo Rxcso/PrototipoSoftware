@@ -38,7 +38,7 @@
                     <option id="0" value="0"> Seleccione </option>
                     @foreach (var item in ViewBag.listaFunciones)
                     {
-                        <option id="@item.codFuncion" value="@item.codFuncion">@item.fecha.ToString("dd-MM-yyyy") @item.horaIni.ToString("hh:mm tt")</option>
+                        <option id="@item.codFuncion" value="@item.codFuncion">@item.fecha.ToString("dd/MM/yyyy") @item.horaIni.ToString("hh:mm tt")</option>
                     }
                 </select>
             </div>

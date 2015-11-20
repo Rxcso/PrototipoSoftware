@@ -25,5 +25,9 @@ namespace WebApplication4.Controllers
         {
             return View();
         }
+        public ActionResult EliminaItemVentas()
+        {
+            return View();
+        }
     }
 }

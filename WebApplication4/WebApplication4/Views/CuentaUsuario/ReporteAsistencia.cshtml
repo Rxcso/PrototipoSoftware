@@ -97,6 +97,8 @@
                         
 
                         <a class="btn btn-primary" onclick="realizar()">Generar <span class="glyphicon glyphicon-file"></span></a>
+                        <a id="newReport" class="btn btn-primary" onclick="nuevoReporte()">Nuevo Reporte <span class=""></span></a>
+
                         <a id="export-btn" onclick="exportar()" target="_blank" class="btn btn-primary "> Exportar a Excel </a>
                     </div>
                 </div>
@@ -119,7 +121,7 @@
         $(document).ready(function () {
 
             $("#export-btn").hide();
-
+            $('#newReport').hide();
 
 
         });
@@ -139,7 +141,23 @@
             $("#alerta").hide();
 
             fechF  =  $("#fFin").val();
-            fechI =  $("#fIni").val();
+            fechI = $("#fIni").val();
+
+
+
+
+            if (fechI == '') {
+                $("#alerta").append('<strong>Fecha desde es obligatorio</strong>').show();
+                return;
+
+            }
+            if (fechF == '') {
+
+                var date = new Date();
+                fechF = date.getFullYear() + "-" + (date.getMonth() + 1).toString() + "-" + date.getDate().toString();
+                $('#fFin').val(fechF);
+
+            }
 
             if (fechF != '' && fechI != '') {
 
@@ -174,10 +192,12 @@
                     if (nombV.localeCompare("") == 0) {
                         myTable += "<tr><th>Fecha</th>";
                         myTable += "<th>Vendedor</th><th>Hora de Ingreso</th><th>Hora de Salida</th>";
+                        myTable += "<th>Hora Registrada</th>";
                         myTable += "<th>Asistio</th></tr>";
                     } else {
                         myTable += "<tr><th>Fecha</th>";
                         myTable += "<th>Hora de Ingreso</th><th>Hora de Salida</th>";
+                        myTable += "<th>Hora Registrada</th>";
                         myTable += "<th>Asistio</th></tr>";
                     }
                  
@@ -196,8 +216,9 @@
                         
                             if (nombV.localeCompare("") == 0)
                                 myTable += "<td> "+ v.Nombre + "</td>";
-                            myTable += "<td>" + v.HoraEntrada + "</td><td>" + v.HoraSalida  + "</td><td>" + (v.Asistio?"Si":"No") + "</td></tr>";
-                        
+                            myTable += "<td>" + v.HoraEntrada + "</td><td>" + v.HoraSalida + "</td><td>" + v.HoraRegistro + "</td><td>" + v.Asistio + "</td></tr>";
+
+
                      
 
 
@@ -208,6 +229,7 @@
                     document.getElementById("my_result_table").innerHTML = myTable;
 
                     $("#export-btn").show();
+                    $('#newReport').show();
                 },
                 error: function () {
                     alert("Error :(");
@@ -216,6 +238,17 @@
 
             
             
+        }
+
+        function nuevoReporte() {
+
+            $('#export-btn').hide();
+            $("#my_result_table").empty();
+            $("#newReport").hide();
+
+            $("#fFin").val("");
+            $("#fIni").val("");
+
         }
         
        F

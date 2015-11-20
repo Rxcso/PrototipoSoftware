@@ -2,8 +2,8 @@
 @{
     Layout = null;
     int itemEliminar = int.Parse(Request["itemEliminar"]);
-    List<PaqueteEntradas> carrito = (List<PaqueteEntradas>)Session["Carrito"];
+    List<PaqueteEntradas> carrito = (List<PaqueteEntradas>)Session["CarritoVendedor"];
     carrito.RemoveAt(itemEliminar);
-    Session["Carrito"] = carrito;
+    Session["CarritoVendedor"] = carrito;
     Json.Write("Item Eliminado", Response.Output);
 }
