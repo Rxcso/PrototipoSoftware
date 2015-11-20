@@ -832,7 +832,8 @@ namespace WebApplication4.Controllers
                 int codAsiento = int.Parse(asiento);
 
                 DetalleVenta dv = (DetalleVenta)Session["DetalleVenta"];
-                AsientosXFuncion axfuncion = db.AsientosXFuncion.Find(codAsiento);
+                AsientosXFuncion axfuncion = db.AsientosXFuncion.Where(a => a.codAsiento == codAsiento && a.codFuncion == dv.codFuncion).First();
+                //AsientosXFuncion axfuncion = db.AsientosXFuncion.Find(codAsiento);
                 Ventas v = db.Ventas.Find(dv.codVen);
                 //Ventas v = (Ventas)Session["VentasDev"];
                 v.cantAsientos -= 1;
@@ -960,7 +961,12 @@ namespace WebApplication4.Controllers
         public ActionResult VerDetalle(string detVen)
         {
             //Session["Bus"] = null;
-            int id = int.Parse(detVen);
+            int id;
+            if (detVen == null)
+            {
+                DetalleVenta dVen = (DetalleVenta)Session["DetalleVenta"];
+                id = dVen.codDetalleVenta;
+            }else  id = int.Parse(detVen);
             ViewBag.id = id;
             TempData["codigoDet"] = id;
 
