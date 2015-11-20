@@ -1,4 +1,4 @@
-*{}
+
 #busqAvanzada{text-align: center; margin-top: 10px;}
 header{margin-bottom: 10px}
 #barra{background-color: #337ab7; color: white }
@@ -7,15 +7,7 @@ header{margin-bottom: 10px}
 #footer{background: #101010;height: 100px;color: white;text-align: center}
 .event{cursor: pointer}
 #logeado{display: none}
-.headDestacados {
-        background-color: #337AB7;
-        color: white;
-        padding: 5px 10px;
-        font-weight: bold;
-        font-family: sans-serif;
-        font-size: 17px;
-        height: 35px;
-    }
+
 
  tbody {
         cursor: pointer;

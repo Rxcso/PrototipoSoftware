@@ -9,7 +9,7 @@
 }
 
 <div class="container-fluid">
-    <div class="col-md-5">
+    <div class="col-md-3">
         <ol class="breadcrumb">
             <li class="active">Mantenimiento de Categorías</li>
         </ol>
@@ -19,34 +19,31 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <a class="btn btn-primary" href="#formNuevo" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>                
+                <a class="btn btn-success" href="#formNuevo" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>                
                 @*@if (Session["Ina"] != null){-->*@
-                        <a class="btn btn-primary" data-toggle="modal" onclick="redirigeCategoria()">Modificar<span class="glyphicon glyphicon-pencil"></span></a>
-                        <a class="btn btn-primary" href="#eliminar" data-toggle="modal">Borrar<span class="glyphicon glyphicon-remove"></span></a>
+                        <a class="btn btn-primary" data-toggle="modal" onclick="redirigeCategoria()">Modificar <span class="glyphicon glyphicon-pencil"></span></a>
+                        <a class="btn btn-danger" href="#eliminar" data-toggle="modal">Borrar <span class="glyphicon glyphicon-trash"></span></a>
                 <!--}-->
                 
                                 
                 @*@if (Session["Bus"] == null)
     {*@
-                    <a class="btn btn-primary" href="#activar" data-toggle="modal" id="Activate">Activar<span class="glyphicon glyphicon-ok"></span></a>
+                    <a class="btn btn-default" href="#activar" data-toggle="modal" id="Activate">Activar <span class="glyphicon glyphicon-ok"></span></a>
                 <!--}-->
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-6">
             <form action="" class="" role="search">
                 <div class="form-group">
                     <div class="input-group">
-                        <input id="idBusq2" type="text" class="form-control" placeholder="BUSCAR UNA CATEGORÍA DE EVENTO">
+                        <input id="idBusq2" type="text" class="form-control" placeholder="Busca una categoría por nombre...">
                         <span class="input-group-btn"><button onclick="busca()" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
                     </div>
                 </div>
             </form>
         </div>
-
-        <div class="col-md-2">
-            @*<a class="btn btn-danger pull-right" href="@Url.Action("Index2", "Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>*@
-        </div>
+        
     </div>
     @{
         Html.RenderPartial("_ViewIna");
@@ -89,34 +86,39 @@
             Session["ListaC"] = null;
         }*/
     }
-
+    <br />
+    <br />
+    <br />    
     <div class="row">
-        <table id="mytable" class="table table-bordered table-hover">
-            <thead>
-                <tr class="thead">
-                    <th>Id</th>
-                    <th>Nombre</th>
-                    <th>Descripción</th>
-                    <th>Padre</th>
-                    <th>Nivel</th>
-                    <th>Estado</th>
-                </tr>
-            </thead>
-            <tbody id="tbody">
-                @foreach (var row in listaCategoria)
-                {
-                    <tr id=@row.idCategoria onclick="myFunction(this)">
-                        <td>@row.idCategoria</td>
-                        <td>@row.nombre</td>
-                        <td>@row.descripcion</td>
-                        @{List<Categoria> categ = db.Categoria.Where(c => c.idCategoria == row.idCatPadre).ToList();}
-                        <td>@categ[0].nombre</td>
-                        <td>@row.nivel</td>
-                        <td>@row.activo</td>
+        <div class="table-responsive">
+            <table id="mytable" class="table table-bordered table-hover">
+                <thead>
+                    <tr class="thead">
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Padre</th>
+                        <th>Nivel</th>
+                        <th>Estado</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody id="tbody">
+                    @foreach (var row in listaCategoria)
+                    {
+                        <tr id=@row.idCategoria onclick="myFunction(this)">
+                            <td>@row.idCategoria</td>
+                            <td>@row.nombre</td>
+                            <td>@row.descripcion</td>
+                            @{List<Categoria> categ = db.Categoria.Where(c => c.idCategoria == row.idCatPadre).ToList();}
+                            <td>@categ[0].nombre</td>
+                            <td>@row.nivel</td>
+                            <td>@row.activo</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        
     </div>
 </div>
 
@@ -274,11 +276,6 @@
     }
 </script>
 <!--<script type="text/javascript" src="@Url.Content("/Scripts/CategoriaEvento/BorrarCategoriaEvento.js")"></script>-->
-<style>
-    .trselected {
-        background: gray;
-    }
-</style>
 
 
 
