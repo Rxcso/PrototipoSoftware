@@ -19,8 +19,8 @@
 <div class="container-fluid">
     <div class="col-md-5">
         <ol class="breadcrumb">
-            <li><a href="@Url.Action("BuscaReserva", "CuentaUsuario")">Buscar Reserva</a></li>
-            <li class="active">Pagar reserva</li>
+            <li><a href="@Url.Action("Index2", "Home")">Inicio</a></li>
+            <li class="active">Pagar Entrada</li>
         </ol>
     </div>
 </div>
@@ -102,7 +102,6 @@
                     @Html.LabelFor(c => c.idTipoTarjeta, new { @class = "control-label col-md-3" })
                     <div class="col-md-4">
                         @Html.DropDownListFor(c => c.idTipoTarjeta, ViewBag.TipoTarjeta as SelectList, new { @disabled = "disabled", @class = "form-control", @onchange = "calculaPromo()" })
-                        @Html.ValidationMessageFor(c => c.idTipoTarjeta)
                     </div>
                 </div>
 
@@ -110,9 +109,7 @@
                     @Html.LabelFor(c => c.NumeroTarjeta, new { @class = "control-label col-md-3" })
                     <div class="col-md-4">
                         @Html.TextBoxFor(c => c.NumeroTarjeta, new { @disabled = "disabled", @class = "form-control" })
-                        @Html.ValidationMessageFor(c => c.NumeroTarjeta)
                     </div>
-
                 </div>
 
                 <div class="row form-group">
@@ -147,7 +144,7 @@
                 <div class="row form-group">
                     @Html.LabelFor(c => c.Descuento, new { @class = "control-label col-md-3" })
                     <div class="col-md-4">
-                        @Html.TextBoxFor(c => c.Descuento, new { @class = "form-control", @Value = ""+0, @readonly = "readonly" })
+                        @Html.TextBoxFor(c => c.Descuento, new { @class = "form-control", @Value = "" + 0, @readonly = "readonly" })
                     </div>
                 </div>
 
@@ -179,7 +176,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-xs-6">
-                        <input type="submit" value="Finalzar Compra" class="btn btn-default btn-primary" />
+                        <input type="submit" value="Finalizar Compra" class="btn btn-default btn-primary" />
                     </div>
                 </div>
             }
