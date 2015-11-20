@@ -62,7 +62,7 @@ namespace WebApplication4.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles="Vendedor")]
+        [Authorize(Roles = "Vendedor")]
         public ActionResult VenderEntrada()
         {
             if (Session["CarritoItemVentas"] != null)
@@ -94,7 +94,7 @@ namespace WebApplication4.Controllers
                         listaPromociones.Add(promocion);
                     }
                 }
-                ViewBag.Descuento = descuento;
+                ViewBag.Descuento = 0;
                 ViewBag.Promociones = listaPromociones;
                 ViewBag.Total = total;
                 ViewBag.Pagar = total - descuento;
@@ -107,6 +107,90 @@ namespace WebApplication4.Controllers
             return RedirectToAction("CarritoVentas");
         }
 
+        private bool ValidacionesCompra(ComprarEntradaModel model)
+        {
+            bool ind = true;
+            //Verficar que la tarjeta pertenezca al banco
+            Banco banco = db.Banco.Find(model.idBanco);
+            string identificador = "" + banco.identificador;
+            string tarjeta = model.NumeroTarjeta;
+            string comparador = tarjeta.Substring(0, identificador.Length);
+            int pertenece = comparador.CompareTo(identificador);
+            if (pertenece != 0)
+            {
+                ind = false;
+                ModelState.AddModelError("NumeroTarjeta", "El numero de tarjeta no pertenece al banco indicado.");
+            }
+            //verificar que no haya vencido la tarjeta
+            int mes = model.Mes;
+            int anio = model.AnioVen;
+            DateTime hoy = DateTime.Today;
+            if ((mes < hoy.Month && anio == hoy.Year))
+            {
+                ind = false;
+                ModelState.AddModelError("AnioVen", "La tarjeta ya venció.");
+            }
+            return ind;
+        }
+
+        private bool validacionVenta(VenderEntradaModel model)
+        {
+            bool indicador = true;
+            if (String.IsNullOrEmpty(model.Nombre))
+            {
+                ModelState.AddModelError("Nombre", "Ingrese nombre del cliente");
+            }
+            else if (!System.Text.RegularExpressions.Regex.IsMatch(model.Nombre, @"^[a-zA-ZáéíóúÁÉÍÓÚ]*$"))
+            {
+                ModelState.AddModelError("Nombre", "Nombre no debe ser alfanumerico.");
+            }
+            if (String.IsNullOrEmpty(model.Dni))
+            {
+                ModelState.AddModelError("Dni", "Ingrese dni del cliente.");
+            }
+            else if (!System.Text.RegularExpressions.Regex.IsMatch(model.Dni, @"^[0-9]*$"))
+            {
+                ModelState.AddModelError("Dni", "Dni debe numerico.");
+            }
+
+
+            //si es una compra mixta
+            if (model.MontoEfe <= model.MontoPagar)
+            {
+                //usa tarjeta, verificar que hayan datos de la tarjeta
+                if (String.IsNullOrEmpty(model.NumeroTarjeta))
+                {//reviso si no hay una tarjeta seleccionadad
+                    ModelState.AddModelError("NumeroTarjeta", "El campo Nro. de Tarjeta: es obligatorio.");
+                    indicador = false;
+                }
+                else
+                {//si hay una tarjeta tengo que ver si pertenece al banco
+                    ComprarEntradaModel compra = new ComprarEntradaModel();
+                    compra.idBanco = model.idBanco;
+                    compra.NumeroTarjeta = model.NumeroTarjeta;
+                    compra.Mes = model.Mes;
+                    compra.AnioVen = model.AnioVen;
+                    indicador = ValidacionesCompra(compra);
+                }
+                if (String.IsNullOrEmpty(model.CodCcv))
+                {//reviso si no hay codigo ccv
+                    ModelState.AddModelError("CodCcv", "El campo CCV: es obligatorio.");
+                    indicador = false;
+                }
+            }
+            return indicador;
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Vendedor")]
+        public ActionResult VenderEntrada(VenderEntradaModel model)
+        {
+            if (validacionVenta(model))
+            {
+
+            }
+            return View();
+        }
         // GET: Ventas
         public ActionResult Index()
         {

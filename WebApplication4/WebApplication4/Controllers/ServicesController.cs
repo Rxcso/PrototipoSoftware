@@ -29,5 +29,9 @@ namespace WebApplication4.Controllers
         {
             return View();
         }
+        public ActionResult BuscaCliente()
+        {
+            return View();
+        }
     }
 }

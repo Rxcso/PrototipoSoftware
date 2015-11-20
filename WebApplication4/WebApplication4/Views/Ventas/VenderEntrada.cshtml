@@ -51,38 +51,43 @@
     <div class="row">
         <div class="col-md-8" id="tarjeta">
             <h3>Información de la tarjeta</h3><br />
-            @using (Html.BeginForm("ComprarEntradaReservadaA", "CuentaUsuario", FormMethod.Post))
+            <div class="container row form-group">
+                <div>
+                    @Html.Label("lblReg", "¿Es usuario registrado?")
+                    @Html.CheckBox("registrado", new { @onchange = "cambio()" })
+                </div>
+                <div class="form-inline">
+                    <div class="col-md-2">
+                        <label for="dni" class="control-label">Tipo Doc:</label>
+                    </div>
+                    <div class="input-group col-md-3">
+                        <select class="form-control" id="comboBusq" disabled>
+                            <option value="0">Ambos</option>
+                            <option value="1">DNI</option>
+                            <option value="2">Pasaporte</option>
+                        </select>
+                    </div>
+                    <label for="dni" class="control-label">Buscar por N° Documento:</label>
+                    <div class="input-group col-md-3">
+                        <input id="idBusq" type="text" class="form-control" disabled>
+                        <span class="input-group-btn"><button id="btnBusqueda" onclick="busca()" class="btn btn-primary" type="button" disabled><span class="glyphicon glyphicon-search"></span></button></span>
+                    </div>
+                </div>
+            </div>
+            @using (Html.BeginForm("VenderEntrada", "Ventas", FormMethod.Post))
             {
                 <div class="row form-group">
                     @Html.LabelFor(c => c.Nombre, new { @class = "control-label col-md-3" })
                     <div class="col-md-4">
-                        @{//si esque es un usuario registrado
-                if (Request.IsAuthenticated)
-                {
-                    @Html.TextBoxFor(c => c.Nombre, new { @class = "form-control", @readonly = "readonly" })
-                }
-                else
-                {
-                    @Html.TextBoxFor(c => c.Nombre, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(c => c.Nombre)
-                }
-                        }
+                        @Html.TextBoxFor(c => c.Nombre, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(c => c.Nombre)
                     </div>
                 </div>
                 <div class="row form-group">
                     @Html.LabelFor(c => c.Dni, new { @class = "control-label col-md-3" })
                     <div class="col-md-4">
-                        @{//si esque es un usuario regitrado
-                if (Request.IsAuthenticated)
-                {
-                    @Html.TextBoxFor(c => c.Dni, new { @class = "form-control", @readonly = "readonly" })
-                }
-                else
-                {
-                    @Html.TextBoxFor(c => c.Dni, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(c => c.Dni)
-                }
-                        }
+                        @Html.TextBoxFor(c => c.Dni, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(c => c.Dni)
                     </div>
                 </div>
                 <div class="row form-group">
@@ -142,7 +147,7 @@
                 <div class="row form-group">
                     @Html.LabelFor(c => c.Descuento, new { @class = "control-label col-md-3" })
                     <div class="col-md-4">
-                        @Html.TextBoxFor(c => c.Descuento, new { @class = "form-control", @Value = descuento, @readonly = "readonly" })
+                        @Html.TextBoxFor(c => c.Descuento, new { @class = "form-control", @Value = ""+0, @readonly = "readonly" })
                     </div>
                 </div>
 
@@ -183,11 +188,6 @@
     <br />
 </div>
 <script>
-
-    function verificar() {
-
-
-    }
     function llenar() {
         var montoefe = $("#MontoEfe").val();
         var montopagar = $("#MontoPagar").val();
@@ -199,18 +199,13 @@
         if (parseFloat(montoefe) > parseFloat(montopagar)) {
             var vuelto = montoefe - montopagar;
             $('#Vuelto').val(vuelto);
+            $('#MontoTar').val(0);
         } else {
             var montotar = montopagar - montoefe;
             $("#MontoTar").val(montotar);
             $('#Vuelto').val(0);
         }
-
-        //var hola;
-        //hola = String((parseFloat(montopagar) - parseFloat(montoefe)));
-        //document.getElementById("MontoTar").value = hola;
-
-        //var montoTar = $("#MontoTar").val();
-
+        montoTar = $('#MontoTar').val();
         if (parseFloat(montoTar) == 0) {
             document.getElementById("AnioVen").disabled = true;
             document.getElementById("Mes").disabled = true;
@@ -327,5 +322,44 @@
         }
         return true;
     }
+    function cambio() {
+        //idBusq
+        //btnBusqueda
+        //Nombre
+        //Dni
+        //comboBusq
+        //si es un
+        if ($('#idBusq').attr('disabled') && $('#btnBusqueda').attr('disabled')) {
+            $('#idBusq').removeAttr('disabled');
+            $('#btnBusqueda').removeAttr('disabled');
+            $('#comboBusq').removeAttr('disabled');
+            $('#Nombre').attr({ 'disabled': 'disabled' })
+            $('#Dni').attr({ 'disabled': 'disabled' })
+        } else {
+            $('#idBusq').attr({ 'disabled': 'disabled' })
+            $('#btnBusqueda').attr({ 'disabled': 'disabled' })
+            $('#comboBusq').attr({ 'disabled': 'disabled' })
+            $('#Nombre').removeAttr('disabled');
+            $('#Dni').removeAttr('disabled');
+        }
+    }
 
+    function busca() {
+        var usuario = $('#idBusq').val();
+        var tipo = $('#comboBusq option:selected').val();
+        $.ajax({
+            url: "/Services/BuscaCliente/",
+            data: { usuario: usuario, tipo: tipo },
+            success: function (data) {
+                var obj = JSON.parse(data);
+                $('#Nombre').val(obj.Nombre);
+                $('#Dni').val(obj.Dni);
+            },
+            error: function () {
+                alert("Usuario no registrado");
+                $('#Nombre').val("");
+                $('#Dni').val("");
+            }
+        });
+    }
 </script>
