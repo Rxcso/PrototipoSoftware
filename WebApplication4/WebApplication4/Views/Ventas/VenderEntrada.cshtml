@@ -308,6 +308,8 @@
         var nombreLista2 = "idPromociones";
         var promocionesBTV = document.getElementsByName('promocionesCarrito');
         var eventosBTV = document.getElementsByName('eventosCarrito');
+        //$('#formPost').prepend("<input type='hidden' name='Nombre' id='Nombre' value='" + $('#Nombre').val() + "'>");
+        //$('#formPost').prepend("<input type='hidden' name='Dni' id='Dni' value='" + $('#Dni').val() + "'>");
         for (var i = 0; i < promocionesBTV.length; i++) {
             var idProm = promocionesBTV[i].value;
             $("#formPost").prepend("<input type='hidden' name='" + nombreLista2 + "[" + (i) + "]' value='" + idProm + "'>");
