@@ -25,36 +25,31 @@
 
 
 <div id="busqNombre" class="container-fluid">
-    <div class="col-md-5">
+    <div class="col-md-3">
         <ol class="breadcrumb">
             <li class="active">Búsqueda de eventos</li>
         </ol>
-    </div>
-    <div class="col-md-5 col-md-offset-1">
-
-        @using (Html.BeginForm("Busqueda", "Evento", FormMethod.Get, new { id = "search" }))
-        {
-
-            <div class="form-group">
-                <div class="input-group">
-                    @* @Html.TextBoxFor(model => model.nombre, new {placeholder = "INGRESE EVENTO" , @class = "form-control" }); *@
-                    @* <input id="textoBusqueda" type="text" class="form-control" placeholder="BUSCAR UN EVENTO">*@
-
-                    @Html.TextBox("nombre", "", new { placeholder = "INGRESE EVENTO", @class = "form-control" })
-                    <span class="input-group-btn"><a id="btn-search" class="btn btn-primary" onclick="submitSearch()"><span class="glyphicon glyphicon-search"></span></a></span>
-                </div>
-            </div>
-
-
-        }
-    </div>
+    </div>    
 </div>
 
 
 
 <div id="busqAvanzada" class="container-fluid" style="text-align:center">
-    <div id="busqAvanzada">
-        <!--formulario EN LINEA-->
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            @using (Html.BeginForm("Busqueda", "Evento", FormMethod.Get, new { id = "search" }))
+            {
+
+                <div class="form-group">
+                    <div class="input-group">
+                        @Html.TextBox("nombre", "", new { placeholder = "Escriba el nombre del evento...", @class = "form-control" })
+                        <span class="input-group-btn"><a id="btn-search" class="btn btn-primary" onclick="submitSearch()"><span class="glyphicon glyphicon-search"></span></a></span>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <div id="busqAvanzada">        
         <div id="alerta" class="alert alert-warning" hidden></div>
 
         @using (Html.BeginForm("Busqueda", "Evento", FormMethod.Get, new { id = "adv-search", @class = "form-inline" }))
@@ -77,7 +72,7 @@
 
 
             // @Html.ValidationSummary("", new { @class = "text-danger" })
-            <div class="form-group">
+            <center>
                 <div class="form-group ">
                     <div class="input-group">
 
@@ -130,6 +125,7 @@
 
                 @*       @{
                         var db = new WebApplication4.Models.inf245netsoft();
+
                         if (ViewBag.Lista == null)
                         {
                             ViewBag.Lista = db.EventosPrueba.AsNoTracking().Where(c => c.estado == "activo").ToList();
@@ -147,9 +143,6 @@
                         @Html.LabelFor(model => model.idCategoria)
                         @Html.DropDownListFor(model => model.idCategoria, @ViewBag.categorias as SelectList, "Categorias", new { @class = "form-control", onclick = "cambioCat()" })
                     *@
-
-
-
 
                     <select name="idCategoria" id="idCategoria" data-val="true" onchange="cambioCat()" class="form-control col-lg-2">
 
@@ -278,7 +271,7 @@
                     <a id="btn-adv-search" onclick="submitAdvSearch() " class="btn btn-primary ">Buscar <span class="glyphicon glyphicon-search"></span></a>
                 </div>
 
-            </div>
+            </center><br>
 
         }
 
