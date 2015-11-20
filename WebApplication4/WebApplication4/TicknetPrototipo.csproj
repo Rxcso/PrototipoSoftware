@@ -237,6 +237,7 @@
     </Compile>
     <Compile Include="Models\CategoriaModel.cs" />
     <Compile Include="Models\ComprarEntradaReservadaA.cs" />
+    <Compile Include="Models\ReporteEventos.cs" />
     <Compile Include="Models\ReporteModel.cs" />
     <Compile Include="Models\ReservaOrganizadorModel.cs" />
     <Compile Include="Models\Comentario.cs" />
@@ -614,6 +615,7 @@
     <Content Include="Views\CuentaUsuario\ReporteAsignacion.cshtml" />
     <Content Include="Views\CuentaUsuario\ReporteAsistencia.cshtml" />
     <Content Include="Views\Home\PuntoVentas.cshtml" />
+    <Content Include="Views\Evento\ReporteEvento.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
