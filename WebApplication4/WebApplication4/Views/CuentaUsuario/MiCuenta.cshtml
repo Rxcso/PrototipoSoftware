@@ -7,7 +7,25 @@
         int ptos = ViewBag.ptos;
         List<Eventos> listaDestacados = ViewBag.ListaDestacados as List<Eventos>;
     }
-
+<style>
+    #pref {        
+        cursor: pointer;
+        color: white;
+        //list-style: none;
+        font-size: 20px;        
+    }
+        #pref li {
+            background-color: #337AB7;
+            padding:5px 10px;
+        }
+        #pref a {
+            color: white;
+            text-decoration: none;
+        }
+        #pref li:hover {
+            border:2px solid white;
+        }
+</style>
 
     <div class="container-fluid">
         <div class="col-md-2">
@@ -19,22 +37,19 @@
     </div>
     <div class="container">
         <div class="row">
-            <div class="col-md-5">
+            <div class="col-md-8">
+                <h3>Tienes @ptos puntos</h3>
                 <form action="" class="form-horizontal ">
-                    <ol id="pref" class="navbar " style="font-size:20px;">
-                        <li><a href="@Url.Action("ModificarDatos","CuentaUsuario")">Actualizar mis datos</a>
-                        <li><a href="@Url.Action("ChangePassword","Manage")">Cambiar mi contraseña</a>
-                        <li><a href="@Url.Action("MisReservas", "CuentaUsuario")">Ver mis reservas</a>
-                        <li><a href="@Url.Action("MisCompras", "CuentaUsuario")">Ver mis Compras</a>
-                        <li><a href="@Url.Action("MiCarrito","CuentaUsuario")">Ver carrito</a>
-                        <li><a href="@Url.Action("VerRegalos","CuentaUsuario")">Ver Regalos</a>
-                    </ol>
+                    <ul id="pref" >
+                        <li><a href="@Url.Action("ModificarDatos","CuentaUsuario")">Actualizar mis datos</a></li>
+                        <li><a href="@Url.Action("ChangePassword","Manage")">Cambiar mi contraseña</a></li>
+                        <li><a href="@Url.Action("MisReservas", "CuentaUsuario")">Ver mis reservas</a></li>
+                        <li><a href="@Url.Action("MisCompras", "CuentaUsuario")">Ver mis Compras</a></li>
+                        <li><a href="@Url.Action("MiCarrito","CuentaUsuario")">Ver carrito</a></li>
+                        <li><a href="@Url.Action("VerRegalos","CuentaUsuario")">Ver Regalos</a></li>
+                    </ul>
                 </form>
-            </div>
-            <div class="col-md-3">
-                <h3>Puntos: @ptos</h3>
-
-            </div>
+            </div>            
             <div class="col-md-4">
                 <div class="headDestacados">
                     EVENTOS DESTACADOS
