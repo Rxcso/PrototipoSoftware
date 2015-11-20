@@ -125,6 +125,7 @@
 
                 @*       @{
                         var db = new WebApplication4.Models.inf245netsoft();
+
                         if (ViewBag.Lista == null)
                         {
                             ViewBag.Lista = db.EventosPrueba.AsNoTracking().Where(c => c.estado == "activo").ToList();
