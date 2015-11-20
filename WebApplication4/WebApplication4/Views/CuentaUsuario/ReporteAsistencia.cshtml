@@ -99,9 +99,10 @@
                     <a class="btn btn-primary" onclick="realizar()">Generar <span class="glyphicon glyphicon-file"></span></a>
                     <a id="newReport" class="btn btn-primary" onclick="nuevoReporte()">Nuevo Reporte <span class=""></span></a>
 
-                    <a id="export-btn" onclick="exportar()" target="_blank" class="btn btn-primary "> Exportar a Excel </a>
+                    <a id="export-btn" onclick="generarExcel()" target="_blank" class="btn btn-primary "> Exportar a Excel </a>
                 </div>
             </div>
+
 
 
         }
@@ -233,6 +234,11 @@
 
     }
 
-    F
+    function generarExcel() {
+
+        window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('div[id$=my_result_table]').html()));
+        e.preventDefault();
+
+    }
 
 </script>

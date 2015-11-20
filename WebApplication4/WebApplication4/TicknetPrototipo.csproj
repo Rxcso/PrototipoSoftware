@@ -237,6 +237,7 @@
     </Compile>
     <Compile Include="Models\CategoriaModel.cs" />
     <Compile Include="Models\ComprarEntradaReservadaA.cs" />
+    <Compile Include="Models\ReporteEventos.cs" />
     <Compile Include="Models\ReporteModel.cs" />
     <Compile Include="Models\ReservaOrganizadorModel.cs" />
     <Compile Include="Models\Comentario.cs" />
@@ -349,6 +350,7 @@
     <Compile Include="Models\TurnoSistema.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\VenderEntradaModel.cs" />
     <Compile Include="Models\Ventas.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -371,6 +373,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\estilos-index2.css" />
     <Content Include="Content\estilos-index1.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\Site.css" />
@@ -435,6 +438,7 @@
     <Content Include="Images\login.png" />
     <Content Include="Images\naufragos.jpg" />
     <Content Include="Images\newUser.jpg" />
+    <Content Include="Images\Otros\usuario.png" />
     <Content Include="Images\oz.jpg" />
     <Content Include="Images\pepa.jpg" />
     <Content Include="Images\perfil1.jpg" />
@@ -482,6 +486,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\CategoriaEvento\BorrarCategoriaEvento.js" />
+    <Content Include="Scripts\ComprarEntrada\ComprarEntradaHelper.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Content\bootstrap-theme.css.map" />
@@ -493,6 +498,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -642,6 +649,13 @@
     <Content Include="Views\CuentaUsuario\ReporteAsistencia.cshtml" />
     <Content Include="Views\Home\PuntoVentas.cshtml" />
     <Content Include="Views\CuentaUsuario\VerRegalos.cshtml" />
+    <Content Include="Views\Ventas\_ReporteV1.cshtml" />
+    <Content Include="Views\Ventas\CarritoVentas.cshtml" />
+    <Content Include="Views\Ventas\ReporteVentas.cshtml" />
+    <Content Include="Views\Ventas\VenderEntrada.cshtml" />
+    <Content Include="Views\Services\BuscaCliente.cshtml" />
+    <Content Include="Views\Services\EliminaItemVentas.cshtml" />
+    <Content Include="Views\Evento\ReporteEvento.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
