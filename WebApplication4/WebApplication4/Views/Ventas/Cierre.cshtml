@@ -12,7 +12,9 @@
     CuentaUsuario cu=null;
     cu=(CuentaUsuario)Session["UsuarioLogueado"];
     List<Ventas> listaVentas;
+    List<Ventas> listaVentas2;
     DateTime hoy = DateTime.Now;
+    DateTime dat = hoy.Date;
     double totalST = 0;
     double totalS = 0;
     double totalD = 0;
@@ -25,15 +27,28 @@
         mD = (double)turno.MontoInicioDolares;
         mSC = (double)turno.MontoFinSoles;
         mDC = (double)turno.MontoFinDolares;
-        listaVentas = db.Ventas.AsNoTracking().Where(c => c.vendedor == cu.usuario && c.fecha == hoy).ToList();
+        listaVentas2 = db.Ventas.AsNoTracking().Where(c => c.vendedor == cu.usuario).ToList();
+        listaVentas = listaVentas2.Where(c => c.fecha == dat).ToList();
         double subtotalSE = 0;
         double subtotalST = 0;
         double subtotalDE = 0;
         for (int i = 0; i < listaVentas.Count; i++)
         {
+            subtotalSE = 0;
+            subtotalST = 0;
+            subtotalDE = 0;
+            if (listaVentas[i].montoEfectivoSoles!=null)
+            {
             subtotalSE = (double)listaVentas[i].montoEfectivoSoles;
+            }
+            if (listaVentas[i].montoCreditoSoles!=null)
+            {
             subtotalST = (double)listaVentas[i].montoCreditoSoles;
+            }
+            if (listaVentas[i].montoEfectivoDolares != null) 
+            { 
             subtotalDE = (double)listaVentas[i].montoEfectivoDolares;
+            }
             totalSE += subtotalSE;
             totalST += subtotalST;
             totalDE += subtotalDE;

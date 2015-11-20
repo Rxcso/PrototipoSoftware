@@ -351,6 +351,10 @@ namespace WebApplication4.Controllers
                         ve.fecha = DateTime.Now;
 
                         //de todas maneras en la venta se registra el nombre, dni y tipo de documento del que esta comprando.                    
+                        CuentaUsuario cu = (CuentaUsuario)Session["UsuarioLogueado"];
+                        CuentaUsuario cu2 = db.CuentaUsuario.Find(cu.usuario);
+                        ve.vendedor = cu2.usuario;
+                        ve.CuentaUsuario1 = cu2;
                         ve.Estado = "Pagado";
                         ve.fecha = hoy;
                         ve.montoEfectivoSoles = model.MontoEfe;
@@ -403,6 +407,7 @@ namespace WebApplication4.Controllers
                         db.SaveChanges();
 
                         context.SaveChanges();
+                        Session["ReservaBusca"] = null;
                     }
                     catch (OptimisticConcurrencyException ex)
                     {

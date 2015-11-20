@@ -1908,3 +1908,51 @@ System.Collections.ListDictionaryInternal
 2015-11-19 14:11:37,900 [8] ERROR Ticknet - Exception Message - 
 c:\Users\Pier\Source\Repos\PrototipoSoftware2\WebApplication4\WebApplication4\Views\Regalo\Index.cshtml(79): error CS0266: No se puede convertir implícitamente el tipo 'bool?' en 'bool'. Ya existe una conversión explícita (compruebe si le falta una conversión)
 2015-11-19 14:11:37,900 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 19:27:56,896 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 19:27:56,905 [9] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-19 19:27:56,905 [9] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-19 19:27:56,905 [9] ERROR Ticknet - Exception Message - 
+A public action method 'VerEvento' was not found on controller 'WebApplication4.Controllers.EventoController'.
+2015-11-19 19:27:56,905 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 19:28:17,760 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 19:28:17,760 [9] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-19 19:28:17,760 [9] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-19 19:28:17,760 [9] ERROR Ticknet - Exception Message - 
+A public action method 'VerEvento' was not found on controller 'WebApplication4.Controllers.EventoController'.
+2015-11-19 19:28:17,760 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 19:29:06,972 [20] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 19:29:06,972 [20] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-19 19:29:06,972 [20] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-19 19:29:06,972 [20] ERROR Ticknet - Exception Message - 
+A public action method 'RegistrarUsuarioVendedor' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-19 19:29:06,972 [20] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 19:43:25,191 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 19:43:25,202 [11] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-19 19:43:25,202 [11] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-19 19:43:25,202 [11] ERROR Ticknet - Exception Message - 
+A public action method 'Asignacion' was not found on controller 'WebApplication4.Controllers.VentasController'.
+2015-11-19 19:43:25,202 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 19:44:58,816 [17] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 19:44:58,816 [17] ERROR Ticknet - Exception Type - 
+InvalidOperationException
+2015-11-19 19:44:58,816 [17] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-19 19:44:58,817 [17] ERROR Ticknet - Exception Message - 
+The relationship between the two objects cannot be defined because they are attached to different ObjectContext objects.
+2015-11-19 19:44:58,817 [17] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 19:54:39,535 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-19 19:54:39,544 [6] ERROR Ticknet - Exception Type - 
+EntityCommandExecutionException
+2015-11-19 19:54:39,544 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-19 19:54:39,544 [6] ERROR Ticknet - Exception Message - 
+An error occurred while executing the command definition. See the inner exception for details.
+2015-11-19 19:54:39,544 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
