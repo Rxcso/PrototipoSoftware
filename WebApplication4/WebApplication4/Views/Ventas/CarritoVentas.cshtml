@@ -1,5 +1,6 @@
 ﻿@using WebApplication4.Models;
 @{
+    ViewBag.Title = "MiCarrito";
     Layout = "~/Views/Shared/_Layout.cshtml";
     List<CarritoItem> carritoList = new List<CarritoItem>();
     if (ViewBag.Carrito != null)
@@ -28,11 +29,6 @@
 }
 else
 {
-    if (Request.IsAuthenticated)
-    {
-        CuentaUsuario cuenta = (CuentaUsuario)Session["UsuarioLogueado"];
-        @Html.Hidden("codUsuario", "" + cuenta.codPerfil)
-    }
     <div class="container">
         <div class="form-group">
             <a class="btn btn-primary pull-right" onclick="quitarCarrito()">Quitar  <span class="glyphicon glyphicon-trash"></span></a>
@@ -105,7 +101,7 @@ else
         <br>
         <br>
         <div class="col-md-12">
-            <a class="btn btn-success pull-right" href="@Url.Action("ComprarEntrada", "CuentaUsuario")">Comprar<span class="glyphicon glyphicon-usd"></span></a>
+            <a class="btn btn-success pull-right" href="@Url.Action("VenderEntrada", "Ventas")">Comprar<span class="glyphicon glyphicon-usd"></span></a>
         </div>
     </div>
 }
@@ -120,7 +116,7 @@ else
                 data: { itemEliminar: itemEliminar },
                 datatype: "json",
                 success: function (data) {
-                    alert("Item Eliminado");
+                    alert(data);
                     var cantidad = parseInt($('#totalCompra').val());
                     $("#totalCompra").val(cantidad - parseInt(row.cells[5].innerHTML));
                     row.parentNode.removeChild(row);
