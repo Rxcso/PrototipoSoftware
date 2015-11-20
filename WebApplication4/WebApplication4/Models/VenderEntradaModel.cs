@@ -18,21 +18,17 @@ namespace WebApplication4.Models
         [RegularExpression("^[0-9]*$", ErrorMessage = "Dni debe ser numérico.")]
         public string Dni { get; set; }
 
-        [Required]
         [Display(Name = "Banco:")]
-        public int idBanco { get; set; }
+        public int? idBanco { get; set; }
 
-        [Required]
         [Display(Name = "Tipo de Tarjeta:")]
-        public int idTipoTarjeta { get; set; }
+        public int? idTipoTarjeta { get; set; }
 
-        [Required]
         [Display(Name = "Nro. de Tarjeta:")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "El numero de tarjeta debe ser numerico.")]
         [StringLength(16, MinimumLength = 16, ErrorMessage = "Ingrese un numero de tarjeta valido.")]
         public string NumeroTarjeta { get; set; }
 
-        [Required]
         [Display(Name = "CCV:")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "El codigo CCV debe ser numerico.")]
         [StringLength(3, MinimumLength = 3, ErrorMessage = "Ingrese un codigo CCV valido.")]

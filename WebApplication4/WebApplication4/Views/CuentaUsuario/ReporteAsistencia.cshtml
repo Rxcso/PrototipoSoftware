@@ -14,243 +14,231 @@
 
 
 
- <div class="container-fluid">           
-           <div class="col-md-5">
-               <ol class="breadcrumb">                   
-                   <li class="active">Reporte de Asistencia de Vendedores</li>
-               </ol>
-           </div>
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li class="active">Reporte de Asistencia de Vendedores</li>
+        </ol>
     </div>
+</div>
 
-	<div class="container">
-		<div class="row">
-			@*<a class="btn btn-danger pull-right" href=@Url.Action("Index2", "Home")>Salir <span class="glyphicon glyphicon-log-out"></span></a>*@
-		</div>
-		<div class="row">
+<div class="container">
+    <div class="row">
+        @*<a class="btn btn-danger pull-right" href=@Url.Action("Index2", "Home")>Salir <span class="glyphicon glyphicon-log-out"></span></a>*@
+    </div>
+    <div class="row">
 
 
-            @using (Html.BeginForm("ReporteAsistencia", "CuentaUsuario", FormMethod.Post, new { @class = "form-horizontal" }))
+        @using (Html.BeginForm("ReporteAsistencia", "CuentaUsuario", FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            <div id="alerta" class="alert alert-warning" hidden></div>
+            <div class="form-group">
+                <label for="fIni" class="control-label col-md-2">Fecha de Inicio:</label>
+                <div class="col-md-4">
+                    <input name="calendario" type="date" class="form-control" id="fIni" placeholder="">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="fFin" class="control-label col-md-2">Fecha de Fin:</label>
+                <div class="col-md-4">
+                    <input name="calendario" type="date" class="form-control" id="fFin" placeholder="">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="nombre" class="control-label col-md-2">Nombre del Vendedor:</label>
+                <div class="col-md-10">
+                    <input name="nomvendedor" type="text" class="form-control" id="nombre" placeholder="">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="puntoVenta" class="control-label col-md-2">Punto de venta:</label>
+
+                @{
+
+
+            try
             {
-                <div id="alerta" class="alert alert-warning" hidden></div>
-                <div class="form-group">
-                    <label for="fIni" class="control-label col-md-2">Fecha de Inicio:</label>
-                    <div class="col-md-4">
-                        <input name="calendario" type="date" class="form-control" id="fIni" placeholder="">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="fFin" class="control-label col-md-2">Fecha de Fin:</label>
-                    <div class="col-md-4">
-                        <input name="calendario" type="date" class="form-control" id="fFin" placeholder="">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="nombre" class="control-label col-md-2">Nombre del Vendedor:</label>
-                    <div class="col-md-10">
-                        <input name="nomvendedor" type="text" class="form-control" id="nombre" placeholder="">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="puntoVenta" class="control-label col-md-2">Punto de venta:</label>
-
-                    @{
+                var data = from obj in db.PuntoVenta
+                           select obj;
 
 
-                        try
+                <div class="col-md-3">
+                    <select id="puntoVenta" class="form-control ">
+                        @foreach (var punto in data)
                         {
-                            var data = from obj in db.PuntoVenta
-                                       select obj;
-
-
-                            <div class="col-md-3">
-                                <select id="puntoVenta" class="form-control ">
-                                    @foreach (var punto in data)
-                                    {
-                                        <option value="@punto.codPuntoVenta">@punto.ubicacion</option>
-
-                                    }
-
-
-                                </select>
-                            </div>
-
-
-                        }
-                        catch (Exception ex)
-                        {
-                            //No pudo cargar los puntos de venta
-                            Console.WriteLine(ex.StackTrace);
+                            <option value="@punto.codPuntoVenta">@punto.ubicacion</option>
 
                         }
 
 
-                    }
-
-
-                </div>
-
-                <div class="row">
-                    <div style="text-align: center">
-                        
-
-                        <a class="btn btn-primary" onclick="realizar()">Generar <span class="glyphicon glyphicon-file"></span></a>
-                        <a id="newReport" class="btn btn-primary" onclick="nuevoReporte()">Nuevo Reporte <span class=""></span></a>
-
-                        <a id="export-btn" onclick="exportar()" target="_blank" class="btn btn-primary "> Exportar a Excel </a>
-                    </div>
+                    </select>
                 </div>
 
 
-                        }
-			
-
-		</div>
-		
-		<div class="row">
-			<div id = "my_result_table"><p></p></div>
-		</div>
-    </div>
-    
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-    <script>
-
-
-        $(document).ready(function () {
-
-            $("#export-btn").hide();
-            $('#newReport').hide();
-
-
-        });
-        function realizar() {
-
-            //Validacion de fechas
-
-
-
-            var valor = $("#alerta").children('strong');
-            if (valor.length > 0) {
-
-                valor.remove();
-
             }
-
-            $("#alerta").hide();
-
-            fechF  =  $("#fFin").val();
-            fechI = $("#fIni").val();
-
-
-
-
-            if (fechI == '') {
-                $("#alerta").append('<strong>Fecha desde es obligatorio</strong>').show();
-                return;
-
-            }
-            if (fechF == '') {
-
-                var date = new Date();
-                fechF = date.getFullYear() + "-" + (date.getMonth() + 1).toString() + "-" + date.getDate().toString();
-                $('#fFin').val(fechF);
-
-            }
-
-            if (fechF != '' && fechI != '') {
-
-
-                if (new Date(fechF.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1")) < new Date(fechI.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1"))) {
-
-                    $("#alerta").append('<strong>Fecha hasta no puede ser menor que fecha desde</strong>').show();
-                    return;
-                } 
+            catch (Exception ex)
+            {
+                //No pudo cargar los puntos de venta
+                Console.WriteLine(ex.StackTrace);
 
             }
 
 
-
-
-            $.ajax({
-                type: "POST",
-                url: "/CuentaUsuario/ObtenerAsistencia",
-                data: { fechIni: fechI  , fechFin: fechF, nombre: $("#nombre").val() ,puntoEventa: $("#puntoVenta").val()   },
-                datatype: "json",
-                success: function (data) {
-
-
-                    
-                    var nombV = document.getElementById("nombre").value;
-                    var pVent = document.getElementById("puntoVenta");
-                    var str = pVent.options[pVent.selectedIndex].text;
-
-                    t1 = "<h2> Punto de Venta: " + str + "</h2>";
-                    t2 = "<h2>  Vendedor: " + nombV + "</h2>";
-                    myTable = t1 + t2 + "<table class='table table-bordered table-hover'>";
-                    if (nombV.localeCompare("") == 0) {
-                        myTable += "<tr><th>Fecha</th>";
-                        myTable += "<th>Vendedor</th><th>Hora de Ingreso</th><th>Hora de Salida</th>";
-                        myTable += "<th>Hora Registrada</th>";
-                        myTable += "<th>Asistio</th></tr>";
-                    } else {
-                        myTable += "<tr><th>Fecha</th>";
-                        myTable += "<th>Hora de Ingreso</th><th>Hora de Salida</th>";
-                        myTable += "<th>Hora Registrada</th>";
-                        myTable += "<th>Asistio</th></tr>";
-                    }
-                 
-                    $.each(data, function (k, v) {
-
-
-                   
-
-
-
-                        var date = new Date(parseInt(v.Fecha.substr(6)));
-                        var fecha = date.getDate().toString() +"/" + (date.getMonth() + 1).toString()  +"/" + date.getFullYear();
-                    
-                                myTable += "<tr><td> " + fecha + "</td>";
-                           
-                        
-                            if (nombV.localeCompare("") == 0)
-                                myTable += "<td> "+ v.Nombre + "</td>";
-                            myTable += "<td>" + v.HoraEntrada + "</td><td>" + v.HoraSalida + "</td><td>" + v.HoraRegistro + "</td><td>" + v.Asistio + "</td></tr>";
-
-
-                     
-
-
-                    });
-
-
-                    myTable += "</table>";
-                    document.getElementById("my_result_table").innerHTML = myTable;
-
-                    $("#export-btn").show();
-                    $('#newReport').show();
-                },
-                error: function () {
-                    alert("Error :(");
                 }
-            });
 
-            
-            
+
+            </div>
+
+            <div class="row">
+                <div style="text-align: center">
+
+
+                    <a class="btn btn-primary" onclick="realizar()">Generar <span class="glyphicon glyphicon-file"></span></a>
+                    <a id="newReport" class="btn btn-primary" onclick="nuevoReporte()">Nuevo Reporte <span class=""></span></a>
+
+                    <a id="export-btn" onclick="generarExcel()" target="_blank" class="btn btn-primary "> Exportar a Excel </a>
+                </div>
+            </div>
+
+
+
         }
 
-        function nuevoReporte() {
 
-            $('#export-btn').hide();
-            $("#my_result_table").empty();
-            $("#newReport").hide();
+    </div>
 
-            $("#fFin").val("");
-            $("#fIni").val("");
+    <div class="row">
+        <div id="my_result_table"><p></p></div>
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+
+
+    $(document).ready(function () {
+
+        $("#export-btn").hide();
+        $('#newReport').hide();
+
+
+    });
+    function realizar() {
+
+        //Validacion de fechas
+
+
+
+        var valor = $("#alerta").children('strong');
+        if (valor.length > 0) {
+
+            valor.remove();
 
         }
-        
-       F
 
-	</script>
+        $("#alerta").hide();
+
+        fechF = $("#fFin").val();
+        fechI = $("#fIni").val();
+
+
+
+
+        if (fechI == '') {
+            $("#alerta").append('<strong>Fecha desde es obligatorio</strong>').show();
+            return;
+
+        }
+        if (fechF == '') {
+
+            var date = new Date();
+            fechF = date.getFullYear() + "-" + (date.getMonth() + 1).toString() + "-" + date.getDate().toString();
+            $('#fFin').val(fechF);
+
+        }
+
+        if (fechF != '' && fechI != '') {
+
+
+            if (new Date(fechF.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1")) < new Date(fechI.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1"))) {
+
+                $("#alerta").append('<strong>Fecha hasta no puede ser menor que fecha desde</strong>').show();
+                return;
+            }
+
+        }
+
+
+
+
+        $.ajax({
+            type: "POST",
+            url: "/CuentaUsuario/ObtenerAsistencia",
+            data: { fechIni: fechI, fechFin: fechF, nombre: $("#nombre").val(), puntoEventa: $("#puntoVenta").val() },
+            datatype: "json",
+            success: function (data) {
+
+
+
+                var nombV = document.getElementById("nombre").value;
+                var pVent = document.getElementById("puntoVenta");
+                var str = pVent.options[pVent.selectedIndex].text;
+
+                t1 = "<h2> Punto de Venta: " + str + "</h2>";
+                myTable = t1 + "<table class='table table-bordered table-hover'>";
+                myTable += "<tr><th>Fecha</th>";
+                myTable += "<th>Vendedor</th><th>Hora de Ingreso</th><th>Hora de Salida</th>";
+                myTable += "<th>Hora Registrada</th>";
+                myTable += "<th>Asistio</th></tr>";
+
+
+                $.each(data, function (k, v) {
+
+                    var date = new Date(parseInt(v.Fecha.substr(6)));
+                    var fecha = date.getDate().toString() + "/" + (date.getMonth() + 1).toString() + "/" + date.getFullYear();
+
+                    myTable += "<tr><td> " + fecha + "</td>";
+                    myTable += "<td> " + v.Nombre + "</td>";
+                    myTable += "<td>" + v.HoraEntrada + "</td><td>" + v.HoraSalida + "</td><td>" + v.HoraRegistro + "</td><td>" + v.Asistio + "</td></tr>";
+
+
+                });
+
+
+                myTable += "</table>";
+                document.getElementById("my_result_table").innerHTML = myTable;
+
+                $("#export-btn").show();
+                $('#newReport').show();
+            },
+            error: function () {
+                alert("Error :(");
+            }
+        });
+
+
+
+    }
+
+    function nuevoReporte() {
+
+        $('#export-btn').hide();
+        $("#my_result_table").empty();
+        $("#newReport").hide();
+
+        $("#fFin").val("");
+        $("#fIni").val("");
+
+    }
+
+    function generarExcel() {
+
+        window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('div[id$=my_result_table]').html()));
+        e.preventDefault();
+
+    }
+
+</script>

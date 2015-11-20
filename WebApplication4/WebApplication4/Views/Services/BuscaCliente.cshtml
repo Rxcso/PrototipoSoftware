@@ -1,0 +1,20 @@
+﻿@using WebApplication4.Models;
+@{
+    Layout = null;
+    var db = new inf245netsoft();
+    //usuario, tipo
+    string usuario = Request["usuario"].ToString();
+    int tipo = int.Parse(Request["tipo"].ToString());
+    CuentaUsuario cuenta = new CuentaUsuario();
+    if (tipo == 0)
+    {
+        cuenta = db.CuentaUsuario.Where(c => c.codDoc.CompareTo(usuario) == 0 && (c.tipoDoc == 1 || c.tipoDoc == 2)).First();
+    }
+    else
+    {
+        cuenta = db.CuentaUsuario.Where(c => c.codDoc.CompareTo(usuario) == 0 && c.tipoDoc == tipo).First();
+    }
+
+    var data = new { Nombre = cuenta.nombre + " " + cuenta.apellido, Dni = cuenta.codDoc };
+    Json.Write(data, Response.Output);
+}

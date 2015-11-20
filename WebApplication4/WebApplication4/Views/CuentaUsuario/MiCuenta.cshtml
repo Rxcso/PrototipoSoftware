@@ -1,78 +1,81 @@
-﻿@{
-    ViewBag.Title = "Mi Cuenta";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    int ptos = ViewBag.ptos;
-}
-<div class="container-fluid">
-    <ol class="breadcrumb">
-        <li><a href="@Url.Action("Index", "Home")">Inicio</a></li>
-        <li class="active">Mi cuenta</li>
-    </ol>
-</div>
-<div class="container">
-    <div class="row">
-        <div class="col-md-5">
-            <form action="" class="form-horizontal ">
-                <ol id="pref" class="navbar " style="font-size:20px;">
-                    <li><a href="@Url.Action("ModificarDatos","CuentaUsuario")">Actualizar mis datos</a>
-                    <li><a href="@Url.Action("ChangePassword","Manage")">Cambiar mi contraseña</a>
-                    <li><a href="@Url.Action("MisReservas", "CuentaUsuario")">Ver mis reservas</a>
-                    <li><a href="@Url.Action("MisCompras", "CuentaUsuario")">Ver mis Compras</a>
-                    <li><a href="@Url.Action("MiCarrito","CuentaUsuario")">Ver carrito</a>
-                    <li><a href="@Url.Action("VerRegalos","CuentaUsuario")">Ver Regalos</a>
-</ol>
-            </form>
-        </div>
-        <div class="col-md-3">
-            <h3>Puntos: @ptos</h3>
+﻿
+@using WebApplication4.Models;
 
+    @{
+        ViewBag.Title = "Mi Cuenta";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+        int ptos = ViewBag.ptos;
+        List<Eventos> listaDestacados = ViewBag.ListaDestacados as List<Eventos>;
+    }
+<style>
+    #pref {        
+        cursor: pointer;
+        color: white;
+        //list-style: none;
+        font-size: 20px;        
+    }
+        #pref li {
+            background-color: #337AB7;
+            padding:5px 10px;
+        }
+        #pref a {
+            color: white;
+            text-decoration: none;
+        }
+        #pref li:hover {
+            border:2px solid white;
+        }
+</style>
+
+    <div class="container-fluid">
+        <div class="col-md-2">
+            <ol class="breadcrumb">
+                <li><a href="@Url.Action("Index", "Home")">Inicio</a></li>
+                <li class="active">Mi cuenta</li>
+            </ol>
         </div>
-        <div class="col-md-4">
-            <div class="headDestacados">
-                EVENTOS DESTACADOS
-            </div>
-            <div id="carousel-1" class="carousel slide" data-ride="carousel">
-                <!--indicadores primero-->
-                <ol class="carousel-indicators">
-                    <!--
-                                      <li data-target="#carousel-1" data-slide-to="0" class="active"></li>
-                                      <li data-target="#carousel-1" data-slide-to="1"></li>
-                                      <li data-target="#carousel-1" data-slide-to="2"></li>
-                                      <li data-target="#carousel-1" data-slide-to="3"></li>
-                                      <li data-target="#carousel-1" data-slide-to="4"></li>
-                                      <li data-target="#carousel-1" data-slide-to="5"></li>
-                    -->
-                </ol>
-                <!--Contenedor de los slide-->
-                <div class="carousel-inner" role="listbox">
-                    <div class="item active">
-                        <a href="verEvento.html"><img src="images/destacados/img1.jpg" width="1200px" class="img-responsive" alt=""></a>
-                    </div>
-                    <div class="item">
-                        <a href="verEvento.html"><img src="images/destacados/image2.jpg" width="1200px" class="img-responsive" alt=""></a>
-                    </div>
-                    <div class="item">
-                        <a href="verEvento.html"><img src="images/destacados/img3.jpg" width="1200px" class="img-responsive" alt=""></a>
-                    </div>
-                    <div class="item">
-                        <a href="verEvento.html"><img src="images/destacados/img4.jpg" width="1200px" class="img-responsive" alt=""></a>
-                    </div>
-                    <div class="item">
-                        <a href="verEvento.html"><img src="images/destacados/img5.jpg" width="1200px" class="img-responsive" alt=""></a>
-                    </div>
-                    <div class="item">
-                        <a href="verEvento.html"><img src="images/destacados/img6.jpg" width="1200px" class="img-responsive" alt=""></a>
-                    </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <h3>Tienes @ptos puntos</h3>
+                <form action="" class="form-horizontal ">
+                    <ul id="pref" >
+                        <li><a href="@Url.Action("ModificarDatos","CuentaUsuario")">Actualizar mis datos</a></li>
+                        <li><a href="@Url.Action("ChangePassword","Manage")">Cambiar mi contraseña</a></li>
+                        <li><a href="@Url.Action("MisReservas", "CuentaUsuario")">Ver mis reservas</a></li>
+                        <li><a href="@Url.Action("MisCompras", "CuentaUsuario")">Ver mis Compras</a></li>
+                        <li><a href="@Url.Action("MiCarrito","CuentaUsuario")">Ver carrito</a></li>
+                        <li><a href="@Url.Action("VerRegalos","CuentaUsuario")">Ver Regalos</a></li>
+                    </ul>
+                </form>
+            </div>            
+            <div class="col-md-4">
+                <div class="headDestacados">
+                    EVENTOS DESTACADOS
                 </div>
-                <!--Controles-->
-                <a href="#carousel-1" class="left carousel-control" role="button" data-slide="prev">
-                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                </a>
-                <a href="#carousel-1" class="right carousel-control" role="button" data-slide="next">
-                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                </a>
+                <div id="carousel-1" class="carousel slide" data-ride="carousel">
+                    <!--indicadores primero-->
+                    <ol class="carousel-indicators"></ol>
+                    <!--Contenedor de los slide-->
+                    <div class="carousel-inner" role="listbox">
+                        @for (var i = 0; i < listaDestacados.Count; i++)
+                        {
+                            <div class="@((i == 0) ? "item active" : "item ")">
+
+                                <a href=@Url.Action("VerEvento", "Evento", new { id = listaDestacados[i].codigo })><img src=@listaDestacados[i].ImagenDestacado height="500" width="1200" class="img-responsive" alt=@listaDestacados[i].nombre></a>
+                            </div>
+                        }
+                    </div>
+                    <!--Controles-->
+                    <a href="#carousel-1" class="left carousel-control" role="button" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    </a>
+                    <a href="#carousel-1" class="right carousel-control" role="button" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
