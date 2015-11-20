@@ -350,6 +350,7 @@
     <Compile Include="Models\TurnoSistema.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\VenderEntradaModel.cs" />
     <Compile Include="Models\Ventas.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -391,6 +392,15 @@
     <Content Include="Images\destacado1083.jpg" />
     <Content Include="Images\destacado1086.jpg" />
     <Content Include="Images\destacado1087.jpg" />
+    <Content Include="Images\destacado1088.jpg" />
+    <Content Include="Images\destacado1089.jpg" />
+    <Content Include="Images\destacado1090.jpg" />
+    <Content Include="Images\destacado1094.jpg" />
+    <Content Include="Images\destacado1099.jpg" />
+    <Content Include="Images\destacado1100.jpg" />
+    <Content Include="Images\destacado1102.jpg" />
+    <Content Include="Images\destacado1103.jpg" />
+    <Content Include="Images\destacado1108.jpg" />
     <Content Include="Images\destacado2.png" />
     <Content Include="Images\destacadoEvento_10259_I.jpg" />
     <Content Include="Images\destacadopost-11.jpg" />
@@ -403,6 +413,15 @@
     <Content Include="Images\evento1085.jpg" />
     <Content Include="Images\evento1086.jpg" />
     <Content Include="Images\evento1087.jpg" />
+    <Content Include="Images\evento1088.jpg" />
+    <Content Include="Images\evento1089.jpg" />
+    <Content Include="Images\evento1090.jpg" />
+    <Content Include="Images\evento1094.jpg" />
+    <Content Include="Images\evento1099.jpg" />
+    <Content Include="Images\evento1100.jpg" />
+    <Content Include="Images\evento1102.jpg" />
+    <Content Include="Images\evento1103.jpg" />
+    <Content Include="Images\evento1108.jpg" />
     <Content Include="Images\Eventos\imagen1.jpg" />
     <Content Include="Images\Eventos\imagen2.jpg" />
     <Content Include="Images\fiesta.jpg" />
@@ -418,6 +437,7 @@
     <Content Include="Images\login.png" />
     <Content Include="Images\naufragos.jpg" />
     <Content Include="Images\newUser.jpg" />
+    <Content Include="Images\Otros\usuario.png" />
     <Content Include="Images\oz.jpg" />
     <Content Include="Images\pepa.jpg" />
     <Content Include="Images\perfil1.jpg" />
@@ -433,6 +453,15 @@
     <Content Include="Images\sitios1085.jpg" />
     <Content Include="Images\sitios1086.jpg" />
     <Content Include="Images\sitios1087.jpg" />
+    <Content Include="Images\sitios1088.jpg" />
+    <Content Include="Images\sitios1089.jpg" />
+    <Content Include="Images\sitios1090.jpg" />
+    <Content Include="Images\sitios1094.jpg" />
+    <Content Include="Images\sitios1099.jpg" />
+    <Content Include="Images\sitios1100.jpg" />
+    <Content Include="Images\sitios1102.jpg" />
+    <Content Include="Images\sitios1103.jpg" />
+    <Content Include="Images\sitios1108.jpg" />
     <Content Include="Images\teadoro.jpg" />
     <Content Include="Images\teleticket.gif" />
     <Content Include="Images\teleticketmini.gif" />
@@ -456,6 +485,7 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\CategoriaEvento\BorrarCategoriaEvento.js" />
+    <Content Include="Scripts\ComprarEntrada\ComprarEntradaHelper.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Content\bootstrap-theme.css.map" />
@@ -467,6 +497,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -618,6 +650,10 @@
     <Content Include="Views\Evento\ReporteEvento.cshtml" />
     <Content Include="Views\Ventas\ReporteVentas.cshtml" />
     <Content Include="Views\Ventas\VenderEntrada.cshtml" />
+    <Content Include="Views\Services\EliminaItemVentas.cshtml" />
+    <Content Include="Views\Ventas\_ReporteV1.cshtml" />
+    <Content Include="Views\Ventas\CarritoVentas.cshtml" />
+    <Content Include="Views\CuentaUsuario\VerRegalos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
