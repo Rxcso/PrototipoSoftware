@@ -15,7 +15,7 @@ namespace WebApplication4.Models
         public string nombre { get; set; }
 
         [Required]
-        [Display(Name = "Descripcion: ")]
+        [Display(Name = "Descripción: ")]
         [StringLength(100, ErrorMessage = "Maxima longitud de 100 caracteres.")]
         public string descripcion { get; set; }
 

@@ -14,21 +14,33 @@
     r1.puntos = (int)re.puntos;
 }
 
-<h2>Editar Registro</h2>
+<style>
+    .contenedor {
+        border: 1px solid #080808;
+    }
+</style>
 
+<div class="container-fluid">
+    <div class="col-md-3">
+        <ol class="breadcrumb">
+            <li class="active"><a href="@Url.Action("Index","Regalo")"> Mantenimiento de regalos</a></li>
+            <li>Editar Regalo</li>
+        </ol>
+    </div>
+</div>
 
-
-<div class="modal-body">
+<div class="container">    
     @using (Html.BeginForm("EditRegister", "Regalo", FormMethod.Post, new { model = r1 }))
     {
         @Html.AntiForgeryToken()
-
+        
+    <div class="col-md-8 col-md-offset-2 contenedor">
+        <br>
         <div class="form-horizontal">
             @Html.ValidationSummary(true)
-            <br>
             <div class="row form-group">
                 @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })
-                <div class="col-md-4">
+                <div class="col-md-8">
                     @*@Html.EditorFor(model => model.nombre)*@
                     @Html.TextBoxFor(model => model.nombre, new { @class = "form-control", @placeholder = @re.Nombre, @Value = @re.Nombre })
                     @Html.ValidationMessageFor(model => model.nombre)
@@ -37,25 +49,28 @@
 
             <div class="row form-group">
                 @Html.LabelFor(model => model.descripcion, new { @class = "control-label col-md-3" })
-                <div class="col-md-4">
+                <div class="col-md-8">
                     @Html.TextBoxFor(model => model.descripcion, new { @class = "form-control", @placeholder = @re.descripcion, @Value = @re.descripcion })
                     @Html.ValidationMessageFor(model => model.descripcion)
                 </div>
             </div>
-            <br>
+
             <div class="row form-group">
                 @Html.LabelFor(model => model.puntos, new { @class = "control-label col-md-3" })
-                <div class="col-md-4">
+                <div class="col-md-8">
                     @Html.TextBoxFor(model => model.puntos, new { @class = "form-control", @placeholder = @re.puntos, @Value = @re.puntos })
                     @Html.ValidationMessageFor(model => model.puntos)
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Editar" class="btn  btn-primary" />
-                </div>
+                <center>
+                    <button type="submit" class="btn btn-primary">Guardar cambios <span class="glyphicon glyphicon-save"></span></button>
+                    <a href="@Url.Action("Index","Regalo")" class="btn btn-danger">Cancelar <span class="glyphicon glyphicon-remove"></span></a>
+                </center>
             </div>
         </div>
+    </div>
+
     }
 
 </div>
