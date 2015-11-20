@@ -1779,3 +1779,21 @@ System.Collections.ListDictionaryInternal
 Unexpected "foreach" keyword after "@" character.  Once inside code, you do not need to prefix constructs like "foreach" with "@".
 
 2015-11-20 14:04:29,809 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 15:06:49,068 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 15:06:49,148 [5] ERROR Ticknet - Exception Type - 
+ArgumentNullException
+2015-11-20 15:06:49,148 [5] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-20 15:06:49,148 [5] ERROR Ticknet - Exception Message - 
+Value cannot be null.
+Parameter name: String
+2015-11-20 15:06:49,148 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 15:34:43,357 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 15:34:43,376 [10] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-20 15:34:43,376 [10] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-20 15:34:43,377 [10] ERROR Ticknet - Exception Message - 
+Unexpected "for" keyword after "@" character.  Once inside code, you do not need to prefix constructs like "for" with "@".
+
+2015-11-20 15:34:43,377 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++

@@ -616,6 +616,8 @@
     <Content Include="Views\CuentaUsuario\ReporteAsistencia.cshtml" />
     <Content Include="Views\Home\PuntoVentas.cshtml" />
     <Content Include="Views\Evento\ReporteEvento.cshtml" />
+    <Content Include="Views\Ventas\ReporteVentas.cshtml" />
+    <Content Include="Views\Ventas\VenderEntrada.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
