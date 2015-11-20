@@ -237,6 +237,7 @@
     </Compile>
     <Compile Include="Models\CategoriaModel.cs" />
     <Compile Include="Models\ComprarEntradaReservadaA.cs" />
+    <Compile Include="Models\ReporteEventos.cs" />
     <Compile Include="Models\ReporteModel.cs" />
     <Compile Include="Models\ReservaOrganizadorModel.cs" />
     <Compile Include="Models\Comentario.cs" />
@@ -390,15 +391,6 @@
     <Content Include="Images\destacado1083.jpg" />
     <Content Include="Images\destacado1086.jpg" />
     <Content Include="Images\destacado1087.jpg" />
-    <Content Include="Images\destacado1088.jpg" />
-    <Content Include="Images\destacado1089.jpg" />
-    <Content Include="Images\destacado1090.jpg" />
-    <Content Include="Images\destacado1094.jpg" />
-    <Content Include="Images\destacado1099.jpg" />
-    <Content Include="Images\destacado1100.jpg" />
-    <Content Include="Images\destacado1102.jpg" />
-    <Content Include="Images\destacado1103.jpg" />
-    <Content Include="Images\destacado1108.jpg" />
     <Content Include="Images\destacado2.png" />
     <Content Include="Images\destacadoEvento_10259_I.jpg" />
     <Content Include="Images\destacadopost-11.jpg" />
@@ -411,15 +403,6 @@
     <Content Include="Images\evento1085.jpg" />
     <Content Include="Images\evento1086.jpg" />
     <Content Include="Images\evento1087.jpg" />
-    <Content Include="Images\evento1088.jpg" />
-    <Content Include="Images\evento1089.jpg" />
-    <Content Include="Images\evento1090.jpg" />
-    <Content Include="Images\evento1094.jpg" />
-    <Content Include="Images\evento1099.jpg" />
-    <Content Include="Images\evento1100.jpg" />
-    <Content Include="Images\evento1102.jpg" />
-    <Content Include="Images\evento1103.jpg" />
-    <Content Include="Images\evento1108.jpg" />
     <Content Include="Images\Eventos\imagen1.jpg" />
     <Content Include="Images\Eventos\imagen2.jpg" />
     <Content Include="Images\fiesta.jpg" />
@@ -450,15 +433,6 @@
     <Content Include="Images\sitios1085.jpg" />
     <Content Include="Images\sitios1086.jpg" />
     <Content Include="Images\sitios1087.jpg" />
-    <Content Include="Images\sitios1088.jpg" />
-    <Content Include="Images\sitios1089.jpg" />
-    <Content Include="Images\sitios1090.jpg" />
-    <Content Include="Images\sitios1094.jpg" />
-    <Content Include="Images\sitios1099.jpg" />
-    <Content Include="Images\sitios1100.jpg" />
-    <Content Include="Images\sitios1102.jpg" />
-    <Content Include="Images\sitios1103.jpg" />
-    <Content Include="Images\sitios1108.jpg" />
     <Content Include="Images\teadoro.jpg" />
     <Content Include="Images\teleticket.gif" />
     <Content Include="Images\teleticketmini.gif" />
@@ -641,7 +615,7 @@
     <Content Include="Views\CuentaUsuario\ReporteAsignacion.cshtml" />
     <Content Include="Views\CuentaUsuario\ReporteAsistencia.cshtml" />
     <Content Include="Views\Home\PuntoVentas.cshtml" />
-    <Content Include="Views\CuentaUsuario\VerRegalos.cshtml" />
+    <Content Include="Views\Evento\ReporteEvento.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
