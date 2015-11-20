@@ -116,7 +116,6 @@
                     @Html.LabelFor(c => c.CodCcv, new { @class = "control-label col-md-3" })
                     <div class="col-md-4">
                         @Html.TextBoxFor(c => c.CodCcv, new { @disabled = "disabled", @class = "form-control" })
-                        @Html.ValidationMessageFor(c => c.CodCcv)
                     </div>
                 </div>
 
@@ -176,7 +175,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-xs-6">
-                        <input type="submit" value="Finalizar Compra" class="btn btn-default btn-primary" />
+                        <input type="submit" value="Finalizar Venta" onclick="llenaArreglo()" class="btn btn-default btn-primary" />
                     </div>
                 </div>
             }

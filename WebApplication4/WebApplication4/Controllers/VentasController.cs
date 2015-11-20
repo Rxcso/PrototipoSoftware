@@ -202,6 +202,23 @@ namespace WebApplication4.Controllers
                             ve.tipoDoc = 1;
                             ve.montoEfectivoSoles = model.Importe;
                             ve.MontoTotalSoles = model.MontoPagar;
+                            ve.montoCreditoSoles = model.MontoTar;
+                            ve.montoEfectivoSoles = model.MontoEfe;
+                            //--vendedor, guardo el correo del vendedor en la venta
+                            ve.vendedor = User.Identity.Name;
+                            //
+                            if (model.MontoTar > 0 && model.MontoEfe == 0)
+                            {//para compra solo en tarjeta
+                                ve.modalidad = "T";
+                            }
+                            if (model.MontoEfe > 0 && model.MontoTar > 0)
+                            {//mixto
+                                ve.modalidad = "M";
+                            }
+                            if (model.MontoTar == 0)
+                            {//solo efectivo
+                                ve.modalidad = "E";
+                            }
                             db.Ventas.Add(ve);
                             try
                             {
@@ -343,15 +360,13 @@ namespace WebApplication4.Controllers
                         }
                     }
                     TempData["tipo"] = "alert alert-success";
-                    TempData["message"] = "Compra Realizada. Muchas Gracias.";
+                    TempData["message"] = "Venta Realizada";
                     //si toda la compra se procesa de manera correcta eliminamos los session
-                    Session["CarritoItem"] = null;
-                    Session["Carrito"] = null;
-                    if (Request.IsAuthenticated)
-                    {
-                        EmailController.EnviarCorreoCompra(idVenta, User.Identity.Name);
-                    }
-                    return RedirectToAction("Index", "Home");
+                    Session["CarritoItemVentas"] = null;
+                    Session["CarritoVendedor"] = null;
+                    //enviamos un correo al cliente que lo compro - no funcionara con un anonimo
+                    EmailController.EnviarCorreoCompra(idVenta, cuenta.correo);
+                    return RedirectToAction("Index2", "Home");
                 }
                 //saco el carrito del session
                 List<CarritoItem> carrito2 = (List<CarritoItem>)Session["CarritoItemVentas"];
@@ -1251,7 +1266,8 @@ namespace WebApplication4.Controllers
             {
                 DetalleVenta dVen = (DetalleVenta)Session["DetalleVenta"];
                 id = dVen.codDetalleVenta;
-            }else  id = int.Parse(detVen);
+            }
+            else id = int.Parse(detVen);
             ViewBag.id = id;
             TempData["codigoDet"] = id;
 
