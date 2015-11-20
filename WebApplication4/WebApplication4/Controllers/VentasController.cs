@@ -977,7 +977,7 @@ namespace WebApplication4.Controllers
             Ventas ven = db.Ventas.Find(venxf.codVen);
             Session["VentasDev"] = ven;
 
-            List<AsientosXFuncion> axf = db.AsientosXFuncion.Where(a => a.codFuncion == detalleVen.codFuncion && a.codDetalleVenta == detalleVen.codDetalleVenta).ToList();
+            List<AsientosXFuncion> axf = db.AsientosXFuncion.Where(a => a.codFuncion == detalleVen.codFuncion && a.codDetalleVenta == detalleVen.codDetalleVenta && a.estado=="OCUPADO").ToList();
             Session["ListaAsientos"] = axf;
 
             List<Asientos> asientos = null;
@@ -1003,7 +1003,15 @@ namespace WebApplication4.Controllers
             ZonaEvento ze = db.ZonaEvento.Find(pe.codZonaEvento);
 
             Session["ZonaEventoDev"] = ze;
-            return View("VerDetalle");
+            if (detalleVen.cantEntradas == 0) {//caso de devolucion parcial.
+                List<DevolucionModel> dev = (List<DevolucionModel>)Session["BusquedaDev"];
+                for (int i = 0; i < dev.Count; i++)
+                    if (dev[i].codDev == id)
+                        dev.RemoveAt(i);
+                Session["BusquedaDev"] = dev;
+                return View("Devolucion");
+            }
+            else  return View("VerDetalle");
         }
 
     }

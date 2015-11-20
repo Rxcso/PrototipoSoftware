@@ -215,7 +215,7 @@
                         {
                             <tr id=@dv.codDetalleVenta onclick="myFunction(this)">
                                 <td>@("Entrada nro: " + (x + 1))</td>
-                                <td>@(dv.total / dv.cantEntradas)</td>
+                                <td>@(dv.total / (dv.cantEntradas+dv.entradasDev))</td>
                             </tr>
                         }
                     }
