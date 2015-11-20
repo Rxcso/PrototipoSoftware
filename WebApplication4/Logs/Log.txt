@@ -1956,3 +1956,92 @@ System.Collections.ListDictionaryInternal
 2015-11-19 19:54:39,544 [6] ERROR Ticknet - Exception Message - 
 An error occurred while executing the command definition. See the inner exception for details.
 2015-11-19 19:54:39,544 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 11:11:36,529 [69] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 11:11:36,561 [69] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-20 11:11:36,561 [69] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-20 11:11:36,561 [69] ERROR Ticknet - Exception Message - 
+Unexpected "if" keyword after "@" character.  Once inside code, you do not need to prefix constructs like "if" with "@".
+
+2015-11-20 11:11:36,561 [69] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 11:11:44,278 [81] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 11:11:44,278 [81] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-20 11:11:44,278 [81] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-20 11:11:44,278 [81] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\Ventas\CarritoVentas.cshtml(34): error CS1002: Se esperaba ;
+2015-11-20 11:11:44,278 [81] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 11:18:08,015 [81] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 11:18:08,015 [81] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-20 11:18:08,015 [81] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-20 11:18:08,015 [81] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-20 11:18:08,015 [81] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 11:20:12,728 [82] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 11:20:12,728 [82] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-20 11:20:12,728 [82] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-20 11:20:12,728 [82] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-20 11:20:12,728 [82] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 11:21:10,371 [29] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 11:21:10,371 [29] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-20 11:21:10,371 [29] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-20 11:21:10,371 [29] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-20 11:21:10,371 [29] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 11:22:42,804 [66] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 11:22:42,816 [66] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-20 11:22:42,816 [66] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-20 11:22:42,816 [66] ERROR Ticknet - Exception Message - 
+A public action method 'EliminaItemVentas' was not found on controller 'WebApplication4.Controllers.ServicesController'.
+2015-11-20 11:22:42,816 [66] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 11:28:10,636 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 11:28:10,651 [7] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-20 11:28:10,651 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-20 11:28:10,651 [7] ERROR Ticknet - Exception Message - 
+A public action method 'EliminaItemVentas' was not found on controller 'WebApplication4.Controllers.ServicesController'.
+2015-11-20 11:28:10,651 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 11:28:17,073 [21] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 11:28:17,073 [21] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-20 11:28:17,073 [21] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-20 11:28:17,073 [21] ERROR Ticknet - Exception Message - 
+A public action method 'EliminaItemVentas' was not found on controller 'WebApplication4.Controllers.ServicesController'.
+2015-11-20 11:28:17,073 [21] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 11:29:43,631 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 11:29:43,642 [5] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-20 11:29:43,642 [5] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-20 11:29:43,643 [5] ERROR Ticknet - Exception Message - 
+A public action method 'EliminaItemVentas' was not found on controller 'WebApplication4.Controllers.ServicesController'.
+2015-11-20 11:29:43,643 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 11:30:14,088 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 11:30:14,088 [5] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-20 11:30:14,088 [5] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-20 11:30:14,088 [5] ERROR Ticknet - Exception Message - 
+A public action method 'EliminaItemVentas' was not found on controller 'WebApplication4.Controllers.ServicesController'.
+2015-11-20 11:30:14,088 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 11:30:19,953 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 11:30:19,953 [5] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-20 11:30:19,953 [5] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-20 11:30:19,953 [5] ERROR Ticknet - Exception Message - 
+A public action method 'EliminaItemVentas' was not found on controller 'WebApplication4.Controllers.ServicesController'.
+2015-11-20 11:30:19,953 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++

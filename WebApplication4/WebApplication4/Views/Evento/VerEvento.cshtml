@@ -145,16 +145,6 @@
                                     }
                                     else
                                     {
-                                        <!--div class="row form-group">
-                                            <label for="funcion" class="control-label col-md-4">Función:</label>
-                                            <div id="funcion" class="col-md-8">
-                                                <select class="form-control">
-                                                    <option>Seleccione</option>
-                                                    <option>12/10/15</option>
-                                                    <option>15/10/15</option>
-                                                </select>
-                                            </div>
-                                        </div-->
                                         <div class="row form-group">
                                             <label for="hora" class="control-label col-md-4">Funciones:</label>
                                             <div id="funcion" class="col-md-8">
@@ -205,17 +195,18 @@
 
                                                 </div>
 
-                                                if (codperfilActual <= 2)
+                                                if (codperfilActual == 1 || !Request.IsAuthenticated)
                                                 {
                                                     <div class="col-md-6">
                                                         <button type="submit" name="boton" value="carrito" class="btn btn-success pull-right ">Agregar al carrito <span class="glyphicon glyphicon-shopping-cart"></span></button>
                                                     </div>
-                                                }
-                                                if (codperfilActual == 1)
-                                                {
-                                                    <div class="col-md-6">
-                                                        <button type="submit" name="boton" value="reservar" class="btn btn-primary pull-right">Reservar <span class="glyphicon glyphicon-save"></span></button>
-                                                    </div>
+                                                    if (Request.IsAuthenticated)
+                                                    {
+                                                        <div class="col-md-6">
+                                                            <button type="submit" name="boton" value="reservar" class="btn btn-primary pull-right">Reservar <span class="glyphicon glyphicon-save"></span></button>
+                                                        </div>
+                                                    }
+
                                                 }
                                                 if (codperfilActual >= 3)
                                                 {
@@ -223,7 +214,13 @@
                                                         <button type="submit" name="boton" value="reservarOrganizador" class="btn btn-primary pull-right">Reservar Organizador<span class="glyphicon glyphicon-save"></span></button>
                                                     </div>
                                                 }
-
+                                                //para el vendedor tendra un carrito distinto
+                                                if (codperfilActual == 2)
+                                                {
+                                                    <div class="col-md-6">
+                                                        <button type="submit" name="boton" value="carritoVendedor" class="btn btn-success pull-right ">Agregar al carrito <span class="glyphicon glyphicon-shopping-cart"></span></button>
+                                                    </div>
+                                                }
                                             }
 
                                         </div>
@@ -241,8 +238,8 @@
 
 
         @{
-
-            if (Request.IsAuthenticated)
+            //solo los clientes o administradores pueden comentan
+            if (Request.IsAuthenticated && (codperfilActual == 1 || codperfilActual == 4))
             {
                 var act = User.Identity.Name;
 

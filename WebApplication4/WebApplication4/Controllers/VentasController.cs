@@ -12,6 +12,41 @@ namespace WebApplication4.Controllers
     public class VentasController : Controller
     {
         private inf245netsoft db = new inf245netsoft();
+
+        [HttpGet]
+        [Authorize(Roles = "Vendedor")]
+        public ActionResult CarritoVentas()
+        {
+            if (Session["CarritoVendedor"] != null)
+            {
+                List<PaqueteEntradas> carrito = (List<PaqueteEntradas>)Session["CarritoVendedor"];
+                List<CarritoItem> item = new List<CarritoItem>();
+                foreach (PaqueteEntradas paquete in carrito)
+                {
+                    Eventos evento = db.Eventos.Find(paquete.idEvento);
+                    PeriodoVenta periodo = db.PeriodoVenta.Where(c => c.codEvento == paquete.idEvento && c.fechaInicio <= DateTime.Today && DateTime.Today <= c.fechaFin).First();
+                    CarritoItem cItem = new CarritoItem();
+                    cItem.idEvento = paquete.idEvento;
+                    cItem.idFuncion = paquete.idFuncion;
+                    cItem.idZona = paquete.idZona;
+                    cItem.nombreEvento = db.Eventos.Find(paquete.idEvento).nombre;
+                    Funcion funcion = db.Funcion.Find(paquete.idFuncion);
+                    cItem.fecha = (DateTime)funcion.fecha;
+                    cItem.hora = (DateTime)funcion.horaIni;
+                    cItem.zona = db.ZonaEvento.Find(paquete.idZona).nombre;
+                    cItem.precio = (double)db.PrecioEvento.Where(c => c.codZonaEvento == paquete.idZona && c.codPeriodoVenta == periodo.idPerVent).First().precio * paquete.cantEntradas;
+                    cItem.filas = paquete.filas;
+                    cItem.columnas = paquete.columnas;
+                    cItem.tieneAsientos = paquete.tieneAsientos;
+                    cItem.cantidad = paquete.cantEntradas;
+                    item.Add(cItem);
+                }
+                Session["CarritoItemVentas"] = item;
+                ViewBag.Carrito = item;
+            }
+            return View();
+        }
+
         // GET: Ventas
         public ActionResult Index()
         {
@@ -783,14 +818,14 @@ namespace WebApplication4.Controllers
                 */
 
                 //elimina de la lista de busqueda! 
-                
+
                 //List<DevolucionModel> dev = (List<DevolucionModel>)Session["BusquedaDev"];
                 for (int i = 0; i < axf.Count; i++)
                     if (axf[i].codAsiento == codAsiento)
                     {
                         axf.RemoveAt(i);
                         break;
-                    }                        
+                    }
                 Session["ListaAsientos"] = axf;
 
             }

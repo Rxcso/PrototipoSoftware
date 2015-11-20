@@ -1451,7 +1451,7 @@ namespace WebApplication4.Controllers
                     if (quedan == 0)
                     {
                         TempData["tipo"] = "alert alert-warning";
-                        TempData["message"] = "Ya quedan entradas disponibles para el evento.";
+                        TempData["message"] = "Ya no le quedan entradas disponibles para el evento.";
                         return Redirect("~/Evento/VerEvento/" + paquete.idEvento);
                     }
                     if (quedan < paquete.cantEntradas)
@@ -1490,6 +1490,23 @@ namespace WebApplication4.Controllers
                     }
 
                     return Redirect("~/Evento/VerEvento/" + paquete.idEvento);
+                }
+                else if (boton.CompareTo("carritoVendedor") == 0)
+                {
+                    if (Session["CarritoVendedor"] == null)
+                    {
+                        List<PaqueteEntradas> carritoV = new List<PaqueteEntradas>();
+                        carritoV.Add(paquete);
+                        Session["CarritoVendedor"] = carritoV;
+                    }
+                    else
+                    {
+                        List<PaqueteEntradas> carritoV = (List<PaqueteEntradas>)Session["CarritoVendedor"];
+                        carritoV.Add(paquete);
+                        Session["CarritoVendedor"] = carritoV;
+                    }
+                    TempData["tipo"] = "alert alert-success";
+                    TempData["message"] = "Item añadido al carrito de ventas";
                 }
             }
             else
@@ -1711,7 +1728,7 @@ namespace WebApplication4.Controllers
             cancelarEvento.listIdFuncion = auxlistIdFuncion.ToArray();
             cancelarEvento.seCancela = auxlistBool.ToArray();
 
-            
+
 
             return View("Cancelar", cancelarEvento);
         }
