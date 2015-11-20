@@ -11,7 +11,7 @@
     tbody {
         cursor: pointer;
     }
-    tr:hover{font-weight:bold}
+    
     .trselected {
         background: #F1F1F1;
         font-weight: bold;
@@ -37,7 +37,7 @@
             <div class="form-group">
                 <a class="btn btn-success" href="#formNuevo" data-toggle="modal"><span class="glyphicon glyphicon-plus"></span> Agregar</a>
                 <a class="btn btn-primary" data-toggle="modal" onclick="redirigeRegalo()"><span class="glyphicon glyphicon-pencil"></span> Modificar</a>
-                <a class="btn btn-danger" onclick="validaS()" data-toggle="modal"><span class="glyphicon glyphicon-remove"></span> Eliminar</a>
+                <a class="btn btn-danger" onclick="validaS()" data-toggle="modal"><span class="glyphicon glyphicon-trash"></span> Eliminar</a>
                 <a class="btn btn-default" id="idBusq2" onclick="buscaI()"><span class="glyphicon glyphicon-eye-open"></span> Inactivos</a>                
                 <a class="btn btn-default" id="Activate" onclick="activa()"><span class="glyphicon glyphicon-ok"></span> Activar</a>                
                 
@@ -73,11 +73,11 @@
             <table id="mytable" class="table table-bordered  table-hover">
                 <thead>
                     <tr>
-                        <th>Código</th>
-                        <th>Nombre</th>
-                        <th>Descripción</th>
-                        <th>Puntos</th>
-                        <th>Estado</th>
+                        <th class="col-md-1">Código</th>
+                        <th class="col-md-4">Nombre</th>
+                        <th class="col-md-5">Descripción</th>
+                        <th class="col-md-1">Puntos</th>
+                        <th class="col-md-1">Estado</th>
                     </tr>
                 </thead>
                 <tbody id="tbody">
@@ -131,11 +131,10 @@
                     @Html.AntiForgeryToken()
 
                     <div class="form-horizontal">
-                        @Html.ValidationSummary(true)
-                        <br>
+                        @Html.ValidationSummary(true)                        
                         <div class="row form-group">
                             @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })
-                            <div class="col-md-4">
+                            <div class="col-md-8">
                                 @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.nombre)
                             </div>
@@ -143,24 +142,24 @@
 
                         <div class="row form-group">
                             @Html.LabelFor(model => model.descripcion, new { @class = "control-label col-md-3" })
-                            <div class="col-md-4">
+                            <div class="col-md-8">
                                 @Html.EditorFor(model => model.descripcion, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.descripcion)
                             </div>
                         </div>
-                        <br>
+                        
                         <div class="row form-group">
                             @Html.LabelFor(model => model.puntos, new { @class = "control-label col-md-3" })
-                            <div class="col-md-4">
+                            <div class="col-md-8">
                                 @Html.EditorFor(model => model.puntos, new { htmlAttributes = new { @class = "form-control" } })
                                 @Html.ValidationMessageFor(model => model.puntos)
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <div class="col-md-offset-2 col-md-10">
-                                <input type="submit" value="Agregar" class="btn btn-primary" />
-                            </div>
+                            <center>
+                                <button type="submit" class="btn btn-success">Agregar <span class="glyphicon glyphicon-plus"></span></button>
+                            </center>
                         </div>
                     </div>
                 }
@@ -183,12 +182,12 @@
             </div>
             <!--contenido de la ventana-->
             <div class="modal-body">
-                ¿Está seguro que quiere dar de baja el registro?
+                Está a punto de dar de baja este regalo.
             </div>
             <!--footer de la ventana-->
             <div class="modal-footer">
-                <button type="button" onclick="borrar()" class="btn btn-primary">Aceptar <span class="glyphicon glyphicon-ok"></span></button>
-                <button type="button" onclick="return closewindow();" class="btn btn-danger">Cancelar <span class="glyphicon glyphicon-remove"></span></button>
+                <button type="button" onclick="borrar()" class="btn btn-danger">Eliminar <span class="glyphicon glyphicon-trash"></span></button>
+                <!--button type="button" onclick="return closewindow();" class="btn btn-danger">Cancelar <span class="glyphicon glyphicon-remove"></span></!button-->
             </div>
         </div>
     </div>

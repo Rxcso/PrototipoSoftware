@@ -1,0 +1,168 @@
+﻿@using WebApplication4.Models
+@{
+    ViewBag.Title = "ReporteEvento";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    inf245netsoft db = new inf245netsoft();
+}
+
+
+@{
+    List<ReporteEventosModel> lev = new List<ReporteEventosModel>();
+
+    if (Session["ReporteEventos"] != null)
+    {
+        lev = (List<ReporteEventosModel>)Session["ReporteEventos"];
+    }
+    
+}
+
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li class="active">Reporte de Eventos</li>
+        </ol>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <button tyle="button" class="btn btn-primary" onclick="buscaRepEvento()" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-file"></span> Generar Reporte</button>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="form-group">
+                <button tyle="button"onclick="exportar()" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Exportar a Excel</button>
+            </div>
+        </div>
+        <div class="col-md-1">
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-md-offset-3">
+            <div class="input-group">
+                <span class="input-group-addon">Desde:</span>
+                <input id="fd1" type="date" class="form-control">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="input-group">
+                <span class="input-group-addon">Hasta:</span>
+                <input id="fh1" type="date" class="form-control">
+            </div>
+        </div>
+    </div>
+    <br>
+
+    <h4>Resultados:</h4>
+    <div id="resultTable"class="row">
+
+        @if (Session["ReporteEventos"] != null)
+        {
+            DateTime di2 = (DateTime)Session["FechaREI"];
+            DateTime df2 = (DateTime)Session["FechaREF"];
+            <div>
+                <h3>Reporte de Eventos del @di2.Date.ToString("dd/MM/yyyy") - @df2.Date.ToString("dd/MM/yyyy")</h3>
+            </div>
+        }
+        <table id="mytable" class="table table-bordered table-hover">
+            <thead>
+                <tr class="active">
+                    <th>Código Evento</th>
+                    <th>Evento</th>
+                    <th>Organizador</th>
+                    <th>Fecha Función</th>
+                    <th>Hora Ini Función</th>
+                    <th>Entradas Disponibles</th>
+                    <th>Entradas Vendidas</th>
+                    <th>Local</th>
+                    <th>Región</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">               
+                       @foreach (var row in lev)
+                       {
+                            <tr id=@row.codigoEvento onclick="myFunction(this)">
+                                <td>@row.codigoEvento</td>
+                                <td>@row.nombreEvento</td>
+                                <td>@row.nombreOrganizador</td>
+                                <td>@row.fechaFuncion</td>
+                                <td>@row.horaFuncion</td>
+                                <td>@row.entradasDisponibles</td>
+                                <td>@row.entradasVendidas</td>
+                                <td>@row.local</td>
+                                <td>@row.region</td>
+                            </tr>
+                        }
+                @{
+                    
+                    Session["ReporteEventos"] = null;                  
+
+                }              
+              
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<input type="hidden" id="idFila" value="" />
+<script>
+    function myFunction(x) {
+        if (document.getElementsByClassName("trselected").length > 0) {
+            var element = document.getElementsByClassName("trselected");
+            element[0].className = "";
+        }
+        var elem = document.getElementById("idFila");
+        elem.value = x.cells[0].innerHTML;
+
+        x.className = "trselected";
+
+    }
+
+    function buscaRepEvento() {
+        var fd = $('#fd1').val();
+        var fh = $('#fh1').val();
+        if (fd != null && fd != "") {
+            $.ajax({
+                url: "@Url.Action("ReporteEvento1", "Evento")",
+                data: {fd:fd,fh:fh},
+            success: function (data) {
+                alert(data);
+                window.location.href = '/Evento/ReporteEvento';
+            },
+            error: function (data) {
+                alert(data);
+                window.location.href = '/Evento/ReporteEvento';
+            }
+        });
+    } else {
+            $.ajax({
+                url: "@Url.Action("LimpiaR1", "Evento")",
+        data: {},
+    success: function () {
+        window.location.href = '/Evento/ReporteEvento';
+    },
+    error: function (data) {
+        alert(data);
+        window.location.href = '/Evento/ReporteEvento';
+    }
+    });
+    }
+    }
+
+
+    function exportar() {
+
+        window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('div[id$=resultTablet]').html()));
+        e.preventDefault();
+
+    }
+
+</script>
+<style>
+    .trselected {
+        background: gray;
+    }
+</style>

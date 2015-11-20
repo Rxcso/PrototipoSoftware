@@ -158,6 +158,57 @@ namespace WebApplication4.Controllers
             EmailController.EnviarCorreoReserva(idVenta, User.Identity.Name);
             return "Ok";
         }
+        public JsonResult LimpiaR1()
+        {
+            Session["ReporteEventos"] = null;
+            return Json("Reporte Limpio", JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult ReporteEvento1(string fd, string fh)
+        {
+            double to = 0;
+            DateTime dt1 = DateTime.Parse(fd);
+            DateTime dt2 = DateTime.Now;
+            if (fh != null && fh != "")
+            {
+                dt2 = DateTime.Parse(fh);
+            }
+            Session["FechaREI"] = dt1;
+            Session["FechaREF"] = dt2;
+            TimeSpan ts = dt2.Subtract(dt1);
+            int nd = (int)ts.Days;
+            nd = nd + 1;
+            DateTime di = dt1;
+            if (dt1 > dt2) return Json("Fecha inicio debe ser menor que fecha fin", JsonRequestBehavior.AllowGet);
+            List<ReporteEventosModel> lr = new List<ReporteEventosModel>();
+            List<Eventos> lv = db.Eventos.Where(c => (c.fecha_inicio >= dt1.Date) && (c.fecha_fin <= dt2.Date)).ToList();
+            
+                for (int i = 0; i < lv.Count; i++)
+                {
+                     ReporteEventosModel r = new ReporteEventosModel();
+                     r.codigoEvento =  lv[i].codigo;
+                     r.nombreEvento = lv[i].nombre;
+                     int valorID=(int)lv[i].idOrganizador;
+                     Organizador queryO = db.Organizador.Where(c => c.codOrg == valorID).First();
+                     r.nombreOrganizador = queryO.nombOrg;
+                     valorID=(int)lv[i].idLocal;
+                     Local querL = db.Local.Where(c => c.codLocal == valorID ).First();
+                     r.local = querL.ubicacion;
+                     valorID = (int)lv[i].idRegion;
+                     Region querR = db.Region.Where(c => c.idRegion == (int)valorID).First();
+                     r.region = querR.nombre;
+                     lr.Add(r);
+                }
+               
+            Session["ReporteEventos"] = lr;
+            return Json("Reporte Generado", JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult ReporteEvento()
+        {
+            return View();
+
+        }
 
         public ActionResult Index(string nombre, string orden, DateTime? fech_ini, DateTime? fech_fin, int? idCategoria, int? idSubCat, int? idRegion, int? page)
         {
