@@ -10,10 +10,20 @@
     List<Eventos> listaDestacados = ViewBag.ListaDestacados as List<Eventos>;
 }
 
-<html>
-<body>
+    <style>
+                            .thumbnail > .event {
+                                height: 50px;
+                            }
 
-    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+                            .bloque-imagen {
+                                width: 250px;
+                                height: 150px;
+                            }
+                        </style>
+
+
+
+    
     <div id="seccionPrincipal" class="container">
         <div class="row">
             <div class="col-md-12 ">
@@ -146,10 +156,10 @@
             </div>
         </div>
     </div>
-    <!--librerias-->
-    <script>
-
-
+    
+    <!--librerias-->   
+    @section scripts{
+                               <script>
         $(document).ready(function () {
 
 
@@ -288,21 +298,11 @@
         function ingresar() {
             window.open("mi_cuenta.html", "_self");
         }
-    </script>
+                               </script>
+        }
 
-    <style>
+     
+    
 
-         .thumbnail >  .event{
+    
 
-      height:50px;
-  }
-    .bloque-imagen{
-
-        width:250px;
-        height: 150px;
-    }
-
-
-    </style>
-</body>
-</html>

@@ -520,6 +520,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\CategoriaEvento\BorrarCategoriaEvento.js" />
     <Content Include="Scripts\ComprarEntrada\ComprarEntradaHelper.js" />
+    <Content Include="Scripts\datepicker-es.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Content\bootstrap-theme.css.map" />
@@ -551,6 +552,7 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\jquery-2.1.4.min.map" />
     <None Include="Scripts\_references.js" />
+    <Content Include="Scripts\script_fecha.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

@@ -15,14 +15,16 @@
     inf245netsoft db = new inf245netsoft();
 }
 
-<script src="~/Scripts/jquery-2.1.4.min.js"></script>
+                               <style>
+                                   .thumbnail > .event-img {
+                                       height: 70px;
+                                   }
 
-<!--
-
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-
--->
-
+                                   .bloque {
+                                       width: 250px;
+                                       height: 150px;
+                                   }
+                               </style>
 
 <div id="busqNombre" class="container-fluid">
     <div class="col-md-3">
@@ -31,8 +33,6 @@
         </ol>
     </div>    
 </div>
-
-
 
 <div id="busqAvanzada" class="container-fluid" style="text-align:center">
     <div class="row">
@@ -83,12 +83,12 @@
                         {
                             string valor = ViewBag.fech_ini.ToString("yyyy-MM-dd");
 
-                            <input id="fech_ini" name="fech_ini" type="date" class="form-control" value=@valor>
+                            <input id="fech_ini" name="fech_ini" type="date" class="form-control " value=@valor>
                         }
                         else
                         {
 
-                            <input id="fech_ini" name="fech_ini" type="date" class="form-control">
+                            <input id="fech_ini" name="fech_ini" type="date" class="form-control ">
                         }
 
 
@@ -111,12 +111,12 @@
                         {
                             string valor = ViewBag.fech_fin.ToString("yyyy-MM-dd");
 
-                            <input id="fech_fin" name="fech_fin" type="date" value=@valor class="form-control">
+                            <input id="fech_fin" name="fech_fin" type="date" value=@valor class="form-control" >
                         }
                         else
                         {
 
-                            <input id="fech_fin"  name="fech_fin" type="date" class="form-control">
+                            <input id="fech_fin"  name="fech_fin" type="date" class="form-control" >
                         }
 
 
@@ -452,10 +452,12 @@
             </ul>
         </div>
     </div>*@
-<script>
+
+    @section scripts{
+                               <script>
 
     $(document).ready(function () {
-      
+
 
 
         if (!isNaN(@ViewBag.idCategoria)) {
@@ -494,7 +496,7 @@
         $("#adv-search").on('submit', function (e) {
 
             e.preventDefault();
-           
+
 
             var fechI = this['fech_ini'].value;
             var fechF = this['fech_fin'].value;
@@ -513,14 +515,14 @@
                     valor.remove();
 
                 }
-               
+
                 $("#alerta").hide();
 
             }
             /*Regla 2 : Validacion para las fechas*/
             if (fechF != '' && fechI != '') {
-                   
-               
+
+
                 if (new Date(fechF.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1")) < new Date(fechI.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1"))) {
 
                     $("#alerta").append('<strong>Fecha hasta no puede ser menor que fecha desde</strong>').show();
@@ -555,7 +557,7 @@
 
 
     function submitAdvSearch() {
-      
+
             $("#adv-search").submit();
 
     }
@@ -597,18 +599,10 @@
                 });
             }
 
-</script>
-<style>
+                               </script>
+                               <script src="~/Scripts/script_fecha.js"></script>
+        }
 
-     .thumbnail >  .event-img{
 
-      height:70px;
-  }
-    .bloque{
 
-        width:250px;
-        height: 150px;
-    }
-
-</style>
 
