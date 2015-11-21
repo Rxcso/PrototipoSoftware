@@ -191,7 +191,7 @@ else
                             <a href="@Url.Action("Index", "Home")" class="navbar-brand">TICKNET </a><!--nos redirige a la pag principal-->
                         </div>
                         <!--inicia el MENU-->
-                        <div class="collapse navbar-collapse" id="navegacion">
+                        <div-- class="collapse navbar-collapse" id="navegacion">
                             <!--menu desplegable -->
                             @using (Html.BeginForm("Index", "Home", FormMethod.Get, new { id = "search", @class = "navbar-form navbar-left", role = "search" }))
                             {
@@ -203,9 +203,9 @@ else
                                 </div>
 
                             }
-                            <div class="navbar-form navbar-right">
+                            <!--div class="navbar-form navbar-right">
                                 <a href="@Url.Action("PuntoVentas","Home")" name="boton" value="carrito" class="btn btn-success pull-right ">Puntos de Venta <span class="glyphicon glyphicon-shopping-cart"></span></a>
-                            </div>
+                            </div-->
                             <!--
                             <form action="" class="navbar-form navbar-left" role="search">
                             </form>
@@ -213,14 +213,14 @@ else
                             <form class="navbar-form navbar-right">
                                 <a class="btn btn-info" href="#busqAvanzada" data-toggle="collapse">Búsqueda Avanzada <span class="glyphicon glyphicon-tasks"></span></a>
                             </form>
-                            <div class="navbar-form navbar-right">
+                            <!--div class="navbar-form navbar-right">
                                 <a href="@Url.Action("MiCarrito","CuentaUsuario")" name="boton" value="carrito" class="btn btn-success pull-right ">Carrito <span class="glyphicon glyphicon-shopping-cart"></span></a>
-                            </div>
+                            </!div-->
                             <div class="navbar-form navbar-right">
 
                                 @if (!Request.IsAuthenticated)
                                 {
-                                    <a id="logIn" href="#logInCliente" class="btn btn-primary" data-toggle="modal">Iniciar Sesión <span class="glyphicon glyphicon-user"></span> </a>
+                                    <a id="logIn" href="#logInCliente" class="btn btn-primary" data-toggle="modal">Iniciar Sesión <span class="fa fa-user"></span> </a>
                                 }
                                 else
                                 {
@@ -367,7 +367,12 @@ else
                     @(TempData["message"])
                 </div>
             </div>
-
+            <ul id="barraLateral">
+                
+                <li><a href="@Url.Action("MiCarrito", "CuentaUsuario")"><span class="fa fa-cart-plus fa-4x"></span></a></li>                
+                <li><a href="@Url.Action("PuntoVentas", "Home")"><span class="fa fa-map-marker fa-4x"></span></a></li>
+                
+            </ul>
             @RenderBody()
 
             @Scripts.Render("~/bundles/jquery")

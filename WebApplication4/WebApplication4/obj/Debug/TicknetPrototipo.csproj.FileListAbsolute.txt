@@ -2078,3 +2078,5 @@ F:\down\Ingenieria de software\Prototipo\PrototipoSoftware24\WebApplication4\Web
 F:\down\Ingenieria de software\Prototipo\PrototipoSoftware24\WebApplication4\WebApplication4\obj\Debug\TicknetPrototipo.csprojResolveAssemblyReference.cache
 F:\down\Ingenieria de software\Prototipo\PrototipoSoftware24\WebApplication4\WebApplication4\obj\Debug\WebApplication4.dll
 F:\down\Ingenieria de software\Prototipo\PrototipoSoftware24\WebApplication4\WebApplication4\obj\Debug\WebApplication4.pdb
+C:\Users\Pier\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\bin\Antlr3.Runtime.dll
+C:\Users\Pier\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\bin\es\Microsoft.AspNet.Identity.Core.resources.dll
