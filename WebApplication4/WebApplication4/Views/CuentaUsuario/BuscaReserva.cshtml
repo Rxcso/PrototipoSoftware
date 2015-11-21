@@ -6,10 +6,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     var db = new WebApplication4.Models.inf245netsoft();
     Turno tu = null;
+    //se comprueba si el usuario que se logueo tiene un turno asignado almacenado en session
     if (Session["TurnoHoy"] != null)
     {
         tu = (Turno)Session["TurnoHoy"];
     }
+    //se define la lista de reserva y si ya se genero una busqueda anterior se obtiene el resultado para mostralo 
     List<VentasXFuncion> listaReserva = null;
     if (Session["ReservaBusca"] != null)
     {
@@ -46,6 +48,7 @@
                 <span class="input-group-btn"><button onclick="busca()" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
             </div>
         </div>
+        @*si existe un turno y la caja para ese turno esta abierta aparece la opcion para pagar reserva*@
         @*@if (tu != null && tu.estadoCaja == "Abierto") 
         {*@ 
             <div class="col-md-3 ">
@@ -76,6 +79,7 @@
                 <tbody id="tbody">
                     @if (listaReserva != null)
                     {
+                        //se muestra el resultado de la lista de reserva que se obtuvo de la busqueda si es que ya hubo una busqueda
                         foreach (var row in listaReserva)
                         {
                             <tr id=@row.codVen onclick="myFunction(this)">
@@ -105,12 +109,9 @@
     function myFunction(x) {
         if (document.getElementsByClassName("trselected").length > 0) {
             var element = document.getElementsByClassName("trselected");
-            //element.item[0].cells[0].innerText;
             element[0].className = "";
         }
-        //var tabla = document.getElementById("mytable");
-        //alert(x);
-        //var y = x.getCells();
+        //se almacena elcodigo de la  venta seleccionada
         var elem = document.getElementById("codVenT");
         elem.value = x.cells[0].innerHTML;
         x.className = "trselected";
@@ -119,7 +120,7 @@
     function busca() {
         var usuario = $('#idBusq').val();
         var tipo = $('#comboBusq option:selected').val();
-
+        //se obtienen los valores de los criterios de busqueda y se los envia al controller
         $.ajax({
             url: "@Url.Action("SearchReserva", "CuentaUsuario")",
             data: { usuario: usuario, tipo: tipo },

@@ -10,6 +10,7 @@
 
 @{
     var db = new WebApplication4.Models.inf245netsoft();
+    //se define la lista de los clientes que se mostraran
     List<WebApplication4.Models.CuentaUsuario> listaCliente = null;
 }
 
@@ -25,7 +26,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-11">
-            
+            @*se verifica si se genero un reporte o no para mostrar el boton de exportacion*@
             @if (Session["ListaPU"] != null)
             {
                 <input id="btnExport" type="button" class="btn btn-primary" value="Exportar Excel">
@@ -50,32 +51,8 @@
         </div>
     </div><br>
 
-
-    @*@using (Html.BeginForm("ReporteCliente", "CuentaUsuario", FormMethod.Post, new { }))
-    {
-        @Html.AntiForgeryToken()
-
-        <div class="form-horizontal">
-            @Html.ValidationSummary(true)
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.puntos, new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.puntos)
-                    @Html.ValidationMessageFor(model => model.puntos)
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Buscar" class="btn btn-default" />
-                </div>
-            </div>
-        </div>
-    }*@
-
     <br>
-
+    @*si se logro generar un reporte se muestra su contenido*@
     @if (Session["ListaPU"] != null)
     {
         listaCliente = (List<WebApplication4.Models.CuentaUsuario>)Session["ListaPU"];
@@ -96,9 +73,8 @@
                 <tbody id="tbody">
                     @foreach (var row in listaCliente)
                     {
-
+                        //se obtiene la lista de las reservas anuladas o anuladas por job de cada cliente de cada fila                        
                         List<Ventas> listaA = db.Ventas.Where(c => c.cliente == row.usuario && (c.Estado == "Anulado" || c.Estado == "Anulado-Job")).ToList();
-
                         <tr id=@row.usuario onclick="myFunction(this)">
                             <td>@row.usuario</td>
                             <td>@row.nombre   @row.apellido</td>
@@ -118,32 +94,36 @@
     function reporte() {
         var fd = $('#min-points').val();
         var doc = $('#nDoc').val();
+        //se obtiene los valores ingresados de los punto y el numero de documento
         if (fd != "" || doc != "") {
+            //se envian los datos ingresados para generar el reporte
             $.ajax({
                 url: "@Url.Action("ReporteC", "CuentaUsuario")",
                 data: {fd:fd,doc:doc},
-            success: function (data) {
-                alert(data);
-                window.location.href = '/CuentaUsuario/ReporteCliente';
-            },
-            error: function (data) {
-                alert(data);
-                window.location.href = '/CuentaUsuario/ReporteCliente';
-            }
-        });
-    } else {
+                success: function (data) {
+                    //se muestra el mensaje y se carga la pagina
+                    alert(data);
+                    window.location.href = '/CuentaUsuario/ReporteCliente';
+                },
+                error: function (data) {
+                    alert(data);
+                    window.location.href = '/CuentaUsuario/ReporteCliente';
+                }
+            });
+        } else {
+            //si no se escribe nada en los campos se borra el reporte generado actualmente
             $.ajax({
                 url: "@Url.Action("LimpiaR", "CuentaUsuario")",
-        data: {},
-    success: function () {
-        window.location.href = '/CuentaUsuario/ReporteCliente';
-    },
-    error: function (data) {
-        alert(data);
-        window.location.href = '/CuentaUsuario/ReporteCliente';
-    }
-    });
-    }
+                data: {},
+                success: function () {
+                window.location.href = '/CuentaUsuario/ReporteCliente';
+                },
+                error: function (data) {
+                    alert(data);
+                    window.location.href = '/CuentaUsuario/ReporteCliente';
+                }
+            });
+        }
     }
 
 </script>

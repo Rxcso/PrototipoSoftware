@@ -3,7 +3,8 @@
     ViewBag.Title = "VerRegalos";
     Layout = "~/Views/Shared/_Layout.cshtml"; 
     var db = new WebApplication4.Models.inf245netsoft();
-    List<WebApplication4.Models.Regalo> listaRegalo;
+    //se obtienen la lista total de regalos activos
+    List<WebApplication4.Models.Regalo> listaRegalo=new List<WebApplication4.Models.Regalo>();
     listaRegalo = db.Regalo.AsNoTracking().Where(c => c.estado == true).ToList();
 }
 
@@ -29,6 +30,7 @@
                 <tbody id="tbody">
                     @foreach (var row in listaRegalo)
                     {
+                        //se muestran la lista de regalos activos
                         <tr id=@row.idRegalo onclick="myFunction(this)">
                             <td>@row.Nombre</td>
                             <td>@row.descripcion</td>
