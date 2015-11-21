@@ -172,7 +172,7 @@
           <Property Name="descripcion" Type="text" Nullable="false" />
           <Property Name="fecha_inicio" Type="datetime" />
           <Property Name="fecha_fin" Type="datetime" />
-          <Property Name="estado" Type="text" />
+          <Property Name="estado" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="monto_transferir" Type="float" Nullable="false" />
           <Property Name="monto_adeudado" Type="float" Nullable="false" />
           <Property Name="direccion" Type="text" />
@@ -307,6 +307,7 @@
             <PropertyRef Name="codPuntoVenta" />
           </Key>
           <Property Name="codPuntoVenta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="varchar" MaxLength="100" />
           <Property Name="ubicacion" Type="varchar" MaxLength="100" />
           <Property Name="estaActivo" Type="bit" />
           <Property Name="dirMAC" Type="varchar" MaxLength="100" />
@@ -1578,6 +1579,7 @@
           <NavigationProperty Name="Region" Relationship="inf245netsoftModel.R_28" FromRole="PuntoVenta" ToRole="Region" />
           <NavigationProperty Name="Region1" Relationship="inf245netsoftModel.R_75" FromRole="PuntoVenta" ToRole="Region" />
           <NavigationProperty Name="Turno" Relationship="inf245netsoftModel.R_9" FromRole="PuntoVenta" ToRole="Turno" />
+          <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Region">
           <Key>
@@ -2233,7 +2235,7 @@
           <Property Name="descripcion" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="fecha_inicio" Type="DateTime" Precision="3" />
           <Property Name="fecha_fin" Type="DateTime" Precision="3" />
-          <Property Name="estado" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="estado" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="monto_transferir" Type="Double" Nullable="false" />
           <Property Name="monto_adeudado" Type="Double" Nullable="false" />
           <Property Name="direccion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
@@ -2523,6 +2525,7 @@
           <EntitySetMapping Name="PuntoVenta">
             <EntityTypeMapping TypeName="inf245netsoftModel.PuntoVenta">
               <MappingFragment StoreEntitySet="PuntoVenta">
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
                 <ScalarProperty Name="idRegion" ColumnName="idRegion" />
                 <ScalarProperty Name="idProvincia" ColumnName="idProvincia" />
                 <ScalarProperty Name="dirMAC" ColumnName="dirMAC" />

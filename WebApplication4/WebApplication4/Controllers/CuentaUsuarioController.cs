@@ -1583,25 +1583,44 @@ namespace WebApplication4.Controllers
             return Json("Reporte Limpio", JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult ReporteC(string fd)
+        public JsonResult ReporteC(string fd,string doc)
         {
             int m4;
+            List<CuentaUsuario> listacl=null;
             if (int.TryParse(fd, out m4) == true)
             {
                 int val = int.Parse(fd);
                 if (val >= 0)
                 {
-                    List<CuentaUsuario> listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.puntos > val && c.estado == true && c.codPerfil == 1).ToList();
-                    if (listacl != null) Session["ListaPU"] = listacl;
-                    else Session["ListaPU"] = null;
-                    return Json("Reporte Generado", JsonRequestBehavior.AllowGet);
+                    listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.puntos > val && c.estado == true && c.codPerfil == 1).ToList();
+                    
                 }
                 else
                 {
                     return Json("Numero debe ser mayor igual a cero", JsonRequestBehavior.AllowGet);
                 }
             }
-            return Json("Ingrese un Numero Valido", JsonRequestBehavior.AllowGet);
+            else
+            {
+                if (fd != "")
+                {
+                    return Json("Ingrese un Numero Valido", JsonRequestBehavior.AllowGet);
+                }
+            }
+            if (doc != "")
+            {
+                if (listacl != null)
+                {
+                    listacl = listacl.Where(c => c.codDoc == doc).ToList();
+                }
+                else
+                {
+                    listacl = db.CuentaUsuario.Where(c => c.codDoc == doc).ToList();
+                }
+            }
+            if (listacl != null) Session["ListaPU"] = listacl;
+            else Session["ListaPU"] = null;
+            return Json("Reporte Generado", JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

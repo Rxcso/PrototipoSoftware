@@ -32,7 +32,7 @@
             <form action="" class="" role="search">
                 <div class="form-group">
                     <div class="input-group">
-                        <input id="idBusq" type="text" class="form-control" placeholder="NOMBRE DEL PTO VENTA">
+                        <input id="idBusq" type="text" class="form-control" placeholder="UBICACION DEL PTO VENTA">
                         <span class="input-group-btn"><button onclick="busca()" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
                     </div>
                 </div>
@@ -76,6 +76,7 @@
             <thead>
                 <tr class="thead">
                     <th>Id</th>
+                    <th>Nombre</th>
                     <th>Ubicacion</th>
                     <th>Dirección MAC</th>
                     <th>Provincia</th>
@@ -88,6 +89,7 @@
                 {
                     <tr id=@row.codPuntoVenta onclick="myFunction(this)">
                         <td>@row.codPuntoVenta</td>
+                        <td>@row.nombre</td>
                         <td>@row.ubicacion</td>
                         <td>@row.dirMAC</td>
                         <td>@db.Region.Find(row.idProvincia).nombre</td>
@@ -314,6 +316,14 @@
                     <div class="form-horizontal">
                         @Html.ValidationSummary(true)
                         <br>
+                        <div class="row form-group">
+                            @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })
+                            <div class="col-md-5">
+                                @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.nombre)
+                            </div>
+                        </div>
+
                         <div class="row form-group">
                             @Html.LabelFor(model => model.ubicacion, new { @class = "control-label col-md-3" })
                             <div class="col-md-5">

@@ -13,6 +13,7 @@
     puntoM.mac = punto.dirMAC;
     idR = (int)punto.idRegion;
     idP = (int)punto.idProvincia;
+    puntoM.nombre = punto.nombre;
     puntoM.ubicacion = punto.ubicacion;
     puntoM.idRegion = (int)punto.idRegion;
     puntoM.idProv = (int)punto.idProvincia;
@@ -29,6 +30,14 @@
         <div class="form-horizontal">
             @Html.ValidationSummary(true)
             <br>
+            <div class="row form-group">
+                @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })
+                <div class="col-md-5">
+                    @Html.TextBoxFor(model => model.ubicacion, new { @class = "form-control", @placeholder = @puntoM.nombre, @Value = @puntoM.nombre })
+                    @Html.ValidationMessageFor(model => model.nombre)
+                </div>
+            </div>
+
             <div class="row form-group">
                 @Html.LabelFor(model => model.ubicacion, new { @class = "control-label col-md-3" })
                 <div class="col-md-5">

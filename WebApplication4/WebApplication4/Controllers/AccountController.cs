@@ -377,6 +377,12 @@ namespace WebApplication4.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RegisterVendedor(RegisterViewModel model)
         {
+            List<CuentaUsuario> lcu = db.CuentaUsuario.Where(c => c.tipoDoc == model.tipoDoc && c.codDoc == model.codDoc).ToList();
+            if (lcu == null || lcu.Count > 0)
+            {
+                TempData["MessageErrorVendedor"] = "Ya existe un cuenta registrada con ese DNI";
+                return RedirectToAction("Index", "Empleado");   
+            }
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
@@ -432,6 +438,12 @@ namespace WebApplication4.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RegisterPromotor(RegisterViewModel model)
         {
+            List<CuentaUsuario> lcu = db.CuentaUsuario.Where(c => c.tipoDoc == model.tipoDoc && c.codDoc == model.codDoc).ToList();
+            if (lcu == null || lcu.Count > 0)
+            {
+                TempData["MessageErrorPromotor"] = "Ya existe un cuenta registrada con ese DNI";
+                return RedirectToAction("Index", "Empleado");
+            }
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };

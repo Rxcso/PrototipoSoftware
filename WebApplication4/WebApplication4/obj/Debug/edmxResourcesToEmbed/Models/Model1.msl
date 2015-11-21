@@ -103,6 +103,7 @@
     <EntitySetMapping Name="PuntoVenta">
       <EntityTypeMapping TypeName="inf245netsoftModel.PuntoVenta">
         <MappingFragment StoreEntitySet="PuntoVenta">
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
           <ScalarProperty Name="idRegion" ColumnName="idRegion" />
           <ScalarProperty Name="idProvincia" ColumnName="idProvincia" />
           <ScalarProperty Name="dirMAC" ColumnName="dirMAC" />

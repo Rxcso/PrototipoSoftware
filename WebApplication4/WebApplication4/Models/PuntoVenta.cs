@@ -25,6 +25,7 @@ namespace WebApplication4.Models
         public string dirMAC { get; set; }
         public Nullable<int> idProvincia { get; set; }
         public Nullable<int> idRegion { get; set; }
+        public string nombre { get; set; }
     
         public virtual Region Region { get; set; }
         public virtual Region Region1 { get; set; }

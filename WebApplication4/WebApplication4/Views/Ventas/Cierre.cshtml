@@ -21,7 +21,7 @@
     double totalDE = 0;
     double totalDT = 0;
     double totalSE = 0;
-    if (turno != null && turno.estadoCaja == "Cerrado")
+    if (turno != null )
     {
         mS = (double)turno.MontoInicioSoles;
         mD = (double)turno.MontoInicioDolares;
@@ -68,8 +68,82 @@
 </div>
 <div class="container">
     <div class="row">
-        @if (turno != null && turno.estadoCaja == "Cerrado") { 
+
         <div class="form-group">
+            <label for="categoria" class="control-label col-md-2 col-md-offset-2">Monto Inicial:</label>
+            <div class="col-md-2">
+                <div class="input-group">
+                    <span class="input-group-addon" id="soles">S/.</span>
+                    <input type="text" value="@mS" class="form-control" aria-describedby="soles" readonly="true">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="input-group">
+                    <span class="input-group-addon" id="soles">$.</span>
+                    <input type="text" value="@mD" class="form-control" aria-describedby="soles" readonly="true">
+                </div>
+            </div>
+        </div>
+        <br><br>
+
+        <div class="form-group">
+            <label for="categoria" class="control-label col-md-2 col-md-offset-2">Ventas al contado:</label>
+            <div class="col-md-2">
+                <div class="input-group">
+                    <span class="input-group-addon" id="soles">S/.</span>
+                    <input type="text" value="@totalSE" class="form-control" aria-describedby="soles" readonly="true">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="input-group">
+                    <span class="input-group-addon" id="dolares">$.</span>
+                    <input type="text" value="@totalDE" class="form-control" aria-describedby="dolares" readonly="true">
+                </div>
+            </div>
+        </div><br>
+
+        <br>
+
+        <div class="form-group">
+            <label for="categoria" class="control-label col-md-2 col-md-offset-2">Ventas con tarjeta:</label>
+            <div class="col-md-2">
+                <div class="input-group">
+                    <span class="input-group-addon" id="soles">S/.</span>
+                    <input type="text" value="@totalST" class="form-control" aria-describedby="soles" readonly="true">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="input-group">
+                    <span class="input-group-addon" id="dolares">$.</span>
+                    <input type="text" value="@totalDT" class="form-control" aria-describedby="dolares" readonly="true">
+                </div>
+            </div>
+        </div>
+
+        <br><br>
+
+        <div class="form-group">
+            <label for="categoria" class="control-label col-md-2 col-md-offset-2">Monto en caja:</label>
+            <div class="col-md-2">
+                <div class="input-group">
+                    <span class="input-group-addon" id="soles">S/.</span>
+                    <input id="idmcs" type="text" value="@totalS" class="form-control" aria-describedby="soles" readonly="true">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="input-group">
+                    <span class="input-group-addon" id="dolares">$.</span>
+                    <input id="idmcd" type="text" value="@totalD" class="form-control" aria-describedby="dolares" readonly="true">
+                </div>
+            </div>
+
+
+
+        </div>
+        <br><br>
+
+        @if (turno != null && turno.estadoCaja == "Cerrado") { 
+        @*<div class="form-group">
             <label for="categoria" class="control-label col-md-2 col-md-offset-2">Monto Inicial:</label>
             <div class="col-md-2">
                 <div class="input-group">
@@ -140,7 +214,7 @@
 
 
         </div>
-    <br><br>
+    <br><br>*@
 
     <div class="form-group">
         <label for="categoria" class="control-label col-md-2 col-md-offset-2">Monto real:</label>
@@ -161,7 +235,7 @@
         }
         else
         {
-            <div class="form-group">
+            @*<div class="form-group">
                 <label for="categoria" class="control-label col-md-2 col-md-offset-2">Monto Inicial:</label>
                 <div class="col-md-2">
                     <div class="input-group">
@@ -232,7 +306,7 @@
 
 
             </div>
-    <br><br>
+    <br><br>*@
 
     <div class="form-group">
         <label for="categoria" class="control-label col-md-2 col-md-offset-2">Monto real:</label>
@@ -290,23 +364,29 @@
 <script>
     function cerrar() {
         var montos = $('#montoSolesR').val();
+        var montocs = $('#idmcs').val();
+        var montocd = $('#idmcd').val();
         //alert(montos);
         var montod = $('#dolaresR').val();
         //alert(montod);
         if (montos != "" && montos != null && montod != "" && montod != null) {
             //alert(monto);
-            $.ajax({
-                url: "@Url.Action("CerrarCaja", "Ventas")",
-                data: { montos: montos, montod: montod },
-                success: function (data) {
-                    alert(data);
-                    window.location.href = '/Ventas/Cierre';
-                },
-                error: function (data) {
-                    alert(data);
-                    window.location.href = '/Ventas/Cierre';
-                }
-            });
+            if ((montocd == montod) && (montocs == montos)) {
+                $.ajax({
+                    url: "@Url.Action("CerrarCaja", "Ventas")",
+                    data: { montos: montos, montod: montod },
+                    success: function (data) {
+                        alert(data);
+                        window.location.href = '/Ventas/Cierre';
+                    },
+                    error: function (data) {
+                        alert(data);
+                        window.location.href = '/Ventas/Cierre';
+                    }
+                });
+            } else {
+                alert("Los montos ingresados deben coincidir con los montos en caja");
+            }
         } else {
             alert("Ingrese los monto solicitados");
         }

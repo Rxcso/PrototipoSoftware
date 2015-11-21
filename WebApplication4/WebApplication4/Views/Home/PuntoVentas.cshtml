@@ -44,6 +44,7 @@
             <table id="mytable" class="table table-bordered table-hover">
                 <thead>
                     <tr class="thead">
+                        <th>Nombre</th>
                         <th>Ubicacion</th>
                         <th>Provincia</th>
                         <th>Departamento</th>
@@ -53,6 +54,7 @@
                     @foreach (var row in listaPunto)
                     {
                         <tr id=@row.codPuntoVenta onclick="myFunction(this)">
+                            <td>@row.nombre</td>
                             <td>@row.ubicacion</td>
                             <td>@db.Region.Find(row.idProvincia).nombre</td>
                             <td>@db.Region.Find(row.idRegion).nombre</td>
