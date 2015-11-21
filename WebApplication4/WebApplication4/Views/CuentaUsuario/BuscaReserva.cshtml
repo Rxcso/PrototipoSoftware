@@ -81,8 +81,8 @@
                             <tr id=@row.codVen onclick="myFunction(this)">
                                 <td>@row.codVen</td>
                                 @{
-                            Ventas ve = db.Ventas.Find(row.codVen);
-                            Funcion fu = db.Funcion.Find(row.codFuncion);
+                                    Ventas ve = db.Ventas.Find(row.codVen);
+                                    Funcion fu = db.Funcion.Find(row.codFuncion);
                                 }
                                 <td>@db.CuentaUsuario.Find(ve.cliente).nombre @db.CuentaUsuario.Find(ve.cliente).apellido</td>
                                 <td>@ve.codDoc</td>

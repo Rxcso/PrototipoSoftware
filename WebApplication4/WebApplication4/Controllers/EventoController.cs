@@ -106,6 +106,7 @@ namespace WebApplication4.Controllers
                         vf.descuento = 0;
                         vf.subtotal = paquete.cantEntradas * pr.precio;
                         vf.total = paquete.cantEntradas * pr.precio;
+                        vf.hanEntregado = false;
                         db.VentasXFuncion.Add(vf);
                         //db.SaveChanges();
                         DetalleVenta dt = new DetalleVenta();

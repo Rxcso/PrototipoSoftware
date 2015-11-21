@@ -331,95 +331,183 @@ namespace WebApplication4.Controllers
             return indicador;
         }
 
+
         [HttpPost]
         [AllowAnonymous]
         public ActionResult ComprarEntradaReservadaA(ComprarEntradaReservadaAModel model)
         {
             int codVenta = int.Parse((string)Session["idReservaCompra"]);
 
-            //propio validador
-            if (validaCompraEntradaReservadaVendedor(model))
+            if (model.NumeroTarjeta != null && model.CodCcv != null)
             {
-                int idVenta = codVenta;
-                DateTime hoy = DateTime.Today;
-
-                using (var context = new inf245netsoft())
+                if (validaCompraEntradaReservadaVendedor(model))
                 {
-                    try
-                    {
-                        Ventas ve = db.Ventas.Where(c => c.codVen == idVenta).First();
-                        ve.fecha = DateTime.Now;
+                    int idVenta = codVenta;
+                    DateTime hoy = DateTime.Today;
 
-                        //de todas maneras en la venta se registra el nombre, dni y tipo de documento del que esta comprando.                    
-                        CuentaUsuario cu = (CuentaUsuario)Session["UsuarioLogueado"];
-                        CuentaUsuario cu2 = db.CuentaUsuario.Find(cu.usuario);
-                        ve.vendedor = cu2.usuario;
-                        ve.CuentaUsuario1 = cu2;
-                        ve.Estado = "Pagado";
-                        ve.fecha = hoy;
-                        ve.montoEfectivoSoles = model.MontoEfe;
-                        ve.montoCreditoSoles = model.MontoTar;
-                        ve.MontoTotalSoles = model.MontoPagar;
+                    using (var context = new inf245netsoft())
+                    {
                         try
                         {
-                            db.SaveChanges();
-                        }
-                        catch (DbEntityValidationException dbEx)
-                        {
-                            foreach (var validationErrors in dbEx.EntityValidationErrors)
+                            Ventas ve = db.Ventas.Where(c => c.codVen == idVenta).First();
+                            ve.fecha = DateTime.Now;
+
+                            //de todas maneras en la venta se registra el nombre, dni y tipo de documento del que esta comprando.                    
+                            CuentaUsuario cu = (CuentaUsuario)Session["UsuarioLogueado"];
+                            CuentaUsuario cu2 = db.CuentaUsuario.Find(cu.usuario);
+                            ve.vendedor = cu2.usuario;
+                            ve.CuentaUsuario1 = cu2;
+                            ve.Estado = "Pagado";
+                            ve.fecha = hoy;
+                            ve.montoEfectivoSoles = model.MontoEfe;
+                            ve.montoCreditoSoles = model.MontoTar;
+                            ve.MontoTotalSoles = model.MontoPagar;
+                            try
                             {
-                                foreach (var validationError in validationErrors.ValidationErrors)
+                                db.SaveChanges();
+                            }
+                            catch (DbEntityValidationException dbEx)
+                            {
+                                foreach (var validationErrors in dbEx.EntityValidationErrors)
                                 {
-                                    Trace.TraceInformation("Property: {0} Error: {1}",
-                                                            validationError.PropertyName,
-                                                            validationError.ErrorMessage);
+                                    foreach (var validationError in validationErrors.ValidationErrors)
+                                    {
+                                        Trace.TraceInformation("Property: {0} Error: {1}",
+                                                                validationError.PropertyName,
+                                                                validationError.ErrorMessage);
+                                    }
                                 }
                             }
+                            // ventaXFuncion
+
+                            VentasXFuncion dt = db.VentasXFuncion.Where(c => c.codVen == idVenta).First();
+                            int codFuncion = dt.codFuncion;
+                            int cantidad = dt.cantEntradas;
+                            dt.subtotal = model.Importe;
+                            dt.descuento = (int)model.Descuento;
+                            dt.total = model.MontoPagar;
+
+                            db.SaveChanges();
+
+                            //Funcion
+
+                            Funcion fu = db.Funcion.Where(c => c.codFuncion == codFuncion).First();
+
+                            int codEvento = fu.codEvento;
+
+                            //detalle de venta
+                            DetalleVenta dv = db.DetalleVenta.Where(c => c.codVen == idVenta).First();
+
+                            dv.descTot = (int)model.Descuento;
+                            dv.Subtotal = model.Importe;
+                            dv.total = model.MontoPagar;
+
+                            //si es u usuario registrado le aumento los puntos que tiene
+                            CuentaUsuario dbCuenta = db.CuentaUsuario.Where(c => c.codDoc == model.Dni).First();
+                            dbCuenta.puntos += db.Eventos.Find(codEvento).puntosAlCliente * cantidad;
+
+                            db.SaveChanges();
+
+                            context.SaveChanges();
+                            Session["ReservaBusca"] = null;
                         }
-                        // ventaXFuncion
-
-                        VentasXFuncion dt = db.VentasXFuncion.Where(c => c.codVen == idVenta).First();
-                        int codFuncion = dt.codFuncion;
-                        int cantidad = dt.cantEntradas;
-                        dt.subtotal = model.Importe;
-                        dt.descuento = (int)model.Descuento;
-                        dt.total = model.MontoPagar;
-
-                        db.SaveChanges();
-
-                        //Funcion
-
-                        Funcion fu = db.Funcion.Where(c => c.codFuncion == codFuncion).First();
-
-                        int codEvento = fu.codEvento;
-
-                        //detalle de venta
-                        DetalleVenta dv = db.DetalleVenta.Where(c => c.codVen == idVenta).First();
-
-                        dv.descTot = (int)model.Descuento;
-                        dv.Subtotal = model.Importe;
-                        dv.total = model.MontoPagar;
-
-                        //si es u usuario registrado le aumento los puntos que tiene
-                        CuentaUsuario dbCuenta = db.CuentaUsuario.Where(c => c.codDoc == model.Dni).First();
-                        dbCuenta.puntos += db.Eventos.Find(codEvento).puntosAlCliente * cantidad;
-
-                        db.SaveChanges();
-
-                        context.SaveChanges();
-                        Session["ReservaBusca"] = null;
+                        catch (OptimisticConcurrencyException ex)
+                        {
+                            TempData["tipo"] = "alert alert-warning";
+                            TempData["message"] = "Error en la compra.";
+                            return View(model);
+                        }
                     }
-                    catch (OptimisticConcurrencyException ex)
-                    {
-                        TempData["tipo"] = "alert alert-warning";
-                        TempData["message"] = "Error en la compra.";
-                        return View(model);
-                    }
+                    TempData["tipo"] = "alert alert-success";
+                    TempData["message"] = "Compra Realizada. Muchas Gracias.";
+                    //si toda la compra se procesa de manera correcta eliminamos los session
+                    return RedirectToAction("Index", "Home");
                 }
-                TempData["tipo"] = "alert alert-success";
-                TempData["message"] = "Compra Realizada. Muchas Gracias.";
-                //si toda la compra se procesa de manera correcta eliminamos los session
-                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+
+                    int idVenta = codVenta;
+                    DateTime hoy = DateTime.Today;
+
+                    using (var context = new inf245netsoft())
+                    {
+                        try
+                        {
+                            Ventas ve = db.Ventas.Where(c => c.codVen == idVenta).First();
+                            ve.fecha = DateTime.Now;
+
+                            //de todas maneras en la venta se registra el nombre, dni y tipo de documento del que esta comprando.                    
+                            CuentaUsuario cu = (CuentaUsuario)Session["UsuarioLogueado"];
+                            CuentaUsuario cu2 = db.CuentaUsuario.Find(cu.usuario);
+                            ve.vendedor = cu2.usuario;
+                            ve.CuentaUsuario1 = cu2;
+                            ve.Estado = "Pagado";
+                            ve.fecha = hoy;
+                            ve.montoEfectivoSoles = model.MontoEfe;
+                            ve.montoCreditoSoles = model.MontoTar;
+                            ve.MontoTotalSoles = model.MontoPagar;
+                            try
+                            {
+                                db.SaveChanges();
+                            }
+                            catch (DbEntityValidationException dbEx)
+                            {
+                                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                                {
+                                    foreach (var validationError in validationErrors.ValidationErrors)
+                                    {
+                                        Trace.TraceInformation("Property: {0} Error: {1}",
+                                                                validationError.PropertyName,
+                                                                validationError.ErrorMessage);
+                                    }
+                                }
+                            }
+                            // ventaXFuncion
+
+                            VentasXFuncion dt = db.VentasXFuncion.Where(c => c.codVen == idVenta).First();
+                            int codFuncion = dt.codFuncion;
+                            int cantidad = dt.cantEntradas;
+                            dt.subtotal = model.Importe;
+                            dt.descuento = (int)model.Descuento;
+                            dt.total = model.MontoPagar;
+
+                            db.SaveChanges();
+
+                            //Funcion
+
+                            Funcion fu = db.Funcion.Where(c => c.codFuncion == codFuncion).First();
+
+                            int codEvento = fu.codEvento;
+
+                            //detalle de venta
+                            DetalleVenta dv = db.DetalleVenta.Where(c => c.codVen == idVenta).First();
+
+                            dv.descTot = (int)model.Descuento;
+                            dv.Subtotal = model.Importe;
+                            dv.total = model.MontoPagar;
+
+                            //si es u usuario registrado le aumento los puntos que tiene
+                            CuentaUsuario dbCuenta = db.CuentaUsuario.Where(c => c.codDoc == model.Dni).First();
+                            dbCuenta.puntos += db.Eventos.Find(codEvento).puntosAlCliente * cantidad;
+
+                            db.SaveChanges();
+
+                            context.SaveChanges();
+                            Session["ReservaBusca"] = null;
+                        }
+                        catch (OptimisticConcurrencyException ex)
+                        {
+                            TempData["tipo"] = "alert alert-warning";
+                            TempData["message"] = "Error en la compra.";
+                            return View(model);
+                        }
+                    }
+                    TempData["tipo"] = "alert alert-success";
+                    TempData["message"] = "Compra Realizada. Muchas Gracias.";
+                    //si toda la compra se procesa de manera correcta eliminamos los session
+                    return RedirectToAction("Index", "Home");
+                
             }
             Ventas queryVentas = db.Ventas.Where(c => c.codVen == codVenta).First();
             VentasXFuncion queryVF = db.VentasXFuncion.Where(c => c.codVen == codVenta).First();
