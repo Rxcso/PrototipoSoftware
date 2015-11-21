@@ -399,7 +399,7 @@ namespace WebApplication4.Controllers
                     cuentausuario.apellido = model.apellido;
                     cuentausuario.codDoc = model.codDoc;
                     cuentausuario.codPerfil = 2;
-                    cuentausuario.contrasena = user.PasswordHash;
+                    //cuentausuario.contrasena = user.PasswordHash;
                     cuentausuario.direccion = model.direccion;
                     cuentausuario.estado = true;
                     cuentausuario.fechaNac = model.fechaNac;
@@ -460,7 +460,7 @@ namespace WebApplication4.Controllers
                     cuentausuario.apellido = model.apellido;
                     cuentausuario.codDoc = model.codDoc;
                     cuentausuario.codPerfil = 3;
-                    cuentausuario.contrasena = user.PasswordHash;
+                    //cuentausuario.contrasena = user.PasswordHash;
                     cuentausuario.direccion = model.direccion;
                     cuentausuario.estado = true;
                     cuentausuario.fechaNac = model.fechaNac;
