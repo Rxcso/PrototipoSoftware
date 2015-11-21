@@ -96,7 +96,7 @@
                 <div style="text-align: center">
 
 
-                    <a class="btn btn-primary" onclick="realizar()">Generar <span class="glyphicon glyphicon-file"></span></a>
+                    <a id="generarReport" class="btn btn-primary" onclick="realizar()">Generar <span class="glyphicon glyphicon-file"></span></a>
                     <a id="newReport" class="btn btn-primary" onclick="nuevoReporte()">Nuevo Reporte <span class=""></span></a>
 
                     <a id="export-btn" onclick="generarExcel()" target="_blank" class="btn btn-primary "> Exportar a Excel </a>
@@ -213,6 +213,8 @@
 
                 $("#export-btn").show();
                 $('#newReport').show();
+
+                $("#generarReport").hide();
             },
             error: function () {
                 alert("Error :(");
@@ -228,7 +230,7 @@
         $('#export-btn').hide();
         $("#my_result_table").empty();
         $("#newReport").hide();
-
+        $("#generarReport").show();
         $("#fFin").val("");
         $("#fIni").val("");
 

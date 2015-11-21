@@ -5,6 +5,11 @@
     ViewBag.Title = "BuscaReserva";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var db = new WebApplication4.Models.inf245netsoft();
+    Turno tu = null;
+    if (Session["TurnoHoy"] != null)
+    {
+        tu = (Turno)Session["TurnoHoy"];
+    }
     List<VentasXFuncion> listaReserva = null;
     if (Session["ReservaBusca"] != null)
     {
@@ -41,10 +46,12 @@
                 <span class="input-group-btn"><button onclick="busca()" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
             </div>
         </div>
-
-        <div class="col-md-3 ">
-            <a onclick="redirigeReserva()" class="btn btn-primary pull-right">Pagar reserva <span class="glyphicon glyphicon-usd"></span></a>
-        </div>
+        @*@if (tu != null && tu.estadoCaja == "Abierto") 
+        {*@ 
+            <div class="col-md-3 ">
+                <a onclick="redirigeReserva()" class="btn btn-primary pull-right">Pagar reserva <span class="glyphicon glyphicon-usd"></span></a>
+            </div>
+        @*}*@
         <div class="col-md-2">
             @*<a href="@Url.Action("Index2", "Home")" class="btn btn-danger pull-right">Salir <span class="glyphicon glyphicon-log-out"></span></a>*@
         </div>

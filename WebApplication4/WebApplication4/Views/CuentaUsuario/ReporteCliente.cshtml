@@ -41,8 +41,12 @@
         <div class="col-md-2">
             <input id="min-points" name="inPoints" type="number" class="form-control" value="" />
         </div>
+        <label for="inPoints" class="control-label col-md-2">No. Documento: </label>
         <div class="col-md-2">
-            <input id="search-client" type="button" onclick="reporte()" class="btn btn-primary" value="Buscar Clientes">
+            <input id="nDoc" name="Doc" type="text" class="form-control" value="" />
+        </div>
+        <div class="col-md-2">
+            <input id="search-client" type="button" onclick="reporte()" class="btn btn-primary" value="Generar Reporte">
         </div>
     </div><br>
 
@@ -113,10 +117,11 @@
 <script>
     function reporte() {
         var fd = $('#min-points').val();
-        if (fd != null && fd != "") {
+        var doc = $('#nDoc').val();
+        if (fd != "" || doc != "") {
             $.ajax({
                 url: "@Url.Action("ReporteC", "CuentaUsuario")",
-                data: {fd:fd},
+                data: {fd:fd,doc:doc},
             success: function (data) {
                 alert(data);
                 window.location.href = '/CuentaUsuario/ReporteCliente';
