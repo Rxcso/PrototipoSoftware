@@ -2010,3 +2010,5 @@ C:\temp\WebApplication4\WebApplication4\bin\es\Microsoft.AspNet.Identity.Core.re
 C:\temp\WebApplication4\WebApplication4\obj\Debug\TicknetPrototipo.csprojResolveAssemblyReference.cache
 C:\temp\WebApplication4\WebApplication4\obj\Debug\WebApplication4.dll
 C:\temp\WebApplication4\WebApplication4\obj\Debug\WebApplication4.pdb
+C:\Users\alulab14.INF.000\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\bin\Antlr3.Runtime.dll
+C:\Users\alulab14.INF.000\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\bin\es\Microsoft.AspNet.Identity.Core.resources.dll

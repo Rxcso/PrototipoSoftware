@@ -152,6 +152,8 @@
         @RenderBody()
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("~/bundles/jqueryui")
+        @Styles.Render("~/Content/themes/base/css")        
         @Scripts.Render("~/bundles/bootstrap")
         @RenderSection("scripts", required: false)
     </body>
@@ -268,11 +270,11 @@ else
                                 @if (ViewBag.fech_fin != null)
                                 {
                                     string valor = ViewBag.fech_fin.ToString("yyyy-MM-dd");
-                                    <input id="fech_fin" name="fech_fin" type="date" value=@valor class="form-control">
+                                    <input id="fech_fin" name="fech_fin" type="text" value=@valor class="form-control">
                                 }
                                 else
                                 {
-                                    <input id="fech_fin" name="fech_fin" type="date" class="form-control">
+                                    <input id="fech_fin" name="fech_fin" type="text" class="form-control">
                                 }
                             </div>
                         </div>
@@ -363,9 +365,16 @@ else
         @RenderBody()
 
         @Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("~/bundles/jqueryval")  
+        @Scripts.Render("~/bundles/jqueryui")
+        @Styles.Render("~/Content/themes/base/css")      
         @Scripts.Render("~/bundles/bootstrap")
         @RenderSection("scripts", required: false)
+        <script>
+            $(function () {
+                $("#fech_fin").datepicker();
+            });
+        </script>
     </body>
 </html>
 }
