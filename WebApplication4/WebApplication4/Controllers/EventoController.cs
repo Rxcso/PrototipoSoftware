@@ -1498,7 +1498,7 @@ namespace WebApplication4.Controllers
                 }
                 else if (boton.CompareTo("carrito") == 0)
                 {
-                    int quedan = BuscaEntradasQueQuedan(paquete.idFuncion, paquete.idZona);
+                    /*int quedan = BuscaEntradasQueQuedan(paquete.idFuncion, paquete.idZona);
 
                     if (quedan == 0)
                     {
@@ -1511,7 +1511,7 @@ namespace WebApplication4.Controllers
                         TempData["tipo"] = "alert alert-warning";
                         TempData["message"] = "No se pudo agregar entradas al carrito, solo puede comprar " + quedan + " entradas como maximo.";
                         return Redirect("~/Evento/VerEvento/" + paquete.idEvento);
-                    }
+                    }*/
                     //si el carrito es null, creo un nuevo carrito
                     if (Session["Carrito"] == null)
                     {

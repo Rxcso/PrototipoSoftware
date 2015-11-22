@@ -1,11 +1,7 @@
 ﻿@using WebApplication4.Models
 @model ExtrasModel
-@{
 
-}
-
-
-<div class="tab-pane fade in container" id="extras">
+<div class="container" id="extras">
     @using (Html.BeginForm("ExtrasEvento", "Evento", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         <div class="container">
@@ -14,7 +10,7 @@
                 <div class="form-group">
                     @Html.LabelFor(c => c.MaxReservas, new { @class = "control-label col-md-2" })
                     <div class="col-md-2">
-                        @Html.TextBoxFor(c => c.MaxReservas, new { @class = "form-control" })
+                        @Html.TextBoxFor(c => c.MaxReservas, new { @class = "form-control", @type = "number" })
                     </div>
                 </div>
                 @Html.ValidationMessageFor(model => model.MaxReservas)
@@ -23,7 +19,7 @@
                 <div class="form-group">
                     @Html.LabelFor(c => c.PuntosToCliente, new { @class = "control-label col-md-2" })
                     <div class="col-md-2">
-                        @Html.TextBoxFor(c => c.PuntosToCliente, new { @class = "form-control" })
+                        @Html.TextBoxFor(c => c.PuntosToCliente, new { @class = "form-control",@type ="number" })
                     </div>
                 </div>
                 @Html.ValidationMessageFor(model => model.PuntosToCliente)
@@ -33,7 +29,7 @@
                     @Html.LabelFor(c => c.Ganancia, new { @class = "control-label col-md-2" })
                     <div class="col-md-2">
                         <div class="input-group">
-                            @Html.TextBoxFor(c => c.Ganancia, new { @class = "form-control" })
+                            @Html.TextBoxFor(c => c.Ganancia, new { @class = "form-control", @type = "number" })
                             <span class="input-group-addon" id="ganancia">%</span>
                         </div>
                     </div>
@@ -42,11 +38,11 @@
             </div>
             <div class="row">
                 <div class="form-group">
-                    @Html.LabelFor(c => c.MontFijoVentEnt, new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(c => c.MontFijoVentEnt, new { @class = "control-label col-md-2", @type = "number" })
                     <div class="col-md-2">
                         <div class="input-group">
                             <span class="input-group-addon" id="cancelar">S/.</span>
-                            @Html.TextBoxFor(c => c.MontFijoVentEnt, new { @class = "form-control" })
+                            @Html.TextBoxFor(c => c.MontFijoVentEnt, new { @class = "form-control", @type = "number" })
                         </div>
                     </div>
                 </div>
@@ -58,7 +54,7 @@
                     <div class="col-md-2">
                         <div class="input-group">
                             <span class="input-group-addon" id="cancelar">S/.</span>
-                            @Html.TextBoxFor(c => c.PenCancelacion, new { @class = "form-control" })
+                            @Html.TextBoxFor(c => c.PenCancelacion, new { @class = "form-control", @type = "number" })
                         </div>
                     </div>
                 </div>
@@ -70,7 +66,7 @@
                     <div class="col-md-2">
                         <div class="input-group">
                             <span class="input-group-addon" id="postergar">S/.</span>
-                            @Html.TextBoxFor(c => c.PenPostergacion, new { @class = "form-control" })
+                            @Html.TextBoxFor(c => c.PenPostergacion, new { @class = "form-control", @type = "number" })
                         </div>
                     </div>
                 </div>
