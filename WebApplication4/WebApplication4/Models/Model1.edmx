@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="inf245netsoftModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="inf245netsoftModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -162,6 +162,7 @@
           <Property Name="descTot" Type="int" />
           <Property Name="total" Type="float" />
           <Property Name="entradasDev" Type="int" />
+          <Property Name="montoDev" Type="float" Nullable="false" />
         </EntityType>
         <EntityType Name="Eventos">
           <Key>
@@ -385,6 +386,7 @@
           <Property Name="MontoInicioDolares" Type="float" />
           <Property Name="MontoFinSoles" Type="float" />
           <Property Name="MontoFinDolares" Type="float" />
+          <Property Name="HoraSalida" Type="datetime" />
         </EntityType>
         <EntityType Name="TurnoSistema">
           <Key>
@@ -412,6 +414,8 @@
           <Property Name="vendedor" Type="varchar" MaxLength="100" />
           <Property Name="Estado" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="MontoTotalSoles" Type="float" />
+          <Property Name="entradasDev" Type="int" Nullable="false" />
+          <Property Name="montoDev" Type="float" Nullable="false" />
         </EntityType>
         <EntityType Name="VentasXFuncion">
           <Key>
@@ -425,6 +429,8 @@
           <Property Name="total" Type="float" />
           <Property Name="codFuncion" Type="int" Nullable="false" />
           <Property Name="hanEntregado" Type="bit" />
+          <Property Name="entradasDev" Type="int" Nullable="false" />
+          <Property Name="montoDev" Type="float" Nullable="false" />
         </EntityType>
         <EntityType Name="ZonaEvento">
           <Key>
@@ -742,7 +748,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="R_38">
-          <End Role="Ventas" Type="Self.Ventas" Multiplicity="1" />
+          <End Role="Ventas" Type="Self.Ventas" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="VentasXFuncion" Type="Self.VentasXFuncion" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Ventas">
@@ -870,7 +878,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="R_62">
-          <End Role="VentasXFuncion" Type="Self.VentasXFuncion" Multiplicity="1" />
+          <End Role="VentasXFuncion" Type="Self.VentasXFuncion" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="DetalleVenta" Type="Self.DetalleVenta" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="VentasXFuncion">
@@ -1773,6 +1783,8 @@
           <NavigationProperty Name="DetalleVenta" Relationship="inf245netsoftModel.R_62" FromRole="VentasXFuncion" ToRole="DetalleVenta" />
           <Property Name="hanEntregado" Type="Boolean" />
           <NavigationProperty Name="Funcion" Relationship="inf245netsoftModel.R_76" FromRole="VentasXFuncion" ToRole="Funcion" />
+          <Property Name="entradasDev" Type="Int32" Nullable="false" />
+          <Property Name="montoDev" Type="Double" Nullable="false" />
         </EntityType>
         <Association Name="R_4">
           <End Type="inf245netsoftModel.Banco" Role="Banco" Multiplicity="1" />
@@ -1855,6 +1867,7 @@
           <NavigationProperty Name="TurnoSistema" Relationship="inf245netsoftModel.R_12" FromRole="Turno" ToRole="TurnoSistema" />
           <Property Name="estadoCaja" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="horaRegistro" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="HoraSalida" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="TurnoSistema">
           <Key>
@@ -1953,6 +1966,8 @@
           <NavigationProperty Name="CuentaUsuario" Relationship="inf245netsoftModel.R_30" FromRole="Ventas" ToRole="CuentaUsuario" />
           <NavigationProperty Name="CuentaUsuario1" Relationship="inf245netsoftModel.R_34" FromRole="Ventas" ToRole="CuentaUsuario" />
           <NavigationProperty Name="VentasXFuncion" Relationship="inf245netsoftModel.R_38" FromRole="Ventas" ToRole="VentasXFuncion" />
+          <Property Name="entradasDev" Type="Int32" Nullable="false" />
+          <Property Name="montoDev" Type="Double" Nullable="false" />
         </EntityType>
         <Association Name="R_30">
           <End Type="inf245netsoftModel.CuentaUsuario" Role="CuentaUsuario" Multiplicity="1" />
@@ -2005,6 +2020,7 @@
           <Property Name="entradasDev" Type="Int32" />
           <NavigationProperty Name="PrecioEvento" Relationship="inf245netsoftModel.R_60" FromRole="DetalleVenta" ToRole="PrecioEvento" />
           <NavigationProperty Name="VentasXFuncion" Relationship="inf245netsoftModel.R_62" FromRole="DetalleVenta" ToRole="VentasXFuncion" />
+          <Property Name="montoDev" Type="Double" Nullable="false" />
         </EntityType>
         <Association Name="R_60">
           <End Type="inf245netsoftModel.PrecioEvento" Role="PrecioEvento" Multiplicity="1" />
@@ -2653,6 +2669,8 @@
           <EntitySetMapping Name="VentasXFuncion">
             <EntityTypeMapping TypeName="inf245netsoftModel.VentasXFuncion">
               <MappingFragment StoreEntitySet="VentasXFuncion">
+                <ScalarProperty Name="montoDev" ColumnName="montoDev" />
+                <ScalarProperty Name="entradasDev" ColumnName="entradasDev" />
                 <ScalarProperty Name="hanEntregado" ColumnName="hanEntregado" />
                 <ScalarProperty Name="codFuncion" ColumnName="codFuncion" />
                 <ScalarProperty Name="total" ColumnName="total" />
@@ -2666,6 +2684,7 @@
           <EntitySetMapping Name="Turno">
             <EntityTypeMapping TypeName="inf245netsoftModel.Turno">
               <MappingFragment StoreEntitySet="Turno">
+                <ScalarProperty Name="HoraSalida" ColumnName="HoraSalida" />
                 <ScalarProperty Name="horaRegistro" ColumnName="horaRegistro" />
                 <ScalarProperty Name="estadoCaja" ColumnName="estadoCaja" />
                 <ScalarProperty Name="MontoFinDolares" ColumnName="MontoFinDolares" />
@@ -2722,6 +2741,8 @@
           <EntitySetMapping Name="Ventas">
             <EntityTypeMapping TypeName="inf245netsoftModel.Ventas">
               <MappingFragment StoreEntitySet="Ventas">
+                <ScalarProperty Name="montoDev" ColumnName="montoDev" />
+                <ScalarProperty Name="entradasDev" ColumnName="entradasDev" />
                 <ScalarProperty Name="MontoTotalSoles" ColumnName="MontoTotalSoles" />
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
                 <ScalarProperty Name="vendedor" ColumnName="vendedor" />
@@ -2741,6 +2762,7 @@
           <EntitySetMapping Name="DetalleVenta">
             <EntityTypeMapping TypeName="inf245netsoftModel.DetalleVenta">
               <MappingFragment StoreEntitySet="DetalleVenta">
+                <ScalarProperty Name="montoDev" ColumnName="montoDev" />
                 <ScalarProperty Name="entradasDev" ColumnName="entradasDev" />
                 <ScalarProperty Name="total" ColumnName="total" />
                 <ScalarProperty Name="descTot" ColumnName="descTot" />

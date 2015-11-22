@@ -1942,3 +1942,155 @@ System.Collections.ListDictionaryInternal
 The foreach block is missing a closing "}" character.  Make sure you have a matching "}" character for all the "{" characters within this block, and that none of the "}" characters are being interpreted as markup.
 
 2015-11-22 12:50:37,991 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 17:11:22,582 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 17:11:22,590 [6] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-22 17:11:22,590 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-22 17:11:22,590 [6] ERROR Ticknet - Exception Message - 
+c:\Users\Pier\Source\Repos\Proyecto GIT\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(264): error CS0103: El nombre 'valor' no existe en el contexto actual
+2015-11-22 17:11:22,590 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 17:11:22,634 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 17:11:22,634 [6] ERROR Ticknet - Exception Data - 
+HttpCompileException
+2015-11-22 17:11:22,634 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-22 17:11:22,634 [6] ERROR Ticknet - Exception Message - 
+c:\Users\Pier\Source\Repos\Proyecto GIT\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(264): error CS0103: El nombre 'valor' no existe en el contexto actual
+2015-11-22 17:11:22,634 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 17:11:48,868 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 17:11:48,876 [7] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-22 17:11:48,876 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-22 17:11:48,876 [7] ERROR Ticknet - Exception Message - 
+c:\Users\Pier\Source\Repos\Proyecto GIT\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(264): error CS0103: El nombre 'valor' no existe en el contexto actual
+2015-11-22 17:11:48,876 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 17:11:48,922 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 17:11:48,922 [7] ERROR Ticknet - Exception Data - 
+HttpCompileException
+2015-11-22 17:11:48,922 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-22 17:11:48,922 [7] ERROR Ticknet - Exception Message - 
+c:\Users\Pier\Source\Repos\Proyecto GIT\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(264): error CS0103: El nombre 'valor' no existe en el contexto actual
+2015-11-22 17:11:48,922 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 17:12:34,953 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 17:12:34,962 [7] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-22 17:12:34,962 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-22 17:12:34,962 [7] ERROR Ticknet - Exception Message - 
+c:\Users\Pier\Source\Repos\Proyecto GIT\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(264): error CS0103: El nombre 'valor' no existe en el contexto actual
+2015-11-22 17:12:34,962 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 17:12:35,007 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 17:12:35,007 [7] ERROR Ticknet - Exception Data - 
+HttpCompileException
+2015-11-22 17:12:35,007 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-22 17:12:35,007 [7] ERROR Ticknet - Exception Message - 
+c:\Users\Pier\Source\Repos\Proyecto GIT\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(264): error CS0103: El nombre 'valor' no existe en el contexto actual
+2015-11-22 17:12:35,007 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 17:12:52,418 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 17:12:52,418 [5] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-22 17:12:52,418 [5] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-22 17:12:52,418 [5] ERROR Ticknet - Exception Message - 
+c:\Users\Pier\Source\Repos\Proyecto GIT\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(264): error CS0103: El nombre 'valor' no existe en el contexto actual
+2015-11-22 17:12:52,418 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 17:12:52,455 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 17:12:52,455 [5] ERROR Ticknet - Exception Data - 
+HttpCompileException
+2015-11-22 17:12:52,455 [5] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-22 17:12:52,455 [5] ERROR Ticknet - Exception Message - 
+c:\Users\Pier\Source\Repos\Proyecto GIT\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(264): error CS0103: El nombre 'valor' no existe en el contexto actual
+2015-11-22 17:12:52,455 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 17:13:19,956 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 17:13:19,956 [5] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-22 17:13:19,956 [5] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-22 17:13:19,957 [5] ERROR Ticknet - Exception Message - 
+c:\Users\Pier\Source\Repos\Proyecto GIT\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(264): error CS0103: El nombre 'valor' no existe en el contexto actual
+2015-11-22 17:13:19,957 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 17:13:19,993 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 17:13:19,993 [5] ERROR Ticknet - Exception Data - 
+HttpCompileException
+2015-11-22 17:13:19,993 [5] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-22 17:13:19,993 [5] ERROR Ticknet - Exception Message - 
+c:\Users\Pier\Source\Repos\Proyecto GIT\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(264): error CS0103: El nombre 'valor' no existe en el contexto actual
+2015-11-22 17:13:19,993 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 17:13:21,036 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 17:13:21,036 [11] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-22 17:13:21,036 [11] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-22 17:13:21,036 [11] ERROR Ticknet - Exception Message - 
+A public action method 'index1' was not found on controller 'WebApplication4.Controllers.HomeController'.
+2015-11-22 17:13:21,037 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 17:13:21,624 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 17:13:21,624 [7] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-22 17:13:21,624 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-22 17:13:21,624 [7] ERROR Ticknet - Exception Message - 
+c:\Users\Pier\Source\Repos\Proyecto GIT\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(264): error CS0103: El nombre 'valor' no existe en el contexto actual
+2015-11-22 17:13:21,624 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 17:13:21,664 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 17:13:21,664 [7] ERROR Ticknet - Exception Data - 
+HttpCompileException
+2015-11-22 17:13:21,664 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-22 17:13:21,664 [7] ERROR Ticknet - Exception Message - 
+c:\Users\Pier\Source\Repos\Proyecto GIT\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(264): error CS0103: El nombre 'valor' no existe en el contexto actual
+2015-11-22 17:13:21,665 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 17:13:28,084 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 17:13:28,084 [5] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-22 17:13:28,084 [5] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-22 17:13:28,084 [5] ERROR Ticknet - Exception Message - 
+c:\Users\Pier\Source\Repos\Proyecto GIT\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(264): error CS0103: El nombre 'valor' no existe en el contexto actual
+2015-11-22 17:13:28,084 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 17:13:28,126 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 17:13:28,126 [5] ERROR Ticknet - Exception Data - 
+HttpCompileException
+2015-11-22 17:13:28,126 [5] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-22 17:13:28,126 [5] ERROR Ticknet - Exception Message - 
+c:\Users\Pier\Source\Repos\Proyecto GIT\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(264): error CS0103: El nombre 'valor' no existe en el contexto actual
+2015-11-22 17:13:28,126 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 17:14:23,400 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 17:14:23,408 [7] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-22 17:14:23,408 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-22 17:14:23,408 [7] ERROR Ticknet - Exception Message - 
+c:\Users\Pier\Source\Repos\Proyecto GIT\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(264): error CS0103: El nombre 'valor' no existe en el contexto actual
+2015-11-22 17:14:23,408 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 17:14:23,453 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 17:14:23,453 [7] ERROR Ticknet - Exception Data - 
+HttpCompileException
+2015-11-22 17:14:23,453 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-22 17:14:23,453 [7] ERROR Ticknet - Exception Message - 
+c:\Users\Pier\Source\Repos\Proyecto GIT\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(264): error CS0103: El nombre 'valor' no existe en el contexto actual
+2015-11-22 17:14:23,453 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 17:15:10,895 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 17:15:10,904 [7] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-22 17:15:10,905 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-22 17:15:10,905 [7] ERROR Ticknet - Exception Message - 
+c:\Users\Pier\Source\Repos\Proyecto GIT\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(264): error CS0103: El nombre 'valor' no existe en el contexto actual
+2015-11-22 17:15:10,905 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 17:15:10,948 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 17:15:10,948 [7] ERROR Ticknet - Exception Data - 
+HttpCompileException
+2015-11-22 17:15:10,948 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-22 17:15:10,948 [7] ERROR Ticknet - Exception Message - 
+c:\Users\Pier\Source\Repos\Proyecto GIT\WebApplication4\WebApplication4\Views\Shared\_Layout.cshtml(264): error CS0103: El nombre 'valor' no existe en el contexto actual
+2015-11-22 17:15:10,948 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++

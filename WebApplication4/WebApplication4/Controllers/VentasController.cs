@@ -454,6 +454,7 @@ namespace WebApplication4.Controllers
             db.Entry(turno).State = EntityState.Modified;
             turno.MontoFinDolares = mD;
             turno.MontoFinSoles = mS;
+            turno.HoraSalida = DateTime.Now;
             turno.estadoCaja = "Cerrado";
             db.SaveChanges();
             db.Entry(turno).State = EntityState.Detached;

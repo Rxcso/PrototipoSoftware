@@ -25,6 +25,7 @@ namespace WebApplication4.Models
         public Nullable<double> MontoFinDolares { get; set; }
         public string estadoCaja { get; set; }
         public string horaRegistro { get; set; }
+        public Nullable<System.DateTime> HoraSalida { get; set; }
     
         public virtual CuentaUsuario CuentaUsuario { get; set; }
         public virtual PuntoVenta PuntoVenta { get; set; }
