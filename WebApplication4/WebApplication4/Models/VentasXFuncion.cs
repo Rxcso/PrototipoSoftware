@@ -26,9 +26,11 @@ namespace WebApplication4.Models
         public Nullable<double> total { get; set; }
         public int codFuncion { get; set; }
         public Nullable<bool> hanEntregado { get; set; }
+        public int entradasDev { get; set; }
+        public double montoDev { get; set; }
     
-        public virtual Ventas Ventas { get; set; }
         public virtual ICollection<DetalleVenta> DetalleVenta { get; set; }
         public virtual Funcion Funcion { get; set; }
+        public virtual Ventas Ventas { get; set; }
     }
 }

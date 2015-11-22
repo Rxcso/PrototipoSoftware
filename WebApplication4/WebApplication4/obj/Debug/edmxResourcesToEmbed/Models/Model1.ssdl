@@ -157,6 +157,7 @@
     <Property Name="descTot" Type="int" />
     <Property Name="total" Type="float" />
     <Property Name="entradasDev" Type="int" />
+    <Property Name="montoDev" Type="float" Nullable="false" />
   </EntityType>
   <EntityType Name="Eventos">
     <Key>
@@ -407,6 +408,8 @@
     <Property Name="vendedor" Type="varchar" MaxLength="100" />
     <Property Name="Estado" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="MontoTotalSoles" Type="float" />
+    <Property Name="entradasDev" Type="int" Nullable="false" />
+    <Property Name="montoDev" Type="float" Nullable="false" />
   </EntityType>
   <EntityType Name="VentasXFuncion">
     <Key>
@@ -420,6 +423,8 @@
     <Property Name="total" Type="float" />
     <Property Name="codFuncion" Type="int" Nullable="false" />
     <Property Name="hanEntregado" Type="bit" />
+    <Property Name="entradasDev" Type="int" Nullable="false" />
+    <Property Name="montoDev" Type="float" Nullable="false" />
   </EntityType>
   <EntityType Name="ZonaEvento">
     <Key>
