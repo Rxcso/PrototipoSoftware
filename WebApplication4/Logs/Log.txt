@@ -1797,3 +1797,19 @@ System.Collections.ListDictionaryInternal
 Unexpected "for" keyword after "@" character.  Once inside code, you do not need to prefix constructs like "for" with "@".
 
 2015-11-20 15:34:43,377 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 19:06:39,047 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 19:06:39,056 [9] ERROR Ticknet - Exception Type - 
+HttpAntiForgeryException
+2015-11-20 19:06:39,056 [9] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-20 19:06:39,056 [9] ERROR Ticknet - Exception Message - 
+The provided anti-forgery token was meant for user "", but the current user is "vendedor1@email.com".
+2015-11-20 19:06:39,056 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 19:07:55,421 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 19:07:55,421 [11] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-20 19:07:55,421 [11] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-20 19:07:55,421 [11] ERROR Ticknet - Exception Message - 
+A public action method 'Asignacion' was not found on controller 'WebApplication4.Controllers.VentasController'.
+2015-11-20 19:07:55,421 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
