@@ -835,6 +835,7 @@ namespace WebApplication4.Controllers
                                     vf.codFuncion = paquete.idFuncion;
                                     vf.Ventas = ve;
                                     vf.Funcion = db.Funcion.Find(paquete.idFuncion);
+                                    vf.hanEntregado = false;
                                     float? porcDescuento = 0;
                                     if (model.idPromociones[w] != -1)
                                     {

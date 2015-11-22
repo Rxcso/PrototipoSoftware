@@ -97,6 +97,7 @@ namespace WebApplication4.Controllers
                         db.Ventas.Add(ve);
                         db.SaveChanges();
                         VentasXFuncion vf = new VentasXFuncion();
+                        vf.hanEntregado = false;
                         vf.codVen = ve.codVen;
                         idVenta = ve.codVen;
                         vf.cantEntradas = paquete.cantEntradas;
