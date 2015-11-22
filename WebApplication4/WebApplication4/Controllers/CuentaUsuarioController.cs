@@ -304,8 +304,8 @@ namespace WebApplication4.Controllers
         private bool validaCompraEntradaReservadaVendedor(ComprarEntradaReservadaAModel model)
         {
             bool indicador = true;
-            //si es una compra mixta
-            if (model.MontoEfe <= model.MontoPagar)
+            //si hay tarjeta de por medio
+            if (model.MontoTar > 0)
             {
                 //usa tarjeta, verificar que hayan datos de la tarjeta
                 if (String.IsNullOrEmpty(model.NumeroTarjeta))
@@ -357,11 +357,15 @@ namespace WebApplication4.Controllers
                             CuentaUsuario cu2 = db.CuentaUsuario.Find(cu.usuario);
                             ve.vendedor = cu2.usuario;
                             ve.CuentaUsuario1 = cu2;
-                            ve.Estado = "Pagado";
+                            ve.Estado = MagicHelpers.Compra;
                             ve.fecha = hoy;
                             ve.montoEfectivoSoles = model.MontoEfe;
                             ve.montoCreditoSoles = model.MontoTar;
                             ve.MontoTotalSoles = model.MontoPagar;
+                            if (ve.montoCreditoSoles > 0 && ve.montoEfectivoSoles == 0) ve.modalidad = "T";
+                            if (ve.montoCreditoSoles == 0 && ve.montoEfectivoDolares > 0) ve.modalidad = "E";
+                            if (ve.montoCreditoSoles > 0 && ve.montoEfectivoDolares > 0) ve.modalidad = "M";
+
                             try
                             {
                                 db.SaveChanges();
@@ -402,7 +406,7 @@ namespace WebApplication4.Controllers
                             dv.Subtotal = model.Importe;
                             dv.total = model.MontoPagar;
 
-                            //si es u usuario registrado le aumento los puntos que tiene
+                            //como es un usuario registrado le aumento los puntos que tiene
                             CuentaUsuario dbCuenta = db.CuentaUsuario.Where(c => c.codDoc == model.Dni).First();
                             dbCuenta.puntos += db.Eventos.Find(codEvento).puntosAlCliente * cantidad;
 
@@ -427,87 +431,87 @@ namespace WebApplication4.Controllers
             else
             {
 
-                    int idVenta = codVenta;
-                    DateTime hoy = DateTime.Today;
+                int idVenta = codVenta;
+                DateTime hoy = DateTime.Today;
 
-                    using (var context = new inf245netsoft())
+                using (var context = new inf245netsoft())
+                {
+                    try
                     {
+                        Ventas ve = db.Ventas.Where(c => c.codVen == idVenta).First();
+                        ve.fecha = DateTime.Now;
+
+                        //de todas maneras en la venta se registra el nombre, dni y tipo de documento del que esta comprando.                    
+                        CuentaUsuario cu = (CuentaUsuario)Session["UsuarioLogueado"];
+                        CuentaUsuario cu2 = db.CuentaUsuario.Find(cu.usuario);
+                        ve.vendedor = cu2.usuario;
+                        ve.CuentaUsuario1 = cu2;
+                        ve.Estado = "Pagado";
+                        ve.fecha = hoy;
+                        ve.montoEfectivoSoles = model.MontoEfe;
+                        ve.montoCreditoSoles = model.MontoTar;
+                        ve.MontoTotalSoles = model.MontoPagar;
                         try
                         {
-                            Ventas ve = db.Ventas.Where(c => c.codVen == idVenta).First();
-                            ve.fecha = DateTime.Now;
-
-                            //de todas maneras en la venta se registra el nombre, dni y tipo de documento del que esta comprando.                    
-                            CuentaUsuario cu = (CuentaUsuario)Session["UsuarioLogueado"];
-                            CuentaUsuario cu2 = db.CuentaUsuario.Find(cu.usuario);
-                            ve.vendedor = cu2.usuario;
-                            ve.CuentaUsuario1 = cu2;
-                            ve.Estado = "Pagado";
-                            ve.fecha = hoy;
-                            ve.montoEfectivoSoles = model.MontoEfe;
-                            ve.montoCreditoSoles = model.MontoTar;
-                            ve.MontoTotalSoles = model.MontoPagar;
-                            try
+                            db.SaveChanges();
+                        }
+                        catch (DbEntityValidationException dbEx)
+                        {
+                            foreach (var validationErrors in dbEx.EntityValidationErrors)
                             {
-                                db.SaveChanges();
-                            }
-                            catch (DbEntityValidationException dbEx)
-                            {
-                                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                                foreach (var validationError in validationErrors.ValidationErrors)
                                 {
-                                    foreach (var validationError in validationErrors.ValidationErrors)
-                                    {
-                                        Trace.TraceInformation("Property: {0} Error: {1}",
-                                                                validationError.PropertyName,
-                                                                validationError.ErrorMessage);
-                                    }
+                                    Trace.TraceInformation("Property: {0} Error: {1}",
+                                                            validationError.PropertyName,
+                                                            validationError.ErrorMessage);
                                 }
                             }
-                            // ventaXFuncion
-
-                            VentasXFuncion dt = db.VentasXFuncion.Where(c => c.codVen == idVenta).First();
-                            int codFuncion = dt.codFuncion;
-                            int cantidad = dt.cantEntradas;
-                            dt.subtotal = model.Importe;
-                            dt.descuento = (int)model.Descuento;
-                            dt.total = model.MontoPagar;
-
-                            db.SaveChanges();
-
-                            //Funcion
-
-                            Funcion fu = db.Funcion.Where(c => c.codFuncion == codFuncion).First();
-
-                            int codEvento = fu.codEvento;
-
-                            //detalle de venta
-                            DetalleVenta dv = db.DetalleVenta.Where(c => c.codVen == idVenta).First();
-
-                            dv.descTot = (int)model.Descuento;
-                            dv.Subtotal = model.Importe;
-                            dv.total = model.MontoPagar;
-
-                            //si es u usuario registrado le aumento los puntos que tiene
-                            CuentaUsuario dbCuenta = db.CuentaUsuario.Where(c => c.codDoc == model.Dni).First();
-                            dbCuenta.puntos += db.Eventos.Find(codEvento).puntosAlCliente * cantidad;
-
-                            db.SaveChanges();
-
-                            context.SaveChanges();
-                            Session["ReservaBusca"] = null;
                         }
-                        catch (OptimisticConcurrencyException ex)
-                        {
-                            TempData["tipo"] = "alert alert-warning";
-                            TempData["message"] = "Error en la compra.";
-                            return View(model);
-                        }
+                        // ventaXFuncion
+
+                        VentasXFuncion dt = db.VentasXFuncion.Where(c => c.codVen == idVenta).First();
+                        int codFuncion = dt.codFuncion;
+                        int cantidad = dt.cantEntradas;
+                        dt.subtotal = model.Importe;
+                        dt.descuento = (int)model.Descuento;
+                        dt.total = model.MontoPagar;
+
+                        db.SaveChanges();
+
+                        //Funcion
+
+                        Funcion fu = db.Funcion.Where(c => c.codFuncion == codFuncion).First();
+
+                        int codEvento = fu.codEvento;
+
+                        //detalle de venta
+                        DetalleVenta dv = db.DetalleVenta.Where(c => c.codVen == idVenta).First();
+
+                        dv.descTot = (int)model.Descuento;
+                        dv.Subtotal = model.Importe;
+                        dv.total = model.MontoPagar;
+
+                        //si es u usuario registrado le aumento los puntos que tiene
+                        CuentaUsuario dbCuenta = db.CuentaUsuario.Where(c => c.codDoc == model.Dni).First();
+                        dbCuenta.puntos += db.Eventos.Find(codEvento).puntosAlCliente * cantidad;
+
+                        db.SaveChanges();
+
+                        context.SaveChanges();
+                        Session["ReservaBusca"] = null;
                     }
-                    TempData["tipo"] = "alert alert-success";
-                    TempData["message"] = "Compra Realizada. Muchas Gracias.";
-                    //si toda la compra se procesa de manera correcta eliminamos los session
-                    return RedirectToAction("Index", "Home");
-                
+                    catch (OptimisticConcurrencyException ex)
+                    {
+                        TempData["tipo"] = "alert alert-warning";
+                        TempData["message"] = "Error en la compra.";
+                        return View(model);
+                    }
+                }
+                TempData["tipo"] = "alert alert-success";
+                TempData["message"] = "Compra Realizada. Muchas Gracias.";
+                //si toda la compra se procesa de manera correcta eliminamos los session
+                return RedirectToAction("Index", "Home");
+
             }
             Ventas queryVentas = db.Ventas.Where(c => c.codVen == codVenta).First();
             VentasXFuncion queryVF = db.VentasXFuncion.Where(c => c.codVen == codVenta).First();
@@ -1672,17 +1676,17 @@ namespace WebApplication4.Controllers
             return Json("Reporte Limpio", JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult ReporteC(string fd,string doc)
+        public JsonResult ReporteC(string fd, string doc)
         {
             int m4;
-            List<CuentaUsuario> listacl=null;
+            List<CuentaUsuario> listacl = null;
             if (int.TryParse(fd, out m4) == true)
             {
                 int val = int.Parse(fd);
                 if (val >= 0)
                 {
                     listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.puntos > val && c.estado == true && c.codPerfil == 1).ToList();
-                    
+
                 }
                 else
                 {
