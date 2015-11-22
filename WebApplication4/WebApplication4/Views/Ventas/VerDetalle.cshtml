@@ -143,9 +143,12 @@
                 {
                     if (funcion.estado == "POSTERGADO")
                     {
-                        <div class="col-md-11">
-                        <a class="btn btn-primary" href="#devolverParcial" data-toggle="modal">Devolver Asiento<span class="glyphicon glyphicon-usd"></span></a>
-                        </div>
+                        if (dv.descTot == 0)
+                        { //Si no se ha aplicado promocion, no habrá boton de devolucion parcial!
+                            <div class="col-md-11">
+                                <a class="btn btn-primary" href="#devolverParcial" data-toggle="modal">Devolver Asiento<span class="glyphicon glyphicon-usd"></span></a>
+                            </div>
+                        }    
                     }
                     <!--Devolver todo-->
                     <div class="col-md-11">

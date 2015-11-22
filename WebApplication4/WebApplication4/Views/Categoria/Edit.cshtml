@@ -13,32 +13,43 @@
     cem.idCatPadre = (int)c.idCatPadre;
     cem.activo = (int)c.activo;
 }
+<style>
+    .contenedor {
+        border: 1px solid #080808;
+    }
+</style>
 
-<h2>Editar Registro</h2>
-
-<div class="modal-body">
+<div class="container-fluid">
+    <div class="col-md-4">
+        <ol class="breadcrumb">
+            <li class="active"><a href="@Url.Action("Index","Categoria")">Mantenimiento de categorías</a></li>
+            <li>Editar categoría</li>
+        </ol>
+    </div>
+</div>
+<div class="container">
     @using (Html.BeginForm("EditRegister", "Categoria", FormMethod.Post, new { }))
     {
         @Html.AntiForgeryToken()
-
+        <div class="col-md-8 col-md-offset-2 contenedor">
+        <br>
         <div class="form-horizontal">
-            @Html.ValidationSummary(true)
-            <br>
+            @Html.ValidationSummary(true)            
             <div class="row form-group">
                 @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })
-                <div class="col-md-9">
-                    @Html.TextBoxFor(model => model.nombre, new { @placeholder = @c.nombre, @Value = @c.nombre })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(model => model.nombre, new { @placeholder = @c.nombre, @Value = @c.nombre, @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.nombre)
                 </div>
             </div>
             <div class="row form-group">
                 @Html.LabelFor(model => model.descripcion, new { @class = "control-label col-md-3" })
-                <div class="col-md-9">
-                    @Html.TextBoxFor(model => model.descripcion, new { @placeholder = @c.descripcion, @Value = @c.descripcion})
+                <div class="col-md-8">
+                    @Html.TextBoxFor(model => model.descripcion, new { @placeholder = @c.descripcion, @Value = @c.descripcion ,@class = "form-control" })
                     @Html.ValidationMessageFor(model => model.descripcion)
                 </div>
             </div>
-            <br>
+            
             <!--<div class="row form-group">
                 @Html.LabelFor(model => model.idCatPadre, new { @class = "control-label col-md-3" })
                 <div class="col-md-9">
@@ -48,15 +59,18 @@
             </div>-->
             <div class="form-group">
                 @Html.LabelFor(model => model.idCatPadre, new { @class = "control-label col-md-3" })
-                <div class="col-md-5">
+                <div class="col-md-8">
                     @Html.DropDownListFor(model => model.idCatPadre, @ViewBag.CatID as SelectList, "Categoria", new { @class = "form-control" })
                 </div>
-            </div><br><br>
-            <div class="form-group">
-                <div class="col-md-offset-4 col-md-5">
-                    <input type="submit" value="Aceptar" class="btn btn-primary" />
-                </div>
             </div>
+
+            <div class="form-group">
+                <center>
+                    <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-save"></span> Guardar cambios</button>
+                    <a href="@Url.Action("Index","Categoria")" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Cancelar</a>
+                </center>
+            </div>
+        </div>
         </div>
     }
 </div>
