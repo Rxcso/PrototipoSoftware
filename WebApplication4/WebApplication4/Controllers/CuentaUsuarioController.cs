@@ -1347,6 +1347,11 @@ namespace WebApplication4.Controllers
                     me1 = " 1.Error Negativo\n";
                 }
             }
+            else
+            {
+                me1 = " 1.Error Numero Decimal\n";
+            }
+
             if (dur == "e")
             {
                 int t = 1;
@@ -1373,6 +1378,10 @@ namespace WebApplication4.Controllers
                     me2 = " 3.Error Negativo\n";
                 }
             }
+            else
+            {
+                me2 = " 3.Error Numero Decimal\n";
+            }
             if (int.TryParse(mt, out m3) == true)
             {
                 int val2 = int.Parse(mt);
@@ -1392,6 +1401,10 @@ namespace WebApplication4.Controllers
                 }
 
             }
+            else
+            {
+                me3 = " 4.Error Numero Decimal\n";
+            }
             if (int.TryParse(ra, out m4) == true)
             {
                 int val3 = int.Parse(ra);
@@ -1410,6 +1423,10 @@ namespace WebApplication4.Controllers
                     me4 = " 5.Error Negativo\n";
                 }
             }
+            else
+            {
+                me4 = " 5.Error Numero Decimal\n";
+            }
             if (int.TryParse(mE, out m5) == true)
             {
                 int val5 = int.Parse(mE);
@@ -1427,6 +1444,10 @@ namespace WebApplication4.Controllers
                 {
                     me5 = " 6.Error Negativo\n";
                 }
+            }
+            else
+            {
+                me5 = " 6.Error Numero Decimal\n";
             }
             if (DateTime.TryParse(hr, out h6) == true)
             {

@@ -204,24 +204,15 @@ else
                                 </div>
 
                             }
-                            <!--div class="navbar-form navbar-right">
-                                <a href="@Url.Action("PuntoVentas","Home")" name="boton" value="carrito" class="btn btn-success pull-right ">Puntos de Venta <span class="glyphicon glyphicon-shopping-cart"></span></a>
-                            </div-->
-                            <!--
-                            <form action="" class="navbar-form navbar-left" role="search">
-                            </form>
-                            -->
-                            <form class="navbar-form navbar-right">
-                                <a class="btn btn-info" href="#busqAvanzada" data-toggle="collapse">Búsqueda Avanzada <span class="glyphicon glyphicon-tasks"></span></a>
-                            </form>
-                            <!--div class="navbar-form navbar-right">
-                                <a href="@Url.Action("MiCarrito","CuentaUsuario")" name="boton" value="carrito" class="btn btn-success pull-right ">Carrito <span class="glyphicon glyphicon-shopping-cart"></span></a>
-                            </!div-->
+                            
+                            <form class="navbar-form navbar-left">
+                                <a class="btn btn-info" href="#busqAvanzada" data-toggle="collapse"><span class="glyphicon glyphicon-tasks"></span> Búsqueda Avanzada</a>
+                            </form>                            
                             <div class="navbar-form navbar-right">
 
                                 @if (!Request.IsAuthenticated)
                                 {
-                                    <a id="logIn" href="#logInCliente" class="btn btn-primary" data-toggle="modal">Iniciar Sesión <span class="fa fa-user"></span> </a>
+                                    <a id="logIn" href="#logInCliente" class="btn btn-primary" data-toggle="modal"><span class="fa fa-user"></span> Iniciar sesión</a>
                                 }
                                 else
                                 {
@@ -261,7 +252,7 @@ else
                                     <span class="input-group-addon">Desde:</span>
                                     @if (ViewBag.fech_ini != null)
                                     {
-                                        string valor = ViewBag.fech_ini.ToString("yyyy/MM/dd");
+                                        string valor = ViewBag.fech_ini.ToString("dd/MM/yyyy");
                                         <input id="fech_ini" name="fech_ini" type="text" class="form-control fecha" value=@valor>
                                     }
                                     else
