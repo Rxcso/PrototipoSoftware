@@ -91,7 +91,7 @@ namespace WebApplication4.Models
     {
         [Required(ErrorMessage = "Campo Requerido.")]
         [EmailAddress(ErrorMessage = "Formato incorrecto. (usuario@correo.com)")]
-        [Display(Name = "Correo Electronico")]
+        [Display(Name = "E-mail")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Campo Requerido.")]
@@ -112,7 +112,7 @@ namespace WebApplication4.Models
         [Required(ErrorMessage = "Campo Requerido.")]
         [StringLength(12, ErrorMessage = "El {0} debe tener entre {2} y {1} caracteres.", MinimumLength = 8)]
         [Display(Name = "#Doc")]
-        [RegularExpression("^[0-9]*$", ErrorMessage = "Numero de documento debe ser numerico.")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Número de documento debe ser numerico.")]
         public string codDoc { get; set; }
 
         [Required(ErrorMessage = "Campo Requerido.")]
@@ -126,14 +126,14 @@ namespace WebApplication4.Models
         public string apellido { get; set; }
 
         [Required]
-        [Display(Name = "Direccion")]
+        [Display(Name = "Dirección")]
         public string direccion { get; set; }
 
-        [Display(Name = "Telefono")]
+        [Display(Name = "Teléfono")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Telefono debe ser numerico.")]
         public string telefono { get; set; }
 
-        [Display(Name = "Telefono Movil")]
+        [Display(Name = "Teléfono Movil")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Telefono Movil debe ser numerico.")]
         public string telMovil { get; set; }
 
