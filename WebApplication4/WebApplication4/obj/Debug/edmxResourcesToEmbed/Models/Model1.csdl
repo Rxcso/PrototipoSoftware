@@ -371,6 +371,7 @@
     <NavigationProperty Name="Region" Relationship="inf245netsoftModel.R_28" FromRole="PuntoVenta" ToRole="Region" />
     <NavigationProperty Name="Region1" Relationship="inf245netsoftModel.R_75" FromRole="PuntoVenta" ToRole="Region" />
     <NavigationProperty Name="Turno" Relationship="inf245netsoftModel.R_9" FromRole="PuntoVenta" ToRole="Turno" />
+    <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="Region">
     <Key>
@@ -1026,7 +1027,7 @@
     <Property Name="descripcion" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="fecha_inicio" Type="DateTime" Precision="3" />
     <Property Name="fecha_fin" Type="DateTime" Precision="3" />
-    <Property Name="estado" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="estado" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="monto_transferir" Type="Double" Nullable="false" />
     <Property Name="monto_adeudado" Type="Double" Nullable="false" />
     <Property Name="direccion" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />

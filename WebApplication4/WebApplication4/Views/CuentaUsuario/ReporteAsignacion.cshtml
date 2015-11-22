@@ -23,12 +23,12 @@
         @*<a class="btn btn-danger pull-right" href=@Url.Action("Index2", "Home")>Salir <span class="glyphicon glyphicon-log-out"></span></a>*@
     </div>
     <div id="busqAvanzada" class="row" style="text-align:center">
-       
-            <!--formulario EN LINEA-->
 
-         
+        <!--formulario EN LINEA-->
+
+
         <div id="alerta" class="alert alert-warning" hidden></div>
-            @using (Ajax.BeginForm("ObtenerAsignacion", "CuentaUsuario",null, new AjaxOptions
+        @using (Ajax.BeginForm("ObtenerAsignacion", "CuentaUsuario", null, new AjaxOptions
             {
                 OnFailure = "validaciones",
                 InsertionMode = InsertionMode.Replace,
@@ -36,46 +36,46 @@
                 HttpMethod = "POST"
 
             }, new { id = "ReportForm", @class = "form-inline" }))
-            {
+        {
 
+            <div class="form-group ">
                 <div class="form-group ">
-                    <div class="form-group ">
-                        <div class="input-group">
+                    <div class="input-group">
 
-                            <span class="input-group-addon">Desde:</span>
-                            @Html.EditorFor(m => m.fechaInicio, new { })
+                        <span class="input-group-addon">Desde:</span>
+                        @Html.EditorFor(m => m.fechaInicio, new { })
 
-                        </div>
-                       
-                    </div>
-                    &nbsp;
-                    <div class="form-group ">
-                        <div class="input-group">
-                            <span class="input-group-addon">Hasta:</span>
-                            @Html.EditorFor(m => m.fechaFin, new { })
-
-                        </div>
-                       
                     </div>
 
+                </div>
+                &nbsp;
+                <div class="form-group ">
+                    <div class="input-group">
+                        <span class="input-group-addon">Hasta:</span>
+                        @Html.EditorFor(m => m.fechaFin, new { })
+
+                    </div>
 
                 </div>
 
-            }
-       
+
+            </div>
+
+        }
+
     </div>
     <br />
 
     <div class="row">
         <div style="text-align: center">
 
-            <a class="btn btn-primary" onclick="submitReport()">Generar <span class="glyphicon glyphicon-file"></span></a>
+            <a id="generarReporte" class="btn btn-primary" onclick="submitReport()">Generar <span class="glyphicon glyphicon-file"></span></a>
             <a id="newReport" class="btn btn-primary" onclick="nuevoReporte()">Nuevo Reporte <span class=""></span></a>
 
             <a id="export-btn" onclick="generarExcel()" target="_blank" class="btn btn-primary "> Exportar a Excel </a>
         </div>
     </div>
-    
+
 
     <br>
     <br>
@@ -90,7 +90,7 @@
 <script>
 
     $(document).ready(function () {
-      
+
 
         $("#fechaInicio").addClass("form-control");
         $("#fechaFin").addClass("form-control");
@@ -103,7 +103,7 @@
 
     function generarTabla(data) {
 
-        
+
 
         var fechI = document.getElementById("fechaInicio").value;
         var fechF = document.getElementById("fechaFin").value;
@@ -114,13 +114,13 @@
         var fechI = fIni.getDate().toString() + "/" + (fIni.getMonth() + 1).toString() + "/" + fIni.getFullYear();
         var fechF = fFin.getDate().toString() + "/" + (fFin.getMonth() + 1).toString() + "/" + fFin.getFullYear();
 
-    
+
 
         t1 = "<h2> Reporte de Asignacion de Vendedores</h1>";
-        t2 = "<h3>  Del: " + fechI + " al: "+ fechF +  "</h3>";
+        t2 = "<h3>  Del: " + fechI + " al: " + fechF + "</h3>";
         myTable = t1 + t2 + "<table class='table table-bordered table-hover'>";
-            myTable += "<tr><th>Fecha</th>";
-            myTable += "<th>Punto de Venta</th><th>Vendedor</th><th>Hora</th>";
+        myTable += "<tr><th>Fecha</th>";
+        myTable += "<th>Punto de Venta</th><th>Vendedor</th><th>Hora</th>";
 
 
         $.each(data, function (k, v) {
@@ -137,22 +137,24 @@
 
             $("#export-btn").show();
             $("#newReport").show();
+            $("#generarReporte").hide();
 
         });
 
 
         myTable += "</table>";
         document.getElementById("my_result_table").innerHTML = myTable;
-      
+
 
 
     }
 
-       function nuevoReporte() {
+    function nuevoReporte() {
 
         $('#export-btn').hide();
         $("#my_result_table").empty();
         $("#newReport").hide();
+        $("#generarReporte").show();
         $("#fechaInicio").val("");
         $("#fechaFin").val("");
 
@@ -191,7 +193,7 @@
         if (fechF != '' && fechI != '') {
 
 
-            
+
 
             if (new Date(fechF.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1")) < new Date(fechI.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1"))) {
 
@@ -200,7 +202,7 @@
             }
 
 
-            
+
 
         }
 
@@ -213,8 +215,8 @@
         e.preventDefault();
 
     }
- 
-  
+
+
 
 
 </script>

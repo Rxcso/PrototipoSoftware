@@ -1797,19 +1797,91 @@ System.Collections.ListDictionaryInternal
 Unexpected "for" keyword after "@" character.  Once inside code, you do not need to prefix constructs like "for" with "@".
 
 2015-11-20 15:34:43,377 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-20 19:06:39,047 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-20 19:06:39,056 [9] ERROR Ticknet - Exception Type - 
-HttpAntiForgeryException
-2015-11-20 19:06:39,056 [9] ERROR Ticknet - Exception Data - 
+2015-11-20 22:26:17,476 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 22:26:17,483 [10] ERROR Ticknet - Exception Type - 
+InvalidOperationException
+2015-11-20 22:26:17,483 [10] ERROR Ticknet - Exception Data - 
 System.Collections.ListDictionaryInternal
-2015-11-20 19:06:39,056 [9] ERROR Ticknet - Exception Message - 
-The provided anti-forgery token was meant for user "", but the current user is "vendedor1@email.com".
-2015-11-20 19:06:39,056 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-20 19:07:55,421 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-20 19:07:55,421 [11] ERROR Ticknet - Exception Data - 
+2015-11-20 22:26:17,483 [10] ERROR Ticknet - Exception Message - 
+The view 'RegisterVendedor' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/Account/RegisterVendedor.aspx
+~/Views/Account/RegisterVendedor.ascx
+~/Views/Shared/RegisterVendedor.aspx
+~/Views/Shared/RegisterVendedor.ascx
+~/Views/Account/RegisterVendedor.cshtml
+~/Views/Account/RegisterVendedor.vbhtml
+~/Views/Shared/RegisterVendedor.cshtml
+~/Views/Shared/RegisterVendedor.vbhtml
+2015-11-20 22:26:17,483 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 22:27:39,825 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 22:27:39,833 [9] ERROR Ticknet - Exception Type - 
+InvalidOperationException
+2015-11-20 22:27:39,833 [9] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-20 22:27:39,833 [9] ERROR Ticknet - Exception Message - 
+The view 'RegisterVendedor' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/Account/RegisterVendedor.aspx
+~/Views/Account/RegisterVendedor.ascx
+~/Views/Shared/RegisterVendedor.aspx
+~/Views/Shared/RegisterVendedor.ascx
+~/Views/Account/RegisterVendedor.cshtml
+~/Views/Account/RegisterVendedor.vbhtml
+~/Views/Shared/RegisterVendedor.cshtml
+~/Views/Shared/RegisterVendedor.vbhtml
+2015-11-20 22:27:39,833 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 22:29:19,709 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 22:29:19,717 [7] ERROR Ticknet - Exception Type - 
+InvalidOperationException
+2015-11-20 22:29:19,717 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-20 22:29:19,717 [7] ERROR Ticknet - Exception Message - 
+The view 'RegisterVendedor' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/Account/RegisterVendedor.aspx
+~/Views/Account/RegisterVendedor.ascx
+~/Views/Shared/RegisterVendedor.aspx
+~/Views/Shared/RegisterVendedor.ascx
+~/Views/Account/RegisterVendedor.cshtml
+~/Views/Account/RegisterVendedor.vbhtml
+~/Views/Shared/RegisterVendedor.cshtml
+~/Views/Shared/RegisterVendedor.vbhtml
+2015-11-20 22:29:19,717 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 22:31:04,964 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 22:31:04,973 [10] ERROR Ticknet - Exception Type - 
+InvalidOperationException
+2015-11-20 22:31:04,973 [10] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-20 22:31:04,973 [10] ERROR Ticknet - Exception Message - 
+The view 'Index' or its master was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/Account/Index.aspx
+~/Views/Account/Index.ascx
+~/Views/Shared/Index.aspx
+~/Views/Shared/Index.ascx
+~/Views/Account/Index.cshtml
+~/Views/Account/Index.vbhtml
+~/Views/Shared/Index.cshtml
+~/Views/Shared/Index.vbhtml
+2015-11-20 22:31:04,973 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 23:22:22,094 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 23:22:22,102 [8] ERROR Ticknet - Exception Data - 
 HttpException
-2015-11-20 19:07:55,421 [11] ERROR Ticknet - Exception Data - 
+2015-11-20 23:22:22,102 [8] ERROR Ticknet - Exception Data - 
 System.Collections.ListDictionaryInternal
-2015-11-20 19:07:55,421 [11] ERROR Ticknet - Exception Message - 
+2015-11-20 23:22:22,102 [8] ERROR Ticknet - Exception Message - 
+A public action method 'VerEvento' was not found on controller 'WebApplication4.Controllers.EventoController'.
+2015-11-20 23:22:22,102 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 23:23:10,043 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 23:23:10,043 [7] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-20 23:23:10,043 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-20 23:23:10,043 [7] ERROR Ticknet - Exception Message - 
+A public action method 'VerEvento' was not found on controller 'WebApplication4.Controllers.EventoController'.
+2015-11-20 23:23:10,043 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 23:24:59,070 [14] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 23:24:59,070 [14] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-20 23:24:59,070 [14] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-20 23:24:59,070 [14] ERROR Ticknet - Exception Message - 
 A public action method 'Asignacion' was not found on controller 'WebApplication4.Controllers.VentasController'.
-2015-11-20 19:07:55,421 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-20 23:24:59,070 [14] DEBUG Ticknet - ++++++++++++++++++++++++++++

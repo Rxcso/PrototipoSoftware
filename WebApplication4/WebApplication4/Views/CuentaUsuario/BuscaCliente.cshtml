@@ -40,11 +40,6 @@
                     <span class="input-group-btn"><button onclick="busca()" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
                 </div>
             </div>
-            @*<div class="col-md-2">
-                <div class="input-group">
-                    <a class="btn btn-primary" href="#regalo" data-toggle="modal"><span class="glyphicon glyphicon-gift"></span> Entregar Regalo</a>
-                </div>
-            </div>*@
         <div class="col-md-2">
             <div class="input-group">
                 <a class="btn btn-primary"onclick="validaS()" data-toggle="modal"><span class="glyphicon glyphicon-gift"></span> Entregar Regalo</a>
@@ -56,49 +51,6 @@
 
     </div>
     <br>
-    @*@using (Html.BeginForm("Search", "CuentaUsuario", FormMethod.Post, new { }))
-    {
-        @Html.AntiForgeryToken()
-
-        <div class="form-horizontal">
-            @Html.ValidationSummary(true)
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.tipoDoc, new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @{
-        List<SelectListItem> listItems = new List<SelectListItem>();
-        listItems.Add(new SelectListItem
-        {
-            Text = "DNI",
-            Value = "1",
-        });
-        listItems.Add(new SelectListItem
-        {
-            Text = "Pasaporte",
-            Value = "2"
-        });
-                    }
-                    @Html.DropDownListFor(model => model.tipoDoc, listItems, "Seleccione tipo de documento")
-                </div>
-
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.codDoc, new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.codDoc)
-                    @Html.ValidationMessageFor(model => model.codDoc)
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Buscar" class="btn btn-default" />
-                </div>
-            </div>
-        </div>
-    }*@
 
     @{
         List<WebApplication4.Models.CuentaUsuario> listaCliente = null;
@@ -147,35 +99,26 @@
     function myFunction(x) {
         if (document.getElementsByClassName("trselected").length > 0) {
             var element = document.getElementsByClassName("trselected");
-            //element.item[0].cells[0].innerText;
             element[0].className = "";
         }
-        //var tabla = document.getElementById("mytable");
-        //alert(x);
-        //var y = x.getCells();
         var elem = document.getElementById("idClienteT");
         elem.value = x.cells[0].innerHTML;
-        //alert(x.cells[0].innerHTML);
-        //ViewBag.P = x.cells[0].innerHTML;
         x.className = "trselected";
         var cliente = $('#idClienteT').val();
+        //se almacena el id del cliente y se obtiene la cuenta de este cliente seleccionado
         $.ajax({
             url: "@Url.Action("Entrega2", "CuentaUsuario")",
             data: { cliente: cliente },
-        success: function (data) {
-
-            //alert("Eliminado");
-            //row.remove();
-        },
-        error: function () {
-            alert("Error :(");
-        }
-    }); 
-        //<a class="btn btn-primary" href="javascript:document.getElementsByClassName('trselected').submit()">Borrar<span class="glyphicon glyphicon-pencil"></span></a>
-        //idProm = x.codp;
+            success: function (data) {
+            },
+            error: function () {
+                alert("Error :(");
+            }
+        });
     }
     function validaS() {
         var cliente = $('#idClienteT').val();
+        //se verifica que se selecciono un cliente y un regalo
         if (cliente != null && cliente != "") {
             $('#regalo').modal('show');
         } else {           
@@ -185,62 +128,29 @@
     function busca() {
         var usuario = $('#idBusq').val();
         var tipo = $('#comboBusq option:selected').val();
-        //var el = document.getElementById(regalo);
-        //var row = $(el).closest('tr');
-        //alert(evento);
-        //alert(promocion);
-        //if (usuario != "" && tipo != "" && usuario != null && tipo != null) {
+        //se envian los datos ingresados en los criterios de busqueda al controller 
             $.ajax({
                 url: "@Url.Action("Search2", "CuentaUsuario")",
                 data: { usuario:usuario, tipo:tipo },
                 success: function (data) {
                     window.location.href = '/CuentaUsuario/BuscaCliente';
-                    //alert("Eliminado");
-                    //row.remove();
                 },
                 error: function () {
                     alert("Error :(");
                 }
             });
-        //} else {
-        //    alert("Ingrese todos los campos de busqueda");
-        //}
-    }
-    function selecciona() {
-        var cliente = $('#idClienteT').val();
-        //var el = document.getElementById(regalo);
-        //var row = $(el).closest('tr');
-        //alert(evento);
-        //alert(promocion);
-            $.ajax({
-                url: "@Url.Action("Entrega2", "CuentaUsuario")",
-                data: { cliente: cliente },
-                success: function (data) {
-
-                    //alert("Eliminado");
-                    //row.remove();
-                },
-                error: function () {
-                    alert("Error :(");
-                }
-            }); 
     }
     function entregar() {
         var regalo = $('#comboBusq2 option:selected').val();
         var cliente = $('#idClienteT').val();
-        //var el = document.getElementById(regalo);
-        //var row = $(el).closest('tr');
-        //alert(evento);
-        //alert(promocion);
+        //se obtienen los datos del los campos seleccionados y se los envia al controller si es que se selecionaron todos
         if (regalo != "" && regalo != null && cliente != null && cliente != "" && regalo!=0) {
             $.ajax({
                 url: "@Url.Action("EntregaRegalo2", "CuentaUsuario")",
                 data: { regalo: regalo, cliente: cliente },
                 success: function (data) {
-
                     alert(data);
                     window.location.href = '/CuentaUsuario/BuscaCliente';
-                    //row.remove();
                 },
                 error: function (data) {
                     alert("Error :(");
@@ -273,14 +183,12 @@
             </div>
             <!--contenido de la ventana-->
             <div class="modal-body">
-                @*@{
-                    Html.RenderPartial("_Search1");
-                }*@
                 <div class="col-md-6">
                     <select class="form-control" name="" id="comboBusq2" onchange="">
                         <option value="0">Regalo - Puntos</option>
                         @foreach (var item in listaSearch)
                         {
+                            //se muestra la lista de regalos activos y sus puntos
                             <option value="@item.idRegalo">
                                 Nombre: @item.Nombre Puntos: @item.puntos
                             </option>

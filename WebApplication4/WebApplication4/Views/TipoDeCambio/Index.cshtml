@@ -1,13 +1,12 @@
-﻿    @using Microsoft.AspNet.Identity
-    @using WebApplication4.Models
+﻿@using Microsoft.AspNet.Identity
+@using WebApplication4.Models
 
+@model TipoDeCambioModel
 
-    @model TipoDeCambioModel
-
-    @{
-        ViewBag.Title = "Index";
-        Layout = "~/Views/Shared/_Layout.cshtml";
-    }
+@{        
+    ViewBag.Title = "Index";        
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
 <div class="container-fluid">
     <div class="col-md-5">
@@ -46,13 +45,12 @@
             </div>
         </div>
     }
-
     @{
         var db = new WebApplication4.Models.inf245netsoft();
         DateTime fecha1 = DateTime.Today.AddDays(-120);
+        //se obtiene la lista de tipos de cambio de hace 120 dias atras
         List<WebApplication4.Models.TipoDeCambio> listaCambio = db.TipoDeCambio.AsNoTracking().Where(c => c.fecha > fecha1).ToList();
     }
-
     <div class="row">
         <table id="mytable" class="table table-bordered table-hover">
             <thead>
@@ -64,6 +62,7 @@
             <tbody id="tbody">
                 @foreach (var row in listaCambio)
                 {
+                    //se muestra la lista de tipos cambio obtenida
                     <tr>
                         <td>@row.fecha</td>
                         @{
@@ -76,10 +75,5 @@
             </tbody>
         </table>
     </div>
-
-
-
-
-
 </div>
 

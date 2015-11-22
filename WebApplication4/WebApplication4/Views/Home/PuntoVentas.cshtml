@@ -1,10 +1,13 @@
 ﻿@{
     ViewBag.Title = "PuntoVentas";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    //se obtine la lista de puntos de venta activos
     var db = new WebApplication4.Models.inf245netsoft();
     List<WebApplication4.Models.PuntoVenta> listaPunto = db.PuntoVenta.AsNoTracking().Where(c => c.estaActivo == true).ToList();
     listaPunto = db.PuntoVenta.AsNoTracking().Where(c => c.estaActivo == true).ToList();
     List<WebApplication4.Models.Region> listaSearch = db.Region.AsNoTracking().Where(c => c.idRegPadre == null).ToList();
+    //se carga la lista de regiones para realizar la busqueda
+    //si se realizo la busqueda se le asigna a la lista de puntos de venta el resultado de la busqueda
     if (Session["ListaP2"] == null)
     {
         listaPunto = db.PuntoVenta.AsNoTracking().Where(c => c.estaActivo == true).ToList();
@@ -44,20 +47,21 @@
             <table id="mytable" class="table table-bordered table-hover">
                 <thead>
                     <tr class="thead">
+                        <th>Nombre</th>
                         <th>Ubicacion</th>
                         <th>Provincia</th>
                         <th>Departamento</th>
                     </tr>
                 </thead>
                 <tbody id="tbody">
+                    @*se muestra la lista de puntos de venta*@
                     @foreach (var row in listaPunto)
                     {
                         <tr id=@row.codPuntoVenta onclick="myFunction(this)">
+                            <td>@row.nombre</td>
                             <td>@row.ubicacion</td>
                             <td>@db.Region.Find(row.idProvincia).nombre</td>
                             <td>@db.Region.Find(row.idRegion).nombre</td>
-                            @*<td>@Html.ActionLink("Delete", "Delete", new { id = row.codPuntoVenta })</td>
-                                <td>@Html.ActionLink("Edit", "Edit", new { id = row.codPuntoVenta })</td>*@
                         </tr>
                     }
                 </tbody>
@@ -70,6 +74,7 @@
 <script>
     function busca2() {
         var region = $('#comboBusq option:selected').val();
+        //se envia el criterio de busqueda cuando se cambia el valor en el combobox
         $.ajax({
             url: "@Url.Action("Search3", "Home")",
             data: { region: region },

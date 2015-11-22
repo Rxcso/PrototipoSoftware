@@ -9,6 +9,11 @@ namespace WebApplication4.Models
     public class PuntoVentaModel
     {
         [Required]
+        [Display(Name = "Nombre: ")]
+        [StringLength(100, ErrorMessage = "Maxima longitud de 100 caracteres.")]
+        public String nombre { get; set; }
+
+        [Required]
         [Display(Name = "Ubicacion: ")]
         [StringLength(100, ErrorMessage = "Maxima longitud de 100 caracteres.")]
         public String ubicacion { get; set; }

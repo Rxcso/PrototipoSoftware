@@ -5,10 +5,12 @@
     ViewBag.Title = "Politicas";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var db = new WebApplication4.Models.inf245netsoft();
+    // definen los campos para almacenar los valores actuales de la politicas
     int p1 = 0, p2 = 0, p3 = 0, p4 = 0, p5 = 0, p6 = 0, p7 = 0;
     DateTime hr;
     string pl6="--:-- ----";
     int a = 1, b = 2, c = 3, d = 4, e = 5, f = 6, g = 7;
+    //se obtienen los valores actuales de las politicas
     if (db.Politicas.Find(a).valor != null)
     { 
         p1 = (int)db.Politicas.Find(a).valor;
@@ -169,14 +171,18 @@
 
 <script>
     function registrar() {
+        //se obtienen el valor ingresado en cada campo
         var tp = $('input[name="tipoRes"]:checked').val();
+        //sino se selecciona ningun radiobutton se le asigna a dur y hor valor vacio
         if (tp == undefined) {
             var dur = "";
             var hr = "";
         }
+        //si se selecciona el radio buton de dur se obtiene su valor
         if (tp == "1") {
             var dur = $('#durR').val();
         } else {
+            //si se selecciono hora se le asigna una constante e a dur
             if (tp != undefined) var dur = "e";
         }
         var mx = $('#maxC').val();
@@ -184,14 +190,14 @@
         var ra = $('#rAsg').val();
         var mE = $('#mxE').val();
         if (tp == "2") {
+            //si se selecciona el radio buton de hora se obtiene su valor
             var hr = $('#hora').val();
         } else {
+            //si se selecciono dur se le asigna una constante e a hora
             if (tp != undefined) var hr = "e";
         }
-        //alert(dur);
-        //alert(mx);
-        //alert(mt);
         if (mx != null || dur != null || mt != null || mE != null || hr != null) {
+            //se envia los datos escritos en politicas al controller
             $.ajax({
                 url: "@Url.Action("RegistraPoliticas", "CuentaUsuario")",
                 data: { dur: dur, mx: mx, mt: mt, ra: ra, mE: mE, hr: hr },
@@ -207,12 +213,15 @@
                 }
             });
         } else {
+            //si no se ingreso ningun valor se muestra un mensaje
             alert("Ingrese un valor a Registrar");
         }
     }
     function registrar2() {
+        //se obtienen el valor ingresado en tolerancia
         var tolerancia = $('#tol').val();
         if (tolerancia != "" && tolerancia != null) {
+            //se envia los datos escritos en tolerancia al controller
             $.ajax({
                 url: "@Url.Action("RegistraTolerancia","CuentaUsuario")",
                 data: { tolerancia: tolerancia },
@@ -227,6 +236,7 @@
                 }
             });
         } else {
+            //si no se ingreso ningun valor se muestra un mensaje
             alert("Ingrese tiempo de tolerancia");
         }
     }

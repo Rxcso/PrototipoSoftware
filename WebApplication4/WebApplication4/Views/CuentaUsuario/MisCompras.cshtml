@@ -6,22 +6,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     var db = new WebApplication4.Models.inf245netsoft();
     CuentaUsuario cu = null;
+    //se obtiene la cuenta del usuario logueado
     cu = (CuentaUsuario)Session["UsuarioLogueado"];
     DateTime hoy = DateTime.Now;
     List<Ventas> listaventas = null;
     List<VentasXFuncion> listvxf = new List<VentasXFuncion>();
+    //se obitienen las ventas del usuario logueado si se ha logueado la cuenta
     if (cu != null)
     {
         listaventas = db.Ventas.Where(r => r.Estado == "Pagado" && r.cliente == cu.usuario).ToList();
-        //for (int i = 0; i < listaventas.Count; i++)
-        //{
-        //    Ventas vent = listaventas[i];
-        //    List<VentasXFuncion> lv = db.VentasXFuncion.Where(c => c.codVen == vent.codVen).ToList();
-        //    for (int j = 0; j < lv.Count; j++)
-        //    {
-        //        listvxf.Add(lv[j]);
-        //    }
-        //}
     }
 
 }
@@ -42,7 +35,7 @@
                     <h4>Mis Compras Pasadas:</h4>
                 </div>
             </div>
-
+            @*se muestra el contenido de la lista de ventasobtenida del usuario logueado*@
             <div class="row">
                 <table id="mytable" class="table table-bordered table-hover">
                     <thead>
@@ -69,23 +62,6 @@
                                     <td><a href="@Url.Action("Detalles", "Ventas", new { id = row.codVen })" class="btn btn-primary">Detalles <span class="glyphicon glyphicon-pencil"></span></a></td>
                                 </tr>
                             }
-                            @*if (listvxf != null)
-                                {
-                                    foreach (var row in listvxf)
-                                    {
-                                    <tr id=@row.codVen onclick="myFunction(this)">
-                                        <td>@row.codVen</td>
-                                        <td>@row.codVen</td>
-                                        @{Funcion fu = db.Funcion.Find(row.codFuncion);
-                                        }
-                                        <td>@db.Eventos.Find(fu.codEvento).nombre</td>
-                                        <td>@fu.fecha.Value.ToString("dd/MM/yyyy")</td>
-                                        <td>@fu.horaIni.Value.TimeOfDay - @fu.horaFin.Value.TimeOfDay</td>
-                                        <td>@row.cantEntradas</td>
-                                        <td>@row.total</td>
-                                    </tr>
-                                }
-                                }*@
                         }
                     </tbody>
                 </table>

@@ -83,6 +83,11 @@
                 <a class="btn btn-primary" id="idBusq2E" onclick="buscaIE()" data-toggle="modal">Ver Inactivos<span class="glyphicon"></span></a>
                 <br>
                 <br>
+                @if (TempData["MessageErrorVendedor"] != null)
+                {
+                    string st=(string)TempData["MessageErrorVendedor"];                    
+                    <div class="error">@st</div>
+                }
                 <div class="row">
                     <table id="mytable" class="table table-bordered table-hover">
                         <thead>
@@ -156,6 +161,11 @@
                 <a class="btn btn-primary" id="idBusq2P" onclick="buscaIP()" data-toggle="modal">Ver Inactivos<span class="glyphicon"></span></a>
                 <br>
                 <br>
+                @if (TempData["MessageErrorPromotor"] != null)
+                {
+                    string st = (string)TempData["MessageErrorPromotor"];
+                    <div class="error">@st</div>
+                }
                 <div class="row">
                     <table id="mytable" class="table table-bordered table-hover">
                         <thead>

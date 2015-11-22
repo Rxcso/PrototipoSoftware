@@ -5,18 +5,20 @@
     ViewBag.Title = "Apertura";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var db = new WebApplication4.Models.inf245netsoft();
-    int idPunto;
-    double mS=0,mD=0;
+    double mS = 0, mD = 0;
+    //Se obtiene el turno del usuario que se loguea si este tiene un turno asignado
     Turno turno = (Turno)Session["TurnoHoy"];
     if (turno != null)
     {
+        //Se verifica el estado de la caja
         if (turno.estadoCaja != "Pendiente")
         {
+            //si caja ya ha sido abierta o cerrada se extraen los montos iniciales de la apertura de caja
             mS = (double)turno.MontoInicioSoles;
             mD = (double)turno.MontoInicioDolares;
         }
     }
-    
+
 }
 
 <div class="container-fluid">
@@ -29,8 +31,10 @@
 <div class="container">
     <div class="row">
         <br>
-        @if (turno != null && turno.estadoCaja != "Pendiente" )
+        @*Se verifica que exista el turno y el estado de la caja de ese turno*@
+        @if (turno != null && turno.estadoCaja != "Pendiente")
         {
+            //si turno existe y caja ya ha sido abierta o cerrada se muestran los montos iniciales en los input
             <div class="form-group">
                 <label for="categoria" class="control-label col-md-2 col-md-offset-2">Monto Inicial:</label>
                 <div class="col-md-2">
@@ -49,34 +53,37 @@
         }
         else
         {
-        <div class="form-group">
-            <label for="categoria" class="control-label col-md-2 col-md-offset-2">Monto Inicial:</label>
-            <div class="col-md-2">
-                <div class="input-group">
-                    <span class="input-group-addon" id="soles">S/.</span>
-                    <input type="number" id="montoS" class="form-control" aria-describedby="soles">
+            //si no turno existe y caja aun no ha sido abierta
+            //o cerrada se muestra inputs para ingresar los montos iniciales de la caja
+            <div class="form-group">
+                <label for="categoria" class="control-label col-md-2 col-md-offset-2">Monto Inicial:</label>
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="soles">S/.</span>
+                        <input type="number" id="montoS" class="form-control" aria-describedby="soles">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="soles">$.</span>
+                        <input type="number" id="montoD" class="form-control" aria-describedby="soles">
+                    </div>
                 </div>
             </div>
-            <div class="col-md-2">
-                <div class="input-group">
-                    <span class="input-group-addon" id="soles">$.</span>
-                    <input type="number" id="montoD" class="form-control" aria-describedby="soles">
-                </div>
-            </div>
-        </div>
         }
         <br><br>
 
         <center>
+            @*Se verifica que exista el turno y el estado de la caja de ese turno*@
             @if (turno != null && turno.estadoCaja == "Pendiente")
             {
+                //si turno existe y caja aun no ha sido abierta se muestra el boton para abrir caja
                 <button type="button" class="btn btn-primary" onclick="abrir()">Abrir caja <span class="glyphicon glyphicon-inbox"></span></button>
             }
             else
             {
-                @*<button type="button" class="btn btn-primary" onclick="">Abrir caja <span class="glyphicon glyphicon-inbox"></span></button>*@
+
             }
-            @*<a class="btn btn-danger pull-right" href="@Url.Action("Index2", "Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>*@
         </center>
 
 
@@ -85,84 +92,31 @@
 </div>
 
 <script>
+    //script para operacion de apertura de caja
     function abrir() {
+        //se extraen montos de los ingresados
         var montos = $('#montoS').val();
         var montod = $('#montoD').val();
+        //se verifican que se hallan ingresado los montos
         if (montos != "" && montos != null && montod != "" && montod != null) {
-            //alert(monto);
+            //se envis los montos extraidos al controller para procesar la informacion
             $.ajax({
                 url: "@Url.Action("AbrirCaja", "Ventas")",
                 data: { montos: montos, montod: montod },
-            success: function (data) {
-                alert(data);
-                window.location.href = '/Ventas/Apertura';
-            },
-            error: function (data) {
-                alert(data);
-                window.location.href = '/Ventas/Apertura';
-            }
-        });
-    } else {
+                success: function (data) {
+                    //se muestra el mensaje correspondiente y se recarga la pagina
+                    alert(data);
+                    window.location.href = '/Ventas/Apertura';
+                },
+                error: function (data) {
+                    alert(data);
+                    window.location.href = '/Ventas/Apertura';
+                }
+            });
+        } else {
+            //muestra un mensaje si no se han nigresado montos
             alert("Ingrese los monto solicitados");
-    }
+        }
     }
 
 </script>
-
-@*<h1>@tu.estado</h1>*@
-@*<h1>@ts.horIni</h1>*@
-@*<h1>@cuenta.nombre</h1>
-<h2>@idPunto</h2>*@
-
-@*<div class="modal fade" id="modalBuscarPuntoVenta">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <!--ACA VA EL CONTENIDO DEL MODAL-->
-            <!--header de la ventana-->
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
-                Buscar puntos de ventas
-            </div>
-            <!--contenido de la ventana-->
-            <div class="modal-body">
-                <form action="" class="form-horizontal">
-                    <div class="form-group">
-                        <label for="correo" class="control-label col-md-2">Nombre:</label>
-                        <div class="col-md-10">
-                            <input type="text" class="form-control" id="nombre">
-                        </div>
-                    </div>
-                    <br><br>
-                    <div class="row">
-                        <table class="table table-bordered table-hover">
-
-                            <tr class="active">
-                                <th>Nombre</th>
-                            </tr>
-                            <tr>
-                                <td>Chorrrillos 1</td>
-                            </tr>
-                            <tr id="fila3" onclick="select()">
-                                <td>Chorrrillos 2</td>
-                            </tr>
-                            <tr>
-                                <td>Chorrrillos 3</td>
-                            </tr>
-                        </table>
-
-                    </div>
-
-
-                </form>
-            </div>
-            <br>
-            <!--footer de la ventana-->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> Buscar</button>
-                <button type="button" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Seleccionar</button>
-            </div>
-        </div>
-    </div>
-</div><!--ventana de buscar organizador-->*@
-
-
