@@ -1128,11 +1128,12 @@ namespace WebApplication4.Controllers
         public ActionResult devolverParcial(string asiento)
         {
             List<AsientosXFuncion> axf = (List<AsientosXFuncion>)Session["ListaAsientos"];
+            DetalleVenta dv = (DetalleVenta)Session["DetalleVenta"];
             if (axf.Count != 0) //numerado
             {
                 int codAsiento = int.Parse(asiento);
 
-                DetalleVenta dv = (DetalleVenta)Session["DetalleVenta"];
+                //DetalleVenta dv = (DetalleVenta)Session["DetalleVenta"];
                 AsientosXFuncion axfuncion = db.AsientosXFuncion.Where(a => a.codAsiento == codAsiento && a.codFuncion == dv.codFuncion).First();
                 //AsientosXFuncion axfuncion = db.AsientosXFuncion.Find(codAsiento);
                 Ventas v = db.Ventas.Find(dv.codVen);
@@ -1193,7 +1194,7 @@ namespace WebApplication4.Controllers
             }
             else // no numerado
             {
-                DetalleVenta dv = (DetalleVenta)Session["DetalleVenta"];
+                
                 //AsientosXFuncion axfuncion = db.AsientosXFuncion.Find(codAsiento);
                 PrecioEvento pe = db.PrecioEvento.Find(dv.codPrecE);
                 Ventas v = db.Ventas.Find(dv.codVen);
@@ -1255,6 +1256,16 @@ namespace WebApplication4.Controllers
             Session["EventoDev"]
             Session["ZonaEventoDev"]
             Session["AsientosDev"]*/
+            
+            List<DevolucionModel> devolMod = (List<DevolucionModel>)Session["BusquedaDev"];
+            int j;
+            for (j = 0; j < devolMod.Count;j++ )
+            {
+                if (devolMod[j].codDev == dv.codDetalleVenta) break;                                
+            }
+            devolMod[j].cantAsientos -= 1;
+            Session["BusquedaDev"] = devolMod;
+
             db.SaveChanges();
             return View("VerDetalle");
         }
