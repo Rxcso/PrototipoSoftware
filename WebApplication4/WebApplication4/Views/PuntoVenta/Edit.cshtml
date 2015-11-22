@@ -6,7 +6,9 @@
     var db = new WebApplication4.Models.inf245netsoft();
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    //se obtiene el punto guardado en el session
     PuntoVenta punto = (PuntoVenta)Session["punto"];
+    //se define un puntoVentaModel y se le asignan los datos del punto de venta guardado
     PuntoVentaModel puntoM = new PuntoVentaModel();
     int idR = 0;
     int idP = 0;
@@ -17,7 +19,7 @@
     puntoM.ubicacion = punto.ubicacion;
     puntoM.idRegion = (int)punto.idRegion;
     puntoM.idProv = (int)punto.idProvincia;
-    
+    //se le asignan los valores del puntoVentaModel a los campos que se editaran
 }
 
 
@@ -33,7 +35,7 @@
             <div class="row form-group">
                 @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })
                 <div class="col-md-5">
-                    @Html.TextBoxFor(model => model.ubicacion, new { @class = "form-control", @placeholder = @puntoM.nombre, @Value = @puntoM.nombre })
+                    @Html.TextBoxFor(model => model.nombre, new { @class = "form-control", @placeholder = @puntoM.nombre, @Value = @puntoM.nombre })
                     @Html.ValidationMessageFor(model => model.nombre)
                 </div>
             </div>
@@ -85,6 +87,7 @@
 
 <script>
     function cambioDepartamento() {
+        //se define la funcion que llenara las provincias en funcion de la region seleccionada
         var depId = parseInt($("#idRegion").val());
         if (!isNaN(depId)) {
             var ddProv = $("#idProv");

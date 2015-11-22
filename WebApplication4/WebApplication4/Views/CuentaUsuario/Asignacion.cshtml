@@ -215,10 +215,6 @@
         var horai = $('#horaiT').val();
         var el = document.getElementById(turno);
         var row = $(el).closest('tr');
-        //alert(turno);
-        //alert(fecha);
-        //alert(horai);
-        //alert(promocion);
         if (turno != "" && turno != null && fecha != "" && fecha != null && horai != null && horai != "") {
             $.ajax({
                 url: "@Url.Action("DeleteTurno","CuentaUsuario")",
@@ -260,15 +256,7 @@
         var idV = $('#idVend').val();
         var ini = $('#fini').val();
         var fin = $('#ffin').val();
-        //if (isNaN(punto)) return;
-        //alert(isNaN(punto));
-        //alert(idV);
-        //alert(ini);
-        //alert(fin);
-        //alert(punto);
-        //alert(turno);
         if (turno != "0" && isNaN(punto) == false && idV != null && ini != "" && fin != "") {
-            //alert(monto);
             $.ajax({
                 url: "@Url.Action("RegistrarAsignacion","CuentaUsuario")",
                 data: { turno: turno, punto: punto, idV: idV, ini: ini, fin: fin },

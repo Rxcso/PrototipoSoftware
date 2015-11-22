@@ -7,6 +7,7 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var db = new WebApplication4.Models.inf245netsoft();
+    //se carga la lista de regiones para realizar la busqueda
     List<WebApplication4.Models.Region> listaSearch = db.Region.AsNoTracking().Where(c => c.idRegPadre == null).ToList();
 }
 
@@ -60,7 +61,9 @@
     <br>
     <br>
     @{
+        //se obtine la lista de puntos de venta activos
         List<WebApplication4.Models.PuntoVenta> listaPunto = db.PuntoVenta.AsNoTracking().Where(c => c.estaActivo == true).ToList();
+        //si se realizo la busqueda se le asigna a la lista de puntos de venta el resultado de la busqueda
         if (Session["ListaP"] == null)
         {
             listaPunto = db.PuntoVenta.AsNoTracking().Where(c => c.estaActivo == true).ToList();
@@ -87,6 +90,7 @@
             <tbody id="tbody">
                 @foreach (var row in listaPunto)
                 {
+                    //se muestra la lista de puntos de venta activos o como resultado de una busqueda
                     <tr id=@row.codPuntoVenta onclick="myFunction(this)">
                         <td>@row.codPuntoVenta</td>
                         <td>@row.nombre</td>
@@ -95,18 +99,13 @@
                         <td>@db.Region.Find(row.idProvincia).nombre</td>
                         <td>@db.Region.Find(row.idRegion).nombre</td>
                         <td>@row.estaActivo</td>
-                        @*<td>@Html.ActionLink("Delete", "Delete", new { id = row.codPuntoVenta })</td>
-                            <td>@Html.ActionLink("Edit", "Edit", new { id = row.codPuntoVenta })</td>*@
                     </tr>
                 }
             </tbody>
         </table>
     </div>
 
-
-
 </div>
-
 
 <input type="hidden" id="idPuntoT" value="" />
 <input type="hidden" id="EstadoPT" value="" />
@@ -115,28 +114,21 @@
     function myFunction(x) {
         if (document.getElementsByClassName("trselected").length > 0) {
             var element = document.getElementsByClassName("trselected");
-            //element.item[0].cells[0].innerText;
             element[0].className = "";
         }
-        //var tabla = document.getElementById("mytable");
-        //alert(x);
-        //var y = x.getCells();
         var elem = document.getElementById("idPuntoT");
         elem.value = x.cells[0].innerHTML;
         var elem2 = document.getElementById("EstadoPT");
         elem2.value = x.cells[5].innerHTML;
         x.className = "trselected";
-
-        //<a class="btn btn-primary" href="javascript:document.getElementsByClassName('trselected').submit()">Borrar<span class="glyphicon glyphicon-pencil"></span></a>
-        //idProm = x.codp;
     }
     function borrar() {
         var punto = $('#idPuntoT').val();
         var estado = $('#EstadoPT').val();
         var el = document.getElementById(punto);
         var row = $(el).closest('tr');
-        //alert(evento);
-        //alert(promocion);
+        //se obtiene los datos de la fila de la lista seleccionado
+        //se comprueba si punto esta activo y se le envia los datos al controller
         if (punto != "" && punto != null) {
             if (estado != "False") {
                 $.ajax({
@@ -165,8 +157,8 @@
         var estado = $('#EstadoPT').val();
         var el = document.getElementById(punto);
         var row = $(el).closest('tr');
-        //alert(evento);
-        //alert(promocion);
+        //se obtiene los datos de la fila de la lista seleccionado
+        //se comprueba si punto esta desactivado y se le envia los datos al controller
         if (punto != "" && punto != null) {
             if (estado != "True") {
                 $.ajax({
@@ -191,6 +183,8 @@
     function redirige() {
         var punto = $('#idPuntoT').val();
         var estado = $('#EstadoPT').val();
+        //se obtiene los datos de la fila de la lista seleccionado
+        //se comprueba si punto esta activado y se le redirige a la ventana de edicion
         if (punto != "") {
             if (estado != "False") {
                 var elem = document.getElementById("idPuntoT");
@@ -203,21 +197,15 @@
             alert("Seleccione un Punto de Venta");
             evento = "";
         }
-        //$.post('/Regalo/Edit/' + regalo);
     }
     function busca() {
         var punto = $('#idBusq').val();
-        //var el = document.getElementById(regalo);
-        //var row = $(el).closest('tr');
-        //alert(evento);
-        //alert(promocion);
+        //se saca el campo ingresado en el criterio de busqueda y se envia al controller
         $.ajax({
             url: "@Url.Action("Search2", "PuntoVenta")",
             data: { punto: punto },
             success: function (data) {
                 window.location.href = '/PuntoVenta/Index';
-                //alert("Eliminado");
-                //row.remove();
             },
             error: function () {
                 alert("Error :(");
@@ -226,13 +214,12 @@
     }
     function busca2() {
         var region = $('#comboBusq option:selected').val();
+        //se saca el campo ingresado en el criterio de busqueda y se envia al controller
         $.ajax({
             url: "@Url.Action("Search3", "PuntoVenta")",
             data: { region: region },
             success: function (data) {
                 window.location.href = '/PuntoVenta/Index';
-                //alert("Eliminado");
-                //row.remove();
             },
             error: function () {
                 alert("Error :(");
@@ -240,13 +227,12 @@
         });
     }
     function buscaI() {
+        //se llama al controller para que busque puntos de venta inactivo
         $.ajax({
             url: "@Url.Action("SearchI", "PuntoVenta")",
             data: {},
             success: function (data) {
                 window.location.href = '/PuntoVenta/Index';
-                //alert("Eliminado");
-                //row.remove();
             },
             error: function () {
                 alert("Error :(");
@@ -254,6 +240,7 @@
         });
     }
     function validaS() {
+        //se comprueba que se halla seleccionado una venta
         var cliente = $('#idPuntoT').val();
         if (cliente != null && cliente != "") {
             $('#eliminar').modal('show');
@@ -262,6 +249,7 @@
         }
     }
     function cambioDepartamento() {
+        //se define la funcion que llenara las provincias en funcion de la region seleccionada
         var depId = parseInt($("#idRegion").val());
         if (!isNaN(depId)) {
             var ddProv = $("#idProv");
@@ -354,44 +342,6 @@
                             </div>
                         </div>
 
-                        @*<div class="row form-group">
-                                    @Html.LabelFor(model => model.departamento, new { @class = "control-label col-md-3" })
-                                    <div class="col-md-9">
-                                        @{
-                            List<WebApplication4.Models.Region> listaDepartamento = db.Region.AsNoTracking().Where(c => c.idRegPadre == null).ToList();
-                            IEnumerable<SelectListItem> listItems = (from a in listaDepartamento
-                                                                     select new SelectListItem
-                                                                   {
-                                                                       Value = a.idRegion.ToString(),
-                                                                       Text = a.nombre,
-                                                                       Selected = false
-                                                                   });
-                            listItems.First().Selected = true;
-                                        }
-                                        @Html.DropDownListFor(model => model.departamento, listItems, "Seleccione Departamento")
-                                    </div>
-                                </div>
-
-                                <div class="row form-group">
-                                    @Html.LabelFor(model => model.provincia, new { @class = "control-label col-md-3" })
-                                    <div class="col-md-9">
-                                        @{
-                            List<WebApplication4.Models.Region> listaProvincia = db.Region.AsNoTracking().Where(c => c.idRegPadre != null).ToList();
-
-                            IEnumerable<SelectListItem> listItems2 = (from a in listaProvincia
-                                                                      select new SelectListItem
-                                                                    {
-                                                                        Value = a.idRegion.ToString(),
-                                                                        Text = a.nombre,
-                                                                        Selected = false
-                                                                    });
-                                        }
-                                        @Html.DropDownListFor(model => model.provincia, listItems2, "Seleccione Provincia")
-                                    </div>
-                                </div>*@
-
-
-
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">
                                 <input type="submit" value="Agregar" class="btn btn-primary" />
@@ -405,8 +355,6 @@
         </div>
     </div>
 </div>
-
-
 
 <div class="modal fade" id="eliminar">
     <!--esta div pondra la pantalla oscura al presionar el boton-->

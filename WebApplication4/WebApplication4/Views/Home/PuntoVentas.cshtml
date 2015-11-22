@@ -1,7 +1,7 @@
 ﻿@{
     ViewBag.Title = "PuntoVentas";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    //se obtine lalista de puntos de venta activos
+    //se obtine la lista de puntos de venta activos
     var db = new WebApplication4.Models.inf245netsoft();
     List<WebApplication4.Models.PuntoVenta> listaPunto = db.PuntoVenta.AsNoTracking().Where(c => c.estaActivo == true).ToList();
     listaPunto = db.PuntoVenta.AsNoTracking().Where(c => c.estaActivo == true).ToList();

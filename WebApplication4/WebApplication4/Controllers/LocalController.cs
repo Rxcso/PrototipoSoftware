@@ -126,7 +126,7 @@ namespace WebApplication4.Controllers
         {
             List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
             List<Region> listProv = new List<Region>();
-            //ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
+            ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
             ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
             ViewBag.ProvID = new SelectList(listProv, "idRegion", "nombre");
             return View();

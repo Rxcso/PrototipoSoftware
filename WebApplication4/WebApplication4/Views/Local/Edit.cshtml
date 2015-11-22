@@ -8,10 +8,12 @@
 
 @{
     var db = new WebApplication4.Models.inf245netsoft();
+    //se obtiene el local guardado en el session
     Local local = (Local)Session["local"];
+    //se define un localModel y se le asignan los datos del local guardado
     LocalEditModel localM = new LocalEditModel();
     int idR = 0;
-    int idP = 0;
+    int idP = 0;    
     //localM.aforo = (int)local.aforo;
     localM.idRegion = (int)local.idRegion;
     idR = (int)local.idRegion;
@@ -19,6 +21,7 @@
     localM.idProv = (int)local.idProvincia;
     idP = (int)local.idProvincia;
     localM.ubicacion = local.ubicacion;
+    //se le asignan los valores del localModel a los campos que se editaran
 }
 
 @model LocalEditModel
@@ -81,6 +84,7 @@
 
 <script>
     function cambioDepartamento() {
+        //se define la funcion que llenara las provincias en funcion de la region seleccionada
         var depId = parseInt($("#idRegion").val());
         if (!isNaN(depId)) {
             var ddProv = $("#idProv");
