@@ -24,8 +24,8 @@ namespace WebApplication4.Models
         public Nullable<int> codPeriodoVenta { get; set; }
         public Nullable<int> codZonaEvento { get; set; }
     
-        public virtual ICollection<DetalleVenta> DetalleVenta { get; set; }
         public virtual PeriodoVenta PeriodoVenta { get; set; }
         public virtual ZonaEvento ZonaEvento { get; set; }
+        public virtual ICollection<DetalleVenta> DetalleVenta { get; set; }
     }
 }

@@ -23,6 +23,7 @@ namespace WebApplication4.Models
         public Nullable<int> descTot { get; set; }
         public Nullable<double> total { get; set; }
         public Nullable<int> entradasDev { get; set; }
+        public double montoDev { get; set; }
     
         public virtual PrecioEvento PrecioEvento { get; set; }
         public virtual VentasXFuncion VentasXFuncion { get; set; }
