@@ -45,9 +45,9 @@ function fila() {
     var rowId = $("#histFuncion").val();
     var table = document.getElementById("bloqueFuncion").getElementsByTagName('tbody')[0];
     var row = table.insertRow();
-    row.id = rowId;
+    row.id = parseInt(rowId) + 1;
     var cell0 = row.insertCell(0);
-    cell0.innerHTML = parseInt(row.id) + 1;
+    cell0.innerHTML = parseInt(row.id);
     var cell1 = row.insertCell(1);
     cell1.innerHTML = '<input id="fechaFuncion" class="form-control" type="date" required>';
     var cell2 = row.insertCell(2);
@@ -55,7 +55,7 @@ function fila() {
     var cell3 = row.insertCell(3);
     cell3.align = "center";
     cell3.innerHTML = '<input type="radio" name="groupFunciones" value="' + (parseInt(row.id)) + '">';
-    $("#histFuncion").val(parseInt(row.id) + 1);
+    $("#histFuncion").val(parseInt(row.id));
 }
 
 

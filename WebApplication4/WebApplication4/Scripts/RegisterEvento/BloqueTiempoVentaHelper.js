@@ -55,9 +55,9 @@ function fila() {
     var rowId = $("#histBloque").val();
     var table = document.getElementById("bloqueDeTiempo").getElementsByTagName('tbody')[0];
     var row = table.insertRow();
-    row.id = rowId;
+    row.id = parseInt(rowId) + 1;
     var cell0 = row.insertCell(0);
-    cell0.innerHTML = parseInt(row.id) + 1;
+    cell0.innerHTML = parseInt(row.id);
     var cell1 = row.insertCell(1);//desde
     cell1.innerHTML = '<input id="fechaIni" class="form-control" type="date" required>';
     var cell2 = row.insertCell(2);//hasta
@@ -65,7 +65,7 @@ function fila() {
     var cell3 = row.insertCell(3);
     cell3.align = "center";
     cell3.innerHTML = '<input type="radio" name="groupBloquedeVenta" value="' + (parseInt(row.id)) + '">';
-    $("#histBloque").val(parseInt(row.id) + 1);
+    $("#histBloque").val(parseInt(row.id));
 }
 
 function validar(fechaInicio, fechaFin) {
