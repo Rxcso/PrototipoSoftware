@@ -1959,3 +1959,12 @@ System.Collections.ListDictionaryInternal
 Encountered end tag "tr" with no matching start tag.  Are your start/end tags properly balanced?
 
 2015-11-22 17:43:16,995 [52] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 18:27:54,719 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 18:27:54,727 [6] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-22 18:27:54,727 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-22 18:27:54,727 [6] ERROR Ticknet - Exception Message - 
+The using block is missing a closing "}" character.  Make sure you have a matching "}" character for all the "{" characters within this block, and that none of the "}" characters are being interpreted as markup.
+
+2015-11-22 18:27:54,727 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
