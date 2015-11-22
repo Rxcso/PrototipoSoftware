@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="inf245netsoftModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="inf245netsoftModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -386,7 +386,6 @@
           <Property Name="MontoInicioDolares" Type="float" />
           <Property Name="MontoFinSoles" Type="float" />
           <Property Name="MontoFinDolares" Type="float" />
-          <Property Name="HoraSalida" Type="datetime" />
         </EntityType>
         <EntityType Name="TurnoSistema">
           <Key>
@@ -748,9 +747,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="R_38">
-          <End Role="Ventas" Type="Self.Ventas" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="Ventas" Type="Self.Ventas" Multiplicity="1" />
           <End Role="VentasXFuncion" Type="Self.VentasXFuncion" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Ventas">
@@ -878,9 +875,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="R_62">
-          <End Role="VentasXFuncion" Type="Self.VentasXFuncion" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="VentasXFuncion" Type="Self.VentasXFuncion" Multiplicity="1" />
           <End Role="DetalleVenta" Type="Self.DetalleVenta" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="VentasXFuncion">
@@ -1241,9 +1236,9 @@
           <NavigationProperty Name="RegaloXCuenta" Relationship="inf245netsoftModel.FK__RegaloXCu__usuar__4BAC3F29" FromRole="CuentaUsuario" ToRole="RegaloXCuenta" />
           <NavigationProperty Name="Categoria" Relationship="inf245netsoftModel.CategoriasXUsuario" FromRole="CuentaUsuario" ToRole="Categoria" />
           <NavigationProperty Name="Turno" Relationship="inf245netsoftModel.R_26" FromRole="CuentaUsuario" ToRole="Turno" />
+          <NavigationProperty Name="Comentarios" Relationship="inf245netsoftModel.R_32" FromRole="CuentaUsuario" ToRole="Comentarios" />
           <NavigationProperty Name="Ventas" Relationship="inf245netsoftModel.R_30" FromRole="CuentaUsuario" ToRole="Ventas" />
           <NavigationProperty Name="Ventas1" Relationship="inf245netsoftModel.R_34" FromRole="CuentaUsuario" ToRole="Ventas" />
-          <NavigationProperty Name="Comentarios" Relationship="inf245netsoftModel.R_32" FromRole="CuentaUsuario" ToRole="Comentarios" />
           </EntityType>
         <EntityContainer Name="inf245netsoft" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="CuentaUsuario" EntityType="Self.CuentaUsuario" />
@@ -1304,7 +1299,6 @@
           </AssociationSet>
           <EntitySet Name="Pago" EntityType="inf245netsoftModel.Pago" />
           <EntitySet Name="Tarjeta" EntityType="inf245netsoftModel.Tarjeta" />
-          <EntitySet Name="VentasXFuncion" EntityType="inf245netsoftModel.VentasXFuncion" />
           <AssociationSet Name="R_4" Association="inf245netsoftModel.R_4">
             <End Role="Banco" EntitySet="Banco" />
             <End Role="Tarjeta" EntitySet="Tarjeta" />
@@ -1342,28 +1336,6 @@
           <EntitySet Name="Politicas" EntityType="inf245netsoftModel.Politicas" />
           <EntitySet Name="Asientos" EntityType="inf245netsoftModel.Asientos" />
           <EntitySet Name="PrecioEvento" EntityType="inf245netsoftModel.PrecioEvento" />
-          <EntitySet Name="Ventas" EntityType="inf245netsoftModel.Ventas" />
-          <AssociationSet Name="R_30" Association="inf245netsoftModel.R_30">
-            <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
-            <End Role="Ventas" EntitySet="Ventas" />
-          </AssociationSet>
-          <AssociationSet Name="R_34" Association="inf245netsoftModel.R_34">
-            <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
-            <End Role="Ventas" EntitySet="Ventas" />
-          </AssociationSet>
-          <AssociationSet Name="R_38" Association="inf245netsoftModel.R_38">
-            <End Role="Ventas" EntitySet="Ventas" />
-            <End Role="VentasXFuncion" EntitySet="VentasXFuncion" />
-          </AssociationSet>
-          <EntitySet Name="DetalleVenta" EntityType="inf245netsoftModel.DetalleVenta" />
-          <AssociationSet Name="R_60" Association="inf245netsoftModel.R_60">
-            <End Role="PrecioEvento" EntitySet="PrecioEvento" />
-            <End Role="DetalleVenta" EntitySet="DetalleVenta" />
-          </AssociationSet>
-          <AssociationSet Name="R_62" Association="inf245netsoftModel.R_62">
-            <End Role="VentasXFuncion" EntitySet="VentasXFuncion" />
-            <End Role="DetalleVenta" EntitySet="DetalleVenta" />
-          </AssociationSet>
           <EntitySet Name="AsientosXFuncion" EntityType="inf245netsoftModel.AsientosXFuncion" />
           <EntitySet Name="Comentarios" EntityType="inf245netsoftModel.Comentarios" />
           <AssociationSet Name="R_44" Association="inf245netsoftModel.R_44">
@@ -1441,8 +1413,31 @@
             <End Role="Funcion" EntitySet="Funcion" />
             <End Role="ZonaxFuncion" EntitySet="ZonaxFuncion" />
           </AssociationSet>
+          <EntitySet Name="DetalleVenta" EntityType="inf245netsoftModel.DetalleVenta" />
+          <EntitySet Name="Ventas" EntityType="inf245netsoftModel.Ventas" />
+          <EntitySet Name="VentasXFuncion" EntityType="inf245netsoftModel.VentasXFuncion" />
+          <AssociationSet Name="R_30" Association="inf245netsoftModel.R_30">
+            <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
+            <End Role="Ventas" EntitySet="Ventas" />
+          </AssociationSet>
+          <AssociationSet Name="R_34" Association="inf245netsoftModel.R_34">
+            <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
+            <End Role="Ventas" EntitySet="Ventas" />
+          </AssociationSet>
+          <AssociationSet Name="R_60" Association="inf245netsoftModel.R_60">
+            <End Role="PrecioEvento" EntitySet="PrecioEvento" />
+            <End Role="DetalleVenta" EntitySet="DetalleVenta" />
+          </AssociationSet>
+          <AssociationSet Name="R_62" Association="inf245netsoftModel.R_62">
+            <End Role="VentasXFuncion" EntitySet="VentasXFuncion" />
+            <End Role="DetalleVenta" EntitySet="DetalleVenta" />
+          </AssociationSet>
           <AssociationSet Name="R_76" Association="inf245netsoftModel.R_76">
             <End Role="Funcion" EntitySet="Funcion" />
+            <End Role="VentasXFuncion" EntitySet="VentasXFuncion" />
+          </AssociationSet>
+          <AssociationSet Name="R_38" Association="inf245netsoftModel.R_38">
+            <End Role="Ventas" EntitySet="Ventas" />
             <End Role="VentasXFuncion" EntitySet="VentasXFuncion" />
           </AssociationSet>
           </EntityContainer>
@@ -1768,24 +1763,6 @@
           <NavigationProperty Name="Banco" Relationship="inf245netsoftModel.R_4" FromRole="Tarjeta" ToRole="Banco" />
           <NavigationProperty Name="TipoTarjeta" Relationship="inf245netsoftModel.R_47" FromRole="Tarjeta" ToRole="TipoTarjeta" />
         </EntityType>
-        <EntityType Name="VentasXFuncion">
-          <Key>
-            <PropertyRef Name="codVen" />
-            <PropertyRef Name="codFuncion" />
-          </Key>
-          <Property Name="codVen" Type="Int32" Nullable="false" />
-          <Property Name="cantEntradas" Type="Int32" Nullable="false" />
-          <Property Name="subtotal" Type="Double" />
-          <Property Name="descuento" Type="Int32" />
-          <Property Name="total" Type="Double" />
-          <Property Name="codFuncion" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Ventas" Relationship="inf245netsoftModel.R_38" FromRole="VentasXFuncion" ToRole="Ventas" />
-          <NavigationProperty Name="DetalleVenta" Relationship="inf245netsoftModel.R_62" FromRole="VentasXFuncion" ToRole="DetalleVenta" />
-          <Property Name="hanEntregado" Type="Boolean" />
-          <NavigationProperty Name="Funcion" Relationship="inf245netsoftModel.R_76" FromRole="VentasXFuncion" ToRole="Funcion" />
-          <Property Name="entradasDev" Type="Int32" Nullable="false" />
-          <Property Name="montoDev" Type="Double" Nullable="false" />
-        </EntityType>
         <Association Name="R_4">
           <End Type="inf245netsoftModel.Banco" Role="Banco" Multiplicity="1" />
           <End Type="inf245netsoftModel.Tarjeta" Role="Tarjeta" Multiplicity="*" />
@@ -1867,7 +1844,6 @@
           <NavigationProperty Name="TurnoSistema" Relationship="inf245netsoftModel.R_12" FromRole="Turno" ToRole="TurnoSistema" />
           <Property Name="estadoCaja" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="horaRegistro" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="HoraSalida" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="TurnoSistema">
           <Key>
@@ -1942,112 +1918,10 @@
           <Property Name="precio" Type="Double" />
           <Property Name="codPeriodoVenta" Type="Int32" />
           <Property Name="codZonaEvento" Type="Int32" />
-          <NavigationProperty Name="DetalleVenta" Relationship="inf245netsoftModel.R_60" FromRole="PrecioEvento" ToRole="DetalleVenta" />
           <NavigationProperty Name="PeriodoVenta" Relationship="inf245netsoftModel.fk_PerVenta" FromRole="PrecioEvento" ToRole="PeriodoVenta" />
           <NavigationProperty Name="ZonaEvento" Relationship="inf245netsoftModel.fk_ZonaEvent" FromRole="PrecioEvento" ToRole="ZonaEvento" />
+          <NavigationProperty Name="DetalleVenta" Relationship="inf245netsoftModel.R_60" FromRole="PrecioEvento" ToRole="DetalleVenta" />
         </EntityType>
-        <EntityType Name="Ventas">
-          <Key>
-            <PropertyRef Name="codVen" />
-          </Key>
-          <Property Name="codVen" Type="Int32" Nullable="false" />
-          <Property Name="fecha" Type="DateTime" Precision="3" />
-          <Property Name="cantAsientos" Type="Int32" />
-          <Property Name="montoEfectivoSoles" Type="Double" />
-          <Property Name="montoEfectivoDolares" Type="Double" />
-          <Property Name="montoCreditoSoles" Type="Double" />
-          <Property Name="modalidad" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="tipoDoc" Type="Int32" />
-          <Property Name="codDoc" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="cliente" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="vendedor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Estado" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="MontoTotalSoles" Type="Double" />
-          <NavigationProperty Name="CuentaUsuario" Relationship="inf245netsoftModel.R_30" FromRole="Ventas" ToRole="CuentaUsuario" />
-          <NavigationProperty Name="CuentaUsuario1" Relationship="inf245netsoftModel.R_34" FromRole="Ventas" ToRole="CuentaUsuario" />
-          <NavigationProperty Name="VentasXFuncion" Relationship="inf245netsoftModel.R_38" FromRole="Ventas" ToRole="VentasXFuncion" />
-          <Property Name="entradasDev" Type="Int32" Nullable="false" />
-          <Property Name="montoDev" Type="Double" Nullable="false" />
-        </EntityType>
-        <Association Name="R_30">
-          <End Type="inf245netsoftModel.CuentaUsuario" Role="CuentaUsuario" Multiplicity="1" />
-          <End Type="inf245netsoftModel.Ventas" Role="Ventas" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CuentaUsuario">
-              <PropertyRef Name="usuario" />
-            </Principal>
-            <Dependent Role="Ventas">
-              <PropertyRef Name="cliente" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="R_34">
-          <End Type="inf245netsoftModel.CuentaUsuario" Role="CuentaUsuario" Multiplicity="0..1" />
-          <End Type="inf245netsoftModel.Ventas" Role="Ventas" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CuentaUsuario">
-              <PropertyRef Name="usuario" />
-            </Principal>
-            <Dependent Role="Ventas">
-              <PropertyRef Name="vendedor" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="R_38">
-          <End Type="inf245netsoftModel.Ventas" Role="Ventas" Multiplicity="1" />
-          <End Type="inf245netsoftModel.VentasXFuncion" Role="VentasXFuncion" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Ventas">
-              <PropertyRef Name="codVen" />
-            </Principal>
-            <Dependent Role="VentasXFuncion">
-              <PropertyRef Name="codVen" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="DetalleVenta">
-          <Key>
-            <PropertyRef Name="codDetalleVenta" />
-          </Key>
-          <Property Name="codDetalleVenta" Type="Int32" Nullable="false" />
-          <Property Name="codVen" Type="Int32" Nullable="false" />
-          <Property Name="codFuncion" Type="Int32" Nullable="false" />
-          <Property Name="codPrecE" Type="Int32" Nullable="false" />
-          <Property Name="cantEntradas" Type="Int32" />
-          <Property Name="Subtotal" Type="Double" />
-          <Property Name="descTot" Type="Int32" />
-          <Property Name="total" Type="Double" />
-          <Property Name="entradasDev" Type="Int32" />
-          <NavigationProperty Name="PrecioEvento" Relationship="inf245netsoftModel.R_60" FromRole="DetalleVenta" ToRole="PrecioEvento" />
-          <NavigationProperty Name="VentasXFuncion" Relationship="inf245netsoftModel.R_62" FromRole="DetalleVenta" ToRole="VentasXFuncion" />
-          <Property Name="montoDev" Type="Double" Nullable="false" />
-        </EntityType>
-        <Association Name="R_60">
-          <End Type="inf245netsoftModel.PrecioEvento" Role="PrecioEvento" Multiplicity="1" />
-          <End Type="inf245netsoftModel.DetalleVenta" Role="DetalleVenta" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="PrecioEvento">
-              <PropertyRef Name="codPrecioEvento" />
-            </Principal>
-            <Dependent Role="DetalleVenta">
-              <PropertyRef Name="codPrecE" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="R_62">
-          <End Type="inf245netsoftModel.VentasXFuncion" Role="VentasXFuncion" Multiplicity="1" />
-          <End Type="inf245netsoftModel.DetalleVenta" Role="DetalleVenta" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="VentasXFuncion">
-              <PropertyRef Name="codVen" />
-              <PropertyRef Name="codFuncion" />
-            </Principal>
-            <Dependent Role="DetalleVenta">
-              <PropertyRef Name="codVen" />
-              <PropertyRef Name="codFuncion" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="AsientosXFuncion">
           <Key>
             <PropertyRef Name="codAsiento" />
@@ -2419,6 +2293,114 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="DetalleVenta">
+          <Key>
+            <PropertyRef Name="codDetalleVenta" />
+          </Key>
+          <Property Name="codDetalleVenta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="codVen" Type="Int32" Nullable="false" />
+          <Property Name="codFuncion" Type="Int32" Nullable="false" />
+          <Property Name="codPrecE" Type="Int32" Nullable="false" />
+          <Property Name="cantEntradas" Type="Int32" />
+          <Property Name="Subtotal" Type="Double" />
+          <Property Name="descTot" Type="Int32" />
+          <Property Name="total" Type="Double" />
+          <Property Name="entradasDev" Type="Int32" />
+          <Property Name="montoDev" Type="Double" Nullable="false" />
+          <NavigationProperty Name="PrecioEvento" Relationship="inf245netsoftModel.R_60" FromRole="DetalleVenta" ToRole="PrecioEvento" />
+          <NavigationProperty Name="VentasXFuncion" Relationship="inf245netsoftModel.R_62" FromRole="DetalleVenta" ToRole="VentasXFuncion" />
+        </EntityType>
+        <EntityType Name="Ventas">
+          <Key>
+            <PropertyRef Name="codVen" />
+          </Key>
+          <Property Name="codVen" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fecha" Type="DateTime" Precision="3" />
+          <Property Name="cantAsientos" Type="Int32" />
+          <Property Name="montoEfectivoSoles" Type="Double" />
+          <Property Name="montoEfectivoDolares" Type="Double" />
+          <Property Name="montoCreditoSoles" Type="Double" />
+          <Property Name="modalidad" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="tipoDoc" Type="Int32" />
+          <Property Name="codDoc" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="cliente" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="vendedor" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="MontoTotalSoles" Type="Double" />
+          <Property Name="entradasDev" Type="Int32" Nullable="false" />
+          <Property Name="montoDev" Type="Double" Nullable="false" />
+          <NavigationProperty Name="CuentaUsuario" Relationship="inf245netsoftModel.R_30" FromRole="Ventas" ToRole="CuentaUsuario" />
+          <NavigationProperty Name="CuentaUsuario1" Relationship="inf245netsoftModel.R_34" FromRole="Ventas" ToRole="CuentaUsuario" />
+          <NavigationProperty Name="VentasXFuncion" Relationship="inf245netsoftModel.R_38" FromRole="Ventas" ToRole="VentasXFuncion" />
+        </EntityType>
+        <EntityType Name="VentasXFuncion">
+          <Key>
+            <PropertyRef Name="codVen" />
+            <PropertyRef Name="codFuncion" />
+          </Key>
+          <Property Name="codVen" Type="Int32" Nullable="false" />
+          <Property Name="cantEntradas" Type="Int32" Nullable="false" />
+          <Property Name="subtotal" Type="Double" />
+          <Property Name="descuento" Type="Int32" />
+          <Property Name="total" Type="Double" />
+          <Property Name="codFuncion" Type="Int32" Nullable="false" />
+          <Property Name="hanEntregado" Type="Boolean" />
+          <Property Name="entradasDev" Type="Int32" Nullable="false" />
+          <Property Name="montoDev" Type="Double" Nullable="false" />
+          <NavigationProperty Name="DetalleVenta" Relationship="inf245netsoftModel.R_62" FromRole="VentasXFuncion" ToRole="DetalleVenta" />
+          <NavigationProperty Name="Funcion" Relationship="inf245netsoftModel.R_76" FromRole="VentasXFuncion" ToRole="Funcion" />
+          <NavigationProperty Name="Ventas" Relationship="inf245netsoftModel.R_38" FromRole="VentasXFuncion" ToRole="Ventas" />
+        </EntityType>
+        <Association Name="R_30">
+          <End Type="inf245netsoftModel.CuentaUsuario" Role="CuentaUsuario" Multiplicity="1" />
+          <End Type="inf245netsoftModel.Ventas" Role="Ventas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CuentaUsuario">
+              <PropertyRef Name="usuario" />
+            </Principal>
+            <Dependent Role="Ventas">
+              <PropertyRef Name="cliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_34">
+          <End Type="inf245netsoftModel.CuentaUsuario" Role="CuentaUsuario" Multiplicity="0..1" />
+          <End Type="inf245netsoftModel.Ventas" Role="Ventas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CuentaUsuario">
+              <PropertyRef Name="usuario" />
+            </Principal>
+            <Dependent Role="Ventas">
+              <PropertyRef Name="vendedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_60">
+          <End Type="inf245netsoftModel.PrecioEvento" Role="PrecioEvento" Multiplicity="1" />
+          <End Type="inf245netsoftModel.DetalleVenta" Role="DetalleVenta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PrecioEvento">
+              <PropertyRef Name="codPrecioEvento" />
+            </Principal>
+            <Dependent Role="DetalleVenta">
+              <PropertyRef Name="codPrecE" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_62">
+          <End Type="inf245netsoftModel.VentasXFuncion" Role="VentasXFuncion" Multiplicity="1" />
+          <End Type="inf245netsoftModel.DetalleVenta" Role="DetalleVenta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VentasXFuncion">
+              <PropertyRef Name="codVen" />
+              <PropertyRef Name="codFuncion" />
+            </Principal>
+            <Dependent Role="DetalleVenta">
+              <PropertyRef Name="codVen" />
+              <PropertyRef Name="codFuncion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="R_76">
           <End Type="inf245netsoftModel.Funcion" Role="Funcion" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -2430,6 +2412,18 @@
             </Principal>
             <Dependent Role="VentasXFuncion">
               <PropertyRef Name="codFuncion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_38">
+          <End Type="inf245netsoftModel.Ventas" Role="Ventas" Multiplicity="1" />
+          <End Type="inf245netsoftModel.VentasXFuncion" Role="VentasXFuncion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ventas">
+              <PropertyRef Name="codVen" />
+            </Principal>
+            <Dependent Role="VentasXFuncion">
+              <PropertyRef Name="codVen" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2666,25 +2660,9 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="VentasXFuncion">
-            <EntityTypeMapping TypeName="inf245netsoftModel.VentasXFuncion">
-              <MappingFragment StoreEntitySet="VentasXFuncion">
-                <ScalarProperty Name="montoDev" ColumnName="montoDev" />
-                <ScalarProperty Name="entradasDev" ColumnName="entradasDev" />
-                <ScalarProperty Name="hanEntregado" ColumnName="hanEntregado" />
-                <ScalarProperty Name="codFuncion" ColumnName="codFuncion" />
-                <ScalarProperty Name="total" ColumnName="total" />
-                <ScalarProperty Name="descuento" ColumnName="descuento" />
-                <ScalarProperty Name="subtotal" ColumnName="subtotal" />
-                <ScalarProperty Name="cantEntradas" ColumnName="cantEntradas" />
-                <ScalarProperty Name="codVen" ColumnName="codVen" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Turno">
             <EntityTypeMapping TypeName="inf245netsoftModel.Turno">
               <MappingFragment StoreEntitySet="Turno">
-                <ScalarProperty Name="HoraSalida" ColumnName="HoraSalida" />
                 <ScalarProperty Name="horaRegistro" ColumnName="horaRegistro" />
                 <ScalarProperty Name="estadoCaja" ColumnName="estadoCaja" />
                 <ScalarProperty Name="MontoFinDolares" ColumnName="MontoFinDolares" />
@@ -2735,43 +2713,6 @@
                 <ScalarProperty Name="codPeriodoVenta" ColumnName="codPeriodoVenta" />
                 <ScalarProperty Name="precio" ColumnName="precio" />
                 <ScalarProperty Name="codPrecioEvento" ColumnName="codPrecioEvento" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Ventas">
-            <EntityTypeMapping TypeName="inf245netsoftModel.Ventas">
-              <MappingFragment StoreEntitySet="Ventas">
-                <ScalarProperty Name="montoDev" ColumnName="montoDev" />
-                <ScalarProperty Name="entradasDev" ColumnName="entradasDev" />
-                <ScalarProperty Name="MontoTotalSoles" ColumnName="MontoTotalSoles" />
-                <ScalarProperty Name="Estado" ColumnName="Estado" />
-                <ScalarProperty Name="vendedor" ColumnName="vendedor" />
-                <ScalarProperty Name="cliente" ColumnName="cliente" />
-                <ScalarProperty Name="codDoc" ColumnName="codDoc" />
-                <ScalarProperty Name="tipoDoc" ColumnName="tipoDoc" />
-                <ScalarProperty Name="modalidad" ColumnName="modalidad" />
-                <ScalarProperty Name="montoCreditoSoles" ColumnName="montoCreditoSoles" />
-                <ScalarProperty Name="montoEfectivoDolares" ColumnName="montoEfectivoDolares" />
-                <ScalarProperty Name="montoEfectivoSoles" ColumnName="montoEfectivoSoles" />
-                <ScalarProperty Name="cantAsientos" ColumnName="cantAsientos" />
-                <ScalarProperty Name="fecha" ColumnName="fecha" />
-                <ScalarProperty Name="codVen" ColumnName="codVen" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DetalleVenta">
-            <EntityTypeMapping TypeName="inf245netsoftModel.DetalleVenta">
-              <MappingFragment StoreEntitySet="DetalleVenta">
-                <ScalarProperty Name="montoDev" ColumnName="montoDev" />
-                <ScalarProperty Name="entradasDev" ColumnName="entradasDev" />
-                <ScalarProperty Name="total" ColumnName="total" />
-                <ScalarProperty Name="descTot" ColumnName="descTot" />
-                <ScalarProperty Name="Subtotal" ColumnName="Subtotal" />
-                <ScalarProperty Name="cantEntradas" ColumnName="cantEntradas" />
-                <ScalarProperty Name="codPrecE" ColumnName="codPrecE" />
-                <ScalarProperty Name="codFuncion" ColumnName="codFuncion" />
-                <ScalarProperty Name="codVen" ColumnName="codVen" />
-                <ScalarProperty Name="codDetalleVenta" ColumnName="codDetalleVenta" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2905,6 +2846,58 @@
                 <ScalarProperty Name="fecha" ColumnName="fecha" />
                 <ScalarProperty Name="horaIni" ColumnName="horaIni" />
                 <ScalarProperty Name="codFuncion" ColumnName="codFuncion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DetalleVenta">
+            <EntityTypeMapping TypeName="inf245netsoftModel.DetalleVenta">
+              <MappingFragment StoreEntitySet="DetalleVenta">
+                <ScalarProperty Name="montoDev" ColumnName="montoDev" />
+                <ScalarProperty Name="entradasDev" ColumnName="entradasDev" />
+                <ScalarProperty Name="total" ColumnName="total" />
+                <ScalarProperty Name="descTot" ColumnName="descTot" />
+                <ScalarProperty Name="Subtotal" ColumnName="Subtotal" />
+                <ScalarProperty Name="cantEntradas" ColumnName="cantEntradas" />
+                <ScalarProperty Name="codPrecE" ColumnName="codPrecE" />
+                <ScalarProperty Name="codFuncion" ColumnName="codFuncion" />
+                <ScalarProperty Name="codVen" ColumnName="codVen" />
+                <ScalarProperty Name="codDetalleVenta" ColumnName="codDetalleVenta" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ventas">
+            <EntityTypeMapping TypeName="inf245netsoftModel.Ventas">
+              <MappingFragment StoreEntitySet="Ventas">
+                <ScalarProperty Name="montoDev" ColumnName="montoDev" />
+                <ScalarProperty Name="entradasDev" ColumnName="entradasDev" />
+                <ScalarProperty Name="MontoTotalSoles" ColumnName="MontoTotalSoles" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="vendedor" ColumnName="vendedor" />
+                <ScalarProperty Name="cliente" ColumnName="cliente" />
+                <ScalarProperty Name="codDoc" ColumnName="codDoc" />
+                <ScalarProperty Name="tipoDoc" ColumnName="tipoDoc" />
+                <ScalarProperty Name="modalidad" ColumnName="modalidad" />
+                <ScalarProperty Name="montoCreditoSoles" ColumnName="montoCreditoSoles" />
+                <ScalarProperty Name="montoEfectivoDolares" ColumnName="montoEfectivoDolares" />
+                <ScalarProperty Name="montoEfectivoSoles" ColumnName="montoEfectivoSoles" />
+                <ScalarProperty Name="cantAsientos" ColumnName="cantAsientos" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="codVen" ColumnName="codVen" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VentasXFuncion">
+            <EntityTypeMapping TypeName="inf245netsoftModel.VentasXFuncion">
+              <MappingFragment StoreEntitySet="VentasXFuncion">
+                <ScalarProperty Name="montoDev" ColumnName="montoDev" />
+                <ScalarProperty Name="entradasDev" ColumnName="entradasDev" />
+                <ScalarProperty Name="hanEntregado" ColumnName="hanEntregado" />
+                <ScalarProperty Name="codFuncion" ColumnName="codFuncion" />
+                <ScalarProperty Name="total" ColumnName="total" />
+                <ScalarProperty Name="descuento" ColumnName="descuento" />
+                <ScalarProperty Name="subtotal" ColumnName="subtotal" />
+                <ScalarProperty Name="cantEntradas" ColumnName="cantEntradas" />
+                <ScalarProperty Name="codVen" ColumnName="codVen" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

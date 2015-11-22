@@ -19,7 +19,6 @@ namespace WebApplication4.Controllers
         inf245netsoft db = new inf245netsoft();
         const int maximoPaginas = 2;
         const int cantMax = 6;
-        // GET: Evento
 
         public int BuscarEntradasLeQuedan(string name, int idFuncion)
         {
@@ -38,19 +37,15 @@ namespace WebApplication4.Controllers
                 }
             return limEntradas - actualEntradas;
         }
+
         public int BuscaEntradasQueQuedan(int idFuncion, int idZona)
         {
             ZonaxFuncion zonaxfuncion = db.ZonaxFuncion.Where(c => c.codFuncion == idFuncion && c.codZona == idZona).First();
             return zonaxfuncion.cantLibres;
         }
 
-
-
-
-
         public string reservaAsientos(string name, PaqueteEntradas paquete)
         {
-
             //Si todo esta bien se devuelve OK
             //Que significa todo Ok?
             //Primero busca cuantas entradas mas puede comprar/reservar esta persona para esa funcion
@@ -184,24 +179,24 @@ namespace WebApplication4.Controllers
             if (dt1 > dt2) return Json("Fecha inicio debe ser menor que fecha fin", JsonRequestBehavior.AllowGet);
             List<ReporteEventosModel> lr = new List<ReporteEventosModel>();
             List<Eventos> lv = db.Eventos.Where(c => (c.fecha_inicio >= dt1.Date) && (c.fecha_fin <= dt2.Date)).ToList();
-            
-                for (int i = 0; i < lv.Count; i++)
-                {
-                     ReporteEventosModel r = new ReporteEventosModel();
-                     r.codigoEvento =  lv[i].codigo;
-                     r.nombreEvento = lv[i].nombre;
-                     int valorID=(int)lv[i].idOrganizador;
-                     Organizador queryO = db.Organizador.Where(c => c.codOrg == valorID).First();
-                     r.nombreOrganizador = queryO.nombOrg;
-                     valorID=(int)lv[i].idLocal;
-                     Local querL = db.Local.Where(c => c.codLocal == valorID ).First();
-                     r.local = querL.ubicacion;
-                     valorID = (int)lv[i].idRegion;
-                     Region querR = db.Region.Where(c => c.idRegion == (int)valorID).First();
-                     r.region = querR.nombre;
-                     lr.Add(r);
-                }
-               
+
+            for (int i = 0; i < lv.Count; i++)
+            {
+                ReporteEventosModel r = new ReporteEventosModel();
+                r.codigoEvento = lv[i].codigo;
+                r.nombreEvento = lv[i].nombre;
+                int valorID = (int)lv[i].idOrganizador;
+                Organizador queryO = db.Organizador.Where(c => c.codOrg == valorID).First();
+                r.nombreOrganizador = queryO.nombOrg;
+                valorID = (int)lv[i].idLocal;
+                Local querL = db.Local.Where(c => c.codLocal == valorID).First();
+                r.local = querL.ubicacion;
+                valorID = (int)lv[i].idRegion;
+                Region querR = db.Region.Where(c => c.idRegion == (int)valorID).First();
+                r.region = querR.nombre;
+                lr.Add(r);
+            }
+
             Session["ReporteEventos"] = lr;
             return Json("Reporte Generado", JsonRequestBehavior.AllowGet);
         }
@@ -1340,10 +1335,9 @@ namespace WebApplication4.Controllers
                 ModelState.AddModelError(string.Empty, "No hay Evento");
                 return Redirect("~/Home/Index");
             }
-
-
             //Cargamos en el ViewBag el evento
             ViewBag.evento = evento;
+
             //Cargamos el nombre del local
             try
             {
@@ -1357,12 +1351,9 @@ namespace WebApplication4.Controllers
 
             //Detalle ... Como se considera si ya hay local?
             ViewBag.Region = db.Region.Where(c => c.idRegion == evento.idRegion).First().nombre;
-
             ViewBag.Categoria = db.Categoria.Where(c => c.idCategoria == evento.idCategoria).First().nombre;
             ViewBag.Subcategoria = db.Categoria.Where(c => c.idCategoria == evento.idSubcategoria).First().nombre;
-
             var veoAsientos = true;
-
             //Debo saber si el evento esta a la venta
             if (evento.fecha_fin < DateTime.Today)
             {
@@ -1371,7 +1362,6 @@ namespace WebApplication4.Controllers
             }
             else
             {
-
                 int bloqueVenta = 0;
                 try
                 {
@@ -1396,9 +1386,7 @@ namespace WebApplication4.Controllers
                     ViewBag.FuturasVentas = futuraVenta;
                 }
 
-
                 List<ZonaEvento> zonasEvento = new List<ZonaEvento>();
-
                 try
                 {
                     ViewBag.ListZonasNombre = new List<string>();
@@ -1428,7 +1416,7 @@ namespace WebApplication4.Controllers
                     veoAsientos = false;
                 }
 
-                List<Funcion> funciones = new List<Funcion>();
+                var funciones = new List<Funcion>();
 
                 try
                 {
@@ -1441,9 +1429,14 @@ namespace WebApplication4.Controllers
                     ViewBag.textoFunciones = "No hay funciones";
                 }
 
+                funciones = new List<Funcion>();
                 try
                 {
-                    funciones = db.Funcion.Where(c => c.codEvento == evento.codigo && c.estado != "CANCELADO" && c.fecha >= DateTime.Now).ToList();
+                    var funcAux = db.Funcion.Where(c => c.codEvento == evento.codigo && c.estado != "CANCELADO").ToList();
+                    foreach (Funcion fun in funcAux)
+                    {
+                        if (fun.fecha >= DateTime.Now) funciones.Add(fun);
+                    }
                     //agrupo las fechas unicas de las funciones y las ordeno ascendentemente
                     //funciones = funciones.GroupBy(c => c.fecha).Select(p => p.First()).OrderBy(c => c.fecha).ToList();
                     List<SelectListItem> listaNFunciones = new List<SelectListItem>();
@@ -1464,23 +1457,19 @@ namespace WebApplication4.Controllers
                     ViewBag.ListFunciones = new List<Funcion>(0);
                     veoAsientos = false;
                 }
-
-
-
             }
-
             ViewBag.VeoAsientos = veoAsientos;
-
             //para que se carguen los destacados al lado
             List<Eventos> listaDestacados = new List<Eventos>(0);
-            try{
+            try
+            {
                 listaDestacados = db.Eventos.AsNoTracking().Where(c => (c.ImagenDestacado != null && c.estado != null && c.estado.CompareTo("Activo") == 0)).ToList();
             }
-            catch (Exception ex){
+            catch (Exception ex)
+            {
 
             }
             ViewBag.ListaDestacados = listaDestacados;
-
             return View(new PaqueteEntradas((int)id));
         }
 

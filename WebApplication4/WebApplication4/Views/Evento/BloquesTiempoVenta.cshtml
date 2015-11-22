@@ -15,26 +15,16 @@
     </div>
 </div>
 <div class="container" id="bloques_tiempo">
+    <div class="col-md-9">
+        <h3>Ingrese los Bloques de Tiempo de Venta:</h3><br>
+    </div>
     <div class="col-md-4">
         <div class="form-group">
             <button id="btnAgregarBloque" type="button" class="btn btn-primary" onclick="nuevoBloque()">Añadir bloque <span class="glyphicon glyphicon-plus"></span></button>
             <button id="btnQuitarBloque" type="button" class="btn btn-primary" onclick="quitarBloque()">Quitar bloque <span class="glyphicon glyphicon-remove"></span></button>
         </div>
     </div>
-    <div class="col-md-2">
-        <label for="">Bloques de tiempo:</label>
-    </div><br />
-    <div id="bloques" class="container">
-        <div class="form-group col-md-10">
-            @Html.LabelFor(c => c.ListaBTM[0].fechaInicio, new { @class = "control-label col-md-2" })
-            <div class="col-md-4">
-                <input id="fechaInicioInput" class="form-control" type="date" required>
-            </div>
-            @Html.LabelFor(c => c.ListaBTM[0].fechaFin, new { @class = "control-label col-md-2" })
-            <div class="col-md-4">
-                <input id="fechaFinInput" class="form-control" type="date" required>
-            </div>
-        </div>
+    <div id="bloques">
         @Html.Hidden("histBloque", "" + cantResultado)
         @using (@Html.BeginForm("BloquesTiempoVenta", "Evento", FormMethod.Post, new { @id = "formPost" }))
         {
@@ -56,11 +46,13 @@
                                 {
                                     for (var i = 0; i < listaResultados.Count; i++)
                                     {
-                                        <tr data-fechainicio="@listaResultados[i].fechaInicio.ToString("yyyy-MM-dd")" data-fechafin="@listaResultados[i].fechaFin.ToString("yyyy-MM-dd")" id="@(i+1)">
+                                        string fechaInicio = listaResultados[i].fechaInicio.ToString("yyyy-MM-dd");
+                                        string fechaFin = listaResultados[i].fechaFin.ToString("yyyy-MM-dd");
+                                        <tr id="@(i+1)">
                                             <td>@(i + 1)</td>
-                                            <td>@listaResultados[i].fechaInicio.ToString("yyyy-MM-dd")</td>
-                                            <td>@listaResultados[i].fechaFin.ToString("yyyy-MM-dd")</td>
-                                            <td>
+                                            <td><input id="fechaIni" class="form-control" type="date" value="@fechaInicio" readonly="readonly"></td>
+                                            <td><input id="fechaIni" class="form-control" type="date" value="@fechaFin" readonly="readonly"></td>
+                                            <td style="text-align:center">
                                                 <input type="radio" name="groupBloquedeVenta" value="@(i+1)">
                                             </td>
                                         </tr>

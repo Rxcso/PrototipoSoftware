@@ -16,23 +16,13 @@
 </div>
 <h3>@ViewBag.MensajeError</h3>
 <div class="tab-pane fade in container" id="funciones">
-    <h2>Funciones del Evento</h2><br />
-    <div class="form-group col-md-10">
-        @Html.LabelFor(c => c.ListaFunciones[0].fechaFuncion, new { @class = "control-label col-md-1" })
-        <div class="col-md-4">
-            <input id="fechaFuncion" class="form-control" type="datetime-local" required>
-        </div>
-        @*@Html.LabelFor(c => c.ListaFunciones[0].horaInicio, new { @class = "control-label col-md-1" })
-            <div class="col-md-4">
-                <input id="horaFuncion" class="form-control" type="time" required>
-            </div>*@
-    </div>
-    @Html.Hidden("histFuncion", ""+cantidad)
+    <h3>Ingrese las Funciones del Evento</h3>
+    @Html.Hidden("histFuncion", "" + cantidad)
     <br>
     @using (Html.BeginForm("Funciones", "Evento", FormMethod.Post, new { @id = "formPost" }))
     {
         <div class="form-group col-md-12">
-            <button id="btnAgregarFuncion" type="button" class="btn btn-primary" onclick="agregaFuncion()">Agregar función<span class="glyphicon glyphicon-plus"></span></button>
+            <button id="btnAgregarFuncion" type="button" class="btn btn-primary" onclick="agregaFuncion()">Agregar función  <span class="glyphicon glyphicon-plus"></span></button>
             <button id="btnAgregarFuncion" type="button" class="btn btn-primary" onclick="eliminarFuncion()">Quitar función <span class="glyphicon glyphicon-remove"></span></button>
             <button type="submit" class="btn btn-primary" style="float: right;" onclick="guardarFunciones()">Siguiente   <span class="glyphicon glyphicon-arrow-right"></span></button>
         </div><br /><br />
@@ -43,8 +33,8 @@
                     <thead>
                         <tr>
                             <td>N°</td>
-                            <td>Fecha:</td>
-                            <td>Hora:</td>
+                            <td>Fecha</td>
+                            <td>Hora</td>
                             <td>¿Quitar?</td>
                         </tr>
                     </thead>
@@ -53,11 +43,15 @@
                         {
                             for (int i = 0; i < listaResultado.Count; i++)
                             {
-                                <tr id="@(i+1)" data-fecha="@listaResultado[i].fechaFuncion.ToString("yyyy-MM-dd")" data-hora="@String.Format("{0:t}",listaResultado[i].horaInicio)">
-                                    <td>@(i+1)</td>
-                                    <td>@listaResultado[i].fechaFuncion.ToString("yyyy-MM-dd")</td>
-                                    <td>@String.Format("{0:t}", listaResultado[i].horaInicio)</td>
-                                    <td><input type="radio" name="groupFunciones" value="@(i+1)"></td>
+                                string fechaFuncion = listaResultado[i].fechaFuncion.ToString("yyyy-MM-dd");
+                                string horaFuncion = listaResultado[i].horaInicio.ToString("HH:mm");
+                                <tr id="@(i+1)">
+                                    <td>@(i + 1)</td>
+                                    <td><input id="fechaFuncion" type="date" class="form-control" value="@fechaFuncion" disabled /></td>
+                                    <td><input id="horaFuncion" type="time" class="form-control" value="@horaFuncion" disabled></td>
+                                    <td style="text-align:center">
+                                        <input type="radio" name="groupFunciones" value="@(i+1)">
+                                    </td>
                                 </tr>
                             }
                         }
