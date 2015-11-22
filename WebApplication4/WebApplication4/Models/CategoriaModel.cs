@@ -13,11 +13,11 @@ namespace WebApplication4.Models
         public string nombre { get; set; }
 
         [Required]
-        [Display(Name = "Descripcion: ")]
+        [Display(Name = "Descripción: ")]
         public string descripcion { get; set; }
         
         [Required]
-        [Display(Name = "Id Padre: ")]
+        [Display(Name = "Padre: ")]
         public int idCatPadre { get; set; }
 
         public int nivel { get; set; }
@@ -38,7 +38,7 @@ namespace WebApplication4.Models
     public class CategoriaListModel
     {
         [Required]
-        [Display(Name = "Categoria: ")]
+        [Display(Name = "Categoría: ")]
         public int id { get; set; }
     }
 
@@ -47,7 +47,7 @@ namespace WebApplication4.Models
         [Display(Name = "Nombre: ")]
         public string nombre { get; set; }
 
-        [Display(Name = "Descripcion: ")]
+        [Display(Name = "Descripción: ")]
         public string descripcion { get; set; }
 
         [Display(Name = "Padre: ")]

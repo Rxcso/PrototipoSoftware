@@ -1885,3 +1885,11 @@ System.Collections.ListDictionaryInternal
 2015-11-20 23:24:59,070 [14] ERROR Ticknet - Exception Message - 
 A public action method 'Asignacion' was not found on controller 'WebApplication4.Controllers.VentasController'.
 2015-11-20 23:24:59,070 [14] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 11:26:08,916 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 11:26:08,926 [6] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-22 11:26:08,926 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-22 11:26:08,926 [6] ERROR Ticknet - Exception Message - 
+c:\Users\Pier\Source\Repos\Proyecto GIT\WebApplication4\WebApplication4\Views\Categoria\Edit.cshtml(48): error CS1928: 'System.Web.Mvc.HtmlHelper<WebApplication4.Models.CategoriaEditModel>' no contiene una definición para 'TextBoxFor' y la mejor sobrecarga del método de extensión 'System.Web.Mvc.Html.InputExtensions.TextBoxFor<TModel,TProperty>(System.Web.Mvc.HtmlHelper<TModel>, System.Linq.Expressions.Expression<System.Func<TModel,TProperty>>, string, object)' tiene algunos argumentos no válidos
+2015-11-22 11:26:08,926 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++

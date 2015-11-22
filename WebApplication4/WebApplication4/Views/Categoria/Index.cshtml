@@ -19,20 +19,17 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <a class="btn btn-success" href="#formNuevo" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>                
+                <a class="btn btn-success" href="#formNuevo" data-toggle="modal"><span class="glyphicon glyphicon-plus"></span> Nuevo</a>                
                 @*@if (Session["Ina"] != null){-->*@
-                        <a class="btn btn-primary" data-toggle="modal" onclick="redirigeCategoria()">Modificar <span class="glyphicon glyphicon-pencil"></span></a>
-                        <a class="btn btn-danger" href="#eliminar" data-toggle="modal">Borrar <span class="glyphicon glyphicon-trash"></span></a>
-                <!--}-->
-                
-                                
-                @*@if (Session["Bus"] == null)
-    {*@
-                    <a class="btn btn-default" href="#activar" data-toggle="modal" id="Activate">Activar <span class="glyphicon glyphicon-ok"></span></a>
-                <!--}-->
+                <a class="btn btn-primary" data-toggle="modal" onclick="redirigeCategoria()"><span class="glyphicon glyphicon-pencil"></span> Modificar</a>
+                <a class="btn btn-danger" href="#eliminar" data-toggle="modal"><span class="glyphicon glyphicon-trash"></span> Borrar</a>
+                <!--}-->                            
+                @*@if (Session["Bus"] == null){*@
+                <a class="btn btn-default" href="#activar" data-toggle="modal" id="Activate"><span class="glyphicon glyphicon-ok"></span> Activar</a>
+                <!--}-->               
             </div>
         </div>
-
+        
         <div class="col-md-6">
             <form action="" class="" role="search">
                 <div class="form-group">
@@ -46,7 +43,7 @@
         
     </div>
     @{
-        Html.RenderPartial("_ViewIna");
+         Html.RenderPartial("_ViewIna");
     }
     @{
         var db = new WebApplication4.Models.inf245netsoft();
@@ -86,20 +83,18 @@
             Session["ListaC"] = null;
         }*/
     }
-    <br />
-    <br />
-    <br />    
+    <br>  
     <div class="row">
         <div class="table-responsive">
             <table id="mytable" class="table table-bordered table-hover">
                 <thead>
                     <tr class="thead">
-                        <th>Id</th>
-                        <th>Nombre</th>
-                        <th>Descripción</th>
-                        <th>Padre</th>
-                        <th>Nivel</th>
-                        <th>Estado</th>
+                        <th class="col-md-1">Código</th>
+                        <th class="col-md-3">Nombre</thclass>
+                        <th class="col-md-4">Descripción</th>
+                        <th class="col-md-2">Padre</th>
+                        <th class="col-md-1">Nivel</th>
+                        <th class="col-md-1">Estado</th>
                     </tr>
                 </thead>
                 <tbody id="tbody">
@@ -112,7 +107,14 @@
                             @{List<Categoria> categ = db.Categoria.Where(c => c.idCategoria == row.idCatPadre).ToList();}
                             <td>@categ[0].nombre</td>
                             <td>@row.nivel</td>
-                            <td>@row.activo</td>
+                            @{
+                              string state = "";
+                              if (row.activo == 1) { 
+                                  state = "Activo";
+                              }
+                              else { state = "Inactivo"; }                              
+                            }
+                            <td>@state</td>
                         </tr>
                     }
                 </tbody>
@@ -123,6 +125,179 @@
 </div>
 
 <input type="hidden" id="idCategoria" value="" />
+
+<!--<script type="text/javascript" src="@Url.Content("/Scripts/CategoriaEvento/BorrarCategoriaEvento.js")"></script>-->
+
+
+
+
+<!--Tab para siguiente categoria-->
+<div class="modal fade" id="formNuevo">
+    <!--esta div pondra la pantalla oscura al presionar el boton-->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--ACA VA EL CONTENIDO DEL MODAL-->
+            <!--header de la ventana-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+                <h4 class="modal-title">Nueva categoría</h4>
+            </div>
+
+            <div class="modal-body">
+                @using (Html.BeginForm("RegisterCategoria", "Categoria", FormMethod.Post, new { }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true)                        
+                        <div class="row form-group">
+                            @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(model => model.nombre, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.nombre)
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            @Html.LabelFor(model => model.descripcion, new { @class = "control-label col-md-3" })
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(model => model.descripcion, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.descripcion)
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            @Html.LabelFor(model => model.idCatPadre, new { @class = "control-label col-md-3" })
+                            <div class="col-md-8">
+                                @{
+                    List<WebApplication4.Models.Categoria> listaCat = db.Categoria.AsNoTracking().Where(c => c.activo == 1).ToList();
+                    IEnumerable<SelectListItem> listItems = (from a in listaCat
+                                                             select new SelectListItem
+                                                           {
+                                                               Value = a.idCategoria.ToString(),
+                                                               Text = a.nombre,
+                                                               Selected = false
+                                                           });
+                    listItems.First().Selected = true;
+                                }
+                                @Html.DropDownListFor(model => model.idCatPadre, listItems, "Seleccione categoría", new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <center>
+                                <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Agregar</button>
+                            </center>
+                        </div>
+                    </div>
+                }
+
+            </div>
+            <!--<div class="modal-body">
+                 <form action="" class="form-horizontal">
+                     <div class="form-group">
+                         <label for="nombre" class="control-label col-md-2">Nombre:</label>
+                         <div class="col-md-10">
+                             <input type="text" class="form-control" id="nombre" placeholder="Nombre del tipo">
+                         </div>
+                     </div>
+
+                     <div class="form-group">
+                         <label for="direccion" class="control-label col-md-2">Descripción:</label>
+                         <div class="col-md-10">
+                             <input type="textarea" class="form-control" id="direccion" placeholder="Descripción">
+
+                         </div>
+                     </div>
+
+                     <div class="form-group">
+                         <label for="direccion" class="control-label col-md-2">Id Padre:</label>
+                         <div class="col-md-10">
+                             <input type="textarea" class="form-control" id="idPadre" placeholder="Id Padre">
+
+                         </div>
+                     </div>
+
+
+                 </form>
+             </div>
+             <!--footer de la ventana-->
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="eliminar">
+    <!--esta div pondra la pantalla oscura al presionar el boton-->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--ACA VA EL CONTENIDO DEL MODAL-->
+            <!--header de la ventana-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+                <h4 class="modal-title">Aviso</h4>
+            </div>
+            <!--contenido de la ventana-->
+            <div class="modal-body">
+                <h4>Está a punto de dar de baja esta categoría</h4>
+                <p>*Se eliminarán las categorías que dependan de este registro</p>                
+            </div>
+            <!--footer de la ventana-->
+            <div class="modal-footer">
+                <button type="button" onclick="borrar()" class="btn btn-primary"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>
+                <button type="button" onclick="return closewindowEli();" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="activar">
+    <!--esta div pondra la pantalla oscura al presionar el boton-->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--ACA VA EL CONTENIDO DEL MODAL-->
+            <!--header de la ventana-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+                <h4 class="modal-title">Aviso</h4>
+            </div>
+            <!--contenido de la ventana-->
+            <div class="modal-body">
+                ¿Está seguro que quiere activar la categoría?
+            </div>
+            <!--footer de la ventana-->
+            <div class="modal-footer"> 
+                <a class="btn btn-success" href="#opcionActivar" data-toggle="modal"><span class="glyphicon glyphicon-ok"></span> Activar</a>                               
+                <!--<button type="button" href="#opcionActivar" class="btn btn-primary">Aceptar <span class="glyphicon glyphicon-ok"></span></button>-->
+                <!--a class="btn btn-default" data-toggle="modal" onclick="return closewindowAct()">Cancelar<span class="glyphicon glyphicon-remove"></span></a-->  
+                <!--<button type="button" onclick="return closewindow();" class="btn btn-danger">Cancelar <span class="glyphicon glyphicon-remove"></span></button>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="opcionActivar">
+    <!--esta div pondra la pantalla oscura al presionar el boton-->
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--ACA VA EL CONTENIDO DEL MODAL-->
+            <!--header de la ventana-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
+                <h4 class="modal-title">Aviso</h4>
+            </div>
+            <!--contenido de la ventana-->
+            <div class="modal-body">
+                ¿Desea restaurar todos los registros anteriormente asociados?
+            </div>
+            <!--footer de la ventana-->
+            <div class="modal-footer">
+                <button type="button" onclick="activarArbol()" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Sí</button>
+                <button type="button" onclick="activarRegistro()" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script>
     function myFunction(x) {
         if (document.getElementsByClassName("trselected").length > 0) {
@@ -137,7 +312,7 @@
         elem.value = x.cells[0].innerHTML;
         //alert(x.cells[0].innerHTML);
         //ViewBag.P = x.cells[0].innerHTML;
-        x.className = "trselected";       
+        x.className = "trselected";
         //<a class="btn btn-primary" href="javascript:document.getElementsByClassName('trselected').submit()">Borrar<span class="glyphicon glyphicon-pencil"></span></a>
         //idProm = x.codp;
     }
@@ -207,7 +382,7 @@
         var el = document.getElementById(categoria);
         var row = $(el).closest('tr');
         //alert(evento);
-        //alert(promocion);            
+        //alert(promocion);
         if (categoria != "" && categoria != null) {
             $.ajax({
                 url: '/Categoria/ActivateTree/',
@@ -234,7 +409,7 @@
         var el = document.getElementById(categoria);
         var row = $(el).closest('tr');
         //alert(evento);
-        //alert(promocion);            
+        //alert(promocion);
         if (categoria != "" && categoria != null) {
             $.ajax({
                 url: '/Categoria/Activate/',
@@ -275,176 +450,3 @@
 
     }
 </script>
-<!--<script type="text/javascript" src="@Url.Content("/Scripts/CategoriaEvento/BorrarCategoriaEvento.js")"></script>-->
-
-
-
-
-<!--Tab para siguiente categoria-->
-<div class="modal fade" id="formNuevo">
-    <!--esta div pondra la pantalla oscura al presionar el boton-->
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <!--ACA VA EL CONTENIDO DEL MODAL-->
-            <!--header de la ventana-->
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
-                <h4 class="modal-title">Nueva Categoria</h4>
-            </div>
-
-            <div class="modal-body">
-                @using (Html.BeginForm("RegisterCategoria", "Categoria", FormMethod.Post, new { }))
-                {
-                    @Html.AntiForgeryToken()
-
-                    <div class="form-horizontal">
-                        @Html.ValidationSummary(true)
-                        <br>
-                        <div class="row form-group">
-                            @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
-                                @Html.TextBoxFor(model => model.nombre, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.nombre)
-                            </div>
-                        </div>
-
-                        <div class="row form-group">
-                            @Html.LabelFor(model => model.descripcion, new { @class = "control-label col-md-3" })
-                            <div class="col-md-9">
-                                @Html.TextBoxFor(model => model.descripcion, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.descripcion)
-                            </div>
-                        </div>
-
-                        <div class="row form-group">
-                            @Html.LabelFor(model => model.idCatPadre, new { @class = "control-label col-md-3" })
-                            <div class="col-md-5">
-                                @{
-                    List<WebApplication4.Models.Categoria> listaCat = db.Categoria.AsNoTracking().Where(c => c.activo == 1).ToList();
-                    IEnumerable<SelectListItem> listItems = (from a in listaCat
-                                                             select new SelectListItem
-                                                           {
-                                                               Value = a.idCategoria.ToString(),
-                                                               Text = a.nombre,
-                                                               Selected = false
-                                                           });
-                    listItems.First().Selected = true;
-                                }
-                                @Html.DropDownListFor(model => model.idCatPadre, listItems, "Seleccione Categoria", new { @class = "form-control" })
-                            </div>
-                        </div>
-
-
-                        <div class="form-group">
-                            <div class="col-md-offset-4 col-md-5">
-                                <input type="submit" value="Agregar" class="btn btn-primary" />
-                            </div>
-                        </div>
-                    </div>
-                }
-
-            </div>
-            <!--<div class="modal-body">
-                 <form action="" class="form-horizontal">
-                     <div class="form-group">
-                         <label for="nombre" class="control-label col-md-2">Nombre:</label>
-                         <div class="col-md-10">
-                             <input type="text" class="form-control" id="nombre" placeholder="Nombre del tipo">
-                         </div>
-                     </div>
-
-                     <div class="form-group">
-                         <label for="direccion" class="control-label col-md-2">Descripción:</label>
-                         <div class="col-md-10">
-                             <input type="textarea" class="form-control" id="direccion" placeholder="Descripción">
-
-                         </div>
-                     </div>
-
-                     <div class="form-group">
-                         <label for="direccion" class="control-label col-md-2">Id Padre:</label>
-                         <div class="col-md-10">
-                             <input type="textarea" class="form-control" id="idPadre" placeholder="Id Padre">
-
-                         </div>
-                     </div>
-
-
-                 </form>
-             </div>
-             <!--footer de la ventana-->
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="eliminar">
-    <!--esta div pondra la pantalla oscura al presionar el boton-->
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <!--ACA VA EL CONTENIDO DEL MODAL-->
-            <!--header de la ventana-->
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
-                <h4 class="modal-title">Aviso</h4>
-            </div>
-            <!--contenido de la ventana-->
-            <div class="modal-body">
-                ¿Está seguro que quiere dar de baja el registro?
-                <p>*Se eliminaran las categorías que dependan de este registro</p>                
-            </div>
-            <!--footer de la ventana-->
-            <div class="modal-footer">
-                <button type="button" onclick="borrar()" class="btn btn-primary">Aceptar <span class="glyphicon glyphicon-ok"></span></button>
-                <button type="button" onclick="return closewindowEli();" class="btn btn-danger">Cancelar <span class="glyphicon glyphicon-remove"></span></button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="activar">
-    <!--esta div pondra la pantalla oscura al presionar el boton-->
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <!--ACA VA EL CONTENIDO DEL MODAL-->
-            <!--header de la ventana-->
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
-                <h4 class="modal-title">Aviso</h4>
-            </div>
-            <!--contenido de la ventana-->
-            <div class="modal-body">
-                ¿Está seguro que quiere activar el registro?
-            </div>
-            <!--footer de la ventana-->
-            <div class="modal-footer"> 
-                <a class="btn btn-primary" href="#opcionActivar" data-toggle="modal">Aceptar <span class="glyphicon glyphicon-ok"></span></a>                               
-                <!--<button type="button" href="#opcionActivar" class="btn btn-primary">Aceptar <span class="glyphicon glyphicon-ok"></span></button>-->
-                <a class="btn btn-primary" data-toggle="modal" onclick="return closewindowAct()">Cancelar<span class="glyphicon glyphicon-pencil"></span></a>               
-                <!--<button type="button" onclick="return closewindow();" class="btn btn-danger">Cancelar <span class="glyphicon glyphicon-remove"></span></button>-->
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="opcionActivar">
-    <!--esta div pondra la pantalla oscura al presionar el boton-->
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <!--ACA VA EL CONTENIDO DEL MODAL-->
-            <!--header de la ventana-->
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
-                <h4 class="modal-title">Aviso</h4>
-            </div>
-            <!--contenido de la ventana-->
-            <div class="modal-body">
-                ¿Desea restaurar todos los registros anteriormente asociados?
-            </div>
-            <!--footer de la ventana-->
-            <div class="modal-footer">
-                <button type="button" onclick="activarArbol()" class="btn btn-primary">Si <span class="glyphicon glyphicon-ok"></span></button>
-                <button type="button" onclick="activarRegistro()" class="btn btn-danger">No <span class="glyphicon glyphicon-remove"></span></button>
-            </div>
-        </div>
-    </div>
-</div>
