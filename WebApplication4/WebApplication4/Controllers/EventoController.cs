@@ -19,7 +19,6 @@ namespace WebApplication4.Controllers
         inf245netsoft db = new inf245netsoft();
         const int maximoPaginas = 2;
         const int cantMax = 6;
-        // GET: Evento
 
         public int BuscarEntradasLeQuedan(string name, int idFuncion)
         {
@@ -38,19 +37,15 @@ namespace WebApplication4.Controllers
                 }
             return limEntradas - actualEntradas;
         }
+
         public int BuscaEntradasQueQuedan(int idFuncion, int idZona)
         {
             ZonaxFuncion zonaxfuncion = db.ZonaxFuncion.Where(c => c.codFuncion == idFuncion && c.codZona == idZona).First();
             return zonaxfuncion.cantLibres;
         }
 
-
-
-
-
         public string reservaAsientos(string name, PaqueteEntradas paquete)
         {
-
             //Si todo esta bien se devuelve OK
             //Que significa todo Ok?
             //Primero busca cuantas entradas mas puede comprar/reservar esta persona para esa funcion
@@ -184,24 +179,24 @@ namespace WebApplication4.Controllers
             if (dt1 > dt2) return Json("Fecha inicio debe ser menor que fecha fin", JsonRequestBehavior.AllowGet);
             List<ReporteEventosModel> lr = new List<ReporteEventosModel>();
             List<Eventos> lv = db.Eventos.Where(c => (c.fecha_inicio >= dt1.Date) && (c.fecha_fin <= dt2.Date)).ToList();
-            
-                for (int i = 0; i < lv.Count; i++)
-                {
-                     ReporteEventosModel r = new ReporteEventosModel();
-                     r.codigoEvento =  lv[i].codigo;
-                     r.nombreEvento = lv[i].nombre;
-                     int valorID=(int)lv[i].idOrganizador;
-                     Organizador queryO = db.Organizador.Where(c => c.codOrg == valorID).First();
-                     r.nombreOrganizador = queryO.nombOrg;
-                     valorID=(int)lv[i].idLocal;
-                     Local querL = db.Local.Where(c => c.codLocal == valorID ).First();
-                     r.local = querL.ubicacion;
-                     valorID = (int)lv[i].idRegion;
-                     Region querR = db.Region.Where(c => c.idRegion == (int)valorID).First();
-                     r.region = querR.nombre;
-                     lr.Add(r);
-                }
-               
+
+            for (int i = 0; i < lv.Count; i++)
+            {
+                ReporteEventosModel r = new ReporteEventosModel();
+                r.codigoEvento = lv[i].codigo;
+                r.nombreEvento = lv[i].nombre;
+                int valorID = (int)lv[i].idOrganizador;
+                Organizador queryO = db.Organizador.Where(c => c.codOrg == valorID).First();
+                r.nombreOrganizador = queryO.nombOrg;
+                valorID = (int)lv[i].idLocal;
+                Local querL = db.Local.Where(c => c.codLocal == valorID).First();
+                r.local = querL.ubicacion;
+                valorID = (int)lv[i].idRegion;
+                Region querR = db.Region.Where(c => c.idRegion == (int)valorID).First();
+                r.region = querR.nombre;
+                lr.Add(r);
+            }
+
             Session["ReporteEventos"] = lr;
             return Json("Reporte Generado", JsonRequestBehavior.AllowGet);
         }
@@ -1473,10 +1468,12 @@ namespace WebApplication4.Controllers
 
             //para que se carguen los destacados al lado
             List<Eventos> listaDestacados = new List<Eventos>(0);
-            try{
+            try
+            {
                 listaDestacados = db.Eventos.AsNoTracking().Where(c => (c.ImagenDestacado != null && c.estado != null && c.estado.CompareTo("Activo") == 0)).ToList();
             }
-            catch (Exception ex){
+            catch (Exception ex)
+            {
 
             }
             ViewBag.ListaDestacados = listaDestacados;

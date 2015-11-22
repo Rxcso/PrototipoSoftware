@@ -331,7 +331,6 @@ namespace WebApplication4.Controllers
             return indicador;
         }
 
-
         [HttpPost]
         [AllowAnonymous]
         public ActionResult ComprarEntradaReservadaA(ComprarEntradaReservadaAModel model)
