@@ -22,10 +22,11 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <a class="btn btn-primary" href="#formNuevo" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
-                <a class="btn btn-primary" data-toggle="modal" onclick="redirige()">Modificar<span class="glyphicon glyphicon-pencil"></span></a>
-                <a class="btn btn-primary" onclick="validaS()" data-toggle="modal">Borrar<span class="glyphicon glyphicon-remove"></span></a>
-                <a class="btn btn-primary" onclick="activa()" data-toggle="modal" id="Activate">Activar<span class="glyphicon glyphicon-ok"></span></a>
+                <a class="btn btn-success" href="#formNuevo" data-toggle="modal"><span class="glyphicon glyphicon-plus"></span> Nuevo</a>
+                <a class="btn btn-primary" data-toggle="modal" onclick="redirige()"><span class="glyphicon glyphicon-pencil"></span> Modificar</a>
+                <a class="btn btn-danger" onclick="validaS()" data-toggle="modal"><span class="glyphicon glyphicon-trash"></span> Eliminar</a>
+                <a class="btn btn-default" onclick="activa()" data-toggle="modal" id="Activate"><span class="glyphicon glyphicon-ok"></span> Activar</a>
+                <a class="btn btn-default" id="idBusq2" onclick="buscaI()" data-toggle="modal"><span class="glyphicon glyphicon-eye-open"></span> Inactivos</a>
             </div>
         </div>
 
@@ -39,7 +40,7 @@
                 </div>
             </form>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-3">
             <select class="form-control" name="" id="comboBusq" onchange="busca2()">
                 <option>Departamento</option>
                 <option value="0">Todos</option>
@@ -51,14 +52,7 @@
                 }
             </select>
         </div>
-
-        <div class="col-md-1">
-            @*<a class="btn btn-danger pull-right" href="@Url.Action("Index2", "Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>*@
-        </div>
-
     </div>
-    <a class="btn btn-primary" id="idBusq2" onclick="buscaI()" data-toggle="modal">Ver Inactivos<span class="glyphicon"></span></a>
-    <br>
     <br>
     @{
         //se obtine la lista de puntos de venta activos
@@ -75,34 +69,46 @@
     }
 
     <div class="row">
-        <table id="mytable" class="table table-bordered table-hover">
-            <thead>
-                <tr class="thead">
-                    <th>Id</th>
-                    <th>Nombre</th>
-                    <th>Ubicacion</th>
-                    <th>Dirección MAC</th>
-                    <th>Provincia</th>
-                    <th>Departamento</th>
-                    <th>Estado</th>
-                </tr>
-            </thead>
-            <tbody id="tbody">
-                @foreach (var row in listaPunto)
-                {
-                    //se muestra la lista de puntos de venta activos o como resultado de una busqueda
-                    <tr id=@row.codPuntoVenta onclick="myFunction(this)">
-                        <td>@row.codPuntoVenta</td>
-                        <td>@row.nombre</td>
-                        <td>@row.ubicacion</td>
-                        <td>@row.dirMAC</td>
-                        <td>@db.Region.Find(row.idProvincia).nombre</td>
-                        <td>@db.Region.Find(row.idRegion).nombre</td>
-                        <td>@row.estaActivo</td>
+        <div class="table-responsive">
+            <table id="mytable" class="table table-bordered table-hover">
+                <thead>
+                    <tr class="thead">
+                        <th class="col-md-1">Código</th>
+                        <th class="col-md-2">Nombre</th>
+                        <th class="col-md-3">Ubicación</th>
+                        <th class="col-md-1">Dirección MAC</th>
+                        <th class="col-md-2">Provincia</th>
+                        <th class ="col-md-2">Departamento</thclass>
+                        <th class="col-md-1">Estado</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody id="tbody">
+                    @foreach (var row in listaPunto)
+                    {
+                        //se muestra la lista de puntos de venta activos o como resultado de una busqueda
+                        <tr id=@row.codPuntoVenta onclick="myFunction(this)">
+                            <td>@row.codPuntoVenta</td>
+                            <td>@row.nombre</td>
+                            <td>@row.ubicacion</td>
+                            <td>@row.dirMAC</td>
+                            <td>@db.Region.Find(row.idProvincia).nombre</td>
+                            <td>@db.Region.Find(row.idRegion).nombre</td>
+                            @{
+                                string state = "";
+                                if (row.estaActivo.HasValue)
+                                {
+                                    if ((bool)row.estaActivo)
+                                    { state = "Activo"; }
+                                    else { state = "Inactivo"; }
+                                }
+                            }
+                            <td>@state</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        
     </div>
 
 </div>
@@ -277,11 +283,6 @@
     }
 </script>
 
-<style>
-    .trselected {
-        background: gray;
-    }
-</style>
 
 
 <div class="modal fade" id="formNuevo">

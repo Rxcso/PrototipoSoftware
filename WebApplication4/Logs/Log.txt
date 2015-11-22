@@ -1893,3 +1893,52 @@ System.Collections.ListDictionaryInternal
 2015-11-22 11:26:08,926 [6] ERROR Ticknet - Exception Message - 
 c:\Users\Pier\Source\Repos\Proyecto GIT\WebApplication4\WebApplication4\Views\Categoria\Edit.cshtml(48): error CS1928: 'System.Web.Mvc.HtmlHelper<WebApplication4.Models.CategoriaEditModel>' no contiene una definición para 'TextBoxFor' y la mejor sobrecarga del método de extensión 'System.Web.Mvc.Html.InputExtensions.TextBoxFor<TModel,TProperty>(System.Web.Mvc.HtmlHelper<TModel>, System.Linq.Expressions.Expression<System.Func<TModel,TProperty>>, string, object)' tiene algunos argumentos no válidos
 2015-11-22 11:26:08,926 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 12:37:18,252 [37] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 12:37:18,263 [37] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-22 12:37:18,263 [37] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-22 12:37:18,263 [37] ERROR Ticknet - Exception Message - 
+c:\Users\Pier\Source\Repos\Proyecto GIT\WebApplication4\WebApplication4\Views\Empleado\Index.cshtml(182): error CS1061: 'bool' no contiene una definición de 'HasValue' ni se encontró ningún método de extensión 'HasValue' que acepte un primer argumento de tipo 'bool' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-22 12:37:18,263 [37] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 12:38:21,818 [35] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 12:38:21,819 [35] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-22 12:38:21,819 [35] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-22 12:38:21,819 [35] ERROR Ticknet - Exception Message - 
+c:\Users\Pier\Source\Repos\Proyecto GIT\WebApplication4\WebApplication4\Views\Empleado\Index.cshtml(182): error CS1061: 'bool' no contiene una definición de 'HasValue' ni se encontró ningún método de extensión 'HasValue' que acepte un primer argumento de tipo 'bool' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-22 12:38:21,819 [35] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 12:41:25,016 [19] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 12:41:25,016 [19] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-22 12:41:25,016 [19] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-22 12:41:25,016 [19] ERROR Ticknet - Exception Message - 
+c:\Users\Pier\Source\Repos\Proyecto GIT\WebApplication4\WebApplication4\Views\Empleado\Index.cshtml(182): error CS1061: 'bool' no contiene una definición de 'HasValue' ni se encontró ningún método de extensión 'HasValue' que acepte un primer argumento de tipo 'bool' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-22 12:41:25,016 [19] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 12:41:36,389 [42] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 12:41:36,390 [42] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-22 12:41:36,390 [42] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-22 12:41:36,390 [42] ERROR Ticknet - Exception Message - 
+c:\Users\Pier\Source\Repos\Proyecto GIT\WebApplication4\WebApplication4\Views\Empleado\Index.cshtml(182): error CS1061: 'bool' no contiene una definición de 'HasValue' ni se encontró ningún método de extensión 'HasValue' que acepte un primer argumento de tipo 'bool' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-22 12:41:36,390 [42] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 12:42:16,035 [42] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 12:42:16,035 [42] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-22 12:42:16,035 [42] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-22 12:42:16,035 [42] ERROR Ticknet - Exception Message - 
+c:\Users\Pier\Source\Repos\Proyecto GIT\WebApplication4\WebApplication4\Views\Empleado\Index.cshtml(181): error CS0103: El nombre 'state2' no existe en el contexto actual
+2015-11-22 12:42:16,035 [42] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 12:50:37,991 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 12:50:37,991 [11] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-22 12:50:37,991 [11] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-22 12:50:37,991 [11] ERROR Ticknet - Exception Message - 
+The foreach block is missing a closing "}" character.  Make sure you have a matching "}" character for all the "{" characters within this block, and that none of the "}" characters are being interpreted as markup.
+
+2015-11-22 12:50:37,991 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++

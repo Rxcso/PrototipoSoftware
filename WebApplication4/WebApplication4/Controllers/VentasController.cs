@@ -1076,6 +1076,10 @@ namespace WebApplication4.Controllers
             //Ventas v = (Ventas)Session["VentasDev"];
             v.cantAsientos -= (int)dv.cantEntradas;
             v.MontoTotalSoles -= (double)dv.total;
+
+            v.montoDev += (double)dv.total;
+            v.entradasDev += (int)dv.cantEntradas;
+
             if (v.cantAsientos == 0) v.Estado = "Devuelto";
 
             Funcion f = db.Funcion.Find(dv.codFuncion);
@@ -1095,6 +1099,9 @@ namespace WebApplication4.Controllers
             //VentasXFuncion vxf = (VentasXFuncion)Session["VentaXFunDev"];
             vxf.cantEntradas -= (int)dv.cantEntradas;
 
+            vxf.montoDev += (double)dv.total;
+            vxf.entradasDev+=(int)dv.cantEntradas;
+
             PrecioEvento pe = db.PrecioEvento.Find(dv.codPrecE);
             ZonaEvento ze = db.ZonaEvento.Find(pe.codZonaEvento);
             if (!ze.tieneAsientos) ze.tieneAsientos = true;
@@ -1105,6 +1112,9 @@ namespace WebApplication4.Controllers
             DetalleVenta dvAux = db.DetalleVenta.Find(dv.codDetalleVenta);
             dvAux.entradasDev = dvAux.cantEntradas;
             dvAux.cantEntradas = 0;
+
+            dvAux.montoDev += (double)dv.total;
+            
             /*Session["DetalleVenta"]
             Session["VentaXFunDev"]
             Session["VentasDev"]

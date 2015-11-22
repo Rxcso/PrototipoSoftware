@@ -260,12 +260,12 @@ else
                                     <span class="input-group-addon">Desde:</span>
                                     @if (ViewBag.fech_ini != null)
                                     {
-                                        string valor = ViewBag.fech_ini.ToString("yyyy-MM-dd");
-                                        <input id="fech_ini" name="fech_ini" type="date" class="form-control" value=@valor>
+                                        string valor = ViewBag.fech_ini.ToString("yyyy/MM/dd");
+                                        <input id="fech_ini" name="fech_ini" type="text" class="form-control fecha" value=@valor>
                                     }
                                     else
                                     {
-                                        <input id="fech_ini" name="fech_ini" type="date" class="form-control" value="@String.Format("{0:yyyy-MM-dd}",DateTime.Today)">
+                                        <input id="fech_ini" name="fech_ini" type="text" class="form-control fecha" value="@String.Format("{0:yyyy-MM-dd}",DateTime.Today)">
                                     }
                                 </div>
                             </div>
@@ -275,12 +275,12 @@ else
                                     <span class="input-group-addon">Hasta:</span>
                                     @if (ViewBag.fech_fin != null)
                                     {
-                                        string valor = ViewBag.fech_fin.ToString("yyyy-MM-dd");
-                                        <input id="fech_fin" name="fech_fin" type="date" value=@valor class="form-control">
+                                        string valor = ViewBag.fech_fin.ToString("yyyy/MM/dd");
+                                        <input id="fech_fin" name="fech_fin" type="text" value=@valor class="fecha form-control">
                                     }
                                     else
                                     {
-                                        <input id="fech_fin" name="fech_fin" type="date" class="form-control">
+                                        <input id="fech_fin" name="fech_fin" type="text" class="fecha form-control">
                                     }
                                 </div>
                             </div>
