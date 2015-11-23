@@ -1942,3 +1942,75 @@ System.Collections.ListDictionaryInternal
 The foreach block is missing a closing "}" character.  Make sure you have a matching "}" character for all the "{" characters within this block, and that none of the "}" characters are being interpreted as markup.
 
 2015-11-22 12:50:37,991 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 19:12:24,161 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 19:12:24,169 [6] ERROR Ticknet - Exception Type - 
+RuntimeBinderException
+2015-11-22 19:12:24,169 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-22 19:12:24,169 [6] ERROR Ticknet - Exception Message - 
+No se puede realizar enlace en tiempo de ejecución en una referencia NULL.
+2015-11-22 19:12:24,169 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 19:13:24,430 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 19:13:24,430 [6] ERROR Ticknet - Exception Type - 
+RuntimeBinderException
+2015-11-22 19:13:24,430 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-22 19:13:24,430 [6] ERROR Ticknet - Exception Message - 
+No se puede realizar enlace en tiempo de ejecución en una referencia NULL.
+2015-11-22 19:13:24,430 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 19:24:55,219 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 19:24:55,229 [9] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-22 19:24:55,229 [9] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-22 19:24:55,395 [9] ERROR Ticknet - Exception Message - 
+c:\Users\angel_000\Documents\Proyecto GIT\WebApplication4\WebApplication4\Views\Evento\VerEvento.cshtml(333): error CS1003: Error de sintaxis, se esperaba ':'
+2015-11-22 19:24:55,395 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 19:26:05,007 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 19:26:05,007 [6] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-22 19:26:05,007 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-22 19:26:05,007 [6] ERROR Ticknet - Exception Message - 
+c:\Users\angel_000\Documents\Proyecto GIT\WebApplication4\WebApplication4\Views\Evento\VerEvento.cshtml(333): error CS1003: Error de sintaxis, se esperaba ':'
+2015-11-22 19:26:05,007 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 19:52:47,988 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 19:52:47,996 [7] ERROR Ticknet - Exception Type - 
+EntityException
+2015-11-22 19:52:47,996 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-22 19:52:47,996 [7] ERROR Ticknet - Exception Message - 
+The underlying provider failed on Open.
+2015-11-22 19:52:47,996 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 19:54:11,351 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 19:54:11,351 [7] ERROR Ticknet - Exception Data - 
+EntityException
+2015-11-22 19:54:11,351 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-22 19:54:11,351 [7] ERROR Ticknet - Exception Message - 
+The underlying provider failed on Open.
+2015-11-22 19:54:11,351 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 19:54:11,352 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 19:54:11,353 [6] ERROR Ticknet - Exception Type - 
+EntityException
+2015-11-22 19:54:11,353 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-22 19:54:11,353 [6] ERROR Ticknet - Exception Message - 
+The underlying provider failed on Open.
+2015-11-22 19:54:11,353 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 20:09:06,581 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 20:09:06,610 [8] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-22 20:09:06,610 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-22 20:09:06,610 [8] ERROR Ticknet - Exception Message - 
+A public action method ' Index' was not found on controller 'WebApplication4.Controllers.HomeController'.
+2015-11-22 20:09:06,610 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-23 09:23:41,684 [15] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-23 09:23:41,690 [15] ERROR Ticknet - Exception Type - 
+RuntimeBinderException
+2015-11-23 09:23:41,690 [15] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-23 09:23:41,690 [15] ERROR Ticknet - Exception Message - 
+No se puede realizar enlace en tiempo de ejecución en una referencia NULL.
+2015-11-23 09:23:41,690 [15] DEBUG Ticknet - ++++++++++++++++++++++++++++

@@ -26,38 +26,28 @@
     ViewBag.Title = "Ver Evento";
     Layout = "~/Views/Shared/_Layout.cshtml";
     string estiloAsientos = (((Boolean)ViewBag.VeoAsientos) == true) ? "" : "display:none";
-    List<Eventos> listaDestacados = ViewBag.ListaDestacados as List<Eventos>;
+    List<Eventos>
+    listaDestacados = ViewBag.ListaDestacados as List<Eventos>;
 }
 
 
 
 <head>
-    <link href="@Url.Content("~/Content/asientos.css")" rel="stylesheet" type="text/css" />
-    <style>
-        #aux {
-            background-color: lightgray;
-            height: 30px;
-        }
 
-        #canvas {
-            height: 300px;
-        }
-    </style>
-
-    <script src="~/Scripts/jquery-2.1.4.min.js"></script>
 
 </head>
 
 <div class="container-fluid">
     <div class="col-md-4">
         <ol class="breadcrumb">
-            <li><a href="@Url.Action("Index","Home")">Inicio</a></li>
+            <li><a href="@Url.Action(" Index","Home")">Inicio</a></li>
             <li class="active">Evento: @ViewBag.evento.nombre</li>
         </ol>
-    </div>    
+    </div>
 </div>
 
 <div class="container ">
+    <link href="@Url.Content("/Content/asientos.css")" rel="stylesheet" type="text/css" />
     <!--la parte importante-->
     <div id="contenido" class="col-md-8 borde">
         <div id="detalles" class="row">
@@ -105,6 +95,57 @@
             </div>
         }
 
+        @if (ViewBag.listPromos.Count > 0)
+        {
+            <div id="promos" class="row">
+                <div class="thumbnail">
+                    <div class="container-fluid">
+                        <h4><u>Promociones</u></h4>
+                        @foreach (var promo in ViewBag.listPromos)
+                        {
+                            <p>@promo</p>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (ViewBag.ListPrecios.Count > 0)
+        {
+            <div id="precios" class="row">
+                <div class="thumbnail">
+                    <div class="container-fluid">
+                        <h4><u>Precios de Venta</u></h4>
+
+                        <table class="table table-bordered table-hover" id="tarifario">
+                            <tr >
+                                <td> Zonas </td>
+                                @foreach (var periodo in ViewBag.ListPeriodos)
+                                {
+                                    <td>@periodo</td>
+                                }
+                            </tr>
+                            @for (int i = 0; i < ViewBag.listPrecios.Count; i++)
+                            {
+                                <tr>
+                                    @{
+                                var lista = ViewBag.listPrecios[i];
+                                    }
+                                    <td> @ViewBag.ListZonasNombre[i] </td>
+                                    @foreach (var p in lista)
+                                    {
+                                        <td>@p</td>
+                                    }
+                                </tr>
+                            }
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+        }
 
         <div id="tarifas" class="row">
             <div class="thumbnail">
@@ -124,7 +165,9 @@
                             if (ViewBag.EventoNoDisponible != null && codperfilActual < 3)
                             {
                                 <p>@ViewBag.EventoNoDisponible</p>
-                                List<string> futurasVentas = ViewBag.FuturasVentas as List<string>;
+                                List<string>
+                                    futurasVentas = ViewBag.FuturasVentas as List<string>
+                                        ;
                                 for (int i = 0; i < futurasVentas.Count; i++)
                                 {
                                     <p style="margin-left:5em">@futurasVentas[i]</p>
@@ -163,7 +206,7 @@
                                             </div>
                                         </div>
                                         <div class="row form-group">
-                                            <label for="zonaTarifa" class="control-label col-md-4">Zona/Tarifa:</label>
+                                            <label for="zonaTarifa" class="control-label col-md-4">Zona: </label>
                                             <div id="funcion" class="col-md-8">
 
                                                 <select id="zonaTarifa" class="form-control">
@@ -203,7 +246,7 @@
                                                     <div class="col-md-6">
                                                         <button type="submit" name="boton" value="carrito" class="btn btn-success pull-right ">Agregar al carrito <span class="glyphicon glyphicon-shopping-cart"></span></button>
                                                     </div>
-                                                    if (Request.IsAuthenticated)
+                                                    if (Request.IsAuthenticated && ((Boolean)ViewBag.evento.permiteReserva))
                                                     {
                                                         <div class="col-md-6">
                                                             <button type="submit" name="boton" value="reservar" class="btn btn-primary pull-right">Reservar <span class="glyphicon glyphicon-save"></span></button>
@@ -271,9 +314,9 @@
             <div class="carousel-inner" role="listbox">
                 @for (var i = 0; i < listaDestacados.Count; i++)
                 {
-                    <div class="@((i == 0) ? "item active" : "item ")">
+                    <div class="@((i == 0) ? " item active":"item " )">
 
-                        <a href=@Url.Action("VerEvento", "Evento", new { id = listaDestacados[i].codigo })><img src=@listaDestacados[i].ImagenDestacado height="500" width="1200" class="img-responsive" alt=@listaDestacados[i].nombre></a>
+                        <a href=@Url.Action("VerEvento", "Evento" , new { id=listaDestacados[i].codigo })><img src=@listaDestacados[i].ImagenDestacado height="500" width="1200" class="img-responsive" alt=@listaDestacados[i].nombre></a>
                     </div>
                 }
             </div>
@@ -288,7 +331,6 @@
     </div>
 
 </div>
-
 @section scripts{
 
     <script>
@@ -659,4 +701,3 @@
 
     </script>
 }
-

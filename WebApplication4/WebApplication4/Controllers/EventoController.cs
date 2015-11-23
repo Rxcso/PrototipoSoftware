@@ -31,7 +31,8 @@ namespace WebApplication4.Controllers
             Funcion funcion = db.Funcion.Find(idFuncion);
             int limEntradas = funcion.Eventos.maxReservas;
             int actualEntradas = 0;
-            foreach (VentasXFuncion VXF in listVXF) if (VXF.Ventas.codDoc.CompareTo(doc) == 0 && VXF.Ventas.tipoDoc == tipoDoc)
+            foreach (VentasXFuncion VXF in listVXF)
+                if (VXF.Ventas.codDoc.CompareTo(doc) == 0 && VXF.Ventas.tipoDoc == tipoDoc)
                 {
                     actualEntradas += VXF.cantEntradas;
                 }
@@ -94,7 +95,9 @@ namespace WebApplication4.Controllers
                         VentasXFuncion vf = new VentasXFuncion();
                         vf.hanEntregado = false;
                         vf.codVen = ve.codVen;
+
                         idVenta = ve.codVen;
+
                         vf.cantEntradas = paquete.cantEntradas;
                         vf.codFuncion = paquete.idFuncion;
                         vf.Ventas = ve;
@@ -133,7 +136,15 @@ namespace WebApplication4.Controllers
                         else
                         {
                             ZonaxFuncion ZXF = context.ZonaxFuncion.Find(paquete.idFuncion, paquete.idZona);
-                            if (ZXF.cantLibres < paquete.cantEntradas) return "No hay suficientes entradas";
+                            if (ZXF.cantLibres < paquete.cantEntradas)
+                            {
+                                Ventas ventaAct = db.Ventas.Find(idVenta);
+                                db.Ventas.Remove(ventaAct);
+                                db.SaveChanges();
+                                return "No hay suficientes entradas";
+                            }
+
+
                             ZXF.cantLibres -= paquete.cantEntradas;
                         }
                         db.SaveChanges();
@@ -141,6 +152,9 @@ namespace WebApplication4.Controllers
                     }
                     catch (OptimisticConcurrencyException ex)
                     {
+                        Ventas ventaAct = db.Ventas.Find(idVenta);
+                        db.Ventas.Remove(ventaAct);
+                        db.SaveChanges();
                         return "No se pudieron reservar los asientos, alguien más ya lo hizo.";
                     }
 
@@ -148,6 +162,9 @@ namespace WebApplication4.Controllers
             }
             catch (Exception ex)
             {
+                Ventas ventaAct = db.Ventas.Find(idVenta);
+                db.Ventas.Remove(ventaAct);
+                db.SaveChanges();
                 return "Ocurrio un error inesperado.";
             }
             //Funciones Utilitarias necesarias
@@ -1391,40 +1408,69 @@ namespace WebApplication4.Controllers
                     ViewBag.FuturasVentas = futuraVenta;
                 }
 
+                List<String> promos = new List<string>(0);
+                try
+                {
+                    List<Promociones> listPromos = db.Promociones.Where(c => c.codEvento == evento.codigo).ToList();
+                    foreach( var pr in listPromos)
+                    {
+                        promos.Add(pr.descripcion);
+                    }  
+                }
+                catch(Exception ex)
+                {
+                }
+
+                ViewBag.listPromos = promos;
+
 
                 List<ZonaEvento> zonasEvento = new List<ZonaEvento>();
+                ViewBag.ListZonasNombre = new List<string>();
+                ViewBag.ListZonasId = new List<int>();
+                ViewBag.ListPeriodos = new List<string>();
+                List<List<double>> listaPrecios = new List<List<double>>(0);
 
                 try
                 {
-                    ViewBag.ListZonasNombre = new List<string>();
-                    ViewBag.ListZonasId = new List<int>();
+                    var primero = true;
+                    zonasEvento = evento.ZonaEvento.ToList();
+                    int jj = 0,ii=0 ;
+                    
 
-                    zonasEvento = db.ZonaEvento.Where(c => c.codEvento == id).ToList();
                     foreach (ZonaEvento zona in zonasEvento)
                     {
-                        string prec = " No hay venta ";
-                        try
-                        {
-                            PrecioEvento precio = db.PrecioEvento.Where(c => c.codPeriodoVenta == bloqueVenta && c.codZonaEvento == zona.codZona).ToList().First();
-                            prec = " S/." + precio.precio;
-                        }
-                        catch (Exception ex)
-                        {
-                            //Si no precioEvento se deja con "No hay venta"
-                        }
-                        ViewBag.ListZonasNombre.Add(zona.nombre + " - " + prec);
+
+                        ViewBag.ListZonasNombre.Add(zona.nombre );
                         ViewBag.ListZonasId.Add(zona.codZona);
+                        jj = 0;
+                        listaPrecios.Add(new List<double>(0) );
+
+                        foreach (var precio in zona.PrecioEvento)
+                        {
+
+                            if (primero)
+                            {
+                                ViewBag.ListPeriodos.Add( "Del "+precio.PeriodoVenta.fechaInicio.Value.ToShortDateString()+ " Al "+ precio.PeriodoVenta.fechaFin.Value.ToShortDateString()); 
+                            }
+
+                            listaPrecios[ii].Add( (double)precio.precio );
+                            jj++;
+                        }
+                        primero = false;
+                        ii++;
                     }
+
+
                 }
                 catch (Exception ex)
                 {
-                    ViewBag.ListFunciones = new List<Funcion>(0);
-                    ViewBag.MensajeErrorFunciones = "Ya no hay más funciones :(";
                     veoAsientos = false;
                 }
 
-                List<Funcion> funciones = new List<Funcion>();
+                ViewBag.listPrecios = listaPrecios;
 
+
+                List<Funcion> funciones = new List<Funcion>();
                 try
                 {
                     funciones = db.Funcion.Where(c => c.codEvento == evento.codigo && c.estado != "CANCELADO").ToList();
@@ -1732,7 +1778,15 @@ namespace WebApplication4.Controllers
         public ActionResult PostergarEvento(PostergarModel evento)
         {
 
+
+
             Funcion funcionAPostergar = db.Funcion.Where(c => (c.codFuncion == evento.idFuncion)).First();
+
+            if (evento.proximaFecha <= funcionAPostergar.fecha || evento.proximaFecha <= DateTime.Now)
+            {
+                return View();
+            }
+
             db.Entry(funcionAPostergar).State = EntityState.Modified;
 
             funcionAPostergar.fecha = evento.proximaFecha;
@@ -1819,7 +1873,8 @@ namespace WebApplication4.Controllers
                 eventoACancelar.estado = "Cancelado";
                 db.SaveChanges();
 
-                for (int i = 0; i < evento.seCancela.Count(); i++) if (evento.seCancela[i])
+                for (int i = 0; i < evento.seCancela.Count(); i++)
+                    if (evento.seCancela[i])
                     {
                         int idF = evento.listIdFuncion[i];
                         Funcion f = db.Funcion.Where(c => c.codFuncion == idF).First();
