@@ -2026,3 +2026,27 @@ System.Collections.ListDictionaryInternal
 2015-11-22 23:28:24,074 [6] ERROR Ticknet - Exception Message - 
 Referencia a objeto no establecida como instancia de un objeto.
 2015-11-22 23:28:24,074 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 23:45:11,225 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 23:45:11,232 [8] ERROR Ticknet - Exception Type - 
+NotSupportedException
+2015-11-22 23:45:11,232 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-22 23:45:11,232 [8] ERROR Ticknet - Exception Message - 
+LINQ to Entities does not recognize the method 'WebApplication4.Models.TipoDeCambio Last[TipoDeCambio](System.Linq.IQueryable`1[WebApplication4.Models.TipoDeCambio])' method, and this method cannot be translated into a store expression.
+2015-11-22 23:45:11,232 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 23:46:41,866 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 23:46:41,866 [8] ERROR Ticknet - Exception Type - 
+NotSupportedException
+2015-11-22 23:46:41,866 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-22 23:46:41,866 [8] ERROR Ticknet - Exception Message - 
+LINQ to Entities does not recognize the method 'WebApplication4.Models.TipoDeCambio Last[TipoDeCambio](System.Linq.IQueryable`1[WebApplication4.Models.TipoDeCambio])' method, and this method cannot be translated into a store expression.
+2015-11-22 23:46:41,866 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-23 00:38:15,434 [24] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-23 00:38:15,449 [24] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-23 00:38:15,449 [24] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-23 00:38:15,449 [24] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-23 00:38:15,449 [24] DEBUG Ticknet - ++++++++++++++++++++++++++++

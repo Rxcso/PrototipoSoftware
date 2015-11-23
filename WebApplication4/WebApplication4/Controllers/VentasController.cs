@@ -97,7 +97,7 @@ namespace WebApplication4.Controllers
                         listaPromociones.Add(promocion);
                     }
                 }
-                ViewBag.Descuento = 0;
+                ViewBag.Descuento = descuento;
                 ViewBag.Promociones = listaPromociones;
                 ViewBag.Total = total;
                 ViewBag.Pagar = total - 0;
@@ -139,8 +139,10 @@ namespace WebApplication4.Controllers
         private bool validacionVenta(VenderEntradaModel model)
         {
             bool indicador = true;
-            //si es una compra mixta
-            if (model.MontoTar > 0)
+            Politicas montoMinTarjeta = db.Politicas.Find(3);
+            double montoMin = montoMinTarjeta.valor.Value;
+            //si se utiliza tarjeta, tiene que ser mayor al monto minimo segun las politicas
+            if (model.MontoTar > montoMin)
             {
                 //usa tarjeta, verificar que hayan datos de la tarjeta
                 if (String.IsNullOrEmpty(model.NumeroTarjeta))
@@ -162,6 +164,10 @@ namespace WebApplication4.Controllers
                     ModelState.AddModelError("CodCcv", "El campo CCV: es obligatorio.");
                     indicador = false;
                 }
+            }
+            else
+            {
+                ModelState.AddModelError("MontoTar", "Se debe pagar como mínimo " + montoMin + "soles.");
             }
             return indicador;
         }

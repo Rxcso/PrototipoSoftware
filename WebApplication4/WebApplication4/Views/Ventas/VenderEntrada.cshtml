@@ -1,4 +1,5 @@
 ﻿@using WebApplication4.Models
+@using WebApplication4.Controllers
 @model VenderEntradaModel
 @{
     ViewBag.Title = "ComprarEntradaReservadaA";
@@ -14,7 +15,9 @@
         promocionesLista = ViewBag.Promociones as List<Promociones>;
         carrito = Session["CarritoItemVentas"] as List<CarritoItem>;
     }
-    double tipoCambio = (double)db.TipoDeCambio.Where(c => c.estado == "Activo").Last().valor / 1000;
+    //tipo de cambio
+    TipoDeCambio tipoCambio = db.TipoDeCambio.Where(c => c.estado == "Activo").ToList().Last();
+    double cambio = tipoCambio.valor.Value / (MagicHelpers.ConstanteTipoCambio * 1.0);
 }
 
 <div class="container-fluid">
@@ -25,8 +28,10 @@
         </ol>
     </div>
 </div>
+
 <div class="container" id="promocionesLista">
-    <p>Mejores descuentos para su compra segun los items en su carrito:</p>
+    @Html.Hidden("dsctInicial", "" + @descuento)
+    <p>Descuentos disponibles para la venta, no aplicable para pago mixto:</p>
     <div id="listaEventoPromocion">
         @{
             for (int i = 0; i < promocionesLista.Count; i++)
@@ -111,14 +116,14 @@
                 <div class="row form-group">
                     @Html.LabelFor(c => c.NumeroTarjeta, new { @class = "control-label col-md-3" })
                     <div class="col-md-4">
-                        @Html.TextBoxFor(c => c.NumeroTarjeta, new { @disabled = "disabled", @class = "form-control" })
+                        @Html.TextBoxFor(c => c.NumeroTarjeta, new { @readonly = "readonly", @class = "form-control" })
                     </div>
                 </div>
 
                 <div class="row form-group">
                     @Html.LabelFor(c => c.CodCcv, new { @class = "control-label col-md-3" })
                     <div class="col-md-4">
-                        @Html.TextBoxFor(c => c.CodCcv, new { @disabled = "disabled", @class = "form-control" })
+                        @Html.TextBoxFor(c => c.CodCcv, new { @readonly = "readonly", @class = "form-control" })
                     </div>
                 </div>
 
@@ -126,61 +131,69 @@
                     @Html.LabelFor(c => c.Mes, new { @class = "control-label col-md-2" })
                     <div class="col-md-2">
                         @Html.DropDownListFor(c => c.Mes, ViewBag.Mes as List<SelectListItem>, new { @disabled = "disabled", @class = "form-control" })
+                        @Html.HiddenFor(c => c.Mes)
                         @Html.ValidationMessageFor(c => c.Mes)
                     </div>
                     @Html.LabelFor(c => c.AnioVen, new { @class = "control-label col-md-2" })
                     <div class="col-md-2">
                         @Html.DropDownListFor(c => c.AnioVen, ViewBag.AnVen as List<SelectListItem>, new { @disabled = "disabled", @class = "form-control" })
+                        @Html.HiddenFor(c => c.AnioVen)
                         @Html.ValidationMessageFor(c => c.AnioVen)
                     </div>
                 </div>
 
                 <h3>Información de montos</h3><br>
                 <div class="row form-group">
+                    @Html.Label("Tipo de Cambio:", new { @class = "control-label col-md-3" })
+                    <div class="col-md-4">
+                        @Html.TextBox("tipoCambioMoneda", "" + @cambio, new { @class = "form-control", @readonly = "readonly", @type = "number" })
+                    </div>
+                </div>
+                <div class="row form-group">
                     @Html.LabelFor(c => c.Importe, new { @class = "control-label col-md-3" })
                     <div class="col-md-4">
-                        @Html.TextBoxFor(c => c.Importe, new { @class = "form-control", @Value = importe, @readonly = "readonly" })
+                        @Html.TextBoxFor(c => c.Importe, new { @class = "form-control", @Value = importe, @readonly = "readonly", @type = "number" })
                     </div>
                 </div>
 
                 <div class="row form-group">
                     @Html.LabelFor(c => c.Descuento, new { @class = "control-label col-md-3" })
                     <div class="col-md-4">
-                        @Html.TextBoxFor(c => c.Descuento, new { @class = "form-control", @Value = "" + 0, @readonly = "readonly" })
+                        @Html.TextBoxFor(c => c.Descuento, new { @class = "form-control", @Value = "" + 0, @readonly = "readonly", @type = "number" })
                     </div>
                 </div>
 
                 <div class="row form-group">
                     @Html.LabelFor(c => c.MontoPagar, new { @class = "control-label col-md-3" })
                     <div class="col-md-4">
-                        @Html.TextBoxFor(c => c.MontoPagar, new { @class = "form-control", @Value = montopagar, @readonly = "readonly" })
+                        @Html.TextBoxFor(c => c.MontoPagar, new { @class = "form-control", @Value = montopagar, @readonly = "readonly", @type = "number" })
                     </div>
                 </div>
 
                 <div class="row form-group">
                     @Html.LabelFor(c => c.MontoEfe, new { @class = "control-label col-md-3" })
                     <div class="col-md-4">
-                        @Html.TextBoxFor(c => c.MontoEfe, new { @class = "form-control", @onchange = "llenar()" })
+                        @Html.TextBoxFor(c => c.MontoEfe, new { @class = "form-control", @onchange = "llenar()", @type = "number" })
                     </div>
                 </div>
 
                 <div class="row form-group">
                     @Html.LabelFor(c => c.MontoDolares, new { @class = "control-label col-md-3" })
                     <div class="col-md-4">
-                        @Html.TextBoxFor(c => c.MontoDolares, new { @class = "form-control", @onchange = "llenar()", @Value = "0" })
+                        @Html.TextBoxFor(c => c.MontoDolares, new { @class = "form-control", @onchange = "llenar()", @Value = "0", @type = "number" })
                     </div>
                 </div>
 
                 <div class="row form-group">
                     @Html.LabelFor(c => c.MontoTar, new { @class = "control-label col-md-3" })
                     <div class="col-md-4">
-                        @Html.TextBoxFor(c => c.MontoTar, new { @class = "form-control", @readonly = "readonly" })
+                        @Html.TextBoxFor(c => c.MontoTar, new { @class = "form-control", @readonly = "readonly", @type = "number" })
                     </div>
                 </div>
                 <div class="row form-group">
                     @Html.LabelFor(c => c.Vuelto, new { @class = "control-label col-md-3" })
                     <div class="col-md-4">
-                        @Html.TextBoxFor(c => c.Vuelto, new { @class = "form-control", @readonly = "readonly" })
+                        @Html.TextBoxFor(c => c.Vuelto, new { @class = "form-control", @readonly = "readonly", @type = "number" })
                     </div>
                 </div>
                 <div class="row">
@@ -196,120 +209,143 @@
 <script>
     function llenar() {
         var montoefe = $("#MontoEfe").val();
+        var montoDolares = $('#MontoDolares').val();
+        var cambio = parseFloat(montoDolares) * parseFloat($('#tipoCambioMoneda').val());
         var montopagar = $("#MontoPagar").val();
-        if (parseFloat(montoefe) < 0) {
-            alert("El monto debe ser mayor o igual a cero");
+        if (parseFloat(montoefe) < 0 ) {
+            $("#MontoEfe").val(0);
+            alert("El monto en efectivo debe ser mayor o igual a cero");
             return false;
         }
-
-        if (parseFloat(montoefe) > parseFloat(montopagar)) {
-            var vuelto = montoefe - montopagar;
-            $('#Vuelto').val(vuelto);
+        if (parseFloat(montoDolares) < 0) {
+            $('#MontoDolares').val(0);
+            alert("El monto de efectivo en dólares debe ser mayor o igual a cero");
+            return false;
+        }
+        if (parseFloat(montoefe) == 0 && parseFloat(montoDolares) == 0) {
+            var inicialDesc = $('#dsctInicial').val();
+            $('#Descuento').val(inicialDesc);
+            $('#MontoPagar').val(parseFloat($('#Importe').val()) - parseFloat($('#Descuento').val()));
+            $('#MontoTar').val($('#MontoPagar').val());
+        } else {
+            $('#Descuento').val(0);
+            $('#MontoPagar').val(parseFloat($('#Importe').val()) - parseFloat($('#Descuento').val()));
+        }
+        montopagar = $("#MontoPagar").val();
+        if (parseFloat(montoefe) + cambio > parseFloat(montopagar)) {
+            var vuelto = cambio + parseFloat(montoefe) - parseFloat(montopagar);
+            $('#Vuelto').val(Math.floor(vuelto * 100 / 100));
             $('#MontoTar').val(0);
         } else {
-            var montotar = montopagar - montoefe;
-            $("#MontoTar").val(montotar);
+            var montotar = parseFloat(montopagar) - cambio - parseFloat(montoefe);
+            $("#MontoTar").val(Math.floor(montotar * 100) / 100);
             $('#Vuelto').val(0);
         }
         montoTar = $('#MontoTar').val();
         if (parseFloat(montoTar) == 0) {
             document.getElementById("AnioVen").disabled = true;
             document.getElementById("Mes").disabled = true;
-            document.getElementById("CodCcv").disabled = true;
-            document.getElementById("NumeroTarjeta").disabled = true;
+            document.getElementById("CodCcv").readOnly = true;
+            document.getElementById("NumeroTarjeta").readOnly = true;
             document.getElementById("idTipoTarjeta").disabled = true;
             document.getElementById("idBanco").disabled = true;
         }
         else {
             document.getElementById("AnioVen").disabled = false;
             document.getElementById("Mes").disabled = false;
-            document.getElementById("CodCcv").disabled = false;
-            document.getElementById("NumeroTarjeta").disabled = false;
+            document.getElementById("CodCcv").readOnly = false;
+            document.getElementById("NumeroTarjeta").readOnly = false;
             document.getElementById("idTipoTarjeta").disabled = false;
             document.getElementById("idBanco").disabled = false;
         }
     }
 
     function calculaPromo() {
-        var idBanco = parseInt($('#idBanco').val());
-        var tipoTarjeta = parseInt($('#idTipoTarjeta').val());
-        var eventosBTV = document.getElementsByName('eventosCarrito');
-        var subtotalBTV = document.getElementsByName('subtotalCarrito');
-        var arrRazon = [];
-        var eventosCarritos = [];
-        var promocionCarritos = [];
-        var descuentoCarritos = [];
-        var subtotalCarritos = [];
-        for (var i = 0; i < eventosBTV.length ; i++) {
-            var codEvento = eventosBTV[i].value;
-            eventosCarritos.push(codEvento);
-            subtotalCarritos.push(subtotalBTV[i].value);
-            $.ajax({
-                url: '/Services/Descuento/',
-                data: { codEvento: codEvento, idBanco: idBanco, tipoTarjeta: tipoTarjeta },
-                datatype: "json",
-                async: false,
-                success: function (data) {
-                    var obj = $.parseJSON(data);
-                    //si tenemos data, escribimos denuevo el valor
-                    var razon = "";
-                    if (parseInt(obj.Descuento) == -1) {
-                        razon = "- No cuenta con promocion";
-                    } else {
-                        razon = "- Descuento de " + obj.Descuento + "%.";
+        var montoefe = $("#MontoEfe").val();
+        var montoDolares = $('#MontoDolares').val();
+        if (parseFloat(montoefe) == 0 && parseFloat(montoDolares) == 0) {
+            var idBanco = parseInt($('#idBanco').val());
+            var tipoTarjeta = parseInt($('#idTipoTarjeta').val());
+            var eventosBTV = document.getElementsByName('eventosCarrito');
+            var subtotalBTV = document.getElementsByName('subtotalCarrito');
+            var arrRazon = [];
+            var eventosCarritos = [];
+            var promocionCarritos = [];
+            var descuentoCarritos = [];
+            var subtotalCarritos = [];
+            for (var i = 0; i < eventosBTV.length ; i++) {
+                var codEvento = eventosBTV[i].value;
+                eventosCarritos.push(codEvento);
+                subtotalCarritos.push(subtotalBTV[i].value);
+                $.ajax({
+                    url: '/Services/Descuento/',
+                    data: { codEvento: codEvento, idBanco: idBanco, tipoTarjeta: tipoTarjeta },
+                    datatype: "json",
+                    async: false,
+                    success: function (data) {
+                        var obj = $.parseJSON(data);
+                        //si tenemos data, escribimos denuevo el valor
+                        var razon = "";
+                        if (parseInt(obj.Descuento) == -1) {
+                            razon = "- No cuenta con promocion";
+                            $('#dsctInicial').val(0);
+                        } else {
+                            razon = "- Descuento de " + obj.Descuento + "%.";
+                            $('#dsctInicial').val(0);
+                        }
+                        arrRazon.push(razon);
+                        descuentoCarritos.push(obj.Descuento);
+                        promocionCarritos.push(obj.IdPromocion);
+                    },
+                    error: function () {
+                        alert("Error :(");
                     }
-                    arrRazon.push(razon);
-                    descuentoCarritos.push(obj.Descuento);
-                    promocionCarritos.push(obj.IdPromocion);
-                },
-                error: function () {
-                    alert("Error :(");
-                }
-            });
-        }
-        //relleno denuevo el esto :v
-        $('#listaEventoPromocion').empty();
-        var descuentoTotal = 0;
-        for (var i = 0; i < arrRazon.length; i++) {
-            var inputEventos = document.createElement("input");
-            inputEventos.setAttribute("type", "hidden");
-            inputEventos.setAttribute("id", "eventosCarrito");
-            inputEventos.setAttribute("name", "eventosCarrito");
-            inputEventos.setAttribute("value", eventosCarritos[i]);
-
-            var inputPromociones = document.createElement("input");
-            inputPromociones.setAttribute("type", "hidden");
-            inputPromociones.setAttribute("id", "promocionesCarrito");
-            inputPromociones.setAttribute("name", "promocionesCarrito");
-            inputPromociones.setAttribute("value", promocionCarritos[i]);
-
-            var inputSubtotal = document.createElement("input");
-            inputSubtotal.setAttribute("type", "hidden");
-            inputSubtotal.setAttribute("id", "subtotalCarrito");
-            inputSubtotal.setAttribute("name", "subtotalCarrito");
-            var subtotalconDescuento = 0;
-            if (descuentoCarritos[i] != -1) {
-                subtotalconDescuento += parseInt(subtotalCarritos[i]) * descuentoCarritos[i] / 100;
+                });
             }
-            descuentoTotal += subtotalconDescuento;
-            inputSubtotal.setAttribute("value", subtotalCarritos[i]);
+            //relleno denuevo el esto :v
+            $('#listaEventoPromocion').empty();
+            var descuentoTotal = 0;
+            for (var i = 0; i < arrRazon.length; i++) {
+                var inputEventos = document.createElement("input");
+                inputEventos.setAttribute("type", "hidden");
+                inputEventos.setAttribute("id", "eventosCarrito");
+                inputEventos.setAttribute("name", "eventosCarrito");
+                inputEventos.setAttribute("value", eventosCarritos[i]);
 
-            var razonP = document.createElement("p");
-            razonP.setAttribute("style", "margin-left:2em");
-            var texto = document.createTextNode(arrRazon[i]);
-            razonP.appendChild(texto);
-            $('#listaEventoPromocion').append(inputEventos);
-            $('#listaEventoPromocion').append(inputPromociones);
-            $('#listaEventoPromocion').append(inputSubtotal);
-            $('#listaEventoPromocion').append(razonP);
+                var inputPromociones = document.createElement("input");
+                inputPromociones.setAttribute("type", "hidden");
+                inputPromociones.setAttribute("id", "promocionesCarrito");
+                inputPromociones.setAttribute("name", "promocionesCarrito");
+                inputPromociones.setAttribute("value", promocionCarritos[i]);
+
+                var inputSubtotal = document.createElement("input");
+                inputSubtotal.setAttribute("type", "hidden");
+                inputSubtotal.setAttribute("id", "subtotalCarrito");
+                inputSubtotal.setAttribute("name", "subtotalCarrito");
+                var subtotalconDescuento = 0;
+                if (descuentoCarritos[i] != -1) {
+                    subtotalconDescuento += parseInt(subtotalCarritos[i]) * descuentoCarritos[i] / 100;
+                }
+                descuentoTotal += subtotalconDescuento;
+                inputSubtotal.setAttribute("value", subtotalCarritos[i]);
+
+                var razonP = document.createElement("p");
+                razonP.setAttribute("style", "margin-left:2em");
+                var texto = document.createTextNode(arrRazon[i]);
+                razonP.appendChild(texto);
+                $('#listaEventoPromocion').append(inputEventos);
+                $('#listaEventoPromocion').append(inputPromociones);
+                $('#listaEventoPromocion').append(inputSubtotal);
+                $('#listaEventoPromocion').append(razonP);
+            }
+            //actualizamos el nuevo total
+            var importe = parseFloat($('#Importe').val());
+            var montoPagar = importe - descuentoTotal;
+            $('#Descuento').val(descuentoTotal);
+            $('#MontoPagar').val(montoPagar);
+            var montoTar = montoPagar - parseFloat($('#MontoEfe').val());
+            $('#MontoTar').val(montoTar);
         }
-        //actualizamos el nuevo total
-        var importe = parseFloat($('#Importe').val());
-        var montoPagar = importe - descuentoTotal;
-        $('#Descuento').val(descuentoTotal);
-        $('#MontoPagar').val(montoPagar);
-        var montoTar = montoPagar - parseFloat($('#MontoEfe').val());
-        $('#MontoTar').val(montoTar);
     }
 
     function llenaArreglo() {

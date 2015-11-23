@@ -17,7 +17,7 @@ namespace WebApplication4.Controllers
 
         public ActionResult Index(string evento)
         {
-            if (evento != "" && evento !=null)
+            if (evento != "" && evento != null)
             {
                 int id = int.Parse(evento);
                 Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();
@@ -86,17 +86,17 @@ namespace WebApplication4.Controllers
             }
 
             if (ModelState.IsValid) //promocion por tarjeta
-            {              
-                    promocion.codBanco = model.codBanco;
-                    promocion.codTipoTarjeta = model.codTipoTarjeta;
-                    promocion.fechaIni = model.fechaIni;
-                    promocion.fechaFin = model.fechaFin;
-                    promocion.descuento = model.descuento;
-                    promocion.modoPago = "T";
-                    promocion.descripcion = db.Banco.Find(model.codBanco).nombre + " " + db.TipoTarjeta.Find(model.codTipoTarjeta).nombre + " " + model.descuento + "%";
-                    db.Promociones.Add(promocion);
-                    db.SaveChanges();
-                    return Redirect("~/Promocion/Index?evento=" + ev);                
+            {
+                promocion.codBanco = model.codBanco;
+                promocion.codTipoTarjeta = model.codTipoTarjeta;
+                promocion.fechaIni = model.fechaIni;
+                promocion.fechaFin = model.fechaFin;
+                promocion.descuento = model.descuento;
+                promocion.modoPago = "T";
+                promocion.descripcion = db.Banco.Find(model.codBanco).nombre + " " + db.TipoTarjeta.Find(model.codTipoTarjeta).nombre + " " + model.descuento + "%";
+                db.Promociones.Add(promocion);
+                db.SaveChanges();
+                return Redirect("~/Promocion/Index?evento=" + ev);
             }
             return View("Index");
             //throw new Exception("Test Exception");
@@ -147,17 +147,18 @@ namespace WebApplication4.Controllers
             }
 
             if (ModelState.IsValid)
-                {
-                    promocion.fechaIni = model.fechaIni;
-                    promocion.fechaFin = model.fechaFin;
-                    promocion.modoPago = "E";
-                    promocion.cantAdq = model.cantAdq;
-                    promocion.cantComp = model.cantComp;
-                    promocion.descripcion = model.cantAdq + "X" + model.cantComp;
-                    db.Promociones.Add(promocion);
-                    db.SaveChanges();
-                    return Redirect("~/Promocion/Index?evento=" + ev);
-                }
+            {
+                promocion.fechaIni = model.fechaIni;
+                promocion.fechaFin = model.fechaFin;
+                promocion.modoPago = "E";
+                promocion.cantAdq = model.cantAdq;
+                promocion.cantComp = model.cantComp;
+                promocion.descuento = (1 - model.cantComp / model.cantAdq) * 100;
+                promocion.descripcion = model.cantAdq + "X" + model.cantComp;
+                db.Promociones.Add(promocion);
+                db.SaveChanges();
+                return Redirect("~/Promocion/Index?evento=" + ev);
+            }
             return View("Index");
             //throw new Exception("Test Exception");
         }
