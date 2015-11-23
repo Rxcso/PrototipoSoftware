@@ -5,7 +5,7 @@
 
 @using Microsoft.AspNet.Identity
 @using WebApplication4.Models
-
+@model LocalEditModel
 @{
     var db = new WebApplication4.Models.inf245netsoft();
     //se obtiene el local guardado en el session
@@ -23,61 +23,71 @@
     localM.ubicacion = local.ubicacion;
     //se le asignan los valores del localModel a los campos que se editaran
 }
+<style>
+    .contenedor {
+        border: 1px solid #080808;
+    }
+</style>
 
-@model LocalEditModel
-@using (Html.BeginForm("EditRegister", "Local", FormMethod.Post, new { model = localM }))
-{
-    @Html.AntiForgeryToken()
-
-    <div class="form-horizontal">
-        @Html.ValidationSummary(true)
-        <br>
-        @*<div class="row form-group">
-            @Html.LabelFor(model => model.aforo, new { @class = "control-label col-md-3" })
-            <div class="col-md-5">
-                @Html.TextBoxFor(model => model.aforo, new { @class = "form-control", @placeholder = @localM.aforo, @Value = @localM.aforo })
-                @Html.ValidationMessageFor(model => model.aforo)
-            </div>
-        </div>*@
-
-        <div class="row form-group">
-            @Html.LabelFor(model => model.descripcion, new { @class = "control-label col-md-3" })
-            <div class="col-md-5">
-                @Html.TextBoxFor(model => model.descripcion, new { @class = "form-control", @placeholder = @localM.descripcion, @Value = @localM.descripcion })
-                @*@Html.ValidationMessageFor(model => model.descripcion)*@
-            </div>
-        </div>
-        <br>
-        <div class="row form-group">
-            @Html.LabelFor(model => model.ubicacion, new { @class = "control-label col-md-3" })
-            <div class="col-md-5">
-                @Html.TextBoxFor(model => model.ubicacion, new { @class = "form-control", @placeholder = @localM.ubicacion, @Value = @localM.ubicacion })
-                @*@Html.ValidationMessageFor(model => model.ubicacion)*@
-            </div>
-        </div>
-
-        <div class="row form-group">
-            @Html.LabelFor(model => model.idRegion, new { @class = "control-label col-md-3" })
-            <div class="col-md-2">
-                @Html.DropDownListFor(model => model.idRegion, @ViewBag.DepID as SelectList, "Departamento", new { @class = "form-control", @onchange = "cambioDepartamento()" })
-            </div>
-        </div>
-
-        <div class="row form-group">
-            @Html.LabelFor(model => model.idProv, new { @class = "control-label col-md-3" })
-            <div class="col-md-2">
-                @Html.DropDownListFor(model => model.idProv, @ViewBag.ProvID as SelectList, "Provincia", new { @class = "form-control" })
-            </div>
-        </div>
-
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Editar" class="btn  btn-primary" />
-            </div>
-        </div>
+<div class="container-fluid">
+    <div class="col-md-3">
+        <ol class="breadcrumb">
+            <li class="active"><a href="@Url.Action("Index","Local")"> Mantenimiento de locales</a></li>
+            <li>Editar local</li>
+        </ol>
     </div>
-}
+</div>
+
+<div class="container">
+    @using (Html.BeginForm("EditRegister", "Local", FormMethod.Post, new { model = localM }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="col-md-8 col-md-offset-2 contenedor">
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true)
+                <br>
+                <div class="row form-group">
+                    @Html.LabelFor(model => model.descripcion, new { @class = "control-label col-md-3" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(model => model.descripcion, new { @class = "form-control", @placeholder = @localM.descripcion, @Value = @localM.descripcion })
+                        @*@Html.ValidationMessageFor(model => model.descripcion)*@
+                    </div>
+                </div>
+                
+                <div class="row form-group">
+                    @Html.LabelFor(model => model.ubicacion, new { @class = "control-label col-md-3" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(model => model.ubicacion, new { @class = "form-control", @placeholder = @localM.ubicacion, @Value = @localM.ubicacion })
+                        @*@Html.ValidationMessageFor(model => model.ubicacion)*@
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    @Html.LabelFor(model => model.idRegion, new { @class = "control-label col-md-3" })
+                    <div class="col-md-8">
+                        @Html.DropDownListFor(model => model.idRegion, @ViewBag.DepID as SelectList, "Departamento", new { @class = "form-control", @onchange = "cambioDepartamento()" })
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    @Html.LabelFor(model => model.idProv, new { @class = "control-label col-md-3" })
+                    <div class="col-md-8">
+                        @Html.DropDownListFor(model => model.idProv, @ViewBag.ProvID as SelectList, "Provincia", new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <center>
+                        <button type="submit" class="btn  btn-primary"><span class="glyphicon glyphicon-save"></span> Guardar cambios</button>
+                        <a href="@Url.Action("Index","Local")" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Cancelar</a>
+                    </center>
+                </div>
+            </div>
+        </div>
+        
+    }
+</div>
+
 
 <input type="hidden" id="idRegT" value="@idR" />
 <input type="hidden" id="idProvT" value="@idP" />
