@@ -51,7 +51,6 @@
       <End Role="Regalo" EntitySet="Regalo" />
       <End Role="RegaloXCuenta" EntitySet="RegaloXCuenta" />
     </AssociationSet>
-    <EntitySet Name="TipoDeCambio" EntityType="inf245netsoftModel.TipoDeCambio" />
     <EntitySet Name="Organizador" EntityType="inf245netsoftModel.Organizador" />
     <EntitySet Name="PuntoVenta" EntityType="inf245netsoftModel.PuntoVenta" />
     <EntitySet Name="Region" EntityType="inf245netsoftModel.Region" />
@@ -237,6 +236,7 @@
       <End Role="DetalleVenta" EntitySet="DetalleVenta" />
       <End Role="LogDevoluciones" EntitySet="LogDevoluciones" />
     </AssociationSet>
+    <EntitySet Name="TipoDeCambio" EntityType="inf245netsoftModel.TipoDeCambio" />
   </EntityContainer>
   <EntityType Name="Banco">
     <Key>
@@ -346,14 +346,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityType Name="TipoDeCambio">
-    <Key>
-      <PropertyRef Name="fecha" />
-    </Key>
-    <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="valor" Type="Double" />
-    <Property Name="estado" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-  </EntityType>
   <EntityType Name="Organizador">
     <Key>
       <PropertyRef Name="codOrg" />
@@ -1263,4 +1255,12 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="TipoDeCambio">
+    <Key>
+      <PropertyRef Name="fecha" />
+    </Key>
+    <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="valor" Type="Int32" />
+    <Property Name="estado" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+  </EntityType>
 </Schema>

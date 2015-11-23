@@ -78,15 +78,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="TipoDeCambio">
-      <EntityTypeMapping TypeName="inf245netsoftModel.TipoDeCambio">
-        <MappingFragment StoreEntitySet="TipoDeCambio">
-          <ScalarProperty Name="estado" ColumnName="estado" />
-          <ScalarProperty Name="valor" ColumnName="valor" />
-          <ScalarProperty Name="fecha" ColumnName="fecha" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Organizador">
       <EntityTypeMapping TypeName="inf245netsoftModel.Organizador">
         <MappingFragment StoreEntitySet="Organizador">
@@ -479,6 +470,15 @@
           <ScalarProperty Name="codVendedor" ColumnName="codVendedor" />
           <ScalarProperty Name="codDetalleVenta" ColumnName="codDetalleVenta" />
           <ScalarProperty Name="codLog" ColumnName="codLog" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TipoDeCambio">
+      <EntityTypeMapping TypeName="inf245netsoftModel.TipoDeCambio">
+        <MappingFragment StoreEntitySet="TipoDeCambio">
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="valor" ColumnName="valor" />
+          <ScalarProperty Name="fecha" ColumnName="fecha" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
