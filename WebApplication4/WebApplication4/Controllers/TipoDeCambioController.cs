@@ -24,15 +24,19 @@ namespace WebApplication4.Controllers
         [AllowAnonymous]
         public ActionResult RegisterTipoDeCambio(TipoDeCambioModel model)
         {
+            double b,d;
             List<WebApplication4.Models.TipoDeCambio> listaCambio = db.TipoDeCambio.AsNoTracking().Where(c => c.estado == "Activo").ToList();
             if (listaCambio.Count > 0)
             {
-                TipoDeCambio tipoA = listaCambio.First();
+                TipoDeCambio tipoA = listaCambio.Last();
                 db.Entry(tipoA).State = EntityState.Modified;
                 if (ModelState.IsValid)
                 {
                     TipoDeCambio tipo = new TipoDeCambio();
-                    tipo.valor = (int)model.valor;
+                    d = model.valor * 10000;
+                    b = System.Math.Truncate(d);
+                    int n = int.Parse(b + "");
+                    tipo.valor = n;
                     tipo.fecha = DateTime.Now;
                     tipo.estado = "Activo";
                     tipoA.estado = "Inactivo";
@@ -46,7 +50,10 @@ namespace WebApplication4.Controllers
                 if (ModelState.IsValid)
                 {
                     TipoDeCambio tipo = new TipoDeCambio();
-                    tipo.valor = (int)model.valor;
+                    d = model.valor * 10000;
+                    b = System.Math.Truncate(d);
+                    int n = int.Parse(b + "");
+                    tipo.valor = n;
                     tipo.fecha = DateTime.Now;
                     tipo.estado = "Activo";
                     db.TipoDeCambio.Add(tipo);
@@ -54,7 +61,7 @@ namespace WebApplication4.Controllers
                     return RedirectToAction("Index", "TipoDeCambio");
                 }
             }
-            return RedirectToAction("Index", "TipoDeCambio");
+            return View("Index");
         }
 
 

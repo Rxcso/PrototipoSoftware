@@ -9,6 +9,8 @@ namespace WebApplication4.Controllers
     {
         //Padre de todas las categorias
         public const int Categorias = 1;
+        //Constante para numero de decimales de tipo de cambio
+        public const int ConstanteTipoCambio = 10000;
         //Identificador de un evento nuevo
         public const string NuevoEventoImagen = "/Doesnt/Exists/Yet";
         //crear evento
