@@ -244,7 +244,6 @@ namespace WebApplication4.Models
         [RegularExpression("^[a-zA-ZáéíóúÁÉÍÓÚ ]*$", ErrorMessage = "Apellidos no deben ser alfanumericos.")]
         public string apellido { get; set; }
 
-        [Required(ErrorMessage = "Campo Requerido.")]
         [Range(1, 3)]
         [Display(Name = "Tipo de Doc.")]
         public int tipoDoc { get; set; }
