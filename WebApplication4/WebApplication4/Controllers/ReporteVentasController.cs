@@ -77,6 +77,7 @@ namespace WebApplication4.Controllers
                     if (lt.Count > 0)
                     {
                         double total = 0;
+                        double dev = 0;
                         Turno t = lt.First();
                         r.punto = db.PuntoVenta.Find(t.codPuntoVenta).ubicacion;
                         List<Ventas> lven2 = db.Ventas.Where(c => c.Estado == "Pagado" && c.vendedor == no).ToList();
@@ -84,8 +85,10 @@ namespace WebApplication4.Controllers
                         for (int k = 0; k < lven.Count; k++)
                         {
                             total += (double)lven[k].MontoTotalSoles;
+                            dev += (double)lven[k].montoDev;
                         }
                         r.total = total;
+                        r.devtotal = dev;
                         to += total;
                         lr.Add(r);
                     }

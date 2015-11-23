@@ -63,7 +63,7 @@ namespace WebApplication4.Controllers
 
                 if (quedan < paquete.cantEntradas)
                 {
-                    return "No se pudo realizar la reserva, solo puede reservar hasta  " + quedan + "entradas";
+                    return "No se pudo realizar la reserva, solo puede reservar hasta  " + quedan + " entradas";
                 }
                 //Luego se hace la reserva de esto, 
                 //Establecer sincronia es lo mas complicado
@@ -95,9 +95,7 @@ namespace WebApplication4.Controllers
                         VentasXFuncion vf = new VentasXFuncion();
                         vf.hanEntregado = false;
                         vf.codVen = ve.codVen;
-
                         idVenta = ve.codVen;
-
                         vf.cantEntradas = paquete.cantEntradas;
                         vf.codFuncion = paquete.idFuncion;
                         vf.Ventas = ve;
@@ -172,6 +170,7 @@ namespace WebApplication4.Controllers
             EmailController.EnviarCorreoReserva(idVenta, User.Identity.Name);
             return "Ok";
         }
+
         public JsonResult LimpiaR1()
         {
             Session["ReporteEventos"] = null;
@@ -180,7 +179,11 @@ namespace WebApplication4.Controllers
 
         public JsonResult ReporteEvento1(string fd, string fh)
         {
+
             double to = 0;
+            int codFuncion;
+            int cantLibres;
+            int cantTotal;
             DateTime dt1 = DateTime.Parse(fd);
             DateTime dt2 = DateTime.Now;
             if (fh != null && fh != "")
@@ -195,8 +198,12 @@ namespace WebApplication4.Controllers
             DateTime di = dt1;
             if (dt1 > dt2) return Json("Fecha inicio debe ser menor que fecha fin", JsonRequestBehavior.AllowGet);
             List<ReporteEventosModel> lr = new List<ReporteEventosModel>();
-            List<Eventos> lv = db.Eventos.Where(c => (c.fecha_inicio >= dt1.Date) && (c.fecha_fin <= dt2.Date)).ToList();
 
+            List<Eventos> lv1 = db.Eventos.Where(c => c.fecha_inicio >= dt1.Date).ToList();
+            List<Eventos> lv = lv1.Where(c => c.fecha_fin <= dt2.Date).ToList();
+            List<Funcion> lf;
+            List<ZonaxFuncion> lzf;
+            List<ZonaEvento> lze;
             for (int i = 0; i < lv.Count; i++)
             {
                 ReporteEventosModel r = new ReporteEventosModel();
@@ -205,13 +212,80 @@ namespace WebApplication4.Controllers
                 int valorID = (int)lv[i].idOrganizador;
                 Organizador queryO = db.Organizador.Where(c => c.codOrg == valorID).First();
                 r.nombreOrganizador = queryO.nombOrg;
-                valorID = (int)lv[i].idLocal;
-                Local querL = db.Local.Where(c => c.codLocal == valorID).First();
-                r.local = querL.ubicacion;
+
                 valorID = (int)lv[i].idRegion;
                 Region querR = db.Region.Where(c => c.idRegion == (int)valorID).First();
                 r.region = querR.nombre;
-                lr.Add(r);
+
+                valorID = (int)lv[i].idLocal;
+
+                if (valorID != 0)
+                {
+                Local querL = db.Local.Where(c => c.codLocal == valorID).First();
+                r.local = querL.ubicacion;
+
+                }
+                else
+                {
+                    r.local = lv[i].direccion;
+                }
+
+                valorID = (int)lv[i].codigo;
+                lf = db.Funcion.Where(c => c.codEvento == valorID).ToList();
+                DateTime fecha, hora;
+
+                cantTotal = 0;
+                lze = db.ZonaEvento.Where(c => c.codEvento == valorID).ToList();
+                for (int h = 0; h < lze.Count; h++)
+                {
+                    cantTotal = cantTotal + lze[h].aforo;
+                }
+
+                for (int j = 0; j < lf.Count; j++)
+                {
+                    fecha = (DateTime)lf[j].fecha;
+                    r.fechaFuncion = fecha.Date;
+                    hora = (DateTime)lf[j].horaIni;
+                    r.horaFuncion = hora.Hour;
+                    //cantidades de entradas disponibles
+                    cantLibres = 0;
+                    codFuncion = (int)lf[j].codFuncion;
+                    lzf = db.ZonaxFuncion.Where(c => c.codFuncion == codFuncion).ToList();
+                    for (int k = 0; k < lzf.Count; k++)
+                    {
+                        cantLibres = cantLibres + lzf[k].cantLibres;
+                    }
+                    r.entradasDisponibles = cantLibres;
+                    //cantidades de entradas vendidas
+
+                    r.entradasVendidas = cantTotal - cantLibres;
+                    //estado de la funcion
+                    r.EstadoFunción = lf[j].estado;
+                    lr.Add(r);
+
+                    r = new ReporteEventosModel();
+                    r.codigoEvento = lv[i].codigo;
+                    r.nombreEvento = lv[i].nombre;
+                    valorID = (int)lv[i].idOrganizador;
+                    queryO = db.Organizador.Where(c => c.codOrg == valorID).First();
+                    r.nombreOrganizador = queryO.nombOrg;
+
+                valorID = (int)lv[i].idRegion;
+                    querR = db.Region.Where(c => c.idRegion == (int)valorID).First();
+                r.region = querR.nombre;
+                    valorID = (int)lv[i].idLocal;
+                    if (valorID != 0)
+                    {
+                        Local querL = db.Local.Where(c => c.codLocal == valorID).First();
+                        r.local = querL.ubicacion;
+
+            }
+                    else
+                    {
+                        r.local = lv[i].direccion;
+                    }
+                }
+
             }
 
             Session["ReporteEventos"] = lr;
@@ -1352,10 +1426,9 @@ namespace WebApplication4.Controllers
                 ModelState.AddModelError(string.Empty, "No hay Evento");
                 return Redirect("~/Home/Index");
             }
-
-
             //Cargamos en el ViewBag el evento
             ViewBag.evento = evento;
+
             //Cargamos el nombre del local
             try
             {
@@ -1369,12 +1442,9 @@ namespace WebApplication4.Controllers
 
             //Detalle ... Como se considera si ya hay local?
             ViewBag.Region = db.Region.Where(c => c.idRegion == evento.idRegion).First().nombre;
-
             ViewBag.Categoria = db.Categoria.Where(c => c.idCategoria == evento.idCategoria).First().nombre;
             ViewBag.Subcategoria = db.Categoria.Where(c => c.idCategoria == evento.idSubcategoria).First().nombre;
-
             var veoAsientos = true;
-
             //Debo saber si el evento esta a la venta
             if (evento.fecha_fin < DateTime.Today)
             {
@@ -1383,7 +1453,6 @@ namespace WebApplication4.Controllers
             }
             else
             {
-
                 int bloqueVenta = 0;
                 try
                 {
@@ -1449,9 +1518,9 @@ namespace WebApplication4.Controllers
                         {
 
                             if (primero)
-                            {
+                        {
                                 ViewBag.ListPeriodos.Add( "Del "+precio.PeriodoVenta.fechaInicio.Value.ToShortDateString()+ " Al "+ precio.PeriodoVenta.fechaFin.Value.ToShortDateString()); 
-                            }
+                        }
 
                             listaPrecios[ii].Add( (double)precio.precio );
                             jj++;
@@ -1482,9 +1551,14 @@ namespace WebApplication4.Controllers
                     ViewBag.textoFunciones = "No hay funciones";
                 }
 
+                funciones = new List<Funcion>();
                 try
                 {
-                    funciones = db.Funcion.Where(c => c.codEvento == evento.codigo && c.estado != "CANCELADO" && c.fecha >= DateTime.Now).ToList();
+                    var funcAux = db.Funcion.Where(c => c.codEvento == evento.codigo && c.estado != "CANCELADO").ToList();
+                    foreach (Funcion fun in funcAux)
+                    {
+                        if (fun.fecha >= DateTime.Now) funciones.Add(fun);
+                    }
                     //agrupo las fechas unicas de las funciones y las ordeno ascendentemente
                     //funciones = funciones.GroupBy(c => c.fecha).Select(p => p.First()).OrderBy(c => c.fecha).ToList();
                     List<SelectListItem> listaNFunciones = new List<SelectListItem>();
@@ -1505,13 +1579,8 @@ namespace WebApplication4.Controllers
                     ViewBag.ListFunciones = new List<Funcion>(0);
                     veoAsientos = false;
                 }
-
-
-
             }
-
             ViewBag.VeoAsientos = veoAsientos;
-
             //para que se carguen los destacados al lado
             List<Eventos> listaDestacados = new List<Eventos>(0);
             try
@@ -1523,10 +1592,58 @@ namespace WebApplication4.Controllers
 
             }
             ViewBag.ListaDestacados = listaDestacados;
-
             return View(new PaqueteEntradas((int)id));
         }
 
+        private bool validarItemCarrito(PaqueteEntradas paquete)
+        {
+            //si el carrito esta vacio, lo ingreso
+            if (Session["Carrito"] == null)
+            {
+                TempData["tipo"] = "alert alert-success";
+                TempData["message"] = "Entradas agregadas al carrito :)";
+                return true;
+            }
+            //si tiene items tengo que buscar que no este
+            bool indicador = true;
+            Eventos evento = db.Eventos.Find(paquete.idEvento);
+            int maxCompra = evento.maxReservas;
+            List<PaqueteEntradas> carrito = (List<PaqueteEntradas>)Session["Carrito"];
+            //si existe en el carrito
+            if (carrito.Any(c => c.idEvento == paquete.idEvento))
+            {
+                PaqueteEntradas existente = carrito.Where(c => c.idEvento == paquete.idEvento).First();
+                if (maxCompra < existente.cantEntradas + paquete.cantEntradas)
+                {//si en conjunto supera el maximo de compra, seteo la cantidad de entradas al maximo
+                    existente.cantEntradas = maxCompra;
+                    TempData["tipo"] = "alert alert-success";
+                    TempData["message"] = "Superó el limite de compra del evento. Solo se añadieron " + maxCompra + ".";
+                }
+                else
+                {//si no supera, lo arreglo al carrito
+                    existente.cantEntradas += paquete.cantEntradas;
+                    TempData["tipo"] = "alert alert-success";
+                    TempData["message"] = "Entradas agregadas al carrito :) Solo puede agregar " + (maxCompra - existente.cantEntradas) +" entradas más.";
+                }
+                return indicador;
+            }
+            else
+            {//si no existe en el carrito
+                if (paquete.cantEntradas > maxCompra)
+                {
+                    TempData["tipo"] = "alert alert-warning";
+                    TempData["message"] = "No se pudo agregar las entradas al carrito, solo puede comprar hasta  " + maxCompra + " entradas";
+                    indicador = false;
+                }
+                else
+                {
+                    TempData["tipo"] = "alert alert-success";
+                    TempData["message"] = "Entradas agregadas al carrito :)";
+                }
+            }
+            Session["Carrito"] = carrito;
+            return indicador;
+        }
         [HttpPost]
         [AllowAnonymous]
         public ActionResult Entradas(PaqueteEntradas paquete, string boton)
@@ -1552,20 +1669,6 @@ namespace WebApplication4.Controllers
                 }
                 else if (boton.CompareTo("carrito") == 0)
                 {
-                    int quedan = BuscaEntradasQueQuedan(paquete.idFuncion, paquete.idZona);
-
-                    if (quedan == 0)
-                    {
-                        TempData["tipo"] = "alert alert-warning";
-                        TempData["message"] = "Ya no le quedan entradas disponibles para el evento.";
-                        return Redirect("~/Evento/VerEvento/" + paquete.idEvento);
-                    }
-                    if (quedan < paquete.cantEntradas)
-                    {
-                        TempData["tipo"] = "alert alert-warning";
-                        TempData["message"] = "No se pudo agregar entradas al carrito, solo puede comprar " + quedan + " entradas como maximo.";
-                        return Redirect("~/Evento/VerEvento/" + paquete.idEvento);
-                    }
                     //si el carrito es null, creo un nuevo carrito
                     if (Session["Carrito"] == null)
                     {
@@ -1950,8 +2053,6 @@ namespace WebApplication4.Controllers
             return Json(listaNueva, JsonRequestBehavior.AllowGet);
         }
 
-
-
         [HttpPost]
         public ActionResult DelComment(int cod, int codEvento)
         {
@@ -1998,8 +2099,5 @@ namespace WebApplication4.Controllers
             return Json("Eliminado exitoso", JsonRequestBehavior.AllowGet);
 
         }
-
-
-
     }
 }

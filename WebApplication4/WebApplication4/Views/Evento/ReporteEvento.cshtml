@@ -75,6 +75,7 @@
                     <th>Organizador</th>
                     <th>Fecha Función</th>
                     <th>Hora Ini Función</th>
+                    <th>Estado de Función</th>
                     <th>Entradas Disponibles</th>
                     <th>Entradas Vendidas</th>
                     <th>Local</th>
@@ -84,18 +85,19 @@
             <tbody id="tbody">               
                        @foreach (var row in lev)
                        {
-                            <tr id=@row.codigoEvento onclick="myFunction(this)">
-                                <td>@row.codigoEvento</td>
-                                <td>@row.nombreEvento</td>
-                                <td>@row.nombreOrganizador</td>
-                                <td>@row.fechaFuncion</td>
-                                <td>@row.horaFuncion</td>
-                                <td>@row.entradasDisponibles</td>
-                                <td>@row.entradasVendidas</td>
-                                <td>@row.local</td>
-                                <td>@row.region</td>
-                            </tr>
-                        }
+                        <tr id=@row.codigoEvento onclick="myFunction(this)">
+                            <td>@row.codigoEvento</td>
+                            <td>@row.nombreEvento</td>
+                            <td>@row.nombreOrganizador</td>
+                            <td>@row.fechaFuncion</td>
+                            <td>@row.horaFuncion</td>
+                            <td>@row.EstadoFunción</td>
+                            <td>@row.entradasDisponibles</td>
+                            <td>@row.entradasVendidas</td>
+                            <td>@row.local</td>
+                            <td>@row.region</td>
+                        </tr>
+                       }
                 @{
                     
                     Session["ReporteEventos"] = null;                  

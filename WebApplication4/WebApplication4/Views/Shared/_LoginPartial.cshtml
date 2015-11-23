@@ -8,53 +8,49 @@
     <div class="modal fade" id="logInCliente">
         <!--esta div pondra la pantalla oscura al presionar el boton-->
         <div class="modal-dialog">
-            <div class="modal-content">
-                <!--ACA VA EL CONTENIDO DEL MODAL-->
+            <div class="modal-content">                
                 <!--header de la ventana modal-->
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
-                    <h4 class="modal-title">Iniciar Sesión</h4>
+                    <h4 class="modal-title">Iniciar sesión</h4>
                 </div>
                 <!--contenido de la ventana modal-->
                 <div class="modal-body">
-                    <section id="loginForm">
+                    
                         @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" , id ="logInForm"}))
                         {
                             @Html.AntiForgeryToken()
                                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                                     <div class="form-group">
-                                        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-                                        <div class="col-md-10">
+                                        @Html.LabelFor(m => m.Email, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-8">
                                             @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
                                             @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                                        <div class="col-md-10">
+                                        @Html.LabelFor(m => m.Password, new { @class = "col-md-3 control-label" })
+                                        <div class="col-md-8">
                                             @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
                                             @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <div class="col-md-offset-2 col-md-10">
+                                        <div class="col-md-offset-3 col-md-8">
                                             <div class="checkbox">
-                                                @Html.CheckBoxFor(m => m.RememberMe)
-                                                @Html.LabelFor(m => m.RememberMe)
+                                                <label>
+                                                    @Html.CheckBoxFor(m => m.RememberMe) No cerrar sesión
+                                                </label>
                                             </div>
                                         </div>
                                     </div>
                             
-                                    <div class="form-group">
-
-                                        <div class="modal-footer">
-                                            <a href="@Url.Action("RegisterClient", "Account")" type="button" class="btn btn-default pull-left"><span class="glyphicon glyphicon-pencil"> </span>No estoy Registrado</a>
-                                            <input type="submit" value="Ingresar" class="btn btn-primary" />
-                                        </div>                                        
-                                    </div>
+                                    <div class="modal-footer">
+                                        <a href="@Url.Action("RegisterClient", "Account")" type="button" class="btn btn-default pull-left"><span class="glyphicon glyphicon-pencil"></span> No estoy registrado</a>
+                                        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-log-in"></span> Ingresar</button>
+                                    </div> 
                         }
-                    </section>
-                    @*<a href="@Url.Action("RegisterClient", "Account")" type="button" class="btn btn-default pull-left"><span class="glyphicon glyphicon-pencil"> </span>No estoy Registrado</a>*@
+                                        
                 </div>
             </div>
         </div>

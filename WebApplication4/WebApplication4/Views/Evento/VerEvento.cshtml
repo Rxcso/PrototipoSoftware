@@ -246,7 +246,11 @@
                                                     <div class="col-md-6">
                                                         <button type="submit" name="boton" value="carrito" class="btn btn-success pull-right ">Agregar al carrito <span class="glyphicon glyphicon-shopping-cart"></span></button>
                                                     </div>
+<<<<<<< HEAD
                                                     if (Request.IsAuthenticated && ((Boolean)ViewBag.evento.permiteReserva))
+=======
+                                                    if (Request.IsAuthenticated && ViewBag.evento.permiteReserva)
+>>>>>>> 04af653002f2d4a3e3d6a8cb9cdbdc23833bccfd
                                                     {
                                                         <div class="col-md-6">
                                                             <button type="submit" name="boton" value="reservar" class="btn btn-primary pull-right">Reservar <span class="glyphicon glyphicon-save"></span></button>

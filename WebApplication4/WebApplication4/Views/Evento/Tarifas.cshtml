@@ -15,7 +15,14 @@
         modificado = 1;
     }
 }
-
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li><a href="@Url.Action("Index","Evento")">Mantenimiento de eventos</a></li>
+            <li class="active">Tarifas</li>
+        </ol>
+    </div>
+</div>
 <div class="tab-pane fade in container" id="tarifas">
     <h3>Tarifas</h3>
     <h4>@ViewBag.MensajeError</h4>
@@ -35,22 +42,22 @@
             {
                 <table class="table table-bordered table-hover" id="tarifario">
                     <thead>
-                        <tr class="active">
-                            <th>Nº</th>
-                            <th>Tipo de entrada/Zona</th>
+                        <tr>
+                            <td>Nº</td>
+                            <td>Tipo de entrada/Zona</td>
                             @for (int i = 0; i < nombresHeaderTabla.Count; i++)
                             {
-                                <th>@nombresHeaderTabla[i]</th>
+                                <td>Precios @nombresHeaderTabla[i]</td>
                             }
-                            <th>Cantidad de entradas</th>
-                            <th>¿Quitar?</th>
+                            <td>Cantidad de entradas</td>
+                            <td>¿Quitar?</td>
                         </tr>
                     </thead>
                     <tbody>
                         @{
                 if (ViewBag.TarifasDelEvento != null)
                 {
-                    for (int i = 0; i < nombresHeaderTabla.Count && i<model.ListaZEM.Count; i++)
+                    for (int i = 0; i < nombresHeaderTabla.Count && i < model.ListaZEM.Count; i++)
                     {
                         <tr id="@(i+1)" data-zona="@(model.ListaZEM[i].Id)">
                             <td>@(i + 1)</td>
@@ -74,4 +81,3 @@
     @Html.Hidden("modificado", "" + modificado)
     <script type="text/javascript" src="@Url.Content("/Scripts/RegisterEvento/TarifasHelper.js")"></script>
 </div>
-

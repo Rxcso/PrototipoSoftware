@@ -52,6 +52,9 @@ namespace WebApplication4.Models
         [Display(Name = "Monto en Efectivo:")]
         public double MontoEfe { get; set; }
 
+        [Display(Name = "Monto Efectivo en Dolares:")]
+        public double? MontoDolares { get; set; }
+
         [Display(Name = "Monto en Tarjeta:")]
         public double MontoTar { get; set; }
 

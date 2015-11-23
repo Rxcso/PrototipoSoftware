@@ -331,6 +331,7 @@ namespace WebApplication4.Controllers
             return indicador;
         }
 
+
         [HttpPost]
         [AllowAnonymous]
         public ActionResult ComprarEntradaReservadaA(ComprarEntradaReservadaAModel model)
@@ -1006,34 +1007,54 @@ namespace WebApplication4.Controllers
                 cliente.telefono = model.telefono;
                 cliente.telMovil = model.telMovil;
                 cliente.tipoDoc = model.tipoDoc;
-                if (model.fechaNac > DateTime.Today || model.fechaNac < Convert.ToDateTime("01/01/1900"))
-                {
-                    ModelState.AddModelError("fechaNac", "La fecha con rango inválido");
-                    return View(model);
-                }
+
+                int error = 0;
+
                 if (model.tipoDoc == 1)
                 {
                     if (model.codDoc.Length != 8)
                     {
                         ModelState.AddModelError("codDoc", "El DNI debe tener 8 dígitos");
-                        return View(model);
+                        error = 1;
                     }
 
+                    if (model.fechaNac > DateTime.Today || model.fechaNac < Convert.ToDateTime("01/01/1900"))
+                    {
+                        ModelState.AddModelError("fechaNac", "La fecha con rango inválido");
+                        error = 1;
+                    }
                 }
                 else
                 {
                     if (model.codDoc.Length != 12)
                     {
                         ModelState.AddModelError("codDoc", "El Pasaporte debe tener 12 dígitos");
+                        error = 1;
+                    }
+
+                    if (model.fechaNac > DateTime.Today || model.fechaNac < Convert.ToDateTime("01/01/1900"))
+                    {
+                        ModelState.AddModelError("fechaNac", "La fecha con rango inválido");
+                        error = 1;
+                    }
+
+                    if (error != 1)
+                    {
+                        db.SaveChanges();
+                        TempData["tipo"] = "alert alert-success";
+                        TempData["message"] = "Datos Actualizados Exitosamente";
+                        return RedirectToAction("MiCuenta");
+                    }
+
+                    else
+                    {
                         return View(model);
                     }
 
                 }
-                db.SaveChanges();
-                TempData["tipo"] = "alert alert-success";
-                TempData["message"] = "Datos Actualizados Exitosamente";
-                return RedirectToAction("MiCuenta");
+
             }
+
             return View(model);
         }
 
@@ -1346,6 +1367,10 @@ namespace WebApplication4.Controllers
                 {
                     me1 = " 1.Error Negativo\n";
                 }
+            }
+            else
+            {
+                me1 = " 1.Error Número Decimal\n";
             }
             if (dur == "e")
             {

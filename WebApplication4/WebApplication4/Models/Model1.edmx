@@ -234,6 +234,17 @@
           <Property Name="idProvincia" Type="int" />
           <Property Name="idRegion" Type="int" />
         </EntityType>
+        <EntityType Name="LogDevoluciones">
+          <Key>
+            <PropertyRef Name="codLog" />
+          </Key>
+          <Property Name="codLog" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="codDetalleVenta" Type="int" Nullable="false" />
+          <Property Name="codVendedor" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="cantEntradas" Type="int" />
+          <Property Name="fechaDev" Type="datetime" />
+          <Property Name="montoDev" Type="float" />
+        </EntityType>
         <EntityType Name="Organizador">
           <Key>
             <PropertyRef Name="codOrg" />
@@ -358,7 +369,7 @@
             <PropertyRef Name="fecha" />
           </Key>
           <Property Name="fecha" Type="datetime" Nullable="false" />
-          <Property Name="valor" Type="float" />
+          <Property Name="valor" Type="int" />
           <Property Name="estado" Type="varchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="TipoTarjeta">
@@ -386,6 +397,7 @@
           <Property Name="MontoInicioDolares" Type="float" />
           <Property Name="MontoFinSoles" Type="float" />
           <Property Name="MontoFinDolares" Type="float" />
+          <Property Name="HoraSalida" Type="datetime" />
         </EntityType>
         <EntityType Name="TurnoSistema">
           <Key>
@@ -747,7 +759,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="R_38">
-          <End Role="Ventas" Type="Self.Ventas" Multiplicity="1" />
+          <End Role="Ventas" Type="Self.Ventas" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="VentasXFuncion" Type="Self.VentasXFuncion" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Ventas">
@@ -875,7 +889,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="R_62">
-          <End Role="VentasXFuncion" Type="Self.VentasXFuncion" Multiplicity="1" />
+          <End Role="VentasXFuncion" Type="Self.VentasXFuncion" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="DetalleVenta" Type="Self.DetalleVenta" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="VentasXFuncion">
@@ -998,6 +1014,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="R_97">
+          <End Role="CuentaUsuario" Type="Self.CuentaUsuario" Multiplicity="1" />
+          <End Role="LogDevoluciones" Type="Self.LogDevoluciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CuentaUsuario">
+              <PropertyRef Name="usuario" />
+            </Principal>
+            <Dependent Role="LogDevoluciones">
+              <PropertyRef Name="codVendedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_99">
+          <End Role="DetalleVenta" Type="Self.DetalleVenta" Multiplicity="1" />
+          <End Role="LogDevoluciones" Type="Self.LogDevoluciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DetalleVenta">
+              <PropertyRef Name="codDetalleVenta" />
+            </Principal>
+            <Dependent Role="LogDevoluciones">
+              <PropertyRef Name="codDetalleVenta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="inf245netsoftModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Asientos" EntityType="Self.Asientos" Schema="dbo" store:Type="Tables" />
@@ -1017,6 +1057,7 @@
           <EntitySet Name="Funcion" EntityType="Self.Funcion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HoraReserva" EntityType="Self.HoraReserva" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Local" EntityType="Self.Local" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LogDevoluciones" EntityType="Self.LogDevoluciones" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Organizador" EntityType="Self.Organizador" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pago" EntityType="Self.Pago" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PeriodoVenta" EntityType="Self.PeriodoVenta" Schema="dbo" store:Type="Tables" />
@@ -1208,6 +1249,14 @@
             <End Role="PuntoVenta" EntitySet="PuntoVenta" />
             <End Role="Turno" EntitySet="Turno" />
           </AssociationSet>
+          <AssociationSet Name="R_97" Association="Self.R_97">
+            <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
+            <End Role="LogDevoluciones" EntitySet="LogDevoluciones" />
+          </AssociationSet>
+          <AssociationSet Name="R_99" Association="Self.R_99">
+            <End Role="DetalleVenta" EntitySet="DetalleVenta" />
+            <End Role="LogDevoluciones" EntitySet="LogDevoluciones" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -1239,6 +1288,7 @@
           <NavigationProperty Name="Comentarios" Relationship="inf245netsoftModel.R_32" FromRole="CuentaUsuario" ToRole="Comentarios" />
           <NavigationProperty Name="Ventas" Relationship="inf245netsoftModel.R_30" FromRole="CuentaUsuario" ToRole="Ventas" />
           <NavigationProperty Name="Ventas1" Relationship="inf245netsoftModel.R_34" FromRole="CuentaUsuario" ToRole="Ventas" />
+          <NavigationProperty Name="LogDevoluciones" Relationship="inf245netsoftModel.R_97" FromRole="CuentaUsuario" ToRole="LogDevoluciones" />
           </EntityType>
         <EntityContainer Name="inf245netsoft" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="CuentaUsuario" EntityType="Self.CuentaUsuario" />
@@ -1263,7 +1313,6 @@
             <End Role="Regalo" EntitySet="Regalo" />
             <End Role="RegaloXCuenta" EntitySet="RegaloXCuenta" />
           </AssociationSet>
-          <EntitySet Name="TipoDeCambio" EntityType="inf245netsoftModel.TipoDeCambio" />
           <EntitySet Name="Organizador" EntityType="inf245netsoftModel.Organizador" />
           <EntitySet Name="PuntoVenta" EntityType="inf245netsoftModel.PuntoVenta" />
           <EntitySet Name="Region" EntityType="inf245netsoftModel.Region" />
@@ -1440,6 +1489,16 @@
             <End Role="Ventas" EntitySet="Ventas" />
             <End Role="VentasXFuncion" EntitySet="VentasXFuncion" />
           </AssociationSet>
+          <EntitySet Name="LogDevoluciones" EntityType="inf245netsoftModel.LogDevoluciones" />
+          <AssociationSet Name="R_97" Association="inf245netsoftModel.R_97">
+            <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
+            <End Role="LogDevoluciones" EntitySet="LogDevoluciones" />
+          </AssociationSet>
+          <AssociationSet Name="R_99" Association="inf245netsoftModel.R_99">
+            <End Role="DetalleVenta" EntitySet="DetalleVenta" />
+            <End Role="LogDevoluciones" EntitySet="LogDevoluciones" />
+          </AssociationSet>
+          <EntitySet Name="TipoDeCambio" EntityType="inf245netsoftModel.TipoDeCambio" />
           </EntityContainer>
         <EntityType Name="Banco">
           <Key>
@@ -1549,14 +1608,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="TipoDeCambio">
-          <Key>
-            <PropertyRef Name="fecha" />
-          </Key>
-          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="valor" Type="Double" />
-          <Property Name="estado" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="Organizador">
           <Key>
             <PropertyRef Name="codOrg" />
@@ -1844,6 +1895,7 @@
           <NavigationProperty Name="TurnoSistema" Relationship="inf245netsoftModel.R_12" FromRole="Turno" ToRole="TurnoSistema" />
           <Property Name="estadoCaja" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="horaRegistro" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="HoraSalida" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="TurnoSistema">
           <Key>
@@ -2309,6 +2361,7 @@
           <Property Name="montoDev" Type="Double" Nullable="false" />
           <NavigationProperty Name="PrecioEvento" Relationship="inf245netsoftModel.R_60" FromRole="DetalleVenta" ToRole="PrecioEvento" />
           <NavigationProperty Name="VentasXFuncion" Relationship="inf245netsoftModel.R_62" FromRole="DetalleVenta" ToRole="VentasXFuncion" />
+          <NavigationProperty Name="LogDevoluciones" Relationship="inf245netsoftModel.R_99" FromRole="DetalleVenta" ToRole="LogDevoluciones" />
         </EntityType>
         <EntityType Name="Ventas">
           <Key>
@@ -2427,6 +2480,51 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="LogDevoluciones">
+          <Key>
+            <PropertyRef Name="codLog" />
+          </Key>
+          <Property Name="codLog" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="codDetalleVenta" Type="Int32" Nullable="false" />
+          <Property Name="codVendedor" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="cantEntradas" Type="Int32" />
+          <Property Name="fechaDev" Type="DateTime" Precision="3" />
+          <Property Name="montoDev" Type="Double" />
+          <NavigationProperty Name="CuentaUsuario" Relationship="inf245netsoftModel.R_97" FromRole="LogDevoluciones" ToRole="CuentaUsuario" />
+          <NavigationProperty Name="DetalleVenta" Relationship="inf245netsoftModel.R_99" FromRole="LogDevoluciones" ToRole="DetalleVenta" />
+        </EntityType>
+        <Association Name="R_97">
+          <End Type="inf245netsoftModel.CuentaUsuario" Role="CuentaUsuario" Multiplicity="1" />
+          <End Type="inf245netsoftModel.LogDevoluciones" Role="LogDevoluciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CuentaUsuario">
+              <PropertyRef Name="usuario" />
+            </Principal>
+            <Dependent Role="LogDevoluciones">
+              <PropertyRef Name="codVendedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="R_99">
+          <End Type="inf245netsoftModel.DetalleVenta" Role="DetalleVenta" Multiplicity="1" />
+          <End Type="inf245netsoftModel.LogDevoluciones" Role="LogDevoluciones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DetalleVenta">
+              <PropertyRef Name="codDetalleVenta" />
+            </Principal>
+            <Dependent Role="LogDevoluciones">
+              <PropertyRef Name="codDetalleVenta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TipoDeCambio">
+          <Key>
+            <PropertyRef Name="fecha" />
+          </Key>
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="valor" Type="Int32" />
+          <Property Name="estado" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2507,15 +2605,6 @@
                 <ScalarProperty Name="usuario" ColumnName="usuario" />
                 <ScalarProperty Name="idRegalo" ColumnName="idRegalo" />
                 <ScalarProperty Name="fechaRecojo" ColumnName="fechaRecojo" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TipoDeCambio">
-            <EntityTypeMapping TypeName="inf245netsoftModel.TipoDeCambio">
-              <MappingFragment StoreEntitySet="TipoDeCambio">
-                <ScalarProperty Name="estado" ColumnName="estado" />
-                <ScalarProperty Name="valor" ColumnName="valor" />
-                <ScalarProperty Name="fecha" ColumnName="fecha" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2663,6 +2752,7 @@
           <EntitySetMapping Name="Turno">
             <EntityTypeMapping TypeName="inf245netsoftModel.Turno">
               <MappingFragment StoreEntitySet="Turno">
+                <ScalarProperty Name="HoraSalida" ColumnName="HoraSalida" />
                 <ScalarProperty Name="horaRegistro" ColumnName="horaRegistro" />
                 <ScalarProperty Name="estadoCaja" ColumnName="estadoCaja" />
                 <ScalarProperty Name="MontoFinDolares" ColumnName="MontoFinDolares" />
@@ -2898,6 +2988,27 @@
                 <ScalarProperty Name="subtotal" ColumnName="subtotal" />
                 <ScalarProperty Name="cantEntradas" ColumnName="cantEntradas" />
                 <ScalarProperty Name="codVen" ColumnName="codVen" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LogDevoluciones">
+            <EntityTypeMapping TypeName="inf245netsoftModel.LogDevoluciones">
+              <MappingFragment StoreEntitySet="LogDevoluciones">
+                <ScalarProperty Name="montoDev" ColumnName="montoDev" />
+                <ScalarProperty Name="fechaDev" ColumnName="fechaDev" />
+                <ScalarProperty Name="cantEntradas" ColumnName="cantEntradas" />
+                <ScalarProperty Name="codVendedor" ColumnName="codVendedor" />
+                <ScalarProperty Name="codDetalleVenta" ColumnName="codDetalleVenta" />
+                <ScalarProperty Name="codLog" ColumnName="codLog" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TipoDeCambio">
+            <EntityTypeMapping TypeName="inf245netsoftModel.TipoDeCambio">
+              <MappingFragment StoreEntitySet="TipoDeCambio">
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="valor" ColumnName="valor" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

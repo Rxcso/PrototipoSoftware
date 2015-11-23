@@ -97,7 +97,7 @@ namespace WebApplication4.Controllers
                         listaPromociones.Add(promocion);
                     }
                 }
-                ViewBag.Descuento = 0;
+                ViewBag.Descuento = descuento;
                 ViewBag.Promociones = listaPromociones;
                 ViewBag.Total = total;
                 ViewBag.Pagar = total - 0;
@@ -139,8 +139,10 @@ namespace WebApplication4.Controllers
         private bool validacionVenta(VenderEntradaModel model)
         {
             bool indicador = true;
-            //si es una compra mixta
-            if (model.MontoEfe <= model.MontoPagar)
+            Politicas montoMinTarjeta = db.Politicas.Find(3);
+            double montoMin = montoMinTarjeta.valor.Value;
+            //si se utiliza tarjeta, tiene que ser mayor al monto minimo segun las politicas
+            if (model.MontoTar > montoMin)
             {
                 //usa tarjeta, verificar que hayan datos de la tarjeta
                 if (String.IsNullOrEmpty(model.NumeroTarjeta))
@@ -162,6 +164,10 @@ namespace WebApplication4.Controllers
                     ModelState.AddModelError("CodCcv", "El campo CCV: es obligatorio.");
                     indicador = false;
                 }
+            }
+            else
+            {
+                ModelState.AddModelError("MontoTar", "Se debe pagar como mínimo " + montoMin + "soles.");
             }
             return indicador;
         }
@@ -186,7 +192,7 @@ namespace WebApplication4.Controllers
                             int cantidadEntradasTotales = carrito.Sum(c => c.cantidad);
                             try
                             {//si es un usuario registrado busco la cuenta y la asigno luego a la venta
-                                cuenta = db.CuentaUsuario.Find(model.Dni);
+                                cuenta = db.CuentaUsuario.Where(c => c.codDoc.CompareTo(model.Dni) == 0).First();
                             }
                             catch (Exception ex)
                             {//si no es un cliente registrado guardo la venta como si fuera anonima
@@ -196,6 +202,7 @@ namespace WebApplication4.Controllers
                             ve.cantAsientos = cantidadEntradasTotales;
                             //de todas maneras en la venta se registra el nombre, dni y tipo de documento del que esta comprando.
                             ve.cliente = model.Nombre;
+                            ve.CuentaUsuario = cuenta;
                             ve.codDoc = model.Dni;
                             //--
                             ve.Estado = MagicHelpers.Compra;
@@ -274,7 +281,8 @@ namespace WebApplication4.Controllers
                                     vf.Funcion = db.Funcion.Find(paquete.idFuncion);
                                     vf.hanEntregado = false;
                                     float? porcDescuento = 0;
-                                    if (model.idPromociones[w] != -1)
+                                    //solo registro la promocion si es una venta solo con tarjeta o solo con efectivo
+                                    if (model.idPromociones[w] != -1 && (ve.modalidad == "T" || ve.modalidad == "E"))
                                     {
                                         int idPromocion = model.idPromociones[w];
                                         Promociones promocion = db.Promociones.Where(c => c.codPromo == idPromocion && c.codEvento == paquete.idEvento).First();
@@ -454,6 +462,7 @@ namespace WebApplication4.Controllers
             db.Entry(turno).State = EntityState.Modified;
             turno.MontoFinDolares = mD;
             turno.MontoFinSoles = mS;
+            turno.HoraSalida = DateTime.Now;
             turno.estadoCaja = "Cerrado";
             db.SaveChanges();
             db.Entry(turno).State = EntityState.Detached;
@@ -1071,7 +1080,7 @@ namespace WebApplication4.Controllers
         public ActionResult DevolverTodo()
         {
             DetalleVenta dv = (DetalleVenta)Session["DetalleVenta"];
-
+            int salvaCantidad;
             Ventas v = db.Ventas.Find(dv.codVen);
             //Ventas v = (Ventas)Session["VentasDev"];
             v.cantAsientos -= (int)dv.cantEntradas;
@@ -1100,7 +1109,7 @@ namespace WebApplication4.Controllers
             vxf.cantEntradas -= (int)dv.cantEntradas;
 
             vxf.montoDev += (double)dv.total;
-            vxf.entradasDev+=(int)dv.cantEntradas;
+            vxf.entradasDev += (int)dv.cantEntradas;
 
             PrecioEvento pe = db.PrecioEvento.Find(dv.codPrecE);
             ZonaEvento ze = db.ZonaEvento.Find(pe.codZonaEvento);
@@ -1111,10 +1120,11 @@ namespace WebApplication4.Controllers
 
             DetalleVenta dvAux = db.DetalleVenta.Find(dv.codDetalleVenta);
             dvAux.entradasDev = dvAux.cantEntradas;
+            salvaCantidad = (int)dvAux.cantEntradas;
             dvAux.cantEntradas = 0;
 
             dvAux.montoDev += (double)dv.total;
-            
+
             /*Session["DetalleVenta"]
             Session["VentaXFunDev"]
             Session["VentasDev"]
@@ -1130,6 +1140,15 @@ namespace WebApplication4.Controllers
                 if (dev[i].codDev == dv.codDetalleVenta)
                     dev.RemoveAt(i);
             Session["BusquedaDev"] = dev;
+
+            LogDevoluciones ld = new LogDevoluciones();
+            //ld.codLog=;
+            ld.codDetalleVenta = dvAux.codDetalleVenta;
+            ld.codVendedor = User.Identity.Name;
+            ld.cantEntradas = salvaCantidad;
+            ld.fechaDev = DateTime.Now;
+            ld.montoDev = dv.total;
+            db.LogDevoluciones.Add(ld);
 
             db.SaveChanges();
             return View("Devolucion");
@@ -1211,10 +1230,19 @@ namespace WebApplication4.Controllers
                     }
                 Session["ListaAsientos"] = axf;
 
+
+                LogDevoluciones ld = new LogDevoluciones();
+                ld.codDetalleVenta = dv.codDetalleVenta;
+                ld.codVendedor = User.Identity.Name;
+                ld.cantEntradas = 1;
+                ld.fechaDev = DateTime.Now;
+                ld.montoDev = axfuncion.PrecioPagado;
+                db.LogDevoluciones.Add(ld);
+
             }
             else // no numerado
             {
-                
+
                 //AsientosXFuncion axfuncion = db.AsientosXFuncion.Find(codAsiento);
                 PrecioEvento pe = db.PrecioEvento.Find(dv.codPrecE);
                 Ventas v = db.Ventas.Find(dv.codVen);
@@ -1247,7 +1275,7 @@ namespace WebApplication4.Controllers
 
                 vxf.montoDev += (double)pe.precio;
                 vxf.entradasDev += 1;
-                
+
                 ZonaEvento ze = db.ZonaEvento.Find(pe.codZonaEvento);
                 if (!ze.tieneAsientos) ze.tieneAsientos = true;
 
@@ -1259,6 +1287,16 @@ namespace WebApplication4.Controllers
                 dvAux.cantEntradas -= 1;
 
                 dvAux.montoDev += (double)pe.precio;
+
+
+                LogDevoluciones ld = new LogDevoluciones();
+                ld.codDetalleVenta = dv.codDetalleVenta;
+                ld.codVendedor = User.Identity.Name;
+                ld.cantEntradas = 1;
+                ld.fechaDev = DateTime.Now;
+                ld.montoDev = pe.precio;
+                db.LogDevoluciones.Add(ld);
+
                 /*Session["DetalleVenta"]
                 Session["VentaXFunDev"]
                 Session["VentasDev"]
@@ -1284,12 +1322,12 @@ namespace WebApplication4.Controllers
             Session["EventoDev"]
             Session["ZonaEventoDev"]
             Session["AsientosDev"]*/
-            
+
             List<DevolucionModel> devolMod = (List<DevolucionModel>)Session["BusquedaDev"];
             int j;
-            for (j = 0; j < devolMod.Count;j++ )
+            for (j = 0; j < devolMod.Count; j++)
             {
-                if (devolMod[j].codDev == dv.codDetalleVenta) break;                                
+                if (devolMod[j].codDev == dv.codDetalleVenta) break;
             }
             devolMod[j].cantAsientos -= 1;
             Session["BusquedaDev"] = devolMod;
@@ -1318,7 +1356,7 @@ namespace WebApplication4.Controllers
             Ventas ven = db.Ventas.Find(venxf.codVen);
             Session["VentasDev"] = ven;
 
-            List<AsientosXFuncion> axf = db.AsientosXFuncion.Where(a => a.codFuncion == detalleVen.codFuncion && a.codDetalleVenta == detalleVen.codDetalleVenta && a.estado=="OCUPADO").ToList();
+            List<AsientosXFuncion> axf = db.AsientosXFuncion.Where(a => a.codFuncion == detalleVen.codFuncion && a.codDetalleVenta == detalleVen.codDetalleVenta && a.estado == "OCUPADO").ToList();
             Session["ListaAsientos"] = axf;
 
             List<Asientos> asientos = null;
@@ -1344,7 +1382,8 @@ namespace WebApplication4.Controllers
             ZonaEvento ze = db.ZonaEvento.Find(pe.codZonaEvento);
 
             Session["ZonaEventoDev"] = ze;
-            if (detalleVen.cantEntradas == 0) {//caso de devolucion parcial.
+            if (detalleVen.cantEntradas == 0)
+            {//caso de devolucion parcial.
                 List<DevolucionModel> dev = (List<DevolucionModel>)Session["BusquedaDev"];
                 for (int i = 0; i < dev.Count; i++)
                     if (dev[i].codDev == id)
@@ -1352,7 +1391,7 @@ namespace WebApplication4.Controllers
                 Session["BusquedaDev"] = dev;
                 return View("Devolucion");
             }
-            else  return View("VerDetalle");
+            else return View("VerDetalle");
         }
 
     }

@@ -9,7 +9,7 @@ namespace WebApplication4.Models
     public class ExtrasModel
     {
         [Required(ErrorMessage="Este campo es obligatorio.")]
-        [Display(Name = "Máximo de reservas")]
+        [Display(Name = "Máximo de reservas/compras")]
         [Range(0, int.MaxValue, ErrorMessage = "Inserte un valor positivo.")]
         public int MaxReservas { get; set; }
 

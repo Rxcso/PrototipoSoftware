@@ -1,6 +1,6 @@
 ﻿function agregaFila() {
     var nZonas = parseInt($('#nZonas').val());
-    var table = document.getElementById("tarifario");
+    var table = document.getElementById("tarifario").getElementsByTagName('tbody')[0];
     var row = table.insertRow();
     row.id = nZonas;
     row.setAttribute("data-zona", "0");
