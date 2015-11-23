@@ -60,5 +60,6 @@ namespace WebApplication4.Models
         public virtual DbSet<DetalleVenta> DetalleVenta { get; set; }
         public virtual DbSet<Ventas> Ventas { get; set; }
         public virtual DbSet<VentasXFuncion> VentasXFuncion { get; set; }
+        public virtual DbSet<LogDevoluciones> LogDevoluciones { get; set; }
     }
 }

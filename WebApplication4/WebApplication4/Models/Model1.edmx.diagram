@@ -81,7 +81,10 @@
         <AssociationConnector Association="inf245netsoftModel.R_62" />
         <AssociationConnector Association="inf245netsoftModel.R_76" />
         <AssociationConnector Association="inf245netsoftModel.R_38" />
-      </Diagram>
+        <EntityTypeShape EntityType="inf245netsoftModel.LogDevoluciones" Width="1.5" PointX="18.125" PointY="6.625" />
+        <AssociationConnector Association="inf245netsoftModel.R_97" />
+        <AssociationConnector Association="inf245netsoftModel.R_99" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

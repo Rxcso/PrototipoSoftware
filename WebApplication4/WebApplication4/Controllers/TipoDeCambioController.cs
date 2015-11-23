@@ -32,7 +32,7 @@ namespace WebApplication4.Controllers
                 if (ModelState.IsValid)
                 {
                     TipoDeCambio tipo = new TipoDeCambio();
-                    tipo.valor = model.valor;
+                    tipo.valor = (int)model.valor;
                     tipo.fecha = DateTime.Now;
                     tipo.estado = "Activo";
                     tipoA.estado = "Inactivo";
@@ -46,7 +46,7 @@ namespace WebApplication4.Controllers
                 if (ModelState.IsValid)
                 {
                     TipoDeCambio tipo = new TipoDeCambio();
-                    tipo.valor = model.valor;
+                    tipo.valor = (int)model.valor;
                     tipo.fecha = DateTime.Now;
                     tipo.estado = "Activo";
                     db.TipoDeCambio.Add(tipo);
