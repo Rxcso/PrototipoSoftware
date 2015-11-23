@@ -9,8 +9,27 @@ namespace WebApplication4.Models
     public class TipoDeCambioModel
     {
         [Required]
-        [RegularExpression(@"^\d+.\d{0,2}$", ErrorMessage = "Tipo de Cambio no debe tener mas de 2 decimales")]
         [Display(Name = "Valor: ")]
-        public float valor { get; set; }
+        [PosNumberAttribute3(ErrorMessage = "Debe ser un numero Positivo mayor que cero")]
+        public double valor { get; set; }
+    }
+
+    public class PosNumberAttribute3 : ValidationAttribute
+    {
+        public override bool IsValid(object value)
+        {
+            if (value == null)
+            {
+                return true;
+            }
+            double getal;
+            if (double.TryParse(value.ToString(), out getal))
+            {
+
+                if (getal >= 0)
+                    return true;
+            }
+            return false;
+        }
     }
 }

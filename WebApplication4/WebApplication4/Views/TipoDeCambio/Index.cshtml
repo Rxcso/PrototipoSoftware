@@ -5,7 +5,7 @@
 
 @{        
     ViewBag.Title = "Index";        
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";    
 }
 
 <div class="container-fluid">
@@ -61,12 +61,11 @@
                     {
                         //se muestra la lista de tipos cambio obtenida
                         <tr>
-                            <td>@row.fecha</td>
+                            <td>@row.fecha.ToString("dd/MM/yyyy")</td>
                             @{
-                        double n1 = (double)row.valor;
-                        //n1.ToString("0.00");
+                                double n1 = (double)row.valor/10000;
                             }
-                            <td>@n1.ToString("0.00")</td>
+                            <td>@n1.ToString("0.000")</td>
                         </tr>
                     }
                 </tbody>

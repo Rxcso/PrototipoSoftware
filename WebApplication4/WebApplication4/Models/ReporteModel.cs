@@ -45,6 +45,8 @@ namespace WebApplication4.Models
 
             public string punto { get; set; }
 
+            public double devtotal { get; set; }
+
             public double total { get; set; }
         }
 
