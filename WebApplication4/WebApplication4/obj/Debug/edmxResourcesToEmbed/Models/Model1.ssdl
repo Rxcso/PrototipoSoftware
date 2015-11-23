@@ -364,7 +364,7 @@
       <PropertyRef Name="fecha" />
     </Key>
     <Property Name="fecha" Type="datetime" Nullable="false" />
-    <Property Name="valor" Type="int" />
+    <Property Name="valor" Type="float" />
     <Property Name="estado" Type="varchar" MaxLength="20" />
   </EntityType>
   <EntityType Name="TipoTarjeta">
