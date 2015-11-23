@@ -54,7 +54,7 @@
             <li><a href="@Url.Action("Index","Home")">Inicio</a></li>
             <li class="active">Evento: @ViewBag.evento.nombre</li>
         </ol>
-    </div>    
+    </div>
 </div>
 
 <div class="container ">
@@ -203,7 +203,7 @@
                                                     <div class="col-md-6">
                                                         <button type="submit" name="boton" value="carrito" class="btn btn-success pull-right ">Agregar al carrito <span class="glyphicon glyphicon-shopping-cart"></span></button>
                                                     </div>
-                                                    if (Request.IsAuthenticated)
+                                                    if (Request.IsAuthenticated && ViewBag.evento.permiteReserva)
                                                     {
                                                         <div class="col-md-6">
                                                             <button type="submit" name="boton" value="reservar" class="btn btn-primary pull-right">Reservar <span class="glyphicon glyphicon-save"></span></button>
