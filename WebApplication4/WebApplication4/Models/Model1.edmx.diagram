@@ -15,7 +15,6 @@
         <EntityTypeShape EntityType="inf245netsoftModel.RegaloXCuenta" Width="1.5" PointX="6" PointY="0.875" />
         <AssociationConnector Association="inf245netsoftModel.FK__RegaloXCu__usuar__4BAC3F29" />
         <AssociationConnector Association="inf245netsoftModel.R_74" />
-        <EntityTypeShape EntityType="inf245netsoftModel.TipoDeCambio" Width="1.5" PointX="0.75" PointY="6.75" />
         <EntityTypeShape EntityType="inf245netsoftModel.Organizador" Width="1.5" PointX="8.375" PointY="8.75" />
         <EntityTypeShape EntityType="inf245netsoftModel.PuntoVenta" Width="1.5" PointX="0.75" PointY="16.5" />
         <EntityTypeShape EntityType="inf245netsoftModel.Region" Width="1.5" PointX="6.125" PointY="12.875" />
@@ -84,6 +83,7 @@
         <EntityTypeShape EntityType="inf245netsoftModel.LogDevoluciones" Width="1.5" PointX="18.125" PointY="6.625" />
         <AssociationConnector Association="inf245netsoftModel.R_97" />
         <AssociationConnector Association="inf245netsoftModel.R_99" />
+        <EntityTypeShape EntityType="inf245netsoftModel.TipoDeCambio" Width="1.5" PointX="8.75" PointY="0.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

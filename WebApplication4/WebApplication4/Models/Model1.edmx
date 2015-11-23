@@ -369,7 +369,7 @@
             <PropertyRef Name="fecha" />
           </Key>
           <Property Name="fecha" Type="datetime" Nullable="false" />
-          <Property Name="valor" Type="float" />
+          <Property Name="valor" Type="int" />
           <Property Name="estado" Type="varchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="TipoTarjeta">
@@ -1313,7 +1313,6 @@
             <End Role="Regalo" EntitySet="Regalo" />
             <End Role="RegaloXCuenta" EntitySet="RegaloXCuenta" />
           </AssociationSet>
-          <EntitySet Name="TipoDeCambio" EntityType="inf245netsoftModel.TipoDeCambio" />
           <EntitySet Name="Organizador" EntityType="inf245netsoftModel.Organizador" />
           <EntitySet Name="PuntoVenta" EntityType="inf245netsoftModel.PuntoVenta" />
           <EntitySet Name="Region" EntityType="inf245netsoftModel.Region" />
@@ -1499,6 +1498,7 @@
             <End Role="DetalleVenta" EntitySet="DetalleVenta" />
             <End Role="LogDevoluciones" EntitySet="LogDevoluciones" />
           </AssociationSet>
+          <EntitySet Name="TipoDeCambio" EntityType="inf245netsoftModel.TipoDeCambio" />
           </EntityContainer>
         <EntityType Name="Banco">
           <Key>
@@ -1608,14 +1608,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="TipoDeCambio">
-          <Key>
-            <PropertyRef Name="fecha" />
-          </Key>
-          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="valor" Type="Double" />
-          <Property Name="estado" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="Organizador">
           <Key>
             <PropertyRef Name="codOrg" />
@@ -2525,6 +2517,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="TipoDeCambio">
+          <Key>
+            <PropertyRef Name="fecha" />
+          </Key>
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="valor" Type="Int32" />
+          <Property Name="estado" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2605,15 +2605,6 @@
                 <ScalarProperty Name="usuario" ColumnName="usuario" />
                 <ScalarProperty Name="idRegalo" ColumnName="idRegalo" />
                 <ScalarProperty Name="fechaRecojo" ColumnName="fechaRecojo" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TipoDeCambio">
-            <EntityTypeMapping TypeName="inf245netsoftModel.TipoDeCambio">
-              <MappingFragment StoreEntitySet="TipoDeCambio">
-                <ScalarProperty Name="estado" ColumnName="estado" />
-                <ScalarProperty Name="valor" ColumnName="valor" />
-                <ScalarProperty Name="fecha" ColumnName="fecha" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -3009,6 +3000,15 @@
                 <ScalarProperty Name="codVendedor" ColumnName="codVendedor" />
                 <ScalarProperty Name="codDetalleVenta" ColumnName="codDetalleVenta" />
                 <ScalarProperty Name="codLog" ColumnName="codLog" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TipoDeCambio">
+            <EntityTypeMapping TypeName="inf245netsoftModel.TipoDeCambio">
+              <MappingFragment StoreEntitySet="TipoDeCambio">
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="valor" ColumnName="valor" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
