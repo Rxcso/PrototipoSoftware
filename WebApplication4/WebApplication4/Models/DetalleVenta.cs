@@ -14,6 +14,11 @@ namespace WebApplication4.Models
     
     public partial class DetalleVenta
     {
+        public DetalleVenta()
+        {
+            this.LogDevoluciones = new HashSet<LogDevoluciones>();
+        }
+    
         public int codDetalleVenta { get; set; }
         public int codVen { get; set; }
         public int codFuncion { get; set; }
@@ -27,5 +32,6 @@ namespace WebApplication4.Models
     
         public virtual PrecioEvento PrecioEvento { get; set; }
         public virtual VentasXFuncion VentasXFuncion { get; set; }
+        public virtual ICollection<LogDevoluciones> LogDevoluciones { get; set; }
     }
 }

@@ -1071,7 +1071,7 @@ namespace WebApplication4.Controllers
         public ActionResult DevolverTodo()
         {
             DetalleVenta dv = (DetalleVenta)Session["DetalleVenta"];
-
+            int salvaCantidad;
             Ventas v = db.Ventas.Find(dv.codVen);
             //Ventas v = (Ventas)Session["VentasDev"];
             v.cantAsientos -= (int)dv.cantEntradas;
@@ -1111,6 +1111,7 @@ namespace WebApplication4.Controllers
 
             DetalleVenta dvAux = db.DetalleVenta.Find(dv.codDetalleVenta);
             dvAux.entradasDev = dvAux.cantEntradas;
+            salvaCantidad = (int)dvAux.cantEntradas;
             dvAux.cantEntradas = 0;
 
             dvAux.montoDev += (double)dv.total;
@@ -1130,6 +1131,15 @@ namespace WebApplication4.Controllers
                 if (dev[i].codDev == dv.codDetalleVenta)
                     dev.RemoveAt(i);
             Session["BusquedaDev"] = dev;
+
+            LogDevoluciones ld = new LogDevoluciones();
+            //ld.codLog=;
+            ld.codDetalleVenta=dvAux.codDetalleVenta;
+            ld.codVendedor=User.Identity.Name;
+            ld.cantEntradas=salvaCantidad;
+            ld.fechaDev=DateTime.Now;
+            ld.montoDev=dv.total;
+            db.LogDevoluciones.Add(ld);
 
             db.SaveChanges();
             return View("Devolucion");
@@ -1211,6 +1221,15 @@ namespace WebApplication4.Controllers
                     }
                 Session["ListaAsientos"] = axf;
 
+
+                LogDevoluciones ld = new LogDevoluciones();
+                ld.codDetalleVenta = dv.codDetalleVenta;
+                ld.codVendedor = User.Identity.Name;
+                ld.cantEntradas = 1;
+                ld.fechaDev = DateTime.Now;
+                ld.montoDev = axfuncion.PrecioPagado;
+                db.LogDevoluciones.Add(ld);
+
             }
             else // no numerado
             {
@@ -1259,6 +1278,16 @@ namespace WebApplication4.Controllers
                 dvAux.cantEntradas -= 1;
 
                 dvAux.montoDev += (double)pe.precio;
+
+
+                LogDevoluciones ld = new LogDevoluciones();
+                ld.codDetalleVenta = dv.codDetalleVenta;
+                ld.codVendedor = User.Identity.Name;
+                ld.cantEntradas = 1;
+                ld.fechaDev = DateTime.Now;
+                ld.montoDev = pe.precio;
+                db.LogDevoluciones.Add(ld);
+
                 /*Session["DetalleVenta"]
                 Session["VentaXFunDev"]
                 Session["VentasDev"]

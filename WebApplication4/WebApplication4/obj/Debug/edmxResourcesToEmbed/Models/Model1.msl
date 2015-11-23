@@ -231,6 +231,7 @@
     <EntitySetMapping Name="Turno">
       <EntityTypeMapping TypeName="inf245netsoftModel.Turno">
         <MappingFragment StoreEntitySet="Turno">
+          <ScalarProperty Name="HoraSalida" ColumnName="HoraSalida" />
           <ScalarProperty Name="horaRegistro" ColumnName="horaRegistro" />
           <ScalarProperty Name="estadoCaja" ColumnName="estadoCaja" />
           <ScalarProperty Name="MontoFinDolares" ColumnName="MontoFinDolares" />
@@ -466,6 +467,18 @@
           <ScalarProperty Name="subtotal" ColumnName="subtotal" />
           <ScalarProperty Name="cantEntradas" ColumnName="cantEntradas" />
           <ScalarProperty Name="codVen" ColumnName="codVen" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LogDevoluciones">
+      <EntityTypeMapping TypeName="inf245netsoftModel.LogDevoluciones">
+        <MappingFragment StoreEntitySet="LogDevoluciones">
+          <ScalarProperty Name="montoDev" ColumnName="montoDev" />
+          <ScalarProperty Name="fechaDev" ColumnName="fechaDev" />
+          <ScalarProperty Name="cantEntradas" ColumnName="cantEntradas" />
+          <ScalarProperty Name="codVendedor" ColumnName="codVendedor" />
+          <ScalarProperty Name="codDetalleVenta" ColumnName="codDetalleVenta" />
+          <ScalarProperty Name="codLog" ColumnName="codLog" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
