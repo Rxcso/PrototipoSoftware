@@ -14,6 +14,7 @@
         promocionesLista = ViewBag.Promociones as List<Promociones>;
         carrito = Session["CarritoItemVentas"] as List<CarritoItem>;
     }
+    double tipoCambio = (double)db.TipoDeCambio.Where(c => c.estado == "Activo").Last().valor / 1000;
 }
 
 <div class="container-fluid">
@@ -74,7 +75,7 @@
                     </div>
                 </div>
             </div>
-            @using (Html.BeginForm("VenderEntrada", "Ventas", FormMethod.Post))
+            @using (Html.BeginForm("VenderEntrada", "Ventas", FormMethod.Post, new { @id = "formPost" }))
             {
                 <div class="row form-group">
                     @Html.LabelFor(c => c.Nombre, new { @class = "control-label col-md-3" })
@@ -96,6 +97,7 @@
                         @Html.DropDownListFor(c => c.idBanco, ViewBag.Bancos as SelectList, new { @disabled = "disabled", @class = "form-control", @onchange = "calculaPromo()" })
                         @Html.ValidationMessageFor(c => c.idBanco)
                     </div>
+                    @Html.HiddenFor(c => c.idBanco)
                 </div>
 
                 <div class="row form-group">
@@ -103,6 +105,7 @@
                     <div class="col-md-4">
                         @Html.DropDownListFor(c => c.idTipoTarjeta, ViewBag.TipoTarjeta as SelectList, new { @disabled = "disabled", @class = "form-control", @onchange = "calculaPromo()" })
                     </div>
+                    @Html.HiddenFor(c => c.idTipoTarjeta)
                 </div>
 
                 <div class="row form-group">
@@ -158,6 +161,13 @@
                     @Html.LabelFor(c => c.MontoEfe, new { @class = "control-label col-md-3" })
                     <div class="col-md-4">
                         @Html.TextBoxFor(c => c.MontoEfe, new { @class = "form-control", @onchange = "llenar()" })
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    @Html.LabelFor(c => c.MontoDolares, new { @class = "control-label col-md-3" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(c => c.MontoDolares, new { @class = "form-control", @onchange = "llenar()", @Value = "0" })
                     </div>
                 </div>
 
@@ -218,7 +228,6 @@
             document.getElementById("idTipoTarjeta").disabled = false;
             document.getElementById("idBanco").disabled = false;
         }
-
     }
 
     function calculaPromo() {
@@ -308,8 +317,6 @@
         var nombreLista2 = "idPromociones";
         var promocionesBTV = document.getElementsByName('promocionesCarrito');
         var eventosBTV = document.getElementsByName('eventosCarrito');
-        //$('#formPost').prepend("<input type='hidden' name='Nombre' id='Nombre' value='" + $('#Nombre').val() + "'>");
-        //$('#formPost').prepend("<input type='hidden' name='Dni' id='Dni' value='" + $('#Dni').val() + "'>");
         for (var i = 0; i < promocionesBTV.length; i++) {
             var idProm = promocionesBTV[i].value;
             $("#formPost").prepend("<input type='hidden' name='" + nombreLista2 + "[" + (i) + "]' value='" + idProm + "'>");
@@ -331,12 +338,12 @@
             $('#idBusq').removeAttr('disabled');
             $('#btnBusqueda').removeAttr('disabled');
             $('#comboBusq').removeAttr('disabled');
-            $('#Nombre').attr({ 'disabled': 'disabled' })
-            $('#Dni').attr({ 'disabled': 'disabled' })
+            $('#Nombre').attr({ 'readonly': 'readonly' });
+            $('#Dni').attr({ 'readonly': 'readonly' });
         } else {
-            $('#idBusq').attr({ 'disabled': 'disabled' })
-            $('#btnBusqueda').attr({ 'disabled': 'disabled' })
-            $('#comboBusq').attr({ 'disabled': 'disabled' })
+            $('#idBusq').attr({ 'readonly': 'readonly' });
+            $('#btnBusqueda').attr({ 'disabled': 'disabled' });
+            $('#comboBusq').attr({ 'disabled': 'disabled' });
             $('#Nombre').removeAttr('disabled');
             $('#Dni').removeAttr('disabled');
         }
