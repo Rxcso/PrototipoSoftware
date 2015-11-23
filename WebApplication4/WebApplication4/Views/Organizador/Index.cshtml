@@ -254,83 +254,79 @@
 <div class="modal fade" id="formNuevo">
     <!--esta div pondra la pantalla oscura al presionar el boton-->
     <div class="modal-dialog">
-        <div class="modal-content">
-            <!--ACA VA EL CONTENIDO DEL MODAL-->
+        <div class="modal-content">            
             <!--header de la ventana-->
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
                 <h4 class="modal-title">Nuevo Organizador</h4>
             </div>
             <!--contenido de la ventana-->
-            @using (Html.BeginForm("RegisterOrganizador", "Organizador", FormMethod.Post, new { }))
-            {
-                @Html.AntiForgeryToken()
-
-                <div class="form-horizontal">
-                    @Html.ValidationSummary(true)
-                    <br>
-                    <div class="row form-group">
-                        @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })
-                        <div class="col-md-5">
-                            @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.nombre)
-                        </div>
-                    </div>
-
-                    <div class="row form-group">
-                        @Html.LabelFor(model => model.telefono, new { @class = "control-label col-md-3" })
-                        <div class="col-md-5">
-                            @Html.EditorFor(model => model.telefono, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.telefono)
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.tipoDoc, new { @class = "control-label col-md-3" })
-                        <div class="col-md-5">
-                            @{
-                List<SelectListItem> listItems = new List<SelectListItem>();
-                listItems.Add(new SelectListItem
+            <div class="modal-body">
+                @using (Html.BeginForm("RegisterOrganizador", "Organizador", FormMethod.Post, new { }))
                 {
-                    Text = "DNI",
-                    Value = "1",
-                });
-                listItems.Add(new SelectListItem
-                {
-                    Text = "Pasaporte",
-                    Value = "2"
-                });
-                            }
-                            @Html.DropDownListFor(model => model.tipoDoc, listItems, "Seleccione tipo de documento", new { @class = "form-control" })
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        <br />
+                        @Html.ValidationSummary(true)
+                        <div class="row form-group">
+                            @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.nombre)
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            @Html.LabelFor(model => model.telefono, new { @class = "control-label col-md-3" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.telefono, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.telefono)
+                            </div>
                         </div>
 
-                    </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.tipoDoc, new { @class = "control-label col-md-3" })
+                            <div class="col-md-3">
+                                @{
+                    List<SelectListItem> listItems = new List<SelectListItem>();
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "DNI",
+                        Value = "1",
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "Pasaporte",
+                        Value = "2"
+                    });
+                                }
+                                @Html.DropDownListFor(model => model.tipoDoc, listItems, "Seleccione", new { @class = "form-control" })
+                            </div>
+                            @Html.LabelFor(model => model.codDoc, new { @class = "control-label col-md-2" })
+                            <div class="col-md-3">
+                                @Html.EditorFor(model => model.codDoc, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.codDoc)
+                            </div>
 
+                        </div>
 
+                        <div class="row form-group">
+                            @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-3" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Email)
+                            </div>
+                        </div>
 
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.codDoc, new { @class = "control-label col-md-3" })
-                        <div class="col-md-5">
-                            @Html.EditorFor(model => model.codDoc, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.codDoc)
+                        <div class="form-group">
+                            <center>
+                                <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Agregar</button>
+                            </center>
                         </div>
                     </div>
-
-                    <div class="row form-group">
-                        @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-3" })
-                        <div class="col-md-5">
-                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Email)
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Agregar" class="btn btn-primary" />
-                        </div>
-                    </div>
-                </div>
-            }
+                }
+            </div>
+            
             <!--footer de la ventana-->
 
         </div>

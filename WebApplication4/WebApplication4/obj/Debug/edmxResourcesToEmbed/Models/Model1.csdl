@@ -26,6 +26,7 @@
     <NavigationProperty Name="Comentarios" Relationship="inf245netsoftModel.R_32" FromRole="CuentaUsuario" ToRole="Comentarios" />
     <NavigationProperty Name="Ventas" Relationship="inf245netsoftModel.R_30" FromRole="CuentaUsuario" ToRole="Ventas" />
     <NavigationProperty Name="Ventas1" Relationship="inf245netsoftModel.R_34" FromRole="CuentaUsuario" ToRole="Ventas" />
+    <NavigationProperty Name="LogDevoluciones" Relationship="inf245netsoftModel.R_97" FromRole="CuentaUsuario" ToRole="LogDevoluciones" />
   </EntityType>
   <EntityContainer Name="inf245netsoft" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="CuentaUsuario" EntityType="Self.CuentaUsuario" />
@@ -50,6 +51,7 @@
       <End Role="Regalo" EntitySet="Regalo" />
       <End Role="RegaloXCuenta" EntitySet="RegaloXCuenta" />
     </AssociationSet>
+    <EntitySet Name="TipoDeCambio" EntityType="inf245netsoftModel.TipoDeCambio" />
     <EntitySet Name="Organizador" EntityType="inf245netsoftModel.Organizador" />
     <EntitySet Name="PuntoVenta" EntityType="inf245netsoftModel.PuntoVenta" />
     <EntitySet Name="Region" EntityType="inf245netsoftModel.Region" />
@@ -226,7 +228,15 @@
       <End Role="Ventas" EntitySet="Ventas" />
       <End Role="VentasXFuncion" EntitySet="VentasXFuncion" />
     </AssociationSet>
-    <EntitySet Name="TipoDeCambio" EntityType="inf245netsoftModel.TipoDeCambio" />
+    <EntitySet Name="LogDevoluciones" EntityType="inf245netsoftModel.LogDevoluciones" />
+    <AssociationSet Name="R_97" Association="inf245netsoftModel.R_97">
+      <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
+      <End Role="LogDevoluciones" EntitySet="LogDevoluciones" />
+    </AssociationSet>
+    <AssociationSet Name="R_99" Association="inf245netsoftModel.R_99">
+      <End Role="DetalleVenta" EntitySet="DetalleVenta" />
+      <End Role="LogDevoluciones" EntitySet="LogDevoluciones" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Banco">
     <Key>
@@ -336,6 +346,14 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="TipoDeCambio">
+    <Key>
+      <PropertyRef Name="fecha" />
+    </Key>
+    <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="valor" Type="Double" />
+    <Property Name="estado" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+  </EntityType>
   <EntityType Name="Organizador">
     <Key>
       <PropertyRef Name="codOrg" />
@@ -1089,6 +1107,7 @@
     <Property Name="montoDev" Type="Double" Nullable="false" />
     <NavigationProperty Name="PrecioEvento" Relationship="inf245netsoftModel.R_60" FromRole="DetalleVenta" ToRole="PrecioEvento" />
     <NavigationProperty Name="VentasXFuncion" Relationship="inf245netsoftModel.R_62" FromRole="DetalleVenta" ToRole="VentasXFuncion" />
+    <NavigationProperty Name="LogDevoluciones" Relationship="inf245netsoftModel.R_99" FromRole="DetalleVenta" ToRole="LogDevoluciones" />
   </EntityType>
   <EntityType Name="Ventas">
     <Key>
@@ -1207,12 +1226,41 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityType Name="TipoDeCambio">
+  <EntityType Name="LogDevoluciones">
     <Key>
-      <PropertyRef Name="fecha" />
+      <PropertyRef Name="codLog" />
     </Key>
-    <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="valor" Type="Int32" />
-    <Property Name="estado" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="codLog" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="codDetalleVenta" Type="Int32" Nullable="false" />
+    <Property Name="codVendedor" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="cantEntradas" Type="Int32" />
+    <Property Name="fechaDev" Type="DateTime" Precision="3" />
+    <Property Name="montoDev" Type="Double" />
+    <NavigationProperty Name="CuentaUsuario" Relationship="inf245netsoftModel.R_97" FromRole="LogDevoluciones" ToRole="CuentaUsuario" />
+    <NavigationProperty Name="DetalleVenta" Relationship="inf245netsoftModel.R_99" FromRole="LogDevoluciones" ToRole="DetalleVenta" />
   </EntityType>
+  <Association Name="R_97">
+    <End Type="inf245netsoftModel.CuentaUsuario" Role="CuentaUsuario" Multiplicity="1" />
+    <End Type="inf245netsoftModel.LogDevoluciones" Role="LogDevoluciones" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CuentaUsuario">
+        <PropertyRef Name="usuario" />
+      </Principal>
+      <Dependent Role="LogDevoluciones">
+        <PropertyRef Name="codVendedor" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_99">
+    <End Type="inf245netsoftModel.DetalleVenta" Role="DetalleVenta" Multiplicity="1" />
+    <End Type="inf245netsoftModel.LogDevoluciones" Role="LogDevoluciones" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DetalleVenta">
+        <PropertyRef Name="codDetalleVenta" />
+      </Principal>
+      <Dependent Role="LogDevoluciones">
+        <PropertyRef Name="codDetalleVenta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>
