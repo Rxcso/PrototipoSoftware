@@ -12,7 +12,7 @@
 }
 
 <div class="container-fluid">
-    <div class="col-md-5">
+    <div class="col-md-3">
         <ol class="breadcrumb">
             <li class="active">Mantenimiento de Locales</li>
         </ol>
@@ -22,14 +22,15 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <a class="btn btn-primary" href="#formNuevo" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
-                <a class="btn btn-primary" data-toggle="modal" onclick="redirige()">Modificar<span class="glyphicon glyphicon-pencil"></span></a>
-                <a class="btn btn-primary" onclick="validaS()" data-toggle="modal">Borrar<span class="glyphicon glyphicon-remove"></span></a>
-                <a class="btn btn-primary" onclick="activa()" data-toggle="modal" id="Activate">Activar<span class="glyphicon glyphicon-ok"></span></a>
+                <a class="btn btn-success" href="#formNuevo" data-toggle="modal"><span class="glyphicon glyphicon-plus"></span> Nuevo</a>
+                <a class="btn btn-primary" data-toggle="modal" onclick="redirige()"><span class="glyphicon glyphicon-pencil"></span> Modificar</a>
+                <a class="btn btn-danger" onclick="validaS()" data-toggle="modal"><span class="glyphicon glyphicon-trash"></span> Eliminar</a>
+                <a class="btn btn-default" onclick="activa()" data-toggle="modal" id="Activate"><span class="glyphicon glyphicon-ok"></span> Activar</a>
+                <a class="btn btn-default" id="idBusq2" onclick="buscaI()" data-toggle="modal"><span class="glyphicon glyphicon-eye-open"></span> Inactivos</a>
             </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-4">
             <form action="" class="" role="search">
                 <div class="form-group">
                     <div class="input-group">
@@ -52,15 +53,8 @@
                 }
             </select>
         </div>
-
-        <div class="col-md-1">
-            @*<a class="btn btn-danger pull-right" href="@Url.Action("Index2", "Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>*@
-        </div>
-
     </div>
-    <a class="btn btn-primary" id="idBusq2" onclick="buscaI()" data-toggle="modal">Ver Inactivos<span class="glyphicon"></span></a>
-    <br>
-    <br>
+    
     @*@{
             Html.RenderPartial("_Search");
         }*@
@@ -77,39 +71,44 @@
     }
 
     <div class="row">
-        <table id="mytable" class="table table-bordered table-hover">
-            <thead>
-                <tr class="thead">
-                    <th>Id</th>
-                    <th>Descripcion</th>
-                    <th>Ubicacion</th>
-                    @*<th>Aforo</th>*@
-                    <th>Provincia</th>
-                    <th>Departamento</th>
-                    <th>Estado</th>
-                </tr>
-            </thead>
-            <tbody id="tbody">
-                @foreach (var row in listaLocal)
-                {
-                    <tr id=@row.codLocal onclick="myFunction(this)">
-                        <td>@row.codLocal</td>
-                        <td>@row.descripcion</td>
-                        <td>@row.ubicacion</td>
-                        @*<td>@row.aforo</td>*@
-                        <td>@db.Region.Find(row.idProvincia).nombre</td>
-                        <td>@db.Region.Find(row.idRegion).nombre</td>
-                        <td>@row.estaActivo</td>
-                        @*<td>@Html.ActionLink("Delete", "Delete", new { id = row.codLocal })</td>*@
-                        @*<td><a href="@Url.Action("Edit", "Local", new { id = row.codLocal })" class="btn btn-primary">Modificar <span class="glyphicon glyphicon-pencil"></span></a></td>
-                            <td><a href="@Url.Action("Delete", "Local", new { id = row.codLocal })" class="btn btn-primary">Dar de Baja <span class="glyphicon glyphicon-remove"></span></a></td>*@
+        <div class="table-responsive">
+            <table id="mytable" class="table table-bordered table-hover">
+                <thead>
+                    <tr class="thead">
+                        <th class="col-md-1">Código</th>
+                        <th class="col-md-3">Descripción</th>
+                        <th class="col-md-3">Ubicación</th>                        
+                        <th class="col-md-2">Provincia</th>
+                        <th class="col-md-2">Departamento</th>
+                        <th class="col-md-1">Estado</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody id="tbody">
+                    @foreach (var row in listaLocal)
+                    {
+                        <tr id=@row.codLocal onclick="myFunction(this)">
+                            <td>@row.codLocal</td>
+                            <td>@row.descripcion</td>
+                            <td>@row.ubicacion</td>
+                            @*<td>@row.aforo</td>*@
+                            <td>@db.Region.Find(row.idProvincia).nombre</td>
+                            <td>@db.Region.Find(row.idRegion).nombre</td>
+                            @{
+                                string state = "";
+                                if (row.estaActivo.HasValue)
+                                {
+                                    if ((bool)row.estaActivo)
+                                    { state = "Activo"; }
+                                    else { state = "Inactivo"; }
+                                }
+                            }
+                            <td>@state</td>                           
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>        
     </div>
-
-
 </div>
 
 
@@ -126,35 +125,23 @@
             <!--contenido de la ventana-->
             @using Microsoft.AspNet.Identity
             @using WebApplication4.Models
-
-
-
             @using (Html.BeginForm("RegisterLocal", "Local", FormMethod.Post, new { }))
             {
                 @Html.AntiForgeryToken()
 
                 <div class="form-horizontal">
                     @Html.ValidationSummary(true)
-                    <br>
-                    @*<div class="row form-group">
-                            @Html.LabelFor(model => model.aforo, new { @class = "control-label col-md-3" })
-                            <div class="col-md-5">
-                                @Html.EditorFor(model => model.aforo, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.aforo)
-                            </div>
-                        </div>*@
-
+                    <br />
                     <div class="row form-group">
                         @Html.LabelFor(model => model.descripcion, new { @class = "control-label col-md-3" })
                         <div class="col-md-8">
                             @Html.EditorFor(model => model.descripcion, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.descripcion)
                         </div>
-                    </div>
-                    <br>
+                    </div>                    
                     <div class="row form-group">
                         @Html.LabelFor(model => model.ubicacion, new { @class = "control-label col-md-3" })
-                        <div class="col-md-5">
+                        <div class="col-md-8">
                             @Html.EditorFor(model => model.ubicacion, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.ubicacion)
                         </div>
@@ -162,29 +149,25 @@
 
                     <div class="row form-group">
                         @Html.LabelFor(model => model.idRegion, new { @class = "control-label col-md-3" })
-                        <div class="col-md-4">
+                        <div class="col-md-8">
                             @Html.DropDownListFor(model => model.idRegion, @ViewBag.DepID as SelectList, "Departamento", new { @class = "form-control", @onchange = "cambioDepartamento()" })
                         </div>
                     </div>
 
                     <div class="row form-group">
                         @Html.LabelFor(model => model.idProv, new { @class = "control-label col-md-3" })
-                        <div class="col-md-4">
+                        <div class="col-md-8">
                             @Html.DropDownListFor(model => model.idProv, @ViewBag.ProvID as SelectList, "Provincia", new { @class = "form-control" })
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Agregar" class="btn btn-primary" />
-                        </div>
+                        <center>
+                            <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Agregar</button>
+                        </center>
                     </div>
                 </div>
-            }
-            <!--footer de la ventana-->
-            @*<div class="modal-footer">
-                    <button type="button" onclick="registrar()" class="btn btn-primary">Agregar <span class="glyphicon glyphicon-ok"></span></button>
-                </div>*@
+            }            
         </div>
     </div>
 </div>
@@ -404,17 +387,10 @@
     }
 </script>
 
-<style>
-    .trselected {
-        background: gray;
-    }
-</style>
-
 <div class="modal fade" id="eliminar">
     <!--esta div pondra la pantalla oscura al presionar el boton-->
     <div class="modal-dialog">
-        <div class="modal-content">
-            <!--ACA VA EL CONTENIDO DEL MODAL-->
+        <div class="modal-content">            
             <!--header de la ventana-->
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
@@ -422,12 +398,12 @@
             </div>
             <!--contenido de la ventana-->
             <div class="modal-body">
-                ¿Está seguro que quiere dar de baja el registro?
+                <h4>Está a punto de dar de baja el local.</h4>
             </div>
             <!--footer de la ventana-->
             <div class="modal-footer">
-                <button type="button" onclick="borrar()" class="btn btn-primary">Aceptar <span class="glyphicon glyphicon-ok"></span></button>
-                <button type="button" onclick="return closewindow();" class="btn btn-danger">Cancelar <span class="glyphicon glyphicon-remove"></span></button>
+                <button type="button" onclick="borrar()" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Eliminar</button>
+                <!--button type="button" onclick="return closewindow();" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> Cancelar</button-->
             </div>
         </div>
     </div>

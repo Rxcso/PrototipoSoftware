@@ -34,15 +34,20 @@ function format_date(date) {
     return formato;
 }
 
+function format_date2(date) {
+    date = date.split('-');
+    var formato = ('0' + date[2]).slice(-2) + '/' + ('0' + date[1]).slice(-2) + '/' + date[0];
+    return formato;
+}
 var today = new Date();
 
 function fila() {
     var rowId = $("#histFuncion").val();
     var table = document.getElementById("bloqueFuncion").getElementsByTagName('tbody')[0];
     var row = table.insertRow();
-    row.id = rowId;
+    row.id = parseInt(rowId) + 1;
     var cell0 = row.insertCell(0);
-    cell0.innerHTML = parseInt(row.id) + 1;
+    cell0.innerHTML = parseInt(row.id);
     var cell1 = row.insertCell(1);
     cell1.innerHTML = '<input id="fechaFuncion" class="form-control" type="date" required>';
     var cell2 = row.insertCell(2);
@@ -50,8 +55,11 @@ function fila() {
     var cell3 = row.insertCell(3);
     cell3.align = "center";
     cell3.innerHTML = '<input type="radio" name="groupFunciones" value="' + (parseInt(row.id)) + '">';
-    $("#histFuncion").val(parseInt(row.id) + 1);
+    $("#histFuncion").val(parseInt(row.id));
 }
+
+
+
 function agregaFuncion() {
     var tableBTV = document.getElementById("bloqueFuncion");
     if (tableBTV.rows.length > 1) {
@@ -59,28 +67,21 @@ function agregaFuncion() {
         var fecha = row.cells[1].children[0].value;
         var hora = row.cells[2].children[0].value;
         if (fecha && hora) {
-            fecha = fecha.split('-');
-            hora = hora.split(':');
-            console.log("- " + fecha + " - " + hora);
             if (validarFechaActualOMayor(fecha)) {
+                row.cells[1].children[0].setAttribute('readonly', 'true');
+                row.cells[2].children[0].setAttribute('readonly', 'true');
                 fila();
+            } else {
+                var fechaInicioEvento = $("#fechaInicioEvento").val();
+                alert("Fecha de funcion incorrecta: " + format_date2(fecha) + ". Ingrese una fecha valida (Rango de fechas: Mayor o igual a la fecha de inicio del evento: " + format_date2(fechaInicioEvento) + " hasta fechas del año " + (today.getFullYear() + 20) + ").");
             }
         } else {
             alert("Campos Vacios. Ingrese nuevamente.");
         }
-        
+
     } else {
         fila();
     }
-    /*if (fecha) {
-        if (validarFechaActualOMayor(fechaF)) {
-            fila();
-        } else {
-            alert("Fecha de funcion incorrecta: " + fechaF + ". Ingrese una fecha valida (Rango de fechas: Mayor o igual a la fecha de inicio del evento: " + $("#fechaInicioEvento").val() + " hasta fechas del año " + (today.getFullYear() + 20) + ").");
-        }
-    } else {
-        alert("Campos Vacios. Ingrese nuevamente.");
-    }*/
 }
 function eliminarFuncion() {
     var fila = $('input[name="groupFunciones"]:checked').val();
@@ -95,10 +96,16 @@ function guardarFunciones() {
         return false;
     }
     for (var i = 1; i < tableBTV.rows.length; i++) {
-        var fecha = tableBTV.rows[i].getAttribute("data-fecha");
-        var hora = tableBTV.rows[i].getAttribute("data-hora");
-        $("#formPost").prepend("<input type='hidden' name='" + nombreLista + "[" + (i - 1) + "].fechaFuncion' value='" + fecha + "'>");
-        $("#formPost").prepend("<input type='hidden' name='" + nombreLista + "[" + (i - 1) + "].horaInicio' value='" + hora + "'>");
+        var row = tableBTV.rows[i];
+        var fecha = row.cells[1].children[0].value;
+        var hora = row.cells[2].children[0].value;
+        fecha = fecha.split('-');
+        hora = hora.split(':');
+        var date = fecha[2] + "-" + --fecha[1] + "-" + fecha[0] + " " + hora[0] + ":" + hora[1];
+        //var date = new Date(fecha[2], --fecha[1], fecha[0], hora[0], hora[1], 0, 1);
+        console.log(i + ") " + date);
+        $("#formPost").prepend("<input type='hidden' name='" + nombreLista + "[" + (i - 1) + "].fechaFuncion' value='" + date + "'>");
+        $("#formPost").prepend("<input type='hidden' name='" + nombreLista + "[" + (i - 1) + "].horaInicio' value='" + date + "'>");
     }
-    return true;
+    return false;
 }

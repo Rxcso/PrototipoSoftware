@@ -45,6 +45,7 @@ namespace WebApplication4.Controllers
                 punto.ubicacion = model.ubicacion;
                 punto.idProvincia = model.idProv;
                 punto.idRegion = model.idRegion;
+                punto.nombre = model.nombre;
                 db.PuntoVenta.Add(punto);
                 db.SaveChanges();
                 return RedirectToAction("Index", "PuntoVenta");
@@ -186,6 +187,7 @@ namespace WebApplication4.Controllers
                 punto.ubicacion = model.ubicacion;
                 punto.idRegion = model.idRegion;
                 punto.idProvincia = model.idProv;
+                punto.nombre = model.nombre;
                 db.SaveChanges();
                 return RedirectToAction("Index", "PuntoVenta");
             }
