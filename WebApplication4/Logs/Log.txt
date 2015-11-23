@@ -2050,3 +2050,29 @@ System.Collections.ListDictionaryInternal
 2015-11-23 00:38:15,449 [24] ERROR Ticknet - Exception Message - 
 Referencia a objeto no establecida como instancia de un objeto.
 2015-11-23 00:38:15,449 [24] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-23 09:47:49,102 [13] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-23 09:47:49,107 [13] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-23 09:47:49,107 [13] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-23 09:47:49,107 [13] ERROR Ticknet - Exception Message - 
+The else block is missing a closing "}" character.  Make sure you have a matching "}" character for all the "{" characters within this block, and that none of the "}" characters are being interpreted as markup.
+
+2015-11-23 09:47:49,107 [13] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-23 09:49:55,739 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-23 09:49:55,745 [8] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-23 09:49:55,745 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-23 09:49:55,745 [8] ERROR Ticknet - Exception Message - 
+Unexpected "if" keyword after "@" character.  Once inside code, you do not need to prefix constructs like "if" with "@".
+
+2015-11-23 09:49:55,745 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-23 09:50:25,999 [13] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-23 09:50:25,999 [13] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-23 09:50:25,999 [13] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-23 09:50:25,999 [13] ERROR Ticknet - Exception Message - 
+A public action method ' Index' was not found on controller 'WebApplication4.Controllers.HomeController'.
+2015-11-23 09:50:25,999 [13] DEBUG Ticknet - ++++++++++++++++++++++++++++
