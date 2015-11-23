@@ -56,11 +56,12 @@
                 <thead>
                     <tr class="thead">
                         <th>Código Venta</th>
+                        <th>Fecha Venta</th>
                         <th>N° Doc</th>
                         <th>Nombre</th>
                         <th>Evento</th>
                         <th>Cantidad Entradas</th>
-                        <th>Fecha</th>
+                        <th>Fecha Funcion</th>
                         <th>Hora</th>
                         <th>Monto Total</th>
 
@@ -72,13 +73,14 @@
                         foreach (var row in listaEntrega)
                         {
                             <tr id=@row.codVen onclick="myFunction(this)">
-                                <td>@row.codVen</td>
+                                <td>@row.codVen</td>                                
                                 @{
-                            Ventas ve = db.Ventas.Find(row.codVen);
-                            Funcion fu = db.Funcion.Find(row.codFuncion);
-                            CuentaUsuario cu = db.CuentaUsuario.Find(ve.cliente);
-                            TimeSpan ti = fu.horaIni.Value.TimeOfDay;
+                                    Ventas ve = db.Ventas.Find(row.codVen);
+                                    Funcion fu = db.Funcion.Find(row.codFuncion);
+                                    CuentaUsuario cu = db.CuentaUsuario.Find(ve.cliente);
+                                    TimeSpan ti = fu.horaIni.Value.TimeOfDay;
                                 }
+                                <td>@ve.fecha.Value.ToString("dd/MM/yyyy")</td>
                                 <td>@ve.codDoc</td>
                                 @if (cu != null && cu.usuario != "a@anonimo.com")
                                 {
@@ -92,7 +94,7 @@
                                 <td>@row.cantEntradas</td>
                                 <td>@fu.fecha.Value.ToString("dd/MM/yyyy")</td>
                                 <td>@ti.ToString(@"hh\:mm\:ss")</td>
-                                <td>@ve.MontoTotalSoles</td>
+                                <td>@row.total</td>
 
                             </tr>
                         }
