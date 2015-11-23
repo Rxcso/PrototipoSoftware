@@ -1038,19 +1038,19 @@ namespace WebApplication4.Controllers
                         error = 1;
                     }
 
-                    if (error != 1)
-                    {
-                        db.SaveChanges();
-                        TempData["tipo"] = "alert alert-success";
-                        TempData["message"] = "Datos Actualizados Exitosamente";
-                        return RedirectToAction("MiCuenta");
-                    }
+                }
 
-                    else
-                    {
-                        return View(model);
-                    }
+                if (error != 1)
+                {
+                    db.SaveChanges();
+                    TempData["tipo"] = "alert alert-success";
+                    TempData["message"] = "Datos Actualizados Exitosamente";
+                    return RedirectToAction("MiCuenta");
+                }
 
+                else
+                {
+                    return View(model);
                 }
 
             }
