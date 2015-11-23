@@ -358,7 +358,7 @@
             <PropertyRef Name="fecha" />
           </Key>
           <Property Name="fecha" Type="datetime" Nullable="false" />
-          <Property Name="valor" Type="float" />
+          <Property Name="valor" Type="int" />
           <Property Name="estado" Type="varchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="TipoTarjeta">
@@ -386,6 +386,7 @@
           <Property Name="MontoInicioDolares" Type="float" />
           <Property Name="MontoFinSoles" Type="float" />
           <Property Name="MontoFinDolares" Type="float" />
+          <Property Name="HoraSalida" Type="datetime" />
         </EntityType>
         <EntityType Name="TurnoSistema">
           <Key>
@@ -747,7 +748,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="R_38">
-          <End Role="Ventas" Type="Self.Ventas" Multiplicity="1" />
+          <End Role="Ventas" Type="Self.Ventas" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="VentasXFuncion" Type="Self.VentasXFuncion" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Ventas">
@@ -875,7 +878,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="R_62">
-          <End Role="VentasXFuncion" Type="Self.VentasXFuncion" Multiplicity="1" />
+          <End Role="VentasXFuncion" Type="Self.VentasXFuncion" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="DetalleVenta" Type="Self.DetalleVenta" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="VentasXFuncion">
@@ -1263,7 +1268,6 @@
             <End Role="Regalo" EntitySet="Regalo" />
             <End Role="RegaloXCuenta" EntitySet="RegaloXCuenta" />
           </AssociationSet>
-          <EntitySet Name="TipoDeCambio" EntityType="inf245netsoftModel.TipoDeCambio" />
           <EntitySet Name="Organizador" EntityType="inf245netsoftModel.Organizador" />
           <EntitySet Name="PuntoVenta" EntityType="inf245netsoftModel.PuntoVenta" />
           <EntitySet Name="Region" EntityType="inf245netsoftModel.Region" />
@@ -1440,6 +1444,7 @@
             <End Role="Ventas" EntitySet="Ventas" />
             <End Role="VentasXFuncion" EntitySet="VentasXFuncion" />
           </AssociationSet>
+          <EntitySet Name="TipoDeCambio" EntityType="inf245netsoftModel.TipoDeCambio" />
           </EntityContainer>
         <EntityType Name="Banco">
           <Key>
@@ -1549,14 +1554,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="TipoDeCambio">
-          <Key>
-            <PropertyRef Name="fecha" />
-          </Key>
-          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="valor" Type="Double" />
-          <Property Name="estado" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-        </EntityType>
         <EntityType Name="Organizador">
           <Key>
             <PropertyRef Name="codOrg" />
@@ -1844,6 +1841,7 @@
           <NavigationProperty Name="TurnoSistema" Relationship="inf245netsoftModel.R_12" FromRole="Turno" ToRole="TurnoSistema" />
           <Property Name="estadoCaja" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="horaRegistro" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="HoraSalida" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="TurnoSistema">
           <Key>
@@ -2427,6 +2425,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="TipoDeCambio">
+          <Key>
+            <PropertyRef Name="fecha" />
+          </Key>
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="valor" Type="Int32" />
+          <Property Name="estado" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2507,15 +2513,6 @@
                 <ScalarProperty Name="usuario" ColumnName="usuario" />
                 <ScalarProperty Name="idRegalo" ColumnName="idRegalo" />
                 <ScalarProperty Name="fechaRecojo" ColumnName="fechaRecojo" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TipoDeCambio">
-            <EntityTypeMapping TypeName="inf245netsoftModel.TipoDeCambio">
-              <MappingFragment StoreEntitySet="TipoDeCambio">
-                <ScalarProperty Name="estado" ColumnName="estado" />
-                <ScalarProperty Name="valor" ColumnName="valor" />
-                <ScalarProperty Name="fecha" ColumnName="fecha" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2663,6 +2660,7 @@
           <EntitySetMapping Name="Turno">
             <EntityTypeMapping TypeName="inf245netsoftModel.Turno">
               <MappingFragment StoreEntitySet="Turno">
+                <ScalarProperty Name="HoraSalida" ColumnName="HoraSalida" />
                 <ScalarProperty Name="horaRegistro" ColumnName="horaRegistro" />
                 <ScalarProperty Name="estadoCaja" ColumnName="estadoCaja" />
                 <ScalarProperty Name="MontoFinDolares" ColumnName="MontoFinDolares" />
@@ -2898,6 +2896,15 @@
                 <ScalarProperty Name="subtotal" ColumnName="subtotal" />
                 <ScalarProperty Name="cantEntradas" ColumnName="cantEntradas" />
                 <ScalarProperty Name="codVen" ColumnName="codVen" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TipoDeCambio">
+            <EntityTypeMapping TypeName="inf245netsoftModel.TipoDeCambio">
+              <MappingFragment StoreEntitySet="TipoDeCambio">
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="valor" ColumnName="valor" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

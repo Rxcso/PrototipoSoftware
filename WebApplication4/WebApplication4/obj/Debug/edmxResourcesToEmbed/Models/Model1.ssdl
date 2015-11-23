@@ -353,7 +353,7 @@
       <PropertyRef Name="fecha" />
     </Key>
     <Property Name="fecha" Type="datetime" Nullable="false" />
-    <Property Name="valor" Type="float" />
+    <Property Name="valor" Type="int" />
     <Property Name="estado" Type="varchar" MaxLength="20" />
   </EntityType>
   <EntityType Name="TipoTarjeta">
@@ -381,6 +381,7 @@
     <Property Name="MontoInicioDolares" Type="float" />
     <Property Name="MontoFinSoles" Type="float" />
     <Property Name="MontoFinDolares" Type="float" />
+    <Property Name="HoraSalida" Type="datetime" />
   </EntityType>
   <EntityType Name="TurnoSistema">
     <Key>
@@ -742,7 +743,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="R_38">
-    <End Role="Ventas" Type="Self.Ventas" Multiplicity="1" />
+    <End Role="Ventas" Type="Self.Ventas" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="VentasXFuncion" Type="Self.VentasXFuncion" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Ventas">
@@ -870,7 +873,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="R_62">
-    <End Role="VentasXFuncion" Type="Self.VentasXFuncion" Multiplicity="1" />
+    <End Role="VentasXFuncion" Type="Self.VentasXFuncion" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="DetalleVenta" Type="Self.DetalleVenta" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="VentasXFuncion">

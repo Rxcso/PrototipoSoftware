@@ -62,7 +62,7 @@ namespace WebApplication4.Controllers
 
                 if (quedan < paquete.cantEntradas)
                 {
-                    return "No se pudo realizar la reserva, solo puede reservar hasta  " + quedan + "entradas";
+                    return "No se pudo realizar la reserva, solo puede reservar hasta  " + quedan + " entradas";
                 }
                 //Luego se hace la reserva de esto, 
                 //Establecer sincronia es lo mas complicado
@@ -155,6 +155,7 @@ namespace WebApplication4.Controllers
             EmailController.EnviarCorreoReserva(idVenta, User.Identity.Name);
             return "Ok";
         }
+
         public JsonResult LimpiaR1()
         {
             Session["ReporteEventos"] = null;
@@ -1473,6 +1474,55 @@ namespace WebApplication4.Controllers
             return View(new PaqueteEntradas((int)id));
         }
 
+        private bool validarItemCarrito(PaqueteEntradas paquete)
+        {
+            //si el carrito esta vacio, lo ingreso
+            if (Session["Carrito"] == null)
+            {
+                TempData["tipo"] = "alert alert-success";
+                TempData["message"] = "Entradas agregadas al carrito :)";
+                return true;
+            }
+            //si tiene items tengo que buscar que no este
+            bool indicador = true;
+            Eventos evento = db.Eventos.Find(paquete.idEvento);
+            int maxCompra = evento.maxReservas;
+            List<PaqueteEntradas> carrito = (List<PaqueteEntradas>)Session["Carrito"];
+            //si existe en el carrito
+            if (carrito.Any(c => c.idEvento == paquete.idEvento))
+            {
+                PaqueteEntradas existente = carrito.Where(c => c.idEvento == paquete.idEvento).First();
+                if (maxCompra < existente.cantEntradas + paquete.cantEntradas)
+                {//si en conjunto supera el maximo de compra, seteo la cantidad de entradas al maximo
+                    existente.cantEntradas = maxCompra;
+                    TempData["tipo"] = "alert alert-success";
+                    TempData["message"] = "Superó el limite de compra del evento. Solo se añadieron " + maxCompra + ".";
+                }
+                else
+                {//si no supera, lo arreglo al carrito
+                    existente.cantEntradas += paquete.cantEntradas;
+                    TempData["tipo"] = "alert alert-success";
+                    TempData["message"] = "Entradas agregadas al carrito :) Solo puede agregar " + (maxCompra - existente.cantEntradas) +" entradas más.";
+                }
+                return indicador;
+            }
+            else
+            {//si no existe en el carrito
+                if (paquete.cantEntradas > maxCompra)
+                {
+                    TempData["tipo"] = "alert alert-warning";
+                    TempData["message"] = "No se pudo agregar las entradas al carrito, solo puede comprar hasta  " + maxCompra + " entradas";
+                    indicador = false;
+                }
+                else
+                {
+                    TempData["tipo"] = "alert alert-success";
+                    TempData["message"] = "Entradas agregadas al carrito :)";
+                }
+            }
+            Session["Carrito"] = carrito;
+            return indicador;
+        }
         [HttpPost]
         [AllowAnonymous]
         public ActionResult Entradas(PaqueteEntradas paquete, string boton)
@@ -1498,20 +1548,6 @@ namespace WebApplication4.Controllers
                 }
                 else if (boton.CompareTo("carrito") == 0)
                 {
-                    /*int quedan = BuscaEntradasQueQuedan(paquete.idFuncion, paquete.idZona);
-
-                    if (quedan == 0)
-                    {
-                        TempData["tipo"] = "alert alert-warning";
-                        TempData["message"] = "Ya no le quedan entradas disponibles para el evento.";
-                        return Redirect("~/Evento/VerEvento/" + paquete.idEvento);
-                    }
-                    if (quedan < paquete.cantEntradas)
-                    {
-                        TempData["tipo"] = "alert alert-warning";
-                        TempData["message"] = "No se pudo agregar entradas al carrito, solo puede comprar " + quedan + " entradas como maximo.";
-                        return Redirect("~/Evento/VerEvento/" + paquete.idEvento);
-                    }*/
                     //si el carrito es null, creo un nuevo carrito
                     if (Session["Carrito"] == null)
                     {
@@ -1887,8 +1923,6 @@ namespace WebApplication4.Controllers
             return Json(listaNueva, JsonRequestBehavior.AllowGet);
         }
 
-
-
         [HttpPost]
         public ActionResult DelComment(int cod, int codEvento)
         {
@@ -1935,8 +1969,5 @@ namespace WebApplication4.Controllers
             return Json("Eliminado exitoso", JsonRequestBehavior.AllowGet);
 
         }
-
-
-
     }
 }
