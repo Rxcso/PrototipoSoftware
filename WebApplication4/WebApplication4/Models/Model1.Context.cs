@@ -43,14 +43,11 @@ namespace WebApplication4.Models
         public virtual DbSet<Categoria> Categoria { get; set; }
         public virtual DbSet<Pago> Pago { get; set; }
         public virtual DbSet<Tarjeta> Tarjeta { get; set; }
-        public virtual DbSet<VentasXFuncion> VentasXFuncion { get; set; }
         public virtual DbSet<Turno> Turno { get; set; }
         public virtual DbSet<TurnoSistema> TurnoSistema { get; set; }
         public virtual DbSet<Politicas> Politicas { get; set; }
         public virtual DbSet<Asientos> Asientos { get; set; }
         public virtual DbSet<PrecioEvento> PrecioEvento { get; set; }
-        public virtual DbSet<Ventas> Ventas { get; set; }
-        public virtual DbSet<DetalleVenta> DetalleVenta { get; set; }
         public virtual DbSet<AsientosXFuncion> AsientosXFuncion { get; set; }
         public virtual DbSet<Comentarios> Comentarios { get; set; }
         public virtual DbSet<PeriodoVenta> PeriodoVenta { get; set; }
@@ -60,5 +57,9 @@ namespace WebApplication4.Models
         public virtual DbSet<Local> Local { get; set; }
         public virtual DbSet<Eventos> Eventos { get; set; }
         public virtual DbSet<Funcion> Funcion { get; set; }
+        public virtual DbSet<DetalleVenta> DetalleVenta { get; set; }
+        public virtual DbSet<Ventas> Ventas { get; set; }
+        public virtual DbSet<VentasXFuncion> VentasXFuncion { get; set; }
+        public virtual DbSet<LogDevoluciones> LogDevoluciones { get; set; }
     }
 }

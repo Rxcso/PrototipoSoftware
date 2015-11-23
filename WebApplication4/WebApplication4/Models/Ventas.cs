@@ -32,6 +32,8 @@ namespace WebApplication4.Models
         public string vendedor { get; set; }
         public string Estado { get; set; }
         public Nullable<double> MontoTotalSoles { get; set; }
+        public int entradasDev { get; set; }
+        public double montoDev { get; set; }
     
         public virtual CuentaUsuario CuentaUsuario { get; set; }
         public virtual CuentaUsuario CuentaUsuario1 { get; set; }

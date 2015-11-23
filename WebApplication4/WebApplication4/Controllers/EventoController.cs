@@ -1335,10 +1335,9 @@ namespace WebApplication4.Controllers
                 ModelState.AddModelError(string.Empty, "No hay Evento");
                 return Redirect("~/Home/Index");
             }
-
-
             //Cargamos en el ViewBag el evento
             ViewBag.evento = evento;
+
             //Cargamos el nombre del local
             try
             {
@@ -1352,12 +1351,9 @@ namespace WebApplication4.Controllers
 
             //Detalle ... Como se considera si ya hay local?
             ViewBag.Region = db.Region.Where(c => c.idRegion == evento.idRegion).First().nombre;
-
             ViewBag.Categoria = db.Categoria.Where(c => c.idCategoria == evento.idCategoria).First().nombre;
             ViewBag.Subcategoria = db.Categoria.Where(c => c.idCategoria == evento.idSubcategoria).First().nombre;
-
             var veoAsientos = true;
-
             //Debo saber si el evento esta a la venta
             if (evento.fecha_fin < DateTime.Today)
             {
@@ -1366,7 +1362,6 @@ namespace WebApplication4.Controllers
             }
             else
             {
-
                 int bloqueVenta = 0;
                 try
                 {
@@ -1391,9 +1386,7 @@ namespace WebApplication4.Controllers
                     ViewBag.FuturasVentas = futuraVenta;
                 }
 
-
                 List<ZonaEvento> zonasEvento = new List<ZonaEvento>();
-
                 try
                 {
                     ViewBag.ListZonasNombre = new List<string>();
@@ -1423,7 +1416,7 @@ namespace WebApplication4.Controllers
                     veoAsientos = false;
                 }
 
-                List<Funcion> funciones = new List<Funcion>();
+                var funciones = new List<Funcion>();
 
                 try
                 {
@@ -1436,9 +1429,14 @@ namespace WebApplication4.Controllers
                     ViewBag.textoFunciones = "No hay funciones";
                 }
 
+                funciones = new List<Funcion>();
                 try
                 {
-                    funciones = db.Funcion.Where(c => c.codEvento == evento.codigo && c.estado != "CANCELADO" && c.fecha >= DateTime.Now).ToList();
+                    var funcAux = db.Funcion.Where(c => c.codEvento == evento.codigo && c.estado != "CANCELADO").ToList();
+                    foreach (Funcion fun in funcAux)
+                    {
+                        if (fun.fecha >= DateTime.Now) funciones.Add(fun);
+                    }
                     //agrupo las fechas unicas de las funciones y las ordeno ascendentemente
                     //funciones = funciones.GroupBy(c => c.fecha).Select(p => p.First()).OrderBy(c => c.fecha).ToList();
                     List<SelectListItem> listaNFunciones = new List<SelectListItem>();
@@ -1459,13 +1457,8 @@ namespace WebApplication4.Controllers
                     ViewBag.ListFunciones = new List<Funcion>(0);
                     veoAsientos = false;
                 }
-
-
-
             }
-
             ViewBag.VeoAsientos = veoAsientos;
-
             //para que se carguen los destacados al lado
             List<Eventos> listaDestacados = new List<Eventos>(0);
             try
@@ -1477,7 +1470,6 @@ namespace WebApplication4.Controllers
 
             }
             ViewBag.ListaDestacados = listaDestacados;
-
             return View(new PaqueteEntradas((int)id));
         }
 
@@ -1506,7 +1498,7 @@ namespace WebApplication4.Controllers
                 }
                 else if (boton.CompareTo("carrito") == 0)
                 {
-                    int quedan = BuscaEntradasQueQuedan(paquete.idFuncion, paquete.idZona);
+                    /*int quedan = BuscaEntradasQueQuedan(paquete.idFuncion, paquete.idZona);
 
                     if (quedan == 0)
                     {
@@ -1519,7 +1511,7 @@ namespace WebApplication4.Controllers
                         TempData["tipo"] = "alert alert-warning";
                         TempData["message"] = "No se pudo agregar entradas al carrito, solo puede comprar " + quedan + " entradas como maximo.";
                         return Redirect("~/Evento/VerEvento/" + paquete.idEvento);
-                    }
+                    }*/
                     //si el carrito es null, creo un nuevo carrito
                     if (Session["Carrito"] == null)
                     {

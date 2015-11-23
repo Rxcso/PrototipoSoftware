@@ -454,6 +454,7 @@ namespace WebApplication4.Controllers
             db.Entry(turno).State = EntityState.Modified;
             turno.MontoFinDolares = mD;
             turno.MontoFinSoles = mS;
+            turno.HoraSalida = DateTime.Now;
             turno.estadoCaja = "Cerrado";
             db.SaveChanges();
             db.Entry(turno).State = EntityState.Detached;
@@ -1071,11 +1072,15 @@ namespace WebApplication4.Controllers
         public ActionResult DevolverTodo()
         {
             DetalleVenta dv = (DetalleVenta)Session["DetalleVenta"];
-
+            int salvaCantidad;
             Ventas v = db.Ventas.Find(dv.codVen);
             //Ventas v = (Ventas)Session["VentasDev"];
             v.cantAsientos -= (int)dv.cantEntradas;
             v.MontoTotalSoles -= (double)dv.total;
+
+            v.montoDev += (double)dv.total;
+            v.entradasDev += (int)dv.cantEntradas;
+
             if (v.cantAsientos == 0) v.Estado = "Devuelto";
 
             Funcion f = db.Funcion.Find(dv.codFuncion);
@@ -1095,6 +1100,9 @@ namespace WebApplication4.Controllers
             //VentasXFuncion vxf = (VentasXFuncion)Session["VentaXFunDev"];
             vxf.cantEntradas -= (int)dv.cantEntradas;
 
+            vxf.montoDev += (double)dv.total;
+            vxf.entradasDev+=(int)dv.cantEntradas;
+
             PrecioEvento pe = db.PrecioEvento.Find(dv.codPrecE);
             ZonaEvento ze = db.ZonaEvento.Find(pe.codZonaEvento);
             if (!ze.tieneAsientos) ze.tieneAsientos = true;
@@ -1104,7 +1112,11 @@ namespace WebApplication4.Controllers
 
             DetalleVenta dvAux = db.DetalleVenta.Find(dv.codDetalleVenta);
             dvAux.entradasDev = dvAux.cantEntradas;
+            salvaCantidad = (int)dvAux.cantEntradas;
             dvAux.cantEntradas = 0;
+
+            dvAux.montoDev += (double)dv.total;
+            
             /*Session["DetalleVenta"]
             Session["VentaXFunDev"]
             Session["VentasDev"]
@@ -1120,6 +1132,15 @@ namespace WebApplication4.Controllers
                 if (dev[i].codDev == dv.codDetalleVenta)
                     dev.RemoveAt(i);
             Session["BusquedaDev"] = dev;
+
+            LogDevoluciones ld = new LogDevoluciones();
+            //ld.codLog=;
+            ld.codDetalleVenta=dvAux.codDetalleVenta;
+            ld.codVendedor=User.Identity.Name;
+            ld.cantEntradas=salvaCantidad;
+            ld.fechaDev=DateTime.Now;
+            ld.montoDev=dv.total;
+            db.LogDevoluciones.Add(ld);
 
             db.SaveChanges();
             return View("Devolucion");
@@ -1140,6 +1161,10 @@ namespace WebApplication4.Controllers
                 //Ventas v = (Ventas)Session["VentasDev"];
                 v.cantAsientos -= 1;
                 v.MontoTotalSoles -= (double)axfuncion.PrecioPagado;
+
+                v.entradasDev += 1;
+                v.montoDev += (double)axfuncion.PrecioPagado;
+
                 if (v.cantAsientos == 0) v.Estado = "Devuelto";
                 //v.Estado = "DevueltoParcial"; por evaluar!!!!!!!
 
@@ -1161,6 +1186,9 @@ namespace WebApplication4.Controllers
                 //VentasXFuncion vxf = (VentasXFuncion)Session["VentaXFunDev"];
                 vxf.cantEntradas -= 1;
 
+                vxf.montoDev += (double)axfuncion.PrecioPagado;
+                vxf.entradasDev += 1;
+
                 PrecioEvento pe = db.PrecioEvento.Find(dv.codPrecE);
                 ZonaEvento ze = db.ZonaEvento.Find(pe.codZonaEvento);
                 if (!ze.tieneAsientos) ze.tieneAsientos = true;
@@ -1171,6 +1199,9 @@ namespace WebApplication4.Controllers
                 DetalleVenta dvAux = db.DetalleVenta.Find(dv.codDetalleVenta);
                 dvAux.entradasDev += 1;
                 dvAux.cantEntradas -= 1;
+
+                dvAux.montoDev += (double)axfuncion.PrecioPagado;
+
                 /*Session["DetalleVenta"]
                 Session["VentaXFunDev"]
                 Session["VentasDev"]
@@ -1191,6 +1222,15 @@ namespace WebApplication4.Controllers
                     }
                 Session["ListaAsientos"] = axf;
 
+
+                LogDevoluciones ld = new LogDevoluciones();
+                ld.codDetalleVenta = dv.codDetalleVenta;
+                ld.codVendedor = User.Identity.Name;
+                ld.cantEntradas = 1;
+                ld.fechaDev = DateTime.Now;
+                ld.montoDev = axfuncion.PrecioPagado;
+                db.LogDevoluciones.Add(ld);
+
             }
             else // no numerado
             {
@@ -1203,6 +1243,9 @@ namespace WebApplication4.Controllers
                 v.MontoTotalSoles -= (double)pe.precio;
                 if (v.cantAsientos == 0) v.Estado = "Devuelto";
                 //v.Estado = "DevueltoParcial"; por evaluar!!!!!!!
+
+                v.entradasDev += 1;
+                v.montoDev += (double)pe.precio;
 
                 Funcion f = db.Funcion.Find(dv.codFuncion);
                 Eventos ev = db.Eventos.Find(f.codEvento);
@@ -1221,7 +1264,10 @@ namespace WebApplication4.Controllers
                 VentasXFuncion vxf = (db.VentasXFuncion.Where(ven => ven.codVen == v.codVen && ven.codFuncion == f.codFuncion).ToList())[0];
                 //VentasXFuncion vxf = (VentasXFuncion)Session["VentaXFunDev"];
                 vxf.cantEntradas -= 1;
-                ;
+
+                vxf.montoDev += (double)pe.precio;
+                vxf.entradasDev += 1;
+                
                 ZonaEvento ze = db.ZonaEvento.Find(pe.codZonaEvento);
                 if (!ze.tieneAsientos) ze.tieneAsientos = true;
 
@@ -1231,6 +1277,18 @@ namespace WebApplication4.Controllers
                 DetalleVenta dvAux = db.DetalleVenta.Find(dv.codDetalleVenta);
                 dvAux.entradasDev += 1;
                 dvAux.cantEntradas -= 1;
+
+                dvAux.montoDev += (double)pe.precio;
+
+
+                LogDevoluciones ld = new LogDevoluciones();
+                ld.codDetalleVenta = dv.codDetalleVenta;
+                ld.codVendedor = User.Identity.Name;
+                ld.cantEntradas = 1;
+                ld.fechaDev = DateTime.Now;
+                ld.montoDev = pe.precio;
+                db.LogDevoluciones.Add(ld);
+
                 /*Session["DetalleVenta"]
                 Session["VentaXFunDev"]
                 Session["VentasDev"]

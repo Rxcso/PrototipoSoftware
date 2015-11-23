@@ -17,69 +17,54 @@
 </div>
 
 
-<div class="tab-content">
-
-
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    <br>
-                    <br>
-                    <a class="btn btn-primary" href="#formNuevo" data-toggle="modal">Nuevo <span class="glyphicon glyphicon-plus"></span></a>
-                    <a class="btn btn-primary" data-toggle="modal" onclick="redirige()">Modificar<span class="glyphicon glyphicon-pencil"></span></a>
-                    <a class="btn btn-primary" onclick="validaS()" data-toggle="modal">Borrar<span class="glyphicon glyphicon-remove"></span></a>
-                    <a class="btn btn-primary" onclick="activa()" data-toggle="modal" id="Activate">Activar<span class="glyphicon glyphicon-ok"></span></a>
-                    <br>
-                    <br>
-                </div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">                
+                <a class="btn btn-success" href="#formNuevo" data-toggle="modal"><span class="glyphicon glyphicon-plus"></span> Nuevo</a>
+                <a class="btn btn-primary" data-toggle="modal" onclick="redirige()"><span class="glyphicon glyphicon-pencil"></span> Modificar</a>
+                <a class="btn btn-danger" onclick="validaS()" data-toggle="modal"><span class="glyphicon glyphicon-remove"></span> Eliminar</a>
+                <a class="btn btn-default" id="idBusq2" onclick="buscaI()" data-toggle="modal"><span class="glyphicon glyphicon-eye-open"></span> Inactivos</a>
+                <a class="btn btn-default" onclick="activa()" data-toggle="modal" id="Activate"><span class="glyphicon glyphicon-ok"></span> Activar</a>                
             </div>
-            <div class="col-md-3">
-                <form action="" class="" role="search">
-                    <br>
-                    <br>
-                    <div class="form-group">
-                        <div class="input-group">
-                            <input id="idBusq" type="text" class="form-control" placeholder="BUSCAR UNA ORGANIZADOR">
-                            <span class="input-group-btn"><button onclick="busca()" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-            <div class="col-md-2">
-                <br>
-                <br>
-                @*<a class="btn btn-danger pull-right" href="@Url.Action("Index2", "Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>*@
-            </div>
-
         </div>
-        <a class="btn btn-primary" id="idBusq2" onclick="buscaI()" data-toggle="modal">Ver Inactivos<span class="glyphicon"></span></a>
-        <br>
-        <br>
-        @{
-            var db = new WebApplication4.Models.inf245netsoft();
-            List<WebApplication4.Models.Organizador> listaOrganizador;
-            if (Session["ListaO"] == null)
-            {
-                listaOrganizador = db.Organizador.AsNoTracking().Where(c => c.estadoOrg == "Activo").ToList();
-            }
-            else
-            {
-                listaOrganizador = (List<WebApplication4.Models.Organizador>)Session["ListaO"];
-            }
+        <div class="col-md-6">
+            <form action="" class="" role="search">                
+                <div class="form-group">
+                    <div class="input-group">
+                        <input id="idBusq" type="text" class="form-control" placeholder="BUSCAR UNA ORGANIZADOR">
+                        <span class="input-group-btn"><button onclick="busca()" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+   
+    @{
+        var db = new WebApplication4.Models.inf245netsoft();
+        List<WebApplication4.Models.Organizador> listaOrganizador;
+        if (Session["ListaO"] == null)
+        {
+            listaOrganizador = db.Organizador.AsNoTracking().Where(c => c.estadoOrg == "Activo").ToList();
         }
+        else
+        {
+            listaOrganizador = (List<WebApplication4.Models.Organizador>)Session["ListaO"];
+        }
+    }
 
-        <div class="row">
+    <div class="row">
+        <div class="table-responsive">
             <table id="mytable" class="table table-bordered table-hover">
                 <thead>
                     <tr class="thead">
-                        <th>Id</th>
-                        <th>Nombre</th>
-                        <th>Nro. Documento</th>
-                        <th>Correo</th>
-                        <th>Telefono</th>
-                        <th>Estado</th>
+                        <th class="col-md-1">Código</th>
+                        <th class="col-md-3">Nombre</th>
+                        <th class="col-md-2">Nro. Documento</th>
+                        <th class="col-md-2">Correo</th>
+                        <th class="col-md-3">Telefono</th>
+                        <th class="col-md-1">Estado</th>
                     </tr>
                 </thead>
                 <tbody id="tbody">
@@ -90,18 +75,14 @@
                             <td>@row.nombOrg</td>
                             <td>@row.codDoc</td>
                             <td>@row.correo</td>
-                            <td>@row.telefOrg</td>
-                            <td>@row.estadoOrg</td>
-                            @*<td>@Html.ActionLink("Delete2", "Delete", new { id = row.codOrg })</td>
-                                <td>@Html.ActionLink("Edit", "Edit", new { id = row.codOrg })</td>*@
-                            @*<td>@Html.ActionLink("Delete", "Delete", new { id = row.idRegalo })</td>
-                                <td>@Html.ActionLink("Edit", "Edit", new { id = row.idRegalo })</td>*@
+                            <td>@row.telefOrg</td>                            
+                            <td>@row.estadoOrg</td>                            
                         </tr>
                     }
                 </tbody>
             </table>
         </div>
-
+        
     </div>
 
 </div>
@@ -269,92 +250,83 @@
     }
 </script>
 
-<style>
-    .trselected {
-        background: gray;
-    }
-</style>
 
 <div class="modal fade" id="formNuevo">
     <!--esta div pondra la pantalla oscura al presionar el boton-->
     <div class="modal-dialog">
-        <div class="modal-content">
-            <!--ACA VA EL CONTENIDO DEL MODAL-->
+        <div class="modal-content">            
             <!--header de la ventana-->
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
                 <h4 class="modal-title">Nuevo Organizador</h4>
             </div>
             <!--contenido de la ventana-->
-            @using (Html.BeginForm("RegisterOrganizador", "Organizador", FormMethod.Post, new { }))
-            {
-                @Html.AntiForgeryToken()
-
-                <div class="form-horizontal">
-                    @Html.ValidationSummary(true)
-                    <br>
-                    <div class="row form-group">
-                        @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })
-                        <div class="col-md-5">
-                            @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.nombre)
-                        </div>
-                    </div>
-
-                    <div class="row form-group">
-                        @Html.LabelFor(model => model.telefono, new { @class = "control-label col-md-3" })
-                        <div class="col-md-5">
-                            @Html.EditorFor(model => model.telefono, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.telefono)
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.tipoDoc, new { @class = "control-label col-md-3" })
-                        <div class="col-md-5">
-                            @{
-                List<SelectListItem> listItems = new List<SelectListItem>();
-                listItems.Add(new SelectListItem
+            <div class="modal-body">
+                @using (Html.BeginForm("RegisterOrganizador", "Organizador", FormMethod.Post, new { }))
                 {
-                    Text = "DNI",
-                    Value = "1",
-                });
-                listItems.Add(new SelectListItem
-                {
-                    Text = "Pasaporte",
-                    Value = "2"
-                });
-                            }
-                            @Html.DropDownListFor(model => model.tipoDoc, listItems, "Seleccione tipo de documento", new { @class = "form-control" })
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        <br />
+                        @Html.ValidationSummary(true)
+                        <div class="row form-group">
+                            @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.nombre)
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            @Html.LabelFor(model => model.telefono, new { @class = "control-label col-md-3" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.telefono, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.telefono)
+                            </div>
                         </div>
 
-                    </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.tipoDoc, new { @class = "control-label col-md-3" })
+                            <div class="col-md-3">
+                                @{
+                    List<SelectListItem> listItems = new List<SelectListItem>();
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "DNI",
+                        Value = "1",
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "Pasaporte",
+                        Value = "2"
+                    });
+                                }
+                                @Html.DropDownListFor(model => model.tipoDoc, listItems, "Seleccione", new { @class = "form-control" })
+                            </div>
+                            @Html.LabelFor(model => model.codDoc, new { @class = "control-label col-md-2" })
+                            <div class="col-md-3">
+                                @Html.EditorFor(model => model.codDoc, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.codDoc)
+                            </div>
 
+                        </div>
 
+                        <div class="row form-group">
+                            @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-3" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Email)
+                            </div>
+                        </div>
 
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.codDoc, new { @class = "control-label col-md-3" })
-                        <div class="col-md-5">
-                            @Html.EditorFor(model => model.codDoc, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.codDoc)
+                        <div class="form-group">
+                            <center>
+                                <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Agregar</button>
+                            </center>
                         </div>
                     </div>
-
-                    <div class="row form-group">
-                        @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-3" })
-                        <div class="col-md-5">
-                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Email)
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Agregar" class="btn btn-primary" />
-                        </div>
-                    </div>
-                </div>
-            }
+                }
+            </div>
+            
             <!--footer de la ventana-->
 
         </div>
