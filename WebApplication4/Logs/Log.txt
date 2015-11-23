@@ -1968,11 +1968,29 @@ System.Collections.ListDictionaryInternal
 The using block is missing a closing "}" character.  Make sure you have a matching "}" character for all the "{" characters within this block, and that none of the "}" characters are being interpreted as markup.
 
 2015-11-22 18:27:54,727 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-22 20:24:50,542 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-22 20:24:50,550 [5] ERROR Ticknet - Exception Type - 
-DbUpdateException
-2015-11-22 20:24:50,550 [5] ERROR Ticknet - Exception Data - 
+2015-11-22 20:34:15,296 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 20:34:15,303 [11] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-22 20:34:15,303 [11] ERROR Ticknet - Exception Data - 
 System.Collections.ListDictionaryInternal
-2015-11-22 20:24:50,550 [5] ERROR Ticknet - Exception Message - 
-An error occurred while updating the entries. See the inner exception for details.
-2015-11-22 20:24:50,550 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 20:34:15,303 [11] ERROR Ticknet - Exception Message - 
+The controller for path '/__browserLink/requestData/3c7a5077e2f0415a8541d1bdc3aa095c' was not found or does not implement IController.
+2015-11-22 20:34:15,303 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 20:43:52,290 [15] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 20:43:52,300 [15] ERROR Ticknet - Exception Type - 
+ArgumentNullException
+2015-11-22 20:43:52,300 [15] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-22 20:43:52,300 [15] ERROR Ticknet - Exception Message - 
+El valor no puede ser nulo.
+Nombre del parámetro: source
+2015-11-22 20:43:52,300 [15] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 20:47:55,292 [15] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-22 20:47:55,292 [15] ERROR Ticknet - Exception Type - 
+ArgumentNullException
+2015-11-22 20:47:55,292 [15] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-22 20:47:55,292 [15] ERROR Ticknet - Exception Message - 
+El valor no puede ser nulo.
+Nombre del parámetro: source
+2015-11-22 20:47:55,292 [15] DEBUG Ticknet - ++++++++++++++++++++++++++++
