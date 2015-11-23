@@ -164,7 +164,11 @@ namespace WebApplication4.Controllers
 
         public JsonResult ReporteEvento1(string fd, string fh)
         {
+
             double to = 0;
+            int codFuncion;
+            int cantLibres;
+            int cantTotal;
             DateTime dt1 = DateTime.Parse(fd);
             DateTime dt2 = DateTime.Now;
             if (fh != null && fh != "")
@@ -179,8 +183,12 @@ namespace WebApplication4.Controllers
             DateTime di = dt1;
             if (dt1 > dt2) return Json("Fecha inicio debe ser menor que fecha fin", JsonRequestBehavior.AllowGet);
             List<ReporteEventosModel> lr = new List<ReporteEventosModel>();
-            List<Eventos> lv = db.Eventos.Where(c => (c.fecha_inicio >= dt1.Date) && (c.fecha_fin <= dt2.Date)).ToList();
 
+            List<Eventos> lv1 = db.Eventos.Where(c => c.fecha_inicio >= dt1.Date).ToList();
+            List<Eventos> lv = lv1.Where(c => c.fecha_fin <= dt2.Date).ToList();
+            List<Funcion> lf;
+            List<ZonaxFuncion> lzf;
+            List<ZonaEvento> lze;
             for (int i = 0; i < lv.Count; i++)
             {
                 ReporteEventosModel r = new ReporteEventosModel();
@@ -189,13 +197,80 @@ namespace WebApplication4.Controllers
                 int valorID = (int)lv[i].idOrganizador;
                 Organizador queryO = db.Organizador.Where(c => c.codOrg == valorID).First();
                 r.nombreOrganizador = queryO.nombOrg;
-                valorID = (int)lv[i].idLocal;
-                Local querL = db.Local.Where(c => c.codLocal == valorID).First();
-                r.local = querL.ubicacion;
+
                 valorID = (int)lv[i].idRegion;
                 Region querR = db.Region.Where(c => c.idRegion == (int)valorID).First();
                 r.region = querR.nombre;
-                lr.Add(r);
+
+                valorID = (int)lv[i].idLocal;
+
+                if (valorID != 0)
+                {
+                    Local querL = db.Local.Where(c => c.codLocal == valorID).First();
+                    r.local = querL.ubicacion;
+
+                }
+                else
+                {
+                    r.local = lv[i].direccion;
+                }
+
+                valorID = (int)lv[i].codigo;
+                lf = db.Funcion.Where(c => c.codEvento == valorID).ToList();
+                DateTime fecha, hora;
+
+                cantTotal = 0;
+                lze = db.ZonaEvento.Where(c => c.codEvento == valorID).ToList();
+                for (int h = 0; h < lze.Count; h++)
+                {
+                    cantTotal = cantTotal + lze[h].aforo;
+                }
+
+                for (int j = 0; j < lf.Count; j++)
+                {
+                    fecha = (DateTime)lf[j].fecha;
+                    r.fechaFuncion = fecha.Date;
+                    hora = (DateTime)lf[j].horaIni;
+                    r.horaFuncion = hora.Hour;
+                    //cantidades de entradas disponibles
+                    cantLibres = 0;
+                    codFuncion = (int)lf[j].codFuncion;
+                    lzf = db.ZonaxFuncion.Where(c => c.codFuncion == codFuncion).ToList();
+                    for (int k = 0; k < lzf.Count; k++)
+                    {
+                        cantLibres = cantLibres + lzf[k].cantLibres;
+                    }
+                    r.entradasDisponibles = cantLibres;
+                    //cantidades de entradas vendidas
+
+                    r.entradasVendidas = cantTotal - cantLibres;
+                    //estado de la funcion
+                    r.EstadoFunción = lf[j].estado;
+                    lr.Add(r);
+
+                    r = new ReporteEventosModel();
+                    r.codigoEvento = lv[i].codigo;
+                    r.nombreEvento = lv[i].nombre;
+                    valorID = (int)lv[i].idOrganizador;
+                    queryO = db.Organizador.Where(c => c.codOrg == valorID).First();
+                    r.nombreOrganizador = queryO.nombOrg;
+
+                    valorID = (int)lv[i].idRegion;
+                    querR = db.Region.Where(c => c.idRegion == (int)valorID).First();
+                    r.region = querR.nombre;
+                    valorID = (int)lv[i].idLocal;
+                    if (valorID != 0)
+                    {
+                        Local querL = db.Local.Where(c => c.codLocal == valorID).First();
+                        r.local = querL.ubicacion;
+
+                    }
+                    else
+                    {
+                        r.local = lv[i].direccion;
+                    }
+                }
+
             }
 
             Session["ReporteEventos"] = lr;

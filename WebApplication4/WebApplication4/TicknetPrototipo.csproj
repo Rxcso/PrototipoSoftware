@@ -237,6 +237,7 @@
     </Compile>
     <Compile Include="Models\CategoriaModel.cs" />
     <Compile Include="Models\ComprarEntradaReservadaA.cs" />
+    <Compile Include="Models\LogDevoluciones.cs" />
     <Compile Include="Models\ReporteEventos.cs" />
     <Compile Include="Models\ReporteModel.cs" />
     <Compile Include="Models\ReservaOrganizadorModel.cs" />

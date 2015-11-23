@@ -11,7 +11,8 @@ namespace WebApplication4.Models
         public string nombreEvento { get; set; }
         public string nombreOrganizador { get; set; }
         public DateTime fechaFuncion { get; set; }
-        public DateTime horaFuncion { get; set; }
+        public int horaFuncion { get; set; }
+        public string EstadoFunción { get; set; }
         public int entradasDisponibles { get; set; }
         public int entradasVendidas { get; set; }
         public string local { get; set; }
