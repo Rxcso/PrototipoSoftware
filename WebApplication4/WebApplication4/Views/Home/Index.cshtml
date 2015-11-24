@@ -4,26 +4,26 @@
 @using PagedList.Mvc;
 @model PagedList.IPagedList<Eventos>
 
-@{
-    ViewBag.Title = "TickNet";
-    inf245netsoft db = new inf245netsoft();
-    List<Eventos> listaDestacados = ViewBag.ListaDestacados as List<Eventos>;
-}
+    @{
+        ViewBag.Title = "TickNet";
+        inf245netsoft db = new inf245netsoft();
+        List<Eventos> listaDestacados = ViewBag.ListaDestacados as List<Eventos>;
+    }
 
     <style>
-                            .thumbnail > .event {
-                                height: 50px;
-                            }
+        .thumbnail > .event {
+            height: 50px;
+        }
 
-                            .bloque-imagen {
-                                width: 250px;
-                                height: 150px;
-                            }
-                        </style>
+        .bloque-imagen {
+            width: 250px;
+            height: 150px;
+        }
+    </style>
 
 
 
-    
+
     <div id="seccionPrincipal" class="container">
         <div class="row">
             <div class="col-md-12 ">
@@ -73,7 +73,7 @@
                             <div class="col-md-3 col-sm-6 col-xs-12 bloque-imagen">
                                 <div class="thumbnail">
                                     <a href=@Url.Action("VerEvento", "Evento", new { id = evento.codigo })>
-                                        <img  height="58px" class="event" src="@evento.ImagenEvento" alt="">
+                                        <img height="58px" class="event" src="@evento.ImagenEvento" alt="">
                                     </a>
                                     <div class="caption" style="text-align:center">
                                         @{
@@ -156,74 +156,55 @@
             </div>
         </div>
     </div>
-    
-    <!--librerias-->   
+
+    <!--librerias-->
     @section scripts{
-                               <script>
-        $(document).ready(function () {
+        <script>
+            $(document).ready(function () {
 
 
 
-            if (!isNaN(@ViewBag.idCategoria)) {
+                if (!isNaN(@ViewBag.idCategoria)) {
 
-                $("#idCategoria > option[value='" + @ViewBag.idCategoria + "'").attr('selected', 'selected');
-
-
-                if (!isNaN(@ViewBag.idSubCat)) {
+                    $("#idCategoria > option[value='" + @ViewBag.idCategoria + "'").attr('selected', 'selected');
 
 
-                    $("#idSubCat > option[value='" + @ViewBag.idSubCat + "'").attr('selected', 'selected');
+                    if (!isNaN(@ViewBag.idSubCat)) {
 
 
-
-                }
-
-
-            }
-
-            if (!isNaN(@ViewBag.idRegion)) {
-
-                $("#idRegion > option[value='" + @ViewBag.idRegion + "'").attr('selected', 'selected');
+                        $("#idSubCat > option[value='" + @ViewBag.idSubCat + "'").attr('selected', 'selected');
 
 
-
-
-            }
-
-            $("#adv-search").on('submit', function (e) {
-
-                e.preventDefault();
-
-                var fechI = this['fech_ini'].value;
-                var fechF = this['fech_fin'].value;
-
-                /*Regla 1 para la validadcion de al menos un campo*/
-                if (fechI == '' && fechF == '' && $("#idCategoria").val() == '' &&
-                    $("#idSubCat").val() == '' && $("#idRegion").val() == '') {
-
-                    $("#alerta").append('<strong>Ingrese al menos un campo!</strong>').show();
-                    return;
-                } else {
-
-                    var valor = $("#alerta").children('strong');
-                    if (valor.length > 0) {
-
-                        valor.remove();
 
                     }
 
-                    $("#alerta").hide();
 
                 }
-                /*Regla 2 : Validacion para las fechas*/
-                if (fechF != '' && fechI != '') {
+
+                if (!isNaN(@ViewBag.idRegion)) {
+
+                    $("#idRegion > option[value='" + @ViewBag.idRegion + "'").attr('selected', 'selected');
 
 
-                    if (new Date(fechF.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1")) < new Date(fechI.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1"))) {
 
-                        $("#alerta").append('<strong>Fecha hasta no puede ser menor que fecha desde</strong>').show();
+
+                }
+
+                $("#adv-search").on('submit', function (e) {
+
+                    e.preventDefault();
+
+                    var fechI = this['fech_ini'].value;
+                    var fechF = this['fech_fin'].value;
+
+                    /*Regla 1 para la validadcion de al menos un campo*/
+                    if (fechI == '' && fechF == '' && $("#idCategoria").val() == '' &&
+                        $("#idSubCat").val() == '' && $("#idRegion").val() == '') {
+
+                        $("#alerta").append('<strong>Ingrese al menos un campo!</strong>').show();
                         return;
                     } else {
+
                         var valor = $("#alerta").children('strong');
                         if (valor.length > 0) {
 
@@ -234,74 +215,93 @@
                         $("#alerta").hide();
 
                     }
+                    /*Regla 2 : Validacion para las fechas*/
+                    if (fechF != '' && fechI != '') {
 
-                }
 
-                this.submit();
+                        if (new Date(fechF.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1")) < new Date(fechI.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1"))) {
 
+                            $("#alerta").append('<strong>Fecha hasta no puede ser menor que fecha desde</strong>').show();
+                            return;
+                        } else {
+                            var valor = $("#alerta").children('strong');
+                            if (valor.length > 0) {
+
+                                valor.remove();
+
+                            }
+
+                            $("#alerta").hide();
+
+                        }
+
+                    }
+
+                    this.submit();
+
+
+                });
 
             });
 
-        });
+
+            function cambioCat() {
+
+                fillCombo("idSubCat", $("#idCategoria").val(), "/Home/Subcategorias", "Subcategorias");
+
+            }
+
+            function fillCombo(idCombo, value, linkUrl, optlabel) {
+
+                $("#" + idCombo).empty();
+                $("#" + idCombo).append("<option value=''>" + optlabel + "</option>")
 
 
-        function cambioCat() {
+                var depId = parseInt(value);
+                if (isNaN(depId)) return;
+                $.ajax({
+                    url: linkUrl,
+                    type: 'POST',
+                    data: { idCategoria: depId },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (isNaN(data.length)) return;
 
-            fillCombo("idSubCat", $("#idCategoria").val(), "/Home/Subcategorias", "Subcategorias");
-
-        }
-
-        function fillCombo(idCombo, value, linkUrl, optlabel) {
-
-            $("#" + idCombo).empty();
-            $("#" + idCombo).append("<option value=''>" + optlabel + "</option>")
-
-
-            var depId = parseInt(value);
-            if (isNaN(depId)) return;
-            $.ajax({
-                url: linkUrl,
-                type: 'POST',
-                data: { idCategoria: depId },
-                dataType: 'json',
-                success: function (data) {
-                    if (isNaN(data.length)) return;
-
-                    $.each(data, function (k, v) {
-                        $("#" + idCombo).append("<option value='" + v.id + "'>" + v.nombre + "</option>");
-                    });
-                },
-                error: function () {
-                    alert("Error :(");
-                }
-            });
-        }
+                        $.each(data, function (k, v) {
+                            $("#" + idCombo).append("<option value='" + v.id + "'>" + v.nombre + "</option>");
+                        });
+                    },
+                    error: function () {
+                        alert("Error :(");
+                    }
+                });
+            }
 
 
 
-        function busqueda() {
-            $('#search').submit();
-        }
+            function busqueda() {
+                $('#search').submit();
+            }
 
-        function busquedaAdv() {
-            $('#adv-search').submit();
-        }
+            function busquedaAdv() {
+                $('#adv-search').submit();
+            }
 
-        function verEvento() {
-            window.open("ver_evento.html", "_self");
-        }
+            function verEvento() {
+                window.open("ver_evento.html", "_self");
+            }
 
-        function buscar() {
-            window.open("index1.html", "_self");
-        }
-        function ingresar() {
-            window.open("mi_cuenta.html", "_self");
-        }
-                               </script>
-        }
+            function buscar() {
+                window.open("index1.html", "_self");
+            }
+            function ingresar() {
+                window.open("mi_cuenta.html", "_self");
+            }
+        </script>
+    }
 
-     
-    
 
-    
+
+
+
 

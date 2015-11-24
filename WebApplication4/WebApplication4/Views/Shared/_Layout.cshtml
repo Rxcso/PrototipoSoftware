@@ -40,7 +40,7 @@
     <head>
         <meta charset="UTF-8">
         <title>@ViewBag.Title</title>
-        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">                
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
         @Styles.Render("~/Content/css")<!--boostrap-->
         @Styles.Render("~/Content/themes/base/css")<!--jquery UI -->
         <link rel="stylesheet" href="~/Content/estilos-index2.css">
@@ -154,7 +154,7 @@
         @RenderBody()
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/jqueryval")
-        @Scripts.Render("~/bundles/jqueryui")                
+        @Scripts.Render("~/bundles/jqueryui")
         @Scripts.Render("~/bundles/bootstrap")
         @RenderSection("scripts", required: false)
         <script src="~/Scripts/script_fecha.js"></script>
@@ -164,215 +164,225 @@
 else
 {
     //index 1 para el cliente
-    
+
     inf245netsoft db = new inf245netsoft();
-    
+
     <!DOCTYPE html>
     <html>
-        <head>
-            <meta charset="UTF-8">
-            <title>@ViewBag.Title</title>
-            <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">            
-            @Styles.Render("~/Content/css")<!--boostrap-->
-            @Styles.Render("~/Content/themes/base/css")<!--jquery UI -->
-            <link rel="stylesheet" href="~/Content/estilos-index1.css">            
-        </head>
-    
-        <body>
-            <header class="container-fluid ">
-                <nav style="margin-bottom:0" class="navbar navbar-static-top navbar-inverse " role="navigation">
-                    <div class="container-fluid">
-                        <div class="navbar-header">
-                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navegacion">
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-                            <a href="@Url.Action("Index", "Home")" class="navbar-brand">TICKNET </a><!--nos redirige a la pag principal-->
-                        </div>
-                        <!--inicia el MENU-->
-                        <div-- class="collapse navbar-collapse" id="navegacion">
-                            <!--menu desplegable -->
-                            @using (Html.BeginForm("Index", "Home", FormMethod.Get, new { id = "search", @class = "navbar-form navbar-left", role = "search" }))
-                            {
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <input id="comm-txt" name="nombre" type="text" class="form-control" placeholder="BUSCAR UN EVENTO">
-                                        <span class="input-group-btn"><button class="btn btn-primary" type="button" onclick="busqueda()"><span class="glyphicon glyphicon-search"></span></button></span>
-                                    </div>
+    <head>
+        <meta charset="UTF-8">
+        <title>@ViewBag.Title</title>
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        @Styles.Render("~/Content/css")<!--boostrap-->
+        @Styles.Render("~/Content/themes/base/css")<!--jquery UI -->
+        <link rel="stylesheet" href="~/Content/estilos-index1.css">
+    </head>
+
+    <body>
+        <!--img src="~/Content/fondo1.jpg" alt="Alternate Text" class="bg" /-->
+        <header class="container-fluid ">
+            <nav style="margin-bottom:0" class="navbar navbar-static-top navbar-inverse " role="navigation">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navegacion">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a href="@Url.Action("Index", "Home")" class="navbar-brand">TICKNET </a><!--nos redirige a la pag principal-->
+                    </div>
+                    <!--inicia el MENU-->
+                    <div-- class="collapse navbar-collapse" id="navegacion">
+                        <!--menu desplegable -->
+                        @using (Html.BeginForm("Index", "Home", FormMethod.Get, new { id = "search", @class = "navbar-form navbar-left", role = "search" }))
+                        {
+                            <div class="form-group">
+                                <div class="input-group ">
+                                    <input id="comm-txt" name="nombre" type="text" class="form-control" placeholder="NOMBRE DEL EVENTO...">
+                                    <span class="input-group-btn"><button class="btn btn-primary" type="button" onclick="busqueda()"><span class="glyphicon glyphicon-search"></span></button></span>
                                 </div>
+                            </div>
 
+                        }
+                        <div class="navbar-form navbar-left">
+                            <a class="btn btn-info" href="#busqAvanzada" data-toggle="collapse"><span class="fa fa-binoculars"></span> Búsqueda avanzada</a>
+                        </div>
+                        <div class="navbar-form navbar-right">
+
+                            @if (!Request.IsAuthenticated)
+                            {
+                                <a id="logIn" href="#logInCliente" class="btn btn-primary" data-toggle="modal"><span class="fa fa-user"></span> Iniciar sesión</a>
                             }
-                            
-                            <form class="navbar-form navbar-left">
-                                <a class="btn btn-info" href="#busqAvanzada" data-toggle="collapse"><span class="glyphicon glyphicon-tasks"></span> Búsqueda Avanzada</a>
-                            </form>                            
-                            <div class="navbar-form navbar-right">
-
-                                @if (!Request.IsAuthenticated)
+                            else
+                            {
+                                using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "form" }))
                                 {
-                                    <a id="logIn" href="#logInCliente" class="btn btn-primary" data-toggle="modal"><span class="fa fa-user"></span> Iniciar sesión</a>
+                                    @Html.AntiForgeryToken()
+
+                                    <div class="nav navbar-nav ">
+                                        <!--a type="button" class="btn btn-primary" href="@Url.Action("MiCuenta","CuentaUsuario")"><span class="fa fa-user"></span> @nombre</a-->
+                                        <div class="dropdown">
+                                            <a type="button" aria-expanded="true" data-toggle="dropdown" aria-haspopup="true" class="btn btn-primary dropdown-toggle">@nombre <span class="caret"></span></a>
+                                            <ul class="dropdown-menu" aria-labelledby="sesion">
+                                                <li><a href="@Url.Action("MiCuenta","CuentaUsuario")"><span class="fa fa-user"></span> Mi cuenta</a></li>
+                                                <li><a href="javascript:document.getElementById('logoutForm').submit()"><span class="fa fa-sign-out"></span> Cerrar sesión</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        </div>
+                </div>
+                </div>
+            </nav>
+
+            <div id="busqAvanzada" class="collapse container">
+                <!--formulario EN LINEA-->
+                <div id="alerta" name="alerta" class="alert alert-warning" hidden></div>
+                @using (Html.BeginForm("Index", "Home", FormMethod.Get, new { id = "adv-search", @class = "form-inline" }))
+                {
+                    if (this.Request.QueryString.Count != 0)
+                    {
+
+                        if (this.Request.QueryString.AllKeys.Contains("nombre"))
+                        {
+                            nomb = this.Request.QueryString["nombre"];
+                        }
+                    }
+
+                    @Html.Hidden("nombre", nomb, new { id = "adv-nomb" })
+                    <div class="form-group ">
+                        <div class="form-group ">
+                            <div class="input-group">
+                                <span class="input-group-addon">Desde:</span>
+                                @if (ViewBag.fech_ini != null)
+                                {
+                                    string valor = ViewBag.fech_ini.ToString("dd/MM/yyyy");
+                                    <input id="fech_ini" name="fech_ini" type="text" class="form-control fecha" value=@valor>
                                 }
                                 else
                                 {
-                                    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "form" }))
-                                    {
-                                        @Html.AntiForgeryToken()
-
-                                        <div class="nav navbar-nav navbar-right">
-                                            <a type="button" class="btn btn-primary" href="@Url.Action("MiCuenta","CuentaUsuario")"> Bienvenido @nombre !</a>
-                                            <a type="button" class="btn btn-danger" href="javascript:document.getElementById('logoutForm').submit()">Salir <span class="glyphicon glyphicon-log-out"></span></a>
-                                        </div>
-                                    }
+                                    <input id="fech_ini" name="fech_ini" type="text" class="form-control fecha" value="@String.Format("{0:yyyy-MM-dd}",DateTime.Today)">
                                 }
                             </div>
                         </div>
-                    </div>
-                </nav>
 
-                <div id="busqAvanzada" class="collapse container">
-                    <!--formulario EN LINEA-->
-                    <div id="alerta" name="alerta" class="alert alert-warning" hidden></div>
-                    @using (Html.BeginForm("Index", "Home", FormMethod.Get, new { id = "adv-search", @class = "form-inline" }))
-                    {
-                        if (this.Request.QueryString.Count != 0)
-                        {
-
-                            if (this.Request.QueryString.AllKeys.Contains("nombre"))
-                            {
-                                nomb = this.Request.QueryString["nombre"];
-                            }
-                        }
-
-                        @Html.Hidden("nombre", nomb, new { id = "adv-nomb" })
                         <div class="form-group ">
-                            <div class="form-group ">
-                                <div class="input-group">
-                                    <span class="input-group-addon">Desde:</span>
-                                    @if (ViewBag.fech_ini != null)
-                                    {
-                                        string valor = ViewBag.fech_ini.ToString("dd/MM/yyyy");
-                                        <input id="fech_ini" name="fech_ini" type="text" class="form-control fecha" value=@valor>
-                                    }
-                                    else
-                                    {
-                                        <input id="fech_ini" name="fech_ini" type="text" class="form-control fecha" value="@String.Format("{0:yyyy-MM-dd}",DateTime.Today)">
-                                    }
-                                </div>
-                            </div>
-
-                            <div class="form-group ">
-                                <div class="input-group">
-                                    <span class="input-group-addon">Hasta:</span>
-                                    @if (ViewBag.fech_fin != null)
-                                    {
-                                        string valor = ViewBag.fech_fin.ToString("yyyy/MM/dd");
-                                        <input id="fech_fin" name="fech_fin" type="text" value=@valor class="fecha form-control">
-                                    }
-                                    else
-                                    {
-                                        <input id="fech_fin" name="fech_fin" type="text" class="fecha form-control">
-                                    }
-                                </div>
-                            </div>
-
-                            <div class="form-group ">
-
-                                <select name="idCategoria" id="idCategoria" data-val="true" onchange="cambioCat()" class="form-control col-lg-2">
-
-                                    <option value="">Categorias</option>
-
-                                    @{
-                                    var queryCat = db.Categoria.AsNoTracking().Where(c => c.nivel == 1);
-                                    var categorias = new SelectList(queryCat, "idCategoria", "nombre");
-                                    }
-
-                                    @foreach (var categoria in categorias)
-                                    {
-                                        <option value=@categoria.Value> @categoria.Text</option>
-                                    }
-
-                                </select>
-
-                            </div>
-
-                            <div class="form-group ">
-                                <select name="idSubCat" id="idSubCat" data-val="true" class="form-control col-lg-2">
-
-                                    <option value="">Subcategorias</option>
-                                    @if (ViewBag.idCategoria != null)
-                                    {
-
-                                        int idPadre = ViewBag.idCategoria;
-
-                                        var subcat = from obj in db.Categoria
-                                                     where obj.idCatPadre == idPadre
-                                                     select obj;
-
-                                        foreach (var dato in subcat)
-                                        {
-                                            <option value=@dato.idCategoria>@dato.nombre</option>
-                                        }
-                                    }
-
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <select name="idRegion" id="idRegion" data-val="true" class="form-control col-lg-2">
-                                    <option value="">Departamentos</option>
-                                    @{
-                                    var queryDepart = db.Region.AsNoTracking().Where(c => c.idRegPadre == null);
-                                    var listaDepart = new SelectList(queryDepart, "idRegion", "nombre");
-                                    }
-
-                                    @foreach (var departamento in listaDepart)
-                                    {
-                                        <option value=@departamento.Value> @departamento.Text</option>
-                                    }
-
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <a class="btn btn-primary " onclick="busquedaAdv()">Buscar <span class="glyphicon glyphicon-search"></span></a>
+                            <div class="input-group">
+                                <span class="input-group-addon">Hasta:</span>
+                                @if (ViewBag.fech_fin != null)
+                                {
+                                    string valor = ViewBag.fech_fin.ToString("yyyy/MM/dd");
+                                    <input id="fech_fin" name="fech_fin" type="text" value=@valor class="fecha form-control">
+                                }
+                                else
+                                {
+                                    <input id="fech_fin" name="fech_fin" type="text" class="fecha form-control">
+                                }
                             </div>
                         </div>
-                    }
-                </div>
 
-                @{
-        try
-        {
-            Html.RenderPartial("_LoginPartial", new LoginViewModel());
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex);
-        }
+                        <div class="form-group ">
+
+                            <select name="idCategoria" id="idCategoria" data-val="true" onchange="cambioCat()" class="form-control col-lg-2">
+
+                                <option value="">Categorias</option>
+
+                                @{
+                                var queryCat = db.Categoria.AsNoTracking().Where(c => c.nivel == 1);
+                                var categorias = new SelectList(queryCat, "idCategoria", "nombre");
+                                }
+
+                                @foreach (var categoria in categorias)
+                                {
+                                    <option value=@categoria.Value> @categoria.Text</option>
+                                }
+
+                            </select>
+
+                        </div>
+
+                        <div class="form-group ">
+                            <select name="idSubCat" id="idSubCat" data-val="true" class="form-control col-lg-2">
+
+                                <option value="">Subcategorias</option>
+                                @if (ViewBag.idCategoria != null)
+                                {
+
+                                    int idPadre = ViewBag.idCategoria;
+
+                                    var subcat = from obj in db.Categoria
+                                                 where obj.idCatPadre == idPadre
+                                                 select obj;
+
+                                    foreach (var dato in subcat)
+                                    {
+                                        <option value=@dato.idCategoria>@dato.nombre</option>
+                                    }
+                                }
+
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <select name="idRegion" id="idRegion" data-val="true" class="form-control col-lg-2">
+                                <option value="">Departamentos</option>
+                                @{
+                                var queryDepart = db.Region.AsNoTracking().Where(c => c.idRegPadre == null);
+                                var listaDepart = new SelectList(queryDepart, "idRegion", "nombre");
+                                }
+
+                                @foreach (var departamento in listaDepart)
+                                {
+                                    <option value=@departamento.Value> @departamento.Text</option>
+                                }
+
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <a class="btn btn-primary " onclick="busquedaAdv()">Buscar <span class="glyphicon glyphicon-search"></span></a>
+                        </div>
+                    </div>
                 }
-
-            </header>
-
-            <div class="container">
-                <div class="@TempData["tipo"]">
-                    @(TempData["message"])
-                </div>
             </div>
-            <ul id="barraLateral">
-                
-                <li><a href="@Url.Action("MiCarrito", "CuentaUsuario")"><span class="fa fa-cart-plus fa-4x"></span></a></li>                
-                <li><a href="@Url.Action("PuntoVentas", "Home")"><span class="fa fa-map-marker fa-4x"></span></a></li>
-                
-            </ul>
-            @RenderBody()
 
-            @Scripts.Render("~/bundles/jquery")
-            @Scripts.Render("~/bundles/jqueryval")  
-            @Scripts.Render("~/bundles/jqueryui")        
-            @Scripts.Render("~/bundles/bootstrap")
-            @RenderSection("scripts", required: false)
-            <script src="~/Scripts/script_fecha.js"></script>
-        </body>
+            @{
+    try
+    {
+        Html.RenderPartial("_LoginPartial", new LoginViewModel());
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex);
+    }
+            }
+
+        </header>
+
+        <div class="container">
+            <div class="@TempData["tipo"]">
+                @(TempData["message"])
+            </div>
+        </div>
+        <ul id="barraLateral">
+            <li><a href="@Url.Action("MiCarrito", "CuentaUsuario")"><span class="fa fa-cart-plus fa-4x"></span></a></li>
+            <!--li><a href="@Url.Action("PuntoVentas", "Home")"><span class="fa fa-map-marker fa-4x"></span></a></li-->
+        </ul>
+        @RenderBody()
+
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("~/bundles/jqueryui")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+        <div id="footer">
+            <h4 style="font-family:sans-serif"><span class="fa fa-map-marker"></span> Ubica nuestros locales <a href="@Url.Action("PuntoVentas", "Home")">aquí</a></h4>
+            <h5><span class="fa fa-flag"></span> Creado por .NETSOFT</h5>
+            <h5>Gracias al apoyo de <em>Jorge Girao La Rosa</em></h5>
+            <h6>© TICKNET. Marca registrada de .NetSoft S.A. Derechos Reservados 2015</h6>
+        </div>
+        <script src="~/Scripts/script_fecha.js"></script>
+    </body>
 </html>
 }

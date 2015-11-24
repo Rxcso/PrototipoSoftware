@@ -379,6 +379,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\estilos-index2.css" />
     <Content Include="Content\estilos-index1.css" />
+    <Content Include="Content\fondo1.jpg" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\PagedList.css" />
