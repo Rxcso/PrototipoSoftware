@@ -1,0 +1,41 @@
+﻿@using WebApplication4.Models;
+@model MisPreferenciasModel
+@{
+    ViewBag.Title = "Mis Preferencias";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li>@Html.ActionLink("Mi Cuenta", "MiCuenta", "CuentaUsuario")
+            <li class="active">Mis Preferencias</li>
+        </ol>
+    </div>
+</div>
+
+    @using (Html.BeginForm("ModificarDatos", "CuentaUsuario", FormMethod.Post))
+    {
+        <div class="container">
+            <div class="col-md-8">
+                <h3>Preferencias</h3><br>
+                @foreach (var item in ViewBag.ListaCategorias)
+                {
+                    <div class="checkbox">
+                        <label>
+                            <input id="@item.nombre" type="checkbox" value="@item.nombre">
+                            @item.nombre
+                        </label>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-offset-4 col-md-6">
+                <button type="submit" class="btn btn-primary">
+                    Actualizar Preferencias<span class="glyphicon glyphicon-pencil"></span>
+                </button>
+                <a href="@Url.Action("MiCuenta","CuentaUsuario")" class="btn btn-danger"> Salir <span class="glyphicon glyphicon-log-out"></span></a>
+            </div>
+        </div>
+    }

@@ -976,6 +976,44 @@ namespace WebApplication4.Controllers
         }
 
         [HttpGet]
+        public ActionResult MisPreferencias()
+        {
+            //hay que mostrar lo que ya escogió
+
+            List<Categoria> listaCategorias = db.Categoria.Where(c => c.activo == 1 && c.nivel == 1).ToList();
+
+            MisPreferenciasModel misp = new MisPreferenciasModel();
+
+            ViewBag.listaCategorias = listaCategorias;
+
+            var auxlistIdCategorias = new List<int>(0);
+            var auxlistNombreCategorias = new List<string>(0);
+
+            for (int i = 0; i < listaCategorias.Count(); i++)
+            {
+                auxlistIdCategorias.Add(listaCategorias[i].idCategoria);
+                auxlistNombreCategorias.Add(listaCategorias[i].nombre);
+            }
+
+            misp.listIdCategorias = auxlistIdCategorias.ToArray();
+            misp.listNombreCategorias = auxlistNombreCategorias.ToArray();
+            
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult MisPreferencias(MisPreferenciasModel model)
+        {
+            string correo = User.Identity.Name;
+            CuentaUsuario cliente = db.CuentaUsuario.Where(c => c.correo == correo).First();
+            string clientePK = cliente.correo;
+
+
+
+            return View(model);
+        }
+
+        [HttpGet]
         public ActionResult ModificarDatos()
         {
             string correo = User.Identity.Name;

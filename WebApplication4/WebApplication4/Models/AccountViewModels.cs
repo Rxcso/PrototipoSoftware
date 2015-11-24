@@ -200,6 +200,12 @@ namespace WebApplication4.Models
 
     }
 
+    public class MisPreferenciasModel
+    {
+        public int[] listIdCategorias { get; set; }
+        public string[] listNombreCategorias { get; set; }
+    }
+
     public class EditViewModel
     {
         //[Required]
