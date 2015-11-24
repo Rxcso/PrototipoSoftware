@@ -60,11 +60,13 @@ namespace WebApplication4.Controllers
             funcionAPostergar.fechaPostergado = DateTime.Now;//se guarda la fechaHora del acto de postergar
 
             int id = evento.idEvento;
+            
             Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();
 
             db.Entry(queryEvento).State = EntityState.Modified;
             queryEvento.hanPostergado = true;
             db.SaveChanges();
+            ObtenerFechaFin(evento.idEvento);
             EmailController.EnviarCorreoPostergarcionFuncion(evento.idFuncion);
             ViewBag.nombreEvento = queryEvento.nombre;
             int idOrganizador = (int)queryEvento.idOrganizador;

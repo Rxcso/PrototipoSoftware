@@ -82,10 +82,15 @@ namespace WebApplication4.Controllers
                         r.punto = db.PuntoVenta.Find(t.codPuntoVenta).ubicacion;
                         List<Ventas> lven2 = db.Ventas.Where(c => c.Estado == "Pagado" && c.vendedor == no).ToList();
                         List<Ventas> lven = lven2.Where(c => c.fecha.Value.Date == dat).ToList();
+                        List<LogDevoluciones> llog1 = db.LogDevoluciones.Where(c => c.codVendedor == no).ToList();
+                        List<LogDevoluciones> llog2 = llog1.Where(c => c.fechaDev.Value.Date == dat).ToList();
                         for (int k = 0; k < lven.Count; k++)
                         {
                             total += (double)lven[k].MontoTotalSoles;
-                            dev += (double)lven[k].montoDev;
+                        }
+                        for (int w = 0; w < llog2.Count; w++)
+                        {
+                            dev += (double)llog2[w].montoDev;
                         }
                         r.total = total;
                         r.devtotal = dev;
@@ -182,8 +187,11 @@ namespace WebApplication4.Controllers
 
                     for (int j = 0; j < lvxf.Count; j++)
                     {
-                        totale += (int)lvxf[j].cantEntradas;
-                        total += (double)lvxf[j].total;
+                        if (lvxf[j].cantEntradas > 0)
+                        {
+                            totale += (int)lvxf[j].cantEntradas;
+                            total += (double)lvxf[j].total;
+                        }
                     }
                         r.total = total;
                         r.funcion = db.Funcion.Find(lf[k].codFuncion).fecha.Value.ToString("dd/MM/yyyy") + " - " + db.Funcion.Find(lf[k].codFuncion).horaIni.Value.ToString(@"hh\:mm\:ss"); 
