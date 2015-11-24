@@ -1008,9 +1008,21 @@ namespace WebApplication4.Controllers
             CuentaUsuario cliente = db.CuentaUsuario.Where(c => c.correo == correo).First();
             string clientePK = cliente.correo;
 
+            for (int i = 0; i < evento.seCancela.Count(); i++)
+                if (evento.seCancela[i])
+                {
+                    int idF = evento.listIdFuncion[i];
+                    Funcion f = db.Funcion.Where(c => c.codFuncion == idF).First();
 
+                    db.Entry(f).State = EntityState.Modified;
+                    f.estado = "CANCELADO";
+                    f.motivoCambio = evento.motivo;
+                    f.FechaDevolucion = evento.fechaRecojo;
+                    f.cantDiasDevolucion = evento.diasRecojo;
+                    db.SaveChanges();
+                }
 
-            return View(model);
+            return RedirectToAction("MiCuenta");
         }
 
         [HttpGet]

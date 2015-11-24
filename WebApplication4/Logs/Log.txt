@@ -2126,3 +2126,11 @@ System.Collections.ListDictionaryInternal
 2015-11-23 18:54:22,453 [119] ERROR Ticknet - Exception Message - 
 No se puede realizar enlace en tiempo de ejecución en una referencia NULL.
 2015-11-23 18:54:22,453 [119] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-23 22:18:06,916 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-23 22:18:06,924 [6] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-23 22:18:06,924 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-23 22:18:06,924 [6] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-23 22:18:06,924 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
