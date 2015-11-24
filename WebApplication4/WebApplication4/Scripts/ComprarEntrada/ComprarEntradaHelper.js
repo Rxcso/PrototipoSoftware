@@ -72,12 +72,8 @@
         $('#listaEventoPromocion').append(razonP);
     }
     //actualizamos el nuevo total
-    console.log(descuentoCarritos);
-    console.log(subtotalCarritos);
     var importe = parseFloat($('#Importe').val());
-    console.log(importe);
     var montoPagar = importe - descuentoTotal;
-    console.log(descuentoTotal);
     $('#Descuento').val(descuentoTotal);
     $('#MontoPagar').val(montoPagar);
 }

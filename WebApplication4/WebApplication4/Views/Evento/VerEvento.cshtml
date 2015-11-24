@@ -119,7 +119,7 @@
                         <h4><u>Precios de Venta</u></h4>
 
                         <table class="table table-bordered table-hover" id="tarifario">
-                            <tr >
+                            <tr>
                                 <td> Zonas </td>
                                 @foreach (var periodo in ViewBag.ListPeriodos)
                                 {
@@ -160,7 +160,8 @@
                         {
                             @ViewBag.EventoAcabo
                         }
-                        else{
+                        else
+                        {
                             if (ViewBag.EventoNoDisponible != null && codperfilActual < 3)
                             {
                                 <p>@ViewBag.EventoNoDisponible</p>

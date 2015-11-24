@@ -64,6 +64,25 @@ namespace WebApplication4.Controllers
             }
         }
 
+        private Promociones CalculaMejorPromocionEfectivo(int idEvento)
+        {
+            try
+            {
+                List<Promociones> promociones = db.Promociones.Where(c => c.codEvento == idEvento && c.estado == true && c.modoPago == "E").ToList();
+                foreach (Promociones promo in promociones)
+                {
+                    double descuento = (1 - promo.cantComp.Value / promo.cantAdq.Value * 1.0) * 100.0;
+                    promo.descuento = (float)descuento;
+                }
+                promociones.Sort((a, b) => ((double)a.descuento).CompareTo((double)b.descuento));
+                return promociones.Last();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
         [HttpGet]
         [Authorize(Roles = "Vendedor")]
         public ActionResult VenderEntrada()
@@ -79,8 +98,10 @@ namespace WebApplication4.Controllers
                 List<TipoTarjeta> tipoTarjeta = db.TipoTarjeta.ToList();
                 ViewBag.TipoTarjeta = new SelectList(tipoTarjeta, "idTipoTar", "nombre");
                 List<Promociones> listaPromociones = new List<Promociones>();
+                List<Promociones> listaPromocionesEfectivo = new List<Promociones>();
                 double total = 0;
                 double descuento = 0;
+                double descuentoE = 0;
                 foreach (CarritoItem item in carrito)
                 {
                     total += item.precio;
@@ -96,8 +117,22 @@ namespace WebApplication4.Controllers
                         descuento += item.precio * promocion.descuento.Value / 100;
                         listaPromociones.Add(promocion);
                     }
+                    promocion = CalculaMejorPromocionEfectivo(item.idEvento);
+                    if (promocion == null)
+                    {
+                        Promociones dummy = new Promociones();
+                        dummy.codPromo = -1;
+                        listaPromocionesEfectivo.Add(dummy);
+                    }
+                    else
+                    {
+                        descuentoE += item.precio * (1 - promocion.cantComp.Value / promocion.cantAdq.Value);
+                        listaPromocionesEfectivo.Add(promocion);
+                    }
                 }
                 ViewBag.Descuento = descuento;
+                ViewBag.DescuentoE = descuentoE;
+                ViewBag.PromocionesEfectivo = listaPromocionesEfectivo;
                 ViewBag.Promociones = listaPromociones;
                 ViewBag.Total = total;
                 ViewBag.Pagar = total - 0;
@@ -207,7 +242,7 @@ namespace WebApplication4.Controllers
                             //--
                             ve.Estado = MagicHelpers.Compra;
                             ve.tipoDoc = 1;
-                            ve.montoEfectivoSoles = model.Importe;
+                            ve.montoEfectivoDolares = model.MontoDolares;
                             ve.MontoTotalSoles = model.MontoPagar;
                             ve.montoCreditoSoles = model.MontoTar;
                             ve.montoEfectivoSoles = model.MontoEfe;
