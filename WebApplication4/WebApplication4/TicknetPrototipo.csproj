@@ -197,6 +197,7 @@
     <Compile Include="Controllers\MagicHelpers.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\OrganizadorController.cs" />
+    <Compile Include="Controllers\EventoPostergar_CancelarController.cs" />
     <Compile Include="Controllers\PromocionController.cs" />
     <Compile Include="Controllers\PruebaController.cs" />
     <Compile Include="Controllers\PuntoVentaController.cs" />
