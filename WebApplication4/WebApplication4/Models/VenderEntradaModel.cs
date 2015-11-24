@@ -49,10 +49,10 @@ namespace WebApplication4.Models
         public double Descuento { get; set; }
 
         [Required(ErrorMessage = "Debe ingresar un monto a pagar en efectivo")]
-        [Display(Name = "Monto en Efectivo:")]
+        [Display(Name = "Monto S/. ")]
         public double MontoEfe { get; set; }
 
-        [Display(Name = "Monto Efectivo en Dolares:")]
+        [Display(Name = "Monto $ ")]
         public double? MontoDolares { get; set; }
 
         [Display(Name = "Monto en Tarjeta:")]

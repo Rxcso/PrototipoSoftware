@@ -153,7 +153,6 @@ namespace WebApplication4.Controllers
                 promocion.modoPago = "E";
                 promocion.cantAdq = model.cantAdq;
                 promocion.cantComp = model.cantComp;
-                promocion.descuento = (1 - model.cantComp / model.cantAdq) * 100;
                 promocion.descripcion = model.cantAdq + "X" + model.cantComp;
                 db.Promociones.Add(promocion);
                 db.SaveChanges();

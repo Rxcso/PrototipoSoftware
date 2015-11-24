@@ -6,8 +6,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     inf245netsoft db = new inf245netsoft();
     List<Promociones> promocionesLista = ViewBag.Promociones as List<Promociones>;
+    List<Promociones> promocionesListaEf = ViewBag.PromocionesEfectivo as List<Promociones>;
     double? importe = ViewBag.Total as double?;
     double? descuento = ViewBag.Descuento as double?;
+    double? descuentoE = ViewBag.DescuentoE as double?;
     double? montopagar = ViewBag.Pagar as double?;
     List<CarritoItem> carrito = new List<CarritoItem>();
     if (Session["CarritoItemVentas"] != null)
@@ -30,8 +32,28 @@
 </div>
 
 <div class="container" id="promocionesLista">
+
+    @*<div id="listaEventoPromocionEfectivo">
+            <p>Descuentos disponibles para pago solo en efectivo, no aplicable para pago mixto:</p>
+            @{
+                for (int i = 0; i < promocionesListaEf.Count; i++)
+                {
+                    string razon = "";
+                    if (promocionesListaEf[i].codPromo == -1)
+                    {
+                        razon = "- No cuenta con promocion";
+                    }
+                    else
+                    {
+                        int desc = (1 - (promocionesListaEf[i].cantComp.Value / promocionesListaEf[i].cantAdq.Value)) * 100;
+                        razon = "- Descuento de " + desc + "%.";
+                    }
+                    <p style="margin-left:2em">@razon</p>
+                }
+            }
+        </div>*@
     @Html.Hidden("dsctInicial", "" + @descuento)
-    <p>Descuentos disponibles para la venta, no aplicable para pago mixto:</p>
+    <p>Descuentos disponibles en pago por tarjeta, no aplicable para pago mixto:</p>
     <div id="listaEventoPromocion">
         @{
             for (int i = 0; i < promocionesLista.Count; i++)
@@ -55,50 +77,58 @@
 </div>
 <div class="container">
     <div class="row">
-        <div class="col-md-8" id="tarjeta">
+        <div class="col-md-12">
             <h3>Información de la tarjeta</h3><br />
             <div class="container row form-group">
                 <div>
                     @Html.Label("lblReg", "¿Es usuario registrado?")
                     @Html.CheckBox("registrado", new { @onchange = "cambio()" })
                 </div>
-                <div class="form-inline">
-                    <div class="col-md-2">
-                        <label for="dni" class="control-label">Tipo Doc:</label>
+                <div class="col-md-12 form-inline">
+                    <div class="col-md-4">
+                        <div class="col-md-3">
+                            <label for="dni" class="control-label">Tipo Doc:</label>
+                        </div>
+                        <div class="form-group col-md-1">
+                            <select class="form-control" id="comboBusq" disabled>
+                                <option value="0">Ambos</option>
+                                <option value="1">DNI</option>
+                                <option value="2">Pasaporte</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="input-group col-md-3">
-                        <select class="form-control" id="comboBusq" disabled>
-                            <option value="0">Ambos</option>
-                            <option value="1">DNI</option>
-                            <option value="2">Pasaporte</option>
-                        </select>
-                    </div>
-                    <label for="dni" class="control-label">Buscar por N° Documento:</label>
-                    <div class="input-group col-md-3">
-                        <input id="idBusq" type="text" class="form-control" disabled>
-                        <span class="input-group-btn"><button id="btnBusqueda" onclick="busca()" class="btn btn-primary" type="button" disabled><span class="glyphicon glyphicon-search"></span></button></span>
+                    <div class="col-md-7">
+                        <div class="col-md-3">
+                            <label for="dni" class="control-label">N° Documento:</label>
+                        </div>
+                        <div class="input-group col-md-3">
+                            <input id="idBusq" type="text" class="form-control" readonly="readonly">
+                            <span class="input-group-btn"><button id="btnBusqueda" onclick="busca()" class="btn btn-primary" type="button" disabled><span class="glyphicon glyphicon-search"></span></button></span>
+                        </div>
                     </div>
                 </div>
             </div>
-            @using (Html.BeginForm("VenderEntrada", "Ventas", FormMethod.Post, new { @id = "formPost" }))
-            {
+        </div>
+        @using (Html.BeginForm("VenderEntrada", "Ventas", FormMethod.Post, new { @id = "formPost" }))
+        {
+            <div class="cold-md-12">
                 <div class="row form-group">
-                    @Html.LabelFor(c => c.Nombre, new { @class = "control-label col-md-3" })
-                    <div class="col-md-4">
+                    @Html.LabelFor(c => c.Nombre, new { @class = "control-label col-md-2" })
+                    <div class="col-md-3">
                         @Html.TextBoxFor(c => c.Nombre, new { @class = "form-control" })
                         @Html.ValidationMessageFor(c => c.Nombre)
                     </div>
                 </div>
                 <div class="row form-group">
-                    @Html.LabelFor(c => c.Dni, new { @class = "control-label col-md-3" })
-                    <div class="col-md-4">
+                    @Html.LabelFor(c => c.Dni, new { @class = "control-label col-md-2" })
+                    <div class="col-md-3">
                         @Html.TextBoxFor(c => c.Dni, new { @class = "form-control" })
                         @Html.ValidationMessageFor(c => c.Dni)
                     </div>
                 </div>
                 <div class="row form-group">
-                    @Html.LabelFor(c => c.idBanco, new { @class = "control-label col-md-3" })
-                    <div class="col-md-4">
+                    @Html.LabelFor(c => c.idBanco, new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
                         @Html.DropDownListFor(c => c.idBanco, ViewBag.Bancos as SelectList, new { @disabled = "disabled", @class = "form-control", @onchange = "calculaPromo()" })
                         @Html.ValidationMessageFor(c => c.idBanco)
                     </div>
@@ -106,23 +136,23 @@
                 </div>
 
                 <div class="row form-group">
-                    @Html.LabelFor(c => c.idTipoTarjeta, new { @class = "control-label col-md-3" })
-                    <div class="col-md-4">
+                    @Html.LabelFor(c => c.idTipoTarjeta, new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
                         @Html.DropDownListFor(c => c.idTipoTarjeta, ViewBag.TipoTarjeta as SelectList, new { @disabled = "disabled", @class = "form-control", @onchange = "calculaPromo()" })
                     </div>
                     @Html.HiddenFor(c => c.idTipoTarjeta)
                 </div>
 
                 <div class="row form-group">
-                    @Html.LabelFor(c => c.NumeroTarjeta, new { @class = "control-label col-md-3" })
-                    <div class="col-md-4">
+                    @Html.LabelFor(c => c.NumeroTarjeta, new { @class = "control-label col-md-2" })
+                    <div class="col-md-3">
                         @Html.TextBoxFor(c => c.NumeroTarjeta, new { @readonly = "readonly", @class = "form-control" })
                     </div>
                 </div>
 
                 <div class="row form-group">
-                    @Html.LabelFor(c => c.CodCcv, new { @class = "control-label col-md-3" })
-                    <div class="col-md-4">
+                    @Html.LabelFor(c => c.CodCcv, new { @class = "control-label col-md-2" })
+                    <div class="col-md-1">
                         @Html.TextBoxFor(c => c.CodCcv, new { @readonly = "readonly", @class = "form-control" })
                     </div>
                 </div>
@@ -143,57 +173,147 @@
                 </div>
 
                 <h3>Información de montos</h3><br>
-                <div class="row form-group">
-                    @Html.Label("Tipo de Cambio:", new { @class = "control-label col-md-3" })
-                    <div class="col-md-4">
-                        @Html.TextBox("tipoCambioMoneda", "" + @cambio, new { @class = "form-control", @readonly = "readonly", @type = "number" })
+                <div>
+                    <div class="row form-group">
+                        @Html.Label("Tipo de Cambio:", new { @class = "control-label col-md-2" })
+                        <div class="col-md-3">
+                            @Html.TextBox("tipoCambioMoneda", "" + @cambio, new { @class = "form-control", @readonly = "readonly", @type = "number" })
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        @Html.LabelFor(c => c.Importe, new { @class = "control-label col-md-2" })
+                        <div class="col-md-3">
+                            @Html.TextBoxFor(c => c.Importe, new { @class = "form-control", @Value = importe, @readonly = "readonly", @type = "number" })
+                        </div>
                     </div>
                 </div>
-                <div class="row form-group">
-                    @Html.LabelFor(c => c.Importe, new { @class = "control-label col-md-3" })
-                    <div class="col-md-4">
-                        @Html.TextBoxFor(c => c.Importe, new { @class = "form-control", @Value = importe, @readonly = "readonly", @type = "number" })
+                <h3>Método de Pago</h3><br />
+                <div class="row">
+                    <div id="efectivo" class="col-md-4">
+                        <div>
+                            <label>Efectivo:</label>
+                            <input type="radio" name="TipoPago" value="1" onclick="cambioPago()" checked="checked">
+                        </div><br />
+                        <div class="row form-group">
+                            @Html.LabelFor(c => c.Descuento, new { @class = "control-label col-md-3" })
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(c => c.Descuento, new { @class = "form-control", @Value = "" + 0, @readonly = "readonly", @type = "number" })
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            @Html.LabelFor(c => c.MontoPagar, new { @class = "control-label col-md-3" })
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(c => c.MontoPagar, new { @class = "form-control", @Value = montopagar, @readonly = "readonly", @type = "number" })
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            @Html.LabelFor(c => c.MontoEfe, new { @class = "control-label col-md-3" })
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(c => c.MontoEfe, new { @class = "form-control", @onchange = "llena1()", @Value = "0", @type = "number" })
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            @Html.LabelFor(c => c.MontoDolares, new { @class = "control-label col-md-3" })
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(c => c.MontoDolares, new { @class = "form-control", @onchange = "llena1()", @Value = "0", @type = "number" })
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            @Html.LabelFor(c => c.MontoTar, new { @class = "control-label col-md-3" })
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(c => c.MontoTar, new { @class = "form-control", @readonly = "readonly", @Value = "0", @type = "number" })
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            @Html.LabelFor(c => c.Vuelto, new { @class = "control-label col-md-3" })
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(c => c.Vuelto, new { @class = "form-control", @readonly = "readonly", @Value = "0", @type = "number" })
+                            </div>
+                        </div>
                     </div>
-                </div>
-
-                <div class="row form-group">
-                    @Html.LabelFor(c => c.Descuento, new { @class = "control-label col-md-3" })
-                    <div class="col-md-4">
-                        @Html.TextBoxFor(c => c.Descuento, new { @class = "form-control", @Value = "" + 0, @readonly = "readonly", @type = "number" })
+                    <div id="tarjeta" class="col-md-4">
+                        <div>
+                            <label>Tarjeta:</label>
+                            <input type="radio" name="TipoPago" value="2" onclick="cambioPago()">
+                        </div><br />
+                        <div class="row form-group">
+                            @Html.LabelFor(c => c.Descuento, new { @class = "control-label col-md-3" })
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(c => c.Descuento, new { @class = "form-control", @Value = "" + descuento, @disabled = "disabled", @type = "number" })
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            @Html.LabelFor(c => c.MontoPagar, new { @class = "control-label col-md-3" })
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(c => c.MontoPagar, new { @class = "form-control", @Value = (montopagar - descuento), @disabled = "disabled", @type = "number" })
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            @Html.LabelFor(c => c.MontoEfe, new { @class = "control-label col-md-3" })
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(c => c.MontoEfe, new { @class = "form-control", @Value = "0", @disabled = "disabled", @type = "number" })
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            @Html.LabelFor(c => c.MontoDolares, new { @class = "control-label col-md-3" })
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(c => c.MontoDolares, new { @class = "form-control", @Value = "0", @disabled = "disabled", @type = "number" })
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            @Html.LabelFor(c => c.MontoTar, new { @class = "control-label col-md-3" })
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(c => c.MontoTar, new { @class = "form-control", @Value = (montopagar - descuento), @disabled = "disabled", @type = "number" })
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            @Html.LabelFor(c => c.Vuelto, new { @class = "control-label col-md-3" })
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(c => c.Vuelto, new { @class = "form-control", @disabled = "disabled", @Value = "0", @type = "number" })
+                            </div>
+                        </div>
                     </div>
-                </div>
-
-                <div class="row form-group">
-                    @Html.LabelFor(c => c.MontoPagar, new { @class = "control-label col-md-3" })
-                    <div class="col-md-4">
-                        @Html.TextBoxFor(c => c.MontoPagar, new { @class = "form-control", @Value = montopagar, @readonly = "readonly", @type = "number" })
-                    </div>
-                </div>
-
-                <div class="row form-group">
-                    @Html.LabelFor(c => c.MontoEfe, new { @class = "control-label col-md-3" })
-                    <div class="col-md-4">
-                        @Html.TextBoxFor(c => c.MontoEfe, new { @class = "form-control", @onchange = "llenar()", @type = "number" })
-                    </div>
-                </div>
-
-                <div class="row form-group">
-                    @Html.LabelFor(c => c.MontoDolares, new { @class = "control-label col-md-3" })
-                    <div class="col-md-4">
-                        @Html.TextBoxFor(c => c.MontoDolares, new { @class = "form-control", @onchange = "llenar()", @Value = "0", @type = "number" })
-                    </div>
-                </div>
-
-                <div class="row form-group">
-                    @Html.LabelFor(c => c.MontoTar, new { @class = "control-label col-md-3" })
-                    <div class="col-md-4">
-                        @Html.TextBoxFor(c => c.MontoTar, new { @class = "form-control", @readonly = "readonly", @type = "number" })
-                    </div>
-                </div>
-                <div class="row form-group">
-                    @Html.LabelFor(c => c.Vuelto, new { @class = "control-label col-md-3" })
-                    <div class="col-md-4">
-                        @Html.TextBoxFor(c => c.Vuelto, new { @class = "form-control", @readonly = "readonly", @type = "number" })
+                    <div id="mixto" class="col-md-4">
+                        <div>
+                            <label>Mixto:</label>
+                            <input type="radio" name="TipoPago" value="3" onclick="cambioPago()">
+                        </div><br />
+                        <div class="row form-group">
+                            @Html.LabelFor(c => c.Descuento, new { @class = "control-label col-md-3" })
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(c => c.Descuento, new { @class = "form-control", @Value = "" + 0, @disabled = "disabled", @type = "number" })
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            @Html.LabelFor(c => c.MontoPagar, new { @class = "control-label col-md-3" })
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(c => c.MontoPagar, new { @class = "form-control", @Value = montopagar, @disabled = "disabled", @type = "number" })
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            @Html.LabelFor(c => c.MontoEfe, new { @class = "control-label col-md-3" })
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(c => c.MontoEfe, new { @class = "form-control", @onchange = "llena3()", @Value = "0", @disabled = "disabled", @type = "number" })
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            @Html.LabelFor(c => c.MontoDolares, new { @class = "control-label col-md-3" })
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(c => c.MontoDolares, new { @class = "form-control", @onchange = "llena3()", @Value = "0", @disabled = "disabled", @type = "number" })
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            @Html.LabelFor(c => c.MontoTar, new { @class = "control-label col-md-3" })
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(c => c.MontoTar, new { @class = "form-control", @disabled = "disabled", @Value = "0", @type = "number" })
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            @Html.LabelFor(c => c.Vuelto, new { @class = "control-label col-md-3" })
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(c => c.Vuelto, new { @class = "form-control", @disabled = "disabled", @Value = "0", @type = "number" })
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -201,47 +321,83 @@
                         <input type="submit" value="Finalizar Venta" onclick="llenaArreglo()" class="btn btn-default btn-primary" />
                     </div>
                 </div>
-            }
-        </div>
+            </div>
+        }
     </div>
-    <br />
 </div>
+<br />
 <script>
-    function llenar() {
-        var montoefe = $("#MontoEfe").val();
-        var montoDolares = $('#MontoDolares').val();
+    function llena1() {
+        //tipo de cambio
+        var tipoCambio = parseFloat($('#tipoCambioMoneda').val());
+        //valor de los inputs
+        var inputs = $('#efectivo input');
+        var montoSoles = inputs[3].value;
+        var montoDolares = inputs[4].value;
+        var montoPagar = inputs[2].value;
+        //chequeo a nivel de texto
+        if (montoSoles == "") {
+            alert("El monto en soles debe tener un valor");
+            inputs[3].value = "0";
+            return false;
+        }
+        if (montoDolares == "") {
+            alert("El monto en dolares debe tener un valor");
+            inputs[4].value = "0";
+            return false;
+        }
+        //en numeros
+        var montoSoles = parseFloat(montoSoles);
+        var montoDolares = parseFloat(montoDolares);
+        var montoPagar = parseFloat(montoPagar);
+        if (montoSoles < 0) {
+            alert("El monto en soles debe ser mayor o igual a 0");
+            inputs[3].value = "0";
+            return false;
+        }
+        if (montoDolares < 0) {
+            alert("El monto en dolares debe ser mayor o igual a 0");
+            inputs[4].value = "0";
+            return false;
+        }
+        //la suma de los montos debe ser mayor que le monto pagar
+        if (montoSoles + montoDolares * tipoCambio >= montoPagar) {
+            var vuelto = montoSoles + montoDolares * tipoCambio - montoPagar;
+            inputs[6].value = Math.floor(vuelto * 100) / 100;
+        } else {
+            alert("La suma de los montos debe ser mayor al monto a pagar");
+            inputs[6].value = "0";
+            return false;
+        }
+    }
+
+    function llena3() {
+        var montoefe = $("#mixto input#MontoEfe").val();
+        var montoDolares = $('#mixto input#MontoDolares').val();
         var cambio = parseFloat(montoDolares) * parseFloat($('#tipoCambioMoneda').val());
-        var montopagar = $("#MontoPagar").val();
-        if (parseFloat(montoefe) < 0 ) {
-            $("#MontoEfe").val(0);
+        var montopagar = $("#mixto input#MontoPagar").val();
+        if (parseFloat(montoefe) < 0) {
+            $("#mixto input#MontoEfe").val(0);
             alert("El monto en efectivo debe ser mayor o igual a cero");
             return false;
         }
         if (parseFloat(montoDolares) < 0) {
-            $('#MontoDolares').val(0);
+            $('#mixto input:#MontoDolares').val(0);
             alert("El monto de efectivo en dólares debe ser mayor o igual a cero");
             return false;
         }
-        if (parseFloat(montoefe) == 0 && parseFloat(montoDolares) == 0) {
-            var inicialDesc = $('#dsctInicial').val();
-            $('#Descuento').val(inicialDesc);
-            $('#MontoPagar').val(parseFloat($('#Importe').val()) - parseFloat($('#Descuento').val()));
-            $('#MontoTar').val($('#MontoPagar').val());
-        } else {
-            $('#Descuento').val(0);
-            $('#MontoPagar').val(parseFloat($('#Importe').val()) - parseFloat($('#Descuento').val()));
-        }
-        montopagar = $("#MontoPagar").val();
+
+        montopagar = $("#mixto input#MontoPagar").val();
         if (parseFloat(montoefe) + cambio > parseFloat(montopagar)) {
             var vuelto = cambio + parseFloat(montoefe) - parseFloat(montopagar);
-            $('#Vuelto').val(Math.floor(vuelto * 100 / 100));
-            $('#MontoTar').val(0);
+            $('#mixto input#Vuelto').val(Math.floor(vuelto * 100 / 100));
+            $('#mixto input#MontoTar').val(0);
         } else {
             var montotar = parseFloat(montopagar) - cambio - parseFloat(montoefe);
-            $("#MontoTar").val(Math.floor(montotar * 100) / 100);
-            $('#Vuelto').val(0);
+            $("#mixto input#MontoTar").val(Math.floor(montotar * 100) / 100);
+            $('#mixto input#Vuelto').val(0);
         }
-        montoTar = $('#MontoTar').val();
+        montoTar = $('#mixto input#MontoTar').val();
         if (parseFloat(montoTar) == 0) {
             document.getElementById("AnioVen").disabled = true;
             document.getElementById("Mes").disabled = true;
@@ -261,9 +417,10 @@
     }
 
     function calculaPromo() {
-        var montoefe = $("#MontoEfe").val();
-        var montoDolares = $('#MontoDolares').val();
-        if (parseFloat(montoefe) == 0 && parseFloat(montoDolares) == 0) {
+        var metodoSelecionado = $('input[name="TipoPago"]:checked').val();
+        if (parseInt(metodoSelecionado) == 2) {
+            var montoefe = $("#tarjeta input#MontoEfe").val();
+            var montoDolares = $('#tarjeta input#MontoDolares').val();
             var idBanco = parseInt($('#idBanco').val());
             var tipoTarjeta = parseInt($('#idTipoTarjeta').val());
             var eventosBTV = document.getElementsByName('eventosCarrito');
@@ -288,10 +445,10 @@
                         var razon = "";
                         if (parseInt(obj.Descuento) == -1) {
                             razon = "- No cuenta con promocion";
-                            $('#dsctInicial').val(0);
+                            //$('#dsctInicial').val(0);
                         } else {
                             razon = "- Descuento de " + obj.Descuento + "%.";
-                            $('#dsctInicial').val(0);
+                            //$('#dsctInicial').val(0);
                         }
                         arrRazon.push(razon);
                         descuentoCarritos.push(obj.Descuento);
@@ -341,10 +498,10 @@
             //actualizamos el nuevo total
             var importe = parseFloat($('#Importe').val());
             var montoPagar = importe - descuentoTotal;
-            $('#Descuento').val(descuentoTotal);
-            $('#MontoPagar').val(montoPagar);
-            var montoTar = montoPagar - parseFloat($('#MontoEfe').val());
-            $('#MontoTar').val(montoTar);
+            $('#tarjeta input#Descuento').val(descuentoTotal);
+            $('#tarjeta input#MontoPagar').val(montoPagar);
+            var montoTar = montoPagar - parseFloat($('#tarjeta input#MontoEfe').val());
+            $('#tarjeta input#MontoTar').val(montoTar);
         }
     }
 
@@ -363,15 +520,16 @@
         }
         return true;
     }
+
     function cambio() {
         //idBusq
         //btnBusqueda
         //Nombre
         //Dni
         //comboBusq
-        //si es un
-        if ($('#idBusq').attr('disabled') && $('#btnBusqueda').attr('disabled')) {
-            $('#idBusq').removeAttr('disabled');
+        //si es un usuario registrado
+        if ($('#idBusq').attr('readonly') && $('#btnBusqueda').attr('disabled')) {
+            $('#idBusq').removeAttr('readonly');
             $('#btnBusqueda').removeAttr('disabled');
             $('#comboBusq').removeAttr('disabled');
             $('#Nombre').attr({ 'readonly': 'readonly' });
@@ -380,11 +538,75 @@
             $('#idBusq').attr({ 'readonly': 'readonly' });
             $('#btnBusqueda').attr({ 'disabled': 'disabled' });
             $('#comboBusq').attr({ 'disabled': 'disabled' });
-            $('#Nombre').removeAttr('disabled');
-            $('#Dni').removeAttr('disabled');
+            $('#Nombre').removeAttr('readonly');
+            $('#Dni').removeAttr('readonly');
         }
     }
 
+    function desactiva(item) {
+        var inputs = $('#' + item + ' input');
+        for (var i = 1 ; i < inputs.length ; i++) {
+            inputs[i].disabled = true;
+        }
+    }
+
+    function cambioPago() {
+        var metodoSelecionado = $('input[name="TipoPago"]:checked').val();
+        var arr = ["efectivo", "tarjeta", "mixto"];
+        if (parseInt(metodoSelecionado) == 1) {
+            var inputs = $('#' + arr[0] + ' input');
+            inputs[1].disabled = false;
+            inputs[1].readOnly = true;
+            inputs[2].disabled = false;
+            inputs[2].readOnly = true;
+            inputs[3].disabled = false;
+            inputs[4].disabled = false;
+            inputs[5].disabled = false;
+            inputs[5].readOnly = true;
+            inputs[6].disabled = false;
+            inputs[6].readOnly = true;
+            desactiva(arr[1]);
+            desactiva(arr[2]);
+        }
+        if (parseInt(metodoSelecionado) == 2) {
+            var inputs = $('#' + arr[1] + ' input');
+            document.getElementById("AnioVen").disabled = false;
+            document.getElementById("Mes").disabled = false;
+            document.getElementById("CodCcv").readOnly = false;
+            document.getElementById("NumeroTarjeta").readOnly = false;
+            document.getElementById("idTipoTarjeta").disabled = false;
+            document.getElementById("idBanco").disabled = false;
+            inputs[1].disabled = false;
+            inputs[1].readOnly = true;
+            inputs[2].disabled = false;
+            inputs[2].readOnly = true;
+            inputs[3].disabled = false;
+            inputs[3].readOnly = true;
+            inputs[4].disabled = false;
+            inputs[4].readOnly = true;
+            inputs[5].disabled = false;
+            inputs[5].readOnly = true;
+            inputs[6].disabled = false;
+            inputs[6].readOnly = true;
+            desactiva(arr[0]);
+            desactiva(arr[2]);
+        }
+        if (parseInt(metodoSelecionado) == 3) {
+            var inputs = $('#' + arr[2] + ' input');
+            inputs[1].disabled = false;
+            inputs[1].readOnly = true;
+            inputs[2].disabled = false;
+            inputs[2].readOnly = true;
+            inputs[3].disabled = false;
+            inputs[4].disabled = false;
+            inputs[5].disabled = false;
+            inputs[5].readOnly = true;
+            inputs[6].disabled = false;
+            inputs[6].readOnly = true;
+            desactiva(arr[1]);
+            desactiva(arr[0]);
+        }
+    }
     function busca() {
         var usuario = $('#idBusq').val();
         var tipo = $('#comboBusq option:selected').val();
