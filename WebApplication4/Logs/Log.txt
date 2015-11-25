@@ -2174,3 +2174,35 @@ System.Collections.ListDictionaryInternal
 2015-11-24 21:11:27,884 [8] ERROR Ticknet - Exception Message - 
 A public action method ' Index' was not found on controller 'WebApplication4.Controllers.HomeController'.
 2015-11-24 21:11:27,884 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-25 00:20:15,714 [17] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-25 00:20:15,721 [17] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-25 00:20:15,721 [17] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-25 00:20:15,721 [17] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\CuentaUsuario\ComprarEntradaReservadaA.cshtml(123): error CS0103: El nombre 'cambio' no existe en el contexto actual
+2015-11-25 00:20:15,721 [17] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-25 00:21:20,899 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-25 00:21:20,899 [9] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-25 00:21:20,899 [9] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-25 00:21:20,899 [9] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\CuentaUsuario\ComprarEntradaReservadaA.cshtml(22): error CS0103: El nombre 'MagicHelpers' no existe en el contexto actual
+2015-11-25 00:21:20,899 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-25 00:21:41,164 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-25 00:21:41,164 [11] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-25 00:21:41,164 [11] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-25 00:21:41,164 [11] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\CuentaUsuario\ComprarEntradaReservadaA.cshtml(162): error CS1061: 'WebApplication4.Models.ComprarEntradaReservadaAModel' no contiene una definición de 'MontoDolares' ni se encontró ningún método de extensión 'MontoDolares' que acepte un primer argumento de tipo 'WebApplication4.Models.ComprarEntradaReservadaAModel' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-25 00:21:41,164 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-25 00:22:48,239 [29] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-25 00:22:48,246 [29] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-25 00:22:48,246 [29] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-25 00:22:48,246 [29] ERROR Ticknet - Exception Message - 
+c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\CuentaUsuario\ComprarEntradaReservadaA.cshtml(174): error CS1061: 'WebApplication4.Models.ComprarEntradaReservadaAModel' no contiene una definición de 'Vuelto' ni se encontró ningún método de extensión 'Vuelto' que acepte un primer argumento de tipo 'WebApplication4.Models.ComprarEntradaReservadaAModel' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-25 00:22:48,246 [29] DEBUG Ticknet - ++++++++++++++++++++++++++++

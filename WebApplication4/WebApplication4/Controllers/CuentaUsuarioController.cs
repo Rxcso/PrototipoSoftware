@@ -223,83 +223,7 @@ namespace WebApplication4.Controllers
         private ApplicationUserManager _userManager;
         private inf245netsoft db = new inf245netsoft();
 
-        //solo sirve para el primer caso del banco y tipo tarjeta. Luego uso otra funcion que retorna un json
-        private Promociones CalculaMejorPromocionTarjeta(int codEvento, int idBanco, int tipoTarjeta)
-        {
-            try
-            {
-                //busco las promociones que se encuentren activas
-                List<Promociones> promociones = db.Promociones.Where(c => c.codEvento == codEvento && c.codBanco == idBanco && c.codTipoTarjeta == tipoTarjeta && c.estado == true && c.fechaIni <= DateTime.Today && DateTime.Today <= DateTime.Today).ToList();
-                promociones.Sort((a, b) => ((double)a.descuento).CompareTo((double)b.descuento));
-                return promociones.Last();
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
-
-        public ActionResult ComprarEntradaReservadaA(string reserva)
-        {
-
-            TempData["idReservaCompra"] = reserva;
-            Session["idReservaCompra"] = reserva;
-
-            if (reserva != "" && reserva != null)
-            {
-                int id = int.Parse(reserva);
-
-                Ventas queryVentas = db.Ventas.Where(c => c.codVen == id).First();
-                VentasXFuncion queryVF = db.VentasXFuncion.Where(c => c.codVen == id).First();
-                int codFun = queryVF.codFuncion;
-
-                Funcion queryF = db.Funcion.Where(c => c.codFuncion == codFun).First();
-
-                int codEvento = queryF.codEvento;
-
-                double? precio = queryVF.subtotal;
-
-                TempData["dniCli"] = queryVentas.codDoc;
-                Session["dniCli"] = queryVentas.codDoc;
-                ViewBag.dniCli = queryVentas.codDoc;
-
-                //lista de bancos
-                List<Banco> bancos = db.Banco.ToList();
-                ViewBag.Bancos = new SelectList(bancos, "codigo", "nombre");
-                //lista de tarjetas
-                List<TipoTarjeta> tipoTarjeta = db.TipoTarjeta.ToList();
-
-                ViewBag.TipoTarjeta = new SelectList(tipoTarjeta, "idTipoTar", "nombre");
-                List<Promociones> listaPromociones = new List<Promociones>();
-
-                double? descuento = 0;
-
-
-                Promociones promocion = CalculaMejorPromocionTarjeta(codEvento, bancos.First().codigo, tipoTarjeta.First().idTipoTar);
-                if (promocion == null)
-                {
-                    Promociones dummy = new Promociones();
-                    dummy.codPromo = -1;
-                    listaPromociones.Add(dummy);
-                }
-                else
-                {
-                    descuento += precio * promocion.descuento.Value / 100;
-                    listaPromociones.Add(promocion);
-                }
-
-                ViewBag.Descuento = descuento;
-                ViewBag.Promociones = listaPromociones;
-                ViewBag.Total = precio;
-                ViewBag.Pagar = precio - descuento;
-                ViewBag.Mes = Fechas.Mes();
-                ViewBag.AnVen = Fechas.Anio();
-
-                return View();
-            }
-
-            return View();
-        }
+        
 
         private bool validaCompraEntradaReservadaVendedor(ComprarEntradaReservadaAModel model)
         {
@@ -533,7 +457,7 @@ namespace WebApplication4.Controllers
             List<Promociones> listaPromociones = new List<Promociones>();
 
             double? descuento = 0;
-            Promociones promocion = CalculaMejorPromocionTarjeta(codEvento2, model.idBanco, model.idTipoTarjeta);
+            Promociones promocion = PromocionController.CalculaMejorPromocionTarjeta(codEvento2, model.idBanco, model.idTipoTarjeta);
             if (promocion == null)
             {
                 Promociones dummy = new Promociones();
@@ -579,7 +503,7 @@ namespace WebApplication4.Controllers
             model.idEventos = new List<int>();
             model.idPromociones = new List<int>();
             model.idEventos.Add(codEvento);
-            Promociones promocion = CalculaMejorPromocionTarjeta(codEvento, bancos.First().codigo, tipoTarjeta.First().idTipoTar);
+            Promociones promocion = PromocionController.CalculaMejorPromocionTarjeta(codEvento, bancos.First().codigo, tipoTarjeta.First().idTipoTar);
             if (promocion == null)
             {
                 model.Descuento = 0;
@@ -656,7 +580,7 @@ namespace WebApplication4.Controllers
             model.idEventos = new List<int>();
             model.idPromociones = new List<int>();
             model.idEventos.Add(codEvento);
-            Promociones promocion = CalculaMejorPromocionTarjeta(codEvento, model.idBanco, model.idTipoTarjeta);
+            Promociones promocion = PromocionController.CalculaMejorPromocionTarjeta(codEvento, model.idBanco, model.idTipoTarjeta);
             if (promocion == null)
             {
                 model.Descuento = 0;
@@ -694,7 +618,7 @@ namespace WebApplication4.Controllers
                 foreach (CarritoItem item in carrito)
                 {
                     total += item.precio;
-                    Promociones promocion = CalculaMejorPromocionTarjeta(item.idEvento, bancos.First().codigo, tipoTarjeta.First().idTipoTar);
+                    Promociones promocion = PromocionController.CalculaMejorPromocionTarjeta(item.idEvento, bancos.First().codigo, tipoTarjeta.First().idTipoTar);
                     if (promocion == null)
                     {
                         Promociones dummy = new Promociones();
@@ -953,7 +877,7 @@ namespace WebApplication4.Controllers
             foreach (CarritoItem item in carrito2)
             {
                 total += item.precio;
-                Promociones promocion = CalculaMejorPromocionTarjeta(item.idEvento, model.idBanco, model.idTipoTarjeta);
+                Promociones promocion = PromocionController.CalculaMejorPromocionTarjeta(item.idEvento, model.idBanco, model.idTipoTarjeta);
                 if (promocion == null)
                 {
                     Promociones dummy = new Promociones();
@@ -1559,12 +1483,6 @@ namespace WebApplication4.Controllers
             return Json(mensaje, JsonRequestBehavior.AllowGet);
         }
 
-        [Authorize(Roles = "Vendedor")]
-        public ActionResult BuscaReserva()
-        {
-            return View();
-        }
-
         public JsonResult DeleteTurno(string turno, string fecha, string horai)
         {
             string m1;
@@ -2011,8 +1929,6 @@ namespace WebApplication4.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
-
-
         }
 
         public ApplicationUserManager UserManager
@@ -2026,6 +1942,7 @@ namespace WebApplication4.Controllers
                 _userManager = value;
             }
         }
+
         public ApplicationSignInManager SignInManager
         {
             get
@@ -2041,26 +1958,19 @@ namespace WebApplication4.Controllers
         [Authorize(Roles = "Administrador")]
         public ActionResult ReporteAsistencia()
         {
-
             return View();
-
-
         }
 
 
         public ActionResult ReporteAsignacion()
         {
-
-
             return View();
-
         }
 
 
         [HttpPost]
         public ActionResult ObtenerAsistencia(DateTime? fechIni, DateTime? fechFin, string nombre, int? puntoVenta)
         {
-
             var lista = from turno in db.Turno
                         join turnoSis in db.TurnoSistema on turno.codTurnoSis equals turnoSis.codTurnoSis
                         join usuario in db.CuentaUsuario on turno.usuario equals usuario.usuario
@@ -2074,44 +1984,32 @@ namespace WebApplication4.Controllers
                             turno.fecha,
                             turno.estado,
                             turno.codPuntoVenta
-
                         };
-
             if (!String.IsNullOrEmpty(nombre))
             {
                 lista = lista.Where(c => c.nombre.Contains(nombre));
-
             }
 
             if (fechIni.HasValue)
             {
-
-
                 lista = lista.Where(c => c.fecha >= fechIni);
             }
+
             if (fechFin.HasValue)
             {
                 lista = lista.Where(c => c.fecha <= fechFin);
-
             }
-
 
             if (puntoVenta.HasValue)
             {
-
                 lista = lista.Where(c => c.codPuntoVenta == puntoVenta);
             }
 
             List<Asistencia> listaAsistencia = new List<Asistencia>();
-
-
-
-
             if (lista.Count() > 0)
             {
                 listaAsistencia = lista.Select(f => new Asistencia
                 {
-
                     Nombre = f.nombre,
                     Fecha = f.fecha,
                     HoraEntrada = f.horIni,
@@ -2120,22 +2018,12 @@ namespace WebApplication4.Controllers
                     Asistio = f.estado.Contains("Tarde") ? "Tarde" : "Asistio"
                 }).ToList<Asistencia>();
             }
-
-
-
-
             return Json(listaAsistencia, JsonRequestBehavior.AllowGet);
-
         }
 
         [HttpPost]
         public ActionResult ObtenerAsignacion(ReporteAsignacionModel model)
         {
-
-
-
-
-
             var lista = from turno in db.Turno
                         select new
                         {
@@ -2146,16 +2034,9 @@ namespace WebApplication4.Controllers
                             turno.TurnoSistema.horIni,
                             turno.TurnoSistema.horFin,
                             turno.fecha,
-
-
                         };
-
-
-
             lista = lista.Where(c => c.fecha >= model.fechaInicio && c.fecha <= model.fechaFin);
-
             List<Asignacion> listaAsignacion = new List<Asignacion>();
-
 
             if (lista.Count() > 0)
             {
@@ -2167,18 +2048,8 @@ namespace WebApplication4.Controllers
                     Horas = f.horIni + " - " + f.horFin
 
                 }).ToList();
-
-
             }
-
-
-
-
             return Json(listaAsignacion, JsonRequestBehavior.AllowGet);
-
         }
-
-
-
     }
 }

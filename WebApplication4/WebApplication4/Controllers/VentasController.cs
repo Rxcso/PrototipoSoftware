@@ -16,6 +16,73 @@ namespace WebApplication4.Controllers
     {
         private inf245netsoft db = new inf245netsoft();
 
+
+        [Authorize(Roles = "Vendedor")]
+        public ActionResult BuscaReserva()
+        {
+            return View();
+        }
+        public ActionResult PagarReserva(string reserva)
+        {
+            TempData["idReservaCompra"] = reserva;
+            Session["idReservaCompra"] = reserva;
+
+            if (reserva != "" && reserva != null)
+            {
+                int id = int.Parse(reserva);
+                ComprarEntradaReservadaAModel model = new ComprarEntradaReservadaAModel();
+                Ventas queryVentas = db.Ventas.Where(c => c.codVen == id).First();
+                VentasXFuncion queryVF = db.VentasXFuncion.Where(c => c.codVen == id).First();
+                int codFun = queryVF.codFuncion;
+                model.Nombre = queryVentas.CuentaUsuario.nombre + " " + queryVentas.CuentaUsuario.apellido;
+                model.Dni = queryVentas.CuentaUsuario.codDoc;
+                Funcion queryF = db.Funcion.Where(c => c.codFuncion == codFun).First();
+
+                int codEvento = queryF.codEvento;
+
+                double? precio = queryVF.subtotal;
+
+                TempData["dniCli"] = queryVentas.codDoc;
+                Session["dniCli"] = queryVentas.codDoc;
+                ViewBag.dniCli = queryVentas.codDoc;
+
+                //lista de bancos
+                List<Banco> bancos = db.Banco.ToList();
+                ViewBag.Bancos = new SelectList(bancos, "codigo", "nombre");
+                //lista de tarjetas
+                List<TipoTarjeta> tipoTarjeta = db.TipoTarjeta.ToList();
+
+                ViewBag.TipoTarjeta = new SelectList(tipoTarjeta, "idTipoTar", "nombre");
+                List<Promociones> listaPromociones = new List<Promociones>();
+
+                double? descuento = 0;
+
+
+                Promociones promocion = PromocionController.CalculaMejorPromocionTarjeta(codEvento, bancos.First().codigo, tipoTarjeta.First().idTipoTar);
+                if (promocion == null)
+                {
+                    Promociones dummy = new Promociones();
+                    dummy.codPromo = -1;
+                    listaPromociones.Add(dummy);
+                }
+                else
+                {
+                    descuento += precio * promocion.descuento.Value / 100;
+                    listaPromociones.Add(promocion);
+                }
+
+                ViewBag.Descuento = descuento;
+                ViewBag.Promociones = listaPromociones;
+                ViewBag.Total = precio;
+                ViewBag.Pagar = precio - descuento;
+                ViewBag.Mes = Fechas.Mes();
+                ViewBag.AnVen = Fechas.Anio();
+
+                return View();
+            }
+
+            return View();
+        }
         [HttpGet]
         [Authorize(Roles = "Vendedor")]
         public ActionResult CarritoVentas()
@@ -530,10 +597,6 @@ namespace WebApplication4.Controllers
             return View();
         }
 
-        public ActionResult PagarReserva(string reserva)
-        {
-            return View();
-        }
         public ActionResult Detalles(int id)
         {
             List<VentasXFuncion> lv = db.VentasXFuncion.Where(c => c.codVen == id).ToList();
