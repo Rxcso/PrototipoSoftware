@@ -178,7 +178,7 @@ else
         <link rel="stylesheet" href="~/Content/estilos-index1.css">
     </head>
 
-    <body>
+    <body >
         <!--img src="~/Content/fondo1.jpg" alt="Alternate Text" class="bg" /-->
         <header class="container-fluid ">
             <nav style="margin-bottom:0" class="navbar navbar-static-top navbar-inverse " role="navigation">
@@ -369,19 +369,23 @@ else
             <li><a href="@Url.Action("MiCarrito", "CuentaUsuario")"><span class="fa fa-cart-plus fa-4x"></span></a></li>
             <!--li><a href="@Url.Action("PuntoVentas", "Home")"><span class="fa fa-map-marker fa-4x"></span></a></li-->
         </ul>
-        @RenderBody()
+        <div class="bod" style="min-height:900px">
+            @RenderBody()
+        </div>
+        
+        <div class="container-fluid" id="footer">
+            <h4 style="font-family:sans-serif"><span class="fa fa-map-marker"></span> Ubica nuestros locales <a href="@Url.Action("PuntoVentas", "Home")">aquí</a></h4>
+            <h5><span class="fa fa-flag"></span> Creado por .NETSOFT</h5>
+            <h5>Gracias al apoyo de <em>Jorge Girao La Rosa</em></h5>
+            <h6>© TICKNET. Marca registrada de .NetSoft S.A. Derechos Reservados 2015</h6>
+        </div>
 
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/jqueryval")
         @Scripts.Render("~/bundles/jqueryui")
         @Scripts.Render("~/bundles/bootstrap")
         @RenderSection("scripts", required: false)
-        <div id="footer">
-            <h4 style="font-family:sans-serif"><span class="fa fa-map-marker"></span> Ubica nuestros locales <a href="@Url.Action("PuntoVentas", "Home")">aquí</a></h4>
-            <h5><span class="fa fa-flag"></span> Creado por .NETSOFT</h5>
-            <h5>Gracias al apoyo de <em>Jorge Girao La Rosa</em></h5>
-            <h6>© TICKNET. Marca registrada de .NetSoft S.A. Derechos Reservados 2015</h6>
-        </div>
+        
         <script src="~/Scripts/script_fecha.js"></script>
     </body>
 </html>
