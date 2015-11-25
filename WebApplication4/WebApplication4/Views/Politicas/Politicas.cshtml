@@ -8,11 +8,11 @@
     // definen los campos para almacenar los valores actuales de la politicas
     int p1 = 0, p2 = 0, p3 = 0, p4 = 0, p5 = 0, p6 = 0, p7 = 0;
     DateTime hr;
-    string pl6="--:-- ----";
+    string pl6 = "--:-- ----";
     int a = 1, b = 2, c = 3, d = 4, e = 5, f = 6, g = 7;
     //se obtienen los valores actuales de las politicas
     if (db.Politicas.Find(a).valor != null)
-    { 
+    {
         p1 = (int)db.Politicas.Find(a).valor;
     }
     p2 = (int)db.Politicas.Find(b).valor;
@@ -20,7 +20,8 @@
     p4 = (int)db.Politicas.Find(d).valor;
     p5 = (int)db.Politicas.Find(e).valor;
     HoraReserva horap = db.HoraReserva.Find(f);
-    if(horap.hora!=null){
+    if (horap.hora != null)
+    {
         hr = (DateTime)db.HoraReserva.Find(f).hora;
         pl6 = hr.ToString(@"hh\:mm\:tt");
     }
@@ -199,11 +200,11 @@
         if (mx != null || dur != null || mt != null || mE != null || hr != null) {
             //se envia los datos escritos en politicas al controller
             $.ajax({
-                url: "@Url.Action("RegistraPoliticas", "CuentaUsuario")",
+                url: "@Url.Action("RegistraPoliticas", "Politicas")",
                 data: { dur: dur, mx: mx, mt: mt, ra: ra, mE: mE, hr: hr },
                 success: function (data) {
                     alert(data);
-                    window.location.href = '/CuentaUsuario/Politicas';
+                    window.location.href = '/Politicas/Politicas';
                     //window.location.href = 'Promocion/Index?evento='+evento;
                     //row.remove();
                 },
@@ -223,13 +224,11 @@
         if (tolerancia != "" && tolerancia != null) {
             //se envia los datos escritos en tolerancia al controller
             $.ajax({
-                url: "@Url.Action("RegistraTolerancia","CuentaUsuario")",
+                url: "@Url.Action("RegistraTolerancia","Politicas")",
                 data: { tolerancia: tolerancia },
                 success: function (data) {
                     alert(data);
-                    window.location.href = '/CuentaUsuario/Politicas';
-                    //window.location.href = 'Promocion/Index?evento='+evento;
-                    //row.remove();
+                    window.location.href = '/Politicas/Politicas';
                 },
                 error: function () {
                     alert(data);

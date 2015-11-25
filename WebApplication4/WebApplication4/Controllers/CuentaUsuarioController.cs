@@ -223,263 +223,6 @@ namespace WebApplication4.Controllers
         private ApplicationUserManager _userManager;
         private inf245netsoft db = new inf245netsoft();
 
-        
-
-        private bool validaCompraEntradaReservadaVendedor(ComprarEntradaReservadaAModel model)
-        {
-            bool indicador = true;
-            //si hay tarjeta de por medio
-            if (model.MontoTar > 0)
-            {
-                //usa tarjeta, verificar que hayan datos de la tarjeta
-                if (String.IsNullOrEmpty(model.NumeroTarjeta))
-                {//reviso si no hay una tarjeta seleccionadad
-                    ModelState.AddModelError("NumeroTarjeta", "El campo Nro. de Tarjeta: es obligatorio.");
-                    indicador = false;
-                }
-                else
-                {//si hay una tarjeta tengo que ver si pertenece al banco
-                    ComprarEntradaModel compra = new ComprarEntradaModel();
-                    compra.idBanco = model.idBanco;
-                    compra.NumeroTarjeta = model.NumeroTarjeta;
-                    compra.Mes = model.Mes;
-                    compra.AnioVen = model.AnioVen;
-                    indicador = ValidacionesCompra(compra);
-                }
-                if (String.IsNullOrEmpty(model.CodCcv))
-                {//reviso si no hay codigo ccv
-                    ModelState.AddModelError("CodCcv", "El campo CCV: es obligatorio.");
-                    indicador = false;
-                }
-            }
-            return indicador;
-        }
-
-
-        [HttpPost]
-        [AllowAnonymous]
-        public ActionResult ComprarEntradaReservadaA(ComprarEntradaReservadaAModel model)
-        {
-            int codVenta = int.Parse((string)Session["idReservaCompra"]);
-
-            if (model.NumeroTarjeta != null && model.CodCcv != null)
-            {
-                if (validaCompraEntradaReservadaVendedor(model))
-                {
-                    int idVenta = codVenta;
-                    DateTime hoy = DateTime.Today;
-
-                    using (var context = new inf245netsoft())
-                    {
-                        try
-                        {
-                            Ventas ve = db.Ventas.Where(c => c.codVen == idVenta).First();
-                            ve.fecha = DateTime.Now;
-
-                            //de todas maneras en la venta se registra el nombre, dni y tipo de documento del que esta comprando.                    
-                            CuentaUsuario cu = (CuentaUsuario)Session["UsuarioLogueado"];
-                            CuentaUsuario cu2 = db.CuentaUsuario.Find(cu.usuario);
-                            ve.vendedor = cu2.usuario;
-                            ve.CuentaUsuario1 = cu2;
-                            ve.Estado = MagicHelpers.Compra;
-                            ve.fecha = hoy;
-                            ve.montoEfectivoSoles = model.MontoEfe;
-                            ve.montoCreditoSoles = model.MontoTar;
-                            ve.MontoTotalSoles = model.MontoPagar;
-                            if (ve.montoCreditoSoles > 0 && ve.montoEfectivoSoles == 0) ve.modalidad = "T";
-                            if (ve.montoCreditoSoles == 0 && ve.montoEfectivoDolares > 0) ve.modalidad = "E";
-                            if (ve.montoCreditoSoles > 0 && ve.montoEfectivoDolares > 0) ve.modalidad = "M";
-
-                            try
-                            {
-                                db.SaveChanges();
-                            }
-                            catch (DbEntityValidationException dbEx)
-                            {
-                                foreach (var validationErrors in dbEx.EntityValidationErrors)
-                                {
-                                    foreach (var validationError in validationErrors.ValidationErrors)
-                                    {
-                                        Trace.TraceInformation("Property: {0} Error: {1}",
-                                                                validationError.PropertyName,
-                                                                validationError.ErrorMessage);
-                                    }
-                                }
-                            }
-                            // ventaXFuncion
-
-                            VentasXFuncion dt = db.VentasXFuncion.Where(c => c.codVen == idVenta).First();
-                            int codFuncion = dt.codFuncion;
-                            int cantidad = dt.cantEntradas;
-                            dt.subtotal = model.Importe;
-                            dt.descuento = (int)model.Descuento;
-                            dt.total = model.MontoPagar;
-
-                            db.SaveChanges();
-
-                            //Funcion
-
-                            Funcion fu = db.Funcion.Where(c => c.codFuncion == codFuncion).First();
-
-                            int codEvento = fu.codEvento;
-
-                            //detalle de venta
-                            DetalleVenta dv = db.DetalleVenta.Where(c => c.codVen == idVenta).First();
-
-                            dv.descTot = (int)model.Descuento;
-                            dv.Subtotal = model.Importe;
-                            dv.total = model.MontoPagar;
-
-                            //como es un usuario registrado le aumento los puntos que tiene
-                            CuentaUsuario dbCuenta = db.CuentaUsuario.Where(c => c.codDoc == model.Dni).First();
-                            dbCuenta.puntos += db.Eventos.Find(codEvento).puntosAlCliente * cantidad;
-
-                            db.SaveChanges();
-
-                            context.SaveChanges();
-                            Session["ReservaBusca"] = null;
-                        }
-                        catch (OptimisticConcurrencyException ex)
-                        {
-                            TempData["tipo"] = "alert alert-warning";
-                            TempData["message"] = "Error en la compra.";
-                            return View(model);
-                        }
-                    }
-                    TempData["tipo"] = "alert alert-success";
-                    TempData["message"] = "Compra Realizada. Muchas Gracias.";
-                    //si toda la compra se procesa de manera correcta eliminamos los session
-                    return RedirectToAction("Index", "Home");
-                }
-            }
-            else
-            {
-
-                int idVenta = codVenta;
-                DateTime hoy = DateTime.Today;
-
-                using (var context = new inf245netsoft())
-                {
-                    try
-                    {
-                        Ventas ve = db.Ventas.Where(c => c.codVen == idVenta).First();
-                        ve.fecha = DateTime.Now;
-
-                        //de todas maneras en la venta se registra el nombre, dni y tipo de documento del que esta comprando.                    
-                        CuentaUsuario cu = (CuentaUsuario)Session["UsuarioLogueado"];
-                        CuentaUsuario cu2 = db.CuentaUsuario.Find(cu.usuario);
-                        ve.vendedor = cu2.usuario;
-                        ve.CuentaUsuario1 = cu2;
-                        ve.Estado = "Pagado";
-                        ve.fecha = hoy;
-                        ve.montoEfectivoSoles = model.MontoEfe;
-                        ve.montoCreditoSoles = model.MontoTar;
-                        ve.MontoTotalSoles = model.MontoPagar;
-                        try
-                        {
-                            db.SaveChanges();
-                        }
-                        catch (DbEntityValidationException dbEx)
-                        {
-                            foreach (var validationErrors in dbEx.EntityValidationErrors)
-                            {
-                                foreach (var validationError in validationErrors.ValidationErrors)
-                                {
-                                    Trace.TraceInformation("Property: {0} Error: {1}",
-                                                            validationError.PropertyName,
-                                                            validationError.ErrorMessage);
-                                }
-                            }
-                        }
-                        // ventaXFuncion
-
-                        VentasXFuncion dt = db.VentasXFuncion.Where(c => c.codVen == idVenta).First();
-                        int codFuncion = dt.codFuncion;
-                        int cantidad = dt.cantEntradas;
-                        dt.subtotal = model.Importe;
-                        dt.descuento = (int)model.Descuento;
-                        dt.total = model.MontoPagar;
-
-                        db.SaveChanges();
-
-                        //Funcion
-
-                        Funcion fu = db.Funcion.Where(c => c.codFuncion == codFuncion).First();
-
-                        int codEvento = fu.codEvento;
-
-                        //detalle de venta
-                        DetalleVenta dv = db.DetalleVenta.Where(c => c.codVen == idVenta).First();
-
-                        dv.descTot = (int)model.Descuento;
-                        dv.Subtotal = model.Importe;
-                        dv.total = model.MontoPagar;
-
-                        //si es u usuario registrado le aumento los puntos que tiene
-                        CuentaUsuario dbCuenta = db.CuentaUsuario.Where(c => c.codDoc == model.Dni).First();
-                        dbCuenta.puntos += db.Eventos.Find(codEvento).puntosAlCliente * cantidad;
-
-                        db.SaveChanges();
-
-                        context.SaveChanges();
-                        Session["ReservaBusca"] = null;
-                    }
-                    catch (OptimisticConcurrencyException ex)
-                    {
-                        TempData["tipo"] = "alert alert-warning";
-                        TempData["message"] = "Error en la compra.";
-                        return View(model);
-                    }
-                }
-                TempData["tipo"] = "alert alert-success";
-                TempData["message"] = "Compra Realizada. Muchas Gracias.";
-                //si toda la compra se procesa de manera correcta eliminamos los session
-                return RedirectToAction("Index", "Home");
-
-            }
-            Ventas queryVentas = db.Ventas.Where(c => c.codVen == codVenta).First();
-            VentasXFuncion queryVF = db.VentasXFuncion.Where(c => c.codVen == codVenta).First();
-            int codFun = queryVF.codFuncion;
-            Funcion queryF = db.Funcion.Where(c => c.codFuncion == codFun).First();
-            int codEvento2 = queryF.codEvento;
-            double? precio = queryVF.subtotal;
-
-            TempData["dniCli"] = queryVentas.codDoc;
-            Session["dniCli"] = queryVentas.codDoc;
-            ViewBag.dniCli = queryVentas.codDoc;
-
-            //lista de bancos
-            List<Banco> bancos = db.Banco.ToList();
-            ViewBag.Bancos = new SelectList(bancos, "codigo", "nombre", model.idBanco);
-            //lista de tarjetas
-            List<TipoTarjeta> tipoTarjeta = db.TipoTarjeta.ToList();
-            ViewBag.TipoTarjeta = new SelectList(tipoTarjeta, "idTipoTar", "nombre", model.idTipoTarjeta);
-            List<Promociones> listaPromociones = new List<Promociones>();
-
-            double? descuento = 0;
-            Promociones promocion = PromocionController.CalculaMejorPromocionTarjeta(codEvento2, model.idBanco, model.idTipoTarjeta);
-            if (promocion == null)
-            {
-                Promociones dummy = new Promociones();
-                dummy.codPromo = -1;
-                listaPromociones.Add(dummy);
-            }
-            else
-            {
-                descuento += precio * promocion.descuento.Value / 100;
-                listaPromociones.Add(promocion);
-            }
-
-            ViewBag.Descuento = descuento;
-            ViewBag.Promociones = listaPromociones;
-            ViewBag.Total = precio;
-            ViewBag.Pagar = precio - descuento;
-            ViewBag.Mes = Fechas.Mes();
-            ViewBag.AnVen = Fechas.Anio();
-
-            return View(model);
-        }
-
         [HttpGet]
         public ActionResult PagarReserva(string reserva)
         {
@@ -1225,7 +968,7 @@ namespace WebApplication4.Controllers
 
             if (ti == 0) listareservas = db.Ventas.AsNoTracking().Where(c => c.codDoc.Contains(usuario) && c.Estado == "Reservado").ToList();
             else listareservas = db.Ventas.AsNoTracking().Where(c => c.tipoDoc == ti && c.codDoc.Contains(usuario) && c.Estado == "Reservado").ToList();
-            if (listareservas == null) return RedirectToAction("BuscaReserva", "CuentaUsuario");
+            if (listareservas == null) return RedirectToAction("BuscaReserva", "Ventas");
 
             List<VentasXFuncion> listaRxF = new List<VentasXFuncion>();
             for (int i = 0; i < listareservas.Count; i++)
@@ -1239,13 +982,7 @@ namespace WebApplication4.Controllers
             }
             if (listaRxF != null) Session["ReservaBusca"] = listaRxF;
             else Session["ReservaBusca"] = null;
-            return RedirectToAction("BuscaReserva", "CuentaUsuario");
-        }
-
-        [Authorize(Roles = "Administrador")]
-        public ActionResult Politicas()
-        {
-            return View();
+            return RedirectToAction("BuscaReserva", "Ventas");
         }
 
         public ActionResult MiCuenta()
@@ -1324,163 +1061,6 @@ namespace WebApplication4.Controllers
                 db.SaveChanges();
             }
             return RedirectToAction("MisReservas", "CuentaUsuario");
-        }
-
-        public JsonResult RegistraPoliticas(string dur, string mx, string mt, string ra, string mE, string hr)
-        {
-            int m1, m2, m3, m4, m5, m6;
-            DateTime h6;
-            string me1 = "1.Falta Ingresar Valores\n", me2 = " 3.Falta Ingresar Valores\n", me3 = " 4.Falta Ingresar Valores\n", me4 = " 5.Falta Ingresar Valores\n", me5 = " 6.Falta Ingresar Valores", me6 = " 2.Falta Ingresar Valores\n";
-            if (int.TryParse(dur, out m1) == true)
-            {
-                int val = int.Parse(dur);
-                if (val > 0)
-                {
-                    int t = 1;
-                    Politicas p = db.Politicas.Find(t);
-                    db.Entry(p).State = EntityState.Modified;
-                    p.valor = val;
-                    db.SaveChanges();
-                    db.Entry(p).State = EntityState.Detached;
-                    me1 = "1.Completado\n";
-                }
-                else
-                {
-                    me1 = " 1.Error Negativo\n";
-                }
-            }
-            else
-            {
-                me1 = " 1.Error Número Decimal\n";
-            }
-            if (dur == "e")
-            {
-                int t = 1;
-                Politicas p = db.Politicas.Find(t);
-                db.Entry(p).State = EntityState.Modified;
-                p.valor = null;
-                db.SaveChanges();
-            }
-            if (int.TryParse(mx, out m2) == true)
-            {
-                int val1 = int.Parse(mx);
-                if (val1 > 0)
-                {
-                    int t = 2;
-                    Politicas p = db.Politicas.Find(t);
-                    db.Entry(p).State = EntityState.Modified;
-                    p.valor = val1;
-                    db.SaveChanges();
-                    db.Entry(p).State = EntityState.Detached;
-                    me2 = " 3.Completado\n";
-                }
-                else
-                {
-                    me2 = " 3.Error Negativo\n";
-                }
-            }
-            if (int.TryParse(mt, out m3) == true)
-            {
-                int val2 = int.Parse(mt);
-                if (val2 > 0)
-                {
-                    int t = 3;
-                    Politicas p = db.Politicas.Find(t);
-                    db.Entry(p).State = EntityState.Modified;
-                    p.valor = val2;
-                    db.SaveChanges();
-                    db.Entry(p).State = EntityState.Detached;
-                    me3 = " 4.Completado\n";
-                }
-                else
-                {
-                    me3 = " 4.Error Negativo\n";
-                }
-
-            }
-            if (int.TryParse(ra, out m4) == true)
-            {
-                int val3 = int.Parse(ra);
-                if (val3 > 0)
-                {
-                    int t = 5;
-                    Politicas p = db.Politicas.Find(t);
-                    db.Entry(p).State = EntityState.Modified;
-                    p.valor = val3;
-                    db.SaveChanges();
-                    db.Entry(p).State = EntityState.Detached;
-                    me4 = " 5.Completado\n";
-                }
-                else
-                {
-                    me4 = " 5.Error Negativo\n";
-                }
-            }
-            if (int.TryParse(mE, out m5) == true)
-            {
-                int val5 = int.Parse(mE);
-                if (val5 > 0)
-                {
-                    int t = 7;
-                    Politicas p = db.Politicas.Find(t);
-                    db.Entry(p).State = EntityState.Modified;
-                    p.valor = val5;
-                    db.SaveChanges();
-                    db.Entry(p).State = EntityState.Detached;
-                    me5 = " 6.Completado\n";
-                }
-                else
-                {
-                    me5 = " 6.Error Negativo\n";
-                }
-            }
-            if (DateTime.TryParse(hr, out h6) == true)
-            {
-                DateTime hr6 = DateTime.Parse(hr);
-                HoraReserva h = db.HoraReserva.Find(6);
-                db.Entry(h).State = EntityState.Modified;
-                h.hora = hr6;
-                db.SaveChanges();
-                me6 = " 2.Completado\n";
-            }
-            if (hr == "e")
-            {
-                HoraReserva h = db.HoraReserva.Find(6);
-                db.Entry(h).State = EntityState.Modified;
-                h.hora = null;
-                db.SaveChanges();
-            }
-            string mensaje = me1 + me6 + me2 + me3 + me4 + me5;
-            return Json(mensaje, JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult RegistraTolerancia(String tolerancia)
-        {
-            string mensaje = "Ingrese datos";
-            if (tolerancia == "" || tolerancia == null) return Json(mensaje, JsonRequestBehavior.AllowGet);
-            //double m1;
-            int m1;
-            string me = "Error";
-            mensaje = me;
-            if (int.TryParse(tolerancia, out m1) == false) return Json(mensaje, JsonRequestBehavior.AllowGet);
-            //double m = double.Parse(tolerancia);
-            //int val = (int)m;
-            int val = int.Parse(tolerancia);
-            if (val > 0)
-            {
-                int t = 4;
-                Politicas p = db.Politicas.Find(t);
-                db.Entry(p).State = EntityState.Modified;
-                p.valor = val;
-                db.SaveChanges();
-                db.Entry(p).State = EntityState.Detached;
-                mensaje = "Registro completo";
-            }
-            else
-            {
-                mensaje = "Error numero negativo";
-            }
-            return Json(mensaje, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult DeleteTurno(string turno, string fecha, string horai)
@@ -1961,14 +1541,14 @@ namespace WebApplication4.Controllers
             return View();
         }
 
-
+        [Authorize(Roles = "Administrador")]
         public ActionResult ReporteAsignacion()
         {
             return View();
         }
 
-
         [HttpPost]
+        [Authorize(Roles = "Administrador")]
         public ActionResult ObtenerAsistencia(DateTime? fechIni, DateTime? fechFin, string nombre, int? puntoVenta)
         {
             var lista = from turno in db.Turno
@@ -2022,6 +1602,7 @@ namespace WebApplication4.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrador")]
         public ActionResult ObtenerAsignacion(ReporteAsignacionModel model)
         {
             var lista = from turno in db.Turno

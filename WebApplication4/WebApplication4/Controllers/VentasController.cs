@@ -16,7 +16,6 @@ namespace WebApplication4.Controllers
     {
         private inf245netsoft db = new inf245netsoft();
 
-
         [Authorize(Roles = "Vendedor")]
         public ActionResult BuscaReserva()
         {
@@ -24,40 +23,29 @@ namespace WebApplication4.Controllers
         }
         public ActionResult PagarReserva(string reserva)
         {
-            TempData["idReservaCompra"] = reserva;
-            Session["idReservaCompra"] = reserva;
-
+            VenderEntradaModel model = new VenderEntradaModel();
             if (reserva != "" && reserva != null)
             {
                 int id = int.Parse(reserva);
-                ComprarEntradaReservadaAModel model = new ComprarEntradaReservadaAModel();
                 Ventas queryVentas = db.Ventas.Where(c => c.codVen == id).First();
                 VentasXFuncion queryVF = db.VentasXFuncion.Where(c => c.codVen == id).First();
                 int codFun = queryVF.codFuncion;
                 model.Nombre = queryVentas.CuentaUsuario.nombre + " " + queryVentas.CuentaUsuario.apellido;
                 model.Dni = queryVentas.CuentaUsuario.codDoc;
                 Funcion queryF = db.Funcion.Where(c => c.codFuncion == codFun).First();
-
+                model.idVenta = id;
                 int codEvento = queryF.codEvento;
-
                 double? precio = queryVF.subtotal;
-
-                TempData["dniCli"] = queryVentas.codDoc;
-                Session["dniCli"] = queryVentas.codDoc;
-                ViewBag.dniCli = queryVentas.codDoc;
-
                 //lista de bancos
                 List<Banco> bancos = db.Banco.ToList();
                 ViewBag.Bancos = new SelectList(bancos, "codigo", "nombre");
                 //lista de tarjetas
                 List<TipoTarjeta> tipoTarjeta = db.TipoTarjeta.ToList();
-
                 ViewBag.TipoTarjeta = new SelectList(tipoTarjeta, "idTipoTar", "nombre");
                 List<Promociones> listaPromociones = new List<Promociones>();
-
+                List<Promociones> listaPromocionesEfectivo = new List<Promociones>();
                 double? descuento = 0;
-
-
+                double? descuentoE = 0;
                 Promociones promocion = PromocionController.CalculaMejorPromocionTarjeta(codEvento, bancos.First().codigo, tipoTarjeta.First().idTipoTar);
                 if (promocion == null)
                 {
@@ -70,7 +58,21 @@ namespace WebApplication4.Controllers
                     descuento += precio * promocion.descuento.Value / 100;
                     listaPromociones.Add(promocion);
                 }
-
+                promocion = PromocionController.CalculaMejorPromocionEfectivo(codEvento);
+                if (promocion == null)
+                {
+                    Promociones dummy = new Promociones();
+                    dummy.codPromo = -1;
+                    listaPromocionesEfectivo.Add(dummy);
+                }
+                else
+                {
+                    descuentoE += precio * (1 - promocion.cantComp.Value / promocion.cantAdq.Value);
+                    listaPromocionesEfectivo.Add(promocion);
+                }
+                model.idEventos = new List<int>();
+                model.idEventos.Add(codEvento);
+                ViewBag.PromocionesEfectivo = listaPromocionesEfectivo;
                 ViewBag.Descuento = descuento;
                 ViewBag.Promociones = listaPromociones;
                 ViewBag.Total = precio;
@@ -78,11 +80,155 @@ namespace WebApplication4.Controllers
                 ViewBag.Mes = Fechas.Mes();
                 ViewBag.AnVen = Fechas.Anio();
 
-                return View();
+                return View(model);
             }
-
-            return View();
+            TempData["tipo"] = "alert alert-warning";
+            TempData["message"] = "No ha seleccionado una reserva.";
+            return RedirectToAction("BuscaReserva");
         }
+
+        private bool validaCompraEntradaReservadaVendedor(VenderEntradaModel model)
+        {
+            bool indicador = true;
+            //si hay tarjeta de por medio
+            if (model.MontoTar > 0)
+            {
+                //usa tarjeta, verificar que hayan datos de la tarjeta
+                if (String.IsNullOrEmpty(model.NumeroTarjeta))
+                {//reviso si no hay una tarjeta seleccionadad
+                    ModelState.AddModelError("NumeroTarjeta", "El campo Nro. de Tarjeta: es obligatorio.");
+                    indicador = false;
+                }
+                else
+                {//si hay una tarjeta tengo que ver si pertenece al banco
+                    ComprarEntradaModel compra = new ComprarEntradaModel();
+                    compra.idBanco = model.idBanco.Value;
+                    compra.NumeroTarjeta = model.NumeroTarjeta;
+                    compra.Mes = model.Mes;
+                    compra.AnioVen = model.AnioVen;
+                    indicador = ValidacionesCompra(compra);
+                }
+                if (String.IsNullOrEmpty(model.CodCcv))
+                {//reviso si no hay codigo ccv
+                    ModelState.AddModelError("CodCcv", "El campo CCV: es obligatorio.");
+                    indicador = false;
+                }
+            }
+            return indicador;
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult PagarReserva(VenderEntradaModel model)
+        {
+            int codVenta = model.idVenta;
+            if (validaCompraEntradaReservadaVendedor(model))
+            {
+                DateTime hoy = DateTime.Today;
+                //buscamos la venta
+                Ventas venta = db.Ventas.Find(model.idVenta);
+                //asignamos el vendedor
+                venta.vendedor = User.Identity.Name;
+                //estado y la fecha de pago
+                venta.Estado = MagicHelpers.Compra;
+                venta.fecha = hoy;
+                //monto usados al pagar
+                venta.montoEfectivoSoles = model.MontoEfe;
+                venta.montoEfectivoDolares = model.MontoDolares;
+                venta.montoCreditoSoles = model.MontoTar;
+                venta.MontoTotalSoles = model.MontoPagar;
+                //modalidad de pago
+                if (venta.montoCreditoSoles > 0 && venta.montoEfectivoSoles == 0 && venta.montoEfectivoDolares == 0) venta.modalidad = "T";
+                if (venta.montoCreditoSoles == 0 && (venta.montoEfectivoDolares + venta.montoEfectivoSoles) > 0) venta.modalidad = "E";
+                if ((venta.montoCreditoSoles + venta.montoEfectivoDolares) > 0 && venta.montoEfectivoDolares > 0) venta.modalidad = "M";
+                //buscamos la ventaxfuncion
+                VentasXFuncion vxf = db.VentasXFuncion.Where(c => c.codVen == venta.codVen).First();
+                Eventos evento = db.Eventos.Find(vxf.Funcion.codEvento);
+                DetalleVenta detalle = db.DetalleVenta.Where(c => c.codVen == venta.codVen && c.codFuncion == vxf.Funcion.codFuncion).First();
+                //aumantemos el monto adeduado del organizador
+                evento.monto_adeudado += evento.montoFijoVentaEntrada.Value + evento.porccomision.Value * detalle.cantEntradas.Value / 100;
+                //si es que tiene asientos, debo cambiar el estado de todos los asientos que ha comprado
+                if (db.AsientosXFuncion.Any(c => c.codFuncion == vxf.Funcion.codFuncion && c.codDetalleVenta == detalle.codDetalleVenta))
+                {
+                    List<AsientosXFuncion> axf = db.AsientosXFuncion.Where(c => c.codFuncion == vxf.Funcion.codFuncion && c.codDetalleVenta == detalle.codDetalleVenta).ToList();
+                    foreach (AsientosXFuncion asientoxf in axf)
+                    {
+                        asientoxf.estado = MagicHelpers.Ocupado;
+                        asientoxf.PrecioPagado = model.MontoPagar;
+                    }
+                }
+                //busco al cliente y le aumento los puntos correspondientes
+                CuentaUsuario cuenta = db.CuentaUsuario.Where(c => c.codDoc == model.Dni).First();
+                cuenta.puntos += db.Eventos.Find(vxf.Funcion.codEvento).puntosAlCliente * (int)detalle.cantEntradas;
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    TempData["tipo"] = "alert alert-warning";
+                    TempData["message"] = "Error en el pago.";
+                    return Redirect("~/Ventas/PagarReserva?reserva=" + model.idVenta);
+                }
+                TempData["tipo"] = "alert alert-success";
+                TempData["message"] = "Reserva Pagada. Muchas Gracias.";
+                //le envio el correo al cliente de que la reserva ha sido pagada
+                EmailController.EnviarCorreoCompra(model.idVenta, cuenta.correo);
+                return RedirectToAction("BuscarReserva");
+            }
+            //si hay un error volver a rellenar todo
+            Ventas queryVentas = db.Ventas.Where(c => c.codVen == codVenta).First();
+            VentasXFuncion queryVF = db.VentasXFuncion.Where(c => c.codVen == codVenta).First();
+            int codFun = queryVF.codFuncion;
+            Funcion queryF = db.Funcion.Where(c => c.codFuncion == codFun).First();
+            int codEvento2 = queryF.codEvento;
+            double? precio = queryVF.subtotal;
+            //lista de bancos
+            List<Banco> bancos = db.Banco.ToList();
+            ViewBag.Bancos = new SelectList(bancos, "codigo", "nombre", model.idBanco);
+            //lista de tarjetas
+            List<TipoTarjeta> tipoTarjeta = db.TipoTarjeta.ToList();
+            ViewBag.TipoTarjeta = new SelectList(tipoTarjeta, "idTipoTar", "nombre", model.idTipoTarjeta);
+            List<Promociones> listaPromociones = new List<Promociones>();
+            List<Promociones> listaPromocionesEfectivo = new List<Promociones>();
+            double? descuento = 0;
+            double? descuentoE = 0;
+            Promociones promocion = PromocionController.CalculaMejorPromocionTarjeta(codEvento2, model.idBanco.Value, model.idTipoTarjeta.Value);
+            if (promocion == null)
+            {
+                Promociones dummy = new Promociones();
+                dummy.codPromo = -1;
+                listaPromociones.Add(dummy);
+            }
+            else
+            {
+                descuento += precio * promocion.descuento.Value / 100;
+                listaPromociones.Add(promocion);
+            }
+            promocion = PromocionController.CalculaMejorPromocionEfectivo(codEvento2);
+            if (promocion == null)
+            {
+                Promociones dummy = new Promociones();
+                dummy.codPromo = -1;
+                listaPromocionesEfectivo.Add(dummy);
+            }
+            else
+            {
+                descuentoE += precio * (1 - promocion.cantComp.Value / promocion.cantAdq.Value);
+                listaPromocionesEfectivo.Add(promocion);
+            }
+            model.idEventos = new List<int>();
+            model.idEventos.Add(codEvento2);
+            ViewBag.Descuento = descuento;
+            ViewBag.Promociones = listaPromociones;
+            ViewBag.Total = precio;
+            ViewBag.Pagar = precio - descuento;
+            ViewBag.Mes = Fechas.Mes();
+            ViewBag.AnVen = Fechas.Anio();
+
+            return View(model);
+        }
+
         [HttpGet]
         [Authorize(Roles = "Vendedor")]
         public ActionResult CarritoVentas()
@@ -116,39 +262,6 @@ namespace WebApplication4.Controllers
             }
             return View();
         }
-        private Promociones CalculaMejorPromocionTarjeta(int codEvento, int idBanco, int tipoTarjeta)
-        {
-            try
-            {
-                //busco las promociones que se encuentren activas
-                List<Promociones> promociones = db.Promociones.Where(c => c.codEvento == codEvento && c.codBanco == idBanco && c.codTipoTarjeta == tipoTarjeta && c.estado == true && c.fechaIni <= DateTime.Today && DateTime.Today <= DateTime.Today).ToList();
-                promociones.Sort((a, b) => ((double)a.descuento).CompareTo((double)b.descuento));
-                return promociones.Last();
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
-
-        private Promociones CalculaMejorPromocionEfectivo(int idEvento)
-        {
-            try
-            {
-                List<Promociones> promociones = db.Promociones.Where(c => c.codEvento == idEvento && c.estado == true && c.modoPago == "E").ToList();
-                foreach (Promociones promo in promociones)
-                {
-                    double descuento = (1 - promo.cantComp.Value / promo.cantAdq.Value * 1.0) * 100.0;
-                    promo.descuento = (float)descuento;
-                }
-                promociones.Sort((a, b) => ((double)a.descuento).CompareTo((double)b.descuento));
-                return promociones.Last();
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
 
         [HttpGet]
         [Authorize(Roles = "Vendedor")]
@@ -172,7 +285,7 @@ namespace WebApplication4.Controllers
                 foreach (CarritoItem item in carrito)
                 {
                     total += item.precio;
-                    Promociones promocion = CalculaMejorPromocionTarjeta(item.idEvento, bancos.First().codigo, tipoTarjeta.First().idTipoTar);
+                    Promociones promocion = PromocionController.CalculaMejorPromocionTarjeta(item.idEvento, bancos.First().codigo, tipoTarjeta.First().idTipoTar);
                     if (promocion == null)
                     {
                         Promociones dummy = new Promociones();
@@ -184,7 +297,7 @@ namespace WebApplication4.Controllers
                         descuento += item.precio * promocion.descuento.Value / 100;
                         listaPromociones.Add(promocion);
                     }
-                    promocion = CalculaMejorPromocionEfectivo(item.idEvento);
+                    promocion = PromocionController.CalculaMejorPromocionEfectivo(item.idEvento);
                     if (promocion == null)
                     {
                         Promociones dummy = new Promociones();
@@ -493,7 +606,7 @@ namespace WebApplication4.Controllers
                 foreach (CarritoItem item in carrito2)
                 {
                     total += item.precio;
-                    Promociones promocion = CalculaMejorPromocionTarjeta(item.idEvento, bancos.First().codigo, tipoTarjeta.First().idTipoTar);
+                    Promociones promocion = PromocionController.CalculaMejorPromocionTarjeta(item.idEvento, bancos.First().codigo, tipoTarjeta.First().idTipoTar);
                     if (promocion == null)
                     {
                         Promociones dummy = new Promociones();
