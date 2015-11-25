@@ -26,9 +26,10 @@ body{background:url(fondo1.jpg) fixed top center !important;background-repeat:sp
 #barra{background-color: #337ab7; color: white }
 #seccionPrincipal{}
 #carousel-1{margin-bottom: 10px}
-#footer{padding:20px;
-        background: #101010;
-       height: 150px;
+#footer{    
+       padding:20px;
+       background: #101010;
+       height: 150px;    
        color: white; 
        text-align: center; 
        font-family:'Comic Sans MS'
