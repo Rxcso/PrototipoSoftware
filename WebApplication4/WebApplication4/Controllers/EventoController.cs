@@ -151,7 +151,7 @@ namespace WebApplication4.Controllers
                     catch (OptimisticConcurrencyException ex)
                     {
                         Ventas ventaAct = db.Ventas.Find(idVenta);
-                        db.Ventas.Remove(ventaAct);
+                        if (ventaAct != null) db.Ventas.Remove(ventaAct);
                         db.SaveChanges();
                         return "No se pudieron reservar los asientos, alguien más ya lo hizo.";
                     }
@@ -161,7 +161,7 @@ namespace WebApplication4.Controllers
             catch (Exception ex)
             {
                 Ventas ventaAct = db.Ventas.Find(idVenta);
-                db.Ventas.Remove(ventaAct);
+                if(ventaAct!=null) db.Ventas.Remove(ventaAct);
                 db.SaveChanges();
                 return "Ocurrio un error inesperado.";
             }

@@ -19,14 +19,16 @@
         <div class="container">
             <div class="col-md-8">
                 <h3>Preferencias</h3><br>
-                @foreach (var item in ViewBag.ListaCategorias)
+                @for( int i=0; i< Model.listSelected.Length; i++)
                 {
-                    <div class="checkbox">
+                    
+                        @Html.HiddenFor(c=> c.listIdCategorias[i])
+                        @Html.HiddenFor(c=> c.listNombreCategorias[i])
                         <label>
-                            <input id="@item.nombre" type="checkbox" value="@item.nombre">
-                            @item.nombre
+                            @Html.CheckBoxFor( c=> c.listSelected[i] )
+                            @Model.listNombreCategorias[i]
                         </label>
-                    </div>
+                        <br />
                 }
             </div>
         </div>

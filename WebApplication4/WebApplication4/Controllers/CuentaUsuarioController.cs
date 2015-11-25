@@ -980,37 +980,56 @@ namespace WebApplication4.Controllers
         {
             //hay que mostrar lo que ya escogió
 
-            List<Categoria> listaCategorias = db.Categoria.Where(c => c.activo == 1 && c.nivel == 1).ToList();
+            List<Categoria> listaCategorias = db.Categoria.Where(c => c.activo == 1 && c.idCategoria != MagicHelpers.Categorias).ToList();
 
             MisPreferenciasModel misp = new MisPreferenciasModel();
 
-            ViewBag.listaCategorias = listaCategorias;
+            string idCorreo = User.Identity.Name;
 
             var auxlistIdCategorias = new List<int>(0);
             var auxlistNombreCategorias = new List<string>(0);
+            var auxListSelected = new List<bool>(0);
 
             for (int i = 0; i < listaCategorias.Count(); i++)
             {
-                auxlistIdCategorias.Add(listaCategorias[i].idCategoria);
+                int idC = listaCategorias[i].idCategoria;
+                auxlistIdCategorias.Add(idC);
                 auxlistNombreCategorias.Add(listaCategorias[i].nombre);
-            }
 
+                if (db.CuentaUsuario.Find(idCorreo).Categoria.Where(c => c.idCategoria == idC).ToList().Count > 0)
+                {
+                    auxListSelected.Add(true);
+                }
+                else auxListSelected.Add(false);
+
+            }
             misp.listIdCategorias = auxlistIdCategorias.ToArray();
             misp.listNombreCategorias = auxlistNombreCategorias.ToArray();
-            
-            return View();
+            misp.listSelected = auxListSelected.ToArray();
+            //misp.listIdCategorias = auxlistIdCategorias.ToArray();
+            //misp.listNombreCategorias = auxlistNombreCategorias.ToArray();
+            return View(misp);
         }
 
         [HttpPost]
         public ActionResult MisPreferencias(MisPreferenciasModel model)
         {
-            string correo = User.Identity.Name;
-            CuentaUsuario cliente = db.CuentaUsuario.Where(c => c.correo == correo).First();
-            string clientePK = cliente.correo;
+            if (User.Identity.IsAuthenticated)
+            {
+                string idCorreo = User.Identity.Name;
+                CuentaUsuario cuenta = db.CuentaUsuario.Find(idCorreo);
 
-            
-
-            return RedirectToAction("MiCuenta");
+                cuenta.Categoria.Clear();
+                for (int i = 0; i < model.listSelected.Length; i++)
+                {
+                    if (model.listSelected[i]) cuenta.Categoria.Add(db.Categoria.Find(model.listIdCategorias[i]));
+                }
+                db.SaveChanges();
+                TempData["tipo"] = "alert alert-success";
+                TempData["message"] = "Datos Actualizados";
+                return MisPreferencias();
+            }
+            else return Redirect("~/Index");
         }
 
         [HttpGet]
