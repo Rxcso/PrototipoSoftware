@@ -31,48 +31,49 @@
     </div>
 </div>
 
-<div class="container" id="promocionesLista">
-
-    @*<div id="listaEventoPromocionEfectivo">
-            <p>Descuentos disponibles para pago solo en efectivo, no aplicable para pago mixto:</p>
-            @{
-                for (int i = 0; i < promocionesListaEf.Count; i++)
-                {
-                    string razon = "";
-                    if (promocionesListaEf[i].codPromo == -1)
-                    {
-                        razon = "- No cuenta con promocion";
-                    }
-                    else
-                    {
-                        int desc = (1 - (promocionesListaEf[i].cantComp.Value / promocionesListaEf[i].cantAdq.Value)) * 100;
-                        razon = "- Descuento de " + desc + "%.";
-                    }
-                    <p style="margin-left:2em">@razon</p>
-                }
-            }
-        </div>*@
-    @Html.Hidden("dsctInicial", "" + @descuento)
-    <p>Descuentos disponibles en pago por tarjeta, no aplicable para pago mixto:</p>
-    <div id="listaEventoPromocion">
+<div class="container " id="promocionesLista">
+    <div id="listaEventoPromocionEfectivo" class="col-md-4">
+        <p>Descuentos disponibles para pago solo en efectivo, no aplicable para pago mixto:</p>
         @{
-            for (int i = 0; i < promocionesLista.Count; i++)
+            for (int i = 0; i < promocionesListaEf.Count; i++)
             {
                 string razon = "";
-                if (promocionesLista[i].codPromo == -1)
+                if (promocionesListaEf[i].codPromo == -1)
                 {
                     razon = "- No cuenta con promocion";
                 }
                 else
                 {
-                    razon = "- Descuento de " + promocionesLista[i].descuento + "%.";
+                    int desc = (1 - (promocionesListaEf[i].cantComp.Value / promocionesListaEf[i].cantAdq.Value)) * 100;
+                    razon = "- Descuento de " + desc + "%.";
                 }
-                @Html.Hidden("eventosCarrito", "" + carrito[i].idEvento)
-                @Html.Hidden("promocionesCarrito", "" + promocionesLista[i].codPromo)
-                @Html.Hidden("subtotalCarrito", "" + carrito[i].precio)
                 <p style="margin-left:2em">@razon</p>
             }
         }
+    </div>
+    @Html.Hidden("dsctInicial", "" + @descuento)
+    <div class="col-md-4">
+        <p>Descuentos disponibles en pago por tarjeta, no aplicable para pago mixto:</p>
+        <div id="listaEventoPromocion">
+            @{
+                for (int i = 0; i < promocionesLista.Count; i++)
+                {
+                    string razon = "";
+                    if (promocionesLista[i].codPromo == -1)
+                    {
+                        razon = "- No cuenta con promocion";
+                    }
+                    else
+                    {
+                        razon = "- Descuento de " + promocionesLista[i].descuento + "%.";
+                    }
+                    @Html.Hidden("eventosCarrito", "" + carrito[i].idEvento)
+                    @Html.Hidden("promocionesCarrito", "" + promocionesLista[i].codPromo)
+                    @Html.Hidden("subtotalCarrito", "" + carrito[i].precio)
+                    <p style="margin-left:2em">@razon</p>
+                }
+            }
+        </div>
     </div>
 </div>
 <div class="container">
