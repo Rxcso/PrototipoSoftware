@@ -2206,3 +2206,20 @@ System.Collections.ListDictionaryInternal
 2015-11-25 00:22:48,246 [29] ERROR Ticknet - Exception Message - 
 c:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\Views\CuentaUsuario\ComprarEntradaReservadaA.cshtml(174): error CS1061: 'WebApplication4.Models.ComprarEntradaReservadaAModel' no contiene una definición de 'Vuelto' ni se encontró ningún método de extensión 'Vuelto' que acepte un primer argumento de tipo 'WebApplication4.Models.ComprarEntradaReservadaAModel' (¿falta una directiva using o una referencia de ensamblado?)
 2015-11-25 00:22:48,246 [29] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-25 01:14:22,599 [59] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-25 01:14:22,607 [59] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-25 01:14:22,607 [59] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-25 01:14:22,607 [59] ERROR Ticknet - Exception Message - 
+Encountered end tag "div" with no matching start tag.  Are your start/end tags properly balanced?
+
+2015-11-25 01:14:22,607 [59] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-25 01:54:04,715 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-25 01:54:04,725 [8] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-25 01:54:04,725 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-25 01:54:04,725 [8] ERROR Ticknet - Exception Message - 
+The controller for path '/MiCarrito/CuentaUsuario' was not found or does not implement IController.
+2015-11-25 01:54:04,725 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
