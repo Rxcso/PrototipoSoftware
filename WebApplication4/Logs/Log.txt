@@ -2158,3 +2158,11 @@ System.Collections.ListDictionaryInternal
 2015-11-24 01:20:14,500 [6] ERROR Ticknet - Exception Message - 
 c:\Users\Pier\AppData\Local\Temp\Temporary ASP.NET Files\root\f31beeba\a9493dff\App_Web_index.cshtml.a8d08dba.rr1_ht5y.0.cs(55): error CS0246: No se puede encontrar el tipo o el nombre de espacio de nombres 'eventos' (¿falta una directiva using o una referencia de ensamblado?)
 2015-11-24 01:20:14,500 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-24 19:15:10,473 [45] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-24 19:15:10,501 [45] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-24 19:15:10,501 [45] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-24 19:15:10,501 [45] ERROR Ticknet - Exception Message - 
+A public action method ' Index' was not found on controller 'WebApplication4.Controllers.HomeController'.
+2015-11-24 19:15:10,501 [45] DEBUG Ticknet - ++++++++++++++++++++++++++++

@@ -10,7 +10,7 @@
         List<Eventos> listaDestacados = ViewBag.ListaDestacados as List<Eventos>;
     }
 
-    <style>
+    @*<style>
         .thumbnail > .event {
             height: 50px;
         }
@@ -19,7 +19,7 @@
             width: 250px;
             height: 150px;
         }
-    </style>
+    </style>*@
 
 
 
@@ -73,7 +73,7 @@
                             <div class="col-md-3 col-sm-6 col-xs-12 bloque-imagen">
                                 <div class="thumbnail">
                                     <a href=@Url.Action("VerEvento", "Evento", new { id = evento.codigo })>
-                                        <img height="58px" class="event" src="@evento.ImagenEvento" alt="">
+                                        <img  class="event" src="@evento.ImagenEvento" alt="">
                                     </a>
                                     <div class="caption" style="text-align:center">
                                         @{
@@ -100,9 +100,8 @@
 
                                         }
 
-
-                                        @evento.nombre <br>
-                                        @fecha
+                                        <div class="row"><strong>@evento.nombre</strong></div>
+                                        <div class="row"><strong>@fecha</strong></div>                                        
                                     </div>
                                 </div>
                             </div>
