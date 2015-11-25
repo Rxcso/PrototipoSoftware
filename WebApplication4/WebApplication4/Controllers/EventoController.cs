@@ -1183,8 +1183,8 @@ namespace WebApplication4.Controllers
                      * Hay una situacion con poner evento.ImagenDestacado en null, al realizar db.SaveChanges(), me dice que el campo debe ser obligatorio a pesar de que no se especifica en ningun lado de que lo sea. Incluso en base de datos esta permitido el valor de null.*/
                     if (Session["IdEventoCreado"] != null || Session["IdEventoModificado"] != null)
                     {
-                        if (guardarImagen("destacado" + evento.codigo + ".jpg", model.ImageDestacado))
-                            evento.ImagenDestacado = "/Images/" + "destacado" + evento.codigo + ".jpg";
+                        if (guardarImagen("destacados/destacado" + evento.codigo + ".jpg", model.ImageDestacado))
+                            evento.ImagenDestacado = "/Images/destacados/" + "destacado" + evento.codigo + ".jpg";
                         else evento.ImagenDestacado = null;
                     }
                 }
@@ -1196,15 +1196,15 @@ namespace WebApplication4.Controllers
                 {
                     if (Session["IdEventoCreado"] != null || Session["IdEventoModificado"] != null)
                     {
-                        if (guardarImagen("sitios" + evento.codigo + ".jpg", model.ImageSitios))
-                            evento.ImagenSitios = "/Images/" + "sitios" + evento.codigo + ".jpg";
+                        if (guardarImagen("asientos/sitios" + evento.codigo + ".jpg", model.ImageSitios))
+                            evento.ImagenSitios = "/Images/asientos/" + "sitios" + evento.codigo + ".jpg";
                         else evento.ImagenSitios = null;
                     }
                 }
                 else evento.ImagenDestacado = null;
 
 
-                if (guardarImagen("evento" + evento.codigo + ".jpg", model.ImageEvento)) evento.ImagenEvento = "/Images/" + "evento" + evento.codigo + ".jpg";
+                if (guardarImagen("eventos/evento" + evento.codigo + ".jpg", model.ImageEvento)) evento.ImagenEvento = "/Images/eventos/" + "evento" + evento.codigo + ".jpg";
 
                 evento.maxReservas = model.MaxReservas;
                 evento.montoFijoVentaEntrada = model.MontFijoVentEnt;

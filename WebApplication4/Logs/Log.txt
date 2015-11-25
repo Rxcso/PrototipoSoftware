@@ -2158,85 +2158,19 @@ System.Collections.ListDictionaryInternal
 2015-11-24 01:20:14,500 [6] ERROR Ticknet - Exception Message - 
 c:\Users\Pier\AppData\Local\Temp\Temporary ASP.NET Files\root\f31beeba\a9493dff\App_Web_index.cshtml.a8d08dba.rr1_ht5y.0.cs(55): error CS0246: No se puede encontrar el tipo o el nombre de espacio de nombres 'eventos' (¿falta una directiva using o una referencia de ensamblado?)
 2015-11-24 01:20:14,500 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-24 19:42:01,810 [62] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-24 19:42:01,817 [62] ERROR Ticknet - Exception Type - 
-NullReferenceException
-2015-11-24 19:42:01,817 [62] ERROR Ticknet - Exception Data - 
+2015-11-24 19:15:10,473 [45] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-24 19:15:10,501 [45] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-24 19:15:10,501 [45] ERROR Ticknet - Exception Data - 
 System.Collections.ListDictionaryInternal
-2015-11-24 19:42:01,817 [62] ERROR Ticknet - Exception Message - 
-Referencia a objeto no establecida como instancia de un objeto.
-2015-11-24 19:42:01,817 [62] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-24 19:42:38,894 [73] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-24 19:42:38,905 [73] ERROR Ticknet - Exception Type - 
-NullReferenceException
-2015-11-24 19:42:38,905 [73] ERROR Ticknet - Exception Data - 
+2015-11-24 19:15:10,501 [45] ERROR Ticknet - Exception Message - 
+A public action method ' Index' was not found on controller 'WebApplication4.Controllers.HomeController'.
+2015-11-24 19:15:10,501 [45] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-24 21:11:27,875 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-24 21:11:27,884 [8] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-24 21:11:27,884 [8] ERROR Ticknet - Exception Data - 
 System.Collections.ListDictionaryInternal
-2015-11-24 19:42:38,905 [73] ERROR Ticknet - Exception Message - 
-Referencia a objeto no establecida como instancia de un objeto.
-2015-11-24 19:42:38,905 [73] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-24 19:53:12,112 [23] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-24 19:53:12,125 [23] ERROR Ticknet - Exception Type - 
-ArgumentNullException
-2015-11-24 19:53:12,125 [23] ERROR Ticknet - Exception Data - 
-System.Collections.ListDictionaryInternal
-2015-11-24 19:53:12,125 [23] ERROR Ticknet - Exception Message - 
-El valor no puede ser nulo.
-Nombre del parámetro: entity
-2015-11-24 19:53:12,125 [23] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-24 19:53:26,205 [74] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-24 19:53:26,205 [74] ERROR Ticknet - Exception Type - 
-ArgumentNullException
-2015-11-24 19:53:26,205 [74] ERROR Ticknet - Exception Data - 
-System.Collections.ListDictionaryInternal
-2015-11-24 19:53:26,205 [74] ERROR Ticknet - Exception Message - 
-El valor no puede ser nulo.
-Nombre del parámetro: entity
-2015-11-24 19:53:26,205 [74] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-24 20:46:05,881 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-24 20:46:05,962 [7] ERROR Ticknet - Exception Type - 
-NotSupportedException
-2015-11-24 20:46:05,962 [7] ERROR Ticknet - Exception Data - 
-System.Collections.ListDictionaryInternal
-2015-11-24 20:46:05,962 [7] ERROR Ticknet - Exception Message - 
-Unable to create a constant value of type 'WebApplication4.Models.Categoria'. Only primitive types or enumeration types are supported in this context.
-2015-11-24 20:46:05,962 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-24 21:01:12,957 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-24 21:01:12,964 [7] ERROR Ticknet - Exception Type - 
-NotSupportedException
-2015-11-24 21:01:12,964 [7] ERROR Ticknet - Exception Data - 
-System.Collections.ListDictionaryInternal
-2015-11-24 21:01:12,964 [7] ERROR Ticknet - Exception Message - 
-Unable to create a constant value of type 'WebApplication4.Models.Categoria'. Only primitive types or enumeration types are supported in this context.
-2015-11-24 21:01:12,964 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-24 21:01:28,971 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-24 21:01:28,971 [10] ERROR Ticknet - Exception Type - 
-NotSupportedException
-2015-11-24 21:01:28,971 [10] ERROR Ticknet - Exception Data - 
-System.Collections.ListDictionaryInternal
-2015-11-24 21:01:28,971 [10] ERROR Ticknet - Exception Message - 
-Unable to create a constant value of type 'WebApplication4.Models.Categoria'. Only primitive types or enumeration types are supported in this context.
-2015-11-24 21:01:28,971 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-24 21:01:32,947 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-24 21:01:32,947 [11] ERROR Ticknet - Exception Type - 
-NotSupportedException
-2015-11-24 21:01:32,947 [11] ERROR Ticknet - Exception Data - 
-System.Collections.ListDictionaryInternal
-2015-11-24 21:01:32,947 [11] ERROR Ticknet - Exception Message - 
-Unable to create a constant value of type 'WebApplication4.Models.Categoria'. Only primitive types or enumeration types are supported in this context.
-2015-11-24 21:01:32,947 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-24 21:14:17,174 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-24 21:14:17,185 [11] ERROR Ticknet - Exception Type - 
-NotSupportedException
-2015-11-24 21:14:17,185 [11] ERROR Ticknet - Exception Data - 
-System.Collections.ListDictionaryInternal
-2015-11-24 21:14:17,185 [11] ERROR Ticknet - Exception Message - 
-Unable to create a constant value of type 'WebApplication4.Models.Categoria'. Only primitive types or enumeration types are supported in this context.
-2015-11-24 21:14:17,185 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-24 21:14:23,207 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-24 21:14:23,207 [11] ERROR Ticknet - Exception Type - 
-NotSupportedException
-2015-11-24 21:14:23,207 [11] ERROR Ticknet - Exception Data - 
-System.Collections.ListDictionaryInternal
-2015-11-24 21:14:23,207 [11] ERROR Ticknet - Exception Message - 
-Unable to create a constant value of type 'WebApplication4.Models.Categoria'. Only primitive types or enumeration types are supported in this context.
-2015-11-24 21:14:23,207 [11] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-24 21:11:27,884 [8] ERROR Ticknet - Exception Message - 
+A public action method ' Index' was not found on controller 'WebApplication4.Controllers.HomeController'.
+2015-11-24 21:11:27,884 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++

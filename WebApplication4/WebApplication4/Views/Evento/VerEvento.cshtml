@@ -32,15 +32,10 @@
 
 
 
-<head>
-
-
-</head>
-
 <div class="container-fluid">
-    <div class="col-md-4">
+    <div class="col-md-7">
         <ol class="breadcrumb">
-            <li><a href="@Url.Action(" Index","Home")">Inicio</a></li>
+            <li><a href="@Url.Action("Index","Home")">Inicio</a></li>
             <li class="active">Evento: @ViewBag.evento.nombre</li>
         </ol>
     </div>
@@ -89,7 +84,7 @@
                 <div class="thumbnail">
                     <div class="container-fluid">
                         <h4><u>Distribución de zonas</u></h4>
-                        <img class="event" src=@ViewBag.evento.ImagenSitios alt="Zonas de evento">
+                        <img style="cursor:default" width="100%" class="event" src=@ViewBag.evento.ImagenSitios alt="Zonas de evento">
                     </div>
                 </div>
             </div>
