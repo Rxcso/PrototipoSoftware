@@ -35,11 +35,6 @@ body{background:url(fondo1.jpg) fixed top center !important;background-repeat:sp
 }
 
 
-
-
-
-.event{cursor: pointer}
-#logeado{display: none}
 .headDestacados {
         background-color: #337AB7;
         color: white;
@@ -50,6 +45,9 @@ body{background:url(fondo1.jpg) fixed top center !important;background-repeat:sp
         height: 35px;
     }
 
+table{
+    background-color:white;    
+}
  tbody {
         cursor: pointer;
 }
@@ -88,6 +86,6 @@ thead {
 }
 #barraLateral li:hover{width: 70px}
 #barraLateral li:nth-of-type(1){background: red}
-#barraLateral li:nth-of-type(2){background: green}
+
 
 
