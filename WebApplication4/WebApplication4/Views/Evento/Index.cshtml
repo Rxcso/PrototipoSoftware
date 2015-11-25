@@ -39,7 +39,7 @@
             </div>
         </div>
         
-    </div><br>
+    </div>
     <div class="row">
         <div class="col-md-10 ">
             <div class="form-group">
@@ -149,28 +149,18 @@
 
     <!--BUSQUEDA DE EVENTOS :P-->
     <div class="row">
-        <div class="col-md-12 table-responsive">
+        <div class="table-responsive">
             <table class="table table-bordered table-hover">
-                <thsead>
+                <thead>
                     <tr class="thead">
-                        <th>Id</th>
-                        <th>
-                            Nombre
-                        </th>
-                        <th>
-                            Tipo
-                        </th>
-                        <th>
-                            Categoria
-                        </th>
-                        <th>
-                            Organizador
-                        </th>
-                        <th>
-                            Estado
-                        </th>
+                        <th class="col-md-1">Código</th>
+                        <th class="col-md-4">Nombre</th>
+                        <th class="col-md-2">Tipo</th>
+                        <th class="col-md-2">Categoría</th>
+                        <th class="col-md-2">Organizador</th>
+                        <th class="col-md-1">Estado</th>
                     </tr>
-                </thsead>
+                </thead>
                 <tbody>
                     @foreach (var evento in Model)
                     {
