@@ -16,7 +16,7 @@
 @using (Html.BeginForm("ModificarDatos", "CuentaUsuario", FormMethod.Post))
 {
     <div class="container">
-        <div class="col-md-8">
+        <div class="contenedor col-md-8">
             <h3>Datos de Personales</h3><br>
             <div class="row form-group">
                 @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })
@@ -90,11 +90,16 @@
             </div>
             <div class="row form-group">
                 <div class="col-md-offset-4 col-md-6">
-                    <button type="submit" class="btn btn-primary">Modificar<span class="glyphicon glyphicon-pencil"></span>
+                    <button type="submit" class="btn btn-primary">
+                        Modificar<span class="glyphicon glyphicon-pencil"></span>
                     </button>
                     <a href="@Url.Action("MiCuenta","CuentaUsuario")" class="btn btn-danger"> Salir <span class="glyphicon glyphicon-log-out"></span></a>
                 </div>
             </div>
+        </div>
+        <!--CARRUSEL-->
+        <div class="col-md-4">
+
         </div>
     </div>
 }
