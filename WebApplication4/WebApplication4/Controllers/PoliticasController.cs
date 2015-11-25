@@ -76,7 +76,7 @@ namespace WebApplication4.Controllers
             }
             else
             {
-                if (dur != "")
+                if (mx != "")
                 {
                     me2 = " 3.Error Número Decimal\n";
                 }
@@ -102,7 +102,7 @@ namespace WebApplication4.Controllers
             }
             else
             {
-                if (dur != "")
+                if (mt != "")
                 {
                     me3 = " 4.Error Número Decimal\n";
                 }
@@ -127,7 +127,7 @@ namespace WebApplication4.Controllers
             }
             else
             {
-                if (dur != "")
+                if (ra != "")
                 {
                     me4 = " 5.Error Número Decimal\n";
                 }
@@ -152,7 +152,7 @@ namespace WebApplication4.Controllers
             }
             else
             {
-                if (dur != "")
+                if (mE != "")
                 {
                     me5 = " 6.Error Número Decimal\n";
                 }
