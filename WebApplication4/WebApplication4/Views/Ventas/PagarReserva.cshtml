@@ -72,7 +72,7 @@
     <div class="row">
         <div class="col-md-8">
             <h3>Información de la tarjeta</h3><br />
-            @using (Html.BeginForm("ComprarEntradaReservadaA", "CuentaUsuario", FormMethod.Post, new { @id = "formPost" }))
+            @using (Html.BeginForm("PagarReserva", "Ventas", FormMethod.Post, new { @id = "formPost" }))
             {
                 @Html.HiddenFor(c => c.idVenta)
                 <div class="cold-md-12">
