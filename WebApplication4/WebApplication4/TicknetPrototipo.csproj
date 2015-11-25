@@ -438,15 +438,15 @@
     <Content Include="Images\destacados\destacadoDisco.jpg" />
     <Content Include="Images\destacados\destacadopepa.jpg" />
     <Content Include="Images\destacados\katyperry.jpg" />
-    <Content Include="Images\Eventos\congreso.jpg" />
-    <Content Include="Images\Eventos\family.jpg" />
-    <Content Include="Images\Eventos\juangabriel.jpg" />
-    <Content Include="Images\Eventos\natiruts.jpg" />
-    <Content Include="Images\Eventos\partido.jpg" />
-    <Content Include="Images\Eventos\pepacorona.jpg" />
-    <Content Include="Images\Eventos\pepaLuna.jpg" />
-    <Content Include="Images\Eventos\rockHardcore.jpg" />
-    <Content Include="Images\Eventos\rockParque.jpg" />
+    <Content Include="Images\eventos\congreso.jpg" />
+    <Content Include="Images\eventos\family.jpg" />
+    <Content Include="Images\eventos\juangabriel.jpg" />
+    <Content Include="Images\eventos\natiruts.jpg" />
+    <Content Include="Images\eventos\partido.jpg" />
+    <Content Include="Images\eventos\pepacorona.jpg" />
+    <Content Include="Images\eventos\pepaLuna.jpg" />
+    <Content Include="Images\eventos\rockHardcore.jpg" />
+    <Content Include="Images\eventos\rockParque.jpg" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>
