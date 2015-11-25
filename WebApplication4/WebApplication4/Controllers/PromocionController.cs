@@ -29,7 +29,24 @@ namespace WebApplication4.Controllers
                 return null;
             }
         }
-
+        public static Promociones CalculaMejorPromocionEfectivo(int idEvento)
+        {
+            try
+            {
+                List<Promociones> promociones = db.Promociones.Where(c => c.codEvento == idEvento && c.estado == true && c.modoPago == "E").ToList();
+                foreach (Promociones promo in promociones)
+                {
+                    double descuento = (1 - promo.cantComp.Value / promo.cantAdq.Value * 1.0) * 100.0;
+                    promo.descuento = (float)descuento;
+                }
+                promociones.Sort((a, b) => ((double)a.descuento).CompareTo((double)b.descuento));
+                return promociones.Last();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
 
         public ActionResult Index(string evento)
         {
