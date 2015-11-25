@@ -13,7 +13,23 @@ namespace WebApplication4.Controllers
     public class PromocionController : Controller
     {
         // GET: Promocion
-        private inf245netsoft db = new inf245netsoft();
+        private static inf245netsoft db = new inf245netsoft();
+
+        public static Promociones CalculaMejorPromocionTarjeta(int codEvento, int idBanco, int tipoTarjeta)
+        {
+            try
+            {
+                //busco las promociones que se encuentren activas
+                List<Promociones> promociones = db.Promociones.Where(c => c.codEvento == codEvento && c.codBanco == idBanco && c.codTipoTarjeta == tipoTarjeta && c.estado == true && c.fechaIni <= DateTime.Today && DateTime.Today <= DateTime.Today).ToList();
+                promociones.Sort((a, b) => ((double)a.descuento).CompareTo((double)b.descuento));
+                return promociones.Last();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
 
         public ActionResult Index(string evento)
         {
