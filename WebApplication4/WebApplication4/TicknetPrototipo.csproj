@@ -647,6 +647,7 @@
     <Content Include="Views\Services\BuscaCliente.cshtml" />
     <Content Include="Views\Services\EliminaItemVentas.cshtml" />
     <Content Include="Views\Evento\ReporteEvento.cshtml" />
+    <Content Include="Views\CuentaUsuario\MisPreferencias.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

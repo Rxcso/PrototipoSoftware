@@ -5,6 +5,14 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<style>
+    #contenedor{
+        background-color:white;
+        border:1px solid black;
+        border-radius:5px;
+    }
+</style>
+
 <div class="container-fluid">
     <div class="col-md-5">
         <ol class="breadcrumb">
@@ -17,27 +25,35 @@
     @using (Html.BeginForm("MisPreferencias", "CuentaUsuario", FormMethod.Post))
     {
         <div class="container">
-            <div class="col-md-8">
-                <h3>Preferencias</h3><br>
-                @for( int i=0; i< Model.listSelected.Length; i++)
-                {
+            <div class="row">
+                <div id="contenedor" class="col-md-8">
+                    <div class="container">
+                        <div class="row">
+                            <h3>Elija categorías de su interés</h3><br>
+                            @for (int i = 0; i < Model.listSelected.Length; i++)
+                            {
+
+                                @Html.HiddenFor(c => c.listIdCategorias[i])
+                                @Html.HiddenFor(c => c.listNombreCategorias[i])
+                                <label>
+                                    @Html.CheckBoxFor(c => c.listSelected[i])
+                                    @Model.listNombreCategorias[i]
+                                </label>
+                                <br />
+                            }
+                        </div>
+                        <center class="row form-group">
+                            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-save"></span> Guardar preferencias</button>
+                            <a href="@Url.Action("MiCuenta","CuentaUsuario")" class="btn btn-danger"><span class="glyphicon glyphicon-backward"></span> Regresar</a>
+                        </center>
+                    </div>
                     
-                        @Html.HiddenFor(c=> c.listIdCategorias[i])
-                        @Html.HiddenFor(c=> c.listNombreCategorias[i])
-                        <label>
-                            @Html.CheckBoxFor( c=> c.listSelected[i] )
-                            @Model.listNombreCategorias[i]
-                        </label>
-                        <br />
-                }
-            </div>
-        </div>
-        <div class="row form-group">
-            <div class="col-md-offset-4 col-md-6">
-                <button type="submit" class="btn btn-primary">
-                    Actualizar Preferencias<span class="glyphicon glyphicon-pencil"></span>
-                </button>
-                <a href="@Url.Action("MiCuenta","CuentaUsuario")" class="btn btn-danger"> Salir <span class="glyphicon glyphicon-log-out"></span></a>
-            </div>
-        </div>
+                </div>
+
+                <!--CARRUSEL-->
+                <div class="col-md-4">
+                    destacados
+                </div>
+            </div>            
+        </div>        
     }
