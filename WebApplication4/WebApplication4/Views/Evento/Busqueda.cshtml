@@ -15,7 +15,7 @@
     inf245netsoft db = new inf245netsoft();
 }
 
-                               <style>
+                               <!--style>
                                    .thumbnail > .event-img {
                                        height: 70px;
                                    }
@@ -24,7 +24,7 @@
                                        width: 250px;
                                        height: 150px;
                                    }
-                               </style>
+                               </style-->
 
 <div id="busqNombre" class="container-fluid">
     <div class="col-md-3">
@@ -292,12 +292,9 @@
                 <a href="/Evento/VerEvento/@evento.codigo">
                     <div class="col-md-2 col-sm-4 col-xs-6 bloque">
                         <div class="thumbnail">
-                            <img width="200px" class="event event-img" src="@evento.ImagenDestacado" alt="">
+                            <img class="event event-img" src="@evento.ImagenEvento" alt="">
                             <div class="caption" style="text-align:center">
                                 <div class="row">@evento.nombre</div>
-                                
-
-
                                 @{
                                     var func = from obj in db.Funcion
                                                where (obj.codEvento == evento.codigo && obj.estado.Contains("ACTIVO"))
