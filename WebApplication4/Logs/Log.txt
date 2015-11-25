@@ -2166,3 +2166,11 @@ System.Collections.ListDictionaryInternal
 2015-11-24 19:15:10,501 [45] ERROR Ticknet - Exception Message - 
 A public action method ' Index' was not found on controller 'WebApplication4.Controllers.HomeController'.
 2015-11-24 19:15:10,501 [45] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-24 21:11:27,875 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-24 21:11:27,884 [8] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-24 21:11:27,884 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-24 21:11:27,884 [8] ERROR Ticknet - Exception Message - 
+A public action method ' Index' was not found on controller 'WebApplication4.Controllers.HomeController'.
+2015-11-24 21:11:27,884 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
