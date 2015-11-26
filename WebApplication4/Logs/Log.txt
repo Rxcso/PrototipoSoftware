@@ -2326,3 +2326,35 @@ System.Collections.ListDictionaryInternal
 2015-11-25 20:27:40,825 [101] ERROR Ticknet - Exception Message - 
 A public action method 'MiCarrito' was not found on controller 'WebApplication4.Controllers.EventoController'.
 2015-11-25 20:27:40,825 [101] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-25 22:41:16,514 [13] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-25 22:41:16,538 [13] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-25 22:41:16,538 [13] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-25 22:41:16,538 [13] ERROR Ticknet - Exception Message - 
+A public action method 'MisReservas' was not found on controller 'WebApplication4.Controllers.EventoController'.
+2015-11-25 22:41:16,538 [13] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-25 22:41:31,309 [30] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-25 22:41:31,309 [30] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-25 22:41:31,309 [30] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-25 22:41:31,309 [30] ERROR Ticknet - Exception Message - 
+A public action method 'MisReservas' was not found on controller 'WebApplication4.Controllers.EventoController'.
+2015-11-25 22:41:31,309 [30] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-25 22:42:50,333 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-25 22:42:50,333 [10] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-25 22:42:50,333 [10] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-25 22:42:50,333 [10] ERROR Ticknet - Exception Message - 
+A public action method 'MisReservas' was not found on controller 'WebApplication4.Controllers.EventoController'.
+2015-11-25 22:42:50,333 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-25 22:43:36,889 [30] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-25 22:43:36,893 [30] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-25 22:43:36,893 [30] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-25 22:43:36,893 [30] ERROR Ticknet - Exception Message - 
+A public action method 'MisReservas' was not found on controller 'WebApplication4.Controllers.EventoController'.
+2015-11-25 22:43:36,893 [30] DEBUG Ticknet - ++++++++++++++++++++++++++++
