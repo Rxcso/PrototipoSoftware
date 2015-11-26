@@ -2358,3 +2358,19 @@ System.Collections.ListDictionaryInternal
 2015-11-25 22:43:36,893 [30] ERROR Ticknet - Exception Message - 
 A public action method 'MisReservas' was not found on controller 'WebApplication4.Controllers.EventoController'.
 2015-11-25 22:43:36,893 [30] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-25 23:39:10,948 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-25 23:39:11,024 [7] ERROR Ticknet - Exception Type - 
+InvalidOperationException
+2015-11-25 23:39:11,024 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-25 23:39:11,024 [7] ERROR Ticknet - Exception Message - 
+The partial view 'Destacados' was not found or no view engine supports the searched locations. The following locations were searched:
+~/Views/CuentaUsuario/Destacados.aspx
+~/Views/CuentaUsuario/Destacados.ascx
+~/Views/Shared/Destacados.aspx
+~/Views/Shared/Destacados.ascx
+~/Views/CuentaUsuario/Destacados.cshtml
+~/Views/CuentaUsuario/Destacados.vbhtml
+~/Views/Shared/Destacados.cshtml
+~/Views/Shared/Destacados.vbhtml
+2015-11-25 23:39:11,024 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
