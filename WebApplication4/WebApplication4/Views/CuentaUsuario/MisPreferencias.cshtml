@@ -5,14 +5,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<style>
-    #contenedor{
-        background-color:white;
-        border:1px solid black;
-        border-radius:5px;
-    }
-</style>
-
 <div class="container-fluid">
     <div class="col-md-5">
         <ol class="breadcrumb">
@@ -22,38 +14,38 @@
     </div>
 </div>
 
-    @using (Html.BeginForm("MisPreferencias", "CuentaUsuario", FormMethod.Post))
-    {
-        <div class="container">
-            <div class="row">
-                <div id="contenedor" class="col-md-8">
-                    <div class="container">
-                        <div class="row">
-                            <h3>Elija categorías de su interés</h3><br>
-                            @for (int i = 0; i < Model.listSelected.Length; i++)
-                            {
+@using (Html.BeginForm("MisPreferencias", "CuentaUsuario", FormMethod.Post))
+{
+    <div class="container">
+        <div class="row">
+            <div class="contenedor col-md-8">
+                <div class="container">
+                    <div class="row">
+                        <h3>Elija categorías de su interés</h3><br>
+                        @for (int i = 0; i < Model.listSelected.Length; i++)
+                        {
 
-                                @Html.HiddenFor(c => c.listIdCategorias[i])
-                                @Html.HiddenFor(c => c.listNombreCategorias[i])
-                                <label>
-                                    @Html.CheckBoxFor(c => c.listSelected[i])
-                                    @Model.listNombreCategorias[i]
-                                </label>
-                                <br />
-                            }
-                        </div>
-                        <center class="row form-group">
-                            <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-save"></span> Guardar preferencias</button>
-                            <a href="@Url.Action("MiCuenta","CuentaUsuario")" class="btn btn-danger"><span class="glyphicon glyphicon-backward"></span> Regresar</a>
-                        </center>
+                            @Html.HiddenFor(c => c.listIdCategorias[i])
+                            @Html.HiddenFor(c => c.listNombreCategorias[i])
+                            <label>
+                                @Html.CheckBoxFor(c => c.listSelected[i])
+                                @Model.listNombreCategorias[i]
+                            </label>
+                            <br />
+                        }
                     </div>
-                    
+                    <center class="row form-group">
+                        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-save"></span> Guardar preferencias</button>
+                        <a href="@Url.Action("MiCuenta","CuentaUsuario")" class="btn btn-danger"><span class="glyphicon glyphicon-backward"></span> Regresar</a>
+                    </center>
                 </div>
 
-                <!--CARRUSEL-->
-                <div class="col-md-4">
-                    destacados
-                </div>
-            </div>            
-        </div>        
-    }
+            </div>
+
+            <!--CARRUSEL-->
+            <div class="col-md-4">
+                destacados
+            </div>
+        </div>
+    </div>
+}
