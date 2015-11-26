@@ -238,13 +238,16 @@ namespace WebApplication4.Controllers
                     List<Turno> lt = db.Turno.Where(c => c.codPuntoVenta == cp && c.fecha == di).ToList();
                     if (lt.Count > 0)
                     {
-                        Turno t = lt.First();
-                        List<Ventas> lven2 = db.Ventas.Where(c => c.Estado == "Pagado" && c.vendedor == t.usuario).ToList();
-                        DateTime dat = di.Date;
-                        List<Ventas> lven = lven2.Where(c => c.fecha.Value.Date == dat).ToList();
-                        for (int k = 0; k < lven.Count; k++)
+                        for (int s = 0; s < lt.Count; s++)
                         {
-                            total += (double)lven[k].MontoTotalSoles;
+                            Turno t = lt[s];
+                            List<Ventas> lven2 = db.Ventas.Where(c => c.Estado == "Pagado" && c.vendedor == t.usuario).ToList();
+                            DateTime dat = di.Date;
+                            List<Ventas> lven = lven2.Where(c => c.fecha.Value.Date == dat).ToList();
+                            for (int k = 0; k < lven.Count; k++)
+                            {
+                                total += (double)lven[k].MontoTotalSoles;
+                            }
                         }
                     }
                     di = di.AddDays(1);

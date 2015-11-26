@@ -197,7 +197,7 @@ function verificarMontos(metodo) {
 }
 
 //escribe el arreglo
-function escribeArreglo(nombreLista, id) {
+function escribeArreglo(nombreLista, id,i) {
     $("#formPost").prepend("<input type='hidden' name='" + nombreLista + "[" + (i) + "]' value='" + id + "'>");
 }
 
@@ -223,8 +223,14 @@ function llenaArreglo() {
         for (var i = 0; i < promocionesBTV.length; i++) {
             var idProm = promocionesBTV[i].value;
             var idEvento = eventosBTV[i].value;
-            escribeArreglo(nombreLista2, idProm);
-            escribeArreglo(nombreLista1, idEvento);
+            escribeArreglo(nombreLista2, idProm,i);
+            escribeArreglo(nombreLista1, idEvento,i);
+        }
+        //escribo el id de las funciones que hay
+        var nombreLista3 = "idFunciones";
+        var funciones = document.getElementsByName('idFunciones');
+        for (var i = 0; i < funciones.length ; i++) {
+            escribeArreglo(nombreLista3,funciones[i],i);
         }
         return true;
     }
@@ -325,6 +331,11 @@ function busca() {
         data: { usuario: usuario, tipo: tipo },
         success: function (data) {
             var obj = JSON.parse(data);
+            if (obj.algo) {
+                alert("existe");
+            } else {
+                alert("no existe");
+            }
             $('#Nombre').val(obj.Nombre);
             $('#Dni').val(obj.Dni);
         },

@@ -20,6 +20,8 @@
     //tipo de cambio
     TipoDeCambio tipoCambio = db.TipoDeCambio.Where(c => c.estado == "Activo").ToList().Last();
     double cambio = tipoCambio.valor.Value / (MagicHelpers.ConstanteTipoCambio * 1.0);
+    //funciones
+    List<int> idFunciones = ViewBag.Funciones as List<int>;
 }
 
 <div class="container-fluid">
@@ -31,6 +33,12 @@
     </div>
 </div>
 
+@{
+    for (int i = 0; i < idFunciones.Count; i++)
+    {
+        @Html.Hidden("idFunciones", "" + idFunciones[i])
+    }
+}
 <div class="container " id="promocionesLista">
     <div id="listaEventoPromocionEfectivo" class="col-md-4">
         <p>Descuentos disponibles para pago solo en efectivo, no aplicable para pago mixto:</p>
@@ -150,6 +158,7 @@
                     @Html.LabelFor(c => c.NumeroTarjeta, new { @class = "control-label col-md-2" })
                     <div class="col-md-3">
                         @Html.TextBoxFor(c => c.NumeroTarjeta, new { @readonly = "readonly", @class = "form-control" })
+                        @Html.ValidationMessageFor(c => c.NumeroTarjeta)
                     </div>
                 </div>
 
@@ -157,6 +166,7 @@
                     @Html.LabelFor(c => c.CodCcv, new { @class = "control-label col-md-2" })
                     <div class="col-md-1">
                         @Html.TextBoxFor(c => c.CodCcv, new { @readonly = "readonly", @class = "form-control" })
+                        @Html.ValidationMessageFor(c => c.NumeroTarjeta)
                     </div>
                 </div>
 
