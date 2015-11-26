@@ -32,10 +32,12 @@ namespace WebApplication4.Controllers
             int limEntradas = funcion.Eventos.maxReservas;
             int actualEntradas = 0;
             foreach (VentasXFuncion VXF in listVXF)
+            {
                 if (VXF.Ventas.codDoc.CompareTo(doc) == 0 && VXF.Ventas.tipoDoc == tipoDoc)
                 {
                     actualEntradas += VXF.cantEntradas;
                 }
+            }
             return limEntradas - actualEntradas;
         }
 

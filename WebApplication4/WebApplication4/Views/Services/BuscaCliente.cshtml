@@ -6,15 +6,26 @@
     string usuario = Request["usuario"].ToString();
     int tipo = int.Parse(Request["tipo"].ToString());
     CuentaUsuario cuenta = new CuentaUsuario();
-    if (tipo == 0)
+    try
     {
-        cuenta = db.CuentaUsuario.Where(c => c.codDoc.CompareTo(usuario) == 0 && (c.tipoDoc == 1 || c.tipoDoc == 2)).First();
+        if (tipo == 0)
+        {
+            cuenta = db.CuentaUsuario.Where(c => c.codDoc.CompareTo(usuario) == 0 && (c.tipoDoc == 1 || c.tipoDoc == 2)).First();
+        }
+        else
+        {
+            cuenta = db.CuentaUsuario.Where(c => c.codDoc.CompareTo(usuario) == 0 && c.tipoDoc == tipo).First();
+        }
+        //si encuentro la cuenta
+        var data = new { Nombre = cuenta.nombre + " " + cuenta.apellido, Dni = cuenta.codDoc };
+        Json.Write(data, Response.Output);
     }
-    else
+    catch (Exception ex)
     {
-        cuenta = db.CuentaUsuario.Where(c => c.codDoc.CompareTo(usuario) == 0 && c.tipoDoc == tipo).First();
+        var data = new { Error  = "Error"};
+        Json.Write(data, Response.Output);
     }
 
-    var data = new { Nombre = cuenta.nombre + " " + cuenta.apellido, Dni = cuenta.codDoc };
-    Json.Write(data, Response.Output);
+
+
 }

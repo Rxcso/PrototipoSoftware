@@ -39,6 +39,8 @@
                     int desc = (1 - (promocionesListaEf[i].cantComp.Value / promocionesListaEf[i].cantAdq.Value)) * 100;
                     razon = "- Descuento de " + desc + "%.";
                 }
+                @Html.Hidden("promoEfectivo", "" + promocionesListaEf[i].codPromo)
+                @Html.Hidden("eventoEfectivo", "" + promocionesListaEf[i].codEvento)
                 <p style="margin-left:2em">@razon</p>
             }
         }
