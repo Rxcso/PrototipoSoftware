@@ -2294,3 +2294,27 @@ System.Collections.ListDictionaryInternal
 2015-11-25 01:56:17,314 [55] ERROR Ticknet - Exception Message - 
 Referencia a objeto no establecida como instancia de un objeto.
 2015-11-25 01:56:17,314 [55] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-25 18:21:59,341 [62] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-25 18:21:59,362 [62] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-25 18:21:59,362 [62] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-25 18:21:59,362 [62] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-25 18:21:59,362 [62] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-25 18:23:05,604 [49] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-25 18:23:05,604 [49] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-25 18:23:05,604 [49] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-25 18:23:05,604 [49] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-25 18:23:05,604 [49] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-25 18:34:19,685 [42] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-25 18:34:19,685 [42] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-25 18:34:19,685 [42] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-25 18:34:19,685 [42] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-25 18:34:19,685 [42] DEBUG Ticknet - ++++++++++++++++++++++++++++

@@ -470,20 +470,39 @@
         }
     }
 
+    //escribe el arreglo
+    function escribeArreglo(nombreLista, id) {
+        $("#formPost").prepend("<input type='hidden' name='" + nombreLista + "[" + (i) + "]' value='" + id + "'>");
+    }
+
+    //llena el arreglo auxiliar para los eventos y promociones que estan guardadas
     function llenaArreglo() {
-        var nombreLista1 = "idEventos";
-        var nombreLista2 = "idPromociones";
-        var promocionesBTV = document.getElementsByName('promocionesCarrito');
-        var eventosBTV = document.getElementsByName('eventosCarrito');
-        for (var i = 0; i < promocionesBTV.length; i++) {
-            var idProm = promocionesBTV[i].value;
-            $("#formPost").prepend("<input type='hidden' name='" + nombreLista2 + "[" + (i) + "]' value='" + idProm + "'>");
+        var metodoSelecionado = parseFloat($('input[name="TipoPago"]:checked').val());
+        if (verificarMontos(metodoSelecionado)) {
+            var nombreLista1 = "idEventos";
+            var nombreLista2 = "idPromociones";
+            var promocionesBTV = 1;
+            var eventosBTV = 1;
+            //si es un pago mixto no hay promociones - no afectan promociones
+            //es pago solo en efectivo
+            if (metodoSelecionado == 1) {
+                promocionesBTV = document.getElementsByName('promoEfectivo');
+                eventosBTV = document.getElementsByName('eventoEfectivo');
+            } else {
+                //es pago solo con tarjeta
+                promocionesBTV = document.getElementsByName('promocionesCarrito');
+                eventosBTV = document.getElementsByName('eventosCarrito');
+            }
+            //guardo los datos
+            for (var i = 0; i < promocionesBTV.length; i++) {
+                var idProm = promocionesBTV[i].value;
+                var idEvento = eventosBTV[i].value;
+                escribeArreglo(nombreLista2, idProm);
+                escribeArreglo(nombreLista1, idEvento);
+            }
+            return true;
         }
-        for (var i = 0; i < eventosBTV.length; i++) {
-            var idEvento = eventosBTV[i].value;
-            $("#formPost").prepend("<input type='hidden' name='" + nombreLista1 + "[" + (i) + "]' value='" + idEvento + "'>");
-        }
-        return true;
+        return false;
     }
 
     function desactiva(item) {

@@ -7,7 +7,7 @@ using WebApplication4.Models;
 
 namespace WebApplication4.Controllers
 {
-    [Authorize]
+    [Authorize(Roles="Administrador")]
     public class ReporteVentasController : Controller
     {
         private inf245netsoft db = new inf245netsoft();

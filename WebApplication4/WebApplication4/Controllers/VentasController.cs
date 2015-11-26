@@ -21,6 +21,8 @@ namespace WebApplication4.Controllers
         {
             return View();
         }
+
+        [Authorize(Roles = "Vendedor")]
         public ActionResult PagarReserva(string reserva)
         {
             VenderEntradaModel model = new VenderEntradaModel();
@@ -118,7 +120,6 @@ namespace WebApplication4.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
         public ActionResult PagarReserva(VenderEntradaModel model)
         {
             int codVenta = model.idVenta;
@@ -133,7 +134,7 @@ namespace WebApplication4.Controllers
                 venta.Estado = MagicHelpers.Compra;
                 venta.fecha = hoy;
                 //monto usados al pagar
-                venta.montoEfectivoSoles = model.MontoEfe;
+                venta.montoEfectivoSoles = model.MontoEfe - model.Vuelto;
                 venta.montoEfectivoDolares = model.MontoDolares;
                 venta.montoCreditoSoles = model.MontoTar;
                 venta.MontoTotalSoles = model.MontoPagar;
@@ -388,7 +389,6 @@ namespace WebApplication4.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Vendedor")]
         public ActionResult VenderEntrada(VenderEntradaModel model)
         {
             if (Session["CarritoItemVentas"] != null)
@@ -425,7 +425,7 @@ namespace WebApplication4.Controllers
                             ve.montoEfectivoDolares = model.MontoDolares;
                             ve.MontoTotalSoles = model.MontoPagar;
                             ve.montoCreditoSoles = model.MontoTar;
-                            ve.montoEfectivoSoles = model.MontoEfe;
+                            ve.montoEfectivoSoles = model.MontoEfe - model.Vuelto;
                             //--vendedor, guardo el correo del vendedor en la venta
                             ve.vendedor = User.Identity.Name;
                             //
@@ -637,6 +637,7 @@ namespace WebApplication4.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Vendedor")]
         public ActionResult Apertura()
         {
             return View();
@@ -685,26 +686,31 @@ namespace WebApplication4.Controllers
             return Json("Caja Cerrada", JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize(Roles = "Vendedor")]
         public ActionResult Cierre()
         {
             return View();
         }
 
+        [Authorize(Roles = "Vendedor")]
         public ActionResult Entrega()
         {
             return View();
         }
 
+        [Authorize(Roles = "Vendedor")]
         public ActionResult Devolucion()
         {
             return View();
         }
 
+        [Authorize(Roles = "Promotor")]
         public ActionResult Pago()
         {
             return View();
         }
 
+        [Authorize(Roles = "Promotor")]
         public ActionResult PagoOrganizador()
         {
             return View();

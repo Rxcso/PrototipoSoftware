@@ -47,6 +47,8 @@
                     int desc = (1 - (promocionesListaEf[i].cantComp.Value / promocionesListaEf[i].cantAdq.Value)) * 100;
                     razon = "- Descuento de " + desc + "%.";
                 }
+                @Html.Hidden("promoEfectivo", "" + promocionesListaEf[i].codPromo)
+                @Html.Hidden("eventoEfectivo", "" + promocionesListaEf[i].codEvento)
                 <p style="margin-left:2em">@razon</p>
             }
         }
@@ -319,7 +321,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-xs-6">
-                        <input type="submit" value="Finalizar Venta" onclick="llenaArreglo()" class="btn btn-default btn-primary" />
+                        <input type="submit" value="Finalizar Venta" onclick="return llenaArreglo()" class="btn btn-default btn-primary" />
                     </div>
                 </div>
             </div>
@@ -328,6 +330,7 @@
 </div>
 <br />
 <script>
+    //funcion llenar que funciona con el caso de solo efectivo
     function llena1() {
         //tipo de cambio
         var tipoCambio = parseFloat($('#tipoCambioMoneda').val());
@@ -372,6 +375,7 @@
         }
     }
 
+    //funcion llenar que funciona con el caso mixto
     function llena3() {
         var montoefe = $("#mixto input#MontoEfe").val();
         var montoDolares = $('#mixto input#MontoDolares').val();
@@ -417,6 +421,7 @@
         }
     }
 
+    //calcula promocion con tarjeta, solo con pago en tarjeta
     function calculaPromo() {
         var metodoSelecionado = $('input[name="TipoPago"]:checked').val();
         if (parseInt(metodoSelecionado) == 2) {
@@ -506,29 +511,61 @@
         }
     }
 
-    function llenaArreglo() {
-        var nombreLista1 = "idEventos";
-        var nombreLista2 = "idPromociones";
-        var promocionesBTV = document.getElementsByName('promocionesCarrito');
-        var eventosBTV = document.getElementsByName('eventosCarrito');
-        for (var i = 0; i < promocionesBTV.length; i++) {
-            var idProm = promocionesBTV[i].value;
-            $("#formPost").prepend("<input type='hidden' name='" + nombreLista2 + "[" + (i) + "]' value='" + idProm + "'>");
-        }
-        for (var i = 0; i < eventosBTV.length; i++) {
-            var idEvento = eventosBTV[i].value;
-            $("#formPost").prepend("<input type='hidden' name='" + nombreLista1 + "[" + (i) + "]' value='" + idEvento + "'>");
+    //al hacer click en siguiente, debe de validar que los montos sean correctos
+    function verificarMontos(metodo) {
+        if (metodo == 1) {
+            //MontoEfe, MontoDolares
+            var montoEfectivo = parseFloat($('#efectivo input#MontoEfe').val());
+            var montoDolares = parseFloat($('#efectivo input#MontoDolares').val());
+            var tipoCambio = parseFloat($('#tipoCambioMoneda').val());
+            var montoPagar = parseFloat($('#Importe').val());
+            if (montoEfectivo + montoDolares * tipoCambio > montoPagar) {
+                return true;
+            }
+            alert("Monto en dolares y soles son menores que el monto a pagar");
+            return false;
         }
         return true;
     }
 
+    //escribe el arreglo
+    function escribeArreglo(nombreLista, id) {
+        $("#formPost").prepend("<input type='hidden' name='" + nombreLista + "[" + (i) + "]' value='" + id + "'>");
+    }
+
+    //llena el arreglo auxiliar para los eventos y promociones que estan guardadas
+    function llenaArreglo() {
+        var metodoSelecionado = parseFloat($('input[name="TipoPago"]:checked').val());
+        if (verificarMontos(metodoSelecionado)) {
+            var nombreLista1 = "idEventos";
+            var nombreLista2 = "idPromociones";
+            var promocionesBTV = 1;
+            var eventosBTV = 1;
+            //si es un pago mixto no hay promociones - no afectan promociones
+            //es pago solo en efectivo
+            if (metodoSelecionado == 1) {
+                promocionesBTV = document.getElementsByName('promoEfectivo');
+                eventosBTV = document.getElementsByName('eventoEfectivo');
+            } else {
+                //es pago solo con tarjeta
+                promocionesBTV = document.getElementsByName('promocionesCarrito');
+                eventosBTV = document.getElementsByName('eventosCarrito');
+            }
+            //guardo los datos
+            for (var i = 0; i < promocionesBTV.length; i++) {
+                var idProm = promocionesBTV[i].value;
+                var idEvento = eventosBTV[i].value;
+                escribeArreglo(nombreLista2, idProm);
+                escribeArreglo(nombreLista1, idEvento);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    //si es un usuario registrado tengo que desabilitar campos, si no tengo que habilitarlos
     function cambio() {
-        //idBusq
-        //btnBusqueda
-        //Nombre
-        //Dni
-        //comboBusq
-        //si es un usuario registrado
+        //idBusq, btnBusqueda, Nombre, Dni, comboBusq
         if ($('#idBusq').attr('readonly') && $('#btnBusqueda').attr('disabled')) {
             $('#idBusq').removeAttr('readonly');
             $('#btnBusqueda').removeAttr('disabled');
@@ -544,6 +581,7 @@
         }
     }
 
+    //pone en disable los metodos de pago que no estoy utilizado para que sus valores residuales no afeceten al seleccionado
     function desactiva(item) {
         var inputs = $('#' + item + ' input');
         for (var i = 1 ; i < inputs.length ; i++) {
@@ -551,6 +589,7 @@
         }
     }
 
+    //funcion que cambia la seleccion de los metodos de pago
     function cambioPago() {
         var metodoSelecionado = $('input[name="TipoPago"]:checked').val();
         var arr = ["efectivo", "tarjeta", "mixto"];
@@ -608,6 +647,8 @@
             desactiva(arr[0]);
         }
     }
+
+    //funcion que busca al cliente
     function busca() {
         var usuario = $('#idBusq').val();
         var tipo = $('#comboBusq option:selected').val();

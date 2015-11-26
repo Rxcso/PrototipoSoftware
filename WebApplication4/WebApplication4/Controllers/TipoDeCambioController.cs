@@ -9,7 +9,7 @@ using WebApplication4.Models;
 namespace WebApplication4.Controllers
 
 {
-    [Authorize]
+    [Authorize(Roles="Administrador")]
     public class TipoDeCambioController : Controller
     {
 
