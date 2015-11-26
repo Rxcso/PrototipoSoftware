@@ -39,7 +39,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>@ViewBag.Title</title>
+        <title>Bienvenido a Ticknet :: El mejor lugar para vender sus entradas</title>
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
         @Styles.Render("~/Content/css")<!--boostrap-->
         @Styles.Render("~/Content/themes/base/css")<!--jquery UI -->
@@ -150,8 +150,15 @@
                 @(TempData["message"])
             </div>
         </div>
+        <div style="min-height:800px">            
+            @RenderBody()
+        </div>
+        <div class="container-fluid" id="footer">            
+            <h5><span class="fa fa-flag"></span> Creado por .NETSOFT</h5>
+            <h5>Gracias al apoyo de <em>Jorge Girao La Rosa</em></h5>
+            <h6>© TICKNET. Marca registrada de .NetSoft S.A. Derechos Reservados 2015</h6>
+        </div>
 
-        @RenderBody()
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/jqueryval")
         @Scripts.Render("~/bundles/jqueryui")

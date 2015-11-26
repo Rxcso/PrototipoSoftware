@@ -21,7 +21,7 @@
             {
                 <div class="@((i == 0) ? " item active":"item " )">
 
-                    <a href=@Url.Action("VerEvento", "Evento" , new { id=listaDestacados[i].codigo })><img src=@listaDestacados[i].ImagenDestacado height="500" width="1200" class="img-responsive" alt=@listaDestacados[i].nombre></a>
+                    <a href=@Url.Action("VerEvento", "Evento" , new { id=listaDestacados[i].codigo })><img src=@listaDestacados[i].ImagenEvento height="500" width="1200" class="img-responsive" alt=@listaDestacados[i].nombre></a>
                 </div>
             }
         </div>

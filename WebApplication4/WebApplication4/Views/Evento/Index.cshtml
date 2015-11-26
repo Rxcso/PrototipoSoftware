@@ -18,30 +18,37 @@
 </div>
 <div class="container">
     <div class="row">
-        <div class="col-md-4 col-sm-12">
+        <div class="col-md-6 col-sm-12">
             <div class="form-group">
                 <a class="btn btn-success" href="@Url.Action("DatosGenerales", "Evento")"><span class="glyphicon glyphicon-plus"></span> Nuevo</a>
-                <a class="btn btn-primary" onclick="modificaEvento()"><span class="glyphicon glyphicon-pencil"></span> Modificar</a>
-                <a class="btn btn-primary" onclick="redirigeAsiento()"><span class="glyphicon glyphicon-equalizer"></span> Asientos</a>
+                <div class="btn-group" role="group" aria-label="...">
+                    <a class="btn btn-primary" onclick="modificaEvento()"><span class="glyphicon glyphicon-pencil"></span> Modificar</a>
+                    <a class="btn btn-primary" onclick="redirigeAsiento()"><span class="glyphicon glyphicon-equalizer"></span> Asientos</a>
+                    <a class="btn btn-primary" onclick="redirigePromocion()"><span class="fa fa-asterisk"></span> Promociones</a>
+                </div>                    
             </div>
         </div>
-        <div class="col-md-8 col-sm-12">
+        <div class="col-md-6 col-sm-12">
             <div class="form-group">
                 @Html.Hidden("idEventoT")
-                <a class="btn btn-primary" onclick="redirigePromocion()"><span class="glyphicon glyphicon-tags"></span> Promociones</a>
-                <a class="btn btn-warning" onclick="redirigePostergar()"><span class="glyphicon glyphicon-calendar"></span> Postergar</a>
-                <a class="btn btn-warning" onclick="redirigeCancelar()"><span class="glyphicon glyphicon-remove-sign"></span> Cancelar</a>
-               @if (User.IsInRole("Promotor") || User.IsInRole("Administrador"))
-               {
-                <a class="btn btn-success" onclick="redirigeReservaOrganizador()">Reserva Organizador<span class="glyphicon glyphicon-flag"> </a>
-                <a class="btn btn-success" onclick="redirigeVerReservaOrganizador()"> Ver Reserva Organizador </a>
-                }
+                <div class="btn-group" role="group" aria-label="...">
+                    <a class="btn btn-warning" onclick="redirigePostergar()"><span class="glyphicon glyphicon-calendar"></span> Postergar</a>
+                    <a class="btn btn-warning" onclick="redirigeCancelar()"><span class="glyphicon glyphicon-remove-sign"></span> Cancelar</a>
+                </div>
+                    
+                    @if (User.IsInRole("Promotor") || User.IsInRole("Administrador"))
+                    {
+                        <div class="btn-group" role="group" aria-label="jejje">
+                            <a class="btn btn-success" onclick="redirigeReservaOrganizador()"><span class="glyphicon glyphicon-flag"></span> Reservar Org.</a>
+                            <a class="btn btn-success" onclick="redirigeVerReservaOrganizador()"><span class="glyphicon glyphicon-eye-open"></span> Reservas Org.</a>
+                        </div>                        
+                    }
             </div>
         </div>
         
     </div>
     <div class="row">
-        <div class="col-md-10 ">
+        <div class="col-md-12 ">
             <div class="form-group">
                 @using (Html.BeginForm("Index", "Evento", FormMethod.Get, new { id = "search" }))
                 {
@@ -60,7 +67,7 @@
         <div id="busqAvanzada" class="container-fluid">
             <div id="busqAvanzada">
                 <!--formulario EN LINEA-->
-                <div align="center" id="alerta" class="alert alert-warning" hidden></div>
+                <div style="text-align:center" id="alerta" class="alert alert-warning" hidden></div>
                 @using (Html.BeginForm("Index", "Evento", FormMethod.Get, new { id = "adv-search", @class = "form-inline" }))
                 {
                     if (this.Request.QueryString.Count != 0)
@@ -145,7 +152,7 @@
             </div>
         </div>
     </div>
-    <br>
+    
 
     <!--BUSQUEDA DE EVENTOS :P-->
     <div class="row">

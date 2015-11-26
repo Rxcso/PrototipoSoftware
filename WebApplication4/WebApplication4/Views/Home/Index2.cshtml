@@ -6,16 +6,13 @@
     
 }
 
-<html lang="es">
-<body>
+<section class="jumbotron" style="height:100%">
+    <div class="container">
+        @if (mensaje != null)
+        { <p>@mensaje</p>}
+        <h1>TICKNET</h1>
+        <p>¡El mejor lugar para vender tus entradas!</p>
+    </div>
+</section>
 
-    <section class="jumbotron">
-        <div class="container">
-            @if (mensaje != null) { <p>@mensaje</p>}
-            <h1>TICKNET</h1>
-            <p>El mejor lugar para vender tus entradas!</p>
-        </div>
-    </section>
 
-</body>
-</html>
