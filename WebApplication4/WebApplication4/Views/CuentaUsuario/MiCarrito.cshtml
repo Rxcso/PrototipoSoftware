@@ -9,6 +9,18 @@
     }
     double total = 0;
 }
+
+<style>
+    #filaTotal{
+        background-color:white;
+        border-radius:10px;
+        border: 2px solid black;
+        text-align:right;
+        font-size:15px;
+    }
+    tr{cursor:text}
+</style>
+
 <div class="container-fluid">
     <div class="col-md-5">
         <ol class="breadcrumb">
@@ -17,94 +29,106 @@
         </ol>
     </div>
 </div>
+<div class="container">
+    <div class="row">
+        <!--ACA VA EL CONTENIDO-->
+        <div class="col-md-8">
+            @if (Session["Carrito"] == null)
+            {
+                <div class="row">
+                    <div class="col-md-12">
+                        <p>Carrito Vacio.</p>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <a class="btn btn-danger pull-right" onclick="quitarCarrito()">Quitar  <span class="glyphicon glyphicon-trash"></span></a>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <td style="display:none">Cod evento</td>
+                                        <td>Evento</td>
+                                        <td>Fecha</td>
+                                        <td>Hora</td>
+                                        <td>Zona/Tarifa</td>
+                                        <td>Subtotal (S/.)</td>
+                                        <td>Cantidad</td>
+                                        <td>Asientos</td>
+                                        <td style="text-align:center"><span class="glyphicon glyphicon-trash"></span></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (int i = 0; i < carritoList.Count; i++)
+                                    {
+                                        total += carritoList[i].precio;
+                                        string asientos = "";
+                                        <tr id="@(i)">
+                                            <td style="display:none">@carritoList[i].idEvento</td>
+                                            <td>@carritoList[i].nombreEvento</td>
+                                            <td>@String.Format("{0:dd/MM/yyyy}", carritoList[i].fecha)</td>
+                                            <td>@String.Format("{0:t}", carritoList[i].hora)</td>
+                                            <td>@carritoList[i].zona</td>
+                                            <td>@carritoList[i].precio</td>
+                                            <td>@carritoList[i].cantidad</td>
+                                            <td>
+                                                @{
 
-@if (Session["Carrito"] == null)
-{
-    <div class="container">
-        <div class="row-md-4">
-            <a class="btn btn-danger pull-right" href="@Url.Action("Index","Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
+                                        try
+                                        {//si tiene asientos, los detallo como un string
+                                            int cantAsientos = carritoList[i].filas.Count;
+                                            for (int j = 0; j < cantAsientos - 1; j++)
+                                            {
+                                                asientos += carritoList[i].filas[j] + " - " + carritoList[i].columnas[j] + ", ";
+                                            }
+                                            asientos += carritoList[i].filas[carritoList[i].filas.Count - 1] + " - " + carritoList[i].columnas[carritoList[i].filas.Count - 1] + ".";
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            //sale una excepcion si es que filas.Count no existe, por lo que solo son entradas
+                                            asientos = "" + carritoList[i].cantidad;
+                                        }
+                                                }
+                                                @asientos
+                                            </td>
+                                            <td style="text-align:center"><input type="radio" name="groupCarrito" value="@(i)"></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row form-group">
+                            <div id="filaTotal" class="col-xs-offset-8 col-xs-4 col-sm-offset-8 col-sm-4 col-md-offset-10 col-md-2">
+                                <label for="Total" class="pull-left">Total (S/.)</label>
+                                <label id="totalCompra" class="">@(total)</label>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <a class="btn btn-success pull-right" href="@Url.Action("ComprarEntrada", "CuentaUsuario")"><span class="glyphicon glyphicon-usd"></span> Comprar</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            }
         </div>
-        <p>Carrito Vacio.</p>
+        <!--ACA VA EL CARRUSEL-->
+        <div class="col-md-4">
+            destacados
+        </div>
     </div>
-}
-else
-{
-    <div class="container">
-        <div class="form-group">
-            <a class="btn btn-primary pull-right" onclick="quitarCarrito()">Quitar  <span class="glyphicon glyphicon-trash"></span></a>
-            <a class="btn btn-danger pull-left" href="@Url.Action("Index","Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>
-        </div>
+</div>
 
-    </div><br />
-    <div class="container">
-        <table class="table table-bordered table-hover">
-            <thead>
-                <tr class="active">
-                    <th>Id de Evento</th>
-                    <th>Nombre de Evento</th>
-                    <th>Fecha</th>
-                    <th>Hora</th>
-                    <th>Zona</th>
-                    <th>Subtotal(S/.)</th>
-                    <th>Cantidad</th>
-                    <th>Asientos</th>
-                    <th>Borrar</th>
-                </tr>
-            </thead>
-            <tbody>
-                @for (int i = 0; i < carritoList.Count; i++)
-                {
-                    total += carritoList[i].precio;
-                    string asientos = "";
-                    <tr id="@(i)">
-                        <td>@carritoList[i].idEvento</td>
-                        <td>@carritoList[i].nombreEvento</td>
-                        <td>@String.Format("{0:dd/MM/yyyy}", carritoList[i].fecha)</td>
-                        <td>@String.Format("{0:t}", carritoList[i].hora)</td>
-                        <td>@carritoList[i].zona</td>
-                        <td>@carritoList[i].precio</td>
-                        <td>@carritoList[i].cantidad</td>
-                        <td>
-                            @{
 
-                    try
-                    {//si tiene asientos, los detallo como un string
-                        int cantAsientos = carritoList[i].filas.Count;
-                        for (int j = 0; j < cantAsientos - 1; j++)
-                        {
-                            asientos += carritoList[i].filas[j] + " - " + carritoList[i].columnas[j] + ", ";
-                        }
-                        asientos += carritoList[i].filas[carritoList[i].filas.Count - 1] + " - " + carritoList[i].columnas[carritoList[i].filas.Count - 1] + ".";
-                    }
-                    catch (Exception ex)
-                    {
-                        //sale una excepcion si es que filas.Count no existe, por lo que solo son entradas
-                        asientos = "" + carritoList[i].cantidad;
-                    }
-                            }
-                            @asientos
-                        </td>
-                        <td style="align-content:center"><input type="radio" name="groupCarrito" value="@(i)"></td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-
-    <div class="container">
-        <div class="container col-md-6 form-group pull-right">
-            <label for="Total" class="control-label col-md-2">Total a Pagar:</label>
-            <div class="col-md-10">
-                <input id="totalCompra" type="text" class="form-control" value="@(total)" readonly="readonly">
-            </div>
-        </div>
-        <br>
-        <br>
-        <div class="col-md-12">
-            <a class="btn btn-success pull-right" href="@Url.Action("ComprarEntrada", "CuentaUsuario")">Comprar<span class="glyphicon glyphicon-usd"></span></a>
-        </div>
-    </div>
-}
 <script>
     function quitarCarrito() {
         if (confirm("¿Quitar Item?")) {
@@ -117,8 +141,8 @@ else
                 datatype: "json",
                 success: function (data) {
                     alert("Item Eliminado");
-                    var cantidad = parseInt($('#totalCompra').val());
-                    $("#totalCompra").val(cantidad - parseInt(row.cells[5].innerHTML));
+                    var cantidad = parseInt($('#totalCompra').text());
+                    $("#totalCompra").text(cantidad - parseInt(row.cells[5].innerHTML));
                     row.parentNode.removeChild(row);
                     window.location.href = "/CuentaUsuario/MiCarrito";
                 },

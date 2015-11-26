@@ -8,22 +8,23 @@
         List<Eventos> listaDestacados = ViewBag.ListaDestacados as List<Eventos>;
     }
 <style>
-    #pref {        
-        cursor: pointer;
-        color: white;
-        //list-style: none;
-        font-size: 20px;        
-    }
-        #pref li {
-            background-color: #337AB7;
+        #pref {                   
+            list-style: none;
+            font-size: 18px;        
+        }
+        #pref li {            
             padding:5px 10px;
         }
         #pref a {
-            color: white;
+            color:black;            
             text-decoration: none;
         }
-        #pref li:hover {
-            border:2px solid white;
+        #pref a:hover {
+            --text-decoration: underline;
+            font-weight:bold;
+        }
+        #points {
+            color: #BDB10C;
         }
 </style>
 
@@ -37,33 +38,32 @@
     </div>
     <div class="container">
         <div class="row">
-            <div class="col-md-8">
-                <h3>Tienes @ptos puntos</h3>
+            <div  class="contenedor col-md-8">
+                <h2 class="pull-right" id="points"><span class="fa fa-star"></span> @ptos </h2>
                 <form action="" class="form-horizontal ">
                     <ul id="pref" >
-                        <li><a href="@Url.Action("ModificarDatos","CuentaUsuario")">Actualizar mis datos</a></li>
-                        <li><a href="@Url.Action("ChangePassword","Manage")">Cambiar mi contraseña</a></li>
-                        <li><a href="@Url.Action("MisPreferencias", "CuentaUsuario")">Ver mis preferencias</a></li>
-                        <li><a href="@Url.Action("MisReservas", "CuentaUsuario")">Ver mis reservas</a></li>
-                        <li><a href="@Url.Action("MisCompras", "CuentaUsuario")">Ver mis Compras</a></li>
-                        <li><a href="@Url.Action("MiCarrito","CuentaUsuario")">Ver carrito</a></li>
-                        <li><a href="@Url.Action("VerRegalos","CuentaUsuario")">Ver Regalos</a></li>
+                        <li><a href="@Url.Action("ModificarDatos","CuentaUsuario")"><span class="fa fa-newspaper-o fa-fw"></span> Actualizar mis datos</a></li>
+                        <li><a href="@Url.Action("ChangePassword","Manage")"><span class="fa fa-unlock-alt fa-fw"></span> Cambiar mi contraseña</a></li>
+                        <li><a href="@Url.Action("MisPreferencias", "CuentaUsuario")"><span class="fa fa-heart-o fa-fw"></span> Mis preferencias</a></li>
+                        <li><a href="@Url.Action("MisReservas", "CuentaUsuario")"><span class="fa fa-ticket fa-fw"></span> Mis reservas</a></li>
+                        <li><a href="@Url.Action("MisCompras", "CuentaUsuario")"><span class="fa fa-money fa-fw"></span> Mis compras</a></li>
+                        <li><a href="@Url.Action("MiCarrito","CuentaUsuario")"><span class="fa fa-shopping-cart fa-fw"></span> Mi carrito</a></li>
+                        <li><a href="@Url.Action("VerRegalos","CuentaUsuario")"><span class="fa fa-gift fa-fw"></span> Ver regalos</a></li>
                     </ul>
                 </form>
-            </div>            
+            </div>         
+            
+            <!--CARRUSEL-->   
             <div class="col-md-4">
                 <div class="headDestacados">
                     EVENTOS DESTACADOS
                 </div>
-                <div id="carousel-1" class="carousel slide" data-ride="carousel">
-                    <!--indicadores primero-->
-                    <ol class="carousel-indicators"></ol>
+                <div id="carousel-1" class="carousel slide" data-ride="carousel">                    
                     <!--Contenedor de los slide-->
                     <div class="carousel-inner" role="listbox">
                         @for (var i = 0; i < listaDestacados.Count; i++)
                         {
                             <div class="@((i == 0) ? "item active" : "item ")">
-
                                 <a href=@Url.Action("VerEvento", "Evento", new { id = listaDestacados[i].codigo })><img src=@listaDestacados[i].ImagenDestacado height="500" width="1200" class="img-responsive" alt=@listaDestacados[i].nombre></a>
                             </div>
                         }

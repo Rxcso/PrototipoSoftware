@@ -74,9 +74,8 @@
                                 <div class="thumbnail">
                                     <a href=@Url.Action("VerEvento", "Evento", new { id = evento.codigo })>
                                         <img  class="event" src="@evento.ImagenEvento" alt="">
-                                    </a>
-                                    <div class="caption" style="text-align:center">
-                                        @{
+                                        <div class="caption" style="text-align:center">
+                                            @{
                             var func = from obj in db.Funcion
                                        where (obj.codEvento == evento.codigo && obj.estado.Contains("ACTIVO"))
                                        orderby obj.fecha ascending
@@ -98,11 +97,13 @@
                             }
 
 
-                                        }
+                                            }
 
-                                        <div class="row"><strong>@evento.nombre</strong></div>
-                                        <div class="row"><strong>@fecha</strong></div>                                        
-                                    </div>
+                                            <div class="row"><strong>@evento.nombre</strong></div>
+                                            <div class="row"><strong>@fecha</strong></div>
+                                        </div>
+                                    </a>
+                                    
                                 </div>
                             </div>
 

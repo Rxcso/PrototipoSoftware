@@ -11,102 +11,118 @@
     Comentario comm = Model;
 
 }
+<style>
+    .set-opts-btn {
+        float: right;
+        cursor: pointer;
+        display: none;
+    }
+
+
+    .comm-opts {
+        list-style: none;
+        padding: 0;
+        margin: 1px 1px;
+    }
+
+    .popover-content {
+        padding: 0;
+    }
+
+    .comm-opts li {
+        width: 70px;
+        box-shadow: 0 0 1px 1px gray;
+        cursor: pointer;
+        padding: 2px 2px;
+        color: black;
+    }
+
+    .form-post {
+        --width: 100%;
+    }
+
+    div#comment-container textarea {
+        --height: 45px;
+        --line-height: 24px;
+        --min-height: 22px;
+        --overflow-y: hidden;
+        --padding-top: 1.1em;
+    }
+
+    #comm-cont-txt {
+        --width: 100%;
+    }
+
+    .wrapper-container {
+        --background-color: #f5f5f5;
+    }
+
+    .row-list {
+        --background: #286090;
+    }
+
+    .list-block-header {
+        --padding: 0px 15px;
+        --color: black;
+        --background-color: #286090;
+    }
+
+    .block {
+        --padding: 0 20px;
+    }
+</style>
 
 
 <div class="row">
-    <div class="thumbnail wrapper-container ">
+    <div class="thumbnail wrapper-container">
+        <div id="comment-container"  class="container-fluid">
 
-        <div id="comment-container" class="container-fluid" padding="0 2%">
-
-            <div class="row list-block-header">
+            <div class="list-block-header">
                 <h4><u>Comentarios</u></h4>
             </div>
-
-            <div class="row row-list">
-
+            <div class="row-list">
                 <ol class="list-group list-block-comment">
-
-
-
                     <li class="list-group-item block-post">
-                        <span data-title="one toogle" class=" glyphicon glyphicon-pencil set-opts-btn  my-popover"></span>
-
-
+                        <span data-title="one toogle" class="glyphicon glyphicon-pencil set-opts-btn  my-popover"></span>
                         @{
                             AjaxOptions options = new AjaxOptions();
                             options.HttpMethod = "POST";
                             options.OnComplete = "RefreshWeb";
-
-
-
-
-
                         }
-
-
 
                         @using (Ajax.BeginForm("EnviarComentario", options))
                         {
-
                             /*
                             @Html.Hidden("evento_id", model.codigo);*/
                             @Html.Hidden("user_val", comm.usuario);
                             @Html.Hidden("codEvento", comm.codEvento);
 
-
-
-
                             <div class="form-group">
-                                <div class="input-group form-post">
+                                <div class="form-post">
                                     <div id="warning_block" hidden class="alert-warning warning"></div>
-                                    <textarea id="comm-cont-txt" name="comentario" rows="1" placeholder="Escribe un comentario de este evento"></textarea>
-                                    <span class="input-group-btn pull-right"><input type="button" id="btn-post" onclick="postComment()" value="Post" class="btn btn-primary pull-right"></span>
-                                    <!--<span class="input-group-btn pull-right"><a id="btn-search" onclick="postComment()" class="btn btn-primary pull-right">Post</a></span>
-                                      -->
+                                    <textarea id="comm-cont-txt" class="form-control" name="comentario" rows="3" placeholder="Escribe un comentario sobre este evento..."></textarea>
+                                    <button type="button" id="btn-post" onclick="postComment()" class="btn btn-primary pull-right">Comentar</button>                             
                                 </div>
                             </div>
-
                         }
-
-
                     </li>
-
-
-
-
-
                 </ol>
-
-                <br />
-
-
             </div>
 
         </div>
 
     </div>
 
-    <div id="content" width="200px" class="hidden">
-
-        <ul align="center" class="comm-opts">
+    <div id="content" style="width:200px" class="hidden">
+        <ul style="text-align:center" class="comm-opts">
             <li class="opt-del-button" onclick="eliminar()">Delete</li>
         </ul>
-
-
     </div>
-
-
-
-
 </div>
 <script>
 
 
     $(document).ready(function () {
-
-
-
-
         var codEvento = @comm.codEvento;
         var usuario =$("#user_val").val();
         var contenido = $("#comm-cont-txt").val();
@@ -115,63 +131,29 @@
         $.call(cargarDatos('/Evento/GetComents', codEvento, usuario, contenido));
 
 
-        $(this).delegate(".block-comment","mouseover",function(){
-
-          
+        $(this).delegate(".block-comment","mouseover",function(){          
             if(!($(".popover").length >0))
                 $(this).children(".set-opts-btn").show();
-            
-            
-
         });
 
 
-        $(this).delegate(".block-comment","mouseout",function(){
-               
+        $(this).delegate(".block-comment","mouseout",function(){               
             if(!($(".popover").length >0))
                 $(this).children(".set-opts-btn").hide();
-                
-                
-                
-                
         });
-
             
-       
-            
-        $(document).on('click', function(e){
-                
+        $(document).on('click', function(e){                
             $('.my-popover').each(function(){
-                    
-
-
-
-
                 if (!$(this).is(e.target) && $(this).has(e.target).length ===0 && $('.popover').has(e.target).length === 0){
                     $(this).popover().data('bs.popover').tip().remove();
-                    $(this).hide();
-                       
-                }
-                
-                    
-                    
-            });
-                
-                
+                    $(this).hide();                       
+                }   
+            }); 
         });
-
-
-
-
-
-
-
     });
 
 
     function clickSpan(){
-
-
         var $elements = $('.my-popover');
         $elements.each(function(){
            
@@ -181,10 +163,7 @@
                 html: true,
                 placement: 'bottom',
                 container: $('body'),
-                content: $('#content').html()
-                
-                
-                
+                content: $('#content').html()                
             });
             
             
@@ -219,24 +198,13 @@
 
                 $($span).popover().data('bs.popover').tip().remove();
                 $.call(cargarDatos('/Evento/GetComents', codEvento, usuario, contenido));
-
-
             },"json"
             );
-        
-        
     }
-
-
-
-
 
         function reservaExitosa() {
             alert("Reserva exitosa, tiene hasta el final del día para pagarla");
         }
-
-
-
 
         $('.form-post').on('keyup', 'textarea', function () {
             $(this).height(0);
@@ -244,71 +212,42 @@
         });
         $('.form-post').find('textarea').keyup();
 
-
-
-
-
         function onSuccess(data) {
-
-
             alert("exitoso");
-
         }
+
         function postComment() {
-
-
-
             var codEvento = @comm.codEvento;
             var usuario =$("#user_val").val();
             var contenido = $("#comm-cont-txt").val();
-
-
-
             if (contenido.length > 200){
-
                 $("#warning_block").append("<Strong>Excede la cantidad de caracteres<Strong>").show();
                 return;
-
             }else{
                 var valor = $("#alerta").children('strong');
                 if (valor.length > 0) {
-
                     valor.remove();
-
                 }
-
                 $("#alerta").hide();
-
             }
 
 
             if(contenido == ''){
                 $("#warning_block").append("<Strong>Intento anadir un comentario vacio<Strong>").show();
                 return;
-
             }else{
-
                 var valor = $("#alerta").children('strong');
                 if (valor.length > 0) {
 
                     valor.remove();
-
                 }
 
                 $("#alerta").hide();
-
-
             }
-
-
-
-
             cargarDatos('/Evento/EnviarComentario', codEvento, usuario, contenido);
 
             $("#comm-cont-txt").val("");
             $("#warning_block").hide();
-
-
         }
 
 
@@ -503,96 +442,15 @@
             },
             error:function(){
                 alert("....");
-
-
             }
 
         });
-
-
-
-
-
-
-
     }
 
     function RefreshWeb(ajaxData){
-
-    var valor =  ajaxData;
-
+        var valor =  ajaxData;
     }
 
 
 </script>
 
-<style>
-
-
-       .set-opts-btn{
-        float: right;
-        cursor: pointer;
-        display: none;
-        
-        
-        
-    }
-
-
-            .comm-opts{
-        list-style: none;
-        padding: 0;
-        margin: 1px 1px;
-    
-        
-    }
-    .popover-content{
-        
-        padding: 0;
-    }
-    
-    .comm-opts li{
-        
-        width:70px;
-        box-shadow: 0 0 1px 1px gray;
-        cursor: pointer;    
-        padding: 2px 2px;
-        color: black;
-    
-        
-    }
-
-    .form-post {
-        width: 100%;
-    }
-
-    div#comment-container textarea {
-        height: 45px;
-        line-height: 24px;
-        min-height: 22px;
-        overflow-y: hidden;
-        padding-top: 1.1em;
-    }
-
-    #comm-cont-txt {
-        width: 100%;
-    }
-
-    .wrapper-container {
-        background-color: #f5f5f5;
-    }
-
-    .row-list {
-        background: #286090;
-    }
-
-    .list-block-header {
-        padding: 0 25px;
-        color: white;
-        background-color: #286090;
-    }
-
-    .block {
-        padding: 0 20px;
-    }
-</style>

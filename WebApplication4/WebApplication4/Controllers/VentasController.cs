@@ -164,6 +164,7 @@ namespace WebApplication4.Controllers
                 try
                 {
                     db.SaveChanges();
+                    Session["ReservaBusca"] = null;
                 }
                 catch (Exception ex)
                 {
@@ -175,7 +176,8 @@ namespace WebApplication4.Controllers
                 TempData["message"] = "Reserva Pagada. Muchas Gracias.";
                 //le envio el correo al cliente de que la reserva ha sido pagada
                 EmailController.EnviarCorreoCompra(model.idVenta, cuenta.correo);
-                return RedirectToAction("BuscarReserva");
+                //return RedirectToAction("BuscarReserva","Ventas");
+                return RedirectToAction("Index2", "Home");
             }
             //si hay un error volver a rellenar todo
             Ventas queryVentas = db.Ventas.Where(c => c.codVen == codVenta).First();

@@ -28,7 +28,7 @@
         mSC = (double)turno.MontoFinSoles;
         mDC = (double)turno.MontoFinDolares;
         listaVentas2 = db.Ventas.AsNoTracking().Where(c => c.vendedor == cu.usuario).ToList();
-        listaVentas = listaVentas2.Where(c => c.fecha == dat).ToList();
+        listaVentas = listaVentas2.Where(c => c.fecha.Value.Date == dat).ToList();
         double subtotalSE = 0;
         double subtotalST = 0;
         double subtotalDE = 0;

@@ -57,8 +57,7 @@
                                 <strong><u>Dirección:</u></strong>
                                 @ViewBag.NombreLocal
                             </p>
-                            <p><strong><u>Región:</u></strong> @ViewBag.Region</p>
-                            @*<p><strong><u>Ofertas:</u></strong> 20% dcto. con tarjeta VISA</p>*@
+                            <p><strong><u>Región:</u></strong> @ViewBag.Region</p>                            
                         </div>
                     </div>
                 </div>
@@ -67,8 +66,8 @@
             <div class="col-md-9">
                 <div id="fila" class="row">
                     <div class="thumbnail" style="text-align:justify">
-                        <p><strong><u>Categoria:</u></strong> @ViewBag.Categoria</p>
-                        <p><strong><u>Subcategoria:</u></strong> @ViewBag.Subcategoria</p>
+                        <p><strong><u>Categoría:</u></strong> @ViewBag.Categoria</p>
+                        <p><strong><u>Subcategoría:</u></strong> @ViewBag.Subcategoria</p>
                         <p><strong><u>Descripción:</u></strong></p>
                         <p>@ViewBag.evento.descripcion</p>
                     </div>
@@ -112,30 +111,35 @@
                 <div class="thumbnail">
                     <div class="container-fluid">
                         <h4><u>Precios de Venta</u></h4>
-
-                        <table class="table table-bordered table-hover" id="tarifario">
-                            <tr>
-                                <td> Zonas </td>
-                                @foreach (var periodo in ViewBag.ListPeriodos)
-                                {
-                                    <td>@periodo</td>
-                                }
-                            </tr>
-                            @for (int i = 0; i < ViewBag.listPrecios.Count; i++)
-                            {
-                                <tr>
-                                    @{
-                                var lista = ViewBag.listPrecios[i];
-                                    }
-                                    <td> @ViewBag.ListZonasNombre[i] </td>
-                                    @foreach (var p in lista)
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover" id="tarifario" style="text-align:center">
+                                <thead>
+                                    <tr>
+                                        <td> Zona/tarifa </td>
+                                        @foreach (var periodo in ViewBag.ListPeriodos)
+                                        {
+                                            <td>@periodo</td>
+                                        }
+                                    </tr>
+                                </thead>
+                                <tbody style="cursor: text">
+                                    @for (int i = 0; i < ViewBag.listPrecios.Count; i++)
                                     {
-                                        <td>@p</td>
+                                        <tr>
+                                            @{
+                                        var lista = ViewBag.listPrecios[i];
+                                            }
+                                            <td> @ViewBag.ListZonasNombre[i] </td>
+                                            @foreach (var p in lista)
+                                            {
+                                                <td>S/. @p</td>
+                                            }
+                                        </tr>
                                     }
-                                </tr>
-                            }
-                        </table>
+                                </tbody>
 
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -280,7 +284,7 @@
 
 
         @{
-            //solo los clientes o administradores pueden comentan
+            //solo los clientes o administradores pueden comentar
             if (Request.IsAuthenticated && (codperfilActual == 1 || codperfilActual == 4))
             {
                 var act = User.Identity.Name;
