@@ -26,8 +26,7 @@
     ViewBag.Title = "Ver Evento";
     Layout = "~/Views/Shared/_Layout.cshtml";
     string estiloAsientos = (((Boolean)ViewBag.VeoAsientos) == true) ? "" : "display:none";
-    List<Eventos>
-    listaDestacados = ViewBag.ListaDestacados as List<Eventos>;
+    
 }
 
 
@@ -304,30 +303,7 @@
 
     <!--LOS EVENTOS DESTACADOS-->
     <div class="col-md-4">
-        <div class="headDestacados">
-            EVENTOS DESTACADOS
-        </div>
-        <div id="carousel-1" class="carousel slide" data-ride="carousel">
-            <!--indicadores primero-->
-            <ol class="carousel-indicators"></ol>
-            <!--Contenedor de los slide-->
-            <div class="carousel-inner" role="listbox">
-                @for (var i = 0; i < listaDestacados.Count; i++)
-                {
-                    <div class="@((i == 0) ? " item active":"item " )">
-
-                        <a href=@Url.Action("VerEvento", "Evento" , new { id=listaDestacados[i].codigo })><img src=@listaDestacados[i].ImagenDestacado height="500" width="1200" class="img-responsive" alt=@listaDestacados[i].nombre></a>
-                    </div>
-                }
-            </div>
-            <!--Controles-->
-            <a href="#carousel-1" class="left carousel-control" role="button" data-slide="prev">
-                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-            </a>
-            <a href="#carousel-1" class="right carousel-control" role="button" data-slide="next">
-                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-            </a>
-        </div>
+        @{Html.RenderPartial("Destacados");}        
     </div>
 
 </div>
