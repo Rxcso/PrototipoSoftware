@@ -2318,3 +2318,11 @@ System.Collections.ListDictionaryInternal
 2015-11-25 18:34:19,685 [42] ERROR Ticknet - Exception Message - 
 Referencia a objeto no establecida como instancia de un objeto.
 2015-11-25 18:34:19,685 [42] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-25 20:27:40,818 [101] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-25 20:27:40,825 [101] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-25 20:27:40,825 [101] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-25 20:27:40,825 [101] ERROR Ticknet - Exception Message - 
+A public action method 'MiCarrito' was not found on controller 'WebApplication4.Controllers.EventoController'.
+2015-11-25 20:27:40,825 [101] DEBUG Ticknet - ++++++++++++++++++++++++++++

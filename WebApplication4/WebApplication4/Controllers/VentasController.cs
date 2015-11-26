@@ -144,6 +144,9 @@ namespace WebApplication4.Controllers
                 if ((venta.montoCreditoSoles + venta.montoEfectivoDolares) > 0 && venta.montoEfectivoDolares > 0) venta.modalidad = "M";
                 //buscamos la ventaxfuncion
                 VentasXFuncion vxf = db.VentasXFuncion.Where(c => c.codVen == venta.codVen).First();
+                vxf.subtotal = model.Importe;
+                vxf.descuento = (int)model.Descuento;
+                vxf.total = model.Importe - model.Descuento;
                 Eventos evento = db.Eventos.Find(vxf.Funcion.codEvento);
                 DetalleVenta detalle = db.DetalleVenta.Where(c => c.codVen == venta.codVen && c.codFuncion == vxf.Funcion.codFuncion).First();
                 //aumantemos el monto adeduado del organizador
@@ -499,11 +502,15 @@ namespace WebApplication4.Controllers
                                     vf.hanEntregado = false;
                                     float? porcDescuento = 0;
                                     //solo registro la promocion si es una venta solo con tarjeta o solo con efectivo
-                                    if (model.idPromociones[w] != -1 && (ve.modalidad == "T" || ve.modalidad == "E"))
+                                    if (ve.modalidad == "T" || ve.modalidad == "E")
                                     {
-                                        int idPromocion = model.idPromociones[w];
-                                        Promociones promocion = db.Promociones.Where(c => c.codPromo == idPromocion && c.codEvento == paquete.idEvento).First();
-                                        porcDescuento = promocion.descuento / 100;
+                                        if (model.idPromociones[w] != -1)
+                                        {
+                                            int idPromocion = model.idPromociones[w];
+                                            Promociones promocion = db.Promociones.Where(c => c.codPromo == idPromocion && c.codEvento == paquete.idEvento).First();
+                                            porcDescuento = promocion.descuento / 100;
+                                        }
+
                                     }
                                     vf.subtotal = paquete.cantidad * pr.precio;
                                     vf.descuento = (int?)(vf.subtotal * porcDescuento);

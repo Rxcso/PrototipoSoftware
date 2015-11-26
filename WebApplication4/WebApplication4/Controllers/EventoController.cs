@@ -161,7 +161,7 @@ namespace WebApplication4.Controllers
             catch (Exception ex)
             {
                 Ventas ventaAct = db.Ventas.Find(idVenta);
-                if(ventaAct!=null) db.Ventas.Remove(ventaAct);
+                if (ventaAct != null) db.Ventas.Remove(ventaAct);
                 db.SaveChanges();
                 return "Ocurrio un error inesperado.";
             }
@@ -1663,7 +1663,7 @@ namespace WebApplication4.Controllers
                         TempData["message"] = mensaje;
                     }
 
-                    return Redirect("~/Evento/VerEvento/" + paquete.idEvento);
+                    return RedirectToAction("MisReservas");
 
                 }
                 else if (boton.CompareTo("carrito") == 0)
@@ -1684,6 +1684,7 @@ namespace WebApplication4.Controllers
                     }
                     TempData["tipo"] = "alert alert-success";
                     TempData["message"] = "Entradas agregadas al carrito :)";
+                    return RedirectToAction("MiCarrito", "CuentaUsuario");
                 }
                 else if (boton.CompareTo("reservarOrganizador") == 0)
                 {
@@ -1696,7 +1697,6 @@ namespace WebApplication4.Controllers
                         TempData["tipo"] = "alert alert-warning";
                         TempData["message"] = mensaje;
                     }
-
                     return Redirect("~/Evento/VerEvento/" + paquete.idEvento);
                 }
                 else if (boton.CompareTo("carritoVendedor") == 0)
@@ -1715,6 +1715,7 @@ namespace WebApplication4.Controllers
                     }
                     TempData["tipo"] = "alert alert-success";
                     TempData["message"] = "Item añadido al carrito de ventas";
+                    return RedirectToAction("CarritoVentas", "Ventas");
                 }
             }
             else
