@@ -1,4 +1,4 @@
-*{margin: 0;padding: 0}
+*{margin: 0;padding: 0;font-family: "Trebuchet MS", Helvetica, sans-serif}
 img.bg {
   /* Set rules to fill background */
   min-height: 100%;
@@ -21,11 +21,24 @@ img.bg {
   }
 }
 
+/*contenedor de fondo blanco*/
+.con{background-color:white;
+         margin:10px;
+         border-radius:5px;         
+    }
+
 #busqAvanzada{text-align: center; margin-top: 10px;margin-bottom: 10px;}
 body{background:url(fondo1.jpg) fixed top center !important;background-repeat:space}
 #barra{background-color: #337ab7; color: white }
 #seccionPrincipal{}
 #carousel-1{margin-bottom: 10px}
+.suspensivos{
+    overflow:hidden;
+    text-overflow:ellipsis;
+    height:18px;
+    white-space:nowrap;
+    width:inherit;
+}
 #footer{    
        padding:20px;
        background: #101010;
@@ -35,7 +48,9 @@ body{background:url(fondo1.jpg) fixed top center !important;background-repeat:sp
        font-family:'Comic Sans MS'
 }
 
-
+table {
+    
+}
 .headDestacados {
         background-color: #337AB7;
         color: black;
@@ -74,8 +89,8 @@ thead {
 
 #barraLateral{
     position: fixed;
-    top: 250px;   
-    left:0px;
+    top: 450px;   
+    left:0px;    
 }
 #barraLateral li{
     list-style: none;    
@@ -93,9 +108,13 @@ thead {
     color: white;
 }
 #barraLateral li:hover{width: 70px}
-#barraLateral li:nth-of-type(1){background: red}
+#barraLateral li:nth-of-type(1){background: #990000}
 
-
+@media only screen and (max-width: 870px) {
+    #barraLateral {
+        display:none;
+    }
+}
 
 .contenedor {
     border-radius:5px;

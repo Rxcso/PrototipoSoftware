@@ -47,16 +47,21 @@
         <div id="detalles" class="row">
             <div class="col-md-3">
                 <div id="fila" class="row">
-                    <div class="thumbnail">
-                        <img class="event" src=@ViewBag.evento.ImagenEvento alt=@ViewBag.evento.nombre>
-                        <div class="caption" style="text-align:left">
+                    <center class="col-md-12">
+                        <div style="width:inherit">
+                            <img style="width:inherit" class="event" src=@ViewBag.evento.ImagenEvento alt=@ViewBag.evento.nombre>
+                        </div>                        
+                    </center>
+                    
+                    <div class="con col-md-12">
+                        <div style="text-align:left">
                             <h4>@ViewBag.evento.nombre</h4>
                             <p><strong><u>Fechas:</u></strong> @ViewBag.textoFunciones </p>
                             <p>
                                 <strong><u>Dirección:</u></strong>
                                 @ViewBag.NombreLocal
                             </p>
-                            <p><strong><u>Región:</u></strong> @ViewBag.Region</p>                            
+                            <p><strong><u>Región:</u></strong> @ViewBag.Region</p>
                         </div>
                     </div>
                 </div>
@@ -64,7 +69,7 @@
 
             <div class="col-md-9">
                 <div id="fila" class="row">
-                    <div class="thumbnail" style="text-align:justify">
+                    <div class="con col-md-12" style="text-align:justify">
                         <p><strong><u>Categoría:</u></strong> @ViewBag.Categoria</p>
                         <p><strong><u>Subcategoría:</u></strong> @ViewBag.Subcategoria</p>
                         <p><strong><u>Descripción:</u></strong></p>
@@ -79,11 +84,12 @@
         @if (ViewBag.evento.ImagenSitios != null)
         {
             <div id="zonas" class="row">
-                <div class="thumbnail">
+                <div class="con col-md-12">
                     <div class="container-fluid">
                         <h4><u>Distribución de zonas</u></h4>
-                        <img style="cursor:default" width="100%" class="event" src=@ViewBag.evento.ImagenSitios alt="Zonas de evento">
+                        <img style="cursor:default;border:1px solid black" width="100%" class="event" src=@ViewBag.evento.ImagenSitios alt="Zonas de evento" title="Distribución de asientos">                        
                     </div>
+                    <br />
                 </div>
             </div>
         }
@@ -91,7 +97,7 @@
         @if (ViewBag.listPromos.Count > 0)
         {
             <div id="promos" class="row">
-                <div class="thumbnail">
+                <div class="con col-md-12">
                     <div class="container-fluid">
                         <h4><u>Promociones</u></h4>
                         @foreach (var promo in ViewBag.listPromos)
@@ -107,7 +113,7 @@
         @if (ViewBag.ListPrecios.Count > 0)
         {
             <div id="precios" class="row">
-                <div class="thumbnail">
+                <div class="con col-md-12">
                     <div class="container-fluid">
                         <h4><u>Precios de Venta</u></h4>
                         <div class="table-responsive">
@@ -146,11 +152,11 @@
         }
 
         <div id="tarifas" class="row">
-            <div class="thumbnail">
+            <div class="con col-md-12">
                 <div class="container-fluid">
                     <div><h4><u>Selección de boletos/asientos</u></h4></div>
                     <div class="col-md-6" style=@estiloAsientos>
-                        <div id="canvas" class="col-md-12">           </div>
+                        <div id="canvas" class="col-md-12" title="La parte superior de la zona es la más cercana al escenario">           </div>
                         <div id="aux" class="col-md-12">              </div>
                     </div>
                     <div class="col-md-6">
@@ -185,13 +191,13 @@
                                 {
                                     if (ViewBag.ListFunciones.Count == 0)
                                     {
-                                        <p>Ya no hay funciones para este evento</p>
+                                        <p>Las funciones para este evento terminaron</p>
                                     }
                                     else
                                     {
                                         <div class="row form-group">
-                                            <label for="hora" class="control-label col-md-4">Funciones:</label>
-                                            <div id="funcion" class="col-md-8">
+                                            <label for="hora" class="control-label col-md-4 col-sm-4">Funciones:</label>
+                                            <div id="funcion" class="col-md-8 col-sm-8">
                                                 <select id="funcionHora" class="form-control">
                                                     @for (int i = 0; i < ViewBag.ListFunciones.Count; i++)
                                                     {
@@ -204,8 +210,8 @@
                                             </div>
                                         </div>
                                         <div class="row form-group">
-                                            <label for="zonaTarifa" class="control-label col-md-4">Zona: </label>
-                                            <div id="funcion" class="col-md-8">
+                                            <label for="zonaTarifa" class="control-label col-md-4 col-sm-4">Zona: </label>
+                                            <div id="funcion" class="col-md-8 col-sm-8">
 
                                                 <select id="zonaTarifa" class="form-control">
                                                     @for (int i = 0; i < ViewBag.ListZonasNombre.Count; i++)
@@ -218,16 +224,16 @@
                                             </div>
                                         </div>
                                         <div class="row form-group">
-                                            <label for="zonaTarifa" class="control-label col-md-4">Cantidad entradas:</label>
-                                            <div class="col-md-4">
-                                                <input id="numEntradas" class="form-control" type="number" value="0">
+                                            <label for="zonaTarifa" class="control-label col-md-9 col-sm-9">Cantidad de entradas:</label>
+                                            <div class="col-md-3 col-sm-3">
+                                                <input id="numEntradas" class="form-control pull-right" type="number" value="0">
                                             </div>
                                             @TempData["ErrorSeleccionandoAsientos"]
                                             @Html.ValidationMessageFor(model => model.cantEntradas)
                                         </div>
                                         <div class="row form-group">
 
-                                            @using (Html.BeginForm("Entradas", "Evento", FormMethod.Post, new { id = "submitEntradas" }))
+                                            @using (Html.BeginForm("Entradas", "Evento", FormMethod.Post, new { id = "submitEntradas" ,@class = "col-md-12" }))
                                             {
 
                                                 @Html.TextBoxFor(Model => Model.idZona, new { style = "display:none" })
@@ -235,35 +241,36 @@
                                                 @Html.TextBoxFor(model => model.idEvento, new { style = "display:none" })
                                                 @Html.TextBoxFor(model => model.tieneAsientos, new { id = "formTieneEntradas", style = "display:none" })
                                                 @Html.TextBoxFor(model => model.cantEntradas, new { id = "formCantEntradas", style = "display:none" })
-                                                <div id="asientosElegidos">
+                                                
+                                                <div class="col-md-12" id="asientosElegidos">
 
                                                 </div>
 
-                                                if (codperfilActual == 1 || !Request.IsAuthenticated)
-                                                {
-                                                    <div class="col-md-6">
-                                                        <button type="submit" name="boton" value="carrito" class="btn btn-success pull-right ">Agregar al carrito <span class="glyphicon glyphicon-shopping-cart"></span></button>
-                                                    </div>
+                                                if (codperfilActual == 1 || !Request.IsAuthenticated)//para el cliente
+                                                {                                                    
+                                                    <center class="col-md-12 col-sm-12 form-group">
+                                                        <button type="submit" name="boton" value="carrito" class="btn btn-success  "><span class="glyphicon glyphicon-shopping-cart"></span> Agregar a mi carrito</button>
+                                                    </center>
 
                                                     if (Request.IsAuthenticated && ((Boolean)ViewBag.evento.permiteReserva))
                                                     {
-                                                        <div class="col-md-6">
-                                                            <button type="submit" name="boton" value="reservar" class="btn btn-primary pull-right">Reservar <span class="glyphicon glyphicon-save"></span></button>
-                                                        </div>
+                                                        <center class="col-md-12 col-sm-12">
+                                                            <button type="submit" name="boton" value="reservar" class="btn btn-primary"><span class="fa fa-book"></span> Reservar</button>
+                                                        </center>
                                                     }
 
                                                 }
-                                                if (codperfilActual >= 3)
+                                                if (codperfilActual >= 3)//para el promotor
                                                 {
-                                                    <div class="col-md-6">
-                                                        <button type="submit" name="boton" value="reservarOrganizador" class="btn btn-primary pull-right">Reservar Organizador<span class="glyphicon glyphicon-save"></span></button>
-                                                    </div>
+                                                    <center class="form-group col-md-12 col-sm-12">
+                                                        <button type="submit" name="boton" value="reservarOrganizador" class="btn btn-primary">Reservar Organizador<span class="glyphicon glyphicon-save"></span></button>
+                                                    </center>
                                                 }
                                                 //para el vendedor tendra un carrito distinto
                                                 if (codperfilActual == 2)
                                                 {
-                                                    <div class="col-md-6">
-                                                        <button type="submit" name="boton" value="carritoVendedor" class="btn btn-success pull-right ">Agregar al carrito <span class="glyphicon glyphicon-shopping-cart"></span></button>
+                                                    <div class="form-group col-md-12 col-sm-12">
+                                                        <button type="submit" name="boton" value="carritoVendedor" class="btn btn-success">Agregar al carrito <span class="fa fa-shopping-cart"></span></button>
                                                     </div>
                                                 }
                                             }
@@ -278,7 +285,9 @@
                     </div>
 
                 </div>
+                <br />
             </div>
+            
         </div>
 
 
@@ -419,7 +428,7 @@
             var filaN = $(this).parent().attr('class').split('_');
             var columnaN = $(this).attr('class').split('_');
 
-            $('#info').text('Fila: ' + filaN[1] + ' - Columna ' + columnaN[1]);
+            $('#info').text('Fila: ' + filaN[1] + ' - Columna: ' + columnaN[1]);
         });
 
         $('body').on('click', '.ficha', function () {
@@ -505,12 +514,6 @@
         $("#submitEntradas").submit(function () {
             $("#asientosElegidos").empty();
             $("#formCantEntradas").val($("#numEntradas").val());
-            //validar!!!
-
-            //PIER VALIDA PLZ
-            // cantEntradas que no son naturales
-
-
             var i = 0;
             for (var k in asientosElegidos) {
 

@@ -1,7 +1,7 @@
 ﻿#aux {
     background-color: lightgray;
     border: 1px solid black;
-    height: 50px;
+    height: 30px;
 }
 
 #canvas {
@@ -53,5 +53,5 @@
 }
 
 .ocupado {
-    background-color: black;
+    background-color: #e93e18;
 }

@@ -270,7 +270,7 @@ else
                                 }
                                 else
                                 {
-                                    <input id="fech_ini" name="fech_ini" type="text" class="form-control fecha" value="@String.Format("{0:yyyy-MM-dd}",DateTime.Today)">
+                                    <input id="fech_ini" name="fech_ini" type="text" class="form-control fecha" value="@String.Format("{0:dd/MM/yyyy}",DateTime.Today)">
                                 }
                             </div>
                         </div>
@@ -372,7 +372,7 @@ else
                 @(TempData["message"])
             </div>
         </div>
-        <ul id="barraLateral">
+        <ul title="Carrito de compras" id="barraLateral">
             <li><a href="@Url.Action("MiCarrito", "CuentaUsuario")"><span class="fa fa-cart-plus fa-4x"></span></a></li>
             <!--li><a href="@Url.Action("PuntoVentas", "Home")"><span class="fa fa-map-marker fa-4x"></span></a></li-->
         </ul>
