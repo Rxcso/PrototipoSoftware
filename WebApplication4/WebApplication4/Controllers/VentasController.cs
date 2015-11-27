@@ -61,18 +61,18 @@ namespace WebApplication4.Controllers
                     listaPromociones.Add(promocion);
                 }
                 promocion = PromocionController.CalculaMejorPromocionEfectivo(model.idEvento);
-                if (queryVF.cantEntradas >= promocion.cantAdq)
+                if (promocion != null)
                 {
-                    if (promocion == null)
+                    if (queryVF.cantEntradas >= promocion.cantAdq)
+                    {
+                        descuentoE += 1.0 * promocion.cantAdq * precio * (1 - (promocion.cantComp.Value * 1.0 / promocion.cantAdq.Value));
+                        listaPromocionesEfectivo.Add(promocion);
+                    }
+                    else
                     {
                         Promociones dummy = new Promociones();
                         dummy.codPromo = -1;
                         listaPromocionesEfectivo.Add(dummy);
-                    }
-                    else
-                    {
-                        descuentoE += 1.0 * promocion.cantAdq * precio * (1 - (promocion.cantComp.Value * 1.0 / promocion.cantAdq.Value));
-                        listaPromocionesEfectivo.Add(promocion);
                     }
                 }
                 else
@@ -81,6 +81,7 @@ namespace WebApplication4.Controllers
                     dummy.codPromo = -1;
                     listaPromocionesEfectivo.Add(dummy);
                 }
+
                 model.idEventos = new List<int>();
                 model.idEventos.Add(codEvento);
                 ViewBag.PromocionesEfectivo = listaPromocionesEfectivo;
@@ -221,18 +222,18 @@ namespace WebApplication4.Controllers
                 listaPromociones.Add(promocion2);
             }
             promocion2 = PromocionController.CalculaMejorPromocionEfectivo(model.idEvento);
-            if (queryVF.cantEntradas >= promocion2.cantAdq)
+            if (promocion2 != null)
             {
-                if (promocion2 == null)
+                if (queryVF.cantEntradas >= promocion2.cantAdq)
+                {
+                    descuentoE += 1.0 * promocion2.cantAdq * precio * (1 - (promocion2.cantComp.Value * 1.0 / promocion2.cantAdq.Value));
+                    listaPromocionesEfectivo.Add(promocion2);
+                }
+                else
                 {
                     Promociones dummy = new Promociones();
                     dummy.codPromo = -1;
                     listaPromocionesEfectivo.Add(dummy);
-                }
-                else
-                {
-                    descuentoE += 1.0 * promocion2.cantAdq * precio * (1 - (promocion2.cantComp.Value * 1.0 / promocion2.cantAdq.Value));
-                    listaPromocionesEfectivo.Add(promocion2);
                 }
             }
             else
@@ -241,7 +242,6 @@ namespace WebApplication4.Controllers
                 dummy.codPromo = -1;
                 listaPromocionesEfectivo.Add(dummy);
             }
-
             ViewBag.PromocionesEfectivo = listaPromocionesEfectivo;
             ViewBag.Promociones = listaPromociones;
             ViewBag.Funciones = model.idFunciones;
@@ -379,18 +379,18 @@ namespace WebApplication4.Controllers
                         listaPromociones.Add(promocion);
                     }
                     promocion = PromocionController.CalculaMejorPromocionEfectivo(item.idEvento);
-                    if (item.cantidad >= promocion.cantAdq)
+                    if (promocion != null)
                     {
-                        if (promocion == null)
+                        if (item.cantidad >= promocion.cantAdq)
+                        {
+                            descuentoE += 1.0 * promocion.cantAdq * (item.precio / item.cantidad) * (1 - (promocion.cantComp.Value * 1.0 / promocion.cantAdq.Value));
+                            listaPromocionesEfectivo.Add(promocion);
+                        }
+                        else
                         {
                             Promociones dummy = new Promociones();
                             dummy.codPromo = -1;
                             listaPromocionesEfectivo.Add(dummy);
-                        }
-                        else
-                        {
-                            descuentoE += 1.0 * promocion.cantAdq * (item.precio / item.cantidad) * (1 - (promocion.cantComp.Value * 1.0 / promocion.cantAdq.Value));
-                            listaPromocionesEfectivo.Add(promocion);
                         }
                     }
                     else
@@ -399,6 +399,7 @@ namespace WebApplication4.Controllers
                         dummy.codPromo = -1;
                         listaPromocionesEfectivo.Add(dummy);
                     }
+
                 }
                 ViewBag.Total = total;
                 ViewBag.Funciones = idFunciones;
@@ -766,18 +767,18 @@ namespace WebApplication4.Controllers
                         listaPromociones.Add(promocion);
                     }
                     promocion = PromocionController.CalculaMejorPromocionEfectivo(item.idEvento);
-                    if (item.cantidad >= promocion.cantAdq)
+                    if (promocion != null)
                     {
-                        if (promocion == null)
+                        if (item.cantidad >= promocion.cantAdq)
+                        {
+                            descuentoE += 1.0 * promocion.cantAdq * (item.precio / item.cantidad) * (1 - (promocion.cantComp.Value * 1.0 / promocion.cantAdq.Value));
+                            listaPromocionesEfectivo.Add(promocion);
+                        }
+                        else
                         {
                             Promociones dummy = new Promociones();
                             dummy.codPromo = -1;
                             listaPromocionesEfectivo.Add(dummy);
-                        }
-                        else
-                        {
-                            descuentoE += 1.0 * promocion.cantAdq * (item.precio / item.cantidad) * (1 - (promocion.cantComp.Value * 1.0 / promocion.cantAdq.Value));
-                            listaPromocionesEfectivo.Add(promocion);
                         }
                     }
                     else
