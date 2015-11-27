@@ -16,6 +16,7 @@ namespace WebApplication4.Models
         [Required(ErrorMessage = "Debe ingresar un DNI o Pasaporte.")]
         [Display(Name = "DNI/Pasaporte:")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Dni debe ser numérico.")]
+        [StringLength(10, ErrorMessage = "Maximo 10 dígitos.")]
         public string Dni { get; set; }
 
         [Display(Name = "Banco:")]

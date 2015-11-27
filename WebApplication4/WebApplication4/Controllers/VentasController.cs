@@ -69,7 +69,7 @@ namespace WebApplication4.Controllers
                 }
                 else
                 {
-                    descuentoE += precio * (1 - promocion.cantComp.Value / promocion.cantAdq.Value);
+                    descuentoE += precio * (1 - (promocion.cantComp.Value * 1.0 / promocion.cantAdq.Value));
                     listaPromocionesEfectivo.Add(promocion);
                 }
                 model.idEventos = new List<int>();
@@ -89,41 +89,11 @@ namespace WebApplication4.Controllers
             return RedirectToAction("BuscaReserva");
         }
 
-        private bool validaCompraEntradaReservadaVendedor(VenderEntradaModel model)
-        {
-            bool indicador = true;
-            //si hay tarjeta de por medio
-            if (model.MontoTar > 0)
-            {
-                //usa tarjeta, verificar que hayan datos de la tarjeta
-                if (String.IsNullOrEmpty(model.NumeroTarjeta))
-                {//reviso si no hay una tarjeta seleccionadad
-                    ModelState.AddModelError("NumeroTarjeta", "El campo Nro. de Tarjeta: es obligatorio.");
-                    indicador = false;
-                }
-                else
-                {//si hay una tarjeta tengo que ver si pertenece al banco
-                    ComprarEntradaModel compra = new ComprarEntradaModel();
-                    compra.idBanco = model.idBanco.Value;
-                    compra.NumeroTarjeta = model.NumeroTarjeta;
-                    compra.Mes = model.Mes;
-                    compra.AnioVen = model.AnioVen;
-                    indicador = ValidacionesCompra(compra);
-                }
-                if (String.IsNullOrEmpty(model.CodCcv))
-                {//reviso si no hay codigo ccv
-                    ModelState.AddModelError("CodCcv", "El campo CCV: es obligatorio.");
-                    indicador = false;
-                }
-            }
-            return indicador;
-        }
-
         [HttpPost]
         public ActionResult PagarReserva(VenderEntradaModel model)
         {
             int codVenta = model.idVenta;
-            if (validaCompraEntradaReservadaVendedor(model))
+            if (validacionVenta(model))
             {
                 DateTime hoy = DateTime.Today;
                 //buscamos la venta
@@ -287,8 +257,8 @@ namespace WebApplication4.Controllers
                 List<Promociones> listaPromocionesEfectivo = new List<Promociones>();
                 List<int> idFunciones = new List<int>();
                 double total = 0;
-                double descuento = 0;
-                double descuentoE = 0;
+                double? descuento = 0;
+                double? descuentoE = 0;
                 foreach (CarritoItem item in carrito)
                 {
                     idFunciones.Add(item.idFuncion);
@@ -314,17 +284,30 @@ namespace WebApplication4.Controllers
                     }
                     else
                     {
-                        descuentoE += item.precio * (1 - promocion.cantComp.Value / promocion.cantAdq.Value);
+                        descuentoE += item.precio * (1 - (promocion.cantComp.Value * 1.0 / promocion.cantAdq.Value));
                         listaPromocionesEfectivo.Add(promocion);
                     }
                 }
+                ViewBag.Total = total;
                 ViewBag.Funciones = idFunciones;
-                ViewBag.Descuento = descuento;
+                //efectivo
                 ViewBag.DescuentoE = descuentoE;
+                ViewBag.MontoPagarE = total - descuentoE;
+                ViewBag.MontoSE = 0;
+                ViewBag.MontoDE = 0;
+                ViewBag.VueltoE = 0;
+                //tarjeta
+                ViewBag.Descuento = descuento;
+                ViewBag.MontoPagarT = total - descuento;
+                ViewBag.MontoTarjeta = total - descuento;
+                //mixto
+                ViewBag.MontoPagarM = total;
+                ViewBag.MontoSM = 0;
+                ViewBag.MontoDM = 0;
+                ViewBag.MontoTarjetaM = 0;
+                ViewBag.VueltoM = 0;
                 ViewBag.PromocionesEfectivo = listaPromocionesEfectivo;
                 ViewBag.Promociones = listaPromociones;
-                ViewBag.Total = total;
-                ViewBag.Pagar = total - 0;
                 ViewBag.Mes = Fechas.Mes();
                 ViewBag.AnVen = Fechas.Anio();
                 return View();
@@ -366,6 +349,7 @@ namespace WebApplication4.Controllers
             Politicas montoMinTarjeta = db.Politicas.Find(3);
             double montoMin = montoMinTarjeta.valor.Value;
             //si se utiliza tarjeta, tiene que ser mayor al monto minimo segun las politicas
+            if (model.MontoTar == 0) return true;
             if (model.MontoTar > montoMin)
             {
                 //usa tarjeta, verificar que hayan datos de la tarjeta
@@ -391,7 +375,9 @@ namespace WebApplication4.Controllers
             }
             else
             {
-                ModelState.AddModelError("MontoTar", "Se debe pagar como mínimo " + montoMin + "soles.");
+                TempData["tipo"] = "alert alert-warning";
+                TempData["message"] = "Se debe pagar como mínimo " + montoMin + " soles.";
+                indicador = false;
             }
             return indicador;
         }
@@ -419,7 +405,6 @@ namespace WebApplication4.Controllers
                     if (actualEntradas > limEntradas)
                     {
                         ind = false;
-
                     }
                 }
             }
@@ -598,20 +583,16 @@ namespace WebApplication4.Controllers
                                         else
                                             ZXF.cantLibres -= paquete.cantidad;
                                     }
-                                    if (User.Identity.IsAuthenticated)
-                                    {//si es u usuario registrado le aumento los puntos que tiene
-                                        try
-                                        {
-                                            CuentaUsuario dbCuenta = db.CuentaUsuario.Find(cuenta.correo);
-                                            dbCuenta.puntos += db.Eventos.Find(paquete.idEvento).puntosAlCliente * paquete.cantidad;
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            Ventas remover = db.Ventas.Find(idVenta);
-                                            db.Ventas.Remove(remover);
-                                        }
-
+                                    try
+                                    {
+                                        CuentaUsuario dbCuenta = db.CuentaUsuario.Find(cuenta.correo);
+                                        dbCuenta.puntos += db.Eventos.Find(paquete.idEvento).puntosAlCliente * paquete.cantidad;
                                     }
+                                    catch (Exception ex)
+                                    {
+                                        //usuario anonimo
+                                    }
+
                                 }
 
                                 db.SaveChanges();
@@ -678,17 +659,71 @@ namespace WebApplication4.Controllers
                     }
                     else
                     {
-                        descuentoE += item.precio * (1 - promocion.cantComp.Value / promocion.cantAdq.Value);
+                        descuentoE += item.precio * (1 - (promocion.cantComp.Value * 1.0 / promocion.cantAdq.Value));
                         listaPromocionesEfectivo.Add(promocion);
                     }
                 }
                 ViewBag.PromocionesEfectivo = listaPromocionesEfectivo;
-                ViewBag.Descuento = 0;
-                ViewBag.DescuentoE = descuentoE;
                 ViewBag.Promociones = listaPromociones;
                 ViewBag.Funciones = model.idFunciones;
                 ViewBag.Total = total;
-                ViewBag.Pagar = total - 0;
+                //efectivo
+                if (model.MontoTar == 0 && model.MontoEfe >= 0 && model.MontoDolares >= 0)
+                {
+                    ViewBag.DescuentoE = model.Descuento;
+                    ViewBag.MontoPagarE = model.MontoPagar;
+                    ViewBag.MontoSE = model.MontoEfe;
+                    ViewBag.MontoDE = model.MontoDolares;
+                    ViewBag.VueltoE = model.Vuelto;
+                    //tarjeta
+                    ViewBag.Descuento = descuento;
+                    ViewBag.MontoPagarT = total - descuento;
+                    ViewBag.MontoTarjeta = total - descuento;
+                    //mixto
+                    ViewBag.MontoPagarM = total;
+                    ViewBag.MontoSM = 0;
+                    ViewBag.MontoDM = 0;
+                    ViewBag.MontoTarjetaM = 0;
+                    ViewBag.VueltoM = 0;
+                }
+                //tarjeta
+                if (model.MontoTar > 0 && model.MontoEfe == 0 && model.MontoDolares == 0)
+                {
+                    ViewBag.DescuentoE = descuentoE;
+                    ViewBag.MontoPagarE = total - descuentoE;
+                    ViewBag.MontoSE = 0;
+                    ViewBag.MontoDE = 0;
+                    ViewBag.VueltoE = 0;
+                    //tarjeta
+                    ViewBag.Descuento = model.Descuento;
+                    ViewBag.MontoPagarT = model.MontoPagar;
+                    ViewBag.MontoTarjeta = model.MontoTar;
+                    //mixto
+                    ViewBag.MontoPagarM = total;
+                    ViewBag.MontoSM = 0;
+                    ViewBag.MontoDM = 0;
+                    ViewBag.MontoTarjetaM = 0;
+                    ViewBag.VueltoM = 0;
+                }
+
+                if (model.MontoTar >= 0 && model.MontoEfe >= 0 && model.MontoDolares >= 0)
+                {
+                    ViewBag.DescuentoE = descuentoE;
+                    ViewBag.MontoPagarE = total - descuentoE;
+                    ViewBag.MontoSE = 0;
+                    ViewBag.MontoDE = 0;
+                    ViewBag.VueltoE = 0;
+                    //tarjeta
+                    ViewBag.Descuento = descuento;
+                    ViewBag.MontoPagarT = total - descuento;
+                    ViewBag.MontoTarjeta = total - descuento;
+                    //mixto
+                    ViewBag.MontoPagarM = model.MontoPagar;
+                    ViewBag.MontoSM = model.MontoEfe;
+                    ViewBag.MontoDM = model.MontoDolares;
+                    ViewBag.MontoTarjetaM = model.MontoTar;
+                    ViewBag.VueltoM = model.Vuelto;
+                }
                 ViewBag.Mes = Fechas.Mes();
                 ViewBag.AnVen = Fechas.Anio();
                 return View(model);
