@@ -85,7 +85,7 @@ namespace WebApplication4.Models
             public override bool IsValid(object value)
             {
                 DateTime dt = (DateTime)value;
-                if (dt >= DateTime.Now)
+                if (dt.Date >= DateTime.Now.Date)
                 {
                     return true;
                 }
