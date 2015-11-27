@@ -2422,3 +2422,20 @@ System.Collections.ListDictionaryInternal
 2015-11-27 11:04:04,635 [36] ERROR Ticknet - Exception Message - 
 La secuencia no contiene elementos
 2015-11-27 11:04:04,635 [36] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-27 15:50:37,316 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-27 15:50:37,325 [7] ERROR Ticknet - Exception Type - 
+ArgumentNullException
+2015-11-27 15:50:37,325 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-27 15:50:37,325 [7] ERROR Ticknet - Exception Message - 
+El valor no puede ser nulo.
+Nombre del parámetro: source
+2015-11-27 15:50:37,325 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-27 15:52:49,858 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-27 15:52:49,858 [7] ERROR Ticknet - Exception Type - 
+DbUpdateException
+2015-11-27 15:52:49,858 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-27 15:52:49,858 [7] ERROR Ticknet - Exception Message - 
+An error occurred while updating the entries. See the inner exception for details.
+2015-11-27 15:52:49,858 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
