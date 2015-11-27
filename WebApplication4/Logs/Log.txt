@@ -2374,11 +2374,11 @@ The partial view 'Destacados' was not found or no view engine supports the searc
 ~/Views/Shared/Destacados.cshtml
 ~/Views/Shared/Destacados.vbhtml
 2015-11-25 23:39:11,024 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-26 20:53:27,648 [45] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-26 20:53:27,654 [45] ERROR Ticknet - Exception Type - 
-HttpCompileException
-2015-11-26 20:53:27,654 [45] ERROR Ticknet - Exception Data - 
+2015-11-26 19:30:38,927 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-26 19:30:38,977 [8] ERROR Ticknet - Exception Data - 
+DataException
+2015-11-26 19:30:38,977 [8] ERROR Ticknet - Exception Data - 
 System.Collections.ListDictionaryInternal
-2015-11-26 20:53:27,654 [45] ERROR Ticknet - Exception Message - 
-c:\Users\alulab14.INF.001\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\Views\Evento\VerEvento.cshtml(241): error CS1513: Se esperaba }
-2015-11-26 20:53:27,654 [45] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-26 19:30:38,977 [8] ERROR Ticknet - Exception Message - 
+An exception occurred while initializing the database. See the InnerException for details.
+2015-11-26 19:30:38,978 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
