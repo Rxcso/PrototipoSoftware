@@ -2390,51 +2390,35 @@ System.Collections.ListDictionaryInternal
 2015-11-26 22:53:11,880 [30] ERROR Ticknet - Exception Message - 
 La cadena de entrada no tiene el formato correcto.
 2015-11-26 22:53:11,880 [30] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-27 11:58:41,972 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-27 11:58:41,996 [7] ERROR Ticknet - Exception Data - 
-HttpException
-2015-11-27 11:58:41,996 [7] ERROR Ticknet - Exception Data - 
+2015-11-27 10:52:25,790 [30] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-27 10:52:25,811 [30] ERROR Ticknet - Exception Type - 
+InvalidOperationException
+2015-11-27 10:52:25,811 [30] ERROR Ticknet - Exception Data - 
 System.Collections.ListDictionaryInternal
-2015-11-27 11:58:41,996 [7] ERROR Ticknet - Exception Message - 
-The controller for path '/Politicas/Politicas' was not found or does not implement IController.
-2015-11-27 11:58:41,996 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-27 11:58:53,992 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-27 11:58:53,992 [6] ERROR Ticknet - Exception Data - 
-HttpException
-2015-11-27 11:58:53,992 [6] ERROR Ticknet - Exception Data - 
+2015-11-27 10:52:25,811 [30] ERROR Ticknet - Exception Message - 
+La secuencia no contiene elementos
+2015-11-27 10:52:25,811 [30] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-27 11:01:36,042 [52] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-27 11:01:36,046 [52] ERROR Ticknet - Exception Type - 
+InvalidOperationException
+2015-11-27 11:01:36,046 [52] ERROR Ticknet - Exception Data - 
 System.Collections.ListDictionaryInternal
-2015-11-27 11:58:53,992 [6] ERROR Ticknet - Exception Message - 
-The controller for path '/Politicas/Politicas' was not found or does not implement IController.
-2015-11-27 11:58:53,992 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-27 11:59:51,675 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-27 11:59:51,675 [7] ERROR Ticknet - Exception Data - 
-HttpException
-2015-11-27 11:59:51,675 [7] ERROR Ticknet - Exception Data - 
+2015-11-27 11:01:36,046 [52] ERROR Ticknet - Exception Message - 
+La secuencia no contiene elementos
+2015-11-27 11:01:36,046 [52] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-27 11:02:05,493 [53] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-27 11:02:05,493 [53] ERROR Ticknet - Exception Type - 
+InvalidOperationException
+2015-11-27 11:02:05,493 [53] ERROR Ticknet - Exception Data - 
 System.Collections.ListDictionaryInternal
-2015-11-27 11:59:51,675 [7] ERROR Ticknet - Exception Message - 
-The controller for path '/Politicas/Politicas' was not found or does not implement IController.
-2015-11-27 11:59:51,675 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-27 12:01:17,753 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-27 12:01:17,761 [6] ERROR Ticknet - Exception Data - 
-HttpException
-2015-11-27 12:01:17,761 [6] ERROR Ticknet - Exception Data - 
+2015-11-27 11:02:05,493 [53] ERROR Ticknet - Exception Message - 
+La secuencia no contiene elementos
+2015-11-27 11:02:05,493 [53] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-27 11:04:04,627 [36] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-27 11:04:04,635 [36] ERROR Ticknet - Exception Type - 
+InvalidOperationException
+2015-11-27 11:04:04,635 [36] ERROR Ticknet - Exception Data - 
 System.Collections.ListDictionaryInternal
-2015-11-27 12:01:17,761 [6] ERROR Ticknet - Exception Message - 
-The controller for path '/Politicas/Politicas' was not found or does not implement IController.
-2015-11-27 12:01:17,761 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-27 12:01:49,221 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-27 12:01:49,229 [6] ERROR Ticknet - Exception Data - 
-HttpException
-2015-11-27 12:01:49,229 [6] ERROR Ticknet - Exception Data - 
-System.Collections.ListDictionaryInternal
-2015-11-27 12:01:49,229 [6] ERROR Ticknet - Exception Message - 
-The controller for path '/Politicas/Politicas' was not found or does not implement IController.
-2015-11-27 12:01:49,229 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-27 12:02:54,276 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-27 12:02:54,284 [7] ERROR Ticknet - Exception Data - 
-HttpException
-2015-11-27 12:02:54,284 [7] ERROR Ticknet - Exception Data - 
-System.Collections.ListDictionaryInternal
-2015-11-27 12:02:54,284 [7] ERROR Ticknet - Exception Message - 
-The controller for path '/Politicas/Politicas' was not found or does not implement IController.
-2015-11-27 12:02:54,284 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-27 11:04:04,635 [36] ERROR Ticknet - Exception Message - 
+La secuencia no contiene elementos
+2015-11-27 11:04:04,635 [36] DEBUG Ticknet - ++++++++++++++++++++++++++++
