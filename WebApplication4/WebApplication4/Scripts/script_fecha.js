@@ -12,5 +12,5 @@ $(function () {
     $("#fech_ini").datepicker("option", "altField", "#altfech_ini");
     $("#fech_fin").datepicker("option", "altField", "#altfech_fin");   
 
-    
+     
 });
