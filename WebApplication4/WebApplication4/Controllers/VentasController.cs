@@ -138,7 +138,21 @@ namespace WebApplication4.Controllers
                 //buscamos la ventaxfuncion
                 VentasXFuncion vxf = db.VentasXFuncion.Where(c => c.codVen == venta.codVen).First();
                 vxf.subtotal = model.Importe;
-                vxf.descuento = (int)model.Descuento;
+                double? porcDescuento = 0;
+                if (venta.modalidad == "T")
+                {
+                    if (model.idPromociones[0] != -1)
+                    {
+                        int idPromocion = model.idPromociones[0];
+                        Promociones promocion = db.Promociones.Where(c => c.codPromo == idPromocion && c.codEvento == model.idEvento).First();
+                        porcDescuento = promocion.descuento / 100;
+                    }
+                    vxf.descuento = (int?)(vxf.subtotal * porcDescuento);
+                }
+                if (venta.modalidad == "E")
+                {
+                    vxf.descuento = (int?)model.Descuento;
+                }
                 vxf.total = model.Importe - model.Descuento;
                 Eventos evento = db.Eventos.Find(vxf.Funcion.codEvento);
                 DetalleVenta detalle = db.DetalleVenta.Where(c => c.codVen == venta.codVen && c.codFuncion == vxf.Funcion.codFuncion).First();
@@ -194,8 +208,8 @@ namespace WebApplication4.Controllers
             double? descuentoE = 0;
             double? total = 0;
             total += precio;
-            Promociones promocion = PromocionController.CalculaMejorPromocionTarjeta(model.idEvento, bancos.First().codigo, tipoTarjeta.First().idTipoTar);
-            if (promocion == null)
+            Promociones promocion2 = PromocionController.CalculaMejorPromocionTarjeta(model.idEvento, bancos.First().codigo, tipoTarjeta.First().idTipoTar);
+            if (promocion2 == null)
             {
                 Promociones dummy = new Promociones();
                 dummy.codPromo = -1;
@@ -203,13 +217,13 @@ namespace WebApplication4.Controllers
             }
             else
             {
-                descuento += precio * promocion.descuento.Value / 100;
-                listaPromociones.Add(promocion);
+                descuento += precio * promocion2.descuento.Value / 100;
+                listaPromociones.Add(promocion2);
             }
-            promocion = PromocionController.CalculaMejorPromocionEfectivo(model.idEvento);
-            if (queryVF.cantEntradas >= promocion.cantAdq)
+            promocion2 = PromocionController.CalculaMejorPromocionEfectivo(model.idEvento);
+            if (queryVF.cantEntradas >= promocion2.cantAdq)
             {
-                if (promocion == null)
+                if (promocion2 == null)
                 {
                     Promociones dummy = new Promociones();
                     dummy.codPromo = -1;
@@ -217,8 +231,8 @@ namespace WebApplication4.Controllers
                 }
                 else
                 {
-                    descuentoE += 1.0 * promocion.cantAdq * precio * (1 - (promocion.cantComp.Value * 1.0 / promocion.cantAdq.Value));
-                    listaPromocionesEfectivo.Add(promocion);
+                    descuentoE += 1.0 * promocion2.cantAdq * precio * (1 - (promocion2.cantComp.Value * 1.0 / promocion2.cantAdq.Value));
+                    listaPromocionesEfectivo.Add(promocion2);
                 }
             }
             else
@@ -622,9 +636,10 @@ namespace WebApplication4.Controllers
                                         vf.Ventas = ve;
                                         vf.Funcion = db.Funcion.Find(paquete.idFuncion);
                                         vf.hanEntregado = false;
+                                        vf.subtotal = paquete.cantidad * pr.precio;
                                         float? porcDescuento = 0;
                                         //solo registro la promocion si es una venta solo con tarjeta o solo con efectivo
-                                        if (ve.modalidad == "T" || ve.modalidad == "E")
+                                        if (ve.modalidad == "T")
                                         {
                                             if (model.idPromociones[w] != -1)
                                             {
@@ -632,10 +647,12 @@ namespace WebApplication4.Controllers
                                                 Promociones promocion = db.Promociones.Where(c => c.codPromo == idPromocion && c.codEvento == paquete.idEvento).First();
                                                 porcDescuento = promocion.descuento / 100;
                                             }
-
+                                            vf.descuento = (int?)(vf.subtotal * porcDescuento);
                                         }
-                                        vf.subtotal = paquete.cantidad * pr.precio;
-                                        vf.descuento = (int?)(vf.subtotal * porcDescuento);
+                                        if (ve.modalidad == "E")
+                                        {
+                                            vf.descuento = (int?)model.Descuento;
+                                        }
                                         vf.total = vf.subtotal - vf.descuento;
                                         db.VentasXFuncion.Add(vf);
                                     }

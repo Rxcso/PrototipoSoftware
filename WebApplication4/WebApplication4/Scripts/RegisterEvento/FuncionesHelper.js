@@ -95,7 +95,7 @@ function guardarFunciones() {
             var hora = row.cells[2].children[0].value;
             fecha = fecha.split('-');
             hora = hora.split(':');
-            var date = fecha[2] + "-" + --fecha[1] + "-" + fecha[0] + " " + hora[0] + ":" + hora[1];
+            var date = fecha[2] + "-" + (fecha[1]) + "-" + fecha[0] + " " + hora[0] + ":" + hora[1];
             console.log(i + ") " + date);
             $("#formPost").prepend("<input type='hidden' name='" + nombreLista + "[" + (i - 1) + "].fechaFuncion' value='" + date + "'>");
             $("#formPost").prepend("<input type='hidden' name='" + nombreLista + "[" + (i - 1) + "].horaInicio' value='" + date + "'>");
