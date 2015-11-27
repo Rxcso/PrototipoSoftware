@@ -32,6 +32,7 @@
     ViewBag.ReturnUrl = "Index";
 }
 
+
 @if (esIntranet == 1)
 //index 2 para el personal
 {
@@ -186,6 +187,11 @@ else
     </head>
 
     <body>
+        <style>
+            .fecha {
+                text-align: center;
+            }
+        </style>
         <!--img src="~/Content/fondo1.jpg" alt="Alternate Text" class="bg" /-->
         <header class="container-fluid ">
             <nav style="margin-bottom:0" class="navbar navbar-static-top navbar-inverse " role="navigation">
@@ -206,11 +212,10 @@ else
                         {
                             <div class="form-group">
                                 <div class="input-group ">
-                                    <input id="comm-txt" name="nombre" type="text" class="form-control" placeholder="NOMBRE DEL EVENTO...">
-                                    <span class="input-group-btn"><button class="btn btn-primary" type="button" onclick="busqueda()"><span class="glyphicon glyphicon-search"></span></button></span>
+                                    <input id="comm-txt" name="nombre" type="text" class="form-control" aria-describedby="lupa" placeholder="NOMBRE DEL EVENTO...">
+                                    <span id="lupa" class="input-group-btn"><button class="btn btn-primary" type="button" onclick="busqueda()"><span class="glyphicon glyphicon-search"></span></button></span>
                                 </div>
                             </div>
-
                         }
                         <div class="navbar-form navbar-left">
                             <a class="btn btn-info" href="#busqAvanzada" data-toggle="collapse"><span class="fa fa-binoculars"></span> Búsqueda avanzada</a>
@@ -266,11 +271,14 @@ else
                                 @if (ViewBag.fech_ini != null)
                                 {
                                     string valor = ViewBag.fech_ini.ToString("dd/MM/yyyy");
-                                    <input id="fech_ini" name="fech_ini" type="text" class="form-control fecha" value=@valor>
+                                    string valor2 = ViewBag.fech_ini.ToString("yyyy/MM/dd");
+                                    <input id="fech_ini" type="text" class="fecha form-control" value=@valor>
+                                    <input style="display:none" id="altfech_ini" name="fech_ini" type="text" class="fecha form-control" value=@valor2>
                                 }
                                 else
                                 {
-                                    <input id="fech_ini" name="fech_ini" type="text" class="form-control fecha" value="@String.Format("{0:dd/MM/yyyy}",DateTime.Today)">
+                                    <input id="fech_ini" type="text" class="fecha form-control" value="@String.Format("{0:dd/MM/yyyy}",DateTime.Today)">
+                                    <input style="display:none" id="altfech_ini" name="fech_ini" type="text" class="fecha form-control" value="@String.Format("{0:yyyy/MM/dd}",DateTime.Today)">
                                 }
                             </div>
                         </div>
@@ -280,12 +288,15 @@ else
                                 <span class="input-group-addon">Hasta:</span>
                                 @if (ViewBag.fech_fin != null)
                                 {
-                                    string valor = ViewBag.fech_fin.ToString("yyyy/MM/dd");
-                                    <input id="fech_fin" name="fech_fin" type="text" value=@valor class="fecha form-control">
+                                    string valor = ViewBag.fech_fin.ToString("dd/MM/yyyy");
+                                    string valor2 = ViewBag.fech_fin.ToString("yyyy/MM/dd");
+                                    <input id="fech_fin" type="text" value=@valor class="fecha form-control" >
+                                    <input id="altfech_fin" name="fech_fin" type="text" value=@valor2 class="fecha form-control" style="display:none">
                                 }
                                 else
                                 {
-                                    <input id="fech_fin" name="fech_fin" type="text" class="fecha form-control">
+                                    <input id="fech_fin" type="text" class="fecha form-control">
+                                    <input id="altfech_fin" name="fech_fin" type="text" class="fecha form-control" style="display:none">
                                 }
                             </div>
                         </div>
