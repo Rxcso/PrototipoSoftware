@@ -6,17 +6,19 @@ $(function () {
         format: "dd-mm-yy",
         altFormat: "yy-mm-dd",        
         minDate: "-30D",
-        maxDate: "+11M +10D"
-    });
+        maxDate: "+12M",
+        showAnim: "fade",
+        changeYear: true
+    });    
 
     $("#fech_ini").datepicker("option", "altField", "#altfech_ini");
     $("#fech_fin").datepicker("option", "altField", "#altfech_fin");   
 
      
-
-    $(".fecha2").datepicker({
-        changeYear: true,
-        format: "yy-mm-dd",        
-        maxDate: "+11M +10D"
+    $(".fecha2").datepicker({        
+        format: "dd-mm",        
+        maxDate: "+0D",
+        showAnim: "fade",
+        changeYear: true
     });
 });

@@ -201,7 +201,7 @@
                     /*Regla 1 para la validadcion de al menos un campo*/
                     if (fechI == '' && fechF == '' && $("#idCategoria").val() == '' &&
                         $("#idSubCat").val() == '' && $("#idRegion").val() == '') {
-
+                        $("#alerta").empty();
                         $("#alerta").append('<strong>Ingrese al menos un campo!</strong>').show();
                         return;
                     } else {

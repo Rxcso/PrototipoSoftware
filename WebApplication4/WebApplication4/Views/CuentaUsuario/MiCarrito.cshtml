@@ -122,7 +122,7 @@
             }
         </div>
         <!--ACA VA EL CARRUSEL-->
-        <div class="col-md-4">
+        <div class="col-md-4">           
             destacados
         </div>
     </div>
@@ -200,13 +200,13 @@
             e.preventDefault();
 
 
-            var fechI = this['fech_ini'].value;
-            var fechF = this['fech_fin'].value;
+            var fechI = this['altfech_ini'].value;
+            var fechF = this['altfech_fin'].value;
 
             /*Regla 1 para la validadcion de al menos un campo*/
             if (fechI == '' && fechF == '' && $("#idCategoria").val() == '' &&
                 $("#idSubCat").val() == '' && $("#idRegion").val() == '') {
-
+                $("#alerta").empty();
                 $("#alerta").append('<strong>Ingrese al menos un campo!</strong>').show();
                 return;
             } else {
@@ -226,7 +226,7 @@
 
 
                 if (new Date(fechF.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1")) < new Date(fechI.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1"))) {
-
+                    $("#alerta").empty();
                     $("#alerta").append('<strong>Fecha hasta no puede ser menor que fecha desde</strong>').show();
                     return;
                 } else {
