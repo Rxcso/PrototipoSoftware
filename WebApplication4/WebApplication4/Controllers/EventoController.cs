@@ -1203,7 +1203,7 @@ namespace WebApplication4.Controllers
                         else evento.ImagenSitios = null;
                     }
                 }
-                else evento.ImagenDestacado = null;
+                else evento.ImagenSitios = null;
 
 
                 if (guardarImagen("eventos/evento" + evento.codigo + ".jpg", model.ImageEvento)) evento.ImagenEvento = "/Images/eventos/" + "evento" + evento.codigo + ".jpg";
