@@ -16,20 +16,22 @@
     </div>
 </div>
 <div class="container">    
-    <h8>Los valores de tipo cambio que se ingresen se truncaran hasta 3 decimales</h8>
     @using (Html.BeginForm("RegisterTipoDeCambio", "TipoDeCambio", FormMethod.Post, new { }))
     {
         @Html.AntiForgeryToken()
         <div class="row">
-            <div class="col-md-offset-2 col-md-8">
+            <div class="col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-8 col-xs-offset-2">
                 @Html.ValidationSummary(true)
                 <div class="row form-group">
-                    @Html.LabelFor(model => model.valor, new { @class = "control-label col-md-2" })
-                    <div class="col-md-5">
+                    @Html.LabelFor(model => model.valor, new { @class = "control-label col-md-4" })
+                    <div class="col-md-4">
                         @Html.EditorFor(model => model.valor, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.valor)
-
                     </div>
+                    <div class="col-md-4">
+                        <h8>Los valores de tipo cambio que se ingresen se truncarán hasta 3 decimales</h8>
+                    </div>
+
                 </div>
                 <div class="row form-group">
                     <center>
