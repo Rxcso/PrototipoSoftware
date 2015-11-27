@@ -2410,3 +2410,13 @@ C:\Users\Pier\Source\Repos\PrototipoSoftware3\WebApplication4\WebApplication4\bi
 C:\Users\Pier\Source\Repos\PrototipoSoftware3\WebApplication4\WebApplication4\obj\Debug\TicknetPrototipo.csprojResolveAssemblyReference.cache
 C:\Users\Pier\Source\Repos\PrototipoSoftware3\WebApplication4\WebApplication4\obj\Debug\WebApplication4.dll
 C:\Users\Pier\Source\Repos\PrototipoSoftware3\WebApplication4\WebApplication4\obj\Debug\WebApplication4.pdb
+C:\Users\alulab14.INF.001\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\bin\itextsharp.dll
+C:\Users\alulab14.INF.001\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\bin\MVC Foolproof Validation.dll
+C:\Users\alulab14.INF.001\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\bin\MvcPaging.dll
+C:\Users\alulab14.INF.001\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\bin\PagedList.dll
+C:\Users\alulab14.INF.001\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\bin\PagedList.Mvc.dll
+C:\Users\alulab14.INF.001\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\bin\MvcPaging.pdb
+C:\Users\alulab14.INF.001\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\bin\itextsharp.xml
+C:\Users\alulab14.INF.001\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\bin\PagedList.xml
+C:\Users\alulab14.INF.001\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\bin\PagedList.Mvc.xml
+C:\Users\alulab14.INF.001\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\bin\es\Microsoft.AspNet.Identity.Core.resources.dll
