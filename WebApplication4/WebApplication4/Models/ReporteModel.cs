@@ -41,7 +41,7 @@ namespace WebApplication4.Models
 
             public string codigo { get; set; }
 
-            public string nombre { get; set; }
+            public string nombre { get; set; }            
 
             public string punto { get; set; }
 
@@ -78,6 +78,8 @@ namespace WebApplication4.Models
             public int codigo { get; set; }
 
             public string nombre { get; set; }
+
+            public string ubicacion { get; set; }
 
             public string distrito { get; set; }
 
