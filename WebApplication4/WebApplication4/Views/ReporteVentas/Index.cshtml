@@ -401,11 +401,11 @@
                 data: {fd:fd,fh:fh},
                 success: function (data) {
                     alert(data);
-                    window.location.href = '/ReporteVentas/Index#xPunto';
+                    window.location.href = '/ReporteVentas/Index#xEntrada';
                 },
                 error: function (data) {
                     alert(data);
-                    window.location.href = '/ReporteVentas/Index#xPunto';
+                    window.location.href = '/ReporteVentas/Index#xEntrada';
                 }
             });
         } else {
@@ -413,11 +413,11 @@
                 url: "@Url.Action("LimpiaR1", "ReporteVentas")",
                 data: {},
             success: function () {
-                window.location.href = '/ReporteVentas/Index#xPunto';
+                window.location.href = '/ReporteVentas/Index#xEntrada';
             },
             error: function (data) {
                 alert(data);
-                window.location.href = '/ReporteVentas/Index#xPunto';
+                window.location.href = '/ReporteVentas/Index#xEntrada';
             }
         });
         }
