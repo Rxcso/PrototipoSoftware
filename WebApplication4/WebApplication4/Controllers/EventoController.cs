@@ -352,7 +352,7 @@ namespace WebApplication4.Controllers
             switch (orden)
             {
                 default:
-                    lista = lista.OrderBy(s => s.fecha_inicio);
+                    lista = lista.OrderByDescending(s => s.codigo);
                     break;
             }
 
