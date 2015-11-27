@@ -9,20 +9,23 @@
     List<Promociones> promocionesListaEf = ViewBag.PromocionesEfectivo as List<Promociones>;
     double? importe = ViewBag.Total as double?;
     double? descuento = ViewBag.Descuento as double?;
+    double? descuentoE = ViewBag.DescuentoE as double?;
     double? montopagar = ViewBag.Pagar as double?;
     //tipo de cambio
     TipoDeCambio tipoCambio = db.TipoDeCambio.Where(c => c.estado == "Activo").ToList().Last();
     double cambio = tipoCambio.valor.Value / (MagicHelpers.ConstanteTipoCambio * 1.0);
+    //funciones
 }
 
 <div class="container-fluid">
     <div class="col-md-5">
         <ol class="breadcrumb">
-            <li><a href="@Url.Action("BuscaReserva", "Ventas")">Buscar Reserva</a></li>
-            <li class="active">Pagar reserva</li>
+            <li><a href="@Url.Action("Index2", "Home")">Inicio</a></li>
+            <li class="active">Pagar Reserva</li>
         </ol>
     </div>
 </div>
+
 <div class="container " id="promocionesLista">
     <div id="listaEventoPromocionEfectivo" class="col-md-4">
         <p>Descuentos disponibles para pago solo en efectivo, no aplicable para pago mixto:</p>
@@ -36,8 +39,8 @@
                 }
                 else
                 {
-                    int desc = (1 - (promocionesListaEf[i].cantComp.Value / promocionesListaEf[i].cantAdq.Value)) * 100;
-                    razon = "- Descuento de " + desc + "%.";
+                    double desc = (1 - (promocionesListaEf[i].cantComp.Value * 1.0 / promocionesListaEf[i].cantAdq.Value)) * 100;
+                    razon = "- Descuento de " + String.Format("{0:0.00}", desc) + "%.";
                 }
                 @Html.Hidden("promoEfectivo", "" + promocionesListaEf[i].codPromo)
                 @Html.Hidden("eventoEfectivo", "" + promocionesListaEf[i].codEvento)
@@ -72,29 +75,31 @@
 </div>
 <div class="container">
     <div class="row">
-        <div class="col-md-8">
-            <h3>Información de la tarjeta</h3><br />
+        <div class="col-md-12">
             @using (Html.BeginForm("PagarReserva", "Ventas", FormMethod.Post, new { @id = "formPost" }))
             {
+                @Html.HiddenFor(c => c.idEvento)
                 @Html.HiddenFor(c => c.idVenta)
                 <div class="cold-md-12">
+                    <h3>Cliente</h3><br />
                     <div class="row form-group">
                         @Html.LabelFor(c => c.Nombre, new { @class = "control-label col-md-2" })
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             @Html.TextBoxFor(c => c.Nombre, new { @class = "form-control", @readonly = "readonly" })
                             @Html.ValidationMessageFor(c => c.Nombre)
                         </div>
                     </div>
                     <div class="row form-group">
                         @Html.LabelFor(c => c.Dni, new { @class = "control-label col-md-2" })
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             @Html.TextBoxFor(c => c.Dni, new { @class = "form-control", @readonly = "readonly" })
                             @Html.ValidationMessageFor(c => c.Dni)
                         </div>
                     </div>
+                    <h3>Información de la tarjeta</h3><br />
                     <div class="row form-group">
                         @Html.LabelFor(c => c.idBanco, new { @class = "control-label col-md-2" })
-                        <div class="col-md-4">
+                        <div class="col-md-2">
                             @Html.DropDownListFor(c => c.idBanco, ViewBag.Bancos as SelectList, new { @disabled = "disabled", @class = "form-control", @onchange = "calculaPromo()" })
                             @Html.ValidationMessageFor(c => c.idBanco)
                         </div>
@@ -103,7 +108,7 @@
 
                     <div class="row form-group">
                         @Html.LabelFor(c => c.idTipoTarjeta, new { @class = "control-label col-md-2" })
-                        <div class="col-md-4">
+                        <div class="col-md-2">
                             @Html.DropDownListFor(c => c.idTipoTarjeta, ViewBag.TipoTarjeta as SelectList, new { @disabled = "disabled", @class = "form-control", @onchange = "calculaPromo()" })
                         </div>
                         @Html.HiddenFor(c => c.idTipoTarjeta)
@@ -111,21 +116,23 @@
 
                     <div class="row form-group">
                         @Html.LabelFor(c => c.NumeroTarjeta, new { @class = "control-label col-md-2" })
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             @Html.TextBoxFor(c => c.NumeroTarjeta, new { @readonly = "readonly", @class = "form-control" })
+                            @Html.ValidationMessageFor(c => c.NumeroTarjeta)
                         </div>
                     </div>
 
                     <div class="row form-group">
                         @Html.LabelFor(c => c.CodCcv, new { @class = "control-label col-md-2" })
-                        <div class="col-md-2">
+                        <div class="col-md-1">
                             @Html.TextBoxFor(c => c.CodCcv, new { @readonly = "readonly", @class = "form-control" })
+                            @Html.ValidationMessageFor(c => c.NumeroTarjeta)
                         </div>
                     </div>
 
                     <div class="row form-group">
                         @Html.LabelFor(c => c.Mes, new { @class = "control-label col-md-2" })
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             @Html.DropDownListFor(c => c.Mes, ViewBag.Mes as List<SelectListItem>, new { @disabled = "disabled", @class = "form-control" })
                             @Html.HiddenFor(c => c.Mes)
                             @Html.ValidationMessageFor(c => c.Mes)
@@ -142,58 +149,58 @@
                     <div>
                         <div class="row form-group">
                             @Html.Label("Tipo de Cambio:", new { @class = "control-label col-md-2" })
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 @Html.TextBox("tipoCambioMoneda", "" + @cambio, new { @class = "form-control", @readonly = "readonly", @type = "number" })
                             </div>
                         </div>
                         <div class="row form-group">
                             @Html.LabelFor(c => c.Importe, new { @class = "control-label col-md-2" })
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 @Html.TextBoxFor(c => c.Importe, new { @class = "form-control", @Value = importe, @readonly = "readonly", @type = "number" })
                             </div>
                         </div>
                     </div>
                     <h3>Método de Pago</h3><br />
-                    <div class="row container">
+                    <div class="row">
                         <div id="efectivo" class="col-md-4">
                             <div>
                                 <label>Efectivo:</label>
                                 <input type="radio" name="TipoPago" value="1" onclick="cambioPago()" checked="checked">
                             </div><br />
                             <div class="row form-group">
-                                @Html.LabelFor(c => c.Descuento, new { @class = "control-label col-md-5" })
-                                <div class="col-md-7">
-                                    @Html.TextBoxFor(c => c.Descuento, new { @class = "form-control", @Value = "" + 0, @readonly = "readonly", @type = "number" })
+                                @Html.LabelFor(c => c.Descuento, new { @class = "control-label col-md-3" })
+                                <div class="col-md-6">
+                                    @Html.TextBoxFor(c => c.Descuento, new { @class = "form-control", @Value = String.Format("{0:0.00}", ViewBag.DescuentoE), @readonly = "readonly", @type = "number" })
                                 </div>
                             </div>
                             <div class="row form-group">
-                                @Html.LabelFor(c => c.MontoPagar, new { @class = "control-label col-md-5" })
-                                <div class="col-md-7">
-                                    @Html.TextBoxFor(c => c.MontoPagar, new { @class = "form-control", @Value = montopagar, @readonly = "readonly", @type = "number" })
+                                @Html.LabelFor(c => c.MontoPagar, new { @class = "control-label col-md-3" })
+                                <div class="col-md-6">
+                                    @Html.TextBoxFor(c => c.MontoPagar, new { @class = "form-control", @Value = String.Format("{0:0.00}", ViewBag.MontoPagarE), @readonly = "readonly", @type = "number" })
                                 </div>
                             </div>
                             <div class="row form-group">
-                                @Html.LabelFor(c => c.MontoEfe, new { @class = "control-label col-md-5" })
-                                <div class="col-md-7">
-                                    @Html.TextBoxFor(c => c.MontoEfe, new { @class = "form-control", @onchange = "llena1()", @Value = "0", @type = "number" })
+                                @Html.LabelFor(c => c.MontoEfe, new { @class = "control-label col-md-3" })
+                                <div class="col-md-6">
+                                    @Html.TextBoxFor(c => c.MontoEfe, new { @class = "form-control", @onchange = "llena1()", @Value = ViewBag.MontoSE, @type = "number" })
                                 </div>
                             </div>
                             <div class="row form-group">
-                                @Html.LabelFor(c => c.MontoDolares, new { @class = "control-label col-md-5" })
-                                <div class="col-md-7">
-                                    @Html.TextBoxFor(c => c.MontoDolares, new { @class = "form-control", @onchange = "llena1()", @Value = "0", @type = "number" })
+                                @Html.LabelFor(c => c.MontoDolares, new { @class = "control-label col-md-3" })
+                                <div class="col-md-6">
+                                    @Html.TextBoxFor(c => c.MontoDolares, new { @class = "form-control", @onchange = "llena1()", @Value = ViewBag.MontoDE, @type = "number" })
                                 </div>
                             </div>
                             <div class="row form-group">
-                                @Html.LabelFor(c => c.MontoTar, new { @class = "control-label col-md-5" })
-                                <div class="col-md-7">
+                                @Html.LabelFor(c => c.MontoTar, new { @class = "control-label col-md-3" })
+                                <div class="col-md-6">
                                     @Html.TextBoxFor(c => c.MontoTar, new { @class = "form-control", @readonly = "readonly", @Value = "0", @type = "number" })
                                 </div>
                             </div>
                             <div class="row form-group">
-                                @Html.LabelFor(c => c.Vuelto, new { @class = "control-label col-md-5" })
-                                <div class="col-md-7">
-                                    @Html.TextBoxFor(c => c.Vuelto, new { @class = "form-control", @readonly = "readonly", @Value = "0", @type = "number" })
+                                @Html.LabelFor(c => c.Vuelto, new { @class = "control-label col-md-3" })
+                                <div class="col-md-6">
+                                    @Html.TextBoxFor(c => c.Vuelto, new { @class = "form-control", @readonly = "readonly", @Value = ViewBag.VueltoE, @type = "number" })
                                 </div>
                             </div>
                         </div>
@@ -203,38 +210,38 @@
                                 <input type="radio" name="TipoPago" value="2" onclick="cambioPago()">
                             </div><br />
                             <div class="row form-group">
-                                @Html.LabelFor(c => c.Descuento, new { @class = "control-label col-md-5" })
-                                <div class="col-md-7">
-                                    @Html.TextBoxFor(c => c.Descuento, new { @class = "form-control", @Value = "" + descuento, @disabled = "disabled", @type = "number" })
+                                @Html.LabelFor(c => c.Descuento, new { @class = "control-label col-md-3" })
+                                <div class="col-md-6">
+                                    @Html.TextBoxFor(c => c.Descuento, new { @class = "form-control", @Value = ViewBag.Descuento, @disabled = "disabled", @type = "number" })
                                 </div>
                             </div>
                             <div class="row form-group">
-                                @Html.LabelFor(c => c.MontoPagar, new { @class = "control-label col-md-5" })
-                                <div class="col-md-7">
-                                    @Html.TextBoxFor(c => c.MontoPagar, new { @class = "form-control", @Value = (montopagar - descuento), @disabled = "disabled", @type = "number" })
+                                @Html.LabelFor(c => c.MontoPagar, new { @class = "control-label col-md-3" })
+                                <div class="col-md-6">
+                                    @Html.TextBoxFor(c => c.MontoPagar, new { @class = "form-control", @Value = ViewBag.MontoPagarT, @disabled = "disabled", @type = "number" })
                                 </div>
                             </div>
                             <div class="row form-group">
-                                @Html.LabelFor(c => c.MontoEfe, new { @class = "control-label col-md-5" })
-                                <div class="col-md-7">
+                                @Html.LabelFor(c => c.MontoEfe, new { @class = "control-label col-md-3" })
+                                <div class="col-md-6">
                                     @Html.TextBoxFor(c => c.MontoEfe, new { @class = "form-control", @Value = "0", @disabled = "disabled", @type = "number" })
                                 </div>
                             </div>
                             <div class="row form-group">
-                                @Html.LabelFor(c => c.MontoDolares, new { @class = "control-label col-md-5" })
-                                <div class="col-md-7">
+                                @Html.LabelFor(c => c.MontoDolares, new { @class = "control-label col-md-3" })
+                                <div class="col-md-6">
                                     @Html.TextBoxFor(c => c.MontoDolares, new { @class = "form-control", @Value = "0", @disabled = "disabled", @type = "number" })
                                 </div>
                             </div>
                             <div class="row form-group">
-                                @Html.LabelFor(c => c.MontoTar, new { @class = "control-label col-md-5" })
-                                <div class="col-md-7">
-                                    @Html.TextBoxFor(c => c.MontoTar, new { @class = "form-control", @Value = (montopagar - descuento), @disabled = "disabled", @type = "number" })
+                                @Html.LabelFor(c => c.MontoTar, new { @class = "control-label col-md-3" })
+                                <div class="col-md-6">
+                                    @Html.TextBoxFor(c => c.MontoTar, new { @class = "form-control", @Value = ViewBag.MontoTarjeta, @disabled = "disabled", @type = "number" })
                                 </div>
                             </div>
                             <div class="row form-group">
-                                @Html.LabelFor(c => c.Vuelto, new { @class = "control-label col-md-5" })
-                                <div class="col-md-7">
+                                @Html.LabelFor(c => c.Vuelto, new { @class = "control-label col-md-3" })
+                                <div class="col-md-6">
                                     @Html.TextBoxFor(c => c.Vuelto, new { @class = "form-control", @disabled = "disabled", @Value = "0", @type = "number" })
                                 </div>
                             </div>
@@ -245,52 +252,51 @@
                                 <input type="radio" name="TipoPago" value="3" onclick="cambioPago()">
                             </div><br />
                             <div class="row form-group">
-                                @Html.LabelFor(c => c.Descuento, new { @class = "control-label col-md-5" })
-                                <div class="col-md-7">
-                                    @Html.TextBoxFor(c => c.Descuento, new { @class = "form-control", @Value = "" + 0, @disabled = "disabled", @type = "number" })
+                                @Html.LabelFor(c => c.Descuento, new { @class = "control-label col-md-3" })
+                                <div class="col-md-6">
+                                    @Html.TextBoxFor(c => c.Descuento, new { @class = "form-control", @Value = "0", @disabled = "disabled", @type = "number" })
                                 </div>
                             </div>
                             <div class="row form-group">
-                                @Html.LabelFor(c => c.MontoPagar, new { @class = "control-label col-md-5" })
-                                <div class="col-md-7">
-                                    @Html.TextBoxFor(c => c.MontoPagar, new { @class = "form-control", @Value = montopagar, @disabled = "disabled", @type = "number" })
+                                @Html.LabelFor(c => c.MontoPagar, new { @class = "control-label col-md-3" })
+                                <div class="col-md-6">
+                                    @Html.TextBoxFor(c => c.MontoPagar, new { @class = "form-control", @Value = ViewBag.MontoPagarM, @disabled = "disabled", @type = "number" })
                                 </div>
                             </div>
                             <div class="row form-group">
-                                @Html.LabelFor(c => c.MontoEfe, new { @class = "control-label col-md-5" })
-                                <div class="col-md-7">
-                                    @Html.TextBoxFor(c => c.MontoEfe, new { @class = "form-control", @onchange = "llena3()", @Value = "0", @disabled = "disabled", @type = "number" })
+                                @Html.LabelFor(c => c.MontoEfe, new { @class = "control-label col-md-3" })
+                                <div class="col-md-6">
+                                    @Html.TextBoxFor(c => c.MontoEfe, new { @class = "form-control", @onchange = "llena3()", @Value = ViewBag.MontoSM, @disabled = "disabled", @type = "number" })
                                 </div>
                             </div>
                             <div class="row form-group">
-                                @Html.LabelFor(c => c.MontoDolares, new { @class = "control-label col-md-5" })
-                                <div class="col-md-7">
-                                    @Html.TextBoxFor(c => c.MontoDolares, new { @class = "form-control", @onchange = "llena3()", @Value = "0", @disabled = "disabled", @type = "number" })
+                                @Html.LabelFor(c => c.MontoDolares, new { @class = "control-label col-md-3" })
+                                <div class="col-md-6">
+                                    @Html.TextBoxFor(c => c.MontoDolares, new { @class = "form-control", @onchange = "llena3()", @Value = ViewBag.MontoDM, @disabled = "disabled", @type = "number" })
                                 </div>
                             </div>
                             <div class="row form-group">
-                                @Html.LabelFor(c => c.MontoTar, new { @class = "control-label col-md-5" })
-                                <div class="col-md-7">
-                                    @Html.TextBoxFor(c => c.MontoTar, new { @class = "form-control", @disabled = "disabled", @Value = "0", @type = "number" })
+                                @Html.LabelFor(c => c.MontoTar, new { @class = "control-label col-md-3" })
+                                <div class="col-md-6">
+                                    @Html.TextBoxFor(c => c.MontoTar, new { @class = "form-control", @disabled = "disabled", @Value = ViewBag.MontoTarjetaM, @type = "number" })
                                 </div>
                             </div>
                             <div class="row form-group">
-                                @Html.LabelFor(c => c.Vuelto, new { @class = "control-label col-md-5" })
-                                <div class="col-md-7">
-                                    @Html.TextBoxFor(c => c.Vuelto, new { @class = "form-control", @disabled = "disabled", @Value = "0", @type = "number" })
+                                @Html.LabelFor(c => c.Vuelto, new { @class = "control-label col-md-3" })
+                                <div class="col-md-6">
+                                    @Html.TextBoxFor(c => c.Vuelto, new { @class = "form-control", @disabled = "disabled", @Value = ViewBag.VueltoM, @type = "number" })
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6 col-sm-6 col-xs-6">
-                            <input type="submit" value="Finalizar Venta" onclick="llenaArreglo()" class="btn btn-default btn-primary" />
+                            <input type="submit" value="Finalizar" onclick="return llenaArreglo()" class="btn btn-default btn-primary" />
                         </div>
                     </div>
                 </div>
             }
         </div>
+        <script type="text/javascript" src="@Url.Content("/Scripts/Ventas/PagarReservaHelper.js")"></script>
     </div>
     <br />
-    <script type="text/javascript" src="@Url.Content("/Scripts/Ventas/PagarReservaHelper.js")"></script>
-</div>

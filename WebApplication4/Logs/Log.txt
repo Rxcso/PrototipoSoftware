@@ -2390,3 +2390,35 @@ System.Collections.ListDictionaryInternal
 2015-11-26 22:53:11,880 [30] ERROR Ticknet - Exception Message - 
 La cadena de entrada no tiene el formato correcto.
 2015-11-26 22:53:11,880 [30] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-27 10:52:25,790 [30] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-27 10:52:25,811 [30] ERROR Ticknet - Exception Type - 
+InvalidOperationException
+2015-11-27 10:52:25,811 [30] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-27 10:52:25,811 [30] ERROR Ticknet - Exception Message - 
+La secuencia no contiene elementos
+2015-11-27 10:52:25,811 [30] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-27 11:01:36,042 [52] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-27 11:01:36,046 [52] ERROR Ticknet - Exception Type - 
+InvalidOperationException
+2015-11-27 11:01:36,046 [52] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-27 11:01:36,046 [52] ERROR Ticknet - Exception Message - 
+La secuencia no contiene elementos
+2015-11-27 11:01:36,046 [52] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-27 11:02:05,493 [53] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-27 11:02:05,493 [53] ERROR Ticknet - Exception Type - 
+InvalidOperationException
+2015-11-27 11:02:05,493 [53] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-27 11:02:05,493 [53] ERROR Ticknet - Exception Message - 
+La secuencia no contiene elementos
+2015-11-27 11:02:05,493 [53] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-27 11:04:04,627 [36] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-27 11:04:04,635 [36] ERROR Ticknet - Exception Type - 
+InvalidOperationException
+2015-11-27 11:04:04,635 [36] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-27 11:04:04,635 [36] ERROR Ticknet - Exception Message - 
+La secuencia no contiene elementos
+2015-11-27 11:04:04,635 [36] DEBUG Ticknet - ++++++++++++++++++++++++++++

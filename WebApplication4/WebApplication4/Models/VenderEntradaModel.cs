@@ -63,6 +63,8 @@ namespace WebApplication4.Models
         public double MontoPagar { get; set; }
 
         [Display(Name = "Vuelto:")]
+
+        public int idEvento { get; set; }
         public double Vuelto { get; set; }
         public List<int> idEventos { get; set; }
         public List<int> idPromociones { get; set; }
