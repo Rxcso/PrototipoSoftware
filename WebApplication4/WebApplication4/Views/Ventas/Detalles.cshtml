@@ -11,55 +11,60 @@
         listvxf = (List<VentasXFuncion>)Session["ListaVentaFuncionCliente"];
     }
 }
-
+<style>
+    td,th{text-align:center}
+</style>
 
 <div class="container-fluid">
-    <ol class="breadcrumb">
-        <li class=""><a href="@Url.Action("MiCuenta", "CuentaUsuario")">Mi cuenta</a></li>
-        <li class=""><a href="@Url.Action("MisCompras", "CuentaUsuario")">Mis Compras</a></li>
-        <li class="">Detalles</li>
-    </ol>
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li><a href="@Url.Action("MiCuenta", "CuentaUsuario")">Mi cuenta</a></li>
+            <li><a href="@Url.Action("MisCompras", "CuentaUsuario")">Mis Compras</a></li>
+            <li class="active">Detalles</li>
+        </ol>
+    </div>
+    
 </div>
 
 
-<h2>Detalles</h2>
 
-@*<div class="container">
-    <h2>Detalles</h2>
-    <a href="@Url.Action("MisCompras", "CuentaUsuario")" class="btn btn-danger">Salir <span class="glyphicon glyphicon-log-out"></span></a>
-</div>*@
-<br />
 <div class="container">
-
     <div class="row">
-        <table id="mytable" class="table table-bordered table-hover">
-            <thead>
-                <tr class="thead">
-                    <th>Evento</th>
-                    <th>Fecha</th>
-                    <th>Hora</th>
-                    <th>Cantidad de Entradas</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody id="tbody">
-                @if (listvxf != null)
-                {
-                    foreach (var row in listvxf)
-                    {
-                        <tr id=@row.codVen onclick="myFunction(this)">
-                            @{Funcion fu = db.Funcion.Find(row.codFuncion);
-                            }
-                            <td>@db.Eventos.Find(fu.codEvento).nombre</td>
-                            <td>@String.Format("{0:d}", fu.fecha)</td>
-                            <td>@String.Format("{0:t}", fu.horaIni)</td>
-                            <td>@row.cantEntradas</td>
-                            <td>@row.total</td>
+        <div class="col-md-8">
+            <div class="table-responsive">
+                <table id="mytable" class="table table-bordered table-hover">
+                    <thead>
+                        <tr class="thead">
+                            <th>Evento</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Cantidad de Entradas</th>
+                            <th>Total</th>
                         </tr>
-                    }
-                }
-            </tbody>
-        </table>
+                    </thead>
+                    <tbody id="tbody">
+                        @if (listvxf != null)
+                        {
+                            foreach (var row in listvxf)
+                            {
+                                <tr id=@row.codVen onclick="myFunction(this)">
+                                    @{Funcion fu = db.Funcion.Find(row.codFuncion);
+                                    }
+                                    <td>@db.Eventos.Find(fu.codEvento).nombre</td>
+                                    <td>@String.Format("{0:d}", fu.fecha)</td>
+                                    <td>@String.Format("{0:t}", fu.horaIni)</td>
+                                    <td>@row.cantEntradas</td>
+                                    <td>@row.total</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-4">
+            destacados
+        </div>        
     </div>
 
 </div>

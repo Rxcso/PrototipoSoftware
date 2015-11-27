@@ -143,7 +143,7 @@ namespace WebApplication4.Models
 
         [Required(ErrorMessage = "Campo Requerido.")]
         [DataType(DataType.Date, ErrorMessage = "Mal formato de fecha")]
-        [Display(Name = "Fecha Nac. ")]
+        [Display(Name = "Fecha Nacimiento ")]
         public System.DateTime fechaNac { get; set; }
 
     }

@@ -651,6 +651,7 @@
     <Content Include="Views\CuentaUsuario\MisPreferencias.cshtml" />
     <Content Include="Views\Evento\Destacados.cshtml" />
     <Content Include="Views\Politicas\Politicas.cshtml" />
+    <Content Include="Views\Ventas\BuscaReserva.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
