@@ -2382,3 +2382,11 @@ System.Collections.ListDictionaryInternal
 2015-11-26 19:30:38,977 [8] ERROR Ticknet - Exception Message - 
 An exception occurred while initializing the database. See the InnerException for details.
 2015-11-26 19:30:38,978 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-27 01:10:53,067 [21] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-27 01:10:53,075 [21] ERROR Ticknet - Exception Type - 
+HttpCompileException
+2015-11-27 01:10:53,075 [21] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-27 01:10:53,075 [21] ERROR Ticknet - Exception Message - 
+c:\Users\Pier\Source\Repos\PrototipoSoftware2\WebApplication4\WebApplication4\Views\ReporteVentas\Index.cshtml(363): error CS1061: 'WebApplication4.Models.ReporteModel.ReporteVentas4Model' no contiene una definición de 'ubicacion' ni se encontró ningún método de extensión 'ubicacion' que acepte un primer argumento de tipo 'WebApplication4.Models.ReporteModel.ReporteVentas4Model' (¿falta una directiva using o una referencia de ensamblado?)
+2015-11-27 01:10:53,076 [21] DEBUG Ticknet - ++++++++++++++++++++++++++++

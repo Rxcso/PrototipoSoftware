@@ -227,7 +227,8 @@ namespace WebApplication4.Controllers
             {
                 ReporteModel.ReporteVentas4Model r = new ReporteModel.ReporteVentas4Model();
                 r.codigo = lv[i].codPuntoVenta;
-                r.nombre = lv[i].ubicacion;
+                r.nombre = lv[i].nombre;
+                r.ubicacion = lv[i].ubicacion;
                 r.distrito = db.Region.Find(lv[i].idRegion).nombre;
                 r.provincia = db.Region.Find(lv[i].idProvincia).nombre;
                 double total = 0;
