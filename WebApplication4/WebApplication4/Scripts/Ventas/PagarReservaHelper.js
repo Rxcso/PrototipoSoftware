@@ -188,8 +188,21 @@ function verificarMontos(metodo) {
         var montoEfectivo = parseFloat($('#efectivo input#MontoEfe').val());
         var montoDolares = parseFloat($('#efectivo input#MontoDolares').val());
         var tipoCambio = parseFloat($('#tipoCambioMoneda').val());
-        var montoPagar = parseFloat($('#Importe').val());
+        var montoPagar = parseFloat($('#efectivo input#MontoPagar').val());
         if (montoEfectivo + montoDolares * tipoCambio >= montoPagar) {
+            return true;
+        }
+        alert("Monto en dolares y soles son menores que el monto a pagar");
+        return false;
+    }
+    if (metodo == 3) {
+        //MontoEfe, MontoDolares
+        var montoEfectivo = parseFloat($('#mixto input#MontoEfe').val());
+        var montoDolares = parseFloat($('#mixto input#MontoDolares').val());
+        var tarjeta = parseFloat($('#mixto input#MontoTar').val());
+        var tipoCambio = parseFloat($('#tipoCambioMoneda').val());
+        var montoPagar = parseFloat($('#mixto input#MontoPagar').val());
+        if (tarjeta + montoEfectivo + montoDolares * tipoCambio >= montoPagar) {
             return true;
         }
         alert("Monto en dolares y soles son menores que el monto a pagar");
