@@ -181,6 +181,24 @@ function escribeArreglo(nombreLista, id, i) {
     $("#formPost").prepend("<input type='hidden' name='" + nombreLista + "[" + (i) + "]' value='" + id + "'>");
 }
 
+//al hacer click en siguiente, debe de validar que los montos sean correctos
+function verificarMontos(metodo) {
+    if (metodo == 1) {
+        //MontoEfe, MontoDolares
+        var montoEfectivo = parseFloat($('#efectivo input#MontoEfe').val());
+        var montoDolares = parseFloat($('#efectivo input#MontoDolares').val());
+        var tipoCambio = parseFloat($('#tipoCambioMoneda').val());
+        var montoPagar = parseFloat($('#Importe').val());
+        if (montoEfectivo + montoDolares * tipoCambio >= montoPagar) {
+            return true;
+        }
+        alert("Monto en dolares y soles son menores que el monto a pagar");
+        return false;
+    }
+    return true;
+}
+
+
 //llena el arreglo auxiliar para los eventos y promociones que estan guardadas
 function llenaArreglo() {
     var metodoSelecionado = parseFloat($('input[name="TipoPago"]:checked').val());

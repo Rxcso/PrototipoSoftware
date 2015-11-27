@@ -2382,3 +2382,11 @@ System.Collections.ListDictionaryInternal
 2015-11-26 19:30:38,977 [8] ERROR Ticknet - Exception Message - 
 An exception occurred while initializing the database. See the InnerException for details.
 2015-11-26 19:30:38,978 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-26 22:53:11,872 [30] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-26 22:53:11,879 [30] ERROR Ticknet - Exception Type - 
+FormatException
+2015-11-26 22:53:11,880 [30] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-26 22:53:11,880 [30] ERROR Ticknet - Exception Message - 
+La cadena de entrada no tiene el formato correcto.
+2015-11-26 22:53:11,880 [30] DEBUG Ticknet - ++++++++++++++++++++++++++++
