@@ -62,44 +62,76 @@ namespace WebApplication4.Controllers
             DateTime di = dt1;
             if (dt1 > dt2) return Json("Fecha inicio debe ser menor que fecha fin", JsonRequestBehavior.AllowGet);
             List<ReporteModel.ReporteVentas1Model> lr = new List<ReporteModel.ReporteVentas1Model>();
-            List<CuentaUsuario> lv = db.CuentaUsuario.Where(c => c.codPerfil == 2 && c.estado == true).ToList();
-            for (int j = 0; j < nd; j++)
+            List<Ventas> listav = db.Ventas.Where(c => c.Estado == "Pagado").ToList();
+            List<Ventas> listav2 = listav.Where(c => c.fecha.Value.Date >= dt1.Date && c.fecha.Value.Date <= dt2.Date).ToList();
+            for (int j = 0; j < listav2.Count; j++)
             {
-                for (int i = 0; i < lv.Count; i++)
+                ReporteModel.ReporteVentas1Model r = new ReporteModel.ReporteVentas1Model();
+                r.fecha = (DateTime)listav2[j].fecha;
+                DateTime dat = di.Date;
+                CuentaUsuario cl=db.CuentaUsuario.Find(listav2[j].cliente);
+                CuentaUsuario ve = null;
+                ve = db.CuentaUsuario.Find(listav2[j].cliente);
+                if (ve != null)
                 {
-                    ReporteModel.ReporteVentas1Model r = new ReporteModel.ReporteVentas1Model();
-                    r.fecha = di.Date;
-                    DateTime dat = di.Date;
-                    String no = lv[i].usuario;
-                    r.nombre = lv[i].nombre;
-                    r.codigo = lv[i].codDoc;
-                    List<Turno> lt = db.Turno.Where(c => c.usuario == no && c.fecha == dat).ToList();
-                    if (lt.Count > 0)
-                    {
-                        double total = 0;
-                        double dev = 0;
-                        Turno t = lt.First();
-                        r.punto = db.PuntoVenta.Find(t.codPuntoVenta).ubicacion;
-                        List<Ventas> lven2 = db.Ventas.Where(c => c.Estado == "Pagado" && c.vendedor == no).ToList();
-                        List<Ventas> lven = lven2.Where(c => c.fecha.Value.Date == dat).ToList();
-                        List<LogDevoluciones> llog1 = db.LogDevoluciones.Where(c => c.codVendedor == no).ToList();
-                        List<LogDevoluciones> llog2 = llog1.Where(c => c.fechaDev.Value.Date == dat).ToList();
-                        for (int k = 0; k < lven.Count; k++)
-                        {
-                            total += (double)lven[k].MontoTotalSoles;
-                        }
-                        for (int w = 0; w < llog2.Count; w++)
-                        {
-                            dev += (double)llog2[w].montoDev;
-                        }
-                        r.total = total;
-                        r.devtotal = dev;
-                        to += total;
-                        lr.Add(r);
-                    }
+                    r.nombre = db.CuentaUsuario.Find(listav2[j].vendedor).nombre;
                 }
-                di = di.AddDays(1);
+                else
+                {
+                    r.nombre = "-";
+                }
+                if(listav2[j].cliente!="a@anonimo.com"){
+                    r.cliente = cl.nombre + " - " + listav2[j].codDoc;
+                }
+                else
+                {
+                    r.cliente = "Anonimo - " + listav2[j].codDoc;
+                }                
+                //r.codigo = listav2[j].codDoc;
+                r.total = (double)listav2[j].MontoTotalSoles;
+                r.devtotal = listav2[j].montoDev;
+                to += (double)listav2[j].MontoTotalSoles;
+                lr.Add(r);
             }
+
+            //List<CuentaUsuario> lv = db.CuentaUsuario.Where(c => c.codPerfil == 2 && c.estado == true).ToList();
+            //for (int j = 0; j < nd; j++)
+            //{
+            //    for (int i = 0; i < lv.Count; i++)
+            //    {
+            //        ReporteModel.ReporteVentas1Model r = new ReporteModel.ReporteVentas1Model();
+            //        r.fecha = di.Date;
+            //        DateTime dat = di.Date;
+            //        String no = lv[i].usuario;
+            //        r.nombre = lv[i].nombre;
+            //        r.codigo = lv[i].codDoc;
+            //        List<Turno> lt = db.Turno.Where(c => c.usuario == no && c.fecha == dat).ToList();
+            //        if (lt.Count > 0)
+            //        {
+            //            double total = 0;
+            //            double dev = 0;
+            //            Turno t = lt.First();
+            //            r.punto = db.PuntoVenta.Find(t.codPuntoVenta).ubicacion;
+            //            List<Ventas> lven2 = db.Ventas.Where(c => c.Estado == "Pagado" && c.vendedor == no).ToList();
+            //            List<Ventas> lven = lven2.Where(c => c.fecha.Value.Date == dat).ToList();
+            //            List<LogDevoluciones> llog1 = db.LogDevoluciones.Where(c => c.codVendedor == no).ToList();
+            //            List<LogDevoluciones> llog2 = llog1.Where(c => c.fechaDev.Value.Date == dat).ToList();
+            //            for (int k = 0; k < lven.Count; k++)
+            //            {
+            //                total += (double)lven[k].MontoTotalSoles;
+            //            }
+            //            for (int w = 0; w < llog2.Count; w++)
+            //            {
+            //                dev += (double)llog2[w].montoDev;
+            //            }
+            //            r.total = total;
+            //            r.devtotal = dev;
+            //            to += total;
+            //            lr.Add(r);
+            //        }
+            //    }
+            //    di = di.AddDays(1);
+            //}
             Session["ReporteVentasTotal"] = lr;
             Session["ReporteTotal"] = to;
             return Json("Reporte Generado", JsonRequestBehavior.AllowGet);

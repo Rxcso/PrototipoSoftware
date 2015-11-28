@@ -398,6 +398,13 @@ namespace WebApplication4.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RegisterVendedor(RegisterViewModel model)
         {
+            CuentaUsuario cue = null;
+            cue = db.CuentaUsuario.Find(model.Email);
+            if (cue != null)
+            {
+                TempData["MessageErrorVendedor"] = "Ya existe una cuenta con ese correo";
+                return RedirectToAction("Index", "Empleado");
+            }
             List<CuentaUsuario> lcu = db.CuentaUsuario.Where(c => c.tipoDoc == model.tipoDoc && c.codDoc == model.codDoc).ToList();
             if (lcu == null || lcu.Count > 0)
             {
@@ -459,6 +466,13 @@ namespace WebApplication4.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RegisterPromotor(RegisterViewModel model)
         {
+            CuentaUsuario cue = null;
+            cue = db.CuentaUsuario.Find(model.Email);
+            if (cue != null)
+            {
+                TempData["MessageErrorPromotor"] = "Ya existe una cuenta con ese correo";
+                return RedirectToAction("Index", "Empleado");
+            }
             List<CuentaUsuario> lcu = db.CuentaUsuario.Where(c => c.tipoDoc == model.tipoDoc && c.codDoc == model.codDoc).ToList();
             if (lcu == null || lcu.Count > 0)
             {

@@ -112,9 +112,8 @@
                                                 <thead>
                                                     <tr>
                                                         <th>Fecha</th>
-                                                        <th>DNI del Vendedor</th>
-                                                        <th>Nombre del Vendedor</th>
-                                                        <th>Punto de Venta</th>
+                                                        <th>Cliente y Numero de Documento</th>
+                                                        <th>Vendedor</th>
                                                         <th>Total Devuelto (S/.)</th>
                                                         <th>Total (S/.)</th>
                                                     </tr>
@@ -125,9 +124,8 @@
                                                     {
                                                     <tr>
                                                         <td>@row.fecha.ToString("dd/MM/yyyy")</td>
-                                                        <td style="text-align:center">@row.codigo</td>
+                                                        <td style="text-align:center">@row.cliente</td>
                                                         <td>@row.nombre</td>
-                                                        <td>@row.punto</td>
                                                         <td class="numero">@row.devtotal</td>
                                                         <td class="numero">@row.total</td>
                                                     </tr>
