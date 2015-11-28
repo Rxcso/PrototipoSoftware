@@ -31,25 +31,25 @@
                 </div>
             </center> <br>   
             <center class="row form-inline">                
-                    <label for="nombre" class="control-label col-md-6">Nombre del Vendedor:</label>
-                    <div class="col-md-6">
+                    <label for="nombre" class="control-label col-md-4">Nombre del Vendedor:</label>
+                    <div class="col-md-8">
                         <input name="nomvendedor" type="text" class="form-control" id="nombre" placeholder="">
                     </div>                
             </center><br>
             
 
             <div class="row form-inline">
-                <label for="puntoVenta" class="control-label col-md-6">Punto de venta:</label>
+                <label for="puntoVenta" class="control-label col-md-4">Punto de venta:</label>
                 @{
                         try
                         {
                             var data = from obj in db.PuntoVenta
                                        select obj;
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <select id="puntoVenta" class="form-control ">
                                     @foreach (var punto in data)
                                     {
-                                        <option value="@punto.codPuntoVenta">@punto.ubicacion</option>
+                                        <option value="@punto.codPuntoVenta">@punto.nombre</option>
                                     }
                                 </select>
                             </div>
@@ -64,7 +64,7 @@
             <div class="row form-inline">
                 <center>
                     <a id="generarReport" class="btn btn-primary" onclick="realizar()"><span class="fa fa-table fa-lg"></span> Generar</a>
-                    <a id="newReport" class="btn btn-primary" onclick="nuevoReporte()"> Nuevo Reporte</a>
+                    <a id="newReport" class="btn btn-primary" onclick="nuevoReporte()"><span class="fa fa-table fa-lg"></span> Nuevo Reporte</a>
                     <a id="export-btn" onclick="generarExcel()" target="_blank" class="btn btn-success btn-excel"><span class="fa fa-file-excel-o fa-lg"></span> Exportar a Excel </a>
                 </center>
             </div><br />
@@ -122,12 +122,12 @@
                 var pVent = document.getElementById("puntoVenta");
                 var str = pVent.options[pVent.selectedIndex].text;
 
-                t1 = "<h4>REPORTE DE ASISTENCIA EN: " + str + "</h4>";
+                t1 = "<center><h4>REPORTE DE ASISTENCIA EN: " + str + "</h4><center>";
                 myTable = t1 + "<table class='table table-bordered table-hover'>";
-                myTable += "<tr><th>Fecha</th>";
+                myTable += "<thead><tr><th>Fecha</th>";
                 myTable += "<th>Vendedor</th><th>Hora de Ingreso</th><th>Hora de Salida</th>";
                 myTable += "<th>Hora Registrada</th>";
-                myTable += "<th>Asistio</th></tr>";
+                myTable += "<th>Asistio</th></tr></thead>";
 
                 $.each(data, function (k, v) {
                     var date = new Date(parseInt(v.Fecha.substr(6)));
