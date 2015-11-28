@@ -18,6 +18,14 @@ namespace WebApplication4.Controllers
             return View();
         }
 
+        public ActionResult Historial(int id)
+        {
+            Organizador organizador = db.Organizador.Find(id);
+            ViewBag.Organizador = organizador;
+            List<Eventos> eventos = db.Eventos.Where(c => c.Organizador.codOrg == organizador.codOrg).ToList();
+            ViewBag.ListaEventos = eventos;
+            return View();
+        }
 
         [HttpPost]
         [AllowAnonymous]

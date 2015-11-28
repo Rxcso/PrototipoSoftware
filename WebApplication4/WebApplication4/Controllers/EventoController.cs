@@ -1659,6 +1659,12 @@ namespace WebApplication4.Controllers
         [AllowAnonymous]
         public ActionResult Entradas(PaqueteEntradas paquete, string boton)
         {
+            if (boton.CompareTo("registro") == 0)
+            {
+                TempData["tipo"] = "alert alert-warning";
+                TempData["message"] = "Debe de estar registrado para poder reservar entradas a un evento";
+                return RedirectToAction("RegisterClient", "Account");
+            }
 
             if (ModelState.IsValid)
             {
