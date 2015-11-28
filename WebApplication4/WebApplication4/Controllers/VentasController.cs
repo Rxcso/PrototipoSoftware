@@ -63,7 +63,7 @@ namespace WebApplication4.Controllers
                     descuento += precio * promocion.descuento.Value / 100;
                     listaPromociones.Add(promocion);
                 }
-                promocion = PromocionController.CalculaMejorPromocionEfectivo(model.idEvento);
+                promocion = PromocionController.CalculaMejorPromocionEfectivo(codEvento);
                 if (promocion != null)
                 {
                     if (queryVF.cantEntradas >= promocion.cantAdq)
@@ -143,6 +143,9 @@ namespace WebApplication4.Controllers
                 VentasXFuncion vxf = db.VentasXFuncion.Where(c => c.codVen == venta.codVen).First();
                 vxf.subtotal = model.Importe;
                 double? porcDescuento = 0;
+                //default es mixto
+                vxf.descuento = (int)model.Descuento;
+                //--
                 if (venta.modalidad == "T")
                 {
                     if (model.idPromociones[0] != -1)
@@ -353,41 +356,50 @@ namespace WebApplication4.Controllers
             {
                 //saco el carrito del session
                 List<CarritoItem> carrito = (List<CarritoItem>)Session["CarritoItemVentas"];
-                //lista de bancos
-                List<Banco> bancos = db.Banco.ToList();
-                ViewBag.Bancos = new SelectList(bancos, "codigo", "nombre");
-                //lista de tarjetas
-                List<TipoTarjeta> tipoTarjeta = db.TipoTarjeta.ToList();
-                ViewBag.TipoTarjeta = new SelectList(tipoTarjeta, "idTipoTar", "nombre");
-                List<Promociones> listaPromociones = new List<Promociones>();
-                List<Promociones> listaPromocionesEfectivo = new List<Promociones>();
-                List<int> idFunciones = new List<int>();
-                double total = 0;
-                double? descuento = 0;
-                double? descuentoE = 0;
-                foreach (CarritoItem item in carrito)
+                if (carrito.Count != 0)
                 {
-                    idFunciones.Add(item.idFuncion);
-                    total += item.precio;
-                    Promociones promocion = PromocionController.CalculaMejorPromocionTarjeta(item.idEvento, bancos.First().codigo, tipoTarjeta.First().idTipoTar);
-                    if (promocion == null)
+                    //lista de bancos
+                    List<Banco> bancos = db.Banco.ToList();
+                    ViewBag.Bancos = new SelectList(bancos, "codigo", "nombre");
+                    //lista de tarjetas
+                    List<TipoTarjeta> tipoTarjeta = db.TipoTarjeta.ToList();
+                    ViewBag.TipoTarjeta = new SelectList(tipoTarjeta, "idTipoTar", "nombre");
+                    List<Promociones> listaPromociones = new List<Promociones>();
+                    List<Promociones> listaPromocionesEfectivo = new List<Promociones>();
+                    List<int> idFunciones = new List<int>();
+                    double total = 0;
+                    double? descuento = 0;
+                    double? descuentoE = 0;
+                    foreach (CarritoItem item in carrito)
                     {
-                        Promociones dummy = new Promociones();
-                        dummy.codPromo = -1;
-                        listaPromociones.Add(dummy);
-                    }
-                    else
-                    {
-                        descuento += item.precio * promocion.descuento.Value / 100;
-                        listaPromociones.Add(promocion);
-                    }
-                    promocion = PromocionController.CalculaMejorPromocionEfectivo(item.idEvento);
-                    if (promocion != null)
-                    {
-                        if (item.cantidad >= promocion.cantAdq)
+                        idFunciones.Add(item.idFuncion);
+                        total += item.precio;
+                        Promociones promocion = PromocionController.CalculaMejorPromocionTarjeta(item.idEvento, bancos.First().codigo, tipoTarjeta.First().idTipoTar);
+                        if (promocion == null)
                         {
-                            descuentoE += 1.0 * promocion.cantAdq * (item.precio / item.cantidad) * (1 - (promocion.cantComp.Value * 1.0 / promocion.cantAdq.Value));
-                            listaPromocionesEfectivo.Add(promocion);
+                            Promociones dummy = new Promociones();
+                            dummy.codPromo = -1;
+                            listaPromociones.Add(dummy);
+                        }
+                        else
+                        {
+                            descuento += item.precio * promocion.descuento.Value / 100;
+                            listaPromociones.Add(promocion);
+                        }
+                        promocion = PromocionController.CalculaMejorPromocionEfectivo(item.idEvento);
+                        if (promocion != null)
+                        {
+                            if (item.cantidad >= promocion.cantAdq)
+                            {
+                                descuentoE += 1.0 * promocion.cantAdq * (item.precio / item.cantidad) * (1 - (promocion.cantComp.Value * 1.0 / promocion.cantAdq.Value));
+                                listaPromocionesEfectivo.Add(promocion);
+                            }
+                            else
+                            {
+                                Promociones dummy = new Promociones();
+                                dummy.codPromo = -1;
+                                listaPromocionesEfectivo.Add(dummy);
+                            }
                         }
                         else
                         {
@@ -395,38 +407,32 @@ namespace WebApplication4.Controllers
                             dummy.codPromo = -1;
                             listaPromocionesEfectivo.Add(dummy);
                         }
-                    }
-                    else
-                    {
-                        Promociones dummy = new Promociones();
-                        dummy.codPromo = -1;
-                        listaPromocionesEfectivo.Add(dummy);
-                    }
 
+                    }
+                    ViewBag.Total = total;
+                    ViewBag.Funciones = idFunciones;
+                    //efectivo
+                    ViewBag.DescuentoE = descuentoE;
+                    ViewBag.MontoPagarE = total - descuentoE;
+                    ViewBag.MontoSE = 0;
+                    ViewBag.MontoDE = 0;
+                    ViewBag.VueltoE = 0;
+                    //tarjeta
+                    ViewBag.Descuento = descuento;
+                    ViewBag.MontoPagarT = total - descuento;
+                    ViewBag.MontoTarjeta = total - descuento;
+                    //mixto
+                    ViewBag.MontoPagarM = total;
+                    ViewBag.MontoSM = 0;
+                    ViewBag.MontoDM = 0;
+                    ViewBag.MontoTarjetaM = 0;
+                    ViewBag.VueltoM = 0;
+                    ViewBag.PromocionesEfectivo = listaPromocionesEfectivo;
+                    ViewBag.Promociones = listaPromociones;
+                    ViewBag.Mes = Fechas.Mes();
+                    ViewBag.AnVen = Fechas.Anio();
+                    return View();
                 }
-                ViewBag.Total = total;
-                ViewBag.Funciones = idFunciones;
-                //efectivo
-                ViewBag.DescuentoE = descuentoE;
-                ViewBag.MontoPagarE = total - descuentoE;
-                ViewBag.MontoSE = 0;
-                ViewBag.MontoDE = 0;
-                ViewBag.VueltoE = 0;
-                //tarjeta
-                ViewBag.Descuento = descuento;
-                ViewBag.MontoPagarT = total - descuento;
-                ViewBag.MontoTarjeta = total - descuento;
-                //mixto
-                ViewBag.MontoPagarM = total;
-                ViewBag.MontoSM = 0;
-                ViewBag.MontoDM = 0;
-                ViewBag.MontoTarjetaM = 0;
-                ViewBag.VueltoM = 0;
-                ViewBag.PromocionesEfectivo = listaPromocionesEfectivo;
-                ViewBag.Promociones = listaPromociones;
-                ViewBag.Mes = Fechas.Mes();
-                ViewBag.AnVen = Fechas.Anio();
-                return View();
             }
             TempData["tipo"] = "alert alert-warning";
             TempData["message"] = "No hay items en el carrito.";
@@ -622,14 +628,24 @@ namespace WebApplication4.Controllers
                                         vf.cantEntradas += paquete.cantidad;
                                         vf.subtotal += paquete.cantidad * pr.precio;
                                         float? porcDescuento = 0;
-                                        if (model.idPromociones[w] != -1)
+                                        //default es para pago mixto
+                                        vf.descuento += (int)model.Descuento;
+                                        //vuelvo a modificar los descuentos si es tarjeta o efectivo
+                                        if (ve.modalidad == "T")
                                         {
-                                            int idPromocion = model.idPromociones[w];
-                                            Promociones promocion = db.Promociones.Where(c => c.codPromo == idPromocion && c.codEvento == paquete.idEvento).First();
-                                            porcDescuento = promocion.descuento / 100;
+                                            if (model.idPromociones[w] != -1)
+                                            {
+                                                int idPromocion = model.idPromociones[w];
+                                                Promociones promocion = db.Promociones.Where(c => c.codPromo == idPromocion && c.codEvento == paquete.idEvento).First();
+                                                porcDescuento = promocion.descuento / 100;
+                                            }
+                                            vf.descuento = (int?)(vf.subtotal * porcDescuento);
                                         }
-                                        vf.descuento += (int?)(vf.subtotal * porcDescuento);
-                                        vf.total += paquete.cantidad * pr.precio - vf.descuento;
+                                        if (ve.modalidad == "E")
+                                        {
+                                            vf.descuento = (int?)model.Descuento;
+                                        }
+                                        vf.total += vf.subtotal - vf.descuento;
                                     }
                                     else
                                     {
@@ -642,6 +658,8 @@ namespace WebApplication4.Controllers
                                         vf.hanEntregado = false;
                                         vf.subtotal = paquete.cantidad * pr.precio;
                                         float? porcDescuento = 0;
+                                        //default es para pago mixto
+                                        vf.descuento = (int)model.Descuento;
                                         //solo registro la promocion si es una venta solo con tarjeta o solo con efectivo
                                         if (ve.modalidad == "T")
                                         {
@@ -1062,7 +1080,7 @@ namespace WebApplication4.Controllers
             DateTime di = dt1;
             List<ReporteModel.ReporteVentas1Model> lr = new List<ReporteModel.ReporteVentas1Model>();
             List<CuentaUsuario> lv = db.CuentaUsuario.Where(c => c.codPerfil == 2 && c.estado == true).ToList();
-            
+
             Session["ReporteVentasTotal"] = lr;
             Session["ReporteTotal"] = to;
             return Json("Reporte Generado", JsonRequestBehavior.AllowGet);

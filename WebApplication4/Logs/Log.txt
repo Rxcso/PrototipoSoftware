@@ -2490,3 +2490,119 @@ System.Collections.ListDictionaryInternal
 2015-11-28 00:55:12,256 [9] ERROR Ticknet - Exception Message - 
 The underlying provider failed on Open.
 2015-11-28 00:55:12,256 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 13:15:43,403 [54] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 13:15:43,415 [54] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-28 13:15:43,415 [54] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-28 13:15:43,415 [54] ERROR Ticknet - Exception Message - 
+A public action method 'MisReservas' was not found on controller 'WebApplication4.Controllers.EventoController'.
+2015-11-28 13:15:43,415 [54] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 13:20:35,745 [76] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 13:20:35,752 [76] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-28 13:20:35,752 [76] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-28 13:20:35,752 [76] ERROR Ticknet - Exception Message - 
+The if block is missing a closing "}" character.  Make sure you have a matching "}" character for all the "{" characters within this block, and that none of the "}" characters are being interpreted as markup.
+
+2015-11-28 13:20:35,752 [76] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 13:20:35,770 [76] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 13:20:35,770 [76] ERROR Ticknet - Exception Data - 
+HttpParseException
+2015-11-28 13:20:35,770 [76] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-28 13:20:35,770 [76] ERROR Ticknet - Exception Message - 
+The if block is missing a closing "}" character.  Make sure you have a matching "}" character for all the "{" characters within this block, and that none of the "}" characters are being interpreted as markup.
+
+2015-11-28 13:20:35,770 [76] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 13:20:37,791 [24] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 13:20:37,791 [24] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-28 13:20:37,791 [24] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-28 13:20:37,791 [24] ERROR Ticknet - Exception Message - 
+The if block is missing a closing "}" character.  Make sure you have a matching "}" character for all the "{" characters within this block, and that none of the "}" characters are being interpreted as markup.
+
+2015-11-28 13:20:37,791 [24] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 13:20:37,807 [24] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 13:20:37,807 [24] ERROR Ticknet - Exception Data - 
+HttpParseException
+2015-11-28 13:20:37,807 [24] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-28 13:20:37,807 [24] ERROR Ticknet - Exception Message - 
+The if block is missing a closing "}" character.  Make sure you have a matching "}" character for all the "{" characters within this block, and that none of the "}" characters are being interpreted as markup.
+
+2015-11-28 13:20:37,807 [24] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 13:20:41,267 [59] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 13:20:41,267 [59] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-28 13:20:41,267 [59] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-28 13:20:41,267 [59] ERROR Ticknet - Exception Message - 
+The if block is missing a closing "}" character.  Make sure you have a matching "}" character for all the "{" characters within this block, and that none of the "}" characters are being interpreted as markup.
+
+2015-11-28 13:20:41,267 [59] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 13:20:41,284 [59] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 13:20:41,284 [59] ERROR Ticknet - Exception Data - 
+HttpParseException
+2015-11-28 13:20:41,284 [59] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-28 13:20:41,284 [59] ERROR Ticknet - Exception Message - 
+The if block is missing a closing "}" character.  Make sure you have a matching "}" character for all the "{" characters within this block, and that none of the "}" characters are being interpreted as markup.
+
+2015-11-28 13:20:41,284 [59] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 13:21:20,336 [24] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 13:21:20,336 [24] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-28 13:21:20,336 [24] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-28 13:21:20,336 [24] ERROR Ticknet - Exception Message - 
+The if block is missing a closing "}" character.  Make sure you have a matching "}" character for all the "{" characters within this block, and that none of the "}" characters are being interpreted as markup.
+
+2015-11-28 13:21:20,336 [24] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 13:21:20,353 [24] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 13:21:20,353 [24] ERROR Ticknet - Exception Data - 
+HttpParseException
+2015-11-28 13:21:20,353 [24] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-28 13:21:20,353 [24] ERROR Ticknet - Exception Message - 
+The if block is missing a closing "}" character.  Make sure you have a matching "}" character for all the "{" characters within this block, and that none of the "}" characters are being interpreted as markup.
+
+2015-11-28 13:21:20,353 [24] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 13:21:25,590 [77] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 13:21:25,590 [77] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-28 13:21:25,590 [77] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-28 13:21:25,590 [77] ERROR Ticknet - Exception Message - 
+The if block is missing a closing "}" character.  Make sure you have a matching "}" character for all the "{" characters within this block, and that none of the "}" characters are being interpreted as markup.
+
+2015-11-28 13:21:25,590 [77] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 13:21:25,611 [77] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 13:21:25,611 [77] ERROR Ticknet - Exception Data - 
+HttpParseException
+2015-11-28 13:21:25,611 [77] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-28 13:21:25,611 [77] ERROR Ticknet - Exception Message - 
+The if block is missing a closing "}" character.  Make sure you have a matching "}" character for all the "{" characters within this block, and that none of the "}" characters are being interpreted as markup.
+
+2015-11-28 13:21:25,611 [77] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 13:22:21,069 [77] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 13:22:21,069 [77] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-28 13:22:21,069 [77] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-28 13:22:21,069 [77] ERROR Ticknet - Exception Message - 
+The if block is missing a closing "}" character.  Make sure you have a matching "}" character for all the "{" characters within this block, and that none of the "}" characters are being interpreted as markup.
+
+2015-11-28 13:22:21,069 [77] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 13:22:21,089 [77] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 13:22:21,089 [77] ERROR Ticknet - Exception Data - 
+HttpParseException
+2015-11-28 13:22:21,089 [77] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-28 13:22:21,089 [77] ERROR Ticknet - Exception Message - 
+The if block is missing a closing "}" character.  Make sure you have a matching "}" character for all the "{" characters within this block, and that none of the "}" characters are being interpreted as markup.
+
+2015-11-28 13:22:21,089 [77] DEBUG Ticknet - ++++++++++++++++++++++++++++

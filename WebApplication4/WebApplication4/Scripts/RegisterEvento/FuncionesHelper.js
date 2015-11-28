@@ -43,10 +43,27 @@ function fila() {
     cell3.innerHTML = '<input type="radio" name="groupFunciones" value="' + (parseInt(row.id)) + '">';
     $("#histFuncion").val(parseInt(row.id));
 }
+
+function validahora(fecha, hora) {
+    var hoy = today;
+    hora = hora.split(':');
+    var fechaS = fecha.split('-');
+    var fFecha = new Date(fechaS[0], --fechaS[1], fechaS[2], hora[0], hora[1], 0, 0);
+    //si es para el mismo dia
+    if (fFecha.getDate() == hoy.getDate()) {
+        if (fFecha < hoy) {
+            alert("La hora de la función debe de ser más tarde que la hora actual.");
+            return false;
+        }
+    }
+    return true;
+}
 function validar(fecha, hora) {
     if (fecha && hora) {
         if (validarFechaActualOMayor(fecha)) {
-            return true;
+            if (validahora(fecha, hora)) {
+                return true;
+            }
         } else {
             var fechaInicioEvento = $("#fechaInicioEvento").val();
             alert("Fecha de funcion incorrecta: " + format_date2(fecha) + ". Ingrese una fecha valida (Rango de fechas: Mayor o igual a la fecha de inicio del evento: " + format_date2(fechaInicioEvento) + " hasta fechas del año " + (today.getFullYear() + 20) + ").");

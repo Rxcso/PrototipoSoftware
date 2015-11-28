@@ -273,8 +273,16 @@ namespace WebApplication4.Controllers
                 if (ValidacionesCompra(model))
                 {
                     Ventas venta = db.Ventas.Find(model.idVenta);
+                    venta.montoEfectivoSoles = 0;
+                    venta.montoCreditoSoles = model.MontoPagar;
+                    venta.montoDev = 0;
+                    venta.montoEfectivoDolares = 0;
+                    venta.MontoTotalSoles = model.MontoPagar;
                     venta.Estado = MagicHelpers.Compra;
+                    venta.entradasDev = 0;
+                    venta.modalidad = "T";
                     VentasXFuncion vxf = db.VentasXFuncion.Where(c => c.codVen == venta.codVen).First();
+                    vxf.cantEntradas = venta.cantAsientos.Value;
                     Eventos evento = db.Eventos.Find(vxf.Funcion.codEvento);
                     DetalleVenta detalle = db.DetalleVenta.Where(c => c.codVen == venta.codVen && c.codFuncion == vxf.Funcion.codFuncion).First();
                     evento.monto_adeudado += evento.montoFijoVentaEntrada.Value + evento.porccomision.Value * detalle.cantEntradas.Value / 100;
@@ -349,38 +357,41 @@ namespace WebApplication4.Controllers
             {
                 //saco el carrito del session
                 List<CarritoItem> carrito = (List<CarritoItem>)Session["CarritoItem"];
-                //lista de bancos
-                List<Banco> bancos = db.Banco.ToList();
-                ViewBag.Bancos = new SelectList(bancos, "codigo", "nombre");
-                //lista de tarjetas
-                List<TipoTarjeta> tipoTarjeta = db.TipoTarjeta.ToList();
-                ViewBag.TipoTarjeta = new SelectList(tipoTarjeta, "idTipoTar", "nombre");
-                List<Promociones> listaPromociones = new List<Promociones>();
-                double total = 0;
-                double descuento = 0;
-                foreach (CarritoItem item in carrito)
+                if (carrito.Count != 0)
                 {
-                    total += item.precio;
-                    Promociones promocion = PromocionController.CalculaMejorPromocionTarjeta(item.idEvento, bancos.First().codigo, tipoTarjeta.First().idTipoTar);
-                    if (promocion == null)
+                    //lista de bancos
+                    List<Banco> bancos = db.Banco.ToList();
+                    ViewBag.Bancos = new SelectList(bancos, "codigo", "nombre");
+                    //lista de tarjetas
+                    List<TipoTarjeta> tipoTarjeta = db.TipoTarjeta.ToList();
+                    ViewBag.TipoTarjeta = new SelectList(tipoTarjeta, "idTipoTar", "nombre");
+                    List<Promociones> listaPromociones = new List<Promociones>();
+                    double total = 0;
+                    double descuento = 0;
+                    foreach (CarritoItem item in carrito)
                     {
-                        Promociones dummy = new Promociones();
-                        dummy.codPromo = -1;
-                        listaPromociones.Add(dummy);
+                        total += item.precio;
+                        Promociones promocion = PromocionController.CalculaMejorPromocionTarjeta(item.idEvento, bancos.First().codigo, tipoTarjeta.First().idTipoTar);
+                        if (promocion == null)
+                        {
+                            Promociones dummy = new Promociones();
+                            dummy.codPromo = -1;
+                            listaPromociones.Add(dummy);
+                        }
+                        else
+                        {
+                            descuento += item.precio * promocion.descuento.Value / 100;
+                            listaPromociones.Add(promocion);
+                        }
                     }
-                    else
-                    {
-                        descuento += item.precio * promocion.descuento.Value / 100;
-                        listaPromociones.Add(promocion);
-                    }
+                    ViewBag.Descuento = descuento;
+                    ViewBag.Promociones = listaPromociones;
+                    ViewBag.Total = total;
+                    ViewBag.Pagar = total - descuento;
+                    ViewBag.Mes = Fechas.Mes();
+                    ViewBag.AnVen = Fechas.Anio();
+                    return View();
                 }
-                ViewBag.Descuento = descuento;
-                ViewBag.Promociones = listaPromociones;
-                ViewBag.Total = total;
-                ViewBag.Pagar = total - descuento;
-                ViewBag.Mes = Fechas.Mes();
-                ViewBag.AnVen = Fechas.Anio();
-                return View();
             }
             TempData["tipo"] = "alert alert-warning";
             TempData["message"] = "No hay items en el carrito.";
@@ -451,8 +462,12 @@ namespace WebApplication4.Controllers
                             //--
                             ve.Estado = MagicHelpers.Compra;
                             ve.tipoDoc = 1;
-                            ve.montoEfectivoSoles = model.Importe;
+                            ve.montoCreditoSoles = model.MontoPagar;
+                            ve.montoDev = 0;
+                            ve.montoEfectivoDolares = 0;
+                            ve.montoEfectivoSoles = 0;
                             ve.MontoTotalSoles = model.MontoPagar;
+                            ve.entradasDev = 0;
                             db.Ventas.Add(ve);
                             try
                             {

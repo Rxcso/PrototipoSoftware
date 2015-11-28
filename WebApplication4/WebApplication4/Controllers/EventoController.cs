@@ -60,12 +60,16 @@ namespace WebApplication4.Controllers
 
                 if (quedan == 0)
                 {
-                    return "Ya no le quedan reservas/compras disponibles para el evento";
+                    return "Ya no quedan reservas/compras disponibles para el evento";
                 }
 
                 if (quedan < paquete.cantEntradas)
                 {
-                    return "No se pudo realizar la reserva, solo puede reservar hasta  " + quedan + " entradas";
+                    if (quedan > 0)
+                    {
+                        return "No se pudo realizar la reserva, solo puede reservar hasta  " + quedan + " entradas.";
+                    }
+                    return "Ya no puede reservar más entradas para este evento.";
                 }
                 //Luego se hace la reserva de esto, 
                 //Establecer sincronia es lo mas complicado
@@ -1116,7 +1120,7 @@ namespace WebApplication4.Controllers
                 model.IEvento = evento.ImagenEvento;
                 model.ISitios = evento.ImagenSitios;
                 model.Ganancia = (double)(evento.porccomision == null ? 0 : evento.porccomision);
-                model.MaxReservas = db.Politicas.Find(2).valor.Value;
+                model.MaxReservas = evento.maxReservas;
                 model.MontFijoVentEnt = (double)(evento.montoFijoVentaEntrada == null ? 0 : evento.montoFijoVentaEntrada);
                 model.PenCancelacion = (double)(evento.penalidadXcancelacion == null ? 0 : evento.penalidadXcancelacion);
                 model.PenPostergacion = (double)(evento.penalidadXpostergacion == null ? 0 : evento.penalidadXpostergacion);
@@ -1127,7 +1131,11 @@ namespace WebApplication4.Controllers
                 return View(model);
             }
             if (Session["IdEventoCreado"] != null)
+            {
+                model.MaxReservas = db.Politicas.Find(2).valor.Value;
                 return View(model);
+            }
+                
             TempData["tipo"] = "alert alert-warning";
             TempData["message"] = "No hay evento en proceso de creación o modificación.";
             return RedirectToAction("Index");
@@ -1665,7 +1673,7 @@ namespace WebApplication4.Controllers
                         TempData["message"] = mensaje;
                     }
 
-                    return RedirectToAction("MisReservas");
+                    return RedirectToAction("MisReservas", "CuentaUsuario");
 
                 }
                 else if (boton.CompareTo("carrito") == 0)

@@ -65,81 +65,84 @@
                             {
                                 <li class="dropdown">
 
-                                <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                                    Módulo de venta <span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="@Url.Action("Busqueda", "Evento")">Buscar eventos</a></li>
-                                    <li><a href="@Url.Action("Entrega", "Ventas")">Entregar boletos</a></li>
-                                    <li><a href="@Url.Action("BuscaReserva","Ventas")">Buscar reserva</a></li>
-                                    <li><a href="@Url.Action("Devolucion", "Ventas")">Devolución</a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="@Url.Action("BuscaCliente", "CuentaUsuario")">Buscar cliente</a></li>
-                                    <li><a href="@Url.Action("RegistrarUsuarioVendedor", "CuentaUsuario")">Registrar Cliente</a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="@Url.Action("ReporteDia", "Ventas")">Reporte de ventas</a></li>
-                                    <li><a href="@Url.Action("Apertura", "Ventas")">Apertura de caja</a></li>
-                                    <li><a href="@Url.Action("Cierre", "Ventas")">Cierre de caja</a></li>
-                                </ul>
-                            </li>
+                                    <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                                        Módulo de venta <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="@Url.Action("Busqueda", "Evento")">Buscar eventos</a></li>
+                                        <li><a href="@Url.Action("Entrega", "Ventas")">Entregar boletos</a></li>
+                                        <li><a href="@Url.Action("BuscaReserva","Ventas")">Buscar reserva</a></li>
+                                        <li><a href="@Url.Action("Devolucion", "Ventas")">Devolución</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="@Url.Action("BuscaCliente", "CuentaUsuario")">Buscar cliente</a></li>
+                                        <li><a href="@Url.Action("RegistrarUsuarioVendedor", "CuentaUsuario")">Registrar Cliente</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="@Url.Action("ReporteDia", "Ventas")">Reporte de ventas</a></li>
+                                        <li><a href="@Url.Action("Apertura", "Ventas")">Apertura de caja</a></li>
+                                        <li><a href="@Url.Action("Cierre", "Ventas")">Cierre de caja</a></li>
+                                    </ul>
+                                </li>
                             }
                             @if (@codigoUsuario == 4)
                             {
                                 <li class="dropdown">
-                                <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                                    Procesos <span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <!--Administrador-->
-                                    <li><a href="@Url.Action("Asignacion", "CuentaUsuario")">Asignar turnos y puntos de venta</a></li>
-                                    <li><a href="@Url.Action("Politicas", "Politicas")">Políticas de la empresa</a></li>
-                                    <li><a href="@Url.Action("Index", "TipoDeCambio")">Tipo de cambio</a></li>
-                                    <li><a href="@Url.Action("Pago", "Ventas")">Registrar pagos</a></li>
-                                    <li><a href="@Url.Action("PagoOrganizador", "Ventas")">Registrar pagos de Penalidad</a></li>
-                                </ul>
-                            </li>
+                                    <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                                        Procesos <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <!--Administrador-->
+                                        <li><a href="@Url.Action("Asignacion", "CuentaUsuario")">Asignar turnos y puntos de venta</a></li>
+                                        <li><a href="@Url.Action("Politicas", "Politicas")">Políticas de la empresa</a></li>
+                                        <li><a href="@Url.Action("Index", "TipoDeCambio")">Tipo de cambio</a></li>
+                                        <li><a href="@Url.Action("Pago", "Ventas")">Registrar pagos</a></li>
+                                        <li><a href="@Url.Action("PagoOrganizador", "Ventas")">Registrar pagos de Penalidad</a></li>
+                                    </ul>
+                                </li>
                             }
-                            
                             <li class="dropdown">
-                                <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                                    Mantenimientos <span class="caret"></span>
-                                </a>
+                                @if (codigoUsuario == 4 || codigoUsuario == 3)
+                                {
+
+                                    <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                                        Mantenimientos <span class="caret"></span>
+                                    </a>
+                                }
                                 <ul class="dropdown-menu">
-                                    @if (@codigoUsuario == 4) { 
+                                    @if (@codigoUsuario == 4)
+                                    {
                                         <!--Administrador del negocio-->
                                         <li><a href="@Url.Action("Index", "Categoria")">Categorías de eventos</a></li>
                                         <li><a href="@Url.Action("Index", "Empleado")">Empleados</a></li>
                                         <li><a href="@Url.Action("Index", "PuntoVenta")">Puntos de venta</a></li>
                                         <li><a href="@Url.Action("Index", "Regalo")">Regalos</a></li>
                                     }
-                                    
-                                    @if (@codigoUsuario == 3) { 
+
+                                    @if (@codigoUsuario == 3)
+                                    {
                                         <!--Promotor-->
                                         <!--li class="divider"></!--li-->
                                         <li><a href="@Url.Action("Index", "Organizador")">Organizadores</a></li>
                                         <li><a href="@Url.Action("Index", "Local")">Locales</a></li>
                                         <li><a href="@Url.Action("Index", "Evento")">Eventos</a></li>
                                     }
-                                    
                                 </ul>
                             </li>
-                            @if (@codigoUsuario == 4) { 
+                            @if (@codigoUsuario == 4)
+                            {
                                 <li class="dropdown">
-                                <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                                    Reportes <span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="@Url.Action("Index", "ReporteVentas")">Ventas</a></li>
-                                    <li><a href="@Url.Action("ReporteEvento", "Evento")">Eventos</a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="@Url.Action("ReporteAsignacion","CuentaUsuario")">Asignación de vendedores</a></li>
-                                    <li><a href="@Url.Action("ReporteAsistencia","CuentaUsuario")">Asistencia</a></li>
-                                    <li><a href="@Url.Action("ReporteCliente", "CuentaUsuario")">Clientes</a></li>
-                                </ul>
-                            </li>
+                                    <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                                        Reportes <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="@Url.Action("Index", "ReporteVentas")">Ventas</a></li>
+                                        <li><a href="@Url.Action("ReporteEvento", "Evento")">Eventos</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="@Url.Action("ReporteAsignacion","CuentaUsuario")">Asignación de vendedores</a></li>
+                                        <li><a href="@Url.Action("ReporteAsistencia","CuentaUsuario")">Asistencia</a></li>
+                                        <li><a href="@Url.Action("ReporteCliente", "CuentaUsuario")">Clientes</a></li>
+                                    </ul>
+                                </li>
                             }
-                            
-
                         </ul>
 
                         @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "form" }))
@@ -167,10 +170,10 @@
                 @(TempData["message"])
             </div>
         </div>
-        <div style="min-height:800px">            
+        <div style="min-height:800px">
             @RenderBody()
         </div>
-        <div class="container-fluid" id="footer">            
+        <div class="container-fluid" id="footer">
             <h5><span class="fa fa-flag"></span> Creado por .NETSOFT</h5>
             <h5>Gracias al apoyo de <em>Jorge Girao La Rosa</em></h5>
             <h6>© TICKNET. Marca registrada de .NetSoft S.A. Derechos Reservados 2015</h6>
@@ -208,7 +211,7 @@ else
                 text-align: center;
             }
         </style>
-        
+
         <header class="container-fluid ">
             <nav style="margin-bottom:0" class="navbar navbar-static-top navbar-inverse " role="navigation">
                 <div class="container-fluid">
@@ -248,7 +251,7 @@ else
                                 {
                                     @Html.AntiForgeryToken()
 
-                                    <div class="nav navbar-nav ">                                        
+                                    <div class="nav navbar-nav ">
                                         <div class="dropdown">
                                             <a type="button" aria-expanded="true" data-toggle="dropdown" aria-haspopup="true" class="btn btn-primary dropdown-toggle">@nombre <span class="caret"></span></a>
                                             <ul class="dropdown-menu" aria-labelledby="sesion">
@@ -305,7 +308,7 @@ else
                                 {
                                     string valor = ViewBag.fech_fin.ToString("dd/MM/yyyy");
                                     string valor2 = ViewBag.fech_fin.ToString("yyyy/MM/dd");
-                                    <input id="fech_fin" type="text" value=@valor class="fecha form-control" >
+                                    <input id="fech_fin" type="text" value=@valor class="fecha form-control">
                                     <input id="altfech_fin" name="fech_fin" type="text" value=@valor2 class="fecha form-control" style="display:none">
                                 }
                                 else
@@ -402,10 +405,11 @@ else
             <li><a href="@Url.Action("MiCarrito", "CuentaUsuario")"><span class="fa fa-cart-plus fa-4x"></span></a></li>
             <!--li><a href="@Url.Action("PuntoVentas", "Home")"><span class="fa fa-map-marker fa-4x"></span></a></li-->
         </ul>
+<div class="bod" style="min-h
         <div class="bod" style="min-height:800px">
             @RenderBody()
         </div>
-        
+
         <div class="container-fluid" id="footer">
             <h4 style="font-family:sans-serif"><span class="fa fa-map-marker"></span> Ubica nuestros locales <a href="@Url.Action("PuntoVentas", "Home")">aquí</a></h4>
             <h5><span class="fa fa-flag"></span> Creado por .NETSOFT</h5>
@@ -418,7 +422,7 @@ else
         @Scripts.Render("~/bundles/jqueryui")
         @Scripts.Render("~/bundles/bootstrap")
         @RenderSection("scripts", required: false)
-        
+
         <script src="~/Scripts/script_fecha.js"></script>
     </body>
 </html>
