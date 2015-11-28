@@ -2606,3 +2606,11 @@ System.Collections.ListDictionaryInternal
 The if block is missing a closing "}" character.  Make sure you have a matching "}" character for all the "{" characters within this block, and that none of the "}" characters are being interpreted as markup.
 
 2015-11-28 13:22:21,089 [77] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 15:51:28,598 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 15:51:28,607 [5] ERROR Ticknet - Exception Type - 
+NullReferenceException
+2015-11-28 15:51:28,607 [5] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-28 15:51:28,607 [5] ERROR Ticknet - Exception Message - 
+Referencia a objeto no establecida como instancia de un objeto.
+2015-11-28 15:51:28,607 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
