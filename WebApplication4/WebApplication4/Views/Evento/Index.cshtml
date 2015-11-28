@@ -8,6 +8,9 @@
     var nombre = "";
     inf245netsoft db = new inf245netsoft();
 }
+                               <style>
+                                   .inl{display:inline-block}
+                               </style>
 
 <div class="container-fluid">
     <div class="col-md-3">
@@ -20,48 +23,45 @@
     <div class="row">
         <div class="col-md-6 col-sm-12">
             <div class="form-group">
-                <a class="btn btn-success" href="@Url.Action("DatosGenerales", "Evento")"><span class="glyphicon glyphicon-plus"></span> Nuevo</a>
-                <div class="btn-group" role="group" aria-label="...">
-                    <a class="btn btn-primary" onclick="modificaEvento()"><span class="glyphicon glyphicon-pencil"></span> Modificar</a>
-                    <a class="btn btn-primary" onclick="redirigeAsiento()"><span class="glyphicon glyphicon-equalizer"></span> Asientos</a>
-                    <a class="btn btn-primary" onclick="redirigePromocion()"><span class="fa fa-asterisk"></span> Promociones</a>
-                </div>                    
-            </div>
-        </div>
-        <div class="col-md-6 col-sm-12">
-            <div class="form-group">
+                <a class="btn btn-success" href="@Url.Action("DatosGenerales", "Evento")"><span class="fa fa-plus fa-lg"></span> Nuevo</a>
+                <div class="dropdown inl">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="drop3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <span class="fa fa-pencil fa-lg"></span> Editar
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="drop3">
+                        <li><a class="btn" onclick="modificaEvento()"><span class="glyphicon glyphicon-pencil"></span> Modificar</a></li>
+                        <li><a class="btn" onclick="redirigeAsiento()"><span class="glyphicon glyphicon-equalizer"></span> Asientos</a></li>
+                        <li><a class="btn" onclick="redirigePromocion()"><span class="fa fa-asterisk"></span> Promociones</a></li>
+                    </ul>
+                </div> 
                 @Html.Hidden("idEventoT")
-                <div class="btn-group" role="group" aria-label="...">
-                    <a class="btn btn-warning" onclick="redirigePostergar()"><span class="glyphicon glyphicon-calendar"></span> Postergar</a>
-                    <a class="btn btn-warning" onclick="redirigeCancelar()"><span class="glyphicon glyphicon-remove-sign"></span> Cancelar</a>
-                </div>
-                    
-                    @if (User.IsInRole("Promotor") || User.IsInRole("Administrador"))
-                    {
-                        <div class="btn-group" role="group" aria-label="jejje">
-                            <a class="btn btn-success" onclick="redirigeReservaOrganizador()"><span class="glyphicon glyphicon-flag"></span> Reservar Org.</a>
-                            <a class="btn btn-success" onclick="redirigeVerReservaOrganizador()"><span class="glyphicon glyphicon-eye-open"></span> Reservas Org.</a>
-                        </div>                        
-                    }
-            </div>
-        </div>
-        
-    </div>
-    <div class="row">
-        <div class="col-md-12 ">
-            <div class="form-group">
-                @using (Html.BeginForm("Index", "Evento", FormMethod.Get, new { id = "search" }))
+                <div class="dropdown inl">
+                    <button class="btn btn-danger dropdown-toggle" type="button" id="drop1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <span class="fa fa-calendar"></span> Postergar/Cancelar
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="drop1">
+                        <li><a class="btn" onclick="redirigePostergar()"><span class="fa fa-arrow-circle-right fa-lg"></span> Postergar</a></li>
+                        <li><a class="btn" onclick="redirigeCancelar()"><span class="fa fa-ban fa-lg"></span> Cancelar</a></li>
+                    </ul>
+                </div>  
+                @if (User.IsInRole("Promotor") || User.IsInRole("Administrador"))
                 {
-                    <div class="form-group">
-                        <div class="input-group">
-                            @Html.TextBox("nombre", "", new { placeholder = "Buscar evento por nombre...", @class = "form-control" })
-                            <span class="input-group-btn"><a id="btn-search" class="btn btn-primary" onclick="submitSearch()"><span class="glyphicon glyphicon-search"></span></a></span>
-                        </div>
-                    </div>
-                }
+                <div class="dropdown inl">
+                    <button class="btn btn-info dropdown-toggle" type="button" id="drop2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <span class="fa fa-male fa-lg"></span> Organizador
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="drop2">
+                        <li><a class="btn" onclick="redirigeReservaOrganizador()"><span class="glyphicon glyphicon-flag"></span> Reservarle entradas</a></li>
+                        <li><a class="btn" onclick="redirigeVerReservaOrganizador()"><span class="glyphicon glyphicon-eye-open"></span> Ver sus reservas</a></li>
+                    </ul>
+                </div>
+                }                
             </div>
         </div>
-    </div>
+    </div>   
 
     <div class="row">
         <div id="busqAvanzada" class="container-fluid">
