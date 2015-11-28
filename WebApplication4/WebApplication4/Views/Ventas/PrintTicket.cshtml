@@ -1,0 +1,69 @@
+﻿@using WebApplication4.Models;
+
+
+@model Entrada
+
+@{
+    ViewBag.Title = "VerTicket";
+    Layout = null;
+
+
+
+
+
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+
+    <title>PrintTicket</title>
+
+
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/jquery-barcode.min.js"></script>
+    <script src="~/Scripts/jquery.qrcode.min.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <link href="~/Content/bootstrap-theme.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <style type="text/css">
+    </style>
+</head>
+<body>
+
+    @{
+        if (Session["imagen"] != null)
+        {
+            var byte64 = Convert.ToBase64String((byte[])(Session["imagen"]));
+            var imgSrc = String.Format("data:image/png;base64,{0}", byte64);
+            <div id="boleto">
+
+                <img id="ticket" class="imagen-boleto" src="@imgSrc" />
+
+
+            </div>
+
+
+        }
+
+
+    }
+
+</body>
+</html>
+
+
+
+
+<script>
+
+    $(document).ready(function () {
+
+        window.print();
+        window.close();
+
+    })
+
+
+</script>

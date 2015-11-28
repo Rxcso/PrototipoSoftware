@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NReco.ImageGenerator;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Core;
@@ -1811,6 +1812,149 @@ namespace WebApplication4.Controllers
                 return View("Devolucion");
             }
             else return View("VerDetalle");
+        }
+
+
+
+
+
+        public ActionResult PrintTicket(int codVenT)
+        {
+            List<Entrada> listaEntradas = new List<Entrada>();
+
+            CultureInfo culture = new CultureInfo("es-PE");
+
+
+            var lista = from obj in db.DetalleVenta
+                        where obj.codVen == codVenT
+                        select obj;
+
+            foreach (var detalle in lista)
+            {
+
+                int? cant = detalle.cantEntradas;
+                var axf = db.AsientosXFuncion.Where(c => c.codDetalleVenta == detalle.codDetalleVenta && c.codFuncion == detalle.codFuncion);
+
+
+
+
+
+                if (axf != null && axf.Count() != 0)
+                {
+
+
+
+
+                    foreach (var dato in axf)
+                    {
+
+                        Entrada ticket = new Entrada();
+
+                        var fu = db.Funcion.Find(detalle.codFuncion);
+                        var evento = db.Eventos.Find(fu.codEvento);
+                        var local = db.Local.Find(evento.idLocal);
+                        var pe = db.PrecioEvento.Find(detalle.codPrecE);
+                        var zona = db.ZonaEvento.Find(pe.codZonaEvento);
+
+                        ticket.Lugar = evento.Region.nombre;
+                        ticket.Evento = evento.nombre;
+                        ticket.Local = local.descripcion;
+
+                        ticket.Direccion = local.ubicacion;
+
+                        ticket.Precio = pe.precio;
+                        ticket.Fecha = fu.fecha.Value.ToString("dddd d # MMMM # yyyy", culture).Replace("#", "de");
+
+                        ticket.Zona = zona.nombre;
+                        ticket.Hora = fu.horaIni.Value.ToString("hh:mm tt", culture);
+                        var asiento = db.Asientos.Find(dato.codAsiento);
+                        ticket.Asiento = "Fil: " + asiento.fila + " Col: " + asiento.columna;
+
+                        listaEntradas.Add(ticket);
+
+                    }
+
+
+
+                }
+                else
+                {
+
+                    for (int i = 0; i < cant; i++)
+                    {
+
+                        Entrada ticket = new Entrada();
+
+                        var fu = db.Funcion.Find(detalle.codFuncion);
+                        var evento = db.Eventos.Find(fu.codEvento);
+                        var local = db.Local.Find(evento.idLocal);
+                        var pe = db.PrecioEvento.Find(detalle.codPrecE);
+                        var zona = db.ZonaEvento.Find(pe.codZonaEvento);
+
+
+
+                        ticket.Lugar = evento.Region.nombre;
+                        ticket.Evento = evento.nombre;
+                        ticket.codEvento = evento.codigo;
+                        ticket.Local = local.descripcion;
+
+                        ticket.Direccion = local.ubicacion;
+
+
+                        ticket.Precio = pe.precio;
+                        ticket.Fecha = fu.fecha.Value.ToString("dddd d # MMMM # yyyy", culture).Replace("#", "de") + " " + fu.horaIni.Value.ToString("hh:mm tt", culture);
+
+                        ticket.Zona = zona.nombre;
+
+                        ticket.Codigo = "" + evento.codigo + "" + fu.codFuncion + "" + codVenT + "" + cant;
+
+                        listaEntradas.Add(ticket);
+
+
+                    }
+
+
+                }
+
+
+            }
+
+
+
+
+            var data = listaEntradas.First();
+
+
+            var st = "";
+            this.ViewData.Model = data;
+            string path = HttpContext.Server.MapPath("~/Images/plantilla2.png");
+            Session["path"] = path;
+            using (StringWriter stringWriter = new StringWriter())
+            {
+
+                ViewEngineResult viewResult = ViewEngines.Engines.FindView(this.ControllerContext, "GeneraTicket", null);
+                ViewContext viewContext = new ViewContext(this.ControllerContext, viewResult.View, this.ViewData, this.TempData, stringWriter);
+                viewResult.View.Render(viewContext, stringWriter);
+                st = stringWriter.GetStringBuilder().ToString();
+
+
+
+
+            }
+
+
+
+            var converter = new NReco.ImageGenerator.HtmlToImageConverter();
+            converter.Width = 710;
+            var jpegBytes = converter.GenerateImage(st, ImageFormat.Png);
+
+
+
+            Session["imagen"] = jpegBytes;
+
+
+            return View(data);
+
         }
 
     }

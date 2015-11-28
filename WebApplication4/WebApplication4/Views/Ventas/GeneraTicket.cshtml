@@ -1,0 +1,215 @@
+﻿@using WebApplication4.Models;
+
+
+@model Entrada
+
+
+@{
+    Layout = null;
+}
+
+
+
+@{
+    ViewBag.Title = "VerTicket";
+    Layout = null;
+
+
+
+
+
+}
+
+
+
+
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+
+    <script src="@Server.MapPath("~/Scripts/jquery-1.10.2.js")"></script>
+    <script src="@Server.MapPath("~/Scripts/jquery-barcode.min.js")"></script>
+    <script src="@Server.MapPath("~/Scripts/jquery.qrcode.min.js")"></script>
+    <script src="@Server.MapPath("~/Scripts/bootstrap.js")"></script>
+    <link href="@Server.MapPath("~/Content/bootstrap-theme.min.css")" rel="stylesheet" />
+    <link href="@Server.MapPath("~/Content/bootstrap.min.css")" rel="stylesheet" />
+
+
+
+</head>
+<body>
+
+
+
+
+
+    <div id="ticket" style="background: url(../../Images/plantilla2.png) no-repeat">
+
+        <div id="header" class="Rotate-90 bloques">
+            <p><strong>@Model.Evento</strong></p>
+            <p>@Model.Local</p>
+            <p>@Model.Direccion - @Model.Lugar</p>
+            <p>@Model.Fecha</p>
+            <p>Zona: @Model.Zona</p>
+        </div>
+        <div id="contenido" class="bloques" align="center">
+
+            <div width=80 height=80 id="barra" class="qrblock pull-left"></div>
+            <div align="left" class="pull-left">
+                <p>Zona</p>
+                <p>@Model.Zona</p>
+            </div>
+            <div class="pull-right">
+                <p>Precio</p>
+                <strong>S/.@Model.Precio</strong>
+
+            </div>
+            <br><br><br><br>
+            <div align="center">
+                <h3>@Model.Evento</h3>
+                <!--<p>Descripcion</p>-->
+
+                <p>@Model.Local</p>
+                <p>@Model.Direccion - @Model.Lugar</p>
+
+                <strong>@Model.Fecha</strong>
+            </div>
+            <div id="contentBar" class="secondBar"></div>
+        </div>
+        <div id="seguridad" class="bloques">
+
+            <div id="codBarra" class="mainBar"></div>
+        </div>
+
+    </div>
+
+
+</body>
+
+
+
+</html>
+<script>
+
+
+
+
+      $(".qrblock").qrcode({
+        render: 'div',
+        size: 80,
+        color: '#3A3',
+        text: 'http://200.16.7.113/Evento/VerEvento/' + @Model.codEvento +''
+
+    });
+
+
+    $(".mainBar").barcode('@Model.Codigo', 'codabar',
+ {
+     'barWidth': 1,
+     'barHeight': 60,
+     'color': '#000000',
+     'fontSize': 20
+ });
+
+
+
+    $(".secondBar").barcode('@Model.Codigo', 'codabar',
+ {
+     'barWidth': 1,
+     'barHeight': 30,
+     'color': '#000000',
+     'bgColor':"transparent",
+     'fontSize': 13
+ });
+
+</script>
+<style>
+    html {
+        width: 700px;
+        height: 250px;
+    }
+
+    body {
+        width: 700px;
+        height: 250px;
+    }
+
+    #contenido p, h3 {
+        margin: 0;
+    }
+
+    #contenido {
+        position: relative;
+        left: -84px;
+        width: 400px;
+        height: 230px;
+    }
+
+    #header p {
+        margin: 0;
+    }
+
+    #ticket {
+        padding: 10px 10px;
+        width: 700px;
+        height: 245px;
+        border: 1px solid black;
+        /*  background-image: url("../../Images/plantilla2.png");*/
+        /*  background: url('Url.Content('~/Images/plantilla2.png')') no-repeat;*/
+        /* background: url("~/Images/plantilla2.png") no-repeat;*/
+    }
+
+        #ticket .bloques {
+            float: left;
+        }
+
+
+
+    .mainBar {
+        -webkit-transform: rotate(-90deg);
+        -moz-transform: rotate(-90deg);
+        -ms-transform: rotate(-90deg);
+        -o-transform: rotate(-90deg);
+        transform: rotate(-90deg);
+        -webkit-transform-origin: 55% 70%;
+        -moz-transform-origin: 55% 70%;
+        -ms-transform-origin: 55% 70%;
+        -o-transform-origin: 55% 70%;
+        transform-origin: 55% 70%;
+        margin-top: 45px;
+        position: relative;
+    }
+
+
+
+
+
+    .Rotate-90 {
+        -webkit-transform: rotate(-90deg);
+        -moz-transform: rotate(-90deg);
+        -ms-transform: rotate(-90deg);
+        -o-transform: rotate(-90deg);
+        transform: rotate(-90deg);
+        -webkit-transform-origin: 50% 80%;
+        -moz-transform-origin: 50% 80%;
+        -ms-transform-origin: 50% 80%;
+        -o-transform-origin: 50% 80%;
+        transform-origin: 50% 80%;
+        margin-top: 11px;
+        margin-left: -5px;
+        height: 130px;
+        width: 230px;
+        position: relative;
+        border-bottom: 1px dashed black;
+    }
+
+    #seguridad {
+        margin-left: -80px;
+        width: 130px;
+        height: 230px;
+        border-left: 1px dashed black;
+    }
+</style>

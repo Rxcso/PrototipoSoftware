@@ -139,6 +139,27 @@
 
     }
 
+
+
+
+    function imprimir() {
+
+
+        if ($("#codVenT").val() == '') {
+
+            alert("Seleccione una venta");
+            return;
+        }
+
+        var myWindow = window.open("", "Boleto", 'height=250, width=720');
+        myWindow.location.href = '/Ventas/PrintTicket?codVenT=' + $("#codVenT").val();
+
+
+
+
+
+    }
+
 </script>
 <style>
     .trselected {
@@ -158,8 +179,8 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-xs-6">
-                        <a class="btn btn-primary pull-right" href="" data-dismiss="modal" aria-hidden="true">Entregar e imprimir <span class="glyphicon glyphicon-print"></span></a>
-                    </div>
+                        <a id="printBtn" class="btn btn-primary pull-right" onclick="imprimir()" data-dismiss="modal" aria-hidden="true">Entregar e imprimir <span class="glyphicon glyphicon-print"></span></a>
+                   </div>
 
                     <div class="col-md-6 col-sm-6 colxs-6">
                         <a class="btn btn-danger pull-left" href="" aria-hidden="true" data-dismiss="modal">Cancelar <span class="glyphicon glyphicon-remove"></span></a>
