@@ -2614,12 +2614,21 @@ System.Collections.ListDictionaryInternal
 2015-11-28 15:51:28,607 [5] ERROR Ticknet - Exception Message - 
 Referencia a objeto no establecida como instancia de un objeto.
 2015-11-28 15:51:28,607 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-28 17:15:07,929 [114] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-28 17:15:07,943 [114] ERROR Ticknet - Exception Type - 
-ArgumentException
-2015-11-28 17:15:07,943 [114] ERROR Ticknet - Exception Data - 
+2015-11-28 17:34:25,018 [42] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 17:34:25,026 [42] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-28 17:34:25,026 [42] ERROR Ticknet - Exception Data - 
 System.Collections.ListDictionaryInternal
-2015-11-28 17:15:07,943 [114] ERROR Ticknet - Exception Message - 
-The type of one of the primary key values did not match the type defined in the entity. See inner exception for details.
-Nombre del parámetro: keyValues
-2015-11-28 17:15:07,943 [114] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 17:34:25,026 [42] ERROR Ticknet - Exception Message - 
+Expected a "{" but found a "<".  Block statements must be enclosed in "{" and "}".  You cannot use single-statement control-flow statements in CSHTML pages. For example, the following is not allowed:
+
+@if(isLoggedIn)
+    <p>Hello, @user</p>
+
+Instead, wrap the contents of the block in "{}":
+
+@if(isLoggedIn) {
+    <p>Hello, @user</p>
+}
+
+2015-11-28 17:34:25,026 [42] DEBUG Ticknet - ++++++++++++++++++++++++++++

@@ -34,7 +34,14 @@
 <div class="container-fluid">
     <div class="col-md-7">
         <ol class="breadcrumb">
-            <li><a href="@Url.Action("Index","Home")">Inicio</a></li>
+            @if (codperfilActual == 3 || codperfilActual == 2 || codperfilActual == 4)//si el evento lo ve un personal de la empresa
+            {
+                <li><a href="@Url.Action("Index2","Home")">Inicio</a></li>
+            }
+            else
+            {
+                <li><a href="@Url.Action("Index","Home")">Inicio</a></li>
+            }            
             <li class="active">Evento: @ViewBag.evento.nombre</li>
         </ol>
     </div>
