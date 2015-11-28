@@ -666,6 +666,7 @@
     <Content Include="Views\Ventas\BuscaReserva.cshtml" />
     <Content Include="Views\Ventas\GeneraTicket.cshtml" />
     <Content Include="Views\Ventas\PrintTicket.cshtml" />
+    <Content Include="Views\Organizador\Historial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -2632,3 +2632,12 @@ Instead, wrap the contents of the block in "{}":
 }
 
 2015-11-28 17:34:25,026 [42] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 18:04:04,608 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 18:04:04,617 [6] ERROR Ticknet - Exception Type - 
+ArgumentException
+2015-11-28 18:04:04,617 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-28 18:04:04,617 [6] ERROR Ticknet - Exception Message - 
+The parameters dictionary contains a null entry for parameter 'id' of non-nullable type 'System.Int32' for method 'System.Web.Mvc.ActionResult Historial(Int32)' in 'WebApplication4.Controllers.OrganizadorController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
+Nombre del parámetro: parameters
+2015-11-28 18:04:04,617 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++

@@ -4,19 +4,30 @@
     ViewBag.Title = "Historial del Organizador";
     Organizador org = ViewBag.Organizador as Organizador;
 }
-
-<div class="container">
-    <div class="input-group">
-        <h3>Historial del Organizador</h3>
-        <label>Nombre:</label> @org.nombOrg<br />
-        <label>DNI:</label> @org.codDoc
-    </div>
-    <div style="align-items:flex-end">
-        <a class="btn btn-danger" href="@Url.Action("Index","Organizador")"><span class="glyphicon glyphicon-arrow-left"></span>Regresar  </a>
+<style>
+    td{text-align:center}
+</style>
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li><a href=@Url.Action("Index","Organizador")>Mantenimiento de organizadores</a></li>
+            <li class="active">Historial del organizador</li>
+        </ol>
     </div>
 </div>
-<body>
-    <div class="container">
+
+<div class="container">
+    <h3>Historial del Organizador</h3>
+    <div class="row form-group">
+        <div class="col-md-6 col-sm-6">
+            <label class="control-label ">Nombre y apellidos:</label> @org.nombOrg<br />
+        </div>
+        <div class="col-md-6 col-sm-6">
+            <label>Núm. documento:</label> @org.codDoc
+        </div>
+    </div>
+    <h4>Eventos</h4>
+    <div class="table-responsive">
         <table id="mytable" class="table table-bordered table-hover">
             <thead>
                 <tr class="thead">
@@ -29,14 +40,15 @@
             <tbody>
                 @foreach (Eventos evento in eventos)
                 {
-                    <tr>
-                        <td>@evento.codigo</td>
-                        <td>@evento.nombre</td>
-                        <td>@String.Format("{0:d}", evento.fecha_inicio)</td>
-                        <td>@String.Format("{0:d}", evento.fecha_fin)</td>
-                    </tr>
+                <tr>
+                    <td>@evento.codigo</td>
+                    <td>@evento.nombre</td>
+                    <td>@String.Format("{0:d}", evento.fecha_inicio)</td>
+                    <td>@String.Format("{0:d}", evento.fecha_fin)</td>
+                </tr>
                 }
             </tbody>
         </table>
     </div>
-</body>
+
+</div>
