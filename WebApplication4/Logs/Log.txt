@@ -2466,3 +2466,27 @@ System.Collections.ListDictionaryInternal
 Encountered end tag "div" with no matching start tag.  Are your start/end tags properly balanced?
 
 2015-11-27 20:16:10,116 [15] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 00:42:46,929 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 00:42:46,954 [7] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-28 00:42:46,954 [7] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-28 00:42:46,954 [7] ERROR Ticknet - Exception Message - 
+The controller for path '/__browserLink/requestData/fe940c44b2444e75bb8797969cb756ce' was not found or does not implement IController.
+2015-11-28 00:42:46,954 [7] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 00:54:22,098 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 00:54:22,114 [8] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-28 00:54:22,114 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-28 00:54:22,114 [8] ERROR Ticknet - Exception Message - 
+A public action method 'GeneraTicket' was not found on controller 'WebApplication4.Controllers.VentasController'.
+2015-11-28 00:54:22,114 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 00:55:12,255 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 00:55:12,255 [9] ERROR Ticknet - Exception Type - 
+EntityException
+2015-11-28 00:55:12,256 [9] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-28 00:55:12,256 [9] ERROR Ticknet - Exception Message - 
+The underlying provider failed on Open.
+2015-11-28 00:55:12,256 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
