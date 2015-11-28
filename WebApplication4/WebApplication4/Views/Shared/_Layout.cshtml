@@ -61,7 +61,10 @@
                     <div class="collapse navbar-collapse" id="navegacion">
                         <!--menu desplegable -->
                         <ul class="nav navbar-nav">
-                            <li class="dropdown">
+                            @if (@codigoUsuario == 2)
+                            {
+                                <li class="dropdown">
+
                                 <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button">
                                     Módulo de venta <span class="caret"></span>
                                 </a>
@@ -79,7 +82,10 @@
                                     <li><a href="@Url.Action("Cierre", "Ventas")">Cierre de caja</a></li>
                                 </ul>
                             </li>
-                            <li class="dropdown">
+                            }
+                            @if (@codigoUsuario == 4)
+                            {
+                                <li class="dropdown">
                                 <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button">
                                     Procesos <span class="caret"></span>
                                 </a>
@@ -92,25 +98,33 @@
                                     <li><a href="@Url.Action("PagoOrganizador", "Ventas")">Registrar pagos de Penalidad</a></li>
                                 </ul>
                             </li>
+                            }
+                            
                             <li class="dropdown">
                                 <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button">
                                     Mantenimientos <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <!--Administrador del negocio-->
-                                    <li><a href="@Url.Action("Index", "Categoria")">Categorías de eventos</a></li>
-                                    <li><a href="@Url.Action("Index", "Empleado")">Empleados</a></li>
-                                    <li><a href="@Url.Action("Index", "PuntoVenta")">Puntos de venta</a></li>
-                                    <li><a href="@Url.Action("Index", "Regalo")">Regalos</a></li>
-
-                                    <!--Promotor-->
-                                    <li class="divider"></li>
-                                    <li><a href="@Url.Action("Index", "Organizador")">Organizadores</a></li>
-                                    <li><a href="@Url.Action("Index", "Local")">Locales</a></li>
-                                    <li><a href="@Url.Action("Index", "Evento")">Eventos</a></li>
+                                    @if (@codigoUsuario == 4) { 
+                                        <!--Administrador del negocio-->
+                                        <li><a href="@Url.Action("Index", "Categoria")">Categorías de eventos</a></li>
+                                        <li><a href="@Url.Action("Index", "Empleado")">Empleados</a></li>
+                                        <li><a href="@Url.Action("Index", "PuntoVenta")">Puntos de venta</a></li>
+                                        <li><a href="@Url.Action("Index", "Regalo")">Regalos</a></li>
+                                    }
+                                    
+                                    @if (@codigoUsuario == 3) { 
+                                        <!--Promotor-->
+                                        <!--li class="divider"></!--li-->
+                                        <li><a href="@Url.Action("Index", "Organizador")">Organizadores</a></li>
+                                        <li><a href="@Url.Action("Index", "Local")">Locales</a></li>
+                                        <li><a href="@Url.Action("Index", "Evento")">Eventos</a></li>
+                                    }
+                                    
                                 </ul>
                             </li>
-                            <li class="dropdown">
+                            @if (@codigoUsuario == 4) { 
+                                <li class="dropdown">
                                 <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button">
                                     Reportes <span class="caret"></span>
                                 </a>
@@ -123,6 +137,8 @@
                                     <li><a href="@Url.Action("ReporteCliente", "CuentaUsuario")">Clientes</a></li>
                                 </ul>
                             </li>
+                            }
+                            
 
                         </ul>
 
@@ -131,7 +147,7 @@
                             @Html.AntiForgeryToken()
 
                             <div class="navbar-form navbar-right">
-                                <font color="white"> Bienvenido @nombre ! </font>
+                                <font color="white"> Bienvenido @nombre </font>
                                 <a type="button" class="btn btn-default" href="javascript:document.getElementById('logoutForm').submit()">Cerrar Sesion <span class="glyphicon glyphicon-log-out"></span></a>
                             </div>
                         }

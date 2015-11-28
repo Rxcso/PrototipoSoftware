@@ -101,6 +101,7 @@ thead {
     -webkit-transition: width 0.2s;    
     -moz-transition: width 0.2s; 
     -ms-transition: width 0.2s;
+    -o-transition: width 0.2s;
 }
 #barraLateral li a{    
     display: block;
