@@ -21,7 +21,7 @@
         </div>
     </div>
     <div class="tab-content">
-        @using (Html.BeginForm("DatosGenerales", "Evento", FormMethod.Post, new {model = Model }))
+        @using (Html.BeginForm("DatosGenerales", "Evento", FormMethod.Post, new { model = Model }))
         {
             @Html.AntiForgeryToken()
             <div class="tab-pane active  fade in  container" id="generales">
@@ -119,18 +119,20 @@
                         }
                         Seleccione un Local:
                         <table class="table table-bordered table-hover" id="tablita">
-                            <thsead>
+                            <thead>
                                 <tr class="thead">
                                     <th>Id</th>
+                                    <th>Nombre</th>
                                     <th>Ubicacion</th>
                                     <th>Seleccionar</th>
                                 </tr>
-                            </thsead>
+                            </thead>
                             <tbody>
                                 @foreach (var local in localList)
                                 {
                                     <tr>
                                         <td>@local.codLocal</td>
+                                        <td>@local.descripcion</td>
                                         <td>@local.ubicacion</td>
                                         <td><input type="radio" id="@local.codLocal" name="groupL" value="@local.ubicacion"></td>
                                     </tr>

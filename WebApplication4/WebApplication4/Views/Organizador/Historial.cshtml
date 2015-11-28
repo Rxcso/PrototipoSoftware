@@ -1,0 +1,42 @@
+﻿@using WebApplication4.Models
+@{
+    List<Eventos> eventos = ViewBag.ListaEventos as List<Eventos>;
+    ViewBag.Title = "Historial del Organizador";
+    Organizador org = ViewBag.Organizador as Organizador;
+}
+
+<div class="container">
+    <div class="input-group">
+        <h3>Historial del Organizador</h3>
+        <label>Nombre:</label> @org.nombOrg<br />
+        <label>DNI:</label> @org.codDoc
+    </div>
+    <div style="align-items:flex-end">
+        <a class="btn btn-danger" href="@Url.Action("Index","Organizador")"><span class="glyphicon glyphicon-arrow-left"></span>Regresar  </a>
+    </div>
+</div>
+<body>
+    <div class="container">
+        <table id="mytable" class="table table-bordered table-hover">
+            <thead>
+                <tr class="thead">
+                    <th class="col-md-1">Código</th>
+                    <th class="col-md-3">Nombre</th>
+                    <th class="col-md-2">Fecha Inicio</th>
+                    <th class="col-md-2">Fecha Fin</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Eventos evento in eventos)
+                {
+                    <tr>
+                        <td>@evento.codigo</td>
+                        <td>@evento.nombre</td>
+                        <td>@String.Format("{0:d}", evento.fecha_inicio)</td>
+                        <td>@String.Format("{0:d}", evento.fecha_fin)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
