@@ -302,7 +302,6 @@ namespace WebApplication4.Controllers
         public ActionResult ReporteEvento()
         {
             return View();
-
         }
 
         public ActionResult Index(string nombre, string orden, DateTime? fech_ini, DateTime? fech_fin, int? idCategoria, int? idSubCat, int? idRegion, int? page)
@@ -1057,7 +1056,7 @@ namespace WebApplication4.Controllers
                 }
             }
         }
-        
+
         [HttpPost]
         public ActionResult Tarifas(ZonaEventoListModel model)
         {
@@ -1655,7 +1654,7 @@ namespace WebApplication4.Controllers
             Session["Carrito"] = carrito;
             return indicador;
         }
-        
+
         [HttpPost]
         [AllowAnonymous]
         public ActionResult Entradas(PaqueteEntradas paquete, string boton)

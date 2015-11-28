@@ -12,10 +12,8 @@ using System.Data.Entity.Core;
 
 namespace WebApplication4.Controllers
 {
-    [Authorize(Roles = "Promotor")]
     public partial class EventoController : Controller
     {
-
         /*
          *POSTERGAR EVENTO 
          * 
