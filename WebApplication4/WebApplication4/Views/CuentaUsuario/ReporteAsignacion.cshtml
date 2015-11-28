@@ -1,14 +1,13 @@
 ﻿@using WebApplication4.Models
-
-
 @{
     ViewBag.Title = "ReporteAsignacion";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
 @model ReporteAsignacionModel
-
+<style>
+    td{text-align:center}
+</style>
 
 <div class="container-fluid">
     <div class="col-md-5">
@@ -18,10 +17,9 @@
     </div>
 </div>
 
-<div class="container"><br />
-    
+<div class="container">    
     <center id="busqAvanzada" class="row">
-        <div id="alerta" class="alert alert-warning" hidden></div>
+        <div id="alerta" class="alert alert-warning" hidden></div><!--LA ALERTA-->
 
         @using (Ajax.BeginForm("ObtenerAsignacion", "CuentaUsuario", null, new AjaxOptions    {
                 OnFailure = "validaciones",
@@ -81,8 +79,9 @@
         var fechI = fIni.getDate().toString() + "/" + (fIni.getMonth() + 1).toString() + "/" + fIni.getFullYear();
         var fechF = fFin.getDate().toString() + "/" + (fFin.getMonth() + 1).toString() + "/" + fFin.getFullYear();
 
-        t1 = "<h4> REPORTE DE ASIGNACIÓN DE VENDEDORES:  Del " + fechI + " - " + fechF + "</h4>";
-        myTable = t1 + "<div class='table-responsive'><table class='table table-bordered table-hover'>";
+        t1 = "<h4> REPORTE DE ASIGNACIÓN DE VENDEDORES:</h4>";
+        t2 = "<h4>Del " + fechI + " - " + fechF +"</h4>"
+        myTable = t1 + t2 + "<div class='table-responsive'><table class='table table-bordered table-hover'>";
         myTable += "<thead><tr><th>Fecha</th>";
         myTable += "<th>Punto de Venta</th><th>Vendedor</th><th>Hora</th></thead>";
 

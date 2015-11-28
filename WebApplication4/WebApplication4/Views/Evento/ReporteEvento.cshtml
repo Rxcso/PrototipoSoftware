@@ -15,7 +15,10 @@
     }
     
 }
+<style>
+    td{text-align:center;cursor:text}
 
+</style>
 <div class="container-fluid">
     <div class="col-md-5">
         <ol class="breadcrumb">
@@ -56,21 +59,21 @@
                 DateTime di2 = (DateTime)Session["FechaREI"];
                 DateTime df2 = (DateTime)Session["FechaREF"];                
                 <center>
-                    <h4>REPORTE DE EVENTOS: Del @di2.Date.ToString("dd/MM/yyyy") - @df2.Date.ToString("dd/MM/yyyy")</h4>
+                    <h4>REPORTE DE EVENTOS:</h4><h4> Del @di2.Date.ToString("dd/MM/yyyy") - @df2.Date.ToString("dd/MM/yyyy")</h4>
                 </center> 
             }
             <div class="table-responsive">
                 <table id="mytable" class="table table-bordered table-hover">
                     <thead>
                         <tr>
-                            <th>Código Evento</th>
+                            <th>Código</th>
                             <th>Evento</th>
                             <th>Organizador</th>
-                            <th>Fecha Función</th>
-                            <th>Hora Ini Función</th>
-                            <th>Estado de Función</th>
-                            <th>Entradas Disponibles</th>
-                            <th>Entradas Vendidas</th>
+                            <th>Fecha función</th>
+                            <th>Hora función</th>
+                            <th>Estado de función</th>
+                            <th>Entradas disponibles</th>
+                            <th>Entradas vendidas</th>
                             <th>Local</th>
                             <th>Región</th>
                         </tr>
@@ -78,7 +81,7 @@
                     <tbody id="tbody">
                         @foreach (var row in lev)
                         {
-                            <tr id=@row.codigoEvento onclick="myFunction(this)">
+                            <tr id=@row.codigoEvento >
                                 <td>@row.codigoEvento</td>
                                 <td>@row.nombreEvento</td>
                                 <td>@row.nombreOrganizador</td>

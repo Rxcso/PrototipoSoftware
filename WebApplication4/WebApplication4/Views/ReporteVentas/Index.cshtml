@@ -47,7 +47,9 @@
     }
 
 }
-
+<style>
+    td{cursor:text}
+</style>
 <div class="container-fluid">
     <div class="col-md-4">
         <ol class="breadcrumb">
@@ -104,7 +106,7 @@
                                         DateTime di2 = (DateTime)Session["FechaRI"];
                                         DateTime df2 = (DateTime)Session["FechaRF"];
                                         <center>
-                                            <h4>REPORTE DE VENTAS TOTAL: Del @di2.Date.ToString("dd/MM/yyyy") - @df2.Date.ToString("dd/MM/yyyy")</h4>
+                                            <h4>REPORTE DE VENTAS TOTAL</h4><h4> Del @di2.Date.ToString("dd/MM/yyyy") - @df2.Date.ToString("dd/MM/yyyy")</h4>
                                         </center>
                                         }
                                         <div class="table-responsive">
@@ -182,7 +184,7 @@
                                             DateTime di2 = (DateTime)Session["FechaRI2"];
                                             DateTime df2 = (DateTime)Session["FechaRF2"];
                                         <center>
-                                            <h4>REPORTE DE VENTAS POR VENDEDOR: Del @di2.Date.ToString("dd/MM/yyyy") - @df2.Date.ToString("dd/MM/yyyy")</h4>
+                                            <h4>REPORTE DE VENTAS POR VENDEDOR</h4><h4> Del @di2.Date.ToString("dd/MM/yyyy") - @df2.Date.ToString("dd/MM/yyyy")</h4>
                                         </center>
                                         }
                                         <div class="table-responsive">
@@ -252,7 +254,7 @@
                                             DateTime di2 = (DateTime)Session["FechaRI3"];
                                             DateTime df2 = (DateTime)Session["FechaRF3"];
                                             <center>
-                                                <h4>REPORTE DE VENTAS POR EVENTO: Del @di2.Date.ToString("dd/MM/yyyy") - @df2.Date.ToString("dd/MM/yyyy")</h4>
+                                                <h4>REPORTE DE VENTAS POR EVENTO</h4><h4> Del @di2.Date.ToString("dd/MM/yyyy") - @df2.Date.ToString("dd/MM/yyyy")</h4>
                                             </center>
                                         }
                                         <div class="table-responsive">
@@ -326,7 +328,7 @@
                                             DateTime di4 = (DateTime)Session["FechaRI4"];
                                             DateTime df4 = (DateTime)Session["FechaRF4"];
                                             <center>
-                                                <h4>REPORTE DE VENTAS POR PUNTO DE VENTA: Del @di4.Date.ToString("dd/MM/yyyy") - @df4.Date.ToString("dd/MM/yyyy")</h4>
+                                                <h4>REPORTE DE VENTAS POR PUNTO DE VENTA</h4><h4> Del @di4.Date.ToString("dd/MM/yyyy") - @df4.Date.ToString("dd/MM/yyyy")</h4>
                                             </center>
                                         }
                                         <table class="table table-bordered table-hover">
