@@ -20,6 +20,7 @@ namespace WebApplication4.Controllers
 
         public JsonResult RegistraPoliticas(string dur, string mx, string mt, string ra, string mE, string hr)
         {
+            int er = 0;
             int m1, m2, m3, m4, m5, m6;
             DateTime h6;
             string me1 = "1.Falta Ingresar Valores\n", me2 = " 3.Falta Ingresar Valores\n", me3 = " 4.Falta Ingresar Valores\n", me4 = " 5.Falta Ingresar Valores\n", me5 = " 6.Falta Ingresar Valores", me6 = " 2.Falta Ingresar Valores\n";
@@ -39,6 +40,7 @@ namespace WebApplication4.Controllers
                 else
                 {
                     me1 = " 1.Error Negativo\n";
+                    er = 1;
                 }
             }
             else
@@ -46,6 +48,7 @@ namespace WebApplication4.Controllers
                 if (dur != "")
                 {
                     me1 = " 1.Error Número Decimal\n";
+                    er = 1;
                 }
             }
             if (dur == "e")
@@ -72,6 +75,7 @@ namespace WebApplication4.Controllers
                 else
                 {
                     me2 = " 3.Error Negativo\n";
+                    er = 1;
                 }
             }
             else
@@ -79,6 +83,7 @@ namespace WebApplication4.Controllers
                 if (mx != "")
                 {
                     me2 = " 3.Error Número Decimal\n";
+                    er = 1;
                 }
             }
             if (int.TryParse(mt, out m3) == true)
@@ -97,6 +102,7 @@ namespace WebApplication4.Controllers
                 else
                 {
                     me3 = " 4.Error Negativo\n";
+                    er = 1;
                 }
 
             }
@@ -105,6 +111,7 @@ namespace WebApplication4.Controllers
                 if (mt != "")
                 {
                     me3 = " 4.Error Número Decimal\n";
+                    er = 1;
                 }
             }
             if (int.TryParse(ra, out m4) == true)
@@ -123,6 +130,7 @@ namespace WebApplication4.Controllers
                 else
                 {
                     me4 = " 5.Error Negativo\n";
+                    er = 1;
                 }
             }
             else
@@ -130,6 +138,7 @@ namespace WebApplication4.Controllers
                 if (ra != "")
                 {
                     me4 = " 5.Error Número Decimal\n";
+                    er = 1;
                 }
             }
             if (int.TryParse(mE, out m5) == true)
@@ -148,6 +157,7 @@ namespace WebApplication4.Controllers
                 else
                 {
                     me5 = " 6.Error Negativo\n";
+                    er = 1;
                 }
             }
             else
@@ -155,6 +165,7 @@ namespace WebApplication4.Controllers
                 if (mE != "")
                 {
                     me5 = " 6.Error Número Decimal\n";
+                    er = 1;
                 }
             }
             if (DateTime.TryParse(hr, out h6) == true)
@@ -173,7 +184,15 @@ namespace WebApplication4.Controllers
                 h.hora = null;
                 db.SaveChanges();
             }
-            string mensaje = me1 + me6 + me2 + me3 + me4 + me5;
+            string mensaje = "";
+            if (er == 1)
+            {
+                mensaje = me1 + me6 + me2 + me3 + me4 + me5;
+            }
+            else
+            {
+                mensaje = "Actualizacion Completada";
+            }
             return Json(mensaje, JsonRequestBehavior.AllowGet);
         }
 
