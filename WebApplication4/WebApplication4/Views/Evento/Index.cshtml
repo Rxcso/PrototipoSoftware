@@ -10,6 +10,7 @@
 }
                                <style>
                                    .inl{display:inline-block}
+                                   td{text-align:center}
                                </style>
 
 <div class="container-fluid">
@@ -152,8 +153,6 @@
             </div>
         </div>
     </div>
-    
-
     <!--BUSQUEDA DE EVENTOS :P-->
     <div class="row">
         <div class="table-responsive">
@@ -162,8 +161,8 @@
                     <tr class="thead">
                         <th class="col-md-1">Código</th>
                         <th class="col-md-4">Nombre</th>
-                        <th class="col-md-2">Tipo</th>
                         <th class="col-md-2">Categoría</th>
+                        <th class="col-md-2">SubCategoría</th>
                         <th class="col-md-2">Organizador</th>
                         <th class="col-md-1">Estado</th>
                     </tr>
@@ -179,10 +178,13 @@
                             }
 
                             <td>@cat.nombre</td>
-                            <td>@evento.idCategoria</td>
                             @{
-
-                        WebApplication4.Models.Organizador org = db.Organizador.Where(mod => mod.codOrg == @evento.idOrganizador).First();
+                        WebApplication4.Models.Categoria catt = db.Categoria.Where(mod => mod.idCatPadre == @evento.idCategoria).First();
+                            }
+                            <td>@catt.nombre</td>
+                            
+                            @{
+                                WebApplication4.Models.Organizador org = db.Organizador.Where(mod => mod.codOrg == @evento.idOrganizador).First();
                             }
                             <td>@org.nombOrg</td>
                             <td>@evento.estado</td>
