@@ -2547,3 +2547,5 @@ C:\Users\Pier\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\bin
 C:\Users\Pier\Source\Repos\PrototipoSoftware\WebApplication4\WebApplication4\bin\NReco.ImageGenerator.xml
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\NReco.ImageGenerator.dll
 C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\bin\NReco.ImageGenerator.xml
+C:\Users\Pier\Source\Repos\PrototipoSoftware2\WebApplication4\WebApplication4\bin\NReco.ImageGenerator.dll
+C:\Users\Pier\Source\Repos\PrototipoSoftware2\WebApplication4\WebApplication4\bin\NReco.ImageGenerator.xml

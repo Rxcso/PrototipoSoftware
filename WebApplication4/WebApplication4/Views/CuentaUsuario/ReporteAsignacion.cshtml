@@ -32,14 +32,14 @@
                 <div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon">Desde:</span>
-                        @Html.EditorFor(m => m.fechaInicio, new { })
+                        @Html.EditorFor(m => m.fechaInicio, new { htmlAttributes = new { type = "text", @class = "fechar" } })
                     </div>
                 </div>
                 &nbsp;
                 <div class="form-group ">
                     <div class="input-group">
                         <span class="input-group-addon">Hasta:</span>
-                        @Html.EditorFor(m => m.fechaFin, new { })
+                        @Html.EditorFor(m => m.fechaFin, new { htmlAttributes = new { type = "text", @class = "fechar" } })
                     </div>
                 </div>
             </div>
