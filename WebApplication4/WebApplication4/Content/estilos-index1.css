@@ -90,7 +90,8 @@ thead {
 #barraLateral{
     position: fixed;
     top: 450px;   
-    left:0px;    
+    left:0px; 
+    border:1px solid white;   
 }
 #barraLateral li{
     list-style: none;    
@@ -99,6 +100,7 @@ thead {
     cursor: pointer;    
     -webkit-transition: width 0.2s;    
     -moz-transition: width 0.2s; 
+    -ms-transition: width 0.2s;
 }
 #barraLateral li a{    
     display: block;
