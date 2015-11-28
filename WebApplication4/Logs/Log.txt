@@ -2448,3 +2448,21 @@ System.Collections.ListDictionaryInternal
 The parameters dictionary contains a null entry for parameter 'id' of non-nullable type 'System.Int32' for method 'System.Web.Mvc.ActionResult Detalles(Int32)' in 'WebApplication4.Controllers.VentasController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
 Nombre del parámetro: parameters
 2015-11-27 18:04:04,067 [14] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-27 20:09:41,222 [72] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-27 20:09:41,228 [72] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-27 20:09:41,228 [72] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-27 20:09:41,228 [72] ERROR Ticknet - Exception Message - 
+Encountered end tag "center" with no matching start tag.  Are your start/end tags properly balanced?
+
+2015-11-27 20:09:41,228 [72] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-27 20:16:10,110 [15] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-27 20:16:10,116 [15] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-27 20:16:10,116 [15] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-27 20:16:10,116 [15] ERROR Ticknet - Exception Message - 
+Encountered end tag "div" with no matching start tag.  Are your start/end tags properly balanced?
+
+2015-11-27 20:16:10,116 [15] DEBUG Ticknet - ++++++++++++++++++++++++++++

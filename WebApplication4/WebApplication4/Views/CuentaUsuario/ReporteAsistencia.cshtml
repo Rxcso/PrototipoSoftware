@@ -13,67 +13,69 @@
     </div>
 </div>
 
-<div class="container">    
-    <div class="row">
+<div class="container"> <br />   
+    <div id="alerta" class="alert alert-warning" hidden></div>
+    <center class="row">
         @using (Html.BeginForm("ReporteAsistencia", "CuentaUsuario", FormMethod.Post, new { @class = "form-horizontal" }))
         {
-            <div id="alerta" class="alert alert-warning" hidden></div>
-            <div class="form-group">
-                <label for="fIni" class="control-label col-md-2">Fecha de Inicio:</label>
-                <div class="col-md-4">
-                    <input name="calendario" type="date" class="form-control" id="fIni" placeholder="">
+            <center class="row form-inline">
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <span class="input-group-addon">Desde:</span>
+                        <input id="fIni" type="date" class="form-control">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-group-addon">Hasta:</span>
+                        <input id="fFin" type="date" class="form-control">
+                    </div>
                 </div>
-            </div>
+            </center> <br>   
+            <center class="row form-inline">                
+                    <label for="nombre" class="control-label col-md-6">Nombre del Vendedor:</label>
+                    <div class="col-md-6">
+                        <input name="nomvendedor" type="text" class="form-control" id="nombre" placeholder="">
+                    </div>                
+            </center><br>
+            
 
-            <div class="form-group">
-                <label for="fFin" class="control-label col-md-2">Fecha de Fin:</label>
-                <div class="col-md-4">
-                    <input name="calendario" type="date" class="form-control" id="fFin" placeholder="">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="nombre" class="control-label col-md-2">Nombre del Vendedor:</label>
-                <div class="col-md-10">
-                    <input name="nomvendedor" type="text" class="form-control" id="nombre" placeholder="">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="puntoVenta" class="control-label col-md-2">Punto de venta:</label>
+            <div class="row form-inline">
+                <label for="puntoVenta" class="control-label col-md-6">Punto de venta:</label>
                 @{
-            try
-            {
-                var data = from obj in db.PuntoVenta
-                           select obj;
-                <div class="col-md-3">
-                    <select id="puntoVenta" class="form-control ">
-                        @foreach (var punto in data)
+                        try
                         {
-                            <option value="@punto.codPuntoVenta">@punto.ubicacion</option>
+                            var data = from obj in db.PuntoVenta
+                                       select obj;
+                            <div class="col-md-6">
+                                <select id="puntoVenta" class="form-control ">
+                                    @foreach (var punto in data)
+                                    {
+                                        <option value="@punto.codPuntoVenta">@punto.ubicacion</option>
+                                    }
+                                </select>
+                            </div>
                         }
-                    </select>
-                </div>
-            }
-            catch (Exception ex)
-            {
-                //No pudo cargar los puntos de venta
-                Console.WriteLine(ex.StackTrace);
-            }
+                        catch (Exception ex)
+                        {
+                            //No pudo cargar los puntos de venta
+                            Console.WriteLine(ex.StackTrace);
+                        }
                 }
-            </div>
-            <div class="row">
-                <div style="text-align: center">
-                    <a id="generarReport" class="btn btn-primary" onclick="realizar()">Generar <span class="glyphicon glyphicon-file"></span></a>
-                    <a id="newReport" class="btn btn-primary" onclick="nuevoReporte()">Nuevo Reporte <span class=""></span></a>
-                    <a id="export-btn" onclick="generarExcel()" target="_blank" class="btn btn-primary "> Exportar a Excel </a>
-                </div>
-            </div>
+            </div><br />
+            <div class="row form-inline">
+                <center>
+                    <a id="generarReport" class="btn btn-primary" onclick="realizar()"><span class="fa fa-table fa-lg"></span> Generar</a>
+                    <a id="newReport" class="btn btn-primary" onclick="nuevoReporte()"> Nuevo Reporte</a>
+                    <a id="export-btn" onclick="generarExcel()" target="_blank" class="btn btn-success btn-excel"><span class="fa fa-file-excel-o fa-lg"></span> Exportar a Excel </a>
+                </center>
+            </div><br />
         }
-    </div>
+    </center>
 
     <div class="row">
-        <div id="my_result_table"><p></p></div>
+        <div class="col-md-12">
+            <div id="my_result_table"><p></p></div>
+        </div>
+        
     </div>
 </div>
 
@@ -120,7 +122,7 @@
                 var pVent = document.getElementById("puntoVenta");
                 var str = pVent.options[pVent.selectedIndex].text;
 
-                t1 = "<h2> Punto de Venta: " + str + "</h2>";
+                t1 = "<h4>REPORTE DE ASISTENCIA EN: " + str + "</h4>";
                 myTable = t1 + "<table class='table table-bordered table-hover'>";
                 myTable += "<tr><th>Fecha</th>";
                 myTable += "<th>Vendedor</th><th>Hora de Ingreso</th><th>Hora de Salida</th>";
