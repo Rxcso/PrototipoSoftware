@@ -13,7 +13,6 @@
     //se define la lista de los clientes que se mostraran
     List<WebApplication4.Models.CuentaUsuario> listaCliente = null;
 }
-
 <div class="container-fluid">
     <div class="col-md-5">
         <ol class="breadcrumb">
@@ -25,14 +24,13 @@
 
 <div class="container"><br />
     <center class="row form-inline">
-        <div class="col-md-12">
-            <label for="inPoints" class="control-label col-md-2">Puntaje mínimo: </label>
+        <div class="col-md-6">
+            <label for="inPoints" class="control-label col-md-6">Puntaje mínimo: </label>
             <input id="min-points" name="inPoints" type="number" class="form-control" />
-        </div>         
-    </center><br />
-    <center class="row form-inline">    
-        <div class="col-md-12">
-            <label for="inPoints" class="control-label col-md-2">No. Documento: </label>
+        </div>        
+        
+        <div class="col-md-6">
+            <label for="inPoints" class="control-label col-md-6">No. Documento: </label>
             <input id="nDoc" name="Doc" type="text" class="form-control" />
         </div>   
     </center><br />
@@ -43,7 +41,7 @@
             @*se verifica si se genero un reporte o no para mostrar el boton de exportacion*@
             @if (Session["ListaPU"] != null)
             {
-                <button id="btnExport" type="button" class="btn btn-success btn-excel"><span class="fa fa-file-excel-o fa-lg"></span> Exportar Excel></button>
+                <button id="btnExport" type="button" class="btn btn-success btn-excel"><span class="fa fa-file-excel-o fa-lg"></span> Exportar Excel</button>
             }
         </div>        
     </center>
@@ -53,15 +51,15 @@
         listaCliente = (List<WebApplication4.Models.CuentaUsuario>)Session["ListaPU"];
         <div id="dvData" class="row">   
             <div class="col-md-12">
-                <center><h4>REPORTE DE CLIENTES: Al @DateTime.Now.Date.ToString("dd/MM/yyyy")</h4></center>
+                <center><h4>REPORTE DE CLIENTES:</h4> <h4>Al @DateTime.Now.Date.ToString("dd/MM/yyyy")</h4></center>
                 <div class="table-responsive">
                     <table id="mytable" class="table table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th>Usuario</th>
-                                <th>Nombre y Apellido</th>
-                                <th>No Documento</th>
-                                <th>No Reservas Anuladas</th>
+                                <th>Correo</th>
+                                <th>Nombres y Apellidos</th>
+                                <th>Número Documento</th>
+                                <th>Cantidad de reservas anuladas</th>
                                 <th>Puntos</th>
                             </tr>
                         </thead>
@@ -71,11 +69,11 @@
                                 //se obtiene la lista de las reservas anuladas o anuladas por job de cada cliente de cada fila
                                 List<Ventas> listaA = db.Ventas.Where(c => c.cliente == row.usuario && (c.Estado == "Anulado" || c.Estado == "Anulado-Job")).ToList();
                                 <tr id=@row.usuario onclick="myFunction(this)">
-                                    <td>@row.usuario</td>
+                                    <td class="r">@row.usuario</td>
                                     <td>@row.nombre   @row.apellido</td>
-                                    <td>@row.codDoc</td>
-                                    <td>@listaA.Count</td>
-                                    <td>@row.puntos</td>
+                                    <td class="c">@row.codDoc</td>
+                                    <td class="c">@listaA.Count</td>
+                                    <td class="r">@row.puntos</td>
                                 </tr>
                             }
                         </tbody>

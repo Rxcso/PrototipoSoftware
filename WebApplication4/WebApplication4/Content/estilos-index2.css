@@ -29,3 +29,12 @@ thead {
         color:white;
     }    
     th{text-align:center}
+
+
+    /*PARA LAS TABLAS*/
+    .c{text-align:center}
+    .l{text-align:start}
+    .r{text-align:end}
+    .table > tbody > tr > th {
+        vertical-align:middle;
+    }

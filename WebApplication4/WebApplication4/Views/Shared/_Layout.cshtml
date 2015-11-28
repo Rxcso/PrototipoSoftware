@@ -144,12 +144,18 @@
 
                         @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "form" }))
                         {
-                            @Html.AntiForgeryToken()
-
+                            @Html.AntiForgeryToken()                            
                             <div class="navbar-form navbar-right">
-                                <font color="white"> Bienvenido @nombre </font>
-                                <a type="button" class="btn btn-default" href="javascript:document.getElementById('logoutForm').submit()">Cerrar Sesion <span class="glyphicon glyphicon-log-out"></span></a>
+                                <div class="nav navbar-nav ">
+                                    <div class="dropdown">
+                                        <a type="button" aria-expanded="true" data-toggle="dropdown" aria-haspopup="true" class="btn btn-default dropdown-toggle">Bienvenido @nombre<span class="caret"></span></a>
+                                        <ul class="dropdown-menu" aria-labelledby="sesion">
+                                            <li><a href="javascript:document.getElementById('logoutForm').submit()"><span class="fa fa-sign-out fa-lg"></span> Cerrar sesión</a></li>                                            
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
+                            
                         }
                         @if (codigoUsuario == 2)
                         {
