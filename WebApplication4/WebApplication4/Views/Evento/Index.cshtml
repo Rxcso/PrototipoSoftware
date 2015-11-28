@@ -62,6 +62,19 @@
                 }                
             </div>
         </div>
+        <div class="col-md-6" ><!--barra de busqueda por nombre-->
+            <div class="form-group">
+                @using (Html.BeginForm("Index", "Evento", FormMethod.Get, new { id = "search" }))
+                {
+                    <div class="form-group">
+                        <div class="input-group">
+                            @Html.TextBox("nombre", "", new { placeholder = "Buscar evento por nombre...", @class = "form-control" })
+                            <span class="input-group-btn"><a id="btn-search" class="btn btn-primary" onclick="submitSearch()"><span class="glyphicon glyphicon-search"></span></a></span>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
     </div>   
 
     <div class="row">
