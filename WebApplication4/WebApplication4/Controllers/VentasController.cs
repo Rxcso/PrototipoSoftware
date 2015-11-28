@@ -1201,10 +1201,11 @@ namespace WebApplication4.Controllers
             string usuario = id.Replace("°", "@");
             CuentaUsuario vend = db.CuentaUsuario.Find(usuario);
             DateTime hoy = DateTime.Now.Date;
-            List<Turno> listatuvend = db.Turno.AsNoTracking().Where(c => c.usuario == usuario && c.fecha >= hoy).ToList();
-            Session["ListaTurnoVendedor"] = listatuvend;
+            TimeSpan hh = DateTime.Now.TimeOfDay;
+            List<Turno> listatuvend = db.Turno.AsNoTracking().Where(c => c.usuario == usuario && c.fecha >= hoy && c.estado == "Pendiente" && c.estadoCaja == "Pendiente").ToList();
+            List<Turno> listatuvend2 = listatuvend.Where(c => c.fecha >= hoy || (c.fecha == hoy && TimeSpan.Parse(c.TurnoSistema.horIni) > hh)).ToList();
+            Session["ListaTurnoVendedor"] = listatuvend2;
             Session["vendAsig"] = vend;
-
             return RedirectToAction("Asignacion", "Ventas");
         }
 
