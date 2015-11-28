@@ -93,17 +93,17 @@
                     }
                     @Html.Hidden("nombre", nombre, new { id = "adv-nomb" });
                     <div class="form-group ">
-                        <div class="form-group ">
+                        <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon">Desde:</span>
                                 @if (ViewBag.fech_ini != null)
                                 {
-                                    string valor = ViewBag.fech_ini.ToString("yyyy-MM-dd");
-                                    <input id="fech_ini" name="fech_ini" type="date" class="form-control" value=@valor>
+                                    string valor = ViewBag.fech_ini.ToString("yyyy/MM/dd");
+                                    <input id="fech_ini" name="fech_ini" type="text" class="fechar form-control" value=@valor>
                                 }
                                 else
                                 {
-                                    <input id="fech_ini" name="fech_ini" type="date" class="form-control">
+                                    <input id="fech_ini" name="fech_ini" type="text" class="fechar form-control">
                                 }
                             </div>
                         </div>
@@ -112,12 +112,12 @@
                                 <span class="input-group-addon">Hasta:</span>
                                 @if (ViewBag.fech_fin != null)
                                 {
-                                    string valor = ViewBag.fech_fin.ToString("yyyy-MM-dd");
-                                    <input id="fech_fin" name="fech_fin" type="date" value=@valor class="form-control">
+                                    string valor = ViewBag.fech_fin.ToString("yyyy/MM/dd");
+                                    <input id="fech_fin" name="fech_fin" type="text" value=@valor class="fechar form-control">
                                 }
                                 else
                                 {
-                                    <input id="fech_fin" name="fech_fin" type="date" class="form-control">
+                                    <input id="fech_fin" name="fech_fin" type="text" class="fechar form-control">
                                 }
                             </div>
                         </div>
@@ -185,7 +185,7 @@
                     {
                         <tr id="@evento.codigo" onclick="seleccionaFilaTabla(this)">
                             <td>@evento.codigo</td>
-                            <td>@evento.nombre</td>
+                            <td><a href=@Url.Action("VerEvento", "Evento", new { id = @evento.codigo })>@evento.nombre</a></td>
                             @{
                         Categoria cat = db.Categoria.Where(c => c.idCategoria == @evento.idCategoria).First();
                             }

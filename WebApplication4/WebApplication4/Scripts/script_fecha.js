@@ -27,9 +27,7 @@ $(function () {
 
     $(".fechar").datepicker({
         dateFormat: "yy/mm/dd",
-        //altFormat: "yy-mm-dd",
-        minDate: "-30D",
-        maxDate: "+12M",
+        //altFormat: "yy-mm-dd",        
         showAnim: "fade",
         changeYear: true
     });
