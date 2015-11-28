@@ -13,7 +13,7 @@ using System.Data.Entity.Core;
 
 namespace WebApplication4.Controllers
 {
-    [Authorize]
+
     public partial class EventoController : Controller
     {
         inf245netsoft db = new inf245netsoft();
@@ -298,6 +298,7 @@ namespace WebApplication4.Controllers
             return Json("Reporte Generado", JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult ReporteEvento()
         {
             return View();
@@ -1056,6 +1057,7 @@ namespace WebApplication4.Controllers
                 }
             }
         }
+        
         [HttpPost]
         public ActionResult Tarifas(ZonaEventoListModel model)
         {
@@ -1135,7 +1137,7 @@ namespace WebApplication4.Controllers
                 model.MaxReservas = db.Politicas.Find(2).valor.Value;
                 return View(model);
             }
-                
+
             TempData["tipo"] = "alert alert-warning";
             TempData["message"] = "No hay evento en proceso de creación o modificación.";
             return RedirectToAction("Index");
@@ -1653,6 +1655,7 @@ namespace WebApplication4.Controllers
             Session["Carrito"] = carrito;
             return indicador;
         }
+        
         [HttpPost]
         [AllowAnonymous]
         public ActionResult Entradas(PaqueteEntradas paquete, string boton)

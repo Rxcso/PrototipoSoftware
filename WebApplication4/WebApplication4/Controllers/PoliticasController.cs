@@ -8,11 +8,10 @@ using WebApplication4.Models;
 
 namespace WebApplication4.Controllers
 {
-    
+    [Authorize(Roles = "Administrador")]
     public class PoliticasController : Controller
     {
         inf245netsoft db = new inf245netsoft();
-        [Authorize(Roles = "Administrador")]
         public ActionResult Politicas()
         {
             return View();

@@ -8,13 +8,14 @@ using WebApplication4.Models;
 
 namespace WebApplication4.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Administrador")]
     public class RegaloController : Controller
     {
 
         private inf245netsoft db = new inf245netsoft();
         // GET: Regalo
-        public ActionResult Index()     {            
+        public ActionResult Index()
+        {
             return View();
         }
 
@@ -145,7 +146,7 @@ namespace WebApplication4.Controllers
             List<Regalo> listaReg;
             listaReg = db.Regalo.AsNoTracking().Where(c => c.estado == false).ToList();
             if (listaReg != null) Session["ListaR"] = listaReg;
-            else Session["ListaR"] = null;            
+            else Session["ListaR"] = null;
             return RedirectToAction("Index", "Regalo");
         }
     }

@@ -13,32 +13,33 @@ using System.Data.Entity.Core;
 
 namespace WebApplication4.Controllers
 {
+    [Authorize(Roles = "Promotor")]
     public partial class EventoController : Controller
     {
-
         [HttpPost]
-        public ActionResult ReservaOrganizador(ReservaOrganizadorModel model){
+        public ActionResult ReservaOrganizador(ReservaOrganizadorModel model)
+        {
 
             using (var context = new inf245netsoft())
             {
                 try
                 {
 
-                    for (int i = 0; i < model.idFuncion.Length; i++)if(model.eliminar[i])
-                    {
-                        if (model.idAsiento[i] < 0)
+                    for (int i = 0; i < model.idFuncion.Length; i++) if (model.eliminar[i])
                         {
-                            var ZXF = context.ZonaxFuncion.Find(model.idFuncion[i], model.idZona[i]);
-                            ZXF.cantReservaOrganizador--;
-                            ZXF.cantLibres++;
+                            if (model.idAsiento[i] < 0)
+                            {
+                                var ZXF = context.ZonaxFuncion.Find(model.idFuncion[i], model.idZona[i]);
+                                ZXF.cantReservaOrganizador--;
+                                ZXF.cantLibres++;
+                            }
+                            else
+                            {
+                                var asientoReal = context.AsientosXFuncion.Find(model.idAsiento[i], model.idFuncion[i]);
+                                asientoReal.estado = "libre";
+                            }
+
                         }
-                        else
-                        {
-                            var asientoReal = context.AsientosXFuncion.Find(model.idAsiento[i], model.idFuncion[i]);
-                            asientoReal.estado = "libre";
-                        }        
-                            
-                    }
 
                     context.SaveChanges();
 
@@ -55,15 +56,15 @@ namespace WebApplication4.Controllers
             TempData["message"] = "Las reservas se cancelaron correctamente";
             return Redirect("~/Evento/verReservaOrganizador?evento=" + model.idEvento);
         }
-        
+
 
         [HttpGet]
         public ActionResult verReservaOrganizador(string evento)
         {
-            
+
             Eventos ev;
 
-            if (evento == null || (ev = db.Eventos.Find(Int32.Parse(evento)))==null)
+            if (evento == null || (ev = db.Eventos.Find(Int32.Parse(evento))) == null)
             {
                 TempData["tipo"] = "alert alert-warning";
                 TempData["message"] = "No existe el evento";
@@ -97,7 +98,7 @@ namespace WebApplication4.Controllers
                         funciones.Add(funcion.codFuncion);
                         nombresF.Add(funcion.fecha + "");
                         asiento.Add(asientoReal.Asientos.fila + " " + asientoReal.Asientos.columna);
-                        idAsientos.Add( asientoReal.Asientos.codAsiento );
+                        idAsientos.Add(asientoReal.Asientos.codAsiento);
                         elimina.Add(false);
                     }
                 }
@@ -186,5 +187,5 @@ namespace WebApplication4.Controllers
 
 
 
-	}
+    }
 }

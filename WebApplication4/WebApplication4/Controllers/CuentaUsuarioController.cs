@@ -403,6 +403,16 @@ namespace WebApplication4.Controllers
             bool ind = true;
             //Verficar que la tarjeta pertenezca al banco
             Banco banco = db.Banco.Find(model.idBanco);
+            //
+            Politicas montoMinTarjeta = db.Politicas.Find(3);
+            double montoMin = montoMinTarjeta.valor.Value;
+            //
+            if (model.MontoPagar < montoMin)
+            {
+                TempData["tipo"] = "alert alert-warning";
+                TempData["message"] = "Se debe pagar como mínimo " + montoMin + " soles.";
+                return false;
+            }
             string identificador = "" + banco.identificador;
             string tarjeta = model.NumeroTarjeta;
             string comparador = tarjeta.Substring(0, identificador.Length);

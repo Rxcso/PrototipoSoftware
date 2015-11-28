@@ -9,7 +9,7 @@ using WebApplication4.Models;
 
 namespace WebApplication4.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Promotor")]
     public class PromocionController : Controller
     {
         // GET: Promocion

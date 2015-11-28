@@ -9,9 +9,9 @@ using WebApplication4.Models;
 
 namespace WebApplication4.Controllers
 {
+    [Authorize(Roles = "Administrador")]
     public class EmpleadoController : Controller
     {
-
         private inf245netsoft db = new inf245netsoft();
 
         // GET: Empleado
@@ -19,7 +19,6 @@ namespace WebApplication4.Controllers
         {
             return View();
         }
-
 
         public JsonResult Delete(string usuario)
         {
@@ -96,7 +95,7 @@ namespace WebApplication4.Controllers
         {
             string usuario2 = usuario.Replace("°", "@");
             ViewBag.id = usuario2;
-            CuentaUsuario cuenta=db.CuentaUsuario.Find(usuario2);
+            CuentaUsuario cuenta = db.CuentaUsuario.Find(usuario2);
             TempData["codigoE"] = usuario2;
             Session["usuarioE"] = cuenta;
             return View("Edit");
@@ -160,7 +159,7 @@ namespace WebApplication4.Controllers
         public ActionResult Search3(string nombre)
         {
             List<CuentaUsuario> listaEmp;
-            if (nombre == "" || nombre ==null)
+            if (nombre == "" || nombre == null)
             {
                 //listaReg = db.Regalo.AsNoTracking().Where(c => c.estado == true).ToList();
                 Session["ListaV1"] = null;
@@ -193,7 +192,7 @@ namespace WebApplication4.Controllers
         public ActionResult Search4(string nombre)
         {
             List<CuentaUsuario> listaEmp;
-            if (nombre == "" || nombre ==null)
+            if (nombre == "" || nombre == null)
             {
                 //listaReg = db.Regalo.AsNoTracking().Where(c => c.estado == true).ToList();
                 Session["ListaT"] = null;

@@ -472,7 +472,7 @@ namespace WebApplication4.Controllers
             double montoMin = montoMinTarjeta.valor.Value;
             //si se utiliza tarjeta, tiene que ser mayor al monto minimo segun las politicas
             if (model.MontoTar == 0) return true;
-            if (model.MontoTar > montoMin)
+            if (model.MontoTar >= montoMin)
             {
                 //usa tarjeta, verificar que hayan datos de la tarjeta
                 if (String.IsNullOrEmpty(model.NumeroTarjeta))
@@ -537,6 +537,7 @@ namespace WebApplication4.Controllers
             }
             return ind;
         }
+
         [HttpPost]
         public ActionResult VenderEntrada(VenderEntradaModel model)
         {
@@ -951,13 +952,13 @@ namespace WebApplication4.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Promotor")]
+        [Authorize(Roles = "Administrador")]
         public ActionResult Pago()
         {
             return View();
         }
 
-        [Authorize(Roles = "Promotor")]
+        [Authorize(Roles = "Administrador")]
         public ActionResult PagoOrganizador()
         {
             return View();
@@ -975,6 +976,7 @@ namespace WebApplication4.Controllers
             return View("Detalles");
         }
 
+        [Authorize(Roles = "Vendedor")]
         public ActionResult ReporteDia()
         {
             return View();
@@ -1016,6 +1018,7 @@ namespace WebApplication4.Controllers
             return RedirectToAction("PagoOrganizador", "Ventas");
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult ReporteVentas()
         {
             return View();
@@ -1344,6 +1347,7 @@ namespace WebApplication4.Controllers
             return RedirectToAction("Devolucion", "Ventas");
         }
 
+        [Authorize(Roles = "Vendedor")]
         public ActionResult SearchDoc(string doc)
         {
             if (doc == "")
@@ -1842,33 +1846,19 @@ namespace WebApplication4.Controllers
         public ActionResult PrintTicket(int codVenT)
         {
             List<Entrada> listaEntradas = new List<Entrada>();
-
             CultureInfo culture = new CultureInfo("es-PE");
-
-
             var lista = from obj in db.DetalleVenta
                         where obj.codVen == codVenT
                         select obj;
 
             foreach (var detalle in lista)
             {
-
                 int? cant = detalle.cantEntradas;
                 var axf = db.AsientosXFuncion.Where(c => c.codDetalleVenta == detalle.codDetalleVenta && c.codFuncion == detalle.codFuncion);
-
-
-
-
-
                 if (axf != null && axf.Count() != 0)
                 {
-
-
-
-
                     foreach (var dato in axf)
                     {
-
                         Entrada ticket = new Entrada();
 
                         var fu = db.Funcion.Find(detalle.codFuncion);
@@ -1892,18 +1882,12 @@ namespace WebApplication4.Controllers
                         ticket.Asiento = "Fil: " + asiento.fila + " Col: " + asiento.columna;
 
                         listaEntradas.Add(ticket);
-
                     }
-
-
-
                 }
                 else
                 {
-
                     for (int i = 0; i < cant; i++)
                     {
-
                         Entrada ticket = new Entrada();
 
                         var fu = db.Funcion.Find(detalle.codFuncion);
@@ -1912,15 +1896,12 @@ namespace WebApplication4.Controllers
                         var pe = db.PrecioEvento.Find(detalle.codPrecE);
                         var zona = db.ZonaEvento.Find(pe.codZonaEvento);
 
-
-
                         ticket.Lugar = evento.Region.nombre;
                         ticket.Evento = evento.nombre;
                         ticket.codEvento = evento.codigo;
                         ticket.Local = local.descripcion;
 
                         ticket.Direccion = local.ubicacion;
-
 
                         ticket.Precio = pe.precio;
                         ticket.Fecha = fu.fecha.Value.ToString("dddd d # MMMM # yyyy", culture).Replace("#", "de") + " " + fu.horaIni.Value.ToString("hh:mm tt", culture);
@@ -1930,21 +1911,10 @@ namespace WebApplication4.Controllers
                         ticket.Codigo = "" + evento.codigo + "" + fu.codFuncion + "" + codVenT + "" + cant;
 
                         listaEntradas.Add(ticket);
-
-
                     }
-
-
                 }
-
-
             }
-
-
-
-
             var data = listaEntradas.First();
-
 
             var st = "";
             this.ViewData.Model = data;
@@ -1952,31 +1922,18 @@ namespace WebApplication4.Controllers
             Session["path"] = path;
             using (StringWriter stringWriter = new StringWriter())
             {
-
                 ViewEngineResult viewResult = ViewEngines.Engines.FindView(this.ControllerContext, "GeneraTicket", null);
                 ViewContext viewContext = new ViewContext(this.ControllerContext, viewResult.View, this.ViewData, this.TempData, stringWriter);
                 viewResult.View.Render(viewContext, stringWriter);
                 st = stringWriter.GetStringBuilder().ToString();
-
-
-
-
             }
-
-
 
             var converter = new NReco.ImageGenerator.HtmlToImageConverter();
             converter.Width = 710;
             var jpegBytes = converter.GenerateImage(st, ImageFormat.Png);
 
-
-
             Session["imagen"] = jpegBytes;
-
-
             return View(data);
-
         }
-
     }
 }
