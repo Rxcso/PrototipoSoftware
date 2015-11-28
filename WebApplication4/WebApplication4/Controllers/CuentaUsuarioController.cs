@@ -1103,8 +1103,12 @@ namespace WebApplication4.Controllers
             DateTime di = dt1;
             DateTime dai = dt1;
             int idt = int.Parse(turno);
+            TurnoSistema ts2 = db.TurnoSistema.Find(idt);
+            TimeSpan ti1 = TimeSpan.Parse(ts2.horIni);
+            TimeSpan ti2 = TimeSpan.Parse(ts2.horFin);
             int idp = int.Parse(punto);
             TimeSpan ts = dt2.Subtract(dt1);
+            TimeSpan hh = DateTime.Now.TimeOfDay;
             int nd = (int)ts.Days;
             nd = nd + 1;
             int idPol = 5;
@@ -1112,6 +1116,7 @@ namespace WebApplication4.Controllers
             int limite = (int)db.Politicas.Find(idPol).valor;
             int limite2 = (int)db.Politicas.Find(idPol2).valor;
             if (dt1 < DateTime.Now.Date) return Json("la fecha debe ser superior de hoy", JsonRequestBehavior.AllowGet);
+            if (dt1 < DateTime.Now.Date && hh > ti2) return Json("la Hora a asignar debe ser superior a la hora actual", JsonRequestBehavior.AllowGet);
             if (dt1 > dt2) return Json("Fecha inicio debe ser menor que fecha fin", JsonRequestBehavior.AllowGet);
             if (nd > limite) return Json("No puedo asignar a la vez mas de " + limite + " turnos de manera seguida", JsonRequestBehavior.AllowGet);
             //int cruce = 0;            

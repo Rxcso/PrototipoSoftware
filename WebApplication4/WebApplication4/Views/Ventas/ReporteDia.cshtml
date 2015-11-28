@@ -21,9 +21,12 @@
     {
         CuentaUsuario cu = (CuentaUsuario)Session["UsuarioLogueado"];
         Turno tu = (Turno)Session["TurnoHoy"];
+        TurnoSistema ts = db.TurnoSistema.Find(tu.codTurnoSis);
+        TimeSpan ti1 = TimeSpan.Parse(ts.horIni);
+        TimeSpan ti2 = TimeSpan.Parse(ts.horFin);
         listaVentas2 = db.Ventas.Where(c => c.vendedor == cu.usuario && c.Estado == "Pagado").ToList();
         DateTime dat = dd.Date;
-        listaVentas = listaVentas2.Where(c => c.fecha.Value.Date == dat).ToList();
+        listaVentas = listaVentas2.Where(c => c.fecha.Value.Date == dat && c.fecha.Value.TimeOfDay > ti1 && c.fecha.Value.TimeOfDay < ti2).ToList();
         if (listaVentas != null && listaVentas.Count > 0)
         {
             for (int i = 0; i < listaVentas.Count; i++)
