@@ -1608,7 +1608,7 @@ namespace WebApplication4.Controllers
             var lista = from turno in db.Turno
                         select new
                         {
-                            turno.PuntoVenta.ubicacion,
+                            puntoVenta = turno.PuntoVenta.nombre,
                             turno.CuentaUsuario.nombre,
                             turno.CuentaUsuario.apellido,
 
@@ -1624,7 +1624,7 @@ namespace WebApplication4.Controllers
                 listaAsignacion = lista.Select(f => new Asignacion
                 {
                     Dia = f.fecha,
-                    PuntoVenta = f.ubicacion,
+                    PuntoVenta = f.puntoVenta,
                     Nombre = f.nombre + " " + f.apellido,
                     Horas = f.horIni + " - " + f.horFin
 
