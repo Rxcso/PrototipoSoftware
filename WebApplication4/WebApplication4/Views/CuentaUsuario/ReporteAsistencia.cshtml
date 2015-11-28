@@ -13,10 +13,7 @@
     </div>
 </div>
 
-<div class="container">
-    <div class="row">
-        @*<a class="btn btn-danger pull-right" href=@Url.Action("Index2", "Home")>Salir <span class="glyphicon glyphicon-log-out"></span></a>*@
-    </div>
+<div class="container">    
     <div class="row">
         @using (Html.BeginForm("ReporteAsistencia", "CuentaUsuario", FormMethod.Post, new { @class = "form-horizontal" }))
         {
@@ -80,8 +77,9 @@
     </div>
 </div>
 
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script>
+
+@section scripts{
+    <script>
     $(document).ready(function () {
         $("#export-btn").hide();
         $('#newReport').hide();
@@ -164,3 +162,5 @@
         e.preventDefault();
     }
 </script>
+
+    }

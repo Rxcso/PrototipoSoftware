@@ -16,3 +16,16 @@ thead {
         color: white;
         font-weight: bold;
 }
+
+
+
+/*ESTILOS DE LOS REPORTES*/
+
+.numero {
+        text-align:right;
+    }
+    .btn-excel {
+        background-color: #207245;
+        color:white;
+    }    
+    th{text-align:center}

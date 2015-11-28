@@ -23,69 +23,65 @@
 
 </div>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-11">
+<div class="container"><br />
+    <center class="row form-inline">
+        <div class="col-md-12">
+            <label for="inPoints" class="control-label col-md-2">Puntaje mínimo: </label>
+            <input id="min-points" name="inPoints" type="number" class="form-control" />
+        </div>         
+    </center><br />
+    <center class="row form-inline">    
+        <div class="col-md-12">
+            <label for="inPoints" class="control-label col-md-2">No. Documento: </label>
+            <input id="nDoc" name="Doc" type="text" class="form-control" />
+        </div>   
+    </center><br />
+
+    <center class="row form-group">
+        <div class="col-md-12">
+            <button id="search-client" type="button" onclick="reporte()" class="btn btn-primary"><span class="fa fa-table fa-lg"></span> Generar Reporte</button>
             @*se verifica si se genero un reporte o no para mostrar el boton de exportacion*@
             @if (Session["ListaPU"] != null)
             {
-                <input id="btnExport" type="button" class="btn btn-primary" value="Exportar Excel">
+                <button id="btnExport" type="button" class="btn btn-success btn-excel"><span class="fa fa-file-excel-o fa-lg"></span> Exportar Excel></button>
             }
-        </div>
-        <div class="col-md-1">
-            @*<a class="btn btn-danger pull-right" href="@Url.Action("Index2", "Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>*@
-        </div>
-    </div><br>
-
-    <div class="row">
-        <label for="inPoints" class="control-label col-md-2">Puntaje minimo: </label>
-        <div class="col-md-2">
-            <input id="min-points" name="inPoints" type="number" class="form-control" value="" />
-        </div>
-        <label for="inPoints" class="control-label col-md-2">No. Documento: </label>
-        <div class="col-md-2">
-            <input id="nDoc" name="Doc" type="text" class="form-control" value="" />
-        </div>
-        <div class="col-md-2">
-            <input id="search-client" type="button" onclick="reporte()" class="btn btn-primary" value="Generar Reporte">
-        </div>
-    </div><br>
-
-    <br>
+        </div>        
+    </center>
     @*si se logro generar un reporte se muestra su contenido*@
     @if (Session["ListaPU"] != null)
     {
         listaCliente = (List<WebApplication4.Models.CuentaUsuario>)Session["ListaPU"];
-        <div id="dvData" class="row">
-            <div>
-                <h3>Reporte de Clientes @DateTime.Now.Date.ToString("dd/MM/yyyy")</h3>
-            </div>
-            <table id="mytable" class="table table-bordered table-hover">
-                <thead>
-                    <tr class="thead">
-                        <th>Usuario</th>
-                        <th>Nombre y Apellido</th>
-                        <th>No Documento</th>
-                        <th>No Reservas Anuladas</th>
-                        <th>Puntos</th>
-                    </tr>
-                </thead>
-                <tbody id="tbody">
-                    @foreach (var row in listaCliente)
-                    {
-                        //se obtiene la lista de las reservas anuladas o anuladas por job de cada cliente de cada fila                        
-                        List<Ventas> listaA = db.Ventas.Where(c => c.cliente == row.usuario && (c.Estado == "Anulado" || c.Estado == "Anulado-Job")).ToList();
-                        <tr id=@row.usuario onclick="myFunction(this)">
-                            <td>@row.usuario</td>
-                            <td>@row.nombre   @row.apellido</td>
-                            <td>@row.codDoc</td>
-                            <td>@listaA.Count</td>
-                            <td>@row.puntos</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-
+        <div id="dvData" class="row">   
+            <div class="col-md-12">
+                <center><h4>REPORTE DE CLIENTES: Al @DateTime.Now.Date.ToString("dd/MM/yyyy")</h4></center>
+                <div class="table-responsive">
+                    <table id="mytable" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Usuario</th>
+                                <th>Nombre y Apellido</th>
+                                <th>No Documento</th>
+                                <th>No Reservas Anuladas</th>
+                                <th>Puntos</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody">
+                            @foreach (var row in listaCliente)
+                            {
+                                //se obtiene la lista de las reservas anuladas o anuladas por job de cada cliente de cada fila
+                                List<Ventas> listaA = db.Ventas.Where(c => c.cliente == row.usuario && (c.Estado == "Anulado" || c.Estado == "Anulado-Job")).ToList();
+                                <tr id=@row.usuario onclick="myFunction(this)">
+                                    <td>@row.usuario</td>
+                                    <td>@row.nombre   @row.apellido</td>
+                                    <td>@row.codDoc</td>
+                                    <td>@listaA.Count</td>
+                                    <td>@row.puntos</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>  
         </div>
     }
 </div>
