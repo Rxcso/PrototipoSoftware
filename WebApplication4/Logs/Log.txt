@@ -2834,3 +2834,19 @@ System.Collections.ListDictionaryInternal
 2015-11-29 16:24:34,006 [40] ERROR Ticknet - Exception Message - 
 A public action method 'Asignacion' was not found on controller 'WebApplication4.Controllers.VentasController'.
 2015-11-29 16:24:34,006 [40] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 17:17:52,901 [28] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 17:17:52,909 [28] ERROR Ticknet - Exception Type - 
+HttpAntiForgeryException
+2015-11-29 17:17:52,909 [28] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-29 17:17:52,909 [28] ERROR Ticknet - Exception Message - 
+The provided anti-forgery token was meant for user "vendedor3@email.com", but the current user is "promotorS@peppa.com".
+2015-11-29 17:17:52,909 [28] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 17:48:20,228 [60] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 17:48:20,228 [60] ERROR Ticknet - Exception Type - 
+DbUpdateConcurrencyException
+2015-11-29 17:48:20,228 [60] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-29 17:48:20,228 [60] ERROR Ticknet - Exception Message - 
+Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=472540 for information on understanding and handling optimistic concurrency exceptions.
+2015-11-29 17:48:20,228 [60] DEBUG Ticknet - ++++++++++++++++++++++++++++
