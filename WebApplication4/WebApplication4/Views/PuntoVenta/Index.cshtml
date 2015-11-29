@@ -10,7 +10,11 @@
     //se carga la lista de regiones para realizar la busqueda
     List<WebApplication4.Models.Region> listaSearch = db.Region.AsNoTracking().Where(c => c.idRegPadre == null).ToList();
 }
-
+<style>
+    td {
+        text-align: center;
+    }
+</style>
 <div class="container-fluid">
     <div class="col-md-5">
         <ol class="breadcrumb">
