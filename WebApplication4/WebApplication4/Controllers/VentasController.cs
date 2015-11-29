@@ -125,6 +125,7 @@ namespace WebApplication4.Controllers
                 DateTime hoy = DateTime.Now;
                 //buscamos la venta
                 Ventas venta = db.Ventas.Find(model.idVenta);
+                venta.montoDev = 0;
                 //asignamos el vendedor
                 venta.vendedor = User.Identity.Name;
                 //estado y la fecha de pago
