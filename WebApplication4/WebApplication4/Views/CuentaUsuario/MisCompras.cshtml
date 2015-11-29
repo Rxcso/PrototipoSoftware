@@ -7,7 +7,8 @@
     var db = new WebApplication4.Models.inf245netsoft();
     CuentaUsuario cu = null;
     //se obtiene la cuenta del usuario logueado
-    cu = (CuentaUsuario)Session["UsuarioLogueado"];
+    //cu = (CuentaUsuario)Session["UsuarioLogueado"];
+    cu = db.CuentaUsuario.Find(User.Identity.Name);
     DateTime hoy = DateTime.Now;
     List<Ventas> listaventas = null;
     List<VentasXFuncion> listvxf = new List<VentasXFuncion>();
