@@ -185,7 +185,7 @@
                     {
                         <tr id="@evento.codigo" onclick="seleccionaFilaTabla(this)">
                             <td>@evento.codigo</td>
-                            <td><a href=@Url.Action("VerEvento", "Evento", new { id = @evento.codigo })>@evento.nombre</a></td>
+                            <td><a href=@Url.Action("VerEvento", "Evento", new { id = @evento.codigo }) title="Ver el evento">@evento.nombre</a></td>
                             @{
                         Categoria cat = db.Categoria.Where(c => c.idCategoria == @evento.idCategoria).First();
                             }
@@ -291,7 +291,7 @@
 
                 if (new Date(fechF.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1")) < new Date(fechI.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1"))) {
 
-                    $("#alerta").append('<strong>Fecha hasta no puede ser menor que fecha desde</strong>').show();
+                    $("#alerta").append('<strong>"Fecha hasta" no puede ser menor que "Fecha desde"</strong>').show();
                     return;
                 } else {
                     var valor = $("#alerta").children('strong');
