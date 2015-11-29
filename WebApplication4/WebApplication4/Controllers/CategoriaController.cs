@@ -108,10 +108,8 @@ namespace WebApplication4.Controllers
                     }
                     return listaID;
                 }
-
             }
         }
-
 
         private void sacaDependientes(List<Categoria> listaCat, int id)
         {
@@ -133,7 +131,6 @@ namespace WebApplication4.Controllers
                         break;
                     }
                 }
-
             }
         }
 

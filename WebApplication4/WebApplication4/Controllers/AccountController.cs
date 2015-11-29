@@ -143,7 +143,6 @@ namespace WebApplication4.Controllers
 
             switch (result)
             {
-
                 case SignInStatus.Success:
                     TempData["tipo"] = "alert alert-success";
                     TempData["message"] = "Logueado Correctamente";
@@ -156,7 +155,6 @@ namespace WebApplication4.Controllers
                     {
                         if (cuentausuario.codPerfil == 2)
                         {
-
                             Turno tu = null;
                             DateTime hoy = DateTime.Now;
                             int idPunto = 1;
@@ -312,7 +310,6 @@ namespace WebApplication4.Controllers
                         ModelState.AddModelError("fechaNac", "La fecha con rango inválido");
                         errorr = 1;
                     }
-
                 }
                 else
                 {
@@ -387,7 +384,6 @@ namespace WebApplication4.Controllers
                     return View(model);
 
             }
-
             // If we got this far, something failed, redisplay form
             return View(model);
         }
@@ -415,7 +411,6 @@ namespace WebApplication4.Controllers
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
 
-
                 if (result.Succeeded)
                 {
                     var currentUser = UserManager.FindByName(user.UserName);
@@ -437,10 +432,7 @@ namespace WebApplication4.Controllers
                     cuentausuario.telMovil = model.telMovil;
                     cuentausuario.tipoDoc = model.tipoDoc;                    
                     cuentausuario.usuario = model.Email;
-
-
                     db.CuentaUsuario.Add(cuentausuario);
-
                     db.SaveChanges();
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
@@ -451,7 +443,6 @@ namespace WebApplication4.Controllers
                     return RedirectToAction("Index", "Empleado");
                     //return View("~/Views/Home/Index.cshtml");
                 }
-
                 AddErrors(result);
             }
 
@@ -482,7 +473,6 @@ namespace WebApplication4.Controllers
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
 
-
                 if (result.Succeeded)
                 {
                     var currentUser = UserManager.FindByName(user.UserName);
@@ -504,13 +494,8 @@ namespace WebApplication4.Controllers
                     cuentausuario.telMovil = model.telMovil;
                     cuentausuario.tipoDoc = model.tipoDoc;                    
                     cuentausuario.usuario = model.Email;
-
-
                     db.CuentaUsuario.Add(cuentausuario);
-
                     db.SaveChanges();
-
-
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -521,7 +506,6 @@ namespace WebApplication4.Controllers
                 }
                 AddErrors(result);
             }
-
             // If we got this far, something failed, redisplay form
             return RedirectToAction("Index", "Empleado");
         }
@@ -562,7 +546,6 @@ namespace WebApplication4.Controllers
                     // Don't reveal that the user does not exist or is not confirmed
                     return View("ForgotPasswordConfirmation");
                 }
-
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
                 // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
@@ -574,10 +557,7 @@ namespace WebApplication4.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-
-
-
-        //
+        
         // GET: /Account/ForgotPasswordConfirmation
         [AllowAnonymous]
         public ActionResult ForgotPasswordConfirmation()

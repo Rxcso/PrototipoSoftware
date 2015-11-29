@@ -610,12 +610,9 @@ namespace WebApplication4.Controllers
                                         Ventas remover = db.Ventas.Find(idVenta);
                                         db.Ventas.Remove(remover);
                                     }
-
                                 }
                             }
-
                             db.SaveChanges();
-
                             context.SaveChanges();
                         }
                         catch (OptimisticConcurrencyException ex)
@@ -808,14 +805,11 @@ namespace WebApplication4.Controllers
                     TempData["message"] = "Datos Actualizados Exitosamente";
                     return RedirectToAction("MiCuenta");
                 }
-
                 else
                 {
                     return View(model);
                 }
-
             }
-
             return View(model);
         }
 
@@ -831,7 +825,6 @@ namespace WebApplication4.Controllers
             string correo = User.Identity.Name;
             CuentaUsuario cliente = db.CuentaUsuario.Where(c => c.correo == correo).First();
             /*var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);*/
-
             if (ModelState.IsValid)
             {
                 if (cliente.contrasena == model.Contrasena)
@@ -1311,7 +1304,6 @@ namespace WebApplication4.Controllers
                 if (val >= 0)
                 {
                     listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.puntos >= val && c.estado == true && c.codPerfil == 1).ToList();
-
                 }
                 else
                 {
@@ -1458,7 +1450,6 @@ namespace WebApplication4.Controllers
             //Regalo re = db.Regalo.Find(regalo.id);
             //if (re.puntos < cuenta2.puntos)
             //{
-
             //}
             return Json("Error El cliente no tiene puntos suficientes para conseguir este regalo", JsonRequestBehavior.AllowGet);
         }
@@ -1490,7 +1481,6 @@ namespace WebApplication4.Controllers
                         ModelState.AddModelError("codDoc", "El DNI debe tener 8 dígitos");
                         return View(model);
                     }
-
                 }
                 else
                 {
@@ -1499,7 +1489,6 @@ namespace WebApplication4.Controllers
                         ModelState.AddModelError("codDoc", "El Pasaporte debe tener 12 dígitos");
                         return View(model);
                     }
-
                 }
 
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
@@ -1549,9 +1538,7 @@ namespace WebApplication4.Controllers
                     if (!error.Contains("nombre"))
                         ModelState.AddModelError("", error);
                 }
-
             }
-
             // If we got this far, something failed, redisplay form
             return View(model);
         }

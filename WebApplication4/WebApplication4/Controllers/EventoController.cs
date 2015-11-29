@@ -87,7 +87,7 @@ namespace WebApplication4.Controllers
                         PeriodoVenta per = db.PeriodoVenta.Where(c => c.codEvento == paquete.idEvento && c.fechaInicio <= hoy && c.fechaFin >= hoy).ToList().First();
                         PrecioEvento pr = db.PrecioEvento.Where(c => c.codZonaEvento == paquete.idZona && c.codPeriodoVenta == per.idPerVent).ToList().First();
                         //ve.codVen = vel.codVen + 1;
-                        CuentaUsuario cuenta =  db.CuentaUsuario.Find( User.Identity.Name );
+                        CuentaUsuario cuenta = db.CuentaUsuario.Find(User.Identity.Name);
                         ve.fecha = DateTime.Now;
                         ve.cantAsientos = paquete.cantEntradas;
                         ve.cliente = cuenta.usuario;
@@ -147,8 +147,6 @@ namespace WebApplication4.Controllers
                                 db.SaveChanges();
                                 return "No hay suficientes entradas";
                             }
-
-
                             ZXF.cantLibres -= paquete.cantEntradas;
                         }
                         db.SaveChanges();
@@ -161,7 +159,6 @@ namespace WebApplication4.Controllers
                         db.SaveChanges();
                         return "No se pudieron reservar los asientos, alguien más ya lo hizo.";
                     }
-
                 }
             }
             catch (Exception ex)
@@ -229,7 +226,6 @@ namespace WebApplication4.Controllers
                 {
                     Local querL = db.Local.Where(c => c.codLocal == valorID).First();
                     r.local = querL.ubicacion;
-
                 }
                 else
                 {
@@ -284,14 +280,12 @@ namespace WebApplication4.Controllers
                     {
                         Local querL = db.Local.Where(c => c.codLocal == valorID).First();
                         r.local = querL.ubicacion;
-
                     }
                     else
                     {
                         r.local = lv[i].direccion;
                     }
                 }
-
             }
 
             Session["ReporteEventos"] = lr;
@@ -318,7 +312,6 @@ namespace WebApplication4.Controllers
 
             ViewBag.idSubCat = idSubCat;
             ViewBag.idRegion = idRegion;
-
 
             var lista = from obj in db.Eventos
                         select obj;
@@ -1183,8 +1176,6 @@ namespace WebApplication4.Controllers
                 }
                 else evento.ImagenDestacado = null;
 
-
-
                 if (model.tieneSitios)
                 {
                     if (Session["IdEventoCreado"] != null || Session["IdEventoModificado"] != null)
@@ -1195,7 +1186,6 @@ namespace WebApplication4.Controllers
                     }
                 }
                 else evento.ImagenSitios = null;
-
 
                 if (guardarImagen("eventos/evento" + evento.codigo + ".jpg", model.ImageEvento)) evento.ImagenEvento = "/Images/eventos/" + "evento" + evento.codigo + ".jpg";
 
@@ -1453,7 +1443,6 @@ namespace WebApplication4.Controllers
             }
             catch (Exception ex)
             {
-
             }
 
             if (bloqueVenta == 0)
@@ -1484,7 +1473,6 @@ namespace WebApplication4.Controllers
 
             ViewBag.listPromos = promos;
 
-
             List<ZonaEvento> zonasEvento = new List<ZonaEvento>();
             ViewBag.ListZonasNombre = new List<string>();
             ViewBag.ListZonasId = new List<int>();
@@ -1496,8 +1484,6 @@ namespace WebApplication4.Controllers
                 var primero = true;
                 zonasEvento = evento.ZonaEvento.ToList();
                 int jj = 0, ii = 0;
-
-
                 foreach (ZonaEvento zona in zonasEvento)
                 {
 
@@ -1520,8 +1506,6 @@ namespace WebApplication4.Controllers
                     primero = false;
                     ii++;
                 }
-
-
             }
             catch (Exception ex)
             {
@@ -1529,7 +1513,6 @@ namespace WebApplication4.Controllers
             }
 
             ViewBag.listPrecios = listaPrecios;
-
 
             List<Funcion> funciones = new List<Funcion>();
             try
@@ -1737,7 +1720,6 @@ namespace WebApplication4.Controllers
         //  [RequireRequestValue(new[] { "nombre"})]
         public ActionResult Busqueda(DateTime? fech_ini, DateTime? fech_fin, int? idCategoria, int? idSubCat, int? idRegion, int? idProv, string nombre, int? page)
         {
-
             ViewBag.nombre = nombre;
             ViewBag.fech_ini = fech_ini;
             ViewBag.fech_fin = fech_fin;
@@ -1753,10 +1735,8 @@ namespace WebApplication4.Controllers
                          select obj;
          */
             /*
-
            List<Eventos> lista = arreglo.ToList();
            lista = lista.Where(c => c.estado.Equals("Activo") == true);
-
            */
             if (fech_ini > fech_fin)
             {
@@ -1920,11 +1900,7 @@ namespace WebApplication4.Controllers
             if (Request.IsAuthenticated)
             {
                 act = User.Identity.Name;
-
-
             }
-
-
 
             data.codComentario = cod;
             data.codEvento = codEvento;
@@ -1934,26 +1910,15 @@ namespace WebApplication4.Controllers
                 db.Comentarios.Attach(data);
                 db.Comentarios.Remove(data);
                 db.SaveChanges();
-
-
-
             }
             catch (Exception ex)
             {
-
-
-
             }
             finally
             {
                 db.Configuration.AutoDetectChangesEnabled = true;
             }
-
-
-
-
             return Json("Eliminado exitoso", JsonRequestBehavior.AllowGet);
-
         }
 
         [HttpGet]
@@ -1967,7 +1932,6 @@ namespace WebApplication4.Controllers
             }
             catch (Exception ex)
             {
-
             }
             ViewBag.ListaDestacados = listaDestacados;
             return View();
