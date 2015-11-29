@@ -8,10 +8,15 @@
     var nombre = "";
     inf245netsoft db = new inf245netsoft();
 }
-                               <style>
-                                   .inl{display:inline-block}
-                                   td{text-align:center}
-                               </style>
+<style>
+    .inl {
+        display: inline-block;
+    }
+
+    td {
+        text-align: center;
+    }
+</style>
 
 <div class="container-fluid">
     <div class="col-md-5">
@@ -35,7 +40,7 @@
                         <li><a class="btn" onclick="redirigeAsiento()"><span class="glyphicon glyphicon-equalizer"></span> Asientos</a></li>
                         <li><a class="btn" onclick="redirigePromocion()"><span class="fa fa-asterisk"></span> Promociones</a></li>
                     </ul>
-                </div> 
+                </div>
                 @Html.Hidden("idEventoT")
                 <div class="dropdown inl">
                     <button class="btn btn-danger dropdown-toggle" type="button" id="drop1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -46,23 +51,24 @@
                         <li><a class="btn" onclick="redirigePostergar()"><span class="fa fa-arrow-circle-right fa-lg"></span> Postergar</a></li>
                         <li><a class="btn" onclick="redirigeCancelar()"><span class="fa fa-ban fa-lg"></span> Cancelar</a></li>
                     </ul>
-                </div>  
+                </div>
                 @if (User.IsInRole("Promotor") || User.IsInRole("Administrador"))
                 {
-                <div class="dropdown inl">
-                    <button class="btn btn-info dropdown-toggle" type="button" id="drop2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        <span class="fa fa-male fa-lg"></span> Organizador
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="drop2">
-                        <li><a class="btn" onclick="redirigeReservaOrganizador()"><span class="glyphicon glyphicon-flag"></span> Reservarle entradas</a></li>
-                        <li><a class="btn" onclick="redirigeVerReservaOrganizador()"><span class="glyphicon glyphicon-eye-open"></span> Ver sus reservas</a></li>
-                    </ul>
-                </div>
-                }                
+                    <div class="dropdown inl">
+                        <button class="btn btn-info dropdown-toggle" type="button" id="drop2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <span class="fa fa-male fa-lg"></span> Organizador
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="drop2">
+                            <li><a class="btn" onclick="redirigeReservaOrganizador()"><span class="glyphicon glyphicon-flag"></span> Reservarle entradas</a></li>
+                            <li><a class="btn" onclick="redirigeVerReservaOrganizador()"><span class="glyphicon glyphicon-eye-open"></span> Ver sus reservas</a></li>
+                        </ul>
+                    </div>
+                }
             </div>
         </div>
-        <div class="col-md-6" ><!--barra de busqueda por nombre-->
+        <div class="col-md-6">
+            <!--barra de busqueda por nombre-->
             <div class="form-group">
                 @using (Html.BeginForm("Index", "Evento", FormMethod.Get, new { id = "search" }))
                 {
@@ -75,7 +81,7 @@
                 }
             </div>
         </div>
-    </div>   
+    </div>
 
     <div class="row">
         <div id="busqAvanzada" class="container-fluid">
@@ -135,7 +141,7 @@
                                 <option value="">Subcategoria</option>
                                 @if (ViewBag.idCategoria != null)
                                 {
-                                 
+
                                     int idPadre = ViewBag.idCategoria;
 
                                     var subcat = from obj in db.Categoria
@@ -195,9 +201,9 @@
                         WebApplication4.Models.Categoria catt = db.Categoria.Where(mod => mod.idCatPadre == @evento.idCategoria).First();
                             }
                             <td>@catt.nombre</td>
-                            
+
                             @{
-                                WebApplication4.Models.Organizador org = db.Organizador.Where(mod => mod.codOrg == @evento.idOrganizador).First();
+                        WebApplication4.Models.Organizador org = db.Organizador.Where(mod => mod.codOrg == @evento.idOrganizador).First();
                             }
                             <td>@org.nombOrg</td>
                             <td>@evento.estado</td>
@@ -239,61 +245,42 @@
             }
 
             Pagina @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount;
-            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, nombre = @ViewBag.nombre, fech_ini = fechaI, fech_fin = fechaF, idCategoria = @ViewBag.idCategoria, idSubCat = @ViewBag.idSubCat }));
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page, nombre = @ViewBag.nombre, fech_ini = fechaI, fech_fin = fechaF, idCategoria = @ViewBag.idCategoria, idSubCat = @ViewBag.idSubCat }))
 
 
         </div>
     </div>
 </div>
 @section scripts{
-<script>
-    $(document).ready(function () {
-        /*
-        $.validator.addMethod("greaterThan", function (value, element, params) {
-            console.log(element);
-            console.log(value);
-            console.log(params);
-            if (!/Invalid|NaN/.test(new Date(value))) {
-                return new Date(value) > new Date($(params).val());
-            }
-            return isNaN(value) && isNaN($(params).val()) || (Number(value) > Number($(params).val()));
-        }, 'Must be greater than {0}.');
-        */
-        $("#adv-search").on('submit', function (e) {
-
-            e.preventDefault();
-
-
-            var fechI = this['fech_ini'].value;
-            var fechF = this['fech_fin'].value;
-
-            /*Regla 1 para la validadcion de al menos un campo*/
-            if (fechI == '' && fechF == '' && $("#idCategoria").val() == '' &&
-                $("#idSubCat").val() == '' && $("#idRegion").val() == '') {
-
-                $("#alerta").append('<strong>Ingrese al menos un campo!</strong>').show();
-                return;
-            } else {
-
-                var valor = $("#alerta").children('strong');
-                if (valor.length > 0) {
-
-                    valor.remove();
-
+    <script>
+        $(document).ready(function () {
+            /*
+            $.validator.addMethod("greaterThan", function (value, element, params) {
+                console.log(element);
+                console.log(value);
+                console.log(params);
+                if (!/Invalid|NaN/.test(new Date(value))) {
+                    return new Date(value) > new Date($(params).val());
                 }
+                return isNaN(value) && isNaN($(params).val()) || (Number(value) > Number($(params).val()));
+            }, 'Must be greater than {0}.');
+            */
+            $("#adv-search").on('submit', function (e) {
 
-                $("#alerta").hide();
-
-            }
-            /*Regla 2 : Validacion para las fechas*/
-            if (fechF != '' && fechI != '') {
+                e.preventDefault();
 
 
-                if (new Date(fechF.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1")) < new Date(fechI.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1"))) {
+                var fechI = this['fech_ini'].value;
+                var fechF = this['fech_fin'].value;
 
-                    $("#alerta").append('<strong>"Fecha hasta" no puede ser menor que "Fecha desde"</strong>').show();
+                /*Regla 1 para la validadcion de al menos un campo*/
+                if (fechI == '' && fechF == '' && $("#idCategoria").val() == '' &&
+                    $("#idSubCat").val() == '' && $("#idRegion").val() == '') {
+
+                    $("#alerta").append('<strong>Ingrese al menos un campo!</strong>').show();
                     return;
                 } else {
+
                     var valor = $("#alerta").children('strong');
                     if (valor.length > 0) {
 
@@ -304,169 +291,188 @@
                     $("#alerta").hide();
 
                 }
+                /*Regla 2 : Validacion para las fechas*/
+                if (fechF != '' && fechI != '') {
+
+
+                    if (new Date(fechF.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1")) < new Date(fechI.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1"))) {
+
+                        $("#alerta").append('<strong>"Fecha hasta" no puede ser menor que "Fecha desde"</strong>').show();
+                        return;
+                    } else {
+                        var valor = $("#alerta").children('strong');
+                        if (valor.length > 0) {
+
+                            valor.remove();
+
+                        }
+
+                        $("#alerta").hide();
+
+                    }
+
+                }
+
+                this.submit();
+
+
+            });
+
+
+
+
+
+            if (!isNaN(@ViewBag.idCategoria)) {
+
+                $("#idCategoria > option[value='" + @ViewBag.idCategoria + "'").attr('selected', 'selected');
+
+
+                if (!isNaN(@ViewBag.idSubCat)) {
+
+
+                    $("#idSubCat > option[value='" + @ViewBag.idSubCat + "'").attr('selected', 'selected');
+
+
+
+                }
+
 
             }
 
-            this.submit();
+            if (!isNaN(@ViewBag.idRegion)) {
 
+                $("#idRegion > option[value='" + @ViewBag.idRegion + "'").attr('selected', 'selected');
+
+
+
+
+            }
 
         });
 
 
+        function submitSearch() {
+            $("#search").submit();
+        }
+
+        function submitAdvSearch() {
+            /*var input = $("<input>")
+                           .attr("type", "hidden")
+                            .attr("name", "nombre").val(($("#nombre").val() != "") ? $("#nombre").val() : "");
+            $("#adv-search").append(input);*/
 
 
 
-        if (!isNaN(@ViewBag.idCategoria)) {
+            $("#adv-search").submit();
+        }
 
-            $("#idCategoria > option[value='" + @ViewBag.idCategoria + "'").attr('selected', 'selected');
+        function cambioCat() {
+            fillCombo("idSubCat", $("#idCategoria").val(), "/Evento/Subcategorias", "Subcategorias");
+        }
 
+        function fillCombo(idCombo, value, linkUrl, optlabel) {
+            $("#" + idCombo).empty();
+            $("#" + idCombo).append("<option value=''>" + optlabel + "</option>")
 
-            if (!isNaN(@ViewBag.idSubCat)) {
+            var ddProv = $("#idSubCat");
+            var catId = parseInt($("#idCategoria").val());
+            // alert(catId);
+            if (isNaN(catId)) return;
+            $.ajax({
+                url: "" + linkUrl,
+                data: { depId: catId },
+                datatype: "json",
+                success: function (data) {
+                    var obj = $.parseJSON(data);
+                    $.each(obj, function (k, v) {
 
+                        ddProv.append($("<option></option>").val(v.IdRegion).html(v.Nombre));
+                    });
+                },
+                error: function () {
+                    alert("Error :(");
+                }
+            });
+        }
 
-                $("#idSubCat > option[value='" + @ViewBag.idSubCat + "'").attr('selected', 'selected');
-
-
-
+        function seleccionaFilaTabla(x) {
+            if (document.getElementsByClassName("trselected").length > 0) {
+                var element = document.getElementsByClassName("trselected");
+                element[0].className = "";
             }
-
-
+            var elem = document.getElementById("idEventoT");
+            elem.value = x.cells[0].innerHTML;
+            x.className = "trselected";
         }
 
-        if (!isNaN(@ViewBag.idRegion)) {
-
-            $("#idRegion > option[value='" + @ViewBag.idRegion + "'").attr('selected', 'selected');
-
-
-
-
-        }
-
-    });
-
-
-    function submitSearch() {
-        $("#search").submit();
-    }
-
-    function submitAdvSearch() {
-        /*var input = $("<input>")
-                       .attr("type", "hidden")
-                        .attr("name", "nombre").val(($("#nombre").val() != "") ? $("#nombre").val() : "");
-        $("#adv-search").append(input);*/
-
-
-
-        $("#adv-search").submit();
-    }
-
-    function cambioCat() {
-        fillCombo("idSubCat", $("#idCategoria").val(), "/Evento/Subcategorias", "Subcategorias");
-    }
-
-    function fillCombo(idCombo, value, linkUrl, optlabel) {
-        $("#" + idCombo).empty();
-        $("#" + idCombo).append("<option value=''>" + optlabel + "</option>")
-
-        var ddProv = $("#idSubCat");
-        var catId = parseInt($("#idCategoria").val());
-        // alert(catId);
-        if (isNaN(catId)) return;
-        $.ajax({
-            url: "" + linkUrl,
-            data: { depId: catId },
-            datatype: "json",
-            success: function (data) {
-                var obj = $.parseJSON(data);
-                $.each(obj, function (k, v) {
-
-                    ddProv.append($("<option></option>").val(v.IdRegion).html(v.Nombre));
-                });
-            },
-            error: function () {
-                alert("Error :(");
+        function redirigePromocion() {
+            var evento = $('#idEventoT').val();
+            if (evento != "") {
+                window.location.href = '/Promocion/Index?evento=' + evento;
+            } else {
+                alert("Seleccione un evento");
+                evento = "";
             }
-        });
-    }
+        }
 
-    function seleccionaFilaTabla(x) {
-        if (document.getElementsByClassName("trselected").length > 0) {
-            var element = document.getElementsByClassName("trselected");
-            element[0].className = "";
+        function redirigeAsiento() {
+            var evento = $('#idEventoT').val();
+            if (evento != "") {
+                window.location.href = '/Evento/Asientos?evento=' + evento;
+            } else {
+                alert("Seleccione un evento");
+                evento = "";
+            }
         }
-        var elem = document.getElementById("idEventoT");
-        elem.value = x.cells[0].innerHTML;
-        x.className = "trselected";
-    }
 
-    function redirigePromocion() {
-        var evento = $('#idEventoT').val();
-        if (evento != "") {
-            window.location.href = '/Promocion/Index?evento=' + evento;
-        } else {
-            alert("Seleccione un evento");
-            evento = "";
+        function redirigePostergar() {
+            var evento = $('#idEventoT').val();
+            if (evento != "") {
+                window.location.href = '/Evento/PostergarEvento?evento=' + evento;
+            } else {
+                alert("Seleccione un evento");
+                evento = "";
+            }
         }
-    }
+        function redirigeCancelar() {
+            var evento = $('#idEventoT').val();
+            if (evento != "") {
+                window.location.href = '/Evento/CancelarEvento?evento=' + evento;
+            } else {
+                alert("Seleccione un evento");
+                evento = "";
+            }
+        }
+        function modificaEvento() {
+            var evento = $('#idEventoT').val();
+            if (evento != "") {
+                window.location.href = '/Evento/ModificarEvento?evento=' + evento;
+            } else {
+                alert("Seleccione un evento");
+                evento = "";
+            }
+        }
 
-    function redirigeAsiento() {
-        var evento = $('#idEventoT').val();
-        if (evento != "") {
-            window.location.href = '/Evento/Asientos?evento=' + evento;
-        } else {
-            alert("Seleccione un evento");
-            evento = "";
+        function redirigeReservaOrganizador() {
+            var evento = $('#idEventoT').val();
+            if (evento != "") {
+                window.location.href = '/Evento/VerEvento?id=' + evento;
+            } else {
+                alert("Seleccione un evento");
+                evento = "";
+            }
         }
-    }
 
-    function redirigePostergar() {
-        var evento = $('#idEventoT').val();
-        if (evento != "") {
-            window.location.href = '/Evento/PostergarEvento?evento=' + evento;
-        } else {
-            alert("Seleccione un evento");
-            evento = "";
+        function redirigeVerReservaOrganizador() {
+            var evento = $('#idEventoT').val();
+            if (evento != "") {
+                window.location.href = '/Evento/VerReservaOrganizador?evento=' + evento;
+            } else {
+                alert("Seleccione un evento");
+                evento = "";
+            }
         }
-    }
-    function redirigeCancelar() {
-        var evento = $('#idEventoT').val();
-        if (evento != "") {
-            window.location.href = '/Evento/CancelarEvento?evento=' + evento;
-        } else {
-            alert("Seleccione un evento");
-            evento = "";
-        }
-    }
-    function modificaEvento() {
-        var evento = $('#idEventoT').val();
-        if (evento != "") {
-            window.location.href = '/Evento/ModificarEvento?evento=' + evento;
-        } else {
-            alert("Seleccione un evento");
-            evento = "";
-        }
-    }
-
-    function redirigeReservaOrganizador() {
-        var evento = $('#idEventoT').val();
-        if (evento != "") {
-            window.location.href = '/Evento/VerEvento?id=' + evento;
-        } else {
-            alert("Seleccione un evento");
-            evento = "";
-        }
-    }
-
-    function redirigeVerReservaOrganizador() {
-        var evento = $('#idEventoT').val();
-        if (evento != "") {
-            window.location.href = '/Evento/VerReservaOrganizador?evento=' + evento;
-        } else {
-            alert("Seleccione un evento");
-            evento = "";
-        }
-    }
-                               </script>
+    </script>
 }
 
 
