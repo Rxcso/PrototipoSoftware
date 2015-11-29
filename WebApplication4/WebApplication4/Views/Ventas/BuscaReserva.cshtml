@@ -49,12 +49,26 @@
             </div>
         </div>
         @*si existe un turno y la caja para ese turno esta abierta aparece la opcion para pagar reserva*@
-        @*@if (tu != null && tu.estadoCaja == "Abierto") 
-        {*@ 
+        @if (tu != null && tu.estadoCaja == "Abierto") 
+        {
             <div class="col-md-3 ">
                 <a onclick="redirigeReserva()" class="btn btn-primary pull-right"><span class="fa fa-money fa-lg"></span> Pagar reserva</a>
             </div>
-        @*}*@
+        }
+        else
+        {
+            if (tu == null)
+            {
+                <h6>Debes tener un Turno</h6>
+            }
+            else
+            {
+                if (tu.estadoCaja != "Abierto")
+                {
+                    <h6>Caja debe estar Abierta</h6>
+                }
+            }
+        }
         <div class="col-md-2">
             @*<a href="@Url.Action("Index2", "Home")" class="btn btn-danger pull-right">Salir <span class="glyphicon glyphicon-log-out"></span></a>*@
         </div>
