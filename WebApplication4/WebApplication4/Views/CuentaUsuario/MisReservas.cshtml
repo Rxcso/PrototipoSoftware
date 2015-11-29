@@ -28,7 +28,9 @@
     }
 
 }
-
+<style>
+    td{cursor:text}
+</style>
 <div class="container-fluid">
     <div class="col-md-4">
         <ol class="breadcrumb">
@@ -52,16 +54,16 @@
                 <div class="col-md-12 table-responsive">
                     <table id="mytable" class="table table-bordered table-hover">
                         <thead>
-                            <tr class="thead">
-                                <th>Código</th>
-                                <th>Evento</th>
-                                <th>Fecha</th>
-                                <th>Hora</th>
-                                <th>Cantidad</th>
-                                <th>Zona/Tarifa</th>
-                                <th>Asiento</th>
-                                <th>Monto (S/.)</th>
-                                <th style="text-align:center"><span class="fa fa-trash"></span></th>
+                            <tr>
+                                <th class="col-md-1">Código</th>
+                                <th class="col-md-2">Evento</th>
+                                <th class="col-md-1">Fecha</th>
+                                <th class="col-md-1">Hora</th>
+                                <th class="col-md-1">Cantidad</th>
+                                <th class="col-md-2">Zona/Tarifa</th>
+                                <th class="col-md-2">Asiento</th>
+                                <th class="col-md-1">Monto (S/.)</th>
+                                <th class="col-md-1" style="text-align:center"><span class="fa fa-trash"></span></th>
                             </tr>
                         </thead>
                         <tbody id="tbody">
@@ -72,13 +74,13 @@
                                     //se muestran las ventas si existen y si existe su ventaxfuncion correpondiente
                                     foreach (var row in listvxf)
                                     {
-                                        <tr id=@row.codVen onclick="myFunction(this)">
+                                        <tr id=@row.codVen >
                                             <td>@row.codVen</td>
                                             @*se obtiene la funcion del la venta x funcion*@
                                             @{
                                         Funcion fu = db.Funcion.Find(row.codFuncion);
                                             }
-                                            <td>@db.Eventos.Find(fu.codEvento).nombre</td>
+                                            <td><a href=@Url.Action("VerEvento", "Evento", new { id = @db.Eventos.Find(fu.codEvento).codigo })>@db.Eventos.Find(fu.codEvento).nombre</a></td>
                                             <td>@fu.fecha.Value.ToString("dd/MM/yyyy")</td>
                                             <td>@String.Format("{0:t}", fu.horaIni)</td>
                                             <td>@row.cantEntradas</td>
@@ -140,7 +142,7 @@
                                                 <td>-</td>
                                             }
                                             <td>@row.total</td>
-                                            <td><a href="@Url.Action("DeleteReserva", "CuentaUsuario", new { codE = row.codVen, codF = row.codFuncion,codEv=fu.codEvento,codZ=zon.codZona })" class="btn btn-danger"><span class="fa fa-trash"></span></a></td>
+                                            <td><a title="Eliminar reserva" href="@Url.Action("DeleteReserva", "CuentaUsuario", new { codE = row.codVen, codF = row.codFuncion,codEv=fu.codEvento,codZ=zon.codZona })" class="btn btn-danger"><span class="fa fa-trash"></span></a></td>
                                         </tr>
                                     }
                                 }
@@ -152,7 +154,7 @@
         </div>
         <!--CARRUSEL-->
         <div class="col-md-4">
-
+            destacados
         </div>
     </div>
 </div><!--Fin del container-->
@@ -168,7 +170,6 @@
         var elem = document.getElementById("codVenT");
         elem.value = x.cells[0].innerHTML;
         x.className = "trselected";
-
     }
     function redirigeReserva() {
         var reserva = $('#codVenT').val();
@@ -183,8 +184,3 @@
     }
 
 </script>
-<style>
-    .trselected {
-        background: gray;
-    }
-</style>
