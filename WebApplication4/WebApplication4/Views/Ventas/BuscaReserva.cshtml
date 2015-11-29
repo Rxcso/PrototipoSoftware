@@ -1,0 +1,163 @@
+﻿@using Microsoft.AspNet.Identity;
+@using WebApplication4.Models;
+
+@{
+    ViewBag.Title = "BuscaReserva";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var db = new WebApplication4.Models.inf245netsoft();
+    Turno tu = null;
+    //se comprueba si el usuario que se logueo tiene un turno asignado almacenado en session
+    if (Session["TurnoHoy"] != null)
+    {
+        tu = (Turno)Session["TurnoHoy"];
+    }
+    //se define la lista de reserva y si ya se genero una busqueda anterior se obtiene el resultado para mostralo 
+    List<VentasXFuncion> listaReserva = null;
+    if (Session["ReservaBusca"] != null)
+    {
+        listaReserva = (List<WebApplication4.Models.VentasXFuncion>)Session["ReservaBusca"];
+    }
+}
+
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li class="active">Reservas de clientes</li>
+        </ol>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row ">
+        <div class="col-md-1">
+            <label for="dni" class="control-label">Tipo Doc:</label>
+        </div>
+        <div class="col-md-2">
+            <select class="form-control" name="" id="comboBusq">
+                <option value="0">Ambos</option>
+                <option value="1">DNI</option>
+                <option value="2">Pasaporte</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label for="dni" class="control-label">N° Documento:</label>
+        </div>
+        <div class="col-md-2">
+            <div class="input-group">
+                <input id="idBusq" type="text" class="form-control">
+                <span class="input-group-btn"><button onclick="busca()" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
+            </div>
+        </div>
+        @*si existe un turno y la caja para ese turno esta abierta aparece la opcion para pagar reserva*@
+        @if (tu != null && tu.estadoCaja == "Abierto") 
+        {
+            <div class="col-md-3 ">
+                <a onclick="redirigeReserva()" class="btn btn-primary pull-right"><span class="fa fa-money fa-lg"></span> Pagar reserva</a>
+            </div>
+        }
+        else
+        {
+            if (tu == null)
+            {
+                <h6>Debes tener un Turno</h6>
+            }
+            else
+            {
+                if (tu.estadoCaja != "Abierto")
+                {
+                    <h6>Caja debe estar Abierta</h6>
+                }
+            }
+        }
+        <div class="col-md-2">
+            @*<a href="@Url.Action("Index2", "Home")" class="btn btn-danger pull-right">Salir <span class="glyphicon glyphicon-log-out"></span></a>*@
+        </div>
+    </div>
+
+
+    <div class="row">
+        <h4>Resultados:</h4>
+        <div class="table-responsive">
+            <table id="mytable" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th class="col-md-2">Código Reserva</th>
+                        <th class="col-md-3">Nombre</th>
+                        <th class="col-md-1">N° Doc</th>
+                        <th class="col-md-3">Evento</th>
+                        <th class="col-md-2">Cantidad Entradas</th>
+                        <th class="col-md-1">Total (S/.)</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                    @if (listaReserva != null)
+                    {
+                        //se muestra el resultado de la lista de reserva que se obtuvo de la busqueda si es que ya hubo una busqueda
+                        foreach (var row in listaReserva)
+                        {
+                            <tr id=@row.codVen onclick="myFunction(this)">
+                                <td>@row.codVen</td>
+                                @{
+                                    Ventas ve = db.Ventas.Find(row.codVen);
+                                    Funcion fu = db.Funcion.Find(row.codFuncion);
+                                }
+                                <td>@db.CuentaUsuario.Find(ve.cliente).nombre @db.CuentaUsuario.Find(ve.cliente).apellido</td>
+                                <td>@ve.codDoc</td>
+                                <td>@db.Eventos.Find(fu.codEvento).nombre</td>
+                                <td>@row.cantEntradas</td>
+                                <td>@ve.MontoTotalSoles</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div><br>
+
+</div>
+
+<input type="hidden" id="codVenT" value="" />
+<script>
+    function myFunction(x) {
+        if (document.getElementsByClassName("trselected").length > 0) {
+            var element = document.getElementsByClassName("trselected");
+            element[0].className = "";
+        }
+        //se almacena elcodigo de la  venta seleccionada
+        var elem = document.getElementById("codVenT");
+        elem.value = x.cells[0].innerHTML;
+        x.className = "trselected";
+    }
+
+    function busca() {
+        var usuario = $('#idBusq').val();
+        var tipo = $('#comboBusq option:selected').val();
+        //se obtienen los valores de los criterios de busqueda y se los envia al controller
+        $.ajax({
+            url: "@Url.Action("SearchReserva", "CuentaUsuario")",
+            data: { usuario: usuario, tipo: tipo },
+            success: function (data) {
+                window.location.href = '/Ventas/BuscaReserva';
+            },
+            error: function () {
+                alert("Error :(");
+            }
+        });
+    }
+
+    function redirigeReserva() {
+        var reserva = $('#codVenT').val();
+        if (reserva != "") {
+            window.location.href = '/Ventas/PagarReserva?reserva=' + reserva;
+        } else {
+            alert("Seleccione una Reserva");
+            evento = "";
+        }
+    }
+
+</script>
+<style>
+    .trselected {
+        background: gray;
+    }
+</style>

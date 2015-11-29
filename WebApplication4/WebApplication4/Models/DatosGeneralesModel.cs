@@ -42,6 +42,6 @@ namespace WebApplication4.Models
         public string descripcion { get; set; }
 
         [Display(Name = "Local:")]
-        public int Local { get; set; }
+        public int? Local { get; set; }
     }
 }

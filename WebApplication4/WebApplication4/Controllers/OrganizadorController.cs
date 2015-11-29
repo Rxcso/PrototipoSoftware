@@ -8,6 +8,7 @@ using WebApplication4.Models;
 
 namespace WebApplication4.Controllers
 {
+    [Authorize(Roles = "Promotor")]
     public class OrganizadorController : Controller
     {
         private inf245netsoft db = new inf245netsoft();
@@ -17,6 +18,14 @@ namespace WebApplication4.Controllers
             return View();
         }
 
+        public ActionResult Historial(int id)
+        {
+            Organizador organizador = db.Organizador.Find(id);
+            ViewBag.Organizador = organizador;
+            List<Eventos> eventos = db.Eventos.Where(c => c.Organizador.codOrg == organizador.codOrg).ToList();
+            ViewBag.ListaEventos = eventos;
+            return View();
+        }
 
         [HttpPost]
         [AllowAnonymous]
@@ -150,6 +159,5 @@ namespace WebApplication4.Controllers
             else Session["ListaO"] = null;
             return RedirectToAction("Index", "Organizador");
         }
-
     }
 }

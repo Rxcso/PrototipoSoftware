@@ -10,7 +10,11 @@
     //se carga la lista de regiones para realizar la busqueda
     List<WebApplication4.Models.Region> listaSearch = db.Region.AsNoTracking().Where(c => c.idRegPadre == null).ToList();
 }
-
+<style>
+    td {
+        text-align: center;
+    }
+</style>
 <div class="container-fluid">
     <div class="col-md-5">
         <ol class="breadcrumb">
@@ -78,7 +82,7 @@
                         <th class="col-md-3">Ubicación</th>
                         <th class="col-md-1">Dirección MAC</th>
                         <th class="col-md-2">Provincia</th>
-                        <th class ="col-md-2">Departamento</thclass>
+                        <th class="col-md-2">Departamento</thclass>
                         <th class="col-md-1">Estado</th>
                     </tr>
                 </thead>
@@ -94,13 +98,13 @@
                             <td>@db.Region.Find(row.idProvincia).nombre</td>
                             <td>@db.Region.Find(row.idRegion).nombre</td>
                             @{
-                                string state = "";
-                                if (row.estaActivo.HasValue)
-                                {
-                                    if ((bool)row.estaActivo)
-                                    { state = "Activo"; }
-                                    else { state = "Inactivo"; }
-                                }
+                        string state = "";
+                        if (row.estaActivo.HasValue)
+                        {
+                            if ((bool)row.estaActivo)
+                            { state = "Activo"; }
+                            else { state = "Inactivo"; }
+                        }
                             }
                             <td>@state</td>
                         </tr>
@@ -108,7 +112,7 @@
                 </tbody>
             </table>
         </div>
-        
+
     </div>
 
 </div>
@@ -125,7 +129,7 @@
         var elem = document.getElementById("idPuntoT");
         elem.value = x.cells[0].innerHTML;
         var elem2 = document.getElementById("EstadoPT");
-        elem2.value = x.cells[5].innerHTML;
+        elem2.value = x.cells[6].innerHTML;
         x.className = "trselected";
     }
     function borrar() {
@@ -136,14 +140,14 @@
         //se obtiene los datos de la fila de la lista seleccionado
         //se comprueba si punto esta activo y se le envia los datos al controller
         if (punto != "" && punto != null) {
-            if (estado != "False") {
+            if (estado != "Inactivo") {
                 $.ajax({
                     url: "@Url.Action("Delete","PuntoVenta")",
                     data: { punto: punto },
                     success: function (data) {
                         alert(data);
                         $('#eliminar').modal('hide');
-                        row.remove();
+                        //row.remove();
                         window.location.href = '/PuntoVenta/Index';
                     },
                     error: function (data) {
@@ -166,7 +170,7 @@
         //se obtiene los datos de la fila de la lista seleccionado
         //se comprueba si punto esta desactivado y se le envia los datos al controller
         if (punto != "" && punto != null) {
-            if (estado != "True") {
+            if (estado != "Activo") {
                 $.ajax({
                     url: "@Url.Action("Active","PuntoVenta")",
                     data: { punto: punto },
@@ -192,7 +196,7 @@
         //se obtiene los datos de la fila de la lista seleccionado
         //se comprueba si punto esta activado y se le redirige a la ventana de edicion
         if (punto != "") {
-            if (estado != "False") {
+            if (estado != "Inactivo") {
                 var elem = document.getElementById("idPuntoT");
                 elem.value = "";
                 window.location.href = '/PuntoVenta/Edit?punto=' + punto;
@@ -379,7 +383,6 @@
         </div>
     </div>
 </div>
-
 
 
 

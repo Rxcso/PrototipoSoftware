@@ -88,8 +88,8 @@
                     <tr id=@row.codPromo onclick="myFunction(this)">
                         <td>@row.codPromo</td>
                         <td>@row.descripcion</td>
-                        <td>@row.fechaIni</td>
-                        <td>@row.fechaFin</td>
+                        <td>@row.fechaIni.Value.ToString("dd/MM/yyyy")</td>
+                        <td>@row.fechaFin.Value.ToString("dd/MM/yyyy")</td>
                         @if (@row.estado == true)
                         {
                             <td>Activo</td>

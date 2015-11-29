@@ -10,48 +10,48 @@ using System.Web.Mvc;
 
 namespace WebApplication4.Models
 {
-    public class PromocionModel 
+    public class PromocionModel
     {
-            [Required]
-            [DataType(DataType.Date)]
-            [CheckDateRangeAttribute(ErrorMessage = "Fecha Inicio debe ser mayor que hoy")]
-            [Display(Name = "Fecha Inicio:")]
-            public System.DateTime fechaIni { get; set; }
+        [Required]
+        [DataType(DataType.Date)]
+        [CheckDateRangeAttribute(ErrorMessage = "Fecha Inicio debe ser mayor que hoy")]
+        [Display(Name = "Fecha Inicio:")]
+        public System.DateTime fechaIni { get; set; }
 
-            [Required]
-            [DataType(DataType.Date)]
-            [GreaterThan("fechaIni", ErrorMessage = "Fecha fin debe ser mayor que fecha inicio")]
-            [Display(Name = "Fecha Fin:")]
-            public System.DateTime fechaFin { get; set; }
+        [Required]
+        [DataType(DataType.Date)]
+        [GreaterThanOrEqualTo("fechaIni", ErrorMessage = "Fecha fin debe ser mayor o igual que fecha inicio")]
+        [Display(Name = "Fecha Fin:")]
+        public System.DateTime fechaFin { get; set; }
 
-            [Required]
-            [Range(0, 100)]
-            [Display(Name = "Porcentaje Descuento:")]
-            public float descuento { get; set; }
+        [Required]
+        [Range(0, 100)]
+        [Display(Name = "Porcentaje Descuento:")]
+        public float descuento { get; set; }
 
-            [Required]
-            [Display(Name = "Banco:")]
-            public int codBanco { get; set; }
+        [Required]
+        [Display(Name = "Banco:")]
+        public int codBanco { get; set; }
 
-            [Required]
-            [Display(Name = "Tipo Tarjeta:")]
-            public int codTipoTarjeta { get; set; }
+        [Required]
+        [Display(Name = "Tipo Tarjeta:")]
+        public int codTipoTarjeta { get; set; }
 
 
-            public class CheckDateRangeAttribute : ValidationAttribute
+        public class CheckDateRangeAttribute : ValidationAttribute
+        {
+            public override bool IsValid(object value)
             {
-                public override bool IsValid(object value)
+                DateTime dt = (DateTime)value;
+                if (dt.Date >= DateTime.Now.Date)
                 {
-                    DateTime dt = (DateTime)value;
-                    if (dt >= DateTime.Now)
-                    {
-                        return true;
-                    }
-
-                    return false;
+                    return true;
                 }
 
+                return false;
             }
+
+        }
 
     }
 
@@ -65,7 +65,7 @@ namespace WebApplication4.Models
 
         [Required]
         [DataType(DataType.Date)]
-        [GreaterThan("fechaIni", ErrorMessage = "Fecha fin debe ser mayor que fecha inicio")]
+        [GreaterThanOrEqualTo("fechaIni", ErrorMessage = "Fecha fin debe ser mayor o igual que fecha inicio")]
         [Display(Name = "Fecha Fin:")]
         public System.DateTime fechaFin { get; set; }
 
@@ -85,7 +85,7 @@ namespace WebApplication4.Models
             public override bool IsValid(object value)
             {
                 DateTime dt = (DateTime)value;
-                if (dt >= DateTime.Now)
+                if (dt.Date >= DateTime.Now.Date)
                 {
                     return true;
                 }
@@ -96,5 +96,5 @@ namespace WebApplication4.Models
         }
 
     }
-    
+
 }

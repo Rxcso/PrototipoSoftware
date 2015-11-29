@@ -8,13 +8,13 @@ using WebApplication4.Models;
 
 namespace WebApplication4.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Administrador")]
     public class RegaloController : Controller
     {
-
         private inf245netsoft db = new inf245netsoft();
         // GET: Regalo
-        public ActionResult Index()     {            
+        public ActionResult Index()
+        {
             return View();
         }
 
@@ -62,7 +62,6 @@ namespace WebApplication4.Controllers
             //return RedirectToAction("Index", "Evento");
             return Json("Regalo Desactivado", JsonRequestBehavior.AllowGet);
         }
-
 
         public JsonResult Active(string regalo)
         {
@@ -140,12 +139,13 @@ namespace WebApplication4.Controllers
             else Session["ListaR"] = null;
             return RedirectToAction("Index", "Regalo");
         }
+        
         public ActionResult SearchI()
         {
             List<Regalo> listaReg;
             listaReg = db.Regalo.AsNoTracking().Where(c => c.estado == false).ToList();
             if (listaReg != null) Session["ListaR"] = listaReg;
-            else Session["ListaR"] = null;            
+            else Session["ListaR"] = null;
             return RedirectToAction("Index", "Regalo");
         }
     }

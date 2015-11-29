@@ -47,24 +47,23 @@
     }
 
 }
-
+<style>
+    td{cursor:text}
+</style>
 <div class="container-fluid">
-    <div class="col-md-5">
+    <div class="col-md-4">
         <ol class="breadcrumb">
-            <li class="active">Generar Reporte de Ventas</li>
+            <li class="active">Reporte de Ventas</li>
         </ol>
     </div>
 </div>
 
-<div class="container">
-    <div class="row">
-        @*<a class="btn btn-danger pull-right" href="@Url.Action("Index2", "Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>*@
-    </div>
+<div class="container">    
     <div class="row">
         <div class="modal-body">
             <form action="" class="">
-                <!--DECLARAMOS EL TABS Y LA CANTIDAD DE PESTAÑAS QUE TENDRA -->
-                <ul class="nav nav-tabs">
+                <!--DECLARAMOS LOS TABS Y LA CANTIDAD DE PESTAÑAS QUE TENDRA -->
+                <ul class="nav nav-tabs" id="myTab">
                     <li class="active"><a href="#xEntrada" id="ptot" data-toggle="tab">Total</a></li>
                     <li><a href="#xTarjeta" id="ptot2" data-toggle="tab">Por Vendedor</a></li>
                     <li><a href="#xEvento" data-toggle="tab">Por Evento</a></li>
@@ -74,39 +73,31 @@
                 <!--INTRODUCIMOS EL CONTIDO QUE TENDRA CADA PESTAÑA -->
                 <div class="tab-content">
                     <!--PRIMERA PESTAÑA-->
-                    <div class="tab-pane fade in active" id="xEntrada">
-                       
+                    <div class="tab-pane fade in active " id="xEntrada">
                         <div class="container">
-                            <br><div class="row">
-                                <div class="col-md-9">
-                                    <div class="form-group">
-                                        <button onclick="reporte1()" style="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-file"></span> Generar Reporte</button>
-                                    </div>
+                            <br />
+                            <center class="row form-inline ">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Desde:</span>
+                                    <input id="fd1" type="text" class="fechar form-control">
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        @if (Session["ReporteVentasTotal"] != null)
-                                        {
-                                            <button id="btnExport1" style="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Exportar a Excel</button>
-                                        }
-                                    </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon">Hasta:</span>
+                                    <input id="fh1" type="text" class="fechar form-control">
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3 col-md-offset-3">
-                                    <div class="input-group">
-                                        <span class="input-group-addon">Desde:</span>
-                                        <input id="fd1" type="date" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="input-group">
-                                        <span class="input-group-addon">Hasta:</span>
-                                        <input id="fh1" type="date" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                            <br>
+                            </center>
+                            <br />
+                            <center class="row form-group">
+
+                                <button onclick="reporte1()" class="btn btn-primary" data-dismiss="modal" aria-hidden="true"><span class="fa fa-table fa-lg"></span> Generar Reporte</button>
+
+                                @if (Session["ReporteVentasTotal"] != null)
+                                    {
+                                <button id="btnExport1" class="btn btn-success btn-excel" data-dismiss="modal" aria-hidden="true"><span class="fa fa-file-excel-o fa-lg"></span> Exportar a Excel</button>
+                                    }
+
+
+                            </center>
                             <div id="dvData">
                                 <div class="row">
                                     <div class="col-md-12">
@@ -114,43 +105,49 @@
                                         {
                                         DateTime di2 = (DateTime)Session["FechaRI"];
                                         DateTime df2 = (DateTime)Session["FechaRF"];
-                                        <div>
-                                            <h3>Reporte de Ventas Total del @di2.Date.ToString("dd/MM/yyyy") - @df2.Date.ToString("dd/MM/yyyy")</h3>
-                                        </div>
+                                        <center>
+                                            <h4>REPORTE DE VENTAS TOTAL</h4><h4> Del @di2.Date.ToString("dd/MM/yyyy") - @df2.Date.ToString("dd/MM/yyyy")</h4>
+                                        </center>
                                         }
-                                        <table class="table table-bordered table-hover" align="center">
-                                            <tr class="active">
-                                                <th>Fecha</th>
-                                                <th>DNI del Vendedor</th>
-                                                <th>Nombre del Vendedor</th>
-                                                <th>Punto de Venta</th>
-                                                <th>Total</th>
-                                            </tr>
-                                            <tbody id="tbody">
-                                                @foreach (var row in lev)
-                                                {
-                                                <tr>
-                                                    <td>@row.fecha.ToString("dd/MM/yyyy")</td>
-                                                    <td>@row.codigo</td>
-                                                    <td>@row.nombre</td>
-                                                    <td>@row.punto</td>
-                                                    <td>@row.total</td>
-                                                </tr>
-                                                }
-                                            </tbody>
-                                        </table>
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-hover" align="center">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Fecha</th>
+                                                        <th>Cliente y Numero de Documento</th>
+                                                        <th>Vendedor</th>
+                                                        <th>Total Devuelto (S/.)</th>
+                                                        <th>Total (S/.)</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody id="tbody">
+                                                    @foreach (var row in lev)
+                                                    {
+                                                    <tr>
+                                                        <td>@row.fecha.ToString("dd/MM/yyyy")</td>
+                                                        <td style="text-align:center">@row.cliente</td>
+                                                        <td>@row.nombre</td>
+                                                        <td class="numero">@row.devtotal</td>
+                                                        <td class="numero">@row.total</td>
+                                                    </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-2 col-md-offset-8">
-                                        <span>TOTAL (S/.)</span>
+                                    <div class="col-md-2 col-md-offset-8 col-sm-2 col-sm-offset-8 col-xs-6 ">
+                                        <strong class="pull-right">TOTAL (S/.)</strong>
                                     </div>
-                                    <div class="col-md-2">
-                                        <input type="text" class="form-control" readonly="true" value="@to1">
+                                    <div class="col-md-2 col-sm-2 col-xs-6">
+                                        <input type="text" class="numero form-control" readonly value="@to1">
                                     </div>
-                                </div>
                                 </div>
                             </div>
+                        </div>
                     </div>
 
 
@@ -158,111 +155,97 @@
                     <div class="tab-pane fade" id="xTarjeta">
                         <div class="container">
                             <br>
-                            <div class="row">
-                                <div class="col-md-9">
-                                    <div class="form-group">
-                                        <button onclick="reporte2()" style="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-file"></span> Generar Reporte</button>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        @if (Session["ReporteVentasTotal2"] != null)
-                                        {
-                                            <button id="btnExport2" style="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Exportar a Excel</button>
-                                        }
-                                    </div>
-                                </div>
-                            </div>
+                            <center class="row form-inline">
 
-                            <div class="row">
-                                <div class="col-md-3 col-md-offset-3">
-                                    <div class="input-group">
-                                        <span class="input-group-addon">Desde:</span>
-                                        <input id="fd2" type="date" class="form-control">
-                                    </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon">Desde:</span>
+                                    <input id="fd2" type="text" class="fechar form-control">
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="input-group">
-                                        <span class="input-group-addon">Hasta:</span>
-                                        <input id="fh2" type="date" class="form-control">
-                                    </div>
+
+                                <div class="input-group">
+                                    <span class="input-group-addon">Hasta:</span>
+                                    <input id="fh2" type="text" class="fechar form-control">
                                 </div>
-                            </div><br>
+
+                            </center>
+                            <br />
+                            <center class="row form-group">
+                                <button onclick="reporte2()" class="btn btn-primary" data-dismiss="modal" aria-hidden="true"><span class="fa fa-table fa-lg"></span> Generar Reporte</button>
+                                @if (Session["ReporteVentasTotal2"] != null)
+                                {
+                                <button id="btnExport2" class="btn btn-success btn-excel" data-dismiss="modal" aria-hidden="true"><span class="fa fa-file-excel-o fa-lg"></span> Exportar a Excel</button>
+                                }
+                            </center>
                             <div id="dvData2">
                                 <div class="row">
                                     <div class="col-md-12">
                                         @if (Session["ReporteVentasTotal2"] != null)
                                         {
                                             DateTime di2 = (DateTime)Session["FechaRI2"];
-                                            DateTime df2 = (DateTime)Session["FechaRF2"];                                            
-                                            <div>
-                                                <h3>Reporte de Ventas por Vendedor del @di2.Date.ToString("dd/MM/yyyy") - @df2.Date.ToString("dd/MM/yyyy")</h3>
-                                            </div>
+                                            DateTime df2 = (DateTime)Session["FechaRF2"];
+                                        <center>
+                                            <h4>REPORTE DE VENTAS POR VENDEDOR</h4><h4> Del @di2.Date.ToString("dd/MM/yyyy") - @df2.Date.ToString("dd/MM/yyyy")</h4>
+                                        </center>
                                         }
-                                        <table class="table table-bordered table-hover" align="center">
-                                            <tr class="active">
-                                                <th>Codigo del Vendedor</th>
-                                                <th>Nombre del Vendedor</th>
-                                                <th>Total</th>
-                                            </tr>
-                                            <tbody id="tbody">
-                                                @foreach (var row in lev2)
-                                                {
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-hover">
+                                                <thead>
                                                     <tr>
-                                                        <td>@row.codigo</td>
-                                                        <td>@row.nombre</td>
-                                                        <td>@row.total</td>
+                                                        <th>Codigo</th>
+                                                        <th>Nombre Vendedor</th>
+                                                        <th>Total (S/.)</th>
                                                     </tr>
-                                                }
-                                            </tbody>
-                                        </table>
+                                                </thead>
+
+                                                <tbody id="tbody">
+                                                    @foreach (var row in lev2)
+                                                    {
+                                                    <tr>
+                                                        <td style="text-align:center">@row.codigo</td>
+                                                            <td>@row.nombre</td>
+                                                            <td class="numero">@row.total</td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-2 col-md-offset-8">
-                                        <span>TOTAL (S/.)</span>
+                                    <div class="col-md-2 col-md-offset-8 col-sm-2 col-sm-offset-8 col-xs-6">
+                                        <strong class="pull-right">TOTAL (S/.)</strong>
                                     </div>
-                                    <div class="col-md-2">
-                                        <input type="text" class="form-control" readonly="true" value="@to2">
+                                    <div class="col-md-2 col-sm-2 col-xs-6">
+                                        <input type="text" class="form-control numero" readonly value="@to2">
                                     </div>
-                                </div>
                                 </div>
                             </div>
+                        </div>
                     </div>
                     <!--TERCERA PESTAÑA-->
                     <div class="tab-pane fade" id="xEvento">
                         <div class="container">
                             <br>
-                            <div class="row">
-                                <div class="col-md-9">
-                                    <div class="form-group">
-                                        <button onclick="reporte3()" style="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-file"></span> Generar Reporte</button>
-                                    </div>
+                            <center class="row form-inline">
+                                <div class="input-group">
+                                    <span class="input-group-addon">Desde:</span>
+                                    <input id="fd3" type="text" class="fechar form-control">
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        @if (Session["ReporteVentasTotal3"] != null)
-                                        {
-                                            <button id="btnExport3" style="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Exportar a Excel</button>
-                                        }
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div class="row">
-                                <div class="col-md-3 col-md-offset-3">
-                                    <div class="input-group">
-                                        <span class="input-group-addon">Desde:</span>
-                                        <input id="fd3" type="date" class="form-control">
-                                    </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon">Hasta:</span>
+                                    <input id="fh3" type="text" class="fechar form-control">
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="input-group">
-                                        <span class="input-group-addon">Hasta:</span>
-                                        <input id="fh3" type="date" class="form-control">
-                                    </div>
-                                </div>
-                            </div><br>
+                            </center>
+                            <br />
+                            <center class="row form-group">
+                                 <button onclick="reporte3()" style="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true"><span class="fa fa-table fa-lg"></span> Generar Reporte</button>
+                                 @if (Session["ReporteVentasTotal3"] != null)
+                                 {
+                                    <button id="btnExport3" class="btn btn-success btn-excel" data-dismiss="modal" aria-hidden="true"><span class="fa fa-file-excel-o fa-lg"></span> Exportar a Excel</button>
+                                 }
+                            </center>
                             <div id="dvData3">
                                 <div class="row">
                                     <div class="col-md-12">
@@ -270,80 +253,73 @@
                                         {
                                             DateTime di2 = (DateTime)Session["FechaRI3"];
                                             DateTime df2 = (DateTime)Session["FechaRF3"];
-                                            <div>
-                                                <h3>Reporte de Ventas por Eventos del @di2.Date.ToString("dd/MM/yyyy") - @df2.Date.ToString("dd/MM/yyyy")</h3>
-                                            </div>
+                                            <center>
+                                                <h4>REPORTE DE VENTAS POR EVENTO</h4><h4> Del @di2.Date.ToString("dd/MM/yyyy") - @df2.Date.ToString("dd/MM/yyyy")</h4>
+                                            </center>
                                         }
-                                        <table class="table table-bordered table-hover" align="center">
-                                            <tr class="active">
-                                                <th>Cód evento</th>
-                                                <th>Nombre Evento</th>
-                                                <th>Organizador</th>
-                                                <th>Funcion</th>
-                                                <th>Cant. boletos</th>
-                                                <th>Total (S/.)</th>
-                                            </tr>
-                                            <tbody id="tbody">
-                                                @foreach (var row in lev3)
-                                                {
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-hover" align="center">
+                                                <thead>
                                                     <tr>
-                                                        <td>@row.codigo</td>
-                                                        <td>@row.nombre</td>
-                                                        <td>@row.organizador</td>
-                                                        <td>@row.funcion</td>
-                                                        <td>@row.cant</td>
-                                                        <td>@row.total</td>
+                                                        <th>Codigo</th>
+                                                        <th>Nombre Evento</th>
+                                                        <th>Organizador</th>
+                                                        <th>Función</th>
+                                                        <th>Cant. boletos</th>
+                                                        <th>Total (S/.)</th>
                                                     </tr>
-                                                }
-                                            </tbody>
-                                        </table>
+                                                </thead>                                                
+                                                <tbody id="tbody">
+                                                    @foreach (var row in lev3)
+                                                    {
+                                                        <tr>
+                                                            <td style="text-align:center">@row.codigo</td>
+                                                            <td>@row.nombre</td>
+                                                            <td>@row.organizador</td>
+                                                            <td>@row.funcion</td>
+                                                            <td style="text-align:center">@row.cant</td>
+                                                            <td class="numero">@row.total</td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>                                        
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-2 col-md-offset-8">
-                                        <span>TOTAL (S/.)</span>
+                                    <div class="col-md-2 col-md-offset-8 col-sm-2 col-sm-offset-8 col-xs-6">
+                                        <strong class="pull-right">TOTAL (S/.)</strong>
                                     </div>
-                                    <div class="col-md-2">
-                                        <input type="text" class="form-control" readonly="true" value="@to3">
+                                    <div class="col-md-2 col-sm-2 col-xs-6">
+                                        <input type="text" class="form-control numero" readonly value="@to3">
                                     </div>
-                                </div>
                                 </div>
                             </div>
+                        </div>
                     </div>
                     <!--CUARTA PESTAÑA-->
                     <div class="tab-pane fade" id="xPunto">
                         <div class="container">
                             <br>
-                            <div class="row">
-                                <div class="col-md-9">
-                                    <div class="form-group">
-                                        <button onclick="reporte4()" style="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-file"></span> Generar Reporte</button>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        @if (Session["ReporteVentasTotal4"] != null)
-                                        {
-                                            <button id="btnExport4" style="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Exportar a Excel</button>
-                                        }
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-3 col-md-offset-3">
+                            <center class="row form-inline">                                
                                     <div class="input-group">
                                         <span class="input-group-addon">Desde:</span>
-                                        <input id="fd4" type="date" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
+                                        <input id="fd4" type="text" class="fechar form-control">
+                                    </div>                                
                                     <div class="input-group">
                                         <span class="input-group-addon">Hasta:</span>
-                                        <input id="fh4" type="date" class="form-control">
-                                    </div>
-                                </div>
-                            </div><br>
+                                        <input id="fh4" type="text" class="fechar form-control">
+                                    </div>                                
+                            </center>
+                            <br>
+                            <center class="row form-group">
+                                <button onclick="reporte4()" class="btn btn-primary" data-dismiss="modal" aria-hidden="true"><span class="fa fa-table fa-lg"></span> Generar Reporte</button>
+                                @if (Session["ReporteVentasTotal4"] != null)
+                                {
+                                    <button id="btnExport4" class="btn btn-success btn-excel" data-dismiss="modal" aria-hidden="true"><span class="fa fa-file-excel-o fa-lg"></span> Exportar a Excel</button>
+                                }
+                            </center>
+
                             <div id="dvData4">
                                 <div class="row">
                                     <div class="col-md-12">
@@ -351,27 +327,31 @@
                                         {
                                             DateTime di4 = (DateTime)Session["FechaRI4"];
                                             DateTime df4 = (DateTime)Session["FechaRF4"];
-                                            <div>
-                                                <h3>Reporte de Ventas por Punto de Venta del @di4.Date.ToString("dd/MM/yyyy") - @df4.Date.ToString("dd/MM/yyyy")</h3>
-                                            </div>
+                                            <center>
+                                                <h4>REPORTE DE VENTAS POR PUNTO DE VENTA</h4><h4> Del @di4.Date.ToString("dd/MM/yyyy") - @df4.Date.ToString("dd/MM/yyyy")</h4>
+                                            </center>
                                         }
-                                        <table class="table table-bordered table-hover" align="center">
-                                            <tr class="active">
-                                                <th>Codigo del Punto de Venta</th>
-                                                <th>Nombre del Punto de Venta</th>
-                                                <th>Distrito</th>
-                                                <th>Provincia </th>
-                                                <th>Total</th>
-                                            </tr>
+                                        <table class="table table-bordered table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Cod</th>
+                                                    <th>Punto de Venta</th>
+                                                    <th>Dirección</th>
+                                                    <th>Distrito</th>
+                                                    <th>Provincia </th>
+                                                    <th>Total (S/.)</th>
+                                                </tr>
+                                            </thead>                                            
                                             <tbody id="tbody">
                                                 @foreach (var row in lev4)
                                                 {
                                                     <tr>
-                                                        <td>@row.codigo</td>
+                                                        <td style="text-align:center">@row.codigo</td>
                                                         <td>@row.nombre</td>
+                                                        <td>@row.ubicacion</td>
                                                         <td>@row.distrito</td>
                                                         <td>@row.provincia</td>
-                                                        <td>@row.total</td>
+                                                        <td class="numero">@row.total</td>
                                                     </tr>
                                                 }
                                             </tbody>
@@ -379,11 +359,11 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-2 col-md-offset-8">
-                                        <span>TOTAL (S/.)</span>
+                                    <div class="col-md-2 col-md-offset-8 col-sm-2 col-sm-offset-8 col-xs-6">
+                                        <strong class="pull-right">TOTAL (S/.)</strong>
                                     </div>
-                                    <div class="col-md-2">
-                                        <input type="text" class="form-control" readonly="true" value="@to4">
+                                    <div class="col-md-2 col-sm-2 col-xs-6">
+                                        <input type="text" class="numero form-control" readonly value="@to4">
                                     </div>
                                 </div>
                             </div>
@@ -409,11 +389,13 @@
                 data: {fd:fd,fh:fh},
                 success: function (data) {
                     alert(data);
-                    window.location.href = '/ReporteVentas/Index';
+
+                    window.location.href = '/ReporteVentas/Index#xEntrada';
+                    window.location.reload();
                 },
                 error: function (data) {
                     alert(data);
-                    window.location.href = '/ReporteVentas/Index';
+                    window.location.href = '/ReporteVentas/Index#xEntrada';
                 }
             });
         } else {
@@ -421,11 +403,12 @@
                 url: "@Url.Action("LimpiaR1", "ReporteVentas")",
                 data: {},
             success: function () {
-                window.location.href = '/ReporteVentas/Index';
+                window.location.href = '/ReporteVentas/Index#xEntrada';
+                window.location.reload();
             },
             error: function (data) {
                 alert(data);
-                window.location.href = '/ReporteVentas/Index';
+                window.location.href = '/ReporteVentas/Index#xEntrada';
             }
         });
         }
@@ -439,7 +422,8 @@
                 data: { fd: fd, fh: fh },
                 success: function (data) {
                     alert(data);
-                    window.location.href = '/ReporteVentas/Index';
+                    window.location.href = '/ReporteVentas/Index#xTarjeta';
+                    window.location.reload();
                     //alert("Eliminado");
                     //row.remove();
                 },
@@ -452,11 +436,12 @@
                 url: "@Url.Action("LimpiaR2", "ReporteVentas")",
                 data: {},
             success: function () {
-                window.location.href = '/ReporteVentas/Index';
+                window.location.href = '/ReporteVentas/Index#xTarjeta';
+                window.location.reload();
             },
             error: function (data) {
                 alert(data);
-                window.location.href = '/ReporteVentas/Index';
+                window.location.href = '/ReporteVentas/Index#xTarjeta';
             }
         });
     }
@@ -470,7 +455,8 @@
                 data: { fd: fd, fh: fh },
                 success: function (data) {
                     alert(data);
-                    window.location.href = '/ReporteVentas/Index';
+                    window.location.href = '/ReporteVentas/Index#xEvento';
+                    window.location.reload();
                     //alert("Eliminado");
                     //row.remove();
                 },
@@ -483,11 +469,12 @@
                 url: "@Url.Action("LimpiaR3", "ReporteVentas")",
                 data: {},
             success: function () {
-                window.location.href = '/ReporteVentas/Index';
+                window.location.href = '/ReporteVentas/Index#xEvento';
+                window.location.reload();
             },
             error: function (data) {
                 alert(data);
-                window.location.href = '/ReporteVentas/Index';
+                window.location.href = '/ReporteVentas/Index#xEvento';
             }
         });
     }
@@ -501,7 +488,8 @@
                 data: { fd: fd, fh: fh },
                 success: function (data) {
                     alert(data);
-                    window.location.href = '/ReporteVentas/Index';
+                    window.location.href = '/ReporteVentas/Index#xPunto';
+                    window.location.reload();
                     //alert("Eliminado");
                     //row.remove();
                 },
@@ -514,11 +502,12 @@
                 url: "@Url.Action("LimpiaR4", "ReporteVentas")",
                 data: {},
             success: function () {
-                window.location.href = '/ReporteVentas/Index';
+                window.location.href = '/ReporteVentas/Index#xPunto';
+                window.location.reload();
             },
             error: function (data) {
                 alert(data);
-                window.location.href = '/ReporteVentas/Index';
+                window.location.href = '/ReporteVentas/Index#xPunto';
             }
         });
     }
@@ -564,3 +553,23 @@
         });
     });
 </script>
+@section scripts{
+    
+    <script>
+        //esto es para que cuando se refresque la pagina se permanezca en la misma pestaña
+        $('#myTab a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        });
+
+        // store the currently selected tab in the hash value
+        $("ul.nav-tabs > li > a").on("shown.bs.tab", function (e) {
+            var id = $(e.target).attr("href").substr(1);
+            window.location.hash = id;
+        });
+
+        // on load of the page: switch to the currently selected tab
+        var hash = window.location.hash;
+        $('#myTab a[href="' + hash + '"]').tab('show');
+    </script>
+    }

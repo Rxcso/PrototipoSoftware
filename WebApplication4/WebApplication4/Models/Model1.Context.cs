@@ -25,13 +25,11 @@ namespace WebApplication4.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<CuentaUsuario> CuentaUsuario { get; set; }
         public virtual DbSet<Banco> Banco { get; set; }
         public virtual DbSet<Promociones> Promociones { get; set; }
         public virtual DbSet<TipoTarjeta> TipoTarjeta { get; set; }
         public virtual DbSet<Regalo> Regalo { get; set; }
         public virtual DbSet<RegaloXCuenta> RegaloXCuenta { get; set; }
-        public virtual DbSet<TipoDeCambio> TipoDeCambio { get; set; }
         public virtual DbSet<Organizador> Organizador { get; set; }
         public virtual DbSet<PuntoVenta> PuntoVenta { get; set; }
         public virtual DbSet<Region> Region { get; set; }
@@ -61,5 +59,7 @@ namespace WebApplication4.Models
         public virtual DbSet<Ventas> Ventas { get; set; }
         public virtual DbSet<VentasXFuncion> VentasXFuncion { get; set; }
         public virtual DbSet<LogDevoluciones> LogDevoluciones { get; set; }
+        public virtual DbSet<TipoDeCambio> TipoDeCambio { get; set; }
+        public virtual DbSet<CuentaUsuario> CuentaUsuario { get; set; }
     }
 }

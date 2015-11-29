@@ -5,22 +5,11 @@
 @model RegaloModel
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";    
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
-    tbody {
-        cursor: pointer;
-    }
-    
-    .trselected {
-        background: #F1F1F1;
-        font-weight: bold;
-    }
-
-    thead {
-        background-color: #337AB7;
-        color: white;
-        font-weight: bold;
+    td {
+        text-align: center;
     }
 </style>
 
@@ -38,9 +27,9 @@
                 <a class="btn btn-success" href="#formNuevo" data-toggle="modal"><span class="glyphicon glyphicon-plus"></span> Agregar</a>
                 <a class="btn btn-primary" data-toggle="modal" onclick="redirigeRegalo()"><span class="glyphicon glyphicon-pencil"></span> Modificar</a>
                 <a class="btn btn-danger" onclick="validaS()" data-toggle="modal"><span class="glyphicon glyphicon-trash"></span> Eliminar</a>
-                <a class="btn btn-default" id="idBusq2" onclick="buscaI()"><span class="glyphicon glyphicon-eye-open"></span> Inactivos</a>                
-                <a class="btn btn-default" id="Activate" onclick="activa()"><span class="glyphicon glyphicon-ok"></span> Activar</a>                
-                
+                <a class="btn btn-default" id="idBusq2" onclick="buscaI()"><span class="glyphicon glyphicon-eye-open"></span> Inactivos</a>
+                <a class="btn btn-default" id="Activate" onclick="activa()"><span class="glyphicon glyphicon-ok"></span> Activar</a>
+
             </div>
         </div>
         <div class="col-md-5">
@@ -52,7 +41,7 @@
                     </div>
                 </div>
             </form>
-        </div>  
+        </div>
     </div>
 
     @{
@@ -103,7 +92,7 @@
                 </tbody>
             </table>
 
-        </div>        
+        </div>
     </div>
 </div>
 
@@ -131,7 +120,7 @@
                     @Html.AntiForgeryToken()
 
                     <div class="form-horizontal">
-                        @Html.ValidationSummary(true)                        
+                        @Html.ValidationSummary(true)
                         <div class="row form-group">
                             @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })
                             <div class="col-md-8">
@@ -147,7 +136,7 @@
                                 @Html.ValidationMessageFor(model => model.descripcion)
                             </div>
                         </div>
-                        
+
                         <div class="row form-group">
                             @Html.LabelFor(model => model.puntos, new { @class = "control-label col-md-3" })
                             <div class="col-md-8">
@@ -195,162 +184,162 @@
 
 
 @section scripts{
-    <script>    
-    function myFunction(x) {
-        if (document.getElementsByClassName("trselected").length > 0) {
-            var element = document.getElementsByClassName("trselected");
-            //element.item[0].cells[0].innerText;
-            element[0].className = "";
-        }
-        //var tabla = document.getElementById("mytable");
-        //alert(x);
-        //var y = x.getCells();
-        var elem = document.getElementById("idRegaloT");
-        var elem2 = document.getElementById("EstadoRT");
-        elem.value = x.cells[0].innerHTML;
-        elem2.value = x.cells[4].innerHTML;
-        //alert(x.cells[0].innerHTML);
-        //ViewBag.P = x.cells[0].innerHTML;
-        x.className = "trselected";
+    <script>
+        function myFunction(x) {
+            if (document.getElementsByClassName("trselected").length > 0) {
+                var element = document.getElementsByClassName("trselected");
+                //element.item[0].cells[0].innerText;
+                element[0].className = "";
+            }
+            //var tabla = document.getElementById("mytable");
+            //alert(x);
+            //var y = x.getCells();
+            var elem = document.getElementById("idRegaloT");
+            var elem2 = document.getElementById("EstadoRT");
+            elem.value = x.cells[0].innerHTML;
+            elem2.value = x.cells[4].innerHTML;
+            //alert(x.cells[0].innerHTML);
+            //ViewBag.P = x.cells[0].innerHTML;
+            x.className = "trselected";
 
-        //<a class="btn btn-primary" href="javascript:document.getElementsByClassName('trselected').submit()">Borrar<span class="glyphicon glyphicon-pencil"></span></a>
-        //idProm = x.codp;
-    }
-    function validaS() {
-        var regalo = $('#idRegaloT').val();
-        if (regalo != null && regalo != "") {
-            $('#eliminar').modal('show');
-        } else {
-            alert("Seleccione un Regalo");
+            //<a class="btn btn-primary" href="javascript:document.getElementsByClassName('trselected').submit()">Borrar<span class="glyphicon glyphicon-pencil"></span></a>
+            //idProm = x.codp;
         }
-    }
-    function borrar() {
-        var regalo = $('#idRegaloT').val();
-        var estado = $('#EstadoRT').val();
-        var el = document.getElementById(regalo);
-        var row = $(el).closest('tr');
-        //alert(evento);
-        //alert(promocion);
-        if (regalo != "" && regalo != null) {
-            if (estado != "False") {
-                $.ajax({
-                    url: "@Url.Action("Delete","Regalo")",
-                    data: { regalo: regalo },
-                    success: function (data) {
-                        alert(data);
-                        $('#eliminar').modal('hide');
-                        row.remove();
-                        window.location.href = '/Regalo/Index';
-                    },
-                    error: function (data) {
-                        alert(data);
-                    }
-                });
+        function validaS() {
+            var regalo = $('#idRegaloT').val();
+            if (regalo != null && regalo != "") {
+                $('#eliminar').modal('show');
             } else {
-                alert("No se puede desactivar un Regalo que ya esta desactivado");
+                alert("Seleccione un Regalo");
             }
-        } else {
-            alert("Seleccione un Regalo");
-            evento = "";
         }
-    }
-    function activa() {
-        var regalo = $('#idRegaloT').val();
-        var estado = $('#EstadoRT').val();
-        var el = document.getElementById(regalo);
-        var row = $(el).closest('tr');
-        //alert(evento);
-        //alert(promocion);
-        if (regalo != "" && regalo != null) {
-            if (estado != "True") {
-                $.ajax({
-                    url: "@Url.Action("Active","Regalo")",
-                    data: { regalo: regalo },
-                    success: function (data) {
-                        alert(data);
-                        window.location.href = '/Regalo/Index';
-                    },
-                    error: function (data) {
-                        alert(data);
-                    }
-                });
+        function borrar() {
+            var regalo = $('#idRegaloT').val();
+            var estado = $('#EstadoRT').val();
+            var el = document.getElementById(regalo);
+            var row = $(el).closest('tr');
+            //alert(evento);
+            //alert(promocion);
+            if (regalo != "" && regalo != null) {
+                if (estado != "Inactivo") {
+                    $.ajax({
+                        url: "@Url.Action("Delete","Regalo")",
+                        data: { regalo: regalo },
+                        success: function (data) {
+                            alert(data);
+                            $('#eliminar').modal('hide');
+                            row.remove();
+                            window.location.href = '/Regalo/Index';
+                        },
+                        error: function (data) {
+                            alert(data);
+                        }
+                    });
+                } else {
+                    alert("No se puede desactivar un Regalo que ya esta desactivado");
+                }
             } else {
-                alert("No se puede activar un Regalo que ya esta activado");
+                alert("Seleccione un Regalo");
+                evento = "";
             }
-        } else {
-            alert("Seleccione un Regalo");
         }
-    }
-    function redirigeRegalo() {
-        var regalo = $('#idRegaloT').val();
-        var estado = $('#EstadoRT').val();
-        if (regalo != "") {
-            if (estado != "False") {
-                var elem = document.getElementById("idRegaloT");
-                elem.value = "";
-                window.location.href = '/Regalo/Edit?regalo=' + regalo;
+        function activa() {
+            var regalo = $('#idRegaloT').val();
+            var estado = $('#EstadoRT').val();
+            var el = document.getElementById(regalo);
+            var row = $(el).closest('tr');
+            //alert(evento);
+            //alert(promocion);
+            if (regalo != "" && regalo != null) {
+                if (estado != "Activo") {
+                    $.ajax({
+                        url: "@Url.Action("Active","Regalo")",
+                        data: { regalo: regalo },
+                        success: function (data) {
+                            alert(data);
+                            window.location.href = '/Regalo/Index';
+                        },
+                        error: function (data) {
+                            alert(data);
+                        }
+                    });
+                } else {
+                    alert("No se puede activar un Regalo que ya esta activado");
+                }
             } else {
-                alert("El Regalo esta desactivado no se puede editar");
+                alert("Seleccione un Regalo");
             }
-        } else {
-            alert("Seleccione un Regalo");
-            evento = "";
         }
-        //$.post('/Regalo/Edit/' + regalo);
-    }
-    function busca() {
-        var regalo = $('#idBusq').val();
-        //var el = document.getElementById(regalo);
-        //var row = $(el).closest('tr');
-        //alert(evento);
-        //alert(promocion);
-        $.ajax({
-            url: "@Url.Action("Search2", "Regalo")",
-            data: { regalo: regalo },
-            success: function (data) {
-                window.location.href = '/Regalo/Index';
-                //alert("Eliminado");
-                //row.remove();
-            },
-            error: function () {
-                alert("Error :(");
+        function redirigeRegalo() {
+            var regalo = $('#idRegaloT').val();
+            var estado = $('#EstadoRT').val();
+            if (regalo != "") {
+                if (estado != "Inactivo") {
+                    var elem = document.getElementById("idRegaloT");
+                    elem.value = "";
+                    window.location.href = '/Regalo/Edit?regalo=' + regalo;
+                } else {
+                    alert("El Regalo esta desactivado no se puede editar");
+                }
+            } else {
+                alert("Seleccione un Regalo");
+                evento = "";
             }
-        });
-    }
-    function buscaI() {        
-        $.ajax({
-            url: "@Url.Action("SearchI", "Regalo")",
-            data: {},
-            success: function (data) {
-                window.location.href = '/Regalo/Index';
-                //alert("Eliminado");
-                //row.remove();
-            },
-            error: function () {
-                alert("Error :(");
-            }
-        });
-    }
-    function modificar() {
-        var regalo = $('#idRegaloT').val();
-        //var el = document.getElementById(regalo);
-        //var row = $(el).closest('tr');
-        //alert(evento);
-        //alert(promocion);
-        $.ajax({
-            url: "@Url.Action("Edit","Regalo")",
-            data: { regalo: regalo },
-            success: function (data) {
-                //alert("Eliminado");
-                //row.remove();
-            },
-            error: function () {
-                alert("Error :(");
-            }
-        });
-    }
-    function closewindow() {
-        $('#eliminar').modal('hide');
-    }
+            //$.post('/Regalo/Edit/' + regalo);
+        }
+        function busca() {
+            var regalo = $('#idBusq').val();
+            //var el = document.getElementById(regalo);
+            //var row = $(el).closest('tr');
+            //alert(evento);
+            //alert(promocion);
+            $.ajax({
+                url: "@Url.Action("Search2", "Regalo")",
+                data: { regalo: regalo },
+                success: function (data) {
+                    window.location.href = '/Regalo/Index';
+                    //alert("Eliminado");
+                    //row.remove();
+                },
+                error: function () {
+                    alert("Error :(");
+                }
+            });
+        }
+        function buscaI() {
+            $.ajax({
+                url: "@Url.Action("SearchI", "Regalo")",
+                data: {},
+                success: function (data) {
+                    window.location.href = '/Regalo/Index';
+                    //alert("Eliminado");
+                    //row.remove();
+                },
+                error: function () {
+                    alert("Error :(");
+                }
+            });
+        }
+        function modificar() {
+            var regalo = $('#idRegaloT').val();
+            //var el = document.getElementById(regalo);
+            //var row = $(el).closest('tr');
+            //alert(evento);
+            //alert(promocion);
+            $.ajax({
+                url: "@Url.Action("Edit","Regalo")",
+                data: { regalo: regalo },
+                success: function (data) {
+                    //alert("Eliminado");
+                    //row.remove();
+                },
+                error: function () {
+                    alert("Error :(");
+                }
+            });
+        }
+        function closewindow() {
+            $('#eliminar').modal('hide');
+        }
     </script>
 }

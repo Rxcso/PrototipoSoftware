@@ -18,103 +18,59 @@
     }
 
 }
-
+<style>
+    td,th{text-align:center}
+</style>
 <div class="container-fluid">
-    <ol class="breadcrumb">
-        <li class=""><a href="@Url.Action("MiCuenta", "CuentaUsuario")">Mi cuenta</a></li>
-        <li class="active">Mis Compras</li>
-    </ol>
+    <div class="col-md-4">
+        <ol class="breadcrumb">
+            <li><a href="@Url.Action("MiCuenta", "CuentaUsuario")">Mi cuenta</a></li>
+            <li class="active">Mis compras pasadas</li>
+        </ol>
+    </div>
+    
 </div>
 
 <div class="container">
     <div class="row">
         <!--LA PARTE IMPORTANTE-->
-        <div class="col-md-8">
-            <div class="row">
-                <div class="col-md-6">
-                    <h4>Mis Compras Pasadas:</h4>
-                </div>
-            </div>
+        <div class="col-md-8">            
             @*se muestra el contenido de la lista de ventasobtenida del usuario logueado*@
-            <div class="row">
-                <table id="mytable" class="table table-bordered table-hover">
-                    <thead>
-                        <tr class="thead">
-                            <th>Codigo</th>
-                            <th>Fecha</th>
-                            <th>Cantidad de Boletos</th>
-                            <th>Monto (S/.)</th>
-                            <th>Estado</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbody">
-                        @if (listaventas != null)
-                        {
-                            foreach (var row in listaventas)
+            <div class="row form-group">
+                <div class="col-md-12 table-responsive">
+                    <table id="mytable" class="table table-bordered table-hover">
+                        <thead>
+                            <tr class="thead">
+                                <th>Código</th>
+                                <th>Fecha</th>
+                                <th>Cantidad</th>
+                                <th>Monto (S/.)</th>
+                                <th>Estado</th>
+                                <th style="text-align:center"><span class="fa fa-info-circle"></span></th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody">
+                            @if (listaventas != null)
                             {
-                                <tr id=@row.codVen onclick="myFunction(this)">
-                                    <td>@row.codVen</td>
-                                    <td>@row.fecha.Value.ToString("dd/MM/yyyy")</td>
-                                    <td>@row.cantAsientos</td>
-                                    <td>@row.MontoTotalSoles</td>
-                                    <td>@row.Estado</td>
-                                    <td><a href="@Url.Action("Detalles", "Ventas", new { id = row.codVen })" class="btn btn-primary">Detalles <span class="glyphicon glyphicon-pencil"></span></a></td>
-                                </tr>
+                                foreach (var row in listaventas)
+                                {
+                                    <tr id=@row.codVen onclick="myFunction(this)">
+                                        <td>@row.codVen</td>
+                                        <td>@row.fecha.Value.ToString("dd/MM/yyyy")</td>
+                                        <td>@row.cantAsientos</td>
+                                        <td>@row.MontoTotalSoles</td>
+                                        <td>@row.Estado</td>
+                                        <td><a href="@Url.Action("Detalles", "Ventas", new { id = row.codVen })" class="btn btn-primary"><span class="fa fa-info-circle"></span> Detalle</a></td>
+                                    </tr>
+                                }
                             }
-                        }
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>                
             </div>
-
-            <br>
         </div>
         <!--LOS EVENTOS DESTACADOS-->
         <div class="col-md-4">
-            <div class="headDestacados">
-                EVENTOS DESTACADOS
-            </div>
-            <div id="carousel-1" class="carousel slide" data-ride="carousel">
-                <!--indicadores primero-->
-                <ol class="carousel-indicators">
-                    <!--
-                                      <li data-target="#carousel-1" data-slide-to="0" class="active"></li>
-                                      <li data-target="#carousel-1" data-slide-to="1"></li>
-                                      <li data-target="#carousel-1" data-slide-to="2"></li>
-                                      <li data-target="#carousel-1" data-slide-to="3"></li>
-                                      <li data-target="#carousel-1" data-slide-to="4"></li>
-                                      <li data-target="#carousel-1" data-slide-to="5"></li>
-                    -->
-                </ol>
-                <!--Contenedor de los slide-->
-                <div class="carousel-inner" role="listbox">
-                    <div class="item active">
-                        <a href="verEvento.html"><img src="images/destacados/img1.jpg" width="1200px" class="img-responsive" alt=""></a>
-                    </div>
-                    <div class="item">
-                        <a href="verEvento.html"><img src="images/destacados/image2.jpg" width="1200px" class="img-responsive" alt=""></a>
-                    </div>
-                    <div class="item">
-                        <a href="verEvento.html"><img src="images/destacados/img3.jpg" width="1200px" class="img-responsive" alt=""></a>
-                    </div>
-                    <div class="item">
-                        <a href="verEvento.html"><img src="images/destacados/img4.jpg" width="1200px" class="img-responsive" alt=""></a>
-                    </div>
-                    <div class="item">
-                        <a href="verEvento.html"><img src="images/destacados/img5.jpg" width="1200px" class="img-responsive" alt=""></a>
-                    </div>
-                    <div class="item">
-                        <a href="verEvento.html"><img src="images/destacados/img6.jpg" width="1200px" class="img-responsive" alt=""></a>
-                    </div>
-                </div>
-                <!--Controles-->
-                <a href="#carousel-1" class="left carousel-control" role="button" data-slide="prev">
-                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                </a>
-                <a href="#carousel-1" class="right carousel-control" role="button" data-slide="next">
-                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                </a>
-            </div>
         </div>
     </div>
 </div><!--Fin del container-->

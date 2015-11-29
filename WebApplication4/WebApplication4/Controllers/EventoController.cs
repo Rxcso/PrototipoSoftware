@@ -13,7 +13,7 @@ using System.Data.Entity.Core;
 
 namespace WebApplication4.Controllers
 {
-    [Authorize]
+
     public partial class EventoController : Controller
     {
         inf245netsoft db = new inf245netsoft();
@@ -31,10 +31,13 @@ namespace WebApplication4.Controllers
             Funcion funcion = db.Funcion.Find(idFuncion);
             int limEntradas = funcion.Eventos.maxReservas;
             int actualEntradas = 0;
-            foreach (VentasXFuncion VXF in listVXF) if (VXF.Ventas.codDoc.CompareTo(doc) == 0 && VXF.Ventas.tipoDoc == tipoDoc)
+            foreach (VentasXFuncion VXF in listVXF)
+            {
+                if (VXF.Ventas.codDoc.CompareTo(doc) == 0 && VXF.Ventas.tipoDoc == tipoDoc)
                 {
                     actualEntradas += VXF.cantEntradas;
                 }
+            }
             return limEntradas - actualEntradas;
         }
 
@@ -57,12 +60,16 @@ namespace WebApplication4.Controllers
 
                 if (quedan == 0)
                 {
-                    return "Ya no le quedan reservas/compras disponibles para el evento";
+                    return "Ya no quedan reservas/compras disponibles para el evento";
                 }
 
                 if (quedan < paquete.cantEntradas)
                 {
-                    return "No se pudo realizar la reserva, solo puede reservar hasta  " + quedan + " entradas";
+                    if (quedan > 0)
+                    {
+                        return "No se pudo realizar la reserva, solo puede reservar hasta  " + quedan + " entradas.";
+                    }
+                    return "Ya no puede reservar más entradas para este evento.";
                 }
                 //Luego se hace la reserva de esto, 
                 //Establecer sincronia es lo mas complicado
@@ -80,7 +87,7 @@ namespace WebApplication4.Controllers
                         PeriodoVenta per = db.PeriodoVenta.Where(c => c.codEvento == paquete.idEvento && c.fechaInicio <= hoy && c.fechaFin >= hoy).ToList().First();
                         PrecioEvento pr = db.PrecioEvento.Where(c => c.codZonaEvento == paquete.idZona && c.codPeriodoVenta == per.idPerVent).ToList().First();
                         //ve.codVen = vel.codVen + 1;
-                        CuentaUsuario cuenta = (CuentaUsuario)Session["UsuarioLogueado"];
+                        CuentaUsuario cuenta = db.CuentaUsuario.Find(User.Identity.Name);
                         ve.fecha = DateTime.Now;
                         ve.cantAsientos = paquete.cantEntradas;
                         ve.cliente = cuenta.usuario;
@@ -133,7 +140,13 @@ namespace WebApplication4.Controllers
                         else
                         {
                             ZonaxFuncion ZXF = context.ZonaxFuncion.Find(paquete.idFuncion, paquete.idZona);
-                            if (ZXF.cantLibres < paquete.cantEntradas) return "No hay suficientes entradas";
+                            if (ZXF.cantLibres < paquete.cantEntradas)
+                            {
+                                Ventas ventaAct = db.Ventas.Find(idVenta);
+                                db.Ventas.Remove(ventaAct);
+                                db.SaveChanges();
+                                return "No hay suficientes entradas";
+                            }
                             ZXF.cantLibres -= paquete.cantEntradas;
                         }
                         db.SaveChanges();
@@ -141,13 +154,18 @@ namespace WebApplication4.Controllers
                     }
                     catch (OptimisticConcurrencyException ex)
                     {
+                        Ventas ventaAct = db.Ventas.Find(idVenta);
+                        if (ventaAct != null) db.Ventas.Remove(ventaAct);
+                        db.SaveChanges();
                         return "No se pudieron reservar los asientos, alguien más ya lo hizo.";
                     }
-
                 }
             }
             catch (Exception ex)
             {
+                Ventas ventaAct = db.Ventas.Find(idVenta);
+                if (ventaAct != null) db.Ventas.Remove(ventaAct);
+                db.SaveChanges();
                 return "Ocurrio un error inesperado.";
             }
             //Funciones Utilitarias necesarias
@@ -208,7 +226,6 @@ namespace WebApplication4.Controllers
                 {
                     Local querL = db.Local.Where(c => c.codLocal == valorID).First();
                     r.local = querL.ubicacion;
-
                 }
                 else
                 {
@@ -263,24 +280,22 @@ namespace WebApplication4.Controllers
                     {
                         Local querL = db.Local.Where(c => c.codLocal == valorID).First();
                         r.local = querL.ubicacion;
-
                     }
                     else
                     {
                         r.local = lv[i].direccion;
                     }
                 }
-
             }
 
             Session["ReporteEventos"] = lr;
             return Json("Reporte Generado", JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize(Roles = "Administrador")]
         public ActionResult ReporteEvento()
         {
             return View();
-
         }
 
         public ActionResult Index(string nombre, string orden, DateTime? fech_ini, DateTime? fech_fin, int? idCategoria, int? idSubCat, int? idRegion, int? page)
@@ -297,7 +312,6 @@ namespace WebApplication4.Controllers
 
             ViewBag.idSubCat = idSubCat;
             ViewBag.idRegion = idRegion;
-
 
             var lista = from obj in db.Eventos
                         select obj;
@@ -335,7 +349,7 @@ namespace WebApplication4.Controllers
             switch (orden)
             {
                 default:
-                    lista = lista.OrderBy(s => s.fecha_inicio);
+                    lista = lista.OrderByDescending(s => s.codigo);
                     break;
             }
 
@@ -437,33 +451,23 @@ namespace WebApplication4.Controllers
             }
             if (ModelState.IsValid)
             {
-                if (Validaciones.VerificaEventoDG(model))
+                if (int.TryParse(Session["IdEventoModificado"].ToString(), out idEvento))
                 {
-                    if (int.TryParse(Session["IdEventoModificado"].ToString(), out idEvento))
-                    {
-                        Eventos modificado = db.Eventos.Find(idEvento);
-                        modificado.descripcion = model.descripcion;
-                        modificado.direccion = model.Direccion;
-                        modificado.idCategoria = model.idCategoria;
-                        modificado.idOrganizador = model.idOrganizador;
-                        modificado.idProvincia = model.idProv;
-                        modificado.idRegion = model.idRegion;
-                        modificado.idSubcategoria = model.idSubCat;
-                        modificado.idLocal = model.Local;
-                        modificado.nombre = model.nombre;
-                        modificado.fechaUltModificacion = DateTime.Today;
-                        modificado.estado = "Modificado";
-                        db.SaveChanges();
-                        return RedirectToAction("BloquesTiempoVenta");
-                    }
+                    Eventos modificado = db.Eventos.Find(idEvento);
+                    modificado.descripcion = model.descripcion;
+                    modificado.direccion = model.Direccion;
+                    modificado.idCategoria = model.idCategoria;
+                    modificado.idOrganizador = model.idOrganizador;
+                    modificado.idProvincia = model.idProv;
+                    modificado.idRegion = model.idRegion;
+                    modificado.idSubcategoria = model.idSubCat;
+                    modificado.idLocal = model.Local;
+                    modificado.nombre = model.nombre;
+                    modificado.fechaUltModificacion = DateTime.Today;
+                    modificado.estado = "Modificado";
+                    db.SaveChanges();
+                    return RedirectToAction("BloquesTiempoVenta");
                 }
-                if (model.Local != 0 && model.Direccion != null)
-                {
-                    ModelState.AddModelError("Local", "Debe ingresar un local o dirección.");
-                    ModelState.AddModelError("Direccion", "Debe ingresar una dirección o un local");
-                }
-
-                return View(model);
             }
             return View(model);
         }
@@ -490,45 +494,37 @@ namespace WebApplication4.Controllers
         [HttpPost]
         public ActionResult DatosGenerales(DatosGeneralesModel model)
         {
-            if (Validaciones.VerificaEventoDG(model))
+            if (ModelState.IsValid && model.idOrganizador != 0)
             {
-                if (ModelState.IsValid && model.idOrganizador != 0)
-                {
-                    Eventos evento = new Eventos();
-                    evento.nombre = model.nombre;
-                    evento.idOrganizador = model.idOrganizador;
-                    evento.idCategoria = model.idCategoria;
-                    evento.idSubcategoria = (model.idSubCat == 0) ? 0 : model.idSubCat;
-                    evento.idLocal = (model.Local == 0) ? 0 : model.Local;
-                    evento.direccion = string.IsNullOrEmpty(model.Direccion) ? "" : model.Direccion;
-                    evento.idRegion = (model.idRegion == 0) ? 0 : model.idRegion;
-                    evento.idProvincia = (model.idProv == 0) ? 0 : model.idProv;
-                    evento.descripcion = string.IsNullOrEmpty(model.descripcion) ? "" : model.descripcion;
-                    evento.fechaRegistro = DateTime.Today;
-                    evento.estado = "Creado";
-                    evento.monto_adeudado = 0;
-                    evento.monto_transferir = 0;
-                    evento.tieneBoletoElectronico = false;
-                    evento.permiteReserva = false;
-                    evento.puntosAlCliente = 0;
-                    evento.hanPostergado = false;
-                    evento.hanCancelado = false;
-                    evento.maxReservas = 0;
-                    //evento.ImagenDestacado = MagicHelpers.NuevoEvento;
-                    db.Eventos.Add(evento);
-                    db.SaveChanges();
-                    int id = evento.codigo;
-                    Session["IdEventoCreado"] = id;
-                    return RedirectToAction("BloquesTiempoVenta");
-                }
+                Eventos evento = new Eventos();
+                evento.nombre = model.nombre;
+                evento.idOrganizador = model.idOrganizador;
+                evento.idCategoria = model.idCategoria;
+                evento.idSubcategoria = (model.idSubCat == 0) ? 0 : model.idSubCat;
+                evento.idLocal = (model.Local == 0) ? 0 : model.Local;
+                evento.direccion = string.IsNullOrEmpty(model.Direccion) ? "" : model.Direccion;
+                evento.idRegion = (model.idRegion == 0) ? 0 : model.idRegion;
+                evento.idProvincia = (model.idProv == 0) ? 0 : model.idProv;
+                evento.descripcion = string.IsNullOrEmpty(model.descripcion) ? "" : model.descripcion;
+                evento.fechaRegistro = DateTime.Today;
+                evento.estado = "Creado";
+                evento.monto_adeudado = 0;
+                evento.monto_transferir = 0;
+                evento.tieneBoletoElectronico = false;
+                evento.permiteReserva = false;
+                evento.puntosAlCliente = 0;
+                evento.hanPostergado = false;
+                evento.hanCancelado = false;
+                evento.maxReservas = 0;
+                //evento.ImagenDestacado = MagicHelpers.NuevoEvento;
+                db.Eventos.Add(evento);
+                db.SaveChanges();
+                int id = evento.codigo;
+                Session["IdEventoCreado"] = id;
+                return RedirectToAction("BloquesTiempoVenta");
             }
             if (model.idOrganizador == 0)
                 ModelState.AddModelError("idOrganizador", "El evento debe tener un organizador");
-            if (model.Local != 0 && model.Direccion != null)
-            {
-                ModelState.AddModelError("Local", "Debe ingresar un local o dirección.");
-                ModelState.AddModelError("Direccion", "Debe ingresar una dirección o un local");
-            }
             ViewBag.MensajeExtra = "Revise los errores.";
             List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
             List<Region> listProv = db.Region.Where(c => c.idRegPadre == model.idRegion).ToList();
@@ -1035,6 +1031,7 @@ namespace WebApplication4.Controllers
                 }
             }
         }
+
         [HttpPost]
         public ActionResult Tarifas(ZonaEventoListModel model)
         {
@@ -1099,7 +1096,7 @@ namespace WebApplication4.Controllers
                 model.IEvento = evento.ImagenEvento;
                 model.ISitios = evento.ImagenSitios;
                 model.Ganancia = (double)(evento.porccomision == null ? 0 : evento.porccomision);
-                model.MaxReservas = db.Politicas.Find(2).valor.Value;
+                model.MaxReservas = evento.maxReservas;
                 model.MontFijoVentEnt = (double)(evento.montoFijoVentaEntrada == null ? 0 : evento.montoFijoVentaEntrada);
                 model.PenCancelacion = (double)(evento.penalidadXcancelacion == null ? 0 : evento.penalidadXcancelacion);
                 model.PenPostergacion = (double)(evento.penalidadXpostergacion == null ? 0 : evento.penalidadXpostergacion);
@@ -1110,7 +1107,11 @@ namespace WebApplication4.Controllers
                 return View(model);
             }
             if (Session["IdEventoCreado"] != null)
+            {
+                model.MaxReservas = db.Politicas.Find(2).valor.Value;
                 return View(model);
+            }
+
             TempData["tipo"] = "alert alert-warning";
             TempData["message"] = "No hay evento en proceso de creación o modificación.";
             return RedirectToAction("Index");
@@ -1168,28 +1169,25 @@ namespace WebApplication4.Controllers
                      * Hay una situacion con poner evento.ImagenDestacado en null, al realizar db.SaveChanges(), me dice que el campo debe ser obligatorio a pesar de que no se especifica en ningun lado de que lo sea. Incluso en base de datos esta permitido el valor de null.*/
                     if (Session["IdEventoCreado"] != null || Session["IdEventoModificado"] != null)
                     {
-                        if (guardarImagen("destacado" + evento.codigo + ".jpg", model.ImageDestacado))
-                            evento.ImagenDestacado = "/Images/" + "destacado" + evento.codigo + ".jpg";
+                        if (guardarImagen("destacados/destacado" + evento.codigo + ".jpg", model.ImageDestacado))
+                            evento.ImagenDestacado = "/Images/destacados/" + "destacado" + evento.codigo + ".jpg";
                         else evento.ImagenDestacado = null;
                     }
                 }
                 else evento.ImagenDestacado = null;
 
-
-
                 if (model.tieneSitios)
                 {
                     if (Session["IdEventoCreado"] != null || Session["IdEventoModificado"] != null)
                     {
-                        if (guardarImagen("sitios" + evento.codigo + ".jpg", model.ImageSitios))
-                            evento.ImagenSitios = "/Images/" + "sitios" + evento.codigo + ".jpg";
+                        if (guardarImagen("asientos/sitios" + evento.codigo + ".jpg", model.ImageSitios))
+                            evento.ImagenSitios = "/Images/asientos/" + "sitios" + evento.codigo + ".jpg";
                         else evento.ImagenSitios = null;
                     }
                 }
-                else evento.ImagenDestacado = null;
+                else evento.ImagenSitios = null;
 
-
-                if (guardarImagen("evento" + evento.codigo + ".jpg", model.ImageEvento)) evento.ImagenEvento = "/Images/" + "evento" + evento.codigo + ".jpg";
+                if (guardarImagen("eventos/evento" + evento.codigo + ".jpg", model.ImageEvento)) evento.ImagenEvento = "/Images/eventos/" + "evento" + evento.codigo + ".jpg";
 
                 evento.maxReservas = model.MaxReservas;
                 evento.montoFijoVentaEntrada = model.MontFijoVentEnt;
@@ -1436,104 +1434,127 @@ namespace WebApplication4.Controllers
                 ViewBag.EventoAcabo = "El evento ya no se encuentra disponible.";
                 veoAsientos = false;
             }
-            else
+
+            int bloqueVenta = 0;
+            try
             {
-                int bloqueVenta = 0;
-                try
+                var buscarPeriodoVenta = db.PeriodoVenta.Where(c => c.codEvento == evento.codigo && c.fechaInicio <= DateTime.Today && c.fechaFin >= DateTime.Today);
+                bloqueVenta = buscarPeriodoVenta.First().idPerVent;
+            }
+            catch (Exception ex)
+            {
+            }
+
+            if (bloqueVenta == 0)
+            {
+                ViewBag.NoHayVenta = "No es posible comprar Entradas";
+                List<PeriodoVenta> periodos = db.PeriodoVenta.Where(c => DateTime.Today <= c.fechaInicio && c.codEvento == id).OrderBy(c => c.fechaInicio).ToList();
+                List<string> futuraVenta = new List<string>();
+                foreach (PeriodoVenta per in periodos)
                 {
-                    var buscarPeriodoVenta = db.PeriodoVenta.Where(c => c.codEvento == evento.codigo && c.fechaInicio <= DateTime.Today && c.fechaFin >= DateTime.Today);
-                    bloqueVenta = buscarPeriodoVenta.First().idPerVent;
+                    futuraVenta.Add("- Del " + String.Format("{0:d}", per.fechaInicio) + " al " + String.Format("{0:d}", per.fechaFin) + ".");
                 }
-                catch (Exception ex)
+                ViewBag.EventoNoDisponible = "Las entradas del evento aun no estan a la venta. Ventas disponibles:";
+                ViewBag.FuturasVentas = futuraVenta;
+            }
+
+            List<String> promos = new List<string>(0);
+            try
+            {
+                List<Promociones> listPromos = db.Promociones.Where(c => c.codEvento == evento.codigo).ToList();
+                foreach (var pr in listPromos)
                 {
-
-                }
-
-                if (bloqueVenta == 0)
-                {
-                    ViewBag.NoHayVenta = "No es posible comprar Entradas";
-                    List<PeriodoVenta> periodos = db.PeriodoVenta.Where(c => DateTime.Today <= c.fechaInicio && c.codEvento == id).OrderBy(c => c.fechaInicio).ToList();
-                    List<string> futuraVenta = new List<string>();
-                    foreach (PeriodoVenta per in periodos)
-                    {
-                        futuraVenta.Add("- Del " + String.Format("{0:d}", per.fechaInicio) + " al " + String.Format("{0:d}", per.fechaFin) + ".");
-                    }
-                    ViewBag.EventoNoDisponible = "Las entradas del evento aun no estan a la venta. Ventas disponibles:";
-                    ViewBag.FuturasVentas = futuraVenta;
-                }
-
-                List<ZonaEvento> zonasEvento = new List<ZonaEvento>();
-                try
-                {
-                    ViewBag.ListZonasNombre = new List<string>();
-                    ViewBag.ListZonasId = new List<int>();
-
-                    zonasEvento = db.ZonaEvento.Where(c => c.codEvento == id).ToList();
-                    foreach (ZonaEvento zona in zonasEvento)
-                    {
-                        string prec = " No hay venta ";
-                        try
-                        {
-                            PrecioEvento precio = db.PrecioEvento.Where(c => c.codPeriodoVenta == bloqueVenta && c.codZonaEvento == zona.codZona).ToList().First();
-                            prec = " S/." + precio.precio;
-                        }
-                        catch (Exception ex)
-                        {
-                            //Si no precioEvento se deja con "No hay venta"
-                        }
-                        ViewBag.ListZonasNombre.Add(zona.nombre + " - " + prec);
-                        ViewBag.ListZonasId.Add(zona.codZona);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    ViewBag.ListFunciones = new List<Funcion>(0);
-                    ViewBag.MensajeErrorFunciones = "Ya no hay más funciones :(";
-                    veoAsientos = false;
-                }
-
-                var funciones = new List<Funcion>();
-
-                try
-                {
-                    funciones = db.Funcion.Where(c => c.codEvento == evento.codigo && c.estado != "CANCELADO").ToList();
-                    if (funciones.Count > 1) ViewBag.textoFunciones = "Desde " + funciones[0].fecha.Value.ToShortDateString() + " hasta " + funciones[funciones.Count - 1].fecha.Value.ToShortDateString();
-                    else ViewBag.textoFunciones = "Única funcion " + funciones[0].fecha.Value.ToShortDateString();
-                }
-                catch (Exception ex)
-                {
-                    ViewBag.textoFunciones = "No hay funciones";
-                }
-
-                funciones = new List<Funcion>();
-                try
-                {
-                    var funcAux = db.Funcion.Where(c => c.codEvento == evento.codigo && c.estado != "CANCELADO").ToList();
-                    foreach (Funcion fun in funcAux)
-                    {
-                        if (fun.fecha >= DateTime.Now) funciones.Add(fun);
-                    }
-                    //agrupo las fechas unicas de las funciones y las ordeno ascendentemente
-                    //funciones = funciones.GroupBy(c => c.fecha).Select(p => p.First()).OrderBy(c => c.fecha).ToList();
-                    List<SelectListItem> listaNFunciones = new List<SelectListItem>();
-                    int i = 0;
-                    foreach (Funcion fun in funciones)
-                    {
-                        listaNFunciones.Add(new SelectListItem { Text = String.Format("{0:t}", fun.fecha), Value = "" + i });
-                        i++;
-                    }
-                    ViewBag.FechaFunciones = listaNFunciones;
-
-                    ViewBag.ListFunciones = funciones;
-
-                    ViewBag.ObjectArrayAsientos = obtenerJSONAsientos(funciones, zonasEvento);
-                }
-                catch (Exception ex)
-                {
-                    ViewBag.ListFunciones = new List<Funcion>(0);
-                    veoAsientos = false;
+                    promos.Add(pr.descripcion);
                 }
             }
+            catch (Exception ex)
+            {
+            }
+
+            ViewBag.listPromos = promos;
+
+            List<ZonaEvento> zonasEvento = new List<ZonaEvento>();
+            ViewBag.ListZonasNombre = new List<string>();
+            ViewBag.ListZonasId = new List<int>();
+            ViewBag.ListPeriodos = new List<string>();
+            List<List<double>> listaPrecios = new List<List<double>>(0);
+
+            try
+            {
+                var primero = true;
+                zonasEvento = evento.ZonaEvento.ToList();
+                int jj = 0, ii = 0;
+                foreach (ZonaEvento zona in zonasEvento)
+                {
+
+                    ViewBag.ListZonasNombre.Add(zona.nombre);
+                    ViewBag.ListZonasId.Add(zona.codZona);
+                    jj = 0;
+                    listaPrecios.Add(new List<double>(0));
+
+                    foreach (var precio in zona.PrecioEvento)
+                    {
+
+                        if (primero)
+                        {
+                            ViewBag.ListPeriodos.Add("Del " + precio.PeriodoVenta.fechaInicio.Value.ToShortDateString() + " Al " + precio.PeriodoVenta.fechaFin.Value.ToShortDateString());
+                        }
+
+                        listaPrecios[ii].Add((double)precio.precio);
+                        jj++;
+                    }
+                    primero = false;
+                    ii++;
+                }
+            }
+            catch (Exception ex)
+            {
+                veoAsientos = false;
+            }
+
+            ViewBag.listPrecios = listaPrecios;
+
+            List<Funcion> funciones = new List<Funcion>();
+            try
+            {
+                funciones = db.Funcion.Where(c => c.codEvento == evento.codigo && c.estado != "CANCELADO").ToList();
+                if (funciones.Count > 1) ViewBag.textoFunciones = "Desde " + funciones[0].fecha.Value.ToShortDateString() + " hasta " + funciones[funciones.Count - 1].fecha.Value.ToShortDateString();
+                else ViewBag.textoFunciones = "Única funcion " + funciones[0].fecha.Value.ToShortDateString();
+            }
+            catch (Exception ex)
+            {
+                ViewBag.textoFunciones = "No hay funciones";
+            }
+
+            funciones = new List<Funcion>();
+            try
+            {
+                var funcAux = db.Funcion.Where(c => c.codEvento == evento.codigo && c.estado != "CANCELADO").ToList();
+                foreach (Funcion fun in funcAux)
+                {
+                    if (fun.fecha >= DateTime.Now) funciones.Add(fun);
+                }
+                //agrupo las fechas unicas de las funciones y las ordeno ascendentemente
+                //funciones = funciones.GroupBy(c => c.fecha).Select(p => p.First()).OrderBy(c => c.fecha).ToList();
+                List<SelectListItem> listaNFunciones = new List<SelectListItem>();
+                int i = 0;
+                foreach (Funcion fun in funciones)
+                {
+                    listaNFunciones.Add(new SelectListItem { Text = String.Format("{0:t}", fun.fecha), Value = "" + i });
+                    i++;
+                }
+                ViewBag.FechaFunciones = listaNFunciones;
+
+                ViewBag.ListFunciones = funciones;
+
+                ViewBag.ObjectArrayAsientos = obtenerJSONAsientos(funciones, zonasEvento);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.ListFunciones = new List<Funcion>(0);
+                veoAsientos = false;
+            }
+
             ViewBag.VeoAsientos = veoAsientos;
             //para que se carguen los destacados al lado
             List<Eventos> listaDestacados = new List<Eventos>(0);
@@ -1577,7 +1598,7 @@ namespace WebApplication4.Controllers
                 {//si no supera, lo arreglo al carrito
                     existente.cantEntradas += paquete.cantEntradas;
                     TempData["tipo"] = "alert alert-success";
-                    TempData["message"] = "Entradas agregadas al carrito :) Solo puede agregar " + (maxCompra - existente.cantEntradas) +" entradas más.";
+                    TempData["message"] = "Entradas agregadas al carrito :) Solo puede agregar " + (maxCompra - existente.cantEntradas) + " entradas más.";
                 }
                 return indicador;
             }
@@ -1598,10 +1619,17 @@ namespace WebApplication4.Controllers
             Session["Carrito"] = carrito;
             return indicador;
         }
+
         [HttpPost]
         [AllowAnonymous]
         public ActionResult Entradas(PaqueteEntradas paquete, string boton)
         {
+            if (boton.CompareTo("registro") == 0)
+            {
+                TempData["tipo"] = "alert alert-warning";
+                TempData["message"] = "Debe de estar registrado para poder reservar entradas a un evento";
+                return RedirectToAction("RegisterClient", "Account");
+            }
 
             if (ModelState.IsValid)
             {
@@ -1618,7 +1646,7 @@ namespace WebApplication4.Controllers
                         TempData["message"] = mensaje;
                     }
 
-                    return Redirect("~/Evento/VerEvento/" + paquete.idEvento);
+                    return RedirectToAction("MisReservas", "CuentaUsuario");
 
                 }
                 else if (boton.CompareTo("carrito") == 0)
@@ -1639,6 +1667,7 @@ namespace WebApplication4.Controllers
                     }
                     TempData["tipo"] = "alert alert-success";
                     TempData["message"] = "Entradas agregadas al carrito :)";
+                    return RedirectToAction("MiCarrito", "CuentaUsuario");
                 }
                 else if (boton.CompareTo("reservarOrganizador") == 0)
                 {
@@ -1651,7 +1680,6 @@ namespace WebApplication4.Controllers
                         TempData["tipo"] = "alert alert-warning";
                         TempData["message"] = mensaje;
                     }
-
                     return Redirect("~/Evento/VerEvento/" + paquete.idEvento);
                 }
                 else if (boton.CompareTo("carritoVendedor") == 0)
@@ -1670,6 +1698,7 @@ namespace WebApplication4.Controllers
                     }
                     TempData["tipo"] = "alert alert-success";
                     TempData["message"] = "Item añadido al carrito de ventas";
+                    return RedirectToAction("CarritoVentas", "Ventas");
                 }
             }
             else
@@ -1691,7 +1720,6 @@ namespace WebApplication4.Controllers
         //  [RequireRequestValue(new[] { "nombre"})]
         public ActionResult Busqueda(DateTime? fech_ini, DateTime? fech_fin, int? idCategoria, int? idSubCat, int? idRegion, int? idProv, string nombre, int? page)
         {
-
             ViewBag.nombre = nombre;
             ViewBag.fech_ini = fech_ini;
             ViewBag.fech_fin = fech_fin;
@@ -1707,10 +1735,8 @@ namespace WebApplication4.Controllers
                          select obj;
          */
             /*
-
            List<Eventos> lista = arreglo.ToList();
            lista = lista.Where(c => c.estado.Equals("Activo") == true);
-
            */
             if (fech_ini > fech_fin)
             {
@@ -1809,141 +1835,6 @@ namespace WebApplication4.Controllers
             return View();
         }
 
-        /*
-         *POSTERGAR EVENTO 
-         * 
-        */
-        [HttpGet]
-        public ActionResult PostergarEvento(string evento)
-        {
-            if (String.IsNullOrEmpty(evento))
-            {
-                return RedirectToAction("Index2", "Home");
-            }
-            int id = int.Parse(evento);
-            Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();
-            ViewBag.nombreEvento = queryEvento.nombre;
-            int idOrganizador = (int)queryEvento.idOrganizador;
-            ViewBag.idEvento = evento;
-            ViewBag.organizadorEvento = db.Organizador.Where(c => c.codOrg == idOrganizador).First().nombOrg;
-            ViewBag.listaFunciones = db.Funcion.Where(c => c.codEvento == id && c.estado != "CANCELADO").ToList();
-            //lo bravo
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult PostergarEvento(PostergarModel evento)
-        {
-
-            Funcion funcionAPostergar = db.Funcion.Where(c => (c.codFuncion == evento.idFuncion)).First();
-            db.Entry(funcionAPostergar).State = EntityState.Modified;
-
-            funcionAPostergar.fecha = evento.proximaFecha;
-            funcionAPostergar.horaIni = evento.proximaHora;
-            funcionAPostergar.estado = "POSTERGADO";
-            funcionAPostergar.fechaPostergado = DateTime.Now;//se guarda la fechaHora del acto de postergar
-
-            int id = evento.idEvento;
-            Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();
-
-            db.Entry(queryEvento).State = EntityState.Modified;
-            queryEvento.hanPostergado = true;
-            db.SaveChanges();
-            EmailController.EnviarCorreoPostergarcionFuncion(evento.idFuncion);
-            ViewBag.nombreEvento = queryEvento.nombre;
-            int idOrganizador = (int)queryEvento.idOrganizador;
-            ViewBag.idEvento = "" + id;
-            ViewBag.organizadorEvento = db.Organizador.Where(c => c.codOrg == idOrganizador).First().nombOrg;
-            ViewBag.listaFunciones = db.Funcion.Where(c => c.codEvento == id && c.estado != "CANCELADO").ToList();
-            return View();
-        }
-
-        /*
-         *CANCELAR EVENTO 
-         * 
-        */
-        [HttpGet]
-        public ActionResult CancelarEvento(string evento)
-        {
-
-            int id = int.Parse(evento);
-            Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();
-
-            List<Funcion> listaFunciones = db.Funcion.Where(c => c.codEvento == id && c.estado != "CANCELADO").ToList();
-
-            CancelarModel cancelarEvento = new CancelarModel();
-            cancelarEvento.idEvento = id;
-            cancelarEvento.nombreEvento = queryEvento.nombre;
-            cancelarEvento.organizador = db.Organizador.Where(c => c.codOrg == queryEvento.idOrganizador).First().nombOrg;
-
-            var auxlistIdFuncion = new List<int>(0);
-            var auxlistDateFuncion = new List<DateTime>(0);
-            var auxlistBool = new List<Boolean>(0);
-
-            for (int i = 0; i < listaFunciones.Count(); i++)
-            {
-                auxlistBool.Add(false);
-                auxlistDateFuncion.Add((DateTime)listaFunciones[i].horaIni);
-                auxlistIdFuncion.Add(listaFunciones[i].codFuncion);
-            }
-
-            cancelarEvento.listDateFuncion = auxlistDateFuncion.ToArray();
-            cancelarEvento.listIdFuncion = auxlistIdFuncion.ToArray();
-            cancelarEvento.seCancela = auxlistBool.ToArray();
-
-
-
-            return View("Cancelar", cancelarEvento);
-        }
-
-        [HttpPost]
-        public ActionResult CancelarEvento(CancelarModel evento)
-        {
-            if (evento.fechaRecojo < DateTime.Today)
-            {
-                ModelState.AddModelError("fechaRecojo", "Elija una fecha posterior al día de hoy");
-            }
-
-            int cnt = 0;
-            if (evento.seCancela != null)
-                for (int i = 0; i < evento.seCancela.Count(); i++)
-                    if (evento.seCancela[i]) cnt++;
-
-            if (cnt == 0)
-            {
-                ModelState.AddModelError("organizador", "Debe elegir un evento a cancelar");
-            }
-
-            if (ModelState.IsValid)
-            {
-                Eventos eventoACancelar = db.Eventos.Find(evento.idEvento);
-                db.Entry(eventoACancelar).State = EntityState.Modified;
-                eventoACancelar.hanCancelado = true;
-                eventoACancelar.estado = "Cancelado";
-                db.SaveChanges();
-
-                for (int i = 0; i < evento.seCancela.Count(); i++) if (evento.seCancela[i])
-                    {
-                        int idF = evento.listIdFuncion[i];
-                        Funcion f = db.Funcion.Where(c => c.codFuncion == idF).First();
-
-                        db.Entry(f).State = EntityState.Modified;
-                        f.estado = "CANCELADO";
-                        f.motivoCambio = evento.motivo;
-                        f.FechaDevolucion = evento.fechaRecojo;
-                        f.cantDiasDevolucion = evento.diasRecojo;
-                        db.SaveChanges();
-                    }
-                // Cambiamos la fecha fin del evento , pues se ha cancelado una funcion
-                ObtenerFechaFin(evento.idEvento);
-
-                TempData["message"] = "Se cancelar las funciones correctamente";
-                TempData["tipo"] = "alert alert-success";
-                return Redirect("~/Evento");
-            }
-            return CancelarEvento("" + evento.idEvento);
-        }
-
         [HttpPost]
         public ActionResult EnviarComentario(int codEvento, string usuario, string contenido)
         {
@@ -2009,11 +1900,7 @@ namespace WebApplication4.Controllers
             if (Request.IsAuthenticated)
             {
                 act = User.Identity.Name;
-
-
             }
-
-
 
             data.codComentario = cod;
             data.codEvento = codEvento;
@@ -2023,26 +1910,31 @@ namespace WebApplication4.Controllers
                 db.Comentarios.Attach(data);
                 db.Comentarios.Remove(data);
                 db.SaveChanges();
-
-
-
             }
             catch (Exception ex)
             {
-
-
-
             }
             finally
             {
                 db.Configuration.AutoDetectChangesEnabled = true;
             }
-
-
-
-
             return Json("Eliminado exitoso", JsonRequestBehavior.AllowGet);
+        }
 
+        [HttpGet]
+        public ActionResult Destacados()
+        {
+            //para que se carguen los destacados al lado
+            List<Eventos> listaDestacados = new List<Eventos>(0);
+            try
+            {
+                listaDestacados = db.Eventos.AsNoTracking().Where(c => (c.ImagenDestacado != null && c.estado != null && c.estado.CompareTo("Activo") == 0)).ToList();
+            }
+            catch (Exception ex)
+            {
+            }
+            ViewBag.ListaDestacados = listaDestacados;
+            return View();
         }
     }
 }

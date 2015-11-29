@@ -8,10 +8,9 @@ using WebApplication4.Models;
 
 namespace WebApplication4.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Promotor")]
     public class LocalController : Controller
     {
-
         private inf245netsoft db = new inf245netsoft();
         // GET: Local
         public ActionResult Index()
@@ -210,6 +209,5 @@ namespace WebApplication4.Controllers
             else Session["ListaL"] = null;
             return RedirectToAction("Index", "Local");
         }
-
     }
 }

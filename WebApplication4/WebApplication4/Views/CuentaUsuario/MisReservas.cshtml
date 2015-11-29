@@ -28,129 +28,133 @@
     }
 
 }
-
+<style>
+    td{cursor:text}
+</style>
 <div class="container-fluid">
-    <ol class="breadcrumb">
-        <li class=""><a href="@Url.Action("MiCuenta", "CuentaUsuario")">Mi cuenta</a></li>
-        <li class="active">Mis reservas</li>
-    </ol>
+    <div class="col-md-4">
+        <ol class="breadcrumb">
+            <li><a href="@Url.Action("MiCuenta", "CuentaUsuario")">Mi cuenta</a></li>
+            <li class="active">Mis reservas vigentes</li>
+        </ol>
+    </div>    
 </div>
 
 <div class="container">
     <div class="row">
         <!--LA PARTE IMPORTANTE-->
-        <div class="col-md-8">
-            <div class="row">
-                <div class="col-md-6">
-                    <h4>Mis Reservas Vigentes:</h4>
+        <div class="col-md-8">            
+            <div class="row form-group">                                
+                <div class="col-md-12">
+                    <a onclick="redirigeReserva()" class="btn btn-success pull-right"><span class="fa fa-credit-card"></span> Pagar reserva</a>
                 </div>
-                <div class="col-md-6">
-                    <a onclick="redirigeReserva()" class="btn btn-primary pull-right">Pagar reserva <span class="glyphicon glyphicon-usd"></span></a>
-                </div>
-
             </div>
-            @*se muestran la lista de las reservas obtenidas del usuariologueado*@
-            <div class="row">
-                <table id="mytable" class="table table-bordered table-hover">
-                    <thead>
-                        <tr class="thead">
-                            <th>Codigo</th>
-                            <th>Evento</th>
-                            <th>Fecha</th>
-                            <th>Hora</th>
-                            <th>Cantidad de Boletos</th>
-                            <th>Zona</th>
-                            <th>Asiento</th>
-                            <th>Monto (S/.)</th>
-                            <th>Eliminar</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbody">
-                        @if (listaventas != null)
-                        {
-                            if (listvxf != null)
+            @*se muestran la lista de las reservas obtenidas del usuario logueado*@
+            <div class="row form-group">
+                <div class="col-md-12 table-responsive">
+                    <table id="mytable" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th class="col-md-1">Código</th>
+                                <th class="col-md-2">Evento</th>
+                                <th class="col-md-1">Fecha</th>
+                                <th class="col-md-1">Hora</th>
+                                <th class="col-md-1">Cantidad</th>
+                                <th class="col-md-2">Zona/Tarifa</th>
+                                <th class="col-md-2">Asiento</th>
+                                <th class="col-md-1">Monto (S/.)</th>
+                                <th class="col-md-1" style="text-align:center"><span class="fa fa-trash"></span></th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody">
+                            @if (listaventas != null)
                             {
-                                //se muestran las ventas si existen y si existe su ventaxfuncion correpondiente
-                                foreach (var row in listvxf)
+                                if (listvxf != null)
                                 {
-                                    <tr id=@row.codVen onclick="myFunction(this)">
-                                        <td>@row.codVen</td>
-                                        @*se obtiene la funcion del la venta x funcion*@
-                                        @{
-                                            Funcion fu = db.Funcion.Find(row.codFuncion);
+                                    //se muestran las ventas si existen y si existe su ventaxfuncion correpondiente
+                                    foreach (var row in listvxf)
+                                    {
+                                        <tr id=@row.codVen >
+                                            <td>@row.codVen</td>
+                                            @*se obtiene la funcion del la venta x funcion*@
+                                            @{
+                                        Funcion fu = db.Funcion.Find(row.codFuncion);
+                                            }
+                                            <td><a href=@Url.Action("VerEvento", "Evento", new { id = @db.Eventos.Find(fu.codEvento).codigo })>@db.Eventos.Find(fu.codEvento).nombre</a></td>
+                                            <td>@fu.fecha.Value.ToString("dd/MM/yyyy")</td>
+                                            <td>@String.Format("{0:t}", fu.horaIni)</td>
+                                            <td>@row.cantEntradas</td>
+                                            @{
+                                        //se obtiene la listade detalles de venta asociada a la venta x funcion
+                                        List<DetalleVenta> ld = db.DetalleVenta.Where(c => c.codFuncion == fu.codFuncion && c.codVen == row.codVen).ToList();
+                                        DetalleVenta de = null;
+                                        PrecioEvento pe = null;
+                                        List<AsientosXFuncion> laf = null;
+                                        AsientosXFuncion af = null;
+                                        ZonaEvento zon = null;
+                                        string asientos = "";
+                                        //se obtiene el detalle de la lista de detalles y el precio de ese detalle
+                                        if (ld != null && ld.Count != 0)
+                                        {
+                                            de = ld.First();
+                                            pe = db.PrecioEvento.Find(de.codPrecE);
                                         }
-                                        <td>@db.Eventos.Find(fu.codEvento).nombre</td>
-                                        <td>@fu.fecha.Value.ToString("dd/MM/yyyy")</td>
-                                        <td>@String.Format("{0:t}", fu.horaIni)</td>
-                                        <td>@row.cantEntradas</td>                                        
-                                        @{        
-                                            //se obtiene la listade detalles de venta asociada a la venta x funcion                                    
-                                            List<DetalleVenta> ld = db.DetalleVenta.Where(c => c.codFuncion == fu.codFuncion && c.codVen == row.codVen).ToList();
-                                            DetalleVenta de = null;
-                                            PrecioEvento pe = null;
-                                            List<AsientosXFuncion> laf = null;
-                                            AsientosXFuncion af = null;
-                                            ZonaEvento zon = null;
-                                            string asientos = "";
-                                            //se obtiene el detalle de la lista de detalles y el precio de ese detalle 
-                                            if (ld != null && ld.Count != 0)
-                                            {                                                
-                                                de = ld.First();
-                                                pe = db.PrecioEvento.Find(de.codPrecE);
-                                            }
-                                            //si se obtiene el precio asociada al detalle, se obtiene los asientos x funcion asociada al detalle y a la funcion
-                                            if (pe != null)
+                                        //si se obtiene el precio asociada al detalle, se obtiene los asientos x funcion asociada al detalle y a la funcion
+                                        if (pe != null)
+                                        {
+                                            laf = db.AsientosXFuncion.Where(c => c.codFuncion == de.codFuncion && c.codDetalleVenta == de.codDetalleVenta).ToList();
+                                        }
+                                        if (laf != null && laf.Count != 0)
+                                        {
+                                            //si existe los asientos se prueba obteniendo el primero
+                                            af = laf.First();
+                                            for (int j = 0; j < laf.Count; j++)
                                             {
-                                                laf = db.AsientosXFuncion.Where(c => c.codFuncion == de.codFuncion && c.codDetalleVenta == de.codDetalleVenta).ToList();
-                                            }
-                                            if (laf != null && laf.Count != 0)
-                                            {
-                                                //si existe los asientos se prueba obteniendo el primero
-                                                af = laf.First();
-                                                for (int j = 0; j < laf.Count; j++)
+                                                //se obtiene la lista de asientos para los asientos X Funcion
+                                                if (j == 0)
                                                 {
-                                                    //se obtiene la lista de asientos para los asientos X Funcion
-                                                    if (j == 0)
-                                                    {
-                                                        asientos = "" + db.Asientos.Find(laf[j].codAsiento).fila + "-" + db.Asientos.Find(laf[j].codAsiento).columna;
-                                                    }
-                                                    else
-                                                    {
-                                                        asientos = asientos + ", " + db.Asientos.Find(laf[j].codAsiento).fila + "-" + db.Asientos.Find(laf[j].codAsiento).columna;
-                                                    }
+                                                    asientos = "" + db.Asientos.Find(laf[j].codAsiento).fila + "-" + db.Asientos.Find(laf[j].codAsiento).columna;
+                                                }
+                                                else
+                                                {
+                                                    asientos = asientos + ", " + db.Asientos.Find(laf[j].codAsiento).fila + "-" + db.Asientos.Find(laf[j].codAsiento).columna;
                                                 }
                                             }
                                         }
-                                        @if (de != null)
-                                        {
-                                            //si detalle existe se obtiene la zona asociada a ese detalle
-                                            zon = db.ZonaEvento.Find(pe.codZonaEvento);
-                                            <td>@db.ZonaEvento.Find(pe.codZonaEvento).nombre</td>
-                                        }
-                                        else
-                                        {
-                                            <td>-</td>
-                                        }
-                                        @if (af != null)
-                                        {
-                                            //si existen asientos se muestra la lista de asientos
-                                            <td>@asientos</td>
-                                        }
-                                        else
-                                        {
-                                            <td>-</td>
-                                        }
-                                        <td>@row.total</td>
-                                        <td><a href="@Url.Action("DeleteReserva", "CuentaUsuario", new { codE = row.codVen, codF = row.codFuncion,codEv=fu.codEvento,codZ=zon.codZona })" class="btn btn-primary">Borrar <span class="glyphicon glyphicon-remove"></span></a></td>
-                                    </tr>
+                                            }
+                                            @if (de != null)
+                                            {
+                                                //si detalle existe se obtiene la zona asociada a ese detalle
+                                                zon = db.ZonaEvento.Find(pe.codZonaEvento);
+                                                <td>@db.ZonaEvento.Find(pe.codZonaEvento).nombre</td>
+                                            }
+                                            else
+                                            {
+                                                <td>-</td>
+                                            }
+                                            @if (af != null)
+                                            {
+                                                //si existen asientos se muestra la lista de asientos
+                                                <td>@asientos</td>
+                                            }
+                                            else
+                                            {
+                                                <td>-</td>
+                                            }
+                                            <td>@row.total</td>
+                                            <td><a title="Eliminar reserva" href="@Url.Action("DeleteReserva", "CuentaUsuario", new { codE = row.codVen, codF = row.codFuncion,codEv=fu.codEvento,codZ=zon.codZona })" class="btn btn-danger"><span class="fa fa-trash"></span></a></td>
+                                        </tr>
+                                    }
                                 }
                             }
-                        }
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-
-            <br>
+        </div>
+        <!--CARRUSEL-->
+        <div class="col-md-4">
+            destacados
         </div>
     </div>
 </div><!--Fin del container-->
@@ -166,7 +170,6 @@
         var elem = document.getElementById("codVenT");
         elem.value = x.cells[0].innerHTML;
         x.className = "trselected";
-
     }
     function redirigeReserva() {
         var reserva = $('#codVenT').val();
@@ -181,8 +184,3 @@
     }
 
 </script>
-<style>
-    .trselected {
-        background: gray;
-    }
-</style>

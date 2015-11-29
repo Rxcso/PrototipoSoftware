@@ -8,6 +8,7 @@ using WebApplication4.Models;
 
 namespace WebApplication4.Controllers
 {
+    [Authorize(Roles = "Administrador")]
     public class PuntoVentaController : Controller
     {
         private inf245netsoft db = new inf245netsoft();
@@ -253,6 +254,5 @@ namespace WebApplication4.Controllers
             else Session["ListaP"] = null;
             return RedirectToAction("Index", "PuntoVenta");
         }
-
     }
 }

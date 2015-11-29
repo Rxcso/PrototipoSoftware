@@ -1,0 +1,53 @@
+﻿@using WebApplication4.Models
+@{
+    List<Eventos> eventos = ViewBag.ListaEventos as List<Eventos>;
+    ViewBag.Title = "Historial del Organizador";
+    Organizador org = ViewBag.Organizador as Organizador;
+}
+<style>
+    td{text-align:center}
+</style>
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li><a href=@Url.Action("Index","Organizador")>Mantenimiento de organizadores</a></li>
+            <li class="active">Historial del organizador</li>
+        </ol>
+    </div>
+</div>
+
+<div class="container">    
+    <div class="row form-group">
+        <div class="col-md-6 col-sm-6">
+            <label class="control-label ">Nombre y apellidos:</label> @org.nombOrg<br />
+        </div>
+        <div class="col-md-6 col-sm-6">
+            <label>Núm. documento:</label> @org.codDoc
+        </div>
+    </div>
+    <h4>Eventos</h4>
+    <div class="table-responsive">
+        <table id="mytable" class="table table-bordered table-hover">
+            <thead>
+                <tr class="thead">
+                    <th class="col-md-1">Código</th>
+                    <th class="col-md-3">Nombre</th>
+                    <th class="col-md-2">Fecha Inicio</th>
+                    <th class="col-md-2">Fecha Fin</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Eventos evento in eventos)
+                {
+                <tr>
+                    <td>@evento.codigo</td>
+                    <td>@evento.nombre</td>
+                    <td>@String.Format("{0:d}", evento.fecha_inicio)</td>
+                    <td>@String.Format("{0:d}", evento.fecha_fin)</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>

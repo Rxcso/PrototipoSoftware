@@ -7,7 +7,7 @@ using WebApplication4.Models;
 
 namespace WebApplication4.Controllers
 {
-    [Authorize]
+    [Authorize(Roles="Administrador")]
     public class ReporteVentasController : Controller
     {
         private inf245netsoft db = new inf245netsoft();
@@ -62,36 +62,83 @@ namespace WebApplication4.Controllers
             DateTime di = dt1;
             if (dt1 > dt2) return Json("Fecha inicio debe ser menor que fecha fin", JsonRequestBehavior.AllowGet);
             List<ReporteModel.ReporteVentas1Model> lr = new List<ReporteModel.ReporteVentas1Model>();
-            List<CuentaUsuario> lv = db.CuentaUsuario.Where(c => c.codPerfil == 2 && c.estado == true).ToList();
-            for (int j = 0; j < nd; j++)
+            List<Ventas> listav = db.Ventas.Where(c => c.Estado == "Pagado").ToList();
+            List<Ventas> listav2 = listav.Where(c => c.fecha.Value.Date >= dt1.Date && c.fecha.Value.Date <= dt2.Date).ToList();
+            for (int j = 0; j < listav2.Count; j++)
             {
-                for (int i = 0; i < lv.Count; i++)
+                ReporteModel.ReporteVentas1Model r = new ReporteModel.ReporteVentas1Model();
+                r.fecha = (DateTime)listav2[j].fecha;
+                DateTime dat = di.Date;
+                CuentaUsuario cl=db.CuentaUsuario.Find(listav2[j].cliente);
+                CuentaUsuario ve = null;
+                ve = db.CuentaUsuario.Find(listav2[j].cliente);
+                if (ve != null)
                 {
-                    ReporteModel.ReporteVentas1Model r = new ReporteModel.ReporteVentas1Model();
-                    r.fecha = di.Date;
-                    DateTime dat = di.Date;
-                    String no = lv[i].usuario;
-                    r.nombre = lv[i].nombre;
-                    r.codigo = lv[i].codDoc;
-                    List<Turno> lt = db.Turno.Where(c => c.usuario == no && c.fecha == dat).ToList();
-                    if (lt.Count > 0)
+                    if (listav2[j].vendedor != null)
                     {
-                        double total = 0;
-                        Turno t = lt.First();
-                        r.punto = db.PuntoVenta.Find(t.codPuntoVenta).ubicacion;
-                        List<Ventas> lven2 = db.Ventas.Where(c => c.Estado == "Pagado" && c.vendedor == no).ToList();
-                        List<Ventas> lven = lven2.Where(c => c.fecha.Value.Date == dat).ToList();
-                        for (int k = 0; k < lven.Count; k++)
-                        {
-                            total += (double)lven[k].MontoTotalSoles;
-                        }
-                        r.total = total;
-                        to += total;
-                        lr.Add(r);
+                        r.nombre = db.CuentaUsuario.Find(listav2[j].vendedor).nombre;
+                    }
+                    else
+                    {
+                        r.nombre = "-";
                     }
                 }
-                di = di.AddDays(1);
+                else
+                {
+                    r.nombre = "-";
+                }
+                if(listav2[j].cliente!="a@anonimo.com"){
+                    r.cliente = cl.nombre + " - " + listav2[j].codDoc;
+                }
+                else
+                {
+                    r.cliente = "Anonimo - " + listav2[j].codDoc;
+                }                
+                //r.codigo = listav2[j].codDoc;
+                r.total = (double)listav2[j].MontoTotalSoles;
+                r.devtotal = listav2[j].montoDev;
+                to += (double)listav2[j].MontoTotalSoles;
+                lr.Add(r);
             }
+
+            //List<CuentaUsuario> lv = db.CuentaUsuario.Where(c => c.codPerfil == 2 && c.estado == true).ToList();
+            //for (int j = 0; j < nd; j++)
+            //{
+            //    for (int i = 0; i < lv.Count; i++)
+            //    {
+            //        ReporteModel.ReporteVentas1Model r = new ReporteModel.ReporteVentas1Model();
+            //        r.fecha = di.Date;
+            //        DateTime dat = di.Date;
+            //        String no = lv[i].usuario;
+            //        r.nombre = lv[i].nombre;
+            //        r.codigo = lv[i].codDoc;
+            //        List<Turno> lt = db.Turno.Where(c => c.usuario == no && c.fecha == dat).ToList();
+            //        if (lt.Count > 0)
+            //        {
+            //            double total = 0;
+            //            double dev = 0;
+            //            Turno t = lt.First();
+            //            r.punto = db.PuntoVenta.Find(t.codPuntoVenta).ubicacion;
+            //            List<Ventas> lven2 = db.Ventas.Where(c => c.Estado == "Pagado" && c.vendedor == no).ToList();
+            //            List<Ventas> lven = lven2.Where(c => c.fecha.Value.Date == dat).ToList();
+            //            List<LogDevoluciones> llog1 = db.LogDevoluciones.Where(c => c.codVendedor == no).ToList();
+            //            List<LogDevoluciones> llog2 = llog1.Where(c => c.fechaDev.Value.Date == dat).ToList();
+            //            for (int k = 0; k < lven.Count; k++)
+            //            {
+            //                total += (double)lven[k].MontoTotalSoles;
+            //            }
+            //            for (int w = 0; w < llog2.Count; w++)
+            //            {
+            //                dev += (double)llog2[w].montoDev;
+            //            }
+            //            r.total = total;
+            //            r.devtotal = dev;
+            //            to += total;
+            //            lr.Add(r);
+            //        }
+            //    }
+            //    di = di.AddDays(1);
+            //}
             Session["ReporteVentasTotal"] = lr;
             Session["ReporteTotal"] = to;
             return Json("Reporte Generado", JsonRequestBehavior.AllowGet);
@@ -179,8 +226,11 @@ namespace WebApplication4.Controllers
 
                     for (int j = 0; j < lvxf.Count; j++)
                     {
-                        totale += (int)lvxf[j].cantEntradas;
-                        total += (double)lvxf[j].total;
+                        if (lvxf[j].cantEntradas > 0)
+                        {
+                            totale += (int)lvxf[j].cantEntradas;
+                            total += (double)lvxf[j].total;
+                        }
                     }
                         r.total = total;
                         r.funcion = db.Funcion.Find(lf[k].codFuncion).fecha.Value.ToString("dd/MM/yyyy") + " - " + db.Funcion.Find(lf[k].codFuncion).horaIni.Value.ToString(@"hh\:mm\:ss"); 
@@ -216,7 +266,8 @@ namespace WebApplication4.Controllers
             {
                 ReporteModel.ReporteVentas4Model r = new ReporteModel.ReporteVentas4Model();
                 r.codigo = lv[i].codPuntoVenta;
-                r.nombre = lv[i].ubicacion;
+                r.nombre = lv[i].nombre;
+                r.ubicacion = lv[i].ubicacion;
                 r.distrito = db.Region.Find(lv[i].idRegion).nombre;
                 r.provincia = db.Region.Find(lv[i].idProvincia).nombre;
                 double total = 0;
@@ -227,13 +278,16 @@ namespace WebApplication4.Controllers
                     List<Turno> lt = db.Turno.Where(c => c.codPuntoVenta == cp && c.fecha == di).ToList();
                     if (lt.Count > 0)
                     {
-                        Turno t = lt.First();
-                        List<Ventas> lven2 = db.Ventas.Where(c => c.Estado == "Pagado" && c.vendedor == t.usuario).ToList();
-                        DateTime dat = di.Date;
-                        List<Ventas> lven = lven2.Where(c => c.fecha.Value.Date == dat).ToList();
-                        for (int k = 0; k < lven.Count; k++)
+                        for (int s = 0; s < lt.Count; s++)
                         {
-                            total += (double)lven[k].MontoTotalSoles;
+                            Turno t = lt[s];
+                            List<Ventas> lven2 = db.Ventas.Where(c => c.Estado == "Pagado" && c.vendedor == t.usuario).ToList();
+                            DateTime dat = di.Date;
+                            List<Ventas> lven = lven2.Where(c => c.fecha.Value.Date == dat).ToList();
+                            for (int k = 0; k < lven.Count; k++)
+                            {
+                                total += (double)lven[k].MontoTotalSoles;
+                            }
                         }
                     }
                     di = di.AddDays(1);

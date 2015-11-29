@@ -7,9 +7,13 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<style>
+    td {
+        text-align: center;
+    }
+</style>
 <div class="container-fluid">
-    <div class="col-md-3">
+    <div class="col-md-5">
         <ol class="breadcrumb">
             <li class="active">Mantenimiento de Categorías</li>
         </ol>
@@ -20,13 +24,9 @@
         <div class="col-md-6">
             <div class="form-group">
                 <a class="btn btn-success" href="#formNuevo" data-toggle="modal"><span class="glyphicon glyphicon-plus"></span> Nuevo</a>                
-                @*@if (Session["Ina"] != null){-->*@
                 <a class="btn btn-primary" data-toggle="modal" onclick="redirigeCategoria()"><span class="glyphicon glyphicon-pencil"></span> Modificar</a>
-                <a class="btn btn-danger" href="#eliminar" data-toggle="modal"><span class="glyphicon glyphicon-trash"></span> Borrar</a>
-                <!--}-->                            
-                @*@if (Session["Bus"] == null){*@
-                <a class="btn btn-default" href="#activar" data-toggle="modal" id="Activate"><span class="glyphicon glyphicon-ok"></span> Activar</a>
-                <!--}-->               
+                <a class="btn btn-danger" href="#eliminar" data-toggle="modal"><span class="glyphicon glyphicon-trash"></span> Borrar</a>                
+                <a class="btn btn-default" href="#activar" data-toggle="modal" id="Activate"><span class="glyphicon glyphicon-ok"></span> Activar</a>                
             </div>
         </div>
         

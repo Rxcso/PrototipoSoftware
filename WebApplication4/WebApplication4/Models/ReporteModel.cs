@@ -39,11 +39,13 @@ namespace WebApplication4.Models
         {
             public System.DateTime fecha { get; set; }
 
-            public string codigo { get; set; }
+            //public string codigo { get; set; }
 
-            public string nombre { get; set; }
+            public string cliente { get; set; } 
 
-            public string punto { get; set; }
+            public string nombre { get; set; }     
+
+            public double devtotal { get; set; }
 
             public double total { get; set; }
         }
@@ -76,6 +78,8 @@ namespace WebApplication4.Models
             public int codigo { get; set; }
 
             public string nombre { get; set; }
+
+            public string ubicacion { get; set; }
 
             public string distrito { get; set; }
 

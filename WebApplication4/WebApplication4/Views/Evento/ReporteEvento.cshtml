@@ -15,7 +15,10 @@
     }
     
 }
+<style>
+    td{text-align:center;cursor:text}
 
+</style>
 <div class="container-fluid">
     <div class="col-md-5">
         <ol class="breadcrumb">
@@ -24,88 +27,84 @@
     </div>
 </div>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-3">
-            <div class="form-group">
-                <button tyle="button" class="btn btn-primary" onclick="buscaRepEvento()" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-file"></span> Generar Reporte</button>
-            </div>
-        </div>
-        <div class="col-md-8">
-            <div class="form-group">
-                <button tyle="button"onclick="exportar()" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Exportar a Excel</button>
-            </div>
-        </div>
-        <div class="col-md-1">
-
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-3 col-md-offset-3">
+<div class="container"><br />
+    <center class="row form-inline">
+        <div class="col-md-12">
             <div class="input-group">
                 <span class="input-group-addon">Desde:</span>
-                <input id="fd1" type="date" class="form-control">
+                <input id="fd1" type="text" class="form-control fechar">
             </div>
-        </div>
-        <div class="col-md-3">
             <div class="input-group">
                 <span class="input-group-addon">Hasta:</span>
-                <input id="fh1" type="date" class="form-control">
+                <input id="fh1" type="text" class="form-control fechar">
             </div>
-        </div>
-    </div>
+        </div>        
+    </center>
     <br>
 
-    <h4>Resultados:</h4>
-    <div id="resultTable"class="row">
+    <center class="row form-group">  
+        <div class="col-md-12">
+            <button class="btn btn-primary" onclick="buscaRepEvento()" data-dismiss="modal" aria-hidden="true"><span class="fa fa-table fa-lg"></span> Generar Reporte</button>
 
-        @if (Session["ReporteEventos"] != null)
-        {
-            DateTime di2 = (DateTime)Session["FechaREI"];
-            DateTime df2 = (DateTime)Session["FechaREF"];
-            <div>
-                <h3>Reporte de Eventos del @di2.Date.ToString("dd/MM/yyyy") - @df2.Date.ToString("dd/MM/yyyy")</h3>
-            </div>
-        }
-        <table id="mytable" class="table table-bordered table-hover">
-            <thead>
-                <tr class="active">
-                    <th>Código Evento</th>
-                    <th>Evento</th>
-                    <th>Organizador</th>
-                    <th>Fecha Función</th>
-                    <th>Hora Ini Función</th>
-                    <th>Estado de Función</th>
-                    <th>Entradas Disponibles</th>
-                    <th>Entradas Vendidas</th>
-                    <th>Local</th>
-                    <th>Región</th>
-                </tr>
-            </thead>
-            <tbody id="tbody">               
-                       @foreach (var row in lev)
-                       {
-                        <tr id=@row.codigoEvento onclick="myFunction(this)">
-                            <td>@row.codigoEvento</td>
-                            <td>@row.nombreEvento</td>
-                            <td>@row.nombreOrganizador</td>
-                            <td>@row.fechaFuncion</td>
-                            <td>@row.horaFuncion</td>
-                            <td>@row.EstadoFunción</td>
-                            <td>@row.entradasDisponibles</td>
-                            <td>@row.entradasVendidas</td>
-                            <td>@row.local</td>
-                            <td>@row.region</td>
+            <button onclick="exportar()" class="btn btn-success btn-excel" data-dismiss="modal" aria-hidden="true"><span class="fa fa-file-excel-o fa-lg"></span> Exportar a Excel</button>
+        </div>                  
+        
+                
+    </center>
+    
+    <div id="resultTable" class="row">
+        <div class="col-md-12">
+            @if (Session["ReporteEventos"] != null)
+            {
+                DateTime di2 = (DateTime)Session["FechaREI"];
+                DateTime df2 = (DateTime)Session["FechaREF"];                
+                <center>
+                    <h4>REPORTE DE EVENTOS:</h4><h4> Del @di2.Date.ToString("dd/MM/yyyy") - @df2.Date.ToString("dd/MM/yyyy")</h4>
+                </center> 
+            }
+            <div class="table-responsive">
+                <table id="mytable" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Evento</th>
+                            <th>Organizador</th>
+                            <th>Fecha función</th>
+                            <th>Hora función</th>
+                            <th>Estado de función</th>
+                            <th>Entradas disponibles</th>
+                            <th>Entradas vendidas</th>
+                            <th>Local</th>
+                            <th>Región</th>
                         </tr>
-                       }
-                @{
-                    
-                    Session["ReporteEventos"] = null;                  
+                    </thead>
+                    <tbody id="tbody">
+                        @foreach (var row in lev)
+                        {
+                            <tr id=@row.codigoEvento >
+                                <td>@row.codigoEvento</td>
+                                <td>@row.nombreEvento</td>
+                                <td>@row.nombreOrganizador</td>
+                                <td>@row.fechaFuncion</td>
+                                <td>@row.horaFuncion</td>
+                                <td>@row.EstadoFunción</td>
+                                <td>@row.entradasDisponibles</td>
+                                <td>@row.entradasVendidas</td>
+                                <td>@row.local</td>
+                                <td>@row.region</td>
+                            </tr>
+                        }
+                        @{
 
-                }              
-              
-            </tbody>
-        </table>
+                            Session["ReporteEventos"] = null;
+
+                        }
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>        
     </div>
 </div>
 
@@ -157,14 +156,9 @@
 
     function exportar() {
 
-        window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('div[id$=resultTablet]').html()));
+        window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('div[id$=resultTable]').html()));
         e.preventDefault();
 
     }
 
 </script>
-<style>
-    .trselected {
-        background: gray;
-    }
-</style>

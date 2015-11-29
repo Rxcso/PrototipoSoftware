@@ -23,7 +23,7 @@ namespace WebApplication4.Controllers
         private ApplicationUserManager _userManager;
         private inf245netsoft db = new inf245netsoft();
 
-
+         
         public AccountController()
         {
         }
@@ -143,7 +143,6 @@ namespace WebApplication4.Controllers
 
             switch (result)
             {
-
                 case SignInStatus.Success:
                     TempData["tipo"] = "alert alert-success";
                     TempData["message"] = "Logueado Correctamente";
@@ -156,7 +155,6 @@ namespace WebApplication4.Controllers
                     {
                         if (cuentausuario.codPerfil == 2)
                         {
-
                             Turno tu = null;
                             DateTime hoy = DateTime.Now;
                             int idPunto = 1;
@@ -207,7 +205,7 @@ namespace WebApplication4.Controllers
                                     tu.estado = "Tarde";
                                 }
                                 tu.horaRegistro = da.ToString(@"hh\:mm\:ss");
-                                Session["MensajeIngresoTurno"] = "Ingreso a Turno Registrado" + da.ToString(@"hh\:mm\:ss");
+                                Session["MensajeIngresoTurno"] = "Hora de ingreso registrada a las: " + da.ToString(@"hh\:mm\:ss") + " hs";
                                 db.SaveChanges();
                                 db.Entry(tu).State = EntityState.Detached;
                             }
@@ -293,81 +291,99 @@ namespace WebApplication4.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (model.fechaNac > DateTime.Today || model.fechaNac < Convert.ToDateTime("01/01/1900"))
-                {
-                    ModelState.AddModelError("fechaNac", "La fecha con rango inválido");
-                    return View(model);
-                }
-
+                int errorr = 0;
                 if (model.tipoDoc == 1)
                 {
                     if (model.codDoc.Length != 8)
                     {
                         ModelState.AddModelError("codDoc", "El DNI debe tener 8 dígitos");
-                        return View(model);
+                        errorr = 1;
                     }
-
+                    List<CuentaUsuario> lcu = db.CuentaUsuario.Where(c => c.tipoDoc == model.tipoDoc && c.codDoc == model.codDoc).ToList();
+                    if (lcu.Count > 0)
+                    {
+                        ModelState.AddModelError("codDoc", "DNI ya utilizado");
+                        errorr = 1;
+                    }
+                    if (model.fechaNac > DateTime.Today || model.fechaNac < Convert.ToDateTime("01/01/1900"))
+                    {
+                        ModelState.AddModelError("fechaNac", "La fecha con rango inválido");
+                        errorr = 1;
+                    }
                 }
                 else
                 {
                     if (model.codDoc.Length != 12)
                     {
                         ModelState.AddModelError("codDoc", "El Pasaporte debe tener 12 dígitos");
-                        return View(model);
+                        errorr = 1;
+                    }
+                    List<CuentaUsuario> lcu = db.CuentaUsuario.Where(c => c.tipoDoc == model.tipoDoc && c.codDoc == model.codDoc).ToList();
+                    if (lcu.Count > 0)
+                    {
+                        ModelState.AddModelError("codDoc", "Pasaporte ya utilizado");
+                        errorr = 1;
+                    }
+                    if (model.fechaNac > DateTime.Today || model.fechaNac < Convert.ToDateTime("01/01/1900"))
+                    {
+                        ModelState.AddModelError("fechaNac", "La fecha con rango inválido");
+                        errorr = 1;
+                    }
+                }
+
+                if (errorr != 1)
+                {
+                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                    var result = await UserManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
+                    {
+                        var currentUser = UserManager.FindByName(user.UserName);
+                        UserManager.AddToRole(user.Id, "Cliente");
+                        CuentaUsuario cuentausuario = new CuentaUsuario();
+
+                        cuentausuario.correo = model.Email;
+                        cuentausuario.apellido = model.apellido;
+                        cuentausuario.codDoc = model.codDoc;
+                        cuentausuario.codPerfil = 1;
+                        cuentausuario.contrasena = model.Password;
+                        cuentausuario.direccion = model.direccion;
+                        cuentausuario.estado = true;
+                        cuentausuario.fechaNac = model.fechaNac;
+                        cuentausuario.nombre = model.nombre;
+                        cuentausuario.puntos = 0;
+                        cuentausuario.sexo = model.sexo;
+                        cuentausuario.telefono = model.telefono;
+                        cuentausuario.telMovil = model.telMovil;
+                        cuentausuario.tipoDoc = model.tipoDoc;                        
+                        cuentausuario.usuario = model.Email;
+
+                        db.CuentaUsuario.Add(cuentausuario);
+                        db.SaveChanges();
+                        Session["UsuarioLogueado"] = cuentausuario;
+                        EmailController.EnviarCorreoRegistro(model.Email);
+                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                        // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                        // Send an email with this link
+                        // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                        TempData["tipo"] = "alert alert-success";
+                        TempData["message"] = "Registro Exitoso!";
+                        return RedirectToAction("Index", "Home");
+                        //return View("~/Views/Home/Index.cshtml");
                     }
 
+                    foreach (var error in result.Errors)
+                    {
+                        if (!error.Contains("nombre"))
+                            ModelState.AddModelError("", error);
+                    }
                 }
-
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    var currentUser = UserManager.FindByName(user.UserName);
-                    UserManager.AddToRole(user.Id, "Cliente");
-                    CuentaUsuario cuentausuario = new CuentaUsuario();
-
-                    cuentausuario.correo = model.Email;
-                    cuentausuario.apellido = model.apellido;
-                    cuentausuario.codDoc = model.codDoc;
-                    cuentausuario.codPerfil = 1;
-                    cuentausuario.contrasena = model.Password;
-                    cuentausuario.direccion = model.direccion;
-                    cuentausuario.estado = true;
-                    cuentausuario.fechaNac = model.fechaNac;
-                    cuentausuario.nombre = model.nombre;
-                    cuentausuario.puntos = 0;
-                    cuentausuario.sexo = model.sexo;
-                    cuentausuario.telefono = model.telefono;
-                    cuentausuario.telMovil = model.telMovil;
-                    cuentausuario.tipoDoc = model.tipoDoc;
-                    cuentausuario.tipoUsuario = "Cliente";
-                    cuentausuario.usuario = model.Email;
-
-                    db.CuentaUsuario.Add(cuentausuario);
-                    db.SaveChanges();
-                    Session["UsuarioLogueado"] = cuentausuario;
-                    EmailController.EnviarCorreoRegistro(model.Email);
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                    TempData["tipo"] = "alert alert-success";
-                    TempData["message"] = "Registro Exitoso!";
-                    return RedirectToAction("Index", "Home");
-                    //return View("~/Views/Home/Index.cshtml");
-                }
-
-                foreach (var error in result.Errors)
-                {
-                    if (!error.Contains("nombre"))
-                        ModelState.AddModelError("", error);
-                }
+                else
+                    return View(model);
 
             }
-
             // If we got this far, something failed, redisplay form
             return View(model);
         }
@@ -377,17 +393,23 @@ namespace WebApplication4.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RegisterVendedor(RegisterViewModel model)
         {
+            CuentaUsuario cue = null;
+            cue = db.CuentaUsuario.Find(model.Email);
+            if (cue != null)
+            {
+                TempData["MessageErrorVendedor"] = "Ya existe una cuenta con ese correo";
+                return RedirectToAction("Index", "Empleado");
+            }
             List<CuentaUsuario> lcu = db.CuentaUsuario.Where(c => c.tipoDoc == model.tipoDoc && c.codDoc == model.codDoc).ToList();
-            if (lcu != null && lcu.Count > 0)
+            if (lcu == null || lcu.Count > 0)
             {
                 TempData["MessageErrorVendedor"] = "Ya existe un cuenta registrada con ese DNI";
-                return RedirectToAction("Index", "Empleado");   
+                return RedirectToAction("Index", "Empleado");
             }
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
-
 
                 if (result.Succeeded)
                 {
@@ -408,13 +430,9 @@ namespace WebApplication4.Controllers
                     cuentausuario.sexo = model.sexo;
                     cuentausuario.telefono = model.telefono;
                     cuentausuario.telMovil = model.telMovil;
-                    cuentausuario.tipoDoc = model.tipoDoc;
-                    cuentausuario.tipoUsuario = "Cliente";
+                    cuentausuario.tipoDoc = model.tipoDoc;                    
                     cuentausuario.usuario = model.Email;
-
-
                     db.CuentaUsuario.Add(cuentausuario);
-
                     db.SaveChanges();
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
@@ -425,7 +443,6 @@ namespace WebApplication4.Controllers
                     return RedirectToAction("Index", "Empleado");
                     //return View("~/Views/Home/Index.cshtml");
                 }
-
                 AddErrors(result);
             }
 
@@ -438,8 +455,15 @@ namespace WebApplication4.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RegisterPromotor(RegisterViewModel model)
         {
+            CuentaUsuario cue = null;
+            cue = db.CuentaUsuario.Find(model.Email);
+            if (cue != null)
+            {
+                TempData["MessageErrorPromotor"] = "Ya existe una cuenta con ese correo";
+                return RedirectToAction("Index", "Empleado");
+            }
             List<CuentaUsuario> lcu = db.CuentaUsuario.Where(c => c.tipoDoc == model.tipoDoc && c.codDoc == model.codDoc).ToList();
-            if (lcu != null && lcu.Count > 0)
+            if (lcu == null || lcu.Count > 0)
             {
                 TempData["MessageErrorPromotor"] = "Ya existe un cuenta registrada con ese DNI";
                 return RedirectToAction("Index", "Empleado");
@@ -448,7 +472,6 @@ namespace WebApplication4.Controllers
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
-
 
                 if (result.Succeeded)
                 {
@@ -469,16 +492,10 @@ namespace WebApplication4.Controllers
                     cuentausuario.sexo = model.sexo;
                     cuentausuario.telefono = model.telefono;
                     cuentausuario.telMovil = model.telMovil;
-                    cuentausuario.tipoDoc = model.tipoDoc;
-                    cuentausuario.tipoUsuario = "Cliente";
+                    cuentausuario.tipoDoc = model.tipoDoc;                    
                     cuentausuario.usuario = model.Email;
-
-
                     db.CuentaUsuario.Add(cuentausuario);
-
                     db.SaveChanges();
-
-
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -489,7 +506,6 @@ namespace WebApplication4.Controllers
                 }
                 AddErrors(result);
             }
-
             // If we got this far, something failed, redisplay form
             return RedirectToAction("Index", "Empleado");
         }
@@ -530,7 +546,6 @@ namespace WebApplication4.Controllers
                     // Don't reveal that the user does not exist or is not confirmed
                     return View("ForgotPasswordConfirmation");
                 }
-
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
                 // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
@@ -542,10 +557,7 @@ namespace WebApplication4.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-
-
-
-        //
+        
         // GET: /Account/ForgotPasswordConfirmation
         [AllowAnonymous]
         public ActionResult ForgotPasswordConfirmation()

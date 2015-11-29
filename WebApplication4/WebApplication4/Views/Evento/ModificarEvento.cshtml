@@ -1,10 +1,14 @@
 ﻿@using WebApplication4.Models
-
 @{
-    ViewBag.Title = "Modificar";
+    ViewBag.Title = "Register";
     var db = new inf245netsoft();
 }
 @model DatosGeneralesModel
+<style>
+    td {
+        text-align: center;
+    }
+</style>
 <div class="container-fluid">
     <div class="col-md-5">
         <ol class="breadcrumb">
@@ -14,134 +18,172 @@
     </div>
 </div>
 <div class="container">
-    <h2>@ViewBag.MensajeExtra</h2>
+
     <div class="row">
         <div class="col-md-12">
-            <a href="@Url.Action("Index","Evento")" class="btn btn-danger pull-right"><span class="glyphicon glyphicon-hand-left"></span> Regresar</a>
+            <!--a href="@Url.Action("Index","Evento")" class="btn btn-danger pull-left"><span class="glyphicon glyphicon-hand-left"></span> Regresar</a-->
+            <h3>@ViewBag.MensajeExtra</h3>
         </div>
     </div>
-    <div class="tab-content">
+    <div class="row">
         @using (Html.BeginForm("ModificarEvento", "Evento", FormMethod.Post, new { model = Model }))
         {
             @Html.AntiForgeryToken()
-            <div class="tab-pane active  fade in  container" id="generales">
+            <div class="col-md-12" id="generales">
                 @Html.ValidationSummary(true)
-                <br>
                 <div class="form-horizontal">
                     <div class="form-group">
-                        @Html.LabelFor(m => m.nombre, new { @class = "control-label col-md-2" })
                         <div class="col-md-6">
-                            @Html.TextBoxFor(m => m.nombre, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.nombre)
-                        </div>
-                    </div><br><br>
-                    <div class="form-group">
-                        @Html.LabelFor(c => c.idOrganizador, new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="organizadorNombre" value="@ViewBag.NombreOrganizador" readonly />
-                                @Html.HiddenFor(c => c.idOrganizador, new { @id = "valOrganizador" })
-                                <span class="input-group-btn"><a href="#modalBuscarOrganizador" class="btn btn-primary" data-toggle="modal" type="button">Buscar <span class="glyphicon glyphicon-search"></span></a></span>
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.nombre, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(m => m.nombre, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.nombre)
+                                </div>
                             </div>
-                            @Html.ValidationMessageFor(model => model.idOrganizador)
                         </div>
-                    </div><br><br>
-                    <div class="form-group">
-                        @Html.LabelFor(c => c.idCategoria, new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.DropDownListFor(c => c.idCategoria, @ViewBag.CatID as SelectList, "Categoria", new { @class = "form-control", @onchange = "cambioCategoria()" })
-                            @Html.ValidationMessageFor(model => model.idCategoria)
-                        </div>
-
-                    </div><br><br>
-                    <div class="form-group">
-                        @Html.LabelFor(c => c.idSubCat, new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.DropDownListFor(c => c.idSubCat, @ViewBag.SubID as SelectList, "Subcategoria", new { @class = "form-control" })
-                        </div>
-                    </div><br><br>
-
-                    <div class="form-group">
-                        @Html.LabelFor(c => c.Local, new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            <div class="input-group">
-                                <input class="form-control" id="localNombre" value="@ViewBag.NombreLocal" readonly />
-                                @Html.HiddenFor(c => c.Local, new { @id = "valLocal" })
-                                <span class="input-group-btn"><a href="#modalBuscarLocal" class="btn btn-primary" data-toggle="modal" type="button">Buscar <span class="glyphicon glyphicon-search"></span></a></span>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(c => c.idOrganizador, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="organizadorNombre" value="@ViewBag.NombreOrganizador" readonly />
+                                        @Html.HiddenFor(c => c.idOrganizador, new { @id = "valOrganizador" })
+                                        <span class="input-group-btn"><a href="#modalBuscarOrganizador" class="btn btn-primary" data-toggle="modal" type="button"><span class="glyphicon glyphicon-search"></span> Buscar</a></span>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.idOrganizador)
+                                </div>
                             </div>
-                            @Html.ValidationMessageFor(c => c.Local)
                         </div>
-                    </div><br><br>
+                    </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(c => c.Direccion, new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.TextBoxFor(c => c.Direccion, new { @class = "form-control", @placeholder = "Solo si no existe local para el evento" })
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(c => c.idCategoria, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(c => c.idCategoria, @ViewBag.CatID as SelectList, "Categoria", new { @class = "form-control", @onchange = "cambioCategoria()" })
+                                    @Html.ValidationMessageFor(model => model.idCategoria)
+                                </div>
+                            </div>
                         </div>
-                        @Html.ValidationMessageFor(c => c.Direccion)
-                    </div><br><br>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(c => c.idSubCat, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(c => c.idSubCat, @ViewBag.SubID as SelectList, "Subcategoria", new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="form-group">
-                        @Html.LabelFor(model => model.idRegion, new { @class = "control-label col-md-2" })
-                        <div class="col-md-4">
-                            @Html.DropDownListFor(model => model.idRegion, @ViewBag.DepID as SelectList, "Departamento", new { @class = "form-control", @onchange = "cambioDepartamento()" })
-                            @Html.ValidationMessageFor(c => c.idRegion)
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(c => c.Local, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    <div class="input-group">
+                                        <input class="form-control" id="localNombre" value="@ViewBag.NombreLocal" readonly />
+                                        @Html.HiddenFor(c => c.Local, new { @id = "valLocal" })
+                                        <span class="input-group-btn"><a href="#modalBuscarLocal" class="btn btn-primary" data-toggle="modal" type="button"><span class="glyphicon glyphicon-search"></span> Buscar</a></span>
+                                    </div>
+                                    @Html.ValidationMessageFor(c => c.Local)
+                                </div>
+                            </div>
                         </div>
-                        @Html.LabelFor(model => model.idProv, new { @class = "control-label col-md-2" })
-                        <div class="col-md-4">
-                            @Html.DropDownListFor(model => model.idProv, @ViewBag.ProvID as SelectList, "Provincia", new { @class = "form-control" })
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(c => c.Direccion, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(c => c.Direccion, new { @class = "form-control", @placeholder = "Solo si no existe local para el evento", @onchange = "cambio()" })
+                                </div>
+                                @Html.ValidationMessageFor(c => c.Direccion)
+                            </div>
                         </div>
-                    </div><br><br>
+                    </div>
                     <div class="form-group">
-                        @Html.LabelFor(c => c.descripcion, new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.TextAreaFor(c => c.descripcion, new { @class = "form-control", @rows = 8 })
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.idRegion, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(model => model.idRegion, @ViewBag.DepID as SelectList, "Departamento", new { @class = "form-control", @onchange = "cambioDepartamento()" })
+                                    @Html.ValidationMessageFor(c => c.idRegion)
+                                    @Html.HiddenFor(model => model.idRegion)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.idProv, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(model => model.idProv, @ViewBag.ProvID as SelectList, "Provincia", new { @class = "form-control" })
+                                    @Html.HiddenFor(model => model.idProv)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(c => c.descripcion, new { @class = "control-label col-md-1" })
+                        <div class="col-md-11">
+                            @Html.TextAreaFor(c => c.descripcion, new { @class = "form-control", @rows = 7 })
+                            @Html.ValidationMessageFor(c => c.descripcion)
                         </div>
                     </div>
                 </div>
             </div>
-            <input type="submit" value="Siguiente" class="btn btn-default btn-primary" />
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary pull-right">Guardar y seguir <span class="glyphicon glyphicon-hand-right"></span></button>
+            </div>
+
         }
     </div>
-    <br />
 </div>
+
 <!--ventana de buscar local-->
 <div class="modal fade" id="modalBuscarLocal">
     <div class="modal-dialog">
         <div class="modal-content">
-            <!--ACA VA EL CONTENIDO DEL MODAL-->
             <!--contenido de la ventana-->
             <div class="modal-body">
-                <form action="" class="form-horizontal">
-                    <div class="form-group">
-                        @{
-                            List<Local> localList = db.Local.ToList();
-                        }
-                        Seleccione un Local:
-                        <table class="table table-bordered table-hover" id="tablita">
-                            <thsead>
-                                <tr class="thead">
-                                    <th>Id</th>
-                                    <th>Ubicacion</th>
-                                    <th>Seleccionar</th>
+                <div class="form-group">
+                    @{
+                        List<Local> localList = db.Local.ToList();
+                    }
+                    <table class="table table-bordered table-hover" id="tablita">
+                        <thead>
+                            <tr class="thead">
+                                <th>Código</th>
+                                <th>Nombre</th>
+                                <th>Departamento</th>
+                                <th>Provincia</th>
+                                <th>Ubicación</th>
+                                <th>Seleccionar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var local in localList)
+                            {
+                                <tr>
+                                    <td>@local.codLocal</td>
+                                    <td>@local.descripcion</td>
+                                    <td>@db.Region.Find(local.idRegion).nombre</td>
+                                    <td>@db.Region.Find(local.idProvincia).nombre</td>
+                                    <td>@local.ubicacion</td>
+                                    <td>
+                                        <input data-prov="@local.idProvincia" data-dep="@local.idRegion" data-nprov="@db.Region.Find(local.idProvincia).nombre" type="radio" id="@local.codLocal" name="groupL" value="@local.ubicacion">
+                                    </td>
                                 </tr>
-                            </thsead>
-                            <tbody>
-                                @foreach (var local in localList)
-                                {
-                                    <tr>
-                                        <td>@local.codLocal</td>
-                                        <td>@local.ubicacion</td>
-                                        <td><input type="radio" id="@local.codLocal" name="groupL" value="@local.ubicacion"></td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </form>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
             <!--footer de la ventana-->
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="llenaLocal()"><span class="glyphicon glyphicon-ok"></span> Seleccionar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="llenaLocal()">Seleccionar</button>
             </div>
         </div>
     </div>
@@ -151,39 +193,37 @@
 <div class="modal fade" id="modalBuscarOrganizador">
     <div class="modal-dialog">
         <div class="modal-content">
-            <!--ACA VA EL CONTENIDO DEL MODAL-->
             <!--contenido de la ventana-->
             <div class="modal-body">
-                <form action="" class="form-horizontal">
-                    <div class="form-group">
-                        @{
-                            List<Organizador> orgList = db.Organizador.Where(c => c.estadoOrg == "Activo").ToList();
-                        }
-                        <table class="table table-bordered table-hover" id="tablita">
-                            <thsead>
-                                <tr class="thead">
-                                    <th>Id</th>
-                                    <th>Nombre</th>
-                                    <th>Seleccionar</th>
+                <div class="form-group">
+                    @{
+                        List<Organizador> orgList = db.Organizador.Where(c => c.estadoOrg == "Activo").ToList();
+                    }
+                    <table class="table table-bordered table-hover" id="tablita">
+                        <thead>
+                            <tr class="thead">
+                                <th>Código</th>
+                                <th>Nombre</th>
+                                <th>Seleccionar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var org in orgList)
+                            {
+                                <tr>
+                                    <td>@org.codOrg</td>
+                                    <td>@org.nombOrg</td>
+                                    <td><input type="radio" id="@org.codOrg" name="groupO" value="@org.nombOrg"></td>
                                 </tr>
-                            </thsead>
-                            <tbody>
-                                @foreach (var org in orgList)
-                                {
-                                    <tr>
-                                        <td>@org.codOrg</td>
-                                        <td>@org.nombOrg</td>
-                                        <td><input type="radio" id="@org.codOrg" name="groupO" value="@org.nombOrg"></td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </form>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <!--footer de la ventana-->
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="llenaOrg()"><span class="glyphicon glyphicon-ok"></span> Seleccionar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="llenaOrg()">Seleccionar</button>
             </div>
         </div>
     </div>

@@ -14,21 +14,7 @@
 
     return (fFecha <= maxDate) && (fFecha >= fIEvento);
 }
-function format_time(date_obj) {
-    // formats a javascript Date object into a 12h AM/PM time string
-    var hour = date_obj.getHours() + 5;
-    var minute = date_obj.getMinutes();
-    var amPM = (hour > 11) ? "pm" : "am";
-    if (hour > 12) {
-        hour -= 12;
-    } else if (hour == 0) {
-        hour = "12";
-    }
-    if (minute < 10) {
-        minute = "0" + minute;
-    }
-    return hour + ":" + minute + amPM;
-}
+
 function format_date(date) {
     var formato = (date.getFullYear() + '-' + ('0' + (date.getMonth() + 1)).slice(-2) + '-' + ('0' + (date.getDate())).slice(-2));
     return formato;
@@ -58,6 +44,35 @@ function fila() {
     $("#histFuncion").val(parseInt(row.id));
 }
 
+function validahora(fecha, hora) {
+    var hoy = today;
+    hora = hora.split(':');
+    var fechaS = fecha.split('-');
+    var fFecha = new Date(fechaS[0], --fechaS[1], fechaS[2], hora[0], hora[1], 0, 0);
+    //si es para el mismo dia
+    if (fFecha.getDate() == hoy.getDate()) {
+        if (fFecha < hoy) {
+            alert("La hora de la función debe de ser más tarde que la hora actual.");
+            return false;
+        }
+    }
+    return true;
+}
+function validar(fecha, hora) {
+    if (fecha && hora) {
+        if (validarFechaActualOMayor(fecha)) {
+            if (validahora(fecha, hora)) {
+                return true;
+            }
+        } else {
+            var fechaInicioEvento = $("#fechaInicioEvento").val();
+            alert("Fecha de funcion incorrecta: " + format_date2(fecha) + ". Ingrese una fecha valida (Rango de fechas: Mayor o igual a la fecha de inicio del evento: " + format_date2(fechaInicioEvento) + " hasta fechas del año " + (today.getFullYear() + 20) + ").");
+        }
+    } else {
+        alert("Campos Vacios. Ingrese nuevamente.");
+    }
+    return false;
+}
 
 
 function agregaFuncion() {
@@ -66,19 +81,11 @@ function agregaFuncion() {
         var row = tableBTV.rows[tableBTV.rows.length - 1];
         var fecha = row.cells[1].children[0].value;
         var hora = row.cells[2].children[0].value;
-        if (fecha && hora) {
-            if (validarFechaActualOMayor(fecha)) {
-                row.cells[1].children[0].setAttribute('readonly', 'true');
-                row.cells[2].children[0].setAttribute('readonly', 'true');
-                fila();
-            } else {
-                var fechaInicioEvento = $("#fechaInicioEvento").val();
-                alert("Fecha de funcion incorrecta: " + format_date2(fecha) + ". Ingrese una fecha valida (Rango de fechas: Mayor o igual a la fecha de inicio del evento: " + format_date2(fechaInicioEvento) + " hasta fechas del año " + (today.getFullYear() + 20) + ").");
-            }
-        } else {
-            alert("Campos Vacios. Ingrese nuevamente.");
+        if (validar(fecha, hora)) {
+            row.cells[1].children[0].setAttribute('readonly', 'true');
+            row.cells[2].children[0].setAttribute('readonly', 'true');
+            fila();
         }
-
     } else {
         fila();
     }
@@ -95,17 +102,22 @@ function guardarFunciones() {
         alert("No hay funciones. Agrege una funcion.");
         return false;
     }
-    for (var i = 1; i < tableBTV.rows.length; i++) {
-        var row = tableBTV.rows[i];
-        var fecha = row.cells[1].children[0].value;
-        var hora = row.cells[2].children[0].value;
-        fecha = fecha.split('-');
-        hora = hora.split(':');
-        var date = fecha[2] + "-" + --fecha[1] + "-" + fecha[0] + " " + hora[0] + ":" + hora[1];
-        //var date = new Date(fecha[2], --fecha[1], fecha[0], hora[0], hora[1], 0, 1);
-        console.log(i + ") " + date);
-        $("#formPost").prepend("<input type='hidden' name='" + nombreLista + "[" + (i - 1) + "].fechaFuncion' value='" + date + "'>");
-        $("#formPost").prepend("<input type='hidden' name='" + nombreLista + "[" + (i - 1) + "].horaInicio' value='" + date + "'>");
+    var row = tableBTV.rows[tableBTV.rows.length - 1];
+    var fecha = row.cells[1].children[0].value;
+    var hora = row.cells[2].children[0].value;
+    if (validar(fecha, hora)) {
+        for (var i = 1; i < tableBTV.rows.length; i++) {
+            var row = tableBTV.rows[i];
+            var fecha = row.cells[1].children[0].value;
+            var hora = row.cells[2].children[0].value;
+            fecha = fecha.split('-');
+            hora = hora.split(':');
+            var date = fecha[2] + "-" + (fecha[1]) + "-" + fecha[0] + " " + hora[0] + ":" + hora[1];
+            console.log(i + ") " + date);
+            $("#formPost").prepend("<input type='hidden' name='" + nombreLista + "[" + (i - 1) + "].fechaFuncion' value='" + date + "'>");
+            $("#formPost").prepend("<input type='hidden' name='" + nombreLista + "[" + (i - 1) + "].horaInicio' value='" + date + "'>");
+        }
+        return true;
     }
     return false;
 }

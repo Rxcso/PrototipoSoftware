@@ -1,0 +1,49 @@
+﻿@using WebApplication4.Models;
+@model MisPreferenciasModel
+@{
+    ViewBag.Title = "Mis Preferencias";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li>@Html.ActionLink("Mi Cuenta", "MiCuenta", "CuentaUsuario")
+            <li class="active">Mis Preferencias</li>
+        </ol>
+    </div>
+</div>
+
+@using (Html.BeginForm("MisPreferencias", "CuentaUsuario", FormMethod.Post))
+{
+    <div class="container">
+        <div class="row">
+            <div class="contenedor col-md-8">
+                <div class="container">
+                    <div class="row">
+                        <h3>Elija categorías de su interés</h3><br>
+                        @for (int i = 0; i < Model.listSelected.Length; i++)
+                        {
+                            @Html.HiddenFor(c => c.listIdCategorias[i])
+                            @Html.HiddenFor(c => c.listNombreCategorias[i])
+                            <label style="font-size:18px">
+                                @Html.CheckBoxFor(c => c.listSelected[i])
+                                @Model.listNombreCategorias[i]
+                            </label>
+                            <br />
+                        }
+                    </div>
+                    <center class="row form-group">
+                        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-save"></span> Guardar preferencias</button>
+                        <a href="@Url.Action("MiCuenta","CuentaUsuario")" class="btn btn-danger"><span class="glyphicon glyphicon-backward"></span> Regresar</a>
+                    </center>
+                </div>
+            </div>
+
+            <!--CARRUSEL-->
+            <div class="col-md-4">
+                destacados
+            </div>
+        </div>
+    </div>
+}

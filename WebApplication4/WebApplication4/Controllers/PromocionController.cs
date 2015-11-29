@@ -9,15 +9,48 @@ using WebApplication4.Models;
 
 namespace WebApplication4.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Promotor")]
     public class PromocionController : Controller
     {
         // GET: Promocion
-        private inf245netsoft db = new inf245netsoft();
+        private static inf245netsoft db = new inf245netsoft();
+
+        public static Promociones CalculaMejorPromocionTarjeta(int codEvento, int idBanco, int tipoTarjeta)
+        {
+            try
+            {
+                //busco las promociones que se encuentren activas
+                List<Promociones> promociones = db.Promociones.Where(c => c.codEvento == codEvento && c.codBanco == idBanco && c.codTipoTarjeta == tipoTarjeta && c.estado == true && c.fechaIni <= DateTime.Today && DateTime.Today <= DateTime.Today).ToList();
+                promociones.Sort((a, b) => ((double)a.descuento).CompareTo((double)b.descuento));
+                return promociones.Last();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+        public static Promociones CalculaMejorPromocionEfectivo(int idEvento)
+        {
+            try
+            {
+                List<Promociones> promociones = db.Promociones.Where(c => c.codEvento == idEvento && c.estado == true && c.modoPago == "E").ToList();
+                foreach (Promociones promo in promociones)
+                {
+                    double descuento = (1 - promo.cantComp.Value / promo.cantAdq.Value * 1.0) * 100.0;
+                    promo.descuento = (float)descuento;
+                }
+                promociones.Sort((a, b) => ((double)a.descuento).CompareTo((double)b.descuento));
+                return promociones.Last();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
 
         public ActionResult Index(string evento)
         {
-            if (evento != "" && evento !=null)
+            if (evento != "" && evento != null)
             {
                 int id = int.Parse(evento);
                 Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();
@@ -44,8 +77,6 @@ namespace WebApplication4.Controllers
             return View("RegisterPromocion");
         }
 
-
-        //
         // POST: /Promocion/Register
         [HttpPost]
         [AllowAnonymous]
@@ -71,7 +102,6 @@ namespace WebApplication4.Controllers
                 }
                 if (listPer.Count == 0)
                 {
-
                     ViewBag.NoPeriodo = "No existe un periodo de venta para este evento";
                     return View("Index");
                 }
@@ -86,17 +116,17 @@ namespace WebApplication4.Controllers
             }
 
             if (ModelState.IsValid) //promocion por tarjeta
-            {              
-                    promocion.codBanco = model.codBanco;
-                    promocion.codTipoTarjeta = model.codTipoTarjeta;
-                    promocion.fechaIni = model.fechaIni;
-                    promocion.fechaFin = model.fechaFin;
-                    promocion.descuento = model.descuento;
-                    promocion.modoPago = "T";
-                    promocion.descripcion = db.Banco.Find(model.codBanco).nombre + " " + db.TipoTarjeta.Find(model.codTipoTarjeta).nombre + " " + model.descuento + "%";
-                    db.Promociones.Add(promocion);
-                    db.SaveChanges();
-                    return Redirect("~/Promocion/Index?evento=" + ev);                
+            {
+                promocion.codBanco = model.codBanco;
+                promocion.codTipoTarjeta = model.codTipoTarjeta;
+                promocion.fechaIni = model.fechaIni;
+                promocion.fechaFin = model.fechaFin;
+                promocion.descuento = model.descuento;
+                promocion.modoPago = "T";
+                promocion.descripcion = db.Banco.Find(model.codBanco).nombre + " " + db.TipoTarjeta.Find(model.codTipoTarjeta).nombre + " " + model.descuento + "%";
+                db.Promociones.Add(promocion);
+                db.SaveChanges();
+                return Redirect("~/Promocion/Index?evento=" + ev);
             }
             return View("Index");
             //throw new Exception("Test Exception");
@@ -132,7 +162,6 @@ namespace WebApplication4.Controllers
                 }
                 if (listPer.Count == 0)
                 {
-
                     ViewBag.NoPeriodo = "No existe un periodo de venta para este evento";
                     return View("Index");
                 }
@@ -147,17 +176,17 @@ namespace WebApplication4.Controllers
             }
 
             if (ModelState.IsValid)
-                {
-                    promocion.fechaIni = model.fechaIni;
-                    promocion.fechaFin = model.fechaFin;
-                    promocion.modoPago = "E";
-                    promocion.cantAdq = model.cantAdq;
-                    promocion.cantComp = model.cantComp;
-                    promocion.descripcion = model.cantAdq + "X" + model.cantComp;
-                    db.Promociones.Add(promocion);
-                    db.SaveChanges();
-                    return Redirect("~/Promocion/Index?evento=" + ev);
-                }
+            {
+                promocion.fechaIni = model.fechaIni;
+                promocion.fechaFin = model.fechaFin;
+                promocion.modoPago = "E";
+                promocion.cantAdq = model.cantAdq;
+                promocion.cantComp = model.cantComp;
+                promocion.descripcion = model.cantAdq + "X" + model.cantComp;
+                db.Promociones.Add(promocion);
+                db.SaveChanges();
+                return Redirect("~/Promocion/Index?evento=" + ev);
+            }
             return View("Index");
             //throw new Exception("Test Exception");
         }
@@ -188,6 +217,5 @@ namespace WebApplication4.Controllers
             //return RedirectToAction("Index", "Promocion");
             return Json("La Promocion ha sido descativada con exito", JsonRequestBehavior.AllowGet);
         }
-
     }
 }

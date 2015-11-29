@@ -7,7 +7,9 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<style>
+    td{text-align:center}
+</style>
 <div class="container-fluid">
     <div class="col-md-5">
         <ol class="breadcrumb">
@@ -19,17 +21,18 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-6">
-            <div class="form-group">                
+        <div class="col-md-7">
+            <div class="form-group">
                 <a class="btn btn-success" href="#formNuevo" data-toggle="modal"><span class="glyphicon glyphicon-plus"></span> Nuevo</a>
                 <a class="btn btn-primary" data-toggle="modal" onclick="redirige()"><span class="glyphicon glyphicon-pencil"></span> Modificar</a>
                 <a class="btn btn-danger" onclick="validaS()" data-toggle="modal"><span class="glyphicon glyphicon-remove"></span> Eliminar</a>
+                <a class="btn btn-primary" onclick="historial()" data-toggle="modal" id="Activate"><span class="fa fa-book"></span> Historial</a>
                 <a class="btn btn-default" id="idBusq2" onclick="buscaI()" data-toggle="modal"><span class="glyphicon glyphicon-eye-open"></span> Inactivos</a>
-                <a class="btn btn-default" onclick="activa()" data-toggle="modal" id="Activate"><span class="glyphicon glyphicon-ok"></span> Activar</a>                
+                <a class="btn btn-default" onclick="activa()" data-toggle="modal" id="Activate"><span class="glyphicon glyphicon-ok"></span> Activar</a>
             </div>
         </div>
-        <div class="col-md-6">
-            <form action="" class="" role="search">                
+        <div class="col-md-5">
+            <form action="" class="" role="search">
                 <div class="form-group">
                     <div class="input-group">
                         <input id="idBusq" type="text" class="form-control" placeholder="BUSCAR UNA ORGANIZADOR">
@@ -39,8 +42,8 @@
             </form>
         </div>
     </div>
-    
-   
+
+
     @{
         var db = new WebApplication4.Models.inf245netsoft();
         List<WebApplication4.Models.Organizador> listaOrganizador;
@@ -75,14 +78,14 @@
                             <td>@row.nombOrg</td>
                             <td>@row.codDoc</td>
                             <td>@row.correo</td>
-                            <td>@row.telefOrg</td>                            
-                            <td>@row.estadoOrg</td>                            
+                            <td>@row.telefOrg</td>
+                            <td>@row.estadoOrg</td>
                         </tr>
                     }
                 </tbody>
             </table>
         </div>
-        
+
     </div>
 
 </div>
@@ -91,6 +94,16 @@
 <input type="hidden" id="EstadoOrgT" value="" />
 
 <script>
+    function historial() {
+        var organizador = $('#idOrganizadorT').val();
+        if (organizador != null && organizador != "") {
+            window.location.href = "/Organizador/Historial?id=" + organizador;
+        } else {
+            alert("Seleccione un Organizador");
+        }
+
+    }
+
     function myFunction(x) {
         if (document.getElementsByClassName("trselected").length > 0) {
             var element = document.getElementsByClassName("trselected");
@@ -254,7 +267,7 @@
 <div class="modal fade" id="formNuevo">
     <!--esta div pondra la pantalla oscura al presionar el boton-->
     <div class="modal-dialog">
-        <div class="modal-content">            
+        <div class="modal-content">
             <!--header de la ventana-->
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times; </button>
@@ -326,7 +339,7 @@
                     </div>
                 }
             </div>
-            
+
             <!--footer de la ventana-->
 
         </div>

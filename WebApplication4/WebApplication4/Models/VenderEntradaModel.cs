@@ -16,6 +16,7 @@ namespace WebApplication4.Models
         [Required(ErrorMessage = "Debe ingresar un DNI o Pasaporte.")]
         [Display(Name = "DNI/Pasaporte:")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Dni debe ser numérico.")]
+        [StringLength(10, ErrorMessage = "Maximo 10 dígitos.")]
         public string Dni { get; set; }
 
         [Display(Name = "Banco:")]
@@ -49,8 +50,11 @@ namespace WebApplication4.Models
         public double Descuento { get; set; }
 
         [Required(ErrorMessage = "Debe ingresar un monto a pagar en efectivo")]
-        [Display(Name = "Monto en Efectivo:")]
+        [Display(Name = "Monto S/. ")]
         public double MontoEfe { get; set; }
+
+        [Display(Name = "Monto $ ")]
+        public double? MontoDolares { get; set; }
 
         [Display(Name = "Monto en Tarjeta:")]
         public double MontoTar { get; set; }
@@ -59,9 +63,13 @@ namespace WebApplication4.Models
         public double MontoPagar { get; set; }
 
         [Display(Name = "Vuelto:")]
+
+        public int idEvento { get; set; }
         public double Vuelto { get; set; }
+        public int modalidad { get; set; }
         public List<int> idEventos { get; set; }
         public List<int> idPromociones { get; set; }
+        public List<int> idFunciones { get; set; }
         public int idVenta { get; set; }
     }
 }

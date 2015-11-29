@@ -23,12 +23,15 @@
     double totalSE = 0;
     if (turno != null )
     {
+        TurnoSistema ts = db.TurnoSistema.Find(turno.codTurnoSis);
+        TimeSpan ti1 = TimeSpan.Parse(ts.horIni);
+        TimeSpan ti2 = TimeSpan.Parse(ts.horFin);
         mS = (double)turno.MontoInicioSoles;
         mD = (double)turno.MontoInicioDolares;
         mSC = (double)turno.MontoFinSoles;
         mDC = (double)turno.MontoFinDolares;
         listaVentas2 = db.Ventas.AsNoTracking().Where(c => c.vendedor == cu.usuario).ToList();
-        listaVentas = listaVentas2.Where(c => c.fecha == dat).ToList();
+        listaVentas = listaVentas2.Where(c => c.fecha.Value.Date == dat && c.fecha.Value.TimeOfDay > ti1 && c.fecha.Value.TimeOfDay < ti2).ToList();
         double subtotalSE = 0;
         double subtotalST = 0;
         double subtotalDE = 0;

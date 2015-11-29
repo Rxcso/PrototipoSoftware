@@ -1,35 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="inf245netsoftModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-  <EntityType Name="CuentaUsuario">
-    <Key>
-      <PropertyRef Name="usuario" />
-    </Key>
-    <Property Name="usuario" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="tipoUsuario" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="correo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="contrasena" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="estado" Type="Boolean" Nullable="false" />
-    <Property Name="tipoDoc" Type="Int32" />
-    <Property Name="codDoc" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-    <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="apellido" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="direccion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="telefono" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-    <Property Name="telMovil" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-    <Property Name="sexo" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
-    <Property Name="fechaNac" Type="DateTime" Precision="3" />
-    <Property Name="puntos" Type="Int32" Nullable="false" />
-    <Property Name="codPerfil" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="RegaloXCuenta" Relationship="inf245netsoftModel.FK__RegaloXCu__usuar__4BAC3F29" FromRole="CuentaUsuario" ToRole="RegaloXCuenta" />
-    <NavigationProperty Name="Categoria" Relationship="inf245netsoftModel.CategoriasXUsuario" FromRole="CuentaUsuario" ToRole="Categoria" />
-    <NavigationProperty Name="Turno" Relationship="inf245netsoftModel.R_26" FromRole="CuentaUsuario" ToRole="Turno" />
-    <NavigationProperty Name="Comentarios" Relationship="inf245netsoftModel.R_32" FromRole="CuentaUsuario" ToRole="Comentarios" />
-    <NavigationProperty Name="Ventas" Relationship="inf245netsoftModel.R_30" FromRole="CuentaUsuario" ToRole="Ventas" />
-    <NavigationProperty Name="Ventas1" Relationship="inf245netsoftModel.R_34" FromRole="CuentaUsuario" ToRole="Ventas" />
-    <NavigationProperty Name="LogDevoluciones" Relationship="inf245netsoftModel.R_97" FromRole="CuentaUsuario" ToRole="LogDevoluciones" />
-  </EntityType>
   <EntityContainer Name="inf245netsoft" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="CuentaUsuario" EntityType="Self.CuentaUsuario" />
     <EntitySet Name="Banco" EntityType="inf245netsoftModel.Banco" />
     <EntitySet Name="Promociones" EntityType="inf245netsoftModel.Promociones" />
     <EntitySet Name="TipoTarjeta" EntityType="inf245netsoftModel.TipoTarjeta" />
@@ -43,15 +14,10 @@
     </AssociationSet>
     <EntitySet Name="Regalo" EntityType="inf245netsoftModel.Regalo" />
     <EntitySet Name="RegaloXCuenta" EntityType="inf245netsoftModel.RegaloXCuenta" />
-    <AssociationSet Name="FK__RegaloXCu__usuar__4BAC3F29" Association="inf245netsoftModel.FK__RegaloXCu__usuar__4BAC3F29">
-      <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
-      <End Role="RegaloXCuenta" EntitySet="RegaloXCuenta" />
-    </AssociationSet>
     <AssociationSet Name="R_74" Association="inf245netsoftModel.R_74">
       <End Role="Regalo" EntitySet="Regalo" />
       <End Role="RegaloXCuenta" EntitySet="RegaloXCuenta" />
     </AssociationSet>
-    <EntitySet Name="TipoDeCambio" EntityType="inf245netsoftModel.TipoDeCambio" />
     <EntitySet Name="Organizador" EntityType="inf245netsoftModel.Organizador" />
     <EntitySet Name="PuntoVenta" EntityType="inf245netsoftModel.PuntoVenta" />
     <EntitySet Name="Region" EntityType="inf245netsoftModel.Region" />
@@ -81,10 +47,6 @@
       <End Role="Categoria" EntitySet="Categoria" />
       <End Role="Categoria1" EntitySet="Categoria" />
     </AssociationSet>
-    <AssociationSet Name="CategoriasXUsuario" Association="inf245netsoftModel.CategoriasXUsuario">
-      <End Role="Categoria" EntitySet="Categoria" />
-      <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
-    </AssociationSet>
     <EntitySet Name="Pago" EntityType="inf245netsoftModel.Pago" />
     <EntitySet Name="Tarjeta" EntityType="inf245netsoftModel.Tarjeta" />
     <AssociationSet Name="R_4" Association="inf245netsoftModel.R_4">
@@ -109,10 +71,6 @@
     </AssociationSet>
     <EntitySet Name="Turno" EntityType="inf245netsoftModel.Turno" />
     <EntitySet Name="TurnoSistema" EntityType="inf245netsoftModel.TurnoSistema" />
-    <AssociationSet Name="R_26" Association="inf245netsoftModel.R_26">
-      <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
-      <End Role="Turno" EntitySet="Turno" />
-    </AssociationSet>
     <AssociationSet Name="R_9" Association="inf245netsoftModel.R_9">
       <End Role="PuntoVenta" EntitySet="PuntoVenta" />
       <End Role="Turno" EntitySet="Turno" />
@@ -129,10 +87,6 @@
     <AssociationSet Name="R_44" Association="inf245netsoftModel.R_44">
       <End Role="Asientos" EntitySet="Asientos" />
       <End Role="AsientosXFuncion" EntitySet="AsientosXFuncion" />
-    </AssociationSet>
-    <AssociationSet Name="R_32" Association="inf245netsoftModel.R_32">
-      <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
-      <End Role="Comentarios" EntitySet="Comentarios" />
     </AssociationSet>
     <EntitySet Name="PeriodoVenta" EntityType="inf245netsoftModel.PeriodoVenta" />
     <EntitySet Name="ZonaEvento" EntityType="inf245netsoftModel.ZonaEvento" />
@@ -204,14 +158,6 @@
     <EntitySet Name="DetalleVenta" EntityType="inf245netsoftModel.DetalleVenta" />
     <EntitySet Name="Ventas" EntityType="inf245netsoftModel.Ventas" />
     <EntitySet Name="VentasXFuncion" EntityType="inf245netsoftModel.VentasXFuncion" />
-    <AssociationSet Name="R_30" Association="inf245netsoftModel.R_30">
-      <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
-      <End Role="Ventas" EntitySet="Ventas" />
-    </AssociationSet>
-    <AssociationSet Name="R_34" Association="inf245netsoftModel.R_34">
-      <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
-      <End Role="Ventas" EntitySet="Ventas" />
-    </AssociationSet>
     <AssociationSet Name="R_60" Association="inf245netsoftModel.R_60">
       <End Role="PrecioEvento" EntitySet="PrecioEvento" />
       <End Role="DetalleVenta" EntitySet="DetalleVenta" />
@@ -229,13 +175,39 @@
       <End Role="VentasXFuncion" EntitySet="VentasXFuncion" />
     </AssociationSet>
     <EntitySet Name="LogDevoluciones" EntityType="inf245netsoftModel.LogDevoluciones" />
+    <AssociationSet Name="R_99" Association="inf245netsoftModel.R_99">
+      <End Role="DetalleVenta" EntitySet="DetalleVenta" />
+      <End Role="LogDevoluciones" EntitySet="LogDevoluciones" />
+    </AssociationSet>
+    <EntitySet Name="TipoDeCambio" EntityType="inf245netsoftModel.TipoDeCambio" />
+    <EntitySet Name="CuentaUsuario" EntityType="inf245netsoftModel.CuentaUsuario" />
+    <AssociationSet Name="R_32" Association="inf245netsoftModel.R_32">
+      <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
+      <End Role="Comentarios" EntitySet="Comentarios" />
+    </AssociationSet>
+    <AssociationSet Name="FK__RegaloXCu__usuar__4BAC3F29" Association="inf245netsoftModel.FK__RegaloXCu__usuar__4BAC3F29">
+      <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
+      <End Role="RegaloXCuenta" EntitySet="RegaloXCuenta" />
+    </AssociationSet>
+    <AssociationSet Name="R_26" Association="inf245netsoftModel.R_26">
+      <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
+      <End Role="Turno" EntitySet="Turno" />
+    </AssociationSet>
+    <AssociationSet Name="R_30" Association="inf245netsoftModel.R_30">
+      <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
+      <End Role="Ventas" EntitySet="Ventas" />
+    </AssociationSet>
+    <AssociationSet Name="R_34" Association="inf245netsoftModel.R_34">
+      <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
+      <End Role="Ventas" EntitySet="Ventas" />
+    </AssociationSet>
     <AssociationSet Name="R_97" Association="inf245netsoftModel.R_97">
       <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
       <End Role="LogDevoluciones" EntitySet="LogDevoluciones" />
     </AssociationSet>
-    <AssociationSet Name="R_99" Association="inf245netsoftModel.R_99">
-      <End Role="DetalleVenta" EntitySet="DetalleVenta" />
-      <End Role="LogDevoluciones" EntitySet="LogDevoluciones" />
+    <AssociationSet Name="CategoriasXUsuario" Association="inf245netsoftModel.CategoriasXUsuario">
+      <End Role="Categoria" EntitySet="Categoria" />
+      <End Role="CuentaUsuario" EntitySet="CuentaUsuario" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Banco">
@@ -319,21 +291,9 @@
     <Property Name="fechaRecojo" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="idRegalo" Type="Int32" Nullable="false" />
     <Property Name="usuario" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-    <NavigationProperty Name="CuentaUsuario" Relationship="inf245netsoftModel.FK__RegaloXCu__usuar__4BAC3F29" FromRole="RegaloXCuenta" ToRole="CuentaUsuario" />
     <NavigationProperty Name="Regalo" Relationship="inf245netsoftModel.R_74" FromRole="RegaloXCuenta" ToRole="Regalo" />
+    <NavigationProperty Name="CuentaUsuario" Relationship="inf245netsoftModel.FK__RegaloXCu__usuar__4BAC3F29" FromRole="RegaloXCuenta" ToRole="CuentaUsuario" />
   </EntityType>
-  <Association Name="FK__RegaloXCu__usuar__4BAC3F29">
-    <End Type="inf245netsoftModel.CuentaUsuario" Role="CuentaUsuario" Multiplicity="1" />
-    <End Type="inf245netsoftModel.RegaloXCuenta" Role="RegaloXCuenta" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="CuentaUsuario">
-        <PropertyRef Name="usuario" />
-      </Principal>
-      <Dependent Role="RegaloXCuenta">
-        <PropertyRef Name="usuario" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="R_74">
     <End Type="inf245netsoftModel.Regalo" Role="Regalo" Multiplicity="1" />
     <End Type="inf245netsoftModel.RegaloXCuenta" Role="RegaloXCuenta" Multiplicity="*" />
@@ -346,14 +306,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityType Name="TipoDeCambio">
-    <Key>
-      <PropertyRef Name="fecha" />
-    </Key>
-    <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="valor" Type="Double" />
-    <Property Name="estado" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-  </EntityType>
   <EntityType Name="Organizador">
     <Key>
       <PropertyRef Name="codOrg" />
@@ -527,10 +479,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="CategoriasXUsuario">
-    <End Type="inf245netsoftModel.Categoria" Role="Categoria" Multiplicity="*" />
-    <End Type="inf245netsoftModel.CuentaUsuario" Role="CuentaUsuario" Multiplicity="*" />
-  </Association>
   <EntityType Name="Pago">
     <Key>
       <PropertyRef Name="codPago" />
@@ -636,12 +584,12 @@
     <Property Name="MontoInicioDolares" Type="Double" />
     <Property Name="MontoFinSoles" Type="Double" />
     <Property Name="MontoFinDolares" Type="Double" />
-    <NavigationProperty Name="CuentaUsuario" Relationship="inf245netsoftModel.R_26" FromRole="Turno" ToRole="CuentaUsuario" />
     <NavigationProperty Name="PuntoVenta" Relationship="inf245netsoftModel.R_9" FromRole="Turno" ToRole="PuntoVenta" />
     <NavigationProperty Name="TurnoSistema" Relationship="inf245netsoftModel.R_12" FromRole="Turno" ToRole="TurnoSistema" />
     <Property Name="estadoCaja" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
     <Property Name="horaRegistro" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
     <Property Name="HoraSalida" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="CuentaUsuario" Relationship="inf245netsoftModel.R_26" FromRole="Turno" ToRole="CuentaUsuario" />
   </EntityType>
   <EntityType Name="TurnoSistema">
     <Key>
@@ -653,18 +601,6 @@
     <Property Name="activo" Type="Boolean" />
     <NavigationProperty Name="Turno" Relationship="inf245netsoftModel.R_12" FromRole="TurnoSistema" ToRole="Turno" />
   </EntityType>
-  <Association Name="R_26">
-    <End Type="inf245netsoftModel.CuentaUsuario" Role="CuentaUsuario" Multiplicity="1" />
-    <End Type="inf245netsoftModel.Turno" Role="Turno" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="CuentaUsuario">
-        <PropertyRef Name="usuario" />
-      </Principal>
-      <Dependent Role="Turno">
-        <PropertyRef Name="usuario" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="R_9">
     <End Type="inf245netsoftModel.PuntoVenta" Role="PuntoVenta" Multiplicity="1" />
     <End Type="inf245netsoftModel.Turno" Role="Turno" Multiplicity="*" />
@@ -747,8 +683,8 @@
     <Property Name="fecha" Type="DateTime" Precision="3" />
     <Property Name="codEvento" Type="Int32" Nullable="false" />
     <Property Name="usuario" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-    <NavigationProperty Name="CuentaUsuario" Relationship="inf245netsoftModel.R_32" FromRole="Comentarios" ToRole="CuentaUsuario" />
     <NavigationProperty Name="Eventos" Relationship="inf245netsoftModel.R_31" FromRole="Comentarios" ToRole="Eventos" />
+    <NavigationProperty Name="CuentaUsuario" Relationship="inf245netsoftModel.R_32" FromRole="Comentarios" ToRole="CuentaUsuario" />
   </EntityType>
   <Association Name="R_44">
     <End Type="inf245netsoftModel.Asientos" Role="Asientos" Multiplicity="1" />
@@ -759,18 +695,6 @@
       </Principal>
       <Dependent Role="AsientosXFuncion">
         <PropertyRef Name="codAsiento" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="R_32">
-    <End Type="inf245netsoftModel.CuentaUsuario" Role="CuentaUsuario" Multiplicity="1" />
-    <End Type="inf245netsoftModel.Comentarios" Role="Comentarios" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="CuentaUsuario">
-        <PropertyRef Name="usuario" />
-      </Principal>
-      <Dependent Role="Comentarios">
-        <PropertyRef Name="usuario" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -1128,9 +1052,9 @@
     <Property Name="MontoTotalSoles" Type="Double" />
     <Property Name="entradasDev" Type="Int32" Nullable="false" />
     <Property Name="montoDev" Type="Double" Nullable="false" />
+    <NavigationProperty Name="VentasXFuncion" Relationship="inf245netsoftModel.R_38" FromRole="Ventas" ToRole="VentasXFuncion" />
     <NavigationProperty Name="CuentaUsuario" Relationship="inf245netsoftModel.R_30" FromRole="Ventas" ToRole="CuentaUsuario" />
     <NavigationProperty Name="CuentaUsuario1" Relationship="inf245netsoftModel.R_34" FromRole="Ventas" ToRole="CuentaUsuario" />
-    <NavigationProperty Name="VentasXFuncion" Relationship="inf245netsoftModel.R_38" FromRole="Ventas" ToRole="VentasXFuncion" />
   </EntityType>
   <EntityType Name="VentasXFuncion">
     <Key>
@@ -1150,30 +1074,6 @@
     <NavigationProperty Name="Funcion" Relationship="inf245netsoftModel.R_76" FromRole="VentasXFuncion" ToRole="Funcion" />
     <NavigationProperty Name="Ventas" Relationship="inf245netsoftModel.R_38" FromRole="VentasXFuncion" ToRole="Ventas" />
   </EntityType>
-  <Association Name="R_30">
-    <End Type="inf245netsoftModel.CuentaUsuario" Role="CuentaUsuario" Multiplicity="1" />
-    <End Type="inf245netsoftModel.Ventas" Role="Ventas" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="CuentaUsuario">
-        <PropertyRef Name="usuario" />
-      </Principal>
-      <Dependent Role="Ventas">
-        <PropertyRef Name="cliente" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="R_34">
-    <End Type="inf245netsoftModel.CuentaUsuario" Role="CuentaUsuario" Multiplicity="0..1" />
-    <End Type="inf245netsoftModel.Ventas" Role="Ventas" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="CuentaUsuario">
-        <PropertyRef Name="usuario" />
-      </Principal>
-      <Dependent Role="Ventas">
-        <PropertyRef Name="vendedor" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="R_60">
     <End Type="inf245netsoftModel.PrecioEvento" Role="PrecioEvento" Multiplicity="1" />
     <End Type="inf245netsoftModel.DetalleVenta" Role="DetalleVenta" Multiplicity="*" />
@@ -1236,9 +1136,116 @@
     <Property Name="cantEntradas" Type="Int32" />
     <Property Name="fechaDev" Type="DateTime" Precision="3" />
     <Property Name="montoDev" Type="Double" />
-    <NavigationProperty Name="CuentaUsuario" Relationship="inf245netsoftModel.R_97" FromRole="LogDevoluciones" ToRole="CuentaUsuario" />
     <NavigationProperty Name="DetalleVenta" Relationship="inf245netsoftModel.R_99" FromRole="LogDevoluciones" ToRole="DetalleVenta" />
+    <NavigationProperty Name="CuentaUsuario" Relationship="inf245netsoftModel.R_97" FromRole="LogDevoluciones" ToRole="CuentaUsuario" />
   </EntityType>
+  <Association Name="R_99">
+    <End Type="inf245netsoftModel.DetalleVenta" Role="DetalleVenta" Multiplicity="1" />
+    <End Type="inf245netsoftModel.LogDevoluciones" Role="LogDevoluciones" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DetalleVenta">
+        <PropertyRef Name="codDetalleVenta" />
+      </Principal>
+      <Dependent Role="LogDevoluciones">
+        <PropertyRef Name="codDetalleVenta" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="TipoDeCambio">
+    <Key>
+      <PropertyRef Name="fecha" />
+    </Key>
+    <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="valor" Type="Int32" />
+    <Property Name="estado" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="CuentaUsuario">
+    <Key>
+      <PropertyRef Name="usuario" />
+    </Key>
+    <Property Name="usuario" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="correo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="contrasena" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="estado" Type="Boolean" Nullable="false" />
+    <Property Name="tipoDoc" Type="Int32" />
+    <Property Name="codDoc" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="apellido" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="direccion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="telefono" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="telMovil" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="sexo" Type="String" MaxLength="1" FixedLength="false" Unicode="false" />
+    <Property Name="fechaNac" Type="DateTime" Precision="3" />
+    <Property Name="puntos" Type="Int32" Nullable="false" />
+    <Property Name="codPerfil" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Comentarios" Relationship="inf245netsoftModel.R_32" FromRole="CuentaUsuario" ToRole="Comentarios" />
+    <NavigationProperty Name="RegaloXCuenta" Relationship="inf245netsoftModel.FK__RegaloXCu__usuar__4BAC3F29" FromRole="CuentaUsuario" ToRole="RegaloXCuenta" />
+    <NavigationProperty Name="Turno" Relationship="inf245netsoftModel.R_26" FromRole="CuentaUsuario" ToRole="Turno" />
+    <NavigationProperty Name="Ventas" Relationship="inf245netsoftModel.R_30" FromRole="CuentaUsuario" ToRole="Ventas" />
+    <NavigationProperty Name="Ventas1" Relationship="inf245netsoftModel.R_34" FromRole="CuentaUsuario" ToRole="Ventas" />
+    <NavigationProperty Name="LogDevoluciones" Relationship="inf245netsoftModel.R_97" FromRole="CuentaUsuario" ToRole="LogDevoluciones" />
+    <NavigationProperty Name="Categoria" Relationship="inf245netsoftModel.CategoriasXUsuario" FromRole="CuentaUsuario" ToRole="Categoria" />
+  </EntityType>
+  <Association Name="R_32">
+    <End Type="inf245netsoftModel.CuentaUsuario" Role="CuentaUsuario" Multiplicity="1" />
+    <End Type="inf245netsoftModel.Comentarios" Role="Comentarios" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CuentaUsuario">
+        <PropertyRef Name="usuario" />
+      </Principal>
+      <Dependent Role="Comentarios">
+        <PropertyRef Name="usuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__RegaloXCu__usuar__4BAC3F29">
+    <End Type="inf245netsoftModel.CuentaUsuario" Role="CuentaUsuario" Multiplicity="1" />
+    <End Type="inf245netsoftModel.RegaloXCuenta" Role="RegaloXCuenta" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CuentaUsuario">
+        <PropertyRef Name="usuario" />
+      </Principal>
+      <Dependent Role="RegaloXCuenta">
+        <PropertyRef Name="usuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_26">
+    <End Type="inf245netsoftModel.CuentaUsuario" Role="CuentaUsuario" Multiplicity="1" />
+    <End Type="inf245netsoftModel.Turno" Role="Turno" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CuentaUsuario">
+        <PropertyRef Name="usuario" />
+      </Principal>
+      <Dependent Role="Turno">
+        <PropertyRef Name="usuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_30">
+    <End Type="inf245netsoftModel.CuentaUsuario" Role="CuentaUsuario" Multiplicity="1" />
+    <End Type="inf245netsoftModel.Ventas" Role="Ventas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CuentaUsuario">
+        <PropertyRef Name="usuario" />
+      </Principal>
+      <Dependent Role="Ventas">
+        <PropertyRef Name="cliente" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="R_34">
+    <End Type="inf245netsoftModel.CuentaUsuario" Role="CuentaUsuario" Multiplicity="0..1" />
+    <End Type="inf245netsoftModel.Ventas" Role="Ventas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CuentaUsuario">
+        <PropertyRef Name="usuario" />
+      </Principal>
+      <Dependent Role="Ventas">
+        <PropertyRef Name="vendedor" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="R_97">
     <End Type="inf245netsoftModel.CuentaUsuario" Role="CuentaUsuario" Multiplicity="1" />
     <End Type="inf245netsoftModel.LogDevoluciones" Role="LogDevoluciones" Multiplicity="*" />
@@ -1251,16 +1258,8 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="R_99">
-    <End Type="inf245netsoftModel.DetalleVenta" Role="DetalleVenta" Multiplicity="1" />
-    <End Type="inf245netsoftModel.LogDevoluciones" Role="LogDevoluciones" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="DetalleVenta">
-        <PropertyRef Name="codDetalleVenta" />
-      </Principal>
-      <Dependent Role="LogDevoluciones">
-        <PropertyRef Name="codDetalleVenta" />
-      </Dependent>
-    </ReferentialConstraint>
+  <Association Name="CategoriasXUsuario">
+    <End Type="inf245netsoftModel.Categoria" Role="Categoria" Multiplicity="*" />
+    <End Type="inf245netsoftModel.CuentaUsuario" Role="CuentaUsuario" Multiplicity="*" />
   </Association>
 </Schema>

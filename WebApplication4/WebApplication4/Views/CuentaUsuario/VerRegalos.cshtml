@@ -1,4 +1,6 @@
-﻿
+﻿@using WebApplication4.Models;
+@using WebApplication4.Controllers;
+
 @{
     ViewBag.Title = "VerRegalos";
     Layout = "~/Views/Shared/_Layout.cshtml"; 
@@ -7,39 +9,54 @@
     List<WebApplication4.Models.Regalo> listaRegalo=new List<WebApplication4.Models.Regalo>();
     listaRegalo = db.Regalo.AsNoTracking().Where(c => c.estado == true).ToList();
 }
-
+<style>
+    tbody{cursor:text}
+</style>
 <div class="container-fluid">
-    <ol class="breadcrumb">
-        <li class=""><a href="@Url.Action("MiCuenta", "CuentaUsuario")">Mi cuenta</a></li>
-        <li class="active">Ver Regalos</li>
-    </ol>
+    <div class="col-md-4">
+        <ol class="breadcrumb">
+            <li><a href="@Url.Action("MiCuenta", "CuentaUsuario")">Mi cuenta</a></li>
+            <li class="active">Regalos</li>
+        </ol>
+    </div>
+    
 </div>
 
-<html>
-<body>
+
     <div class="container">
         <div class="row">
-            <table id="mytable" class="table table-bordered table-hover">
-                <thead>
-                    <tr class="thead">
-                        <th>Nombre</th>
-                        <th>Descripcion</th>
-                        <th>Puntos</th>
-                    </tr>
-                </thead>
-                <tbody id="tbody">
-                    @foreach (var row in listaRegalo)
-                    {
-                        //se muestran la lista de regalos activos
-                        <tr id=@row.idRegalo onclick="myFunction(this)">
-                            <td>@row.Nombre</td>
-                            <td>@row.descripcion</td>
-                            <td>@row.puntos</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+            <!--LO IMPORTANTE-->
+            <div class="col-md-8">
+                <div class="row form-group">
+                    <div class="col-md-12 table-responsive">
+                        <table id="mytable" class="table table-bordered table-hover">
+                            <thead>
+                                <tr class="thead">
+                                    <th class="col-md-3">Nombre</th>
+                                    <th class="col-md-7">Descripción</th>
+                                    <th class="col-md-2">Puntos</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody">
+                                @foreach (var row in listaRegalo)
+                                {
+                                    //se muestran la lista de regalos activos
+                                    <tr id=@row.idRegalo onclick="myFunction(this)">
+                                        <td>@row.Nombre</td>
+                                        <td>@row.descripcion</td>
+                                        <td>@row.puntos</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!--CARRUSEL-->
+            <div class="col-md-4">
+                @*{Html.RenderPartial("Destacados");}*@
+            </div>
         </div>
+        
     </div>
-</body>
-</html>

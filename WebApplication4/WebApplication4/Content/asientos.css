@@ -1,12 +1,12 @@
 ﻿#aux {
     background-color: lightgray;
     border: 1px solid black;
-    height: 50px;
+    height: 30px;
 }
 
 #canvas {
     border: 1px solid black;
-    height: 700px;
+    height: 300px;
 }
 
 #grilla-borde {
@@ -53,5 +53,5 @@
 }
 
 .ocupado {
-    background-color: black;
+    background-color: #e93e18;
 }

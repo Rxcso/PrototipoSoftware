@@ -7,9 +7,11 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<style>
+    td{text-align:center}
+</style>
 <div class="container-fluid">
-    <div class="col-md-3">
+    <div class="col-md-5">
         <ol class="breadcrumb">
             <li class="active">Mantenimiento de Empleados</li>
         </ol>
@@ -72,12 +74,12 @@
                             </div>
                         </form>
                     </div>
-                </div>                
-                
-                
+                </div>
+
+
                 @if (TempData["MessageErrorVendedor"] != null)
                 {
-                    string st=(string)TempData["MessageErrorVendedor"];                    
+                    string st = (string)TempData["MessageErrorVendedor"];
                     <div class="error">@st</div>
                 }
                 <div class="row">
@@ -89,7 +91,7 @@
                                     <th class="col-md-2">Nombre</th>
                                     <th class="col-md-3">Apellidos</th>
                                     <th class="col-md-3">Dirección</th>
-                                    <th class="col-md-1">Teléfono</thclass>
+                                    <th class="col-md-1">Teléfono</th>
                                     <th class="col-md-1">Estado</th>
                                     @*<th></th>*@
                                 </tr>
@@ -104,13 +106,12 @@
                                         <td>@row.direccion</td>
                                         <td>@row.telefono</td>
                                         @{
-                                            string state = "";
-                                            if (row.estado)
-                                            {
-                                                if ((bool)row.estado)
-                                                { state = "Activo"; }
-                                                else { state = "Inactivo"; }
-                                            }
+                                    string state = "";
+                                    if ((bool)row.estado)
+                                    {
+                                        state = "Activo";
+                                    }
+                                    else { state = "Inactivo"; }
                                         }
                                         <td>@state</td>
                                     </tr>
@@ -118,14 +119,14 @@
                             </tbody>
                         </table>
                     </div>
-                    
+
                 </div>
 
 
             </div>
 
             <!--SEGUNDA PESTAÑA-->
-            <div class="tab-pane fade" id="mPromotores">                
+            <div class="tab-pane fade" id="mPromotores">
                 <div class="row">
                     <br />
                     <div class="col-md-8">
@@ -149,7 +150,7 @@
                         </form>
                     </div>
                 </div>
-                
+
                 @if (TempData["MessageErrorPromotor"] != null)
                 {
                     string st = (string)TempData["MessageErrorPromotor"];
@@ -165,7 +166,7 @@
                                     <th class="col-md-3">Apellido</th>
                                     <th class="col-md-3">Dirección</th>
                                     <th class="col-md-1">Teléfono</th>
-                                    <th class="col-md-1">Estado</th>                                    
+                                    <th class="col-md-1">Estado</th>
                                 </tr>
                             </thead>
                             <tbody id="tbody">
@@ -178,20 +179,20 @@
                                         <td>@row.direccion</td>
                                         <td>@row.telefono</td>
                                         @{
-                                            string state = "";
-                                            if (row.estado == true)                                            
-                                            { state = "Activo"; }
-                                            else 
-                                            { state = "Inactivo"; }
+                                    string state = "";
+                                    if ((bool)row.estado)
+                                    {
+                                        state = "Activo";
+                                    }
+                                    else { state = "Inactivo"; }
                                         }
-
                                         <td>@state</td>
                                     </tr>
                                 }
                             </tbody>
                         </table>
                     </div>
-                    
+
                 </div>
 
             </div>
@@ -222,7 +223,7 @@
                 {
                     @Html.AntiForgeryToken()
                     <div class="form-horizontal">
-                        @Html.ValidationSummary(true)                        
+                        @Html.ValidationSummary(true)
                         <div class="form-group">
                             @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-3" })
                             <div class="col-md-8">
@@ -251,17 +252,17 @@
                             @Html.LabelFor(model => model.tipoDoc, new { @class = "control-label col-md-3" })
                             <div class="col-md-4">
                                 @{
-                                    List<SelectListItem> listItems = new List<SelectListItem>();
-                                    listItems.Add(new SelectListItem
-                                    {
-                                        Text = "DNI",
-                                        Value = "1",
-                                    });
-                                    listItems.Add(new SelectListItem
-                                    {
-                                        Text = "Pasaporte",
-                                        Value = "2"
-                                    });
+                    List<SelectListItem> listItems = new List<SelectListItem>();
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "DNI",
+                        Value = "1",
+                    });
+                    listItems.Add(new SelectListItem
+                    {
+                        Text = "Pasaporte",
+                        Value = "2"
+                    });
                                 }
                                 @Html.DropDownListFor(model => model.tipoDoc, listItems, "Seleccione", new { @class = "form-control" })
                             </div>
@@ -313,17 +314,17 @@
                             @Html.LabelFor(model => model.sexo, new { @class = "control-label col-md-3" })
                             <div class="col-md-3">
                                 @{
-                                    List<SelectListItem> listItemsS = new List<SelectListItem>();
-                                    listItemsS.Add(new SelectListItem
-                                    {
-                                        Text = "Masculino",
-                                        Value = "H",
-                                    });
-                                    listItemsS.Add(new SelectListItem
-                                    {
-                                        Text = "Femenino",
-                                        Value = "F"
-                                    });
+                    List<SelectListItem> listItemsS = new List<SelectListItem>();
+                    listItemsS.Add(new SelectListItem
+                    {
+                        Text = "Masculino",
+                        Value = "H",
+                    });
+                    listItemsS.Add(new SelectListItem
+                    {
+                        Text = "Femenino",
+                        Value = "F"
+                    });
                                 }
                                 @Html.DropDownListFor(model => model.sexo, listItemsS, new { @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.sexo)
@@ -342,7 +343,7 @@
                         </div>
                     </div>
                 }
-            </div>            
+            </div>
         </div>
     </div>
 </div>
@@ -364,7 +365,7 @@
                     @Html.AntiForgeryToken()
 
                     <div class="form-horizontal">
-                        @Html.ValidationSummary(true)                        
+                        @Html.ValidationSummary(true)
                         <div class="form-group">
                             @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-3" })
                             <div class="col-md-8">
@@ -484,7 +485,7 @@
                         </div>
                     </div>
                 }
-            </div>            
+            </div>
         </div>
     </div>
 </div>
@@ -584,7 +585,7 @@
         //alert(evento);
         //alert(promocion);
         if (usuario != "" && usuario != null) {
-            if (estado != "False") {
+            if (estado != "Inactivo") {
                 $.ajax({
                     url: "@Url.Action("Delete", "Empleado")",
                     data: { usuario: usuario },
@@ -614,7 +615,7 @@
         //alert(evento);
         //alert(promocion);
         if (usuario != "" && usuario != null) {
-            if (estado != "True") {
+            if (estado != "Activo") {
                 $.ajax({
                     url: "@Url.Action("Active", "Empleado")",
                     data: { usuario: usuario },
@@ -642,7 +643,7 @@
         //alert(evento);
         //alert(promocion);
         if (usuario != "" && usuario != null) {
-            if (estado != "False") {
+            if (estado != "Inactivo") {
                 $.ajax({
                     url: "@Url.Action("Delete", "Empleado")",
                     data: { usuario: usuario },
@@ -672,7 +673,7 @@
         //alert(evento);
         //alert(promocion);
         if (usuario != "" && usuario != null) {
-            if (estado != "True") {
+            if (estado != "Activo") {
                 $.ajax({
                     url: "@Url.Action("Active", "Empleado")",
                     data: { usuario: usuario },
@@ -764,7 +765,7 @@
         var usuario = $('#idEmpleadoT').val();
         var estado = $('#EstadoEmpT').val();
         if (usuario != "") {
-            if (estado != "False") {
+            if (estado != "Inactivo") {
                 var elem = document.getElementById("idEmpleadoT");
                 elem.value = "";
                 window.location.href = '/Empleado/Edit?usuario=' + usuario;
@@ -781,7 +782,7 @@
         var usuario = $('#idPromotorT').val();
         var estado = $('#EstadoProT').val();
         if (usuario != "") {
-            if (estado != "False") {
+            if (estado != "Inactivo") {
                 var elem = document.getElementById("idPromotorT");
                 elem.value = "";
                 window.location.href = '/Empleado/Edit?usuario=' + usuario;

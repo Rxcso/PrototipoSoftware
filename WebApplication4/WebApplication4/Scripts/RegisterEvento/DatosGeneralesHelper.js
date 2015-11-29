@@ -54,7 +54,33 @@ function llenaOrg() {
 function llenaLocal() {
     var nomb = $('input[name="groupL"]:checked').val();
     var idl = $('input[name="groupL"]:checked').attr('id');
+    var idProv = $('input[name="groupL"]:checked').data("prov");
+    var idDep = $('input[name="groupL"]:checked').data("dep");
+    var nProv = $('input[name="groupL"]:checked').data("nprov");
+    var nombreProv = String(nProv);
+    nombreProv = nombreProv.replace('<', '');
+    nombreProv = nombreProv.replace('>', '');
+    $('select#idRegion').val(idDep);
+    var provincia = $('select#idProv');
+    provincia.append($("<option></option>").val(idProv).html(nombreProv));
+    provincia.val(idProv);
+    $('select#idRegion').attr('disabled', 'disabled');
+    $('select#idProv').attr('disabled', 'disabled');
+    $('input#idRegion').val(idDep);
+    $('input#idProv').val(idProv);
     $("#localNombre").val(nomb);
     $('#valLocal').val(idl);
     $('#modalBuscarLocal').modal('hide');
+    $('#Direccion').val('');
+}
+
+function cambio() {
+    $('select#idRegion').removeAttr('disabled');
+    $('select#idProv').removeAttr('disabled');
+    $('select#idRegion').val(0)
+    $('select#idProv').val(0);
+    $('input#idRegion').val(0);
+    $('input#idProv').val(0)
+    $("#localNombre").val('');
+    $('#valLocal').val('');
 }

@@ -1,25 +1,80 @@
-
-#busqAvanzada{text-align: center; margin-top: 10px;}
-header{margin-bottom: 10px}
-#barra{background-color: #337ab7; color: white }
-#seccionPrincipal{}
-#carousel-1{margin-bottom: 10px}
+* {    padding: 0px;margin:0px}
+#busqAvanzada{text-align: center; margin-top: 10px;margin-bottom: 10px}
+header{}
 #footer{background: #101010;height: 100px;color: white;text-align: center}
 .event{cursor: pointer}
-#logeado{display: none}
 
-
- tbody {
+tbody {
         cursor: pointer;
-}
-    
+}    
 .trselected {
         background: #F1F1F1;
         font-weight: bold;
 }
-
 thead {
         background-color: #337AB7;
         color: white;
         font-weight: bold;
 }
+/*CARRITO DE COMPRAS*/
+#barraLateral{
+    position: fixed;
+    top: 450px;   
+    left:0px; 
+    border:1px solid white;   
+}
+#barraLateral li{
+    list-style: none;    
+    width: 60px;
+    height: 60px;    
+    cursor: pointer;    
+    -webkit-transition: width 0.2s;    
+    -moz-transition: width 0.2s; 
+    -ms-transition: width 0.2s;
+    -o-transition: width 0.2s;
+}
+#barraLateral li a{    
+    display: block;
+    width: inherit;
+    height: inherit;    
+    text-decoration: none;
+    color: white;
+}
+#barraLateral li:hover{width: 70px}
+#barraLateral li:nth-of-type(1){background: #990000}
+
+@media only screen and (max-width: 870px) {
+    #barraLateral {
+        display:none;
+    }
+}
+
+
+/*ESTILOS DE LOS REPORTES*/
+
+.numero {
+        text-align:right;
+    }
+    .btn-excel {
+        background-color: #207245;
+        color:white;
+    }    
+    th{text-align:center}
+
+
+    /*PARA LAS TABLAS*/
+    .c{text-align:center}
+    .l{text-align:start}
+    .r{text-align:end}
+    .table > tbody > tr > th {
+        vertical-align:middle;
+    }
+
+    /*Truncar los nombres de los eventos en index2*/
+    .suspensivos{
+        overflow:hidden;
+        text-overflow:ellipsis;
+        height:18px;
+        white-space:nowrap;
+        width:inherit;
+    }

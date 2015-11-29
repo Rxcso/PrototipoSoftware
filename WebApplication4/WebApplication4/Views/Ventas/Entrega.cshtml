@@ -10,8 +10,16 @@
     {
         listaEntrega = (List<WebApplication4.Models.VentasXFuncion>)Session["EntregaBusca"];
     }
+    Turno tu = null;
+    //se comprueba si el usuario que se logueo tiene un turno asignado almacenado en session
+    if (Session["TurnoHoy"] != null)
+    {
+        tu = (Turno)Session["TurnoHoy"];
+    }
 }
-
+<style>
+    td{text-align:center}
+</style>
 <div class="container-fluid">
     <div class="col-md-5">
         <ol class="breadcrumb">
@@ -42,66 +50,85 @@
             </div>
         </div>
 
+        @*si existe un turno y la caja para ese turno esta abierta aparece la opcion para pagar reserva*@
+        @if (tu != null && tu.estadoCaja == "Abierto")               
+        {
         <div class="col-md-5">
-            <a href="#imprimir" class="btn btn-primary " data-toggle="modal">Entregar boletos <span class="glyphicon glyphicon-tags"></span></a>
+            <a href="#imprimir" class="btn btn-primary " data-toggle="modal"><span class="fa fa-ticket fa-lg"></span> Entregar boletos</a>
             @*<a href="@Url.Action("Index2", "Home")" class="btn btn-danger pull-right">Salir <span class="glyphicon glyphicon-log-out"></span></a>*@
-        </div>
+        </div>                
+        }
+        else
+        {
+            if (tu == null)
+            {
+                <h6>Debes tener un Turno</h6>
+            }
+            else
+            {
+                if (tu.estadoCaja != "Abierto")
+                {
+                    <h6>Caja debe estar Abierta</h6>
+                }
+            }
+        }
     </div>
 
-
     <div class="row">
-        <h4>Resultados:</h4><br>
-        <div class="row">
-            <table id="mytable" class="table table-bordered table-hover">
-                <thead>
-                    <tr class="thead">
-                        <th>Código Venta</th>
-                        <th>N° Doc</th>
-                        <th>Nombre</th>
-                        <th>Evento</th>
-                        <th>Cantidad Entradas</th>
-                        <th>Fecha</th>
-                        <th>Hora</th>
-                        <th>Monto Total</th>
-
-                    </tr>
-                </thead>
-                <tbody id="tbody">
-                    @if (listaEntrega != null)
-                    {
-                        foreach (var row in listaEntrega)
+        <div class="col-md-12">
+            <h4>Resultados:</h4>
+            <div class="table-responsive">
+                <table id="mytable" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th class="col-md-1">Código Venta</th>
+                            <th class="col-md-1">Fecha Venta</th>
+                            <th class="col-md-1">N° Doc</th>
+                            <th class="col-md-2">Nombre</th>
+                            <th class="col-md-3">Evento</th>
+                            <th class="col-md-1">Cantidad Entradas</th>
+                            <th class="col-md-1">Fecha Función</th>
+                            <th class="col-md-1">Hora</th>
+                            <th class="col-md-1">Monto Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody">
+                        @if (listaEntrega != null)
                         {
-                            <tr id=@row.codVen onclick="myFunction(this)">
-                                <td>@row.codVen</td>
-                                @{
-                            Ventas ve = db.Ventas.Find(row.codVen);
-                            Funcion fu = db.Funcion.Find(row.codFuncion);
-                            CuentaUsuario cu = db.CuentaUsuario.Find(ve.cliente);
-                            TimeSpan ti = fu.horaIni.Value.TimeOfDay;
-                                }
-                                <td>@ve.codDoc</td>
-                                @if (cu != null && cu.usuario != "a@anonimo.com")
-                                {
-                                    <td>@cu.nombre @cu.apellido</td>
-                                }
-                                else
-                                {
-                                    <td>--</td>
-                                }
-                                <td>@db.Eventos.Find(fu.codEvento).nombre</td>
-                                <td>@row.cantEntradas</td>
-                                <td>@fu.fecha.Value.ToString("dd/MM/yyyy")</td>
-                                <td>@ti.ToString(@"hh\:mm\:ss")</td>
-                                <td>@ve.MontoTotalSoles</td>
+                            foreach (var row in listaEntrega)
+                            {
+                                <tr id=@row.codVen onclick="myFunction(this)">
+                                    <td>@row.codVen</td>
+                                    @{
+                                Ventas ve = db.Ventas.Find(row.codVen);
+                                Funcion fu = db.Funcion.Find(row.codFuncion);
+                                CuentaUsuario cu = db.CuentaUsuario.Find(ve.cliente);
+                                TimeSpan ti = fu.horaIni.Value.TimeOfDay;
+                                    }
+                                    <td>@ve.fecha.Value.ToString("dd/MM/yyyy")</td>
+                                    <td>@ve.codDoc</td>
+                                    @if (cu != null && cu.usuario != "a@anonimo.com")
+                                    {
+                                        <td>@cu.nombre @cu.apellido</td>
+                                    }
+                                    else
+                                    {
+                                        <td>--</td>
+                                    }
+                                    <td>@db.Eventos.Find(fu.codEvento).nombre</td>
+                                    <td>@row.cantEntradas</td>
+                                    <td>@fu.fecha.Value.ToString("dd/MM/yyyy")</td>
+                                    <td>@ti.ToString(@"hh\:mm\:ss")</td>
+                                    <td>@row.total</td>
 
-                            </tr>
+                                </tr>
+                            }
                         }
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div><br>
-
+                    </tbody>
+                </table>
+            </div>
+        </div>        
+    </div>
 </div>
 
 <input type="hidden" id="codVenT" value="" />
@@ -134,16 +161,19 @@
                 alert("Error :(");
             }
         });
+    }
+    function imprimir() {
+        if ($("#codVenT").val() == '') {
 
+            alert("Seleccione una venta");
+            return;
+        }
+
+        var myWindow = window.open("", "Boleto", 'height=250, width=720');
+        myWindow.location.href = '/Ventas/PrintTicket?codVenT=' + $("#codVenT").val();
     }
 
 </script>
-<style>
-    .trselected {
-        background: gray;
-    }
-</style>
-
 
 <div class="modal fade" id="imprimir">
     <div class="modal-dialog">
@@ -156,8 +186,8 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-xs-6">
-                        <a class="btn btn-primary pull-right" href="" data-dismiss="modal" aria-hidden="true">Entregar e imprimir <span class="glyphicon glyphicon-print"></span></a>
-                    </div>
+                        <a id="printBtn" class="btn btn-primary pull-right" onclick="imprimir()" data-dismiss="modal" aria-hidden="true">Entregar e imprimir <span class="glyphicon glyphicon-print"></span></a>
+                   </div>
 
                     <div class="col-md-6 col-sm-6 colxs-6">
                         <a class="btn btn-danger pull-left" href="" aria-hidden="true" data-dismiss="modal">Cancelar <span class="glyphicon glyphicon-remove"></span></a>

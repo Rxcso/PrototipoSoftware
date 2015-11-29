@@ -22,120 +22,135 @@
     }
 
 }
-
+<style>
+    td{text-align:center}
+</style>
 <div class="container-fluid">
     <div class="col-md-5">
         <ol class="breadcrumb">
-            <li class="active">Asignar turnos</li>
+            <li class="active">Asignar turnos y puntos de venta al personal</li>
         </ol>
     </div>
 </div>
 
-<div class="container">
+<div class="container">    
     <div class="row">
-        <div class="col-md-3">
-            <a class="btn btn-primary" onclick="registrar()" href="" data-toggle="modal">Agregar <span class="glyphicon glyphicon-plus"></span></a>
-            <a class="btn btn-primary" onclick="borrarT()" href="">Borrar <span class="glyphicon glyphicon-remove"></span></a>
-        </div>
-
-        <div>
-            @*<a href="@Url.Action("Index2", "Home")" class="btn btn-danger pull-right" data-dismiss="modal" aria-hidden="true">Salir <span class="glyphicon glyphicon-log-out"></span> </a>*@<br>
-        </div>
-
-    </div><br>
-
-    <div class="row form-group">
-        <label for="" class="control-label col-md-3">Vendedor:</label>
-        <div class="col-md-3">
-            <input type="text" id="idVend" class="form-control" value="@idvend" readonly="true">
-        </div>
-        <div class="col-md-5">
-            <div class="input-group">
-                <input type="text" class="form-control" id="vendedorNombre" value="@nombV" readonly="true">
-                <span class="input-group-btn"><a href="#modalBuscarVendedor" class="btn btn-primary" data-toggle="modal" type="button">Buscar <span class="glyphicon glyphicon-search"></span></a></span>
+        <div class="col-md-12">
+            <div class="form-group">
+                <label class="control-label col-md-2 col-sm-2 col-xs-2">Vendedor:</label>
+                <div class="col-md-5 col-sm-5 col-xs-5">
+                    <input type="text" id="idVend" class="form-control" value="@idvend" readonly="true">
+                </div>
+                <div class="col-md-5 col-sm-5 col-xs-5">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="vendedorNombre" value="@nombV" readonly="true">
+                        <span class="input-group-btn"><a href="#modalBuscarVendedor" class="btn btn-primary" data-toggle="modal" type="button">Buscar <span class="glyphicon glyphicon-search"></span></a></span>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </div><br />
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="nombreEvento" class="control-label col-md-2 col-sm-2 col-xs-2">Fecha:</label>
+                <div class="col-md-5 col-sm-5 col-xs-5">
+                    <div class="input-group">
+                        <span class="input-group-addon">Desde:</span>
+                        <input id="fini" type="date" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-5 col-sm-5 col-xs-5">
+                    <div class="input-group">
+                        <span class="input-group-addon">Hasta:</span>
+                        <input id="ffin" type="date" class="form-control">
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="row form-group">
-        <label for="nombreEvento" class="control-label col-md-3">Fecha:</label>
-        <div class="col-md-3">
-            <div class="input-group">
-                <span class="input-group-addon">Desde:</span>
-                <input id="fini" type="date" class="form-control">
+    </div><br />
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="nombreEvento" class="control-label col-md-2">Puntos de venta:</label>
+                <div class="col-md-3">
+                    <select name="" id="comboReg" class="form-control" onchange="cambio()">
+                        <option value="0">Departamento</option>
+                        @foreach (var item in listaDepart)
+                        {
+                            <option value="@item.idRegion">
+                                @item.nombre
+                            </option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select name="" id="comboProv" onchange="cambio2()" class=" form-control"></select>
+                </div>
+                <div class="col-md-5">
+                    <select name="" id="comboPunto" class="form-control"></select>
+                </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="input-group">
-                <span class="input-group-addon">Hasta:</span>
-                <input id="ffin" type="date" class="form-control">
+    </div><br />
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="nombreEvento" class="control-label col-md-2 col-sm-2 col-xs-2">Turno:</label>
+                <div class="col-md-3 col-sm-3 col-xs-3">
+                    <select name="" id="comboBusq" class="form-control">
+                        <option value="0">Seleccionar</option>
+                        @foreach (var item in listaTurno)
+                        {
+                            <option value="@item.codTurnoSis">
+                                @item.horIni - @item.horFin
+                            </option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-7 col-sm-7 col-xs-7">
+                    <center>
+                        <a class="btn btn-primary" onclick="registrar()" href="" data-toggle="modal"><span class="glyphicon glyphicon-plus"></span> Agregar</a>
+                        <a class="btn btn-danger" onclick="borrarT()" href=""><span class="glyphicon glyphicon-trash"></span> Eliminar</a>
+                    </center>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="row form-group">
-        <label for="nombreEvento" class="control-label col-md-3">Puntos de venta:</label>
-        <div class="col-md-3">
-            <select name="" id="comboReg" class="form-control" onchange="cambio()">
-                <option value="0">Seleccionar</option>
-                @foreach (var item in listaDepart)
-                {
-                    <option value="@item.idRegion">
-                        @item.nombre
-                    </option>
-                }
-            </select>
-        </div>
-        <div class="col-md-3">
-            <select name="" id="comboProv" onchange="cambio2()" class=" form-control"></select>
-        </div>
-        <div class="col-md-3">
-            <select name="" id="comboPunto" class="form-control"></select>
-        </div>
-    </div>
+    </div><br />
 
-    <div class="row form-group">
-        <label for="nombreEvento" class="control-label col-md-3">Turno:</label>
-        <div class="col-md-3">
-            <select name="" id="comboBusq" class="form-control">
-                <option value="0">Seleccionar</option>
-                @foreach (var item in listaTurno)
-                {
-                    <option value="@item.codTurnoSis">
-                        @item.horIni - @item.horFin
-                    </option>
-                }
-            </select>
-        </div>
-    </div>
     <h4>Asignación</h4>
     <div class="row">
-        <table id="mytable" class="table table-bordered table-hover">
-            <thead>
-                <tr class="thead">
-                    <th>Codigo de Punto</th>
-                    <th>Punto de Venta</th>
-                    <th>Fecha</th>
-                    <th>Hora Inicio</th>
-                    <th>Hora Fin</th>
-                </tr>
-            </thead>
-            <tbody id="tbody">
-                @if (listaTurnoAsig != null)
-                {
-                    foreach (var row in listaTurnoAsig)
-                    {
-                        <tr id=@row.usuario onclick="myFunction(this)">
-                            <td>@db.PuntoVenta.Find(@row.codPuntoVenta).codPuntoVenta</td>
-                            <td>@db.PuntoVenta.Find(@row.codPuntoVenta).ubicacion</td>
-                            <td>@row.fecha.ToString("dd/MM/yyyy")</td>
-                            <td>@db.TurnoSistema.Find(@row.codTurnoSis).horIni</td>
-                            <td>@db.TurnoSistema.Find(@row.codTurnoSis).horFin</td>
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table id="mytable" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th class="col-md-2">Código de Punto</th>
+                            <th class="col-md-4">Punto de Venta</th>
+                            <th class="col-md-2">Fecha</th>
+                            <th class="col-md-2">Hora Inicio</th>
+                            <th class="col-md-2">Hora Fin</th>
                         </tr>
-                    }
-                }
-            </tbody>
-        </table>
+                    </thead>
+                    <tbody id="tbody">
+                        @if (listaTurnoAsig != null)
+                        {
+                            foreach (var row in listaTurnoAsig)
+                            {
+                                <tr id=@row.usuario onclick="myFunction(this)">
+                                    <td>@db.PuntoVenta.Find(@row.codPuntoVenta).codPuntoVenta</td>
+                                    <td>@db.PuntoVenta.Find(@row.codPuntoVenta).ubicacion</td>
+                                    <td>@row.fecha.ToString("dd/MM/yyyy")</td>
+                                    <td>@db.TurnoSistema.Find(@row.codTurnoSis).horIni</td>
+                                    <td>@db.TurnoSistema.Find(@row.codTurnoSis).horFin</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>                    
     </div>
-
 </div><!--Fin del container-->
 
 
@@ -144,37 +159,36 @@
         <div class="modal-content">
             <!--ACA VA EL CONTENIDO DEL MODAL-->
             <!--contenido de la ventana-->
-            <div class="modal-body">
-                <form action="" class="form-horizontal">
-                    <div class="form-group">
-                        @{
-                            List<WebApplication4.Models.CuentaUsuario> vendList = db.CuentaUsuario.Where(c => c.estado == true && c.codPerfil == 2).ToList();
-                        }
-                        <table class="table table-bordered table-hover" id="tablita">
-                            <thsead>
-                                <tr class="thead">
-                                    <th>Id</th>
-                                    <th>Nombre</th>
-                                    <th>Seleccionar</th>
+            <div class="modal-body">       
+                <div class="form-group">
+                    @{
+                        List<WebApplication4.Models.CuentaUsuario> vendList = db.CuentaUsuario.Where(c => c.estado == true && c.codPerfil == 2).ToList();
+                    }
+                    <table class="table table-bordered table-hover" id="tablita">
+                        <thead>
+                            <tr class="thead">
+                                <th>Correo</th>
+                                <th>Nombre</th>
+                                <th>Seleccionar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var vend in vendList)
+                            {
+                                <tr id=@vend.usuario.Replace("@", "°") onclick="myFunction(this)">
+                                    <td>@vend.usuario.Replace("@", "°")</td>
+                                    <td>@vend.nombre</td>
+                                    <td><input type="radio" name="groupO" value="@vend.usuario.Replace("@", "°")"></td>
                                 </tr>
-                            </thsead>
-                            <tbody>
-                                @foreach (var vend in vendList)
-                                {
-                                    <tr id=@vend.usuario.Replace("@", "°") onclick="myFunction(this)">
-                                        <td>@vend.usuario.Replace("@", "°")</td>
-                                        <td>@vend.nombre</td>
-                                        <td><input type="radio" name="groupO" value="@vend.usuario.Replace("@", "°")"></td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </form>
+                            }
+                        </tbody>
+                    </table>
+                </div>                                    
             </div>
             <!--footer de la ventana-->
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="llenaVend()"><span class="glyphicon glyphicon-ok"></span> Seleccionar</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="llenaVend()">Seleccionar</button>
             </div>
         </div>
     </div>
@@ -280,7 +294,7 @@
         var depId = parseInt($("#comboReg").val());
         if (isNaN(depId)) return;
         $("#comboProv").empty();
-        $("#comboProv").append("<option value=''>Distritos</option>")
+        $("#comboProv").append("<option value=''>Provincia</option>")
         $.ajax({
             url: "Distritos",
             data: { depId: depId },
@@ -318,8 +332,3 @@
     }
 </script>
 
-<style>
-    .trselected {
-        background: gray;
-    }
-</style>

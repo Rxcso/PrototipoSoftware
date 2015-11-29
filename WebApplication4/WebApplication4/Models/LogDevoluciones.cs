@@ -21,7 +21,7 @@ namespace WebApplication4.Models
         public Nullable<System.DateTime> fechaDev { get; set; }
         public Nullable<double> montoDev { get; set; }
     
-        public virtual CuentaUsuario CuentaUsuario { get; set; }
         public virtual DetalleVenta DetalleVenta { get; set; }
+        public virtual CuentaUsuario CuentaUsuario { get; set; }
     }
 }

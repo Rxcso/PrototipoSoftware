@@ -1,18 +1,15 @@
 ﻿@using Microsoft.AspNet.Identity
 @using WebApplication4.Models;
-
-
-
 @{
     ViewBag.Title = "ReporteAsistencia";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
-
     inf245netsoft db = new inf245netsoft();
-
 }
-
-
+<style>
+    td {
+        text-align: center;
+    }
+</style>
 
 <div class="container-fluid">
     <div class="col-md-5">
@@ -22,193 +19,148 @@
     </div>
 </div>
 
-<div class="container">
-    <div class="row">
-        @*<a class="btn btn-danger pull-right" href=@Url.Action("Index2", "Home")>Salir <span class="glyphicon glyphicon-log-out"></span></a>*@
-    </div>
-    <div class="row">
-
-
-        @using (Html.BeginForm("ReporteAsistencia", "CuentaUsuario", FormMethod.Post, new { @class = "form-horizontal" }))
+<div class="container">  
+    <div id="alerta" class="alert alert-warning" hidden></div>
+    <center class="row">
+        @using (Html.BeginForm("ReporteAsistencia", "CuentaUsuario", FormMethod.Post, new { @class = "" }))
         {
-            <div id="alerta" class="alert alert-warning" hidden></div>
-            <div class="form-group">
-                <label for="fIni" class="control-label col-md-2">Fecha de Inicio:</label>
-                <div class="col-md-4">
-                    <input name="calendario" type="date" class="form-control" id="fIni" placeholder="">
+            <div>
+                <div class="form-inline">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon">Desde:</span>
+                                <input id="fIni" type="text" class="form-control fechar">
+                            </div>
+                        </div>
+                        &nbsp;
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon">Hasta:</span>
+                                <input id="fFin" type="text" class="form-control fechar">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <div class="form-group">
-                <label for="fFin" class="control-label col-md-2">Fecha de Fin:</label>
-                <div class="col-md-4">
-                    <input name="calendario" type="date" class="form-control" id="fFin" placeholder="">
+            <br><br>            
+            <div>
+                <div class="form-inline">
+                    <div class="col-md-12">
+                        <label for="nombre" class="control-label col-md-4 ">Nombre del vendedor:</label>
+                        <div class="col-md-8">
+                            <input name="nomvendedor" type="text" class="form-control" id="nombre" placeholder="">
+                        </div>
+                    </div>
                 </div>
-            </div>
-
-            <div class="form-group">
-                <label for="nombre" class="control-label col-md-2">Nombre del Vendedor:</label>
-                <div class="col-md-10">
-                    <input name="nomvendedor" type="text" class="form-control" id="nombre" placeholder="">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="puntoVenta" class="control-label col-md-2">Punto de venta:</label>
-
-                @{
-
-
+            </div><br><br>
+            
+            <div>
+                <div class="form-inline">
+                    <label for="puntoVenta" class="control-label col-md-4">Punto de venta:</label>
+                    @{
             try
             {
                 var data = from obj in db.PuntoVenta
                            select obj;
-
-
-                <div class="col-md-3">
+                <div class="col-md-8">
                     <select id="puntoVenta" class="form-control ">
                         @foreach (var punto in data)
                         {
-                            <option value="@punto.codPuntoVenta">@punto.ubicacion</option>
-
+                            <option value="@punto.codPuntoVenta">@punto.nombre</option>
                         }
-
-
                     </select>
                 </div>
-
-
             }
             catch (Exception ex)
             {
                 //No pudo cargar los puntos de venta
                 Console.WriteLine(ex.StackTrace);
-
             }
-
-
-                }
-
-
-            </div>
-
-            <div class="row">
-                <div style="text-align: center">
-
-
-                    <a id="generarReport" class="btn btn-primary" onclick="realizar()">Generar <span class="glyphicon glyphicon-file"></span></a>
-                    <a id="newReport" class="btn btn-primary" onclick="nuevoReporte()">Nuevo Reporte <span class=""></span></a>
-
-                    <a id="export-btn" onclick="generarExcel()" target="_blank" class="btn btn-primary "> Exportar a Excel </a>
+                    }
                 </div>
-            </div>
 
-
-
+            </div><br><br>
+            
+            <div>
+                <div class="form-inline">
+                    <center>
+                        <a id="generarReport" class="btn btn-primary" onclick="realizar()"><span class="fa fa-table fa-lg"></span> Generar</a>
+                        <a id="newReport" class="btn btn-primary" onclick="nuevoReporte()"><span class="fa fa-table fa-lg"></span> Nuevo Reporte</a>
+                        <a id="export-btn" onclick="generarExcel()" target="_blank" class="btn btn-success btn-excel"><span class="fa fa-file-excel-o fa-lg"></span> Exportar a Excel </a>
+                    </center>
+                </div>
+            </div><br /><br />
         }
-
-
-    </div>
+    </center>
 
     <div class="row">
-        <div id="my_result_table"><p></p></div>
+        <div class="col-md-12">
+            <div id="my_result_table"><p></p></div>
+        </div>
+        
     </div>
 </div>
 
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script>
 
-
+@section scripts{
+    <script>
     $(document).ready(function () {
-
         $("#export-btn").hide();
         $('#newReport').hide();
-
-
     });
+
     function realizar() {
-
         //Validacion de fechas
-
-
-
         var valor = $("#alerta").children('strong');
         if (valor.length > 0) {
-
             valor.remove();
-
         }
-
         $("#alerta").hide();
-
         fechF = $("#fFin").val();
         fechI = $("#fIni").val();
-
-
-
-
         if (fechI == '') {
-            $("#alerta").append('<strong>Fecha desde es obligatorio</strong>').show();
+            $("#alerta").append('<strong>"Fecha desde" es obligatorio</strong>').show();
             return;
-
         }
         if (fechF == '') {
-
             var date = new Date();
             fechF = date.getFullYear() + "-" + (date.getMonth() + 1).toString() + "-" + date.getDate().toString();
             $('#fFin').val(fechF);
-
         }
-
         if (fechF != '' && fechI != '') {
-
-
             if (new Date(fechF.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1")) < new Date(fechI.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1"))) {
-
-                $("#alerta").append('<strong>Fecha hasta no puede ser menor que fecha desde</strong>').show();
+                $("#alerta").append('<strong>"Fecha hasta" no puede ser menor que "Fecha desde"</strong>').show();
                 return;
             }
-
         }
-
-
-
 
         $.ajax({
             type: "POST",
             url: "/CuentaUsuario/ObtenerAsistencia",
-            data: { fechIni: fechI, fechFin: fechF, nombre: $("#nombre").val(), puntoEventa: $("#puntoVenta").val() },
+            data: { fechIni: fechI, fechFin: fechF, nombre: $("#nombre").val(), puntoVenta: $("#puntoVenta").val() },
             datatype: "json",
             success: function (data) {
-
-
-
                 var nombV = document.getElementById("nombre").value;
                 var pVent = document.getElementById("puntoVenta");
                 var str = pVent.options[pVent.selectedIndex].text;
 
-                t1 = "<h2> Punto de Venta: " + str + "</h2>";
-                myTable = t1 + "<table class='table table-bordered table-hover'>";
-                myTable += "<tr><th>Fecha</th>";
-                myTable += "<th>Vendedor</th><th>Hora de Ingreso</th><th>Hora de Salida</th>";
-                myTable += "<th>Hora Registrada</th>";
-                myTable += "<th>Asistio</th></tr>";
-
+                t1 = "<center><h4>REPORTE DE ASISTENCIA</h4><center>";
+                t2 = "<center><h4> Punto de venta: " + str + "</h4><center>";
+                myTable = t1 + t2 +"<div class='table-responsive'><table class='table table-bordered table-hover'>";
+                myTable += "<thead><tr><th>Fecha</th>";
+                myTable += "<th>Vendedor</th><th>Hora de ingreso</th><th>Hora de salida</th>";
+                myTable += "<th>Hora registrada</th>";
+                myTable += "<th>Observación</th></tr></thead>";
 
                 $.each(data, function (k, v) {
-
                     var date = new Date(parseInt(v.Fecha.substr(6)));
                     var fecha = date.getDate().toString() + "/" + (date.getMonth() + 1).toString() + "/" + date.getFullYear();
-
                     myTable += "<tr><td> " + fecha + "</td>";
                     myTable += "<td> " + v.Nombre + "</td>";
                     myTable += "<td>" + v.HoraEntrada + "</td><td>" + v.HoraSalida + "</td><td>" + v.HoraRegistro + "</td><td>" + v.Asistio + "</td></tr>";
-
-
                 });
-
-
-                myTable += "</table>";
+                myTable += "</table></div>";
                 document.getElementById("my_result_table").innerHTML = myTable;
 
                 $("#export-btn").show();
@@ -220,27 +172,21 @@
                 alert("Error :(");
             }
         });
-
-
-
     }
 
     function nuevoReporte() {
-
         $('#export-btn').hide();
         $("#my_result_table").empty();
         $("#newReport").hide();
         $("#generarReport").show();
         $("#fFin").val("");
         $("#fIni").val("");
-
     }
 
     function generarExcel() {
-
         window.open('data:application/vnd.ms-excel,' + encodeURIComponent($('div[id$=my_result_table]').html()));
         e.preventDefault();
+    }
+</script>
 
     }
-
-</script>

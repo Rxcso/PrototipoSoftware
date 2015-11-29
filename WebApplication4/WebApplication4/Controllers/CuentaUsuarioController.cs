@@ -223,338 +223,6 @@ namespace WebApplication4.Controllers
         private ApplicationUserManager _userManager;
         private inf245netsoft db = new inf245netsoft();
 
-        //solo sirve para el primer caso del banco y tipo tarjeta. Luego uso otra funcion que retorna un json
-        private Promociones CalculaMejorPromocionTarjeta(int codEvento, int idBanco, int tipoTarjeta)
-        {
-            try
-            {
-                //busco las promociones que se encuentren activas
-                List<Promociones> promociones = db.Promociones.Where(c => c.codEvento == codEvento && c.codBanco == idBanco && c.codTipoTarjeta == tipoTarjeta && c.estado == true && c.fechaIni <= DateTime.Today && DateTime.Today <= DateTime.Today).ToList();
-                promociones.Sort((a, b) => ((double)a.descuento).CompareTo((double)b.descuento));
-                return promociones.Last();
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
-
-        public ActionResult ComprarEntradaReservadaA(string reserva)
-        {
-
-            TempData["idReservaCompra"] = reserva;
-            Session["idReservaCompra"] = reserva;
-
-            if (reserva != "" && reserva != null)
-            {
-                int id = int.Parse(reserva);
-
-                Ventas queryVentas = db.Ventas.Where(c => c.codVen == id).First();
-                VentasXFuncion queryVF = db.VentasXFuncion.Where(c => c.codVen == id).First();
-                int codFun = queryVF.codFuncion;
-
-                Funcion queryF = db.Funcion.Where(c => c.codFuncion == codFun).First();
-
-                int codEvento = queryF.codEvento;
-
-                double? precio = queryVF.subtotal;
-
-                TempData["dniCli"] = queryVentas.codDoc;
-                Session["dniCli"] = queryVentas.codDoc;
-                ViewBag.dniCli = queryVentas.codDoc;
-
-                //lista de bancos
-                List<Banco> bancos = db.Banco.ToList();
-                ViewBag.Bancos = new SelectList(bancos, "codigo", "nombre");
-                //lista de tarjetas
-                List<TipoTarjeta> tipoTarjeta = db.TipoTarjeta.ToList();
-
-                ViewBag.TipoTarjeta = new SelectList(tipoTarjeta, "idTipoTar", "nombre");
-                List<Promociones> listaPromociones = new List<Promociones>();
-
-                double? descuento = 0;
-
-
-                Promociones promocion = CalculaMejorPromocionTarjeta(codEvento, bancos.First().codigo, tipoTarjeta.First().idTipoTar);
-                if (promocion == null)
-                {
-                    Promociones dummy = new Promociones();
-                    dummy.codPromo = -1;
-                    listaPromociones.Add(dummy);
-                }
-                else
-                {
-                    descuento += precio * promocion.descuento.Value / 100;
-                    listaPromociones.Add(promocion);
-                }
-
-                ViewBag.Descuento = descuento;
-                ViewBag.Promociones = listaPromociones;
-                ViewBag.Total = precio;
-                ViewBag.Pagar = precio - descuento;
-                ViewBag.Mes = Fechas.Mes();
-                ViewBag.AnVen = Fechas.Anio();
-
-                return View();
-            }
-
-            return View();
-        }
-
-        private bool validaCompraEntradaReservadaVendedor(ComprarEntradaReservadaAModel model)
-        {
-            bool indicador = true;
-            //si hay tarjeta de por medio
-            if (model.MontoTar > 0)
-            {
-                //usa tarjeta, verificar que hayan datos de la tarjeta
-                if (String.IsNullOrEmpty(model.NumeroTarjeta))
-                {//reviso si no hay una tarjeta seleccionadad
-                    ModelState.AddModelError("NumeroTarjeta", "El campo Nro. de Tarjeta: es obligatorio.");
-                    indicador = false;
-                }
-                else
-                {//si hay una tarjeta tengo que ver si pertenece al banco
-                    ComprarEntradaModel compra = new ComprarEntradaModel();
-                    compra.idBanco = model.idBanco;
-                    compra.NumeroTarjeta = model.NumeroTarjeta;
-                    compra.Mes = model.Mes;
-                    compra.AnioVen = model.AnioVen;
-                    indicador = ValidacionesCompra(compra);
-                }
-                if (String.IsNullOrEmpty(model.CodCcv))
-                {//reviso si no hay codigo ccv
-                    ModelState.AddModelError("CodCcv", "El campo CCV: es obligatorio.");
-                    indicador = false;
-                }
-            }
-            return indicador;
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        public ActionResult ComprarEntradaReservadaA(ComprarEntradaReservadaAModel model)
-        {
-            int codVenta = int.Parse((string)Session["idReservaCompra"]);
-
-            if (model.NumeroTarjeta != null && model.CodCcv != null)
-            {
-                if (validaCompraEntradaReservadaVendedor(model))
-                {
-                    int idVenta = codVenta;
-                    DateTime hoy = DateTime.Today;
-
-                    using (var context = new inf245netsoft())
-                    {
-                        try
-                        {
-                            Ventas ve = db.Ventas.Where(c => c.codVen == idVenta).First();
-                            ve.fecha = DateTime.Now;
-
-                            //de todas maneras en la venta se registra el nombre, dni y tipo de documento del que esta comprando.                    
-                            CuentaUsuario cu = (CuentaUsuario)Session["UsuarioLogueado"];
-                            CuentaUsuario cu2 = db.CuentaUsuario.Find(cu.usuario);
-                            ve.vendedor = cu2.usuario;
-                            ve.CuentaUsuario1 = cu2;
-                            ve.Estado = MagicHelpers.Compra;
-                            ve.fecha = hoy;
-                            ve.montoEfectivoSoles = model.MontoEfe;
-                            ve.montoCreditoSoles = model.MontoTar;
-                            ve.MontoTotalSoles = model.MontoPagar;
-                            if (ve.montoCreditoSoles > 0 && ve.montoEfectivoSoles == 0) ve.modalidad = "T";
-                            if (ve.montoCreditoSoles == 0 && ve.montoEfectivoDolares > 0) ve.modalidad = "E";
-                            if (ve.montoCreditoSoles > 0 && ve.montoEfectivoDolares > 0) ve.modalidad = "M";
-
-                            try
-                            {
-                                db.SaveChanges();
-                            }
-                            catch (DbEntityValidationException dbEx)
-                            {
-                                foreach (var validationErrors in dbEx.EntityValidationErrors)
-                                {
-                                    foreach (var validationError in validationErrors.ValidationErrors)
-                                    {
-                                        Trace.TraceInformation("Property: {0} Error: {1}",
-                                                                validationError.PropertyName,
-                                                                validationError.ErrorMessage);
-                                    }
-                                }
-                            }
-                            // ventaXFuncion
-
-                            VentasXFuncion dt = db.VentasXFuncion.Where(c => c.codVen == idVenta).First();
-                            int codFuncion = dt.codFuncion;
-                            int cantidad = dt.cantEntradas;
-                            dt.subtotal = model.Importe;
-                            dt.descuento = (int)model.Descuento;
-                            dt.total = model.MontoPagar;
-
-                            db.SaveChanges();
-
-                            //Funcion
-
-                            Funcion fu = db.Funcion.Where(c => c.codFuncion == codFuncion).First();
-
-                            int codEvento = fu.codEvento;
-
-                            //detalle de venta
-                            DetalleVenta dv = db.DetalleVenta.Where(c => c.codVen == idVenta).First();
-
-                            dv.descTot = (int)model.Descuento;
-                            dv.Subtotal = model.Importe;
-                            dv.total = model.MontoPagar;
-
-                            //como es un usuario registrado le aumento los puntos que tiene
-                            CuentaUsuario dbCuenta = db.CuentaUsuario.Where(c => c.codDoc == model.Dni).First();
-                            dbCuenta.puntos += db.Eventos.Find(codEvento).puntosAlCliente * cantidad;
-
-                            db.SaveChanges();
-
-                            context.SaveChanges();
-                            Session["ReservaBusca"] = null;
-                        }
-                        catch (OptimisticConcurrencyException ex)
-                        {
-                            TempData["tipo"] = "alert alert-warning";
-                            TempData["message"] = "Error en la compra.";
-                            return View(model);
-                        }
-                    }
-                    TempData["tipo"] = "alert alert-success";
-                    TempData["message"] = "Compra Realizada. Muchas Gracias.";
-                    //si toda la compra se procesa de manera correcta eliminamos los session
-                    return RedirectToAction("Index", "Home");
-                }
-            }
-            else
-            {
-
-                int idVenta = codVenta;
-                DateTime hoy = DateTime.Today;
-
-                using (var context = new inf245netsoft())
-                {
-                    try
-                    {
-                        Ventas ve = db.Ventas.Where(c => c.codVen == idVenta).First();
-                        ve.fecha = DateTime.Now;
-
-                        //de todas maneras en la venta se registra el nombre, dni y tipo de documento del que esta comprando.                    
-                        CuentaUsuario cu = (CuentaUsuario)Session["UsuarioLogueado"];
-                        CuentaUsuario cu2 = db.CuentaUsuario.Find(cu.usuario);
-                        ve.vendedor = cu2.usuario;
-                        ve.CuentaUsuario1 = cu2;
-                        ve.Estado = "Pagado";
-                        ve.fecha = hoy;
-                        ve.montoEfectivoSoles = model.MontoEfe;
-                        ve.montoCreditoSoles = model.MontoTar;
-                        ve.MontoTotalSoles = model.MontoPagar;
-                        try
-                        {
-                            db.SaveChanges();
-                        }
-                        catch (DbEntityValidationException dbEx)
-                        {
-                            foreach (var validationErrors in dbEx.EntityValidationErrors)
-                            {
-                                foreach (var validationError in validationErrors.ValidationErrors)
-                                {
-                                    Trace.TraceInformation("Property: {0} Error: {1}",
-                                                            validationError.PropertyName,
-                                                            validationError.ErrorMessage);
-                                }
-                            }
-                        }
-                        // ventaXFuncion
-
-                        VentasXFuncion dt = db.VentasXFuncion.Where(c => c.codVen == idVenta).First();
-                        int codFuncion = dt.codFuncion;
-                        int cantidad = dt.cantEntradas;
-                        dt.subtotal = model.Importe;
-                        dt.descuento = (int)model.Descuento;
-                        dt.total = model.MontoPagar;
-
-                        db.SaveChanges();
-
-                        //Funcion
-
-                        Funcion fu = db.Funcion.Where(c => c.codFuncion == codFuncion).First();
-
-                        int codEvento = fu.codEvento;
-
-                        //detalle de venta
-                        DetalleVenta dv = db.DetalleVenta.Where(c => c.codVen == idVenta).First();
-
-                        dv.descTot = (int)model.Descuento;
-                        dv.Subtotal = model.Importe;
-                        dv.total = model.MontoPagar;
-
-                        //si es u usuario registrado le aumento los puntos que tiene
-                        CuentaUsuario dbCuenta = db.CuentaUsuario.Where(c => c.codDoc == model.Dni).First();
-                        dbCuenta.puntos += db.Eventos.Find(codEvento).puntosAlCliente * cantidad;
-
-                        db.SaveChanges();
-
-                        context.SaveChanges();
-                        Session["ReservaBusca"] = null;
-                    }
-                    catch (OptimisticConcurrencyException ex)
-                    {
-                        TempData["tipo"] = "alert alert-warning";
-                        TempData["message"] = "Error en la compra.";
-                        return View(model);
-                    }
-                }
-                TempData["tipo"] = "alert alert-success";
-                TempData["message"] = "Compra Realizada. Muchas Gracias.";
-                //si toda la compra se procesa de manera correcta eliminamos los session
-                return RedirectToAction("Index", "Home");
-
-            }
-            Ventas queryVentas = db.Ventas.Where(c => c.codVen == codVenta).First();
-            VentasXFuncion queryVF = db.VentasXFuncion.Where(c => c.codVen == codVenta).First();
-            int codFun = queryVF.codFuncion;
-            Funcion queryF = db.Funcion.Where(c => c.codFuncion == codFun).First();
-            int codEvento2 = queryF.codEvento;
-            double? precio = queryVF.subtotal;
-
-            TempData["dniCli"] = queryVentas.codDoc;
-            Session["dniCli"] = queryVentas.codDoc;
-            ViewBag.dniCli = queryVentas.codDoc;
-
-            //lista de bancos
-            List<Banco> bancos = db.Banco.ToList();
-            ViewBag.Bancos = new SelectList(bancos, "codigo", "nombre", model.idBanco);
-            //lista de tarjetas
-            List<TipoTarjeta> tipoTarjeta = db.TipoTarjeta.ToList();
-            ViewBag.TipoTarjeta = new SelectList(tipoTarjeta, "idTipoTar", "nombre", model.idTipoTarjeta);
-            List<Promociones> listaPromociones = new List<Promociones>();
-
-            double? descuento = 0;
-            Promociones promocion = CalculaMejorPromocionTarjeta(codEvento2, model.idBanco, model.idTipoTarjeta);
-            if (promocion == null)
-            {
-                Promociones dummy = new Promociones();
-                dummy.codPromo = -1;
-                listaPromociones.Add(dummy);
-            }
-            else
-            {
-                descuento += precio * promocion.descuento.Value / 100;
-                listaPromociones.Add(promocion);
-            }
-
-            ViewBag.Descuento = descuento;
-            ViewBag.Promociones = listaPromociones;
-            ViewBag.Total = precio;
-            ViewBag.Pagar = precio - descuento;
-            ViewBag.Mes = Fechas.Mes();
-            ViewBag.AnVen = Fechas.Anio();
-
-            return View(model);
-        }
-
         [HttpGet]
         public ActionResult PagarReserva(string reserva)
         {
@@ -578,7 +246,7 @@ namespace WebApplication4.Controllers
             model.idEventos = new List<int>();
             model.idPromociones = new List<int>();
             model.idEventos.Add(codEvento);
-            Promociones promocion = CalculaMejorPromocionTarjeta(codEvento, bancos.First().codigo, tipoTarjeta.First().idTipoTar);
+            Promociones promocion = PromocionController.CalculaMejorPromocionTarjeta(codEvento, bancos.First().codigo, tipoTarjeta.First().idTipoTar);
             if (promocion == null)
             {
                 model.Descuento = 0;
@@ -605,10 +273,29 @@ namespace WebApplication4.Controllers
                 if (ValidacionesCompra(model))
                 {
                     Ventas venta = db.Ventas.Find(model.idVenta);
+                    venta.montoEfectivoSoles = 0;
+                    venta.montoEfectivoDolares = 0;
+                    venta.montoCreditoSoles = model.MontoPagar;
+                    venta.MontoTotalSoles = model.MontoPagar;
+                    venta.montoDev = 0;
                     venta.Estado = MagicHelpers.Compra;
+                    venta.entradasDev = 0;
+                    venta.modalidad = "T";
+                    venta.fecha = DateTime.Now;
                     VentasXFuncion vxf = db.VentasXFuncion.Where(c => c.codVen == venta.codVen).First();
+                    vxf.montoDev = 0;
+                    vxf.cantEntradas = venta.cantAsientos.Value;
+                    vxf.hanEntregado = false;
+                    vxf.descuento = (int)model.Descuento;
+                    vxf.subtotal = model.Importe;
+                    vxf.total = vxf.subtotal - vxf.descuento;
                     Eventos evento = db.Eventos.Find(vxf.Funcion.codEvento);
                     DetalleVenta detalle = db.DetalleVenta.Where(c => c.codVen == venta.codVen && c.codFuncion == vxf.Funcion.codFuncion).First();
+                    detalle.descTot = (int)model.Descuento;
+                    detalle.entradasDev = 0;
+                    detalle.montoDev = 0;
+                    detalle.Subtotal = model.Importe;
+                    detalle.total = model.MontoPagar - model.Descuento;
                     evento.monto_adeudado += evento.montoFijoVentaEntrada.Value + evento.porccomision.Value * detalle.cantEntradas.Value / 100;
                     //si es que tiene asientos, debo cambiar el estado de todos los asientos que ha comprado
                     if (db.AsientosXFuncion.Any(c => c.codFuncion == vxf.Funcion.codFuncion && c.codDetalleVenta == detalle.codDetalleVenta))
@@ -655,7 +342,7 @@ namespace WebApplication4.Controllers
             model.idEventos = new List<int>();
             model.idPromociones = new List<int>();
             model.idEventos.Add(codEvento);
-            Promociones promocion = CalculaMejorPromocionTarjeta(codEvento, model.idBanco, model.idTipoTarjeta);
+            Promociones promocion = PromocionController.CalculaMejorPromocionTarjeta(codEvento, model.idBanco, model.idTipoTarjeta);
             if (promocion == null)
             {
                 model.Descuento = 0;
@@ -681,38 +368,41 @@ namespace WebApplication4.Controllers
             {
                 //saco el carrito del session
                 List<CarritoItem> carrito = (List<CarritoItem>)Session["CarritoItem"];
-                //lista de bancos
-                List<Banco> bancos = db.Banco.ToList();
-                ViewBag.Bancos = new SelectList(bancos, "codigo", "nombre");
-                //lista de tarjetas
-                List<TipoTarjeta> tipoTarjeta = db.TipoTarjeta.ToList();
-                ViewBag.TipoTarjeta = new SelectList(tipoTarjeta, "idTipoTar", "nombre");
-                List<Promociones> listaPromociones = new List<Promociones>();
-                double total = 0;
-                double descuento = 0;
-                foreach (CarritoItem item in carrito)
+                if (carrito.Count != 0)
                 {
-                    total += item.precio;
-                    Promociones promocion = CalculaMejorPromocionTarjeta(item.idEvento, bancos.First().codigo, tipoTarjeta.First().idTipoTar);
-                    if (promocion == null)
+                    //lista de bancos
+                    List<Banco> bancos = db.Banco.ToList();
+                    ViewBag.Bancos = new SelectList(bancos, "codigo", "nombre");
+                    //lista de tarjetas
+                    List<TipoTarjeta> tipoTarjeta = db.TipoTarjeta.ToList();
+                    ViewBag.TipoTarjeta = new SelectList(tipoTarjeta, "idTipoTar", "nombre");
+                    List<Promociones> listaPromociones = new List<Promociones>();
+                    double total = 0;
+                    double descuento = 0;
+                    foreach (CarritoItem item in carrito)
                     {
-                        Promociones dummy = new Promociones();
-                        dummy.codPromo = -1;
-                        listaPromociones.Add(dummy);
+                        total += item.precio;
+                        Promociones promocion = PromocionController.CalculaMejorPromocionTarjeta(item.idEvento, bancos.First().codigo, tipoTarjeta.First().idTipoTar);
+                        if (promocion == null)
+                        {
+                            Promociones dummy = new Promociones();
+                            dummy.codPromo = -1;
+                            listaPromociones.Add(dummy);
+                        }
+                        else
+                        {
+                            descuento += item.precio * promocion.descuento.Value / 100;
+                            listaPromociones.Add(promocion);
+                        }
                     }
-                    else
-                    {
-                        descuento += item.precio * promocion.descuento.Value / 100;
-                        listaPromociones.Add(promocion);
-                    }
+                    ViewBag.Descuento = descuento;
+                    ViewBag.Promociones = listaPromociones;
+                    ViewBag.Total = total;
+                    ViewBag.Pagar = total - descuento;
+                    ViewBag.Mes = Fechas.Mes();
+                    ViewBag.AnVen = Fechas.Anio();
+                    return View();
                 }
-                ViewBag.Descuento = descuento;
-                ViewBag.Promociones = listaPromociones;
-                ViewBag.Total = total;
-                ViewBag.Pagar = total - descuento;
-                ViewBag.Mes = Fechas.Mes();
-                ViewBag.AnVen = Fechas.Anio();
-                return View();
             }
             TempData["tipo"] = "alert alert-warning";
             TempData["message"] = "No hay items en el carrito.";
@@ -724,6 +414,16 @@ namespace WebApplication4.Controllers
             bool ind = true;
             //Verficar que la tarjeta pertenezca al banco
             Banco banco = db.Banco.Find(model.idBanco);
+            //
+            Politicas montoMinTarjeta = db.Politicas.Find(3);
+            double montoMin = montoMinTarjeta.valor.Value;
+            //
+            if (model.MontoPagar < montoMin)
+            {
+                TempData["tipo"] = "alert alert-warning";
+                TempData["message"] = "Se debe pagar como mínimo " + montoMin + " soles.";
+                return false;
+            }
             string identificador = "" + banco.identificador;
             string tarjeta = model.NumeroTarjeta;
             string comparador = tarjeta.Substring(0, identificador.Length);
@@ -783,8 +483,12 @@ namespace WebApplication4.Controllers
                             //--
                             ve.Estado = MagicHelpers.Compra;
                             ve.tipoDoc = 1;
-                            ve.montoEfectivoSoles = model.Importe;
+                            ve.montoCreditoSoles = model.MontoPagar;
+                            ve.montoDev = 0;
+                            ve.montoEfectivoDolares = 0;
+                            ve.montoEfectivoSoles = 0;
                             ve.MontoTotalSoles = model.MontoPagar;
+                            ve.entradasDev = 0;
                             db.Ventas.Add(ve);
                             try
                             {
@@ -857,6 +561,7 @@ namespace WebApplication4.Controllers
                                 dt.cantEntradas = paquete.cantidad;
                                 dt.codFuncion = paquete.idFuncion;
                                 dt.codPrecE = pr.codPrecioEvento;
+
                                 dt.total = vf.total;
                                 dt.entradasDev = 0;
                                 dt.descTot = vf.descuento;
@@ -905,12 +610,9 @@ namespace WebApplication4.Controllers
                                         Ventas remover = db.Ventas.Find(idVenta);
                                         db.Ventas.Remove(remover);
                                     }
-
                                 }
                             }
-
                             db.SaveChanges();
-
                             context.SaveChanges();
                         }
                         catch (OptimisticConcurrencyException ex)
@@ -952,7 +654,7 @@ namespace WebApplication4.Controllers
             foreach (CarritoItem item in carrito2)
             {
                 total += item.precio;
-                Promociones promocion = CalculaMejorPromocionTarjeta(item.idEvento, model.idBanco, model.idTipoTarjeta);
+                Promociones promocion = PromocionController.CalculaMejorPromocionTarjeta(item.idEvento, model.idBanco, model.idTipoTarjeta);
                 if (promocion == null)
                 {
                     Promociones dummy = new Promociones();
@@ -972,6 +674,63 @@ namespace WebApplication4.Controllers
             ViewBag.Mes = Fechas.Mes();
             ViewBag.AnVen = Fechas.Anio();
             return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult MisPreferencias()
+        {
+            //hay que mostrar lo que ya escogió
+
+            List<Categoria> listaCategorias = db.Categoria.Where(c => c.activo == 1 && c.idCategoria != MagicHelpers.Categorias).ToList();
+
+            MisPreferenciasModel misp = new MisPreferenciasModel();
+
+            string idCorreo = User.Identity.Name;
+
+            var auxlistIdCategorias = new List<int>(0);
+            var auxlistNombreCategorias = new List<string>(0);
+            var auxListSelected = new List<bool>(0);
+
+            for (int i = 0; i < listaCategorias.Count(); i++)
+            {
+                int idC = listaCategorias[i].idCategoria;
+                auxlistIdCategorias.Add(idC);
+                auxlistNombreCategorias.Add(listaCategorias[i].nombre);
+
+                if (db.CuentaUsuario.Find(idCorreo).Categoria.Where(c => c.idCategoria == idC).ToList().Count > 0)
+                {
+                    auxListSelected.Add(true);
+                }
+                else auxListSelected.Add(false);
+
+            }
+            misp.listIdCategorias = auxlistIdCategorias.ToArray();
+            misp.listNombreCategorias = auxlistNombreCategorias.ToArray();
+            misp.listSelected = auxListSelected.ToArray();
+            //misp.listIdCategorias = auxlistIdCategorias.ToArray();
+            //misp.listNombreCategorias = auxlistNombreCategorias.ToArray();
+            return View(misp);
+        }
+
+        [HttpPost]
+        public ActionResult MisPreferencias(MisPreferenciasModel model)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                string idCorreo = User.Identity.Name;
+                CuentaUsuario cuenta = db.CuentaUsuario.Find(idCorreo);
+
+                cuenta.Categoria.Clear();
+                for (int i = 0; i < model.listSelected.Length; i++)
+                {
+                    if (model.listSelected[i]) cuenta.Categoria.Add(db.Categoria.Find(model.listIdCategorias[i]));
+                }
+                db.SaveChanges();
+                TempData["tipo"] = "alert alert-success";
+                TempData["message"] = "Datos Actualizados";
+                return MisPreferencias();
+            }
+            else return Redirect("~/Index");
         }
 
         [HttpGet]
@@ -1006,33 +765,50 @@ namespace WebApplication4.Controllers
                 cliente.telefono = model.telefono;
                 cliente.telMovil = model.telMovil;
                 cliente.tipoDoc = model.tipoDoc;
-                if (model.fechaNac > DateTime.Today || model.fechaNac < Convert.ToDateTime("01/01/1900"))
-                {
-                    ModelState.AddModelError("fechaNac", "La fecha con rango inválido");
-                    return View(model);
-                }
+
+                int error = 0;
+
                 if (model.tipoDoc == 1)
                 {
                     if (model.codDoc.Length != 8)
                     {
                         ModelState.AddModelError("codDoc", "El DNI debe tener 8 dígitos");
-                        return View(model);
+                        error = 1;
                     }
 
+                    if (model.fechaNac > DateTime.Today || model.fechaNac < Convert.ToDateTime("01/01/1900"))
+                    {
+                        ModelState.AddModelError("fechaNac", "La fecha con rango inválido");
+                        error = 1;
+                    }
                 }
                 else
                 {
                     if (model.codDoc.Length != 12)
                     {
                         ModelState.AddModelError("codDoc", "El Pasaporte debe tener 12 dígitos");
-                        return View(model);
+                        error = 1;
+                    }
+
+                    if (model.fechaNac > DateTime.Today || model.fechaNac < Convert.ToDateTime("01/01/1900"))
+                    {
+                        ModelState.AddModelError("fechaNac", "La fecha con rango inválido");
+                        error = 1;
                     }
 
                 }
-                db.SaveChanges();
-                TempData["tipo"] = "alert alert-success";
-                TempData["message"] = "Datos Actualizados Exitosamente";
-                return RedirectToAction("MiCuenta");
+
+                if (error != 1)
+                {
+                    db.SaveChanges();
+                    TempData["tipo"] = "alert alert-success";
+                    TempData["message"] = "Datos Actualizados Exitosamente";
+                    return RedirectToAction("MiCuenta");
+                }
+                else
+                {
+                    return View(model);
+                }
             }
             return View(model);
         }
@@ -1049,7 +825,6 @@ namespace WebApplication4.Controllers
             string correo = User.Identity.Name;
             CuentaUsuario cliente = db.CuentaUsuario.Where(c => c.correo == correo).First();
             /*var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);*/
-
             if (ModelState.IsValid)
             {
                 if (cliente.contrasena == model.Contrasena)
@@ -1223,7 +998,7 @@ namespace WebApplication4.Controllers
 
             if (ti == 0) listareservas = db.Ventas.AsNoTracking().Where(c => c.codDoc.Contains(usuario) && c.Estado == "Reservado").ToList();
             else listareservas = db.Ventas.AsNoTracking().Where(c => c.tipoDoc == ti && c.codDoc.Contains(usuario) && c.Estado == "Reservado").ToList();
-            if (listareservas == null) return RedirectToAction("BuscaReserva", "CuentaUsuario");
+            if (listareservas == null) return RedirectToAction("BuscaReserva", "Ventas");
 
             List<VentasXFuncion> listaRxF = new List<VentasXFuncion>();
             for (int i = 0; i < listareservas.Count; i++)
@@ -1237,13 +1012,7 @@ namespace WebApplication4.Controllers
             }
             if (listaRxF != null) Session["ReservaBusca"] = listaRxF;
             else Session["ReservaBusca"] = null;
-            return RedirectToAction("BuscaReserva", "CuentaUsuario");
-        }
-
-        [Authorize(Roles = "Administrador")]
-        public ActionResult Politicas()
-        {
-            return View();
+            return RedirectToAction("BuscaReserva", "Ventas");
         }
 
         public ActionResult MiCuenta()
@@ -1324,186 +1093,6 @@ namespace WebApplication4.Controllers
             return RedirectToAction("MisReservas", "CuentaUsuario");
         }
 
-        public JsonResult RegistraPoliticas(string dur, string mx, string mt, string ra, string mE, string hr)
-        {
-            int m1, m2, m3, m4, m5, m6;
-            DateTime h6;
-            string me1 = "1.Falta Ingresar Valores\n", me2 = " 3.Falta Ingresar Valores\n", me3 = " 4.Falta Ingresar Valores\n", me4 = " 5.Falta Ingresar Valores\n", me5 = " 6.Falta Ingresar Valores", me6 = " 2.Falta Ingresar Valores\n";
-            if (int.TryParse(dur, out m1) == true)
-            {
-                int val = int.Parse(dur);
-                if (val > 0)
-                {
-                    int t = 1;
-                    Politicas p = db.Politicas.Find(t);
-                    db.Entry(p).State = EntityState.Modified;
-                    p.valor = val;
-                    db.SaveChanges();
-                    db.Entry(p).State = EntityState.Detached;
-                    me1 = "1.Completado\n";
-                }
-                else
-                {
-                    me1 = " 1.Error Negativo\n";
-                }
-            }
-            else
-            {
-                me1 = " 1.Error Numero Decimal\n";
-            }
-
-            if (dur == "e")
-            {
-                int t = 1;
-                Politicas p = db.Politicas.Find(t);
-                db.Entry(p).State = EntityState.Modified;
-                p.valor = null;
-                db.SaveChanges();
-            }
-            if (int.TryParse(mx, out m2) == true)
-            {
-                int val1 = int.Parse(mx);
-                if (val1 > 0)
-                {
-                    int t = 2;
-                    Politicas p = db.Politicas.Find(t);
-                    db.Entry(p).State = EntityState.Modified;
-                    p.valor = val1;
-                    db.SaveChanges();
-                    db.Entry(p).State = EntityState.Detached;
-                    me2 = " 3.Completado\n";
-                }
-                else
-                {
-                    me2 = " 3.Error Negativo\n";
-                }
-            }
-            else
-            {
-                me2 = " 3.Error Numero Decimal\n";
-            }
-            if (int.TryParse(mt, out m3) == true)
-            {
-                int val2 = int.Parse(mt);
-                if (val2 > 0)
-                {
-                    int t = 3;
-                    Politicas p = db.Politicas.Find(t);
-                    db.Entry(p).State = EntityState.Modified;
-                    p.valor = val2;
-                    db.SaveChanges();
-                    db.Entry(p).State = EntityState.Detached;
-                    me3 = " 4.Completado\n";
-                }
-                else
-                {
-                    me3 = " 4.Error Negativo\n";
-                }
-
-            }
-            else
-            {
-                me3 = " 4.Error Numero Decimal\n";
-            }
-            if (int.TryParse(ra, out m4) == true)
-            {
-                int val3 = int.Parse(ra);
-                if (val3 > 0)
-                {
-                    int t = 5;
-                    Politicas p = db.Politicas.Find(t);
-                    db.Entry(p).State = EntityState.Modified;
-                    p.valor = val3;
-                    db.SaveChanges();
-                    db.Entry(p).State = EntityState.Detached;
-                    me4 = " 5.Completado\n";
-                }
-                else
-                {
-                    me4 = " 5.Error Negativo\n";
-                }
-            }
-            else
-            {
-                me4 = " 5.Error Numero Decimal\n";
-            }
-            if (int.TryParse(mE, out m5) == true)
-            {
-                int val5 = int.Parse(mE);
-                if (val5 > 0)
-                {
-                    int t = 7;
-                    Politicas p = db.Politicas.Find(t);
-                    db.Entry(p).State = EntityState.Modified;
-                    p.valor = val5;
-                    db.SaveChanges();
-                    db.Entry(p).State = EntityState.Detached;
-                    me5 = " 6.Completado\n";
-                }
-                else
-                {
-                    me5 = " 6.Error Negativo\n";
-                }
-            }
-            else
-            {
-                me5 = " 6.Error Numero Decimal\n";
-            }
-            if (DateTime.TryParse(hr, out h6) == true)
-            {
-                DateTime hr6 = DateTime.Parse(hr);
-                HoraReserva h = db.HoraReserva.Find(6);
-                db.Entry(h).State = EntityState.Modified;
-                h.hora = hr6;
-                db.SaveChanges();
-                me6 = " 2.Completado\n";
-            }
-            if (hr == "e")
-            {
-                HoraReserva h = db.HoraReserva.Find(6);
-                db.Entry(h).State = EntityState.Modified;
-                h.hora = null;
-                db.SaveChanges();
-            }
-            string mensaje = me1 + me6 + me2 + me3 + me4 + me5;
-            return Json(mensaje, JsonRequestBehavior.AllowGet);
-        }
-
-        public JsonResult RegistraTolerancia(String tolerancia)
-        {
-            string mensaje = "Ingrese datos";
-            if (tolerancia == "" || tolerancia == null) return Json(mensaje, JsonRequestBehavior.AllowGet);
-            //double m1;
-            int m1;
-            string me = "Error";
-            mensaje = me;
-            if (int.TryParse(tolerancia, out m1) == false) return Json(mensaje, JsonRequestBehavior.AllowGet);
-            //double m = double.Parse(tolerancia);
-            //int val = (int)m;
-            int val = int.Parse(tolerancia);
-            if (val > 0)
-            {
-                int t = 4;
-                Politicas p = db.Politicas.Find(t);
-                db.Entry(p).State = EntityState.Modified;
-                p.valor = val;
-                db.SaveChanges();
-                db.Entry(p).State = EntityState.Detached;
-                mensaje = "Registro completo";
-            }
-            else
-            {
-                mensaje = "Error numero negativo";
-            }
-            return Json(mensaje, JsonRequestBehavior.AllowGet);
-        }
-
-        [Authorize(Roles = "Vendedor")]
-        public ActionResult BuscaReserva()
-        {
-            return View();
-        }
-
         public JsonResult DeleteTurno(string turno, string fecha, string horai)
         {
             string m1;
@@ -1528,8 +1117,10 @@ namespace WebApplication4.Controllers
             db.Turno.Remove(tur);
             db.SaveChanges();
             DateTime hoy = DateTime.Now.Date;
-            List<Turno> listatuvend = db.Turno.AsNoTracking().Where(c => c.usuario == m1 && c.fecha >= hoy).ToList();
-            Session["ListaTurnoVendedor"] = listatuvend;
+            TimeSpan hh = DateTime.Now.TimeOfDay;
+            List<Turno> listatuvend = db.Turno.AsNoTracking().Where(c => c.usuario == m1 && c.fecha >= hoy && c.estado == "Pendiente" && c.estadoCaja == "Pendiente").ToList();
+            List<Turno> listatuvend2 = listatuvend.Where(c => c.fecha >= hoy || (c.fecha == hoy && TimeSpan.Parse(c.TurnoSistema.horIni) > hh)).ToList();
+            Session["ListaTurnoVendedor"] = listatuvend2;
             return Json("Turno Eliminado", JsonRequestBehavior.AllowGet);
         }
 
@@ -1544,16 +1135,21 @@ namespace WebApplication4.Controllers
             DateTime di = dt1;
             DateTime dai = dt1;
             int idt = int.Parse(turno);
+            TurnoSistema ts2 = db.TurnoSistema.Find(idt);
+            TimeSpan ti1 = TimeSpan.Parse(ts2.horIni);
+            TimeSpan ti2 = TimeSpan.Parse(ts2.horFin);
             int idp = int.Parse(punto);
             TimeSpan ts = dt2.Subtract(dt1);
+            TimeSpan hh = DateTime.Now.TimeOfDay;
             int nd = (int)ts.Days;
             nd = nd + 1;
             int idPol = 5;
             int idPol2 = 7;
             int limite = (int)db.Politicas.Find(idPol).valor;
             int limite2 = (int)db.Politicas.Find(idPol2).valor;
-            if (dt1 < DateTime.Now.Date) return Json("la fecha debe ser superior de hoy", JsonRequestBehavior.AllowGet);
-            if (dt1 > dt2) return Json("Fecha inicio debe ser menor que fecha fin", JsonRequestBehavior.AllowGet);
+            if (dt1.Date < DateTime.Now.Date) return Json("la fecha debe ser superior de hoy", JsonRequestBehavior.AllowGet);
+            if ((dt1.Date == DateTime.Now.Date) && (hh > ti2)) return Json("la Hora a asignar debe ser superior a la hora actual", JsonRequestBehavior.AllowGet);
+            if (dt1.Date > dt2.Date) return Json("Fecha inicio debe ser menor que fecha fin", JsonRequestBehavior.AllowGet);
             if (nd > limite) return Json("No puedo asignar a la vez mas de " + limite + " turnos de manera seguida", JsonRequestBehavior.AllowGet);
             //int cruce = 0;            
             for (int j = 0; j < nd; j++)
@@ -1599,8 +1195,10 @@ namespace WebApplication4.Controllers
                 dai = dai.AddDays(1);
             }
             DateTime hoy = DateTime.Now.Date;
-            List<Turno> listatuvend = db.Turno.AsNoTracking().Where(c => c.usuario == idV && c.fecha >= hoy).ToList();
-            Session["ListaTurnoVendedor"] = listatuvend;
+            TimeSpan hh2 = DateTime.Now.TimeOfDay;
+            List<Turno> listatuvend = db.Turno.AsNoTracking().Where(c => c.usuario == idV && c.fecha >= hoy && c.estado == "Pendiente" && c.estadoCaja == "Pendiente").ToList();
+            List<Turno> listatuvend2 = listatuvend.Where(c => c.fecha >= hoy || (c.fecha == hoy && TimeSpan.Parse(c.TurnoSistema.horIni) > hh2)).ToList();
+            Session["ListaTurnoVendedor"] = listatuvend2;
             return Json("Registro Correcto", JsonRequestBehavior.AllowGet);
         }
 
@@ -1705,8 +1303,7 @@ namespace WebApplication4.Controllers
                 int val = int.Parse(fd);
                 if (val >= 0)
                 {
-                    listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.puntos > val && c.estado == true && c.codPerfil == 1).ToList();
-
+                    listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.puntos >= val && c.estado == true && c.codPerfil == 1).ToList();
                 }
                 else
                 {
@@ -1853,7 +1450,6 @@ namespace WebApplication4.Controllers
             //Regalo re = db.Regalo.Find(regalo.id);
             //if (re.puntos < cuenta2.puntos)
             //{
-
             //}
             return Json("Error El cliente no tiene puntos suficientes para conseguir este regalo", JsonRequestBehavior.AllowGet);
         }
@@ -1885,7 +1481,6 @@ namespace WebApplication4.Controllers
                         ModelState.AddModelError("codDoc", "El DNI debe tener 8 dígitos");
                         return View(model);
                     }
-
                 }
                 else
                 {
@@ -1894,7 +1489,6 @@ namespace WebApplication4.Controllers
                         ModelState.AddModelError("codDoc", "El Pasaporte debe tener 12 dígitos");
                         return View(model);
                     }
-
                 }
 
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
@@ -1919,8 +1513,7 @@ namespace WebApplication4.Controllers
                     cu.fechaNac = model.fechaNac;
                     cu.sexo = model.sexo;
                     cu.telefono = model.telefono;
-                    cu.usuario = model.Email;
-                    cu.tipoUsuario = "Cliente";
+                    cu.usuario = model.Email;                    
                     cu.telMovil = model.telMovil;
                     cu.puntos = 0;
 
@@ -1945,13 +1538,9 @@ namespace WebApplication4.Controllers
                     if (!error.Contains("nombre"))
                         ModelState.AddModelError("", error);
                 }
-
             }
-
             // If we got this far, something failed, redisplay form
             return View(model);
-
-
         }
 
         public ApplicationUserManager UserManager
@@ -1965,6 +1554,7 @@ namespace WebApplication4.Controllers
                 _userManager = value;
             }
         }
+
         public ApplicationSignInManager SignInManager
         {
             get
@@ -1980,26 +1570,19 @@ namespace WebApplication4.Controllers
         [Authorize(Roles = "Administrador")]
         public ActionResult ReporteAsistencia()
         {
-
             return View();
-
-
         }
 
-
+        [Authorize(Roles = "Administrador")]
         public ActionResult ReporteAsignacion()
         {
-
-
             return View();
-
         }
 
-
         [HttpPost]
+        [Authorize(Roles = "Administrador")]
         public ActionResult ObtenerAsistencia(DateTime? fechIni, DateTime? fechFin, string nombre, int? puntoVenta)
         {
-
             var lista = from turno in db.Turno
                         join turnoSis in db.TurnoSistema on turno.codTurnoSis equals turnoSis.codTurnoSis
                         join usuario in db.CuentaUsuario on turno.usuario equals usuario.usuario
@@ -2013,44 +1596,32 @@ namespace WebApplication4.Controllers
                             turno.fecha,
                             turno.estado,
                             turno.codPuntoVenta
-
                         };
-
             if (!String.IsNullOrEmpty(nombre))
             {
                 lista = lista.Where(c => c.nombre.Contains(nombre));
-
             }
 
             if (fechIni.HasValue)
             {
-
-
                 lista = lista.Where(c => c.fecha >= fechIni);
             }
+
             if (fechFin.HasValue)
             {
                 lista = lista.Where(c => c.fecha <= fechFin);
-
             }
-
 
             if (puntoVenta.HasValue)
             {
-
                 lista = lista.Where(c => c.codPuntoVenta == puntoVenta);
             }
 
             List<Asistencia> listaAsistencia = new List<Asistencia>();
-
-
-
-
             if (lista.Count() > 0)
             {
                 listaAsistencia = lista.Select(f => new Asistencia
                 {
-
                     Nombre = f.nombre,
                     Fecha = f.fecha,
                     HoraEntrada = f.horIni,
@@ -2059,65 +1630,39 @@ namespace WebApplication4.Controllers
                     Asistio = f.estado.Contains("Tarde") ? "Tarde" : "Asistio"
                 }).ToList<Asistencia>();
             }
-
-
-
-
             return Json(listaAsistencia, JsonRequestBehavior.AllowGet);
-
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrador")]
         public ActionResult ObtenerAsignacion(ReporteAsignacionModel model)
         {
-
-
-
-
-
             var lista = from turno in db.Turno
                         select new
                         {
-                            turno.PuntoVenta.ubicacion,
+                            puntoVenta = turno.PuntoVenta.nombre,
                             turno.CuentaUsuario.nombre,
                             turno.CuentaUsuario.apellido,
 
                             turno.TurnoSistema.horIni,
                             turno.TurnoSistema.horFin,
                             turno.fecha,
-
-
                         };
-
-
-
             lista = lista.Where(c => c.fecha >= model.fechaInicio && c.fecha <= model.fechaFin);
-
             List<Asignacion> listaAsignacion = new List<Asignacion>();
-
 
             if (lista.Count() > 0)
             {
                 listaAsignacion = lista.Select(f => new Asignacion
                 {
                     Dia = f.fecha,
-                    PuntoVenta = f.ubicacion,
+                    PuntoVenta = f.puntoVenta,
                     Nombre = f.nombre + " " + f.apellido,
                     Horas = f.horIni + " - " + f.horFin
 
                 }).ToList();
-
-
             }
-
-
-
-
             return Json(listaAsignacion, JsonRequestBehavior.AllowGet);
-
         }
-
-
-
     }
 }

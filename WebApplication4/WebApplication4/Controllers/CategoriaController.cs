@@ -8,7 +8,7 @@ using WebApplication4.Models;
 
 namespace WebApplication4.Controllers
 {
-    //[Authorize(Roles="Administrador")]
+    [Authorize(Roles = "Administrador")]
     public class CategoriaController : Controller
     {
         private inf245netsoft db = new inf245netsoft();
@@ -29,13 +29,14 @@ namespace WebApplication4.Controllers
         }
         //no me mires
         private void borrar(int id)
-        {            
+        {
             List<Categoria> listaCategoria = null;
             while (true)
             {
-                listaCategoria = db.Categoria.Where(c=>c.idCatPadre==id).ToList();
+                listaCategoria = db.Categoria.Where(c => c.idCatPadre == id).ToList();
                 if (listaCategoria.Count == 0) return;
-                else {
+                else
+                {
                     for (int i = 0; i < listaCategoria.Count; i++)
                     {
                         db.Entry(listaCategoria[i]).State = EntityState.Modified;
@@ -44,20 +45,20 @@ namespace WebApplication4.Controllers
                         borrar(listaCategoria[i].idCategoria);
                     }
                     return;
-                }                    
+                }
 
             }
         }
 
         public ActionResult Delete2(int id)
-        {            
+        {
             //borrar categoría padre
             Categoria categoria = db.Categoria.Find(id);
             db.Entry(categoria).State = EntityState.Modified;
             categoria.activo = 0;
             db.SaveChanges();
             //borrar arbol de la categoría padre
-            borrar(id);                        
+            borrar(id);
             //return RedirectToAction("Index", "Evento");
             return View("Index");
         }
@@ -72,7 +73,7 @@ namespace WebApplication4.Controllers
             categoriaM.activo = 0;
             db.SaveChanges();
             //return RedirectToAction("Index", "Evento");
-            borrar(idQ); 
+            borrar(idQ);
             return View("Index");
         }
 
@@ -80,7 +81,7 @@ namespace WebApplication4.Controllers
         {
             if (ModelState.IsValid)
             {
-                List<Categoria> listaCat = db.Categoria.AsNoTracking().Where(c => c.nombre.StartsWith(categoria.nombre) && c.activo ==1).ToList();
+                List<Categoria> listaCat = db.Categoria.AsNoTracking().Where(c => c.nombre.StartsWith(categoria.nombre) && c.activo == 1).ToList();
                 if (listaCat != null) TempData["ListaC"] = listaCat;
                 else TempData["ListaC"] = null;
                 return RedirectToAction("Index", "Categoria");
@@ -107,17 +108,18 @@ namespace WebApplication4.Controllers
                     }
                     return listaID;
                 }
-
             }
         }
 
-
-        private void sacaDependientes(List<Categoria>listaCat,int id){
+        private void sacaDependientes(List<Categoria> listaCat, int id)
+        {
             List<int> lista = new List<int>();
             lista.AddRange(sacaListaDependientes(id));
 
-            for (int i = 0; i < lista.Count; i++) {
-                for (int j = 0; j < listaCat.Count; j++) {
+            for (int i = 0; i < lista.Count; i++)
+            {
+                for (int j = 0; j < listaCat.Count; j++)
+                {
                     if (listaCat[j].idCategoria == id)//Código chancho
                     {
                         listaCat.RemoveAt(j);
@@ -129,7 +131,6 @@ namespace WebApplication4.Controllers
                         break;
                     }
                 }
-
             }
         }
 
@@ -175,7 +176,7 @@ namespace WebApplication4.Controllers
                 Session["Bus"] = null;
                 return RedirectToAction("Index", "Categoria");
             }
-            listaCat = db.Categoria.AsNoTracking().Where(c => c.nombre.StartsWith(categoria) && c.activo == 1 && c.nivel!=0).ToList();
+            listaCat = db.Categoria.AsNoTracking().Where(c => c.nombre.StartsWith(categoria) && c.activo == 1 && c.nivel != 0).ToList();
             if (listaCat != null) Session["Bus"] = listaCat;
             else Session["Bus"] = null;
             return RedirectToAction("Index", "Categoria");
@@ -193,9 +194,9 @@ namespace WebApplication4.Controllers
             catM.idCatPadre = (int)categ.idCatPadre;
 
             List<Categoria> listaCat = db.Categoria.Where(c => c.activo == 1).ToList();
-            ViewBag.CatID = new SelectList(listaCat, "idCategoria", "nombre",catM.idCatPadre);
+            ViewBag.CatID = new SelectList(listaCat, "idCategoria", "nombre", catM.idCatPadre);
 
-            sacaDependientes(listaCat,id);
+            sacaDependientes(listaCat, id);
             return View("Edit");
         }
 
@@ -212,19 +213,19 @@ namespace WebApplication4.Controllers
         {
             //if (ModelState.IsValid)
             //{
-                var o = ViewBag.id;
-                Categoria categoria = db.Categoria.Find(TempData["codigo"]);
-                db.Entry(categoria).State = EntityState.Modified;
-                if (!String.IsNullOrEmpty(model.nombre) ) categoria.nombre = model.nombre;
-                if (!String.IsNullOrEmpty(model.descripcion)) categoria.descripcion = model.descripcion;
-                if (model.idCatPadre != 0)
-                {
-                    categoria.idCatPadre = model.idCatPadre;
-                    List<Categoria> cat = db.Categoria.Where(c => c.idCategoria == model.idCatPadre).ToList();
-                    categoria.nivel = cat[0].nivel + 1;
-                } 
-                db.SaveChanges();
-                return RedirectToAction("Index", "Categoria");
+            var o = ViewBag.id;
+            Categoria categoria = db.Categoria.Find(TempData["codigo"]);
+            db.Entry(categoria).State = EntityState.Modified;
+            if (!String.IsNullOrEmpty(model.nombre)) categoria.nombre = model.nombre;
+            if (!String.IsNullOrEmpty(model.descripcion)) categoria.descripcion = model.descripcion;
+            if (model.idCatPadre != 0)
+            {
+                categoria.idCatPadre = model.idCatPadre;
+                List<Categoria> cat = db.Categoria.Where(c => c.idCategoria == model.idCatPadre).ToList();
+                categoria.nivel = cat[0].nivel + 1;
+            }
+            db.SaveChanges();
+            return RedirectToAction("Index", "Categoria");
             //}
             //return RedirectToAction("Index", "Categoria");
         }
@@ -274,13 +275,14 @@ namespace WebApplication4.Controllers
             //if (regalo == "" || regalo == null) return View("Index");
             int idQ = int.Parse(categoria);
             Categoria categoriaM = db.Categoria.Find(idQ);
-            if (categoriaM.activo == 0) {
+            if (categoriaM.activo == 0)
+            {
                 //db.Regalo.Remove(regalo);
                 db.Entry(categoriaM).State = EntityState.Modified;
                 categoriaM.activo = 1;
                 db.SaveChanges();
                 //return RedirectToAction("Index", "Evento");
-            }            
+            }
             return View("Index");
         }
     }
