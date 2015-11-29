@@ -5,7 +5,6 @@
 @using PagedList.Mvc;
 @model PagedList.IPagedList<Eventos>
 
-
 @{
     
     ViewBag.MaximoPaginas = 5;
@@ -43,21 +42,14 @@
 
         @using (Html.BeginForm("Busqueda", "Evento", FormMethod.Get, new { id = "adv-search", @class = "form-inline" }))
         {
-
             if (this.Request.QueryString.Count != 0)
             {
-
                 if (this.Request.QueryString.AllKeys.Contains("nombre"))
                 {
-
                     nombre = this.Request.QueryString["nombre"];
-
                 }
-
             }
-
             @Html.Hidden("nombre", nombre, new { id = "adv-nomb" })
-
             // @Html.ValidationSummary("", new { @class = "text-danger" })
             <center>
                 <div class="form-group ">
@@ -172,10 +164,8 @@
                     <a id="btn-adv-search" onclick="submitAdvSearch() " class="btn btn-primary ">Buscar <span class="glyphicon glyphicon-search"></span></a>
                 </div>
 
-            </center><br>
-
+            </center>
         }
-
     </div>
 </div>
 <div class="container">
@@ -209,7 +199,7 @@
                     var funcion = func.First();
 
                     fecha = funcion.fecha.Value.ToString("dd/MM/yyyy");
-                    fecha = fecha + " " + funcion.horaIni.Value.ToString("hh:mm tt");
+                    //fecha = fecha + " " + funcion.horaIni.Value.ToString("hh:mm tt");
                 }
                 else
                 {
@@ -267,15 +257,6 @@
 
 
 </div>
-
-
-
-
-
-
-
-
-
 
 @*
     @Html.Partial("BusquedaPaging", lista.ToPagedList(0, 2));
