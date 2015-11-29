@@ -9,6 +9,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     var db = new WebApplication4.Models.inf245netsoft();
     List<WebApplication4.Models.Regalo> listaSearch = db.Regalo.AsNoTracking().Where(c => c.estado == true).ToList();
+    Turno tu = null;
+    //se comprueba si el usuario que se logueo tiene un turno asignado almacenado en session
+    if (Session["TurnoHoy"] != null)
+    {
+        tu = (Turno)Session["TurnoHoy"];
+    }
 }
 
 <div class="container-fluid">
@@ -42,7 +48,24 @@
             </div>
         <div class="col-md-2">
             <div class="input-group">
+            @if (tu != null && tu.estadoCaja == "Abierto")
+                    {
                 <a class="btn btn-primary"onclick="validaS()" data-toggle="modal"><span class="glyphicon glyphicon-gift"></span> Entregar Regalo</a>
+                    }
+            else
+            {
+                if (tu == null)
+                {
+                    <h6>Debes tener un Turno</h6>
+                }
+                else
+                {
+                    if (tu.estadoCaja != "Abierto")
+                    {
+                        <h6>Caja debe estar Abierta</h6>
+                    }
+                }
+            }
             </div>
         </div>
         <div class="col-md-3">

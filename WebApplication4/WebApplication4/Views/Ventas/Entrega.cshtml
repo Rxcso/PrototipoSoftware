@@ -10,6 +10,12 @@
     {
         listaEntrega = (List<WebApplication4.Models.VentasXFuncion>)Session["EntregaBusca"];
     }
+    Turno tu = null;
+    //se comprueba si el usuario que se logueo tiene un turno asignado almacenado en session
+    if (Session["TurnoHoy"] != null)
+    {
+        tu = (Turno)Session["TurnoHoy"];
+    }
 }
 <style>
     td{text-align:center}
@@ -44,10 +50,28 @@
             </div>
         </div>
 
+        @*si existe un turno y la caja para ese turno esta abierta aparece la opcion para pagar reserva*@
+        @if (tu != null && tu.estadoCaja == "Abierto")               
+        {
         <div class="col-md-5">
             <a href="#imprimir" class="btn btn-primary " data-toggle="modal"><span class="fa fa-ticket fa-lg"></span> Entregar boletos</a>
             @*<a href="@Url.Action("Index2", "Home")" class="btn btn-danger pull-right">Salir <span class="glyphicon glyphicon-log-out"></span></a>*@
-        </div>
+        </div>                
+        }
+        else
+        {
+            if (tu == null)
+            {
+                <h6>Debes tener un Turno</h6>
+            }
+            else
+            {
+                if (tu.estadoCaja != "Abierto")
+                {
+                    <h6>Caja debe estar Abierta</h6>
+                }
+            }
+        }
     </div>
 
     <div class="row">
