@@ -2649,3 +2649,11 @@ System.Collections.ListDictionaryInternal
 2015-11-28 19:42:15,431 [5] ERROR Ticknet - Exception Message - 
 The underlying provider failed on Open.
 2015-11-28 19:42:15,431 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 00:41:45,257 [23] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 00:41:45,265 [23] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-29 00:41:45,265 [23] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-29 00:41:45,265 [23] ERROR Ticknet - Exception Message - 
+A public action method 'BuscaReserva' was not found on controller 'WebApplication4.Controllers.CuentaUsuarioController'.
+2015-11-29 00:41:45,265 [23] DEBUG Ticknet - ++++++++++++++++++++++++++++

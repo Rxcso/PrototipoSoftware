@@ -109,6 +109,8 @@ namespace WebApplication4.Controllers
                 ViewBag.Mes = Fechas.Mes();
                 ViewBag.AnVen = Fechas.Anio();
                 model.idEvento = codEvento;
+                //modalidad
+                model.modalidad = 1;
                 return View(model);
             }
             TempData["tipo"] = "alert alert-warning";
@@ -271,6 +273,7 @@ namespace WebApplication4.Controllers
                 ViewBag.MontoDM = 0;
                 ViewBag.MontoTarjetaM = 0;
                 ViewBag.VueltoM = 0;
+                model.modalidad = 1;
             }
             //tarjeta
             if (model.MontoTar > 0 && model.MontoEfe == 0 && model.MontoDolares == 0)
@@ -290,6 +293,7 @@ namespace WebApplication4.Controllers
                 ViewBag.MontoDM = 0;
                 ViewBag.MontoTarjetaM = 0;
                 ViewBag.VueltoM = 0;
+                model.modalidad = 2;
             }
 
             if (model.MontoTar >= 0 && model.MontoEfe >= 0 && model.MontoDolares >= 0)
@@ -309,6 +313,7 @@ namespace WebApplication4.Controllers
                 ViewBag.MontoDM = model.MontoDolares;
                 ViewBag.MontoTarjetaM = model.MontoTar;
                 ViewBag.VueltoM = model.Vuelto;
+                model.modalidad = 3;
             }
             ViewBag.Mes = Fechas.Mes();
             ViewBag.AnVen = Fechas.Anio();
@@ -432,7 +437,9 @@ namespace WebApplication4.Controllers
                     ViewBag.Promociones = listaPromociones;
                     ViewBag.Mes = Fechas.Mes();
                     ViewBag.AnVen = Fechas.Anio();
-                    return View();
+                    VenderEntradaModel model = new VenderEntradaModel();
+                    model.modalidad = 1;
+                    return View(model);
                 }
             }
             TempData["tipo"] = "alert alert-warning";
@@ -833,6 +840,7 @@ namespace WebApplication4.Controllers
                     ViewBag.MontoDM = 0;
                     ViewBag.MontoTarjetaM = 0;
                     ViewBag.VueltoM = 0;
+                    model.modalidad = 1;
                 }
                 //tarjeta
                 if (model.MontoTar > 0 && model.MontoEfe == 0 && model.MontoDolares == 0)
@@ -852,6 +860,7 @@ namespace WebApplication4.Controllers
                     ViewBag.MontoDM = 0;
                     ViewBag.MontoTarjetaM = 0;
                     ViewBag.VueltoM = 0;
+                    model.modalidad = 2;
                 }
 
                 if (model.MontoTar >= 0 && model.MontoEfe >= 0 && model.MontoDolares >= 0)
@@ -871,6 +880,7 @@ namespace WebApplication4.Controllers
                     ViewBag.MontoDM = model.MontoDolares;
                     ViewBag.MontoTarjetaM = model.MontoTar;
                     ViewBag.VueltoM = model.Vuelto;
+                    model.modalidad = 3;
                 }
                 ViewBag.Mes = Fechas.Mes();
                 ViewBag.AnVen = Fechas.Anio();

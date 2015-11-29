@@ -1,4 +1,22 @@
-﻿//funcion llenar que funciona con el caso de solo efectivo
+﻿document.addEventListener('DOMContentLoaded', function () {
+    var arr = ["efectivo", "tarjeta", "mixto"];
+    var mod = parseInt(document.getElementById("modalidad").value);
+    alert(mod);
+    if (mod == 1) {
+        loadEfectivo(arr[0], arr[1], arr[2]);
+    }
+    if (mod == 2) {
+        loadTarjeta(arr[1], arr[0], arr[2]);
+    }
+    if (mod == 3) {
+        if (parseInt($('#mixto input#MontoTar').val())) {
+            loadDatosTarjeta();
+        }
+        loadMixto(arr[2], arr[0], arr[1]);
+    }
+}, false);
+
+//funcion llenar que funciona con el caso de solo efectivo
 function llena1() {
     //tipo de cambio
     var tipoCambio = parseFloat($('#tipoCambioMoneda').val());
@@ -276,65 +294,80 @@ function desactiva(item) {
     }
 }
 
+function loadEfectivo(id1, id2, id3) {
+    var inputs = $('#' + id1 + ' input');
+    inputs[1].disabled = false;
+    inputs[1].readOnly = true;
+    inputs[2].disabled = false;
+    inputs[2].readOnly = true;
+    inputs[3].disabled = false;
+    inputs[4].disabled = false;
+    inputs[5].disabled = false;
+    inputs[5].readOnly = true;
+    inputs[6].disabled = false;
+    inputs[6].readOnly = true;
+    desactiva(id2);
+    desactiva(id3);
+}
+
+function loadDatosTarjeta() {
+    document.getElementById("AnioVen").disabled = false;
+    document.getElementById("Mes").disabled = false;
+    document.getElementById("CodCcv").readOnly = false;
+    document.getElementById("NumeroTarjeta").readOnly = false;
+    document.getElementById("idTipoTarjeta").disabled = false;
+    document.getElementById("idBanco").disabled = false;
+}
+
+function loadTarjeta(id1, id2, id3) {
+    var inputs = $('#' + id1 + ' input');
+    loadDatosTarjeta();
+    inputs[1].disabled = false;
+    inputs[1].readOnly = true;
+    inputs[2].disabled = false;
+    inputs[2].readOnly = true;
+    inputs[3].disabled = false;
+    inputs[3].readOnly = true;
+    inputs[4].disabled = false;
+    inputs[4].readOnly = true;
+    inputs[5].disabled = false;
+    inputs[5].readOnly = true;
+    inputs[6].disabled = false;
+    inputs[6].readOnly = true;
+    desactiva(id2);
+    desactiva(id3);
+}
+
+function loadMixto(id1, id2, id3) {
+    var inputs = $('#' + id1 + ' input');
+    inputs[1].disabled = false;
+    inputs[1].readOnly = true;
+    inputs[2].disabled = false;
+    inputs[2].readOnly = true;
+    inputs[3].disabled = false;
+    inputs[4].disabled = false;
+    inputs[5].disabled = false;
+    inputs[5].readOnly = true;
+    inputs[6].disabled = false;
+    inputs[6].readOnly = true;
+    desactiva(id2);
+    desactiva(id3);
+}
 //funcion que cambia la seleccion de los metodos de pago
 function cambioPago() {
     var metodoSelecionado = $('input[name="TipoPago"]:checked').val();
+    $('#modalidad').val(metodoSelecionado);
     var arr = ["efectivo", "tarjeta", "mixto"];
     if (parseInt(metodoSelecionado) == 1) {
-        var inputs = $('#' + arr[0] + ' input');
-        inputs[1].disabled = false;
-        inputs[1].readOnly = true;
-        inputs[2].disabled = false;
-        inputs[2].readOnly = true;
-        inputs[3].disabled = false;
-        inputs[4].disabled = false;
-        inputs[5].disabled = false;
-        inputs[5].readOnly = true;
-        inputs[6].disabled = false;
-        inputs[6].readOnly = true;
-        desactiva(arr[1]);
-        desactiva(arr[2]);
+        loadEfectivo(arr[0], arr[1], arr[2]);
     }
     if (parseInt(metodoSelecionado) == 2) {
-        var inputs = $('#' + arr[1] + ' input');
-        document.getElementById("AnioVen").disabled = false;
-        document.getElementById("Mes").disabled = false;
-        document.getElementById("CodCcv").readOnly = false;
-        document.getElementById("NumeroTarjeta").readOnly = false;
-        document.getElementById("idTipoTarjeta").disabled = false;
-        document.getElementById("idBanco").disabled = false;
-        inputs[1].disabled = false;
-        inputs[1].readOnly = true;
-        inputs[2].disabled = false;
-        inputs[2].readOnly = true;
-        inputs[3].disabled = false;
-        inputs[3].readOnly = true;
-        inputs[4].disabled = false;
-        inputs[4].readOnly = true;
-        inputs[5].disabled = false;
-        inputs[5].readOnly = true;
-        inputs[6].disabled = false;
-        inputs[6].readOnly = true;
-        desactiva(arr[0]);
-        desactiva(arr[2]);
+        loadTarjeta(arr[1], arr[0], arr[2]);
     }
     if (parseInt(metodoSelecionado) == 3) {
-        var inputs = $('#' + arr[2] + ' input');
-        inputs[1].disabled = false;
-        inputs[1].readOnly = true;
-        inputs[2].disabled = false;
-        inputs[2].readOnly = true;
-        inputs[3].disabled = false;
-        inputs[4].disabled = false;
-        inputs[5].disabled = false;
-        inputs[5].readOnly = true;
-        inputs[6].disabled = false;
-        inputs[6].readOnly = true;
-        desactiva(arr[1]);
-        desactiva(arr[0]);
+        loadMixto(arr[2]);
     }
 }
-
 //funcion que busca al cliente
 function busca() {
     var usuario = $('#idBusq').val();

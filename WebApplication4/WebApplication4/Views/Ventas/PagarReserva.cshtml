@@ -80,6 +80,7 @@
             {
                 @Html.HiddenFor(c => c.idEvento)
                 @Html.HiddenFor(c => c.idVenta)
+                @Html.HiddenFor(c => c.modalidad)
                 <div class="cold-md-12">
                     <h3>Cliente</h3><br />
                     <div class="row form-group">
@@ -165,7 +166,14 @@
                         <div id="efectivo" class="col-md-4">
                             <div>
                                 <label>Efectivo:</label>
-                                <input type="radio" name="TipoPago" value="1" onclick="cambioPago()" checked="checked">
+                                @if (Model.modalidad == 1)
+                                {
+                                    <input type="radio" name="TipoPago" value="1" onclick="cambioPago()" checked="checked">
+                                }
+                                else
+                                {
+                                    <input type="radio" name="TipoPago" value="1" onclick="cambioPago()">
+                                }
                             </div><br />
                             <div class="row form-group">
                                 @Html.LabelFor(c => c.Descuento, new { @class = "control-label col-md-3" })
@@ -207,7 +215,14 @@
                         <div id="tarjeta" class="col-md-4">
                             <div>
                                 <label>Tarjeta:</label>
-                                <input type="radio" name="TipoPago" value="2" onclick="cambioPago()">
+                                @if (Model.modalidad == 2)
+                                {
+                                    <input type="radio" name="TipoPago" value="2" onclick="cambioPago()" checked="checked">
+                                }
+                                else
+                                {
+                                    <input type="radio" name="TipoPago" value="2" onclick="cambioPago()">
+                                }
                             </div><br />
                             <div class="row form-group">
                                 @Html.LabelFor(c => c.Descuento, new { @class = "control-label col-md-3" })
@@ -249,7 +264,14 @@
                         <div id="mixto" class="col-md-4">
                             <div>
                                 <label>Mixto:</label>
-                                <input type="radio" name="TipoPago" value="3" onclick="cambioPago()">
+                                @if (Model.modalidad == 3)
+                                {
+                                    <input type="radio" name="TipoPago" value="3" onclick="cambioPago()" checked="checked">
+                                }
+                                else
+                                {
+                                    <input type="radio" name="TipoPago" value="3" onclick="cambioPago()">
+                                }
                             </div><br />
                             <div class="row form-group">
                                 @Html.LabelFor(c => c.Descuento, new { @class = "control-label col-md-3" })
