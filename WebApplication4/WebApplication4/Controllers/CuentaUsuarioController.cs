@@ -288,6 +288,7 @@ namespace WebApplication4.Controllers
                     vxf.hanEntregado = false;
                     vxf.descuento = (int)model.Descuento;
                     vxf.subtotal = model.MontoPagar;
+                    vxf.total = vxf.subtotal - vxf.descuento;
                     Eventos evento = db.Eventos.Find(vxf.Funcion.codEvento);
                     DetalleVenta detalle = db.DetalleVenta.Where(c => c.codVen == venta.codVen && c.codFuncion == vxf.Funcion.codFuncion).First();
                     evento.monto_adeudado += evento.montoFijoVentaEntrada.Value + evento.porccomision.Value * detalle.cantEntradas.Value / 100;
