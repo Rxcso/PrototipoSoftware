@@ -35,7 +35,7 @@
 <div class="container-fluid">
     <div class="col-md-5">
         <ol class="breadcrumb">
-            <li class="active">Registrar Pagos</li>
+            <li class="active">Registrar pagos hacia un organizador</li>
         </ol>
     </div>
 </div>
@@ -51,7 +51,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="input-group">
-                            <input type="text" class="form-control" disabled id="organizadorNombre" value="@nombO">
+                            <input type="text" class="form-control" readonly id="organizadorNombre" value="@nombO">
                             <span class="input-group-btn"><a href="#modalBuscarOrganizador" class="btn btn-primary" data-toggle="modal" type="button"><span class="glyphicon glyphicon-search"></span> Buscar</a></span>
                         </div>
                     </div>
@@ -114,10 +114,10 @@
             <table id="mytable" class="table table-bordered table-hover">
                 <thead>
                     <tr class="thead">
-                        <th>Código</th>
+                        <th>Código pago</th>
                         <th>Fecha de pago</th>
                         <th>Organizador</th>
-                        <th>Monto</th>
+                        <th>Monto (S/.)</th>
                     </tr>
                 </thead>
                 <tbody id="tbody">
