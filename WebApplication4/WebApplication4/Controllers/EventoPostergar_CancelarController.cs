@@ -76,16 +76,13 @@ namespace WebApplication4.Controllers
             return View();
         }
 
-
         /*
          *CANCELAR EVENTO 
          * 
         */
-
         [HttpGet]
         public ActionResult CancelarEvento(string evento)
         {
-
             int id = int.Parse(evento);
             Eventos queryEvento = db.Eventos.Where(c => c.codigo == id).First();
 
@@ -110,9 +107,6 @@ namespace WebApplication4.Controllers
             cancelarEvento.listDateFuncion = auxlistDateFuncion.ToArray();
             cancelarEvento.listIdFuncion = auxlistIdFuncion.ToArray();
             cancelarEvento.seCancela = auxlistBool.ToArray();
-
-
-
             return View("Cancelar", cancelarEvento);
         }
 
@@ -147,7 +141,6 @@ namespace WebApplication4.Controllers
                     {
                         int idF = evento.listIdFuncion[i];
                         Funcion f = db.Funcion.Where(c => c.codFuncion == idF).First();
-
                         db.Entry(f).State = EntityState.Modified;
                         f.estado = "CANCELADO";
                         f.motivoCambio = evento.motivo;
