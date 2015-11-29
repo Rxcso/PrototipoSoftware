@@ -68,7 +68,7 @@ namespace WebApplication4.Controllers
                 {
                     if (queryVF.cantEntradas >= promocion.cantAdq)
                     {
-                        descuentoE += 1.0 * promocion.cantAdq * precio * (1 - (promocion.cantComp.Value * 1.0 / promocion.cantAdq.Value));
+                        descuentoE += 1.0 * promocion.cantAdq / queryVF.cantEntradas * precio * (1 - (promocion.cantComp.Value * 1.0 / promocion.cantAdq.Value));
                         listaPromocionesEfectivo.Add(promocion);
                     }
                     else
