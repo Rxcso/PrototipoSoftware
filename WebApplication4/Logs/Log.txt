@@ -2689,35 +2689,148 @@ System.Collections.ListDictionaryInternal
 2015-11-29 12:45:07,708 [9] ERROR Ticknet - Exception Message - 
 An exception occurred while initializing the database. See the InnerException for details.
 2015-11-29 12:45:07,708 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-29 14:31:42,797 [14] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-29 14:31:42,828 [14] ERROR Ticknet - Exception Data - 
-HttpException
-2015-11-29 14:31:42,828 [14] ERROR Ticknet - Exception Data - 
+2015-11-29 15:35:56,962 [38] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 15:35:56,969 [38] ERROR Ticknet - Exception Type - 
+HttpParseException
+2015-11-29 15:35:56,969 [38] ERROR Ticknet - Exception Data - 
 System.Collections.ListDictionaryInternal
-2015-11-29 14:31:42,828 [14] ERROR Ticknet - Exception Message - 
-A public action method 'Asignacion' was not found on controller 'WebApplication4.Controllers.VentasController'.
-2015-11-29 14:31:42,828 [14] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-29 14:32:46,860 [15] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-29 14:32:46,861 [15] ERROR Ticknet - Exception Data - 
+2015-11-29 15:35:56,969 [38] ERROR Ticknet - Exception Message - 
+Unexpected "if" keyword after "@" character.  Once inside code, you do not need to prefix constructs like "if" with "@".
+
+2015-11-29 15:35:56,969 [38] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 15:36:43,201 [38] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 15:36:43,201 [38] ERROR Ticknet - Exception Data - 
 HttpException
-2015-11-29 14:32:46,861 [15] ERROR Ticknet - Exception Data - 
+2015-11-29 15:36:43,201 [38] ERROR Ticknet - Exception Data - 
 System.Collections.ListDictionaryInternal
-2015-11-29 14:32:46,861 [15] ERROR Ticknet - Exception Message - 
+2015-11-29 15:36:43,201 [38] ERROR Ticknet - Exception Message - 
 A public action method 'Asignacion' was not found on controller 'WebApplication4.Controllers.VentasController'.
-2015-11-29 14:32:46,861 [15] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-29 14:33:06,810 [15] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-29 14:33:06,811 [15] ERROR Ticknet - Exception Data - 
+2015-11-29 15:36:43,201 [38] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 15:37:54,460 [47] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 15:37:54,460 [47] ERROR Ticknet - Exception Data - 
 HttpException
-2015-11-29 14:33:06,811 [15] ERROR Ticknet - Exception Data - 
+2015-11-29 15:37:54,460 [47] ERROR Ticknet - Exception Data - 
 System.Collections.ListDictionaryInternal
-2015-11-29 14:33:06,811 [15] ERROR Ticknet - Exception Message - 
+2015-11-29 15:37:54,460 [47] ERROR Ticknet - Exception Message - 
 A public action method 'Asignacion' was not found on controller 'WebApplication4.Controllers.VentasController'.
-2015-11-29 14:33:06,811 [15] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-29 14:35:46,418 [15] DEBUG Ticknet - ++++++++++++++++++++++++++++
-2015-11-29 14:35:46,419 [15] ERROR Ticknet - Exception Data - 
+2015-11-29 15:37:54,461 [47] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 15:53:12,959 [18] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 15:53:12,970 [18] ERROR Ticknet - Exception Data - 
 HttpException
-2015-11-29 14:35:46,419 [15] ERROR Ticknet - Exception Data - 
+2015-11-29 15:53:12,970 [18] ERROR Ticknet - Exception Data - 
 System.Collections.ListDictionaryInternal
-2015-11-29 14:35:46,419 [15] ERROR Ticknet - Exception Message - 
+2015-11-29 15:53:12,970 [18] ERROR Ticknet - Exception Message - 
+No se puede realizar una solicitud de estado de sesión al servidor de estado de sesión. Compruebe que el servicio de estado ASP.NET se ha iniciado y que los puertos de cliente y servidor son los mismos. Si el servidor se encuentra en un equipo remoto, compruebe el valor de HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\aspnet_state\Parameters\AllowRemoteConnection para asegurarse de que acepta más solicitudes. Si el servidor se encuentra en el equipo local y si el mencionado valor del registro no existe o está establecido en 0, la cadena de conexión del servidor de estado debe utilizar 'localhost' o '127.0.0.1' como nombre de servidor.
+2015-11-29 15:53:12,970 [18] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 15:56:11,225 [46] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 15:56:11,243 [46] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-29 15:56:11,243 [46] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-29 15:56:11,243 [46] ERROR Ticknet - Exception Message - 
+No se puede realizar una solicitud de estado de sesión al servidor de estado de sesión. Compruebe que el servicio de estado ASP.NET se ha iniciado y que los puertos de cliente y servidor son los mismos. Si el servidor se encuentra en un equipo remoto, compruebe el valor de HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\aspnet_state\Parameters\AllowRemoteConnection para asegurarse de que acepta más solicitudes. Si el servidor se encuentra en el equipo local y si el mencionado valor del registro no existe o está establecido en 0, la cadena de conexión del servidor de estado debe utilizar 'localhost' o '127.0.0.1' como nombre de servidor.
+2015-11-29 15:56:11,244 [46] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 15:56:50,417 [37] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 15:56:50,435 [37] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-29 15:56:50,436 [37] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-29 15:56:50,436 [37] ERROR Ticknet - Exception Message - 
+No se puede realizar una solicitud de estado de sesión al servidor de estado de sesión. Compruebe que el servicio de estado ASP.NET se ha iniciado y que los puertos de cliente y servidor son los mismos. Si el servidor se encuentra en un equipo remoto, compruebe el valor de HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\aspnet_state\Parameters\AllowRemoteConnection para asegurarse de que acepta más solicitudes. Si el servidor se encuentra en el equipo local y si el mencionado valor del registro no existe o está establecido en 0, la cadena de conexión del servidor de estado debe utilizar 'localhost' o '127.0.0.1' como nombre de servidor.
+2015-11-29 15:56:50,436 [37] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 16:01:09,275 [47] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 16:01:09,289 [47] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-29 16:01:09,289 [47] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-29 16:01:09,289 [47] ERROR Ticknet - Exception Message - 
 A public action method 'Asignacion' was not found on controller 'WebApplication4.Controllers.VentasController'.
-2015-11-29 14:35:46,419 [15] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 16:01:09,289 [47] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 16:01:40,727 [54] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 16:01:40,727 [54] ERROR Ticknet - Exception Data - 
+FormatException
+2015-11-29 16:01:40,727 [54] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-29 16:01:40,727 [54] ERROR Ticknet - Exception Message - 
+La cadena de entrada no tiene el formato correcto.
+2015-11-29 16:01:40,727 [54] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 16:02:59,731 [46] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 16:02:59,731 [46] ERROR Ticknet - Exception Data - 
+FormatException
+2015-11-29 16:02:59,731 [46] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-29 16:02:59,731 [46] ERROR Ticknet - Exception Message - 
+La cadena de entrada no tiene el formato correcto.
+2015-11-29 16:02:59,731 [46] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 16:04:37,209 [50] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 16:04:37,216 [50] ERROR Ticknet - Exception Data - 
+HttpAntiForgeryException
+2015-11-29 16:04:37,217 [50] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-29 16:04:37,217 [50] ERROR Ticknet - Exception Message - 
+The provided anti-forgery token was meant for user "", but the current user is "vendedor4@email.com".
+2015-11-29 16:04:37,217 [50] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 16:05:04,059 [56] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 16:05:04,059 [56] ERROR Ticknet - Exception Data - 
+FormatException
+2015-11-29 16:05:04,059 [56] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-29 16:05:04,059 [56] ERROR Ticknet - Exception Message - 
+La cadena de entrada no tiene el formato correcto.
+2015-11-29 16:05:04,059 [56] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 16:06:39,553 [26] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 16:06:39,559 [26] ERROR Ticknet - Exception Data - 
+HttpAntiForgeryException
+2015-11-29 16:06:39,559 [26] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-29 16:06:39,559 [26] ERROR Ticknet - Exception Message - 
+The provided anti-forgery token was meant for user "", but the current user is "vendedor4@email.com".
+2015-11-29 16:06:39,560 [26] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 16:15:12,860 [46] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 16:15:12,869 [46] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-29 16:15:12,869 [46] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-29 16:15:12,869 [46] ERROR Ticknet - Exception Message - 
+A public action method 'Asignacion' was not found on controller 'WebApplication4.Controllers.VentasController'.
+2015-11-29 16:15:12,870 [46] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 16:17:28,186 [46] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 16:17:28,186 [46] ERROR Ticknet - Exception Data - 
+FormatException
+2015-11-29 16:17:28,186 [46] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-29 16:17:28,186 [46] ERROR Ticknet - Exception Message - 
+La cadena de entrada no tiene el formato correcto.
+2015-11-29 16:17:28,186 [46] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 16:18:19,997 [59] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 16:18:20,004 [59] ERROR Ticknet - Exception Data - 
+HttpAntiForgeryException
+2015-11-29 16:18:20,004 [59] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-29 16:18:20,004 [59] ERROR Ticknet - Exception Message - 
+The provided anti-forgery token was meant for user "", but the current user is "vendedor3@email.com".
+2015-11-29 16:18:20,004 [59] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 16:18:29,329 [50] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 16:18:29,329 [50] ERROR Ticknet - Exception Data - 
+HttpAntiForgeryException
+2015-11-29 16:18:29,329 [50] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-29 16:18:29,329 [50] ERROR Ticknet - Exception Message - 
+The provided anti-forgery token was meant for user "", but the current user is "vendedor3@email.com".
+2015-11-29 16:18:29,329 [50] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 16:23:36,835 [40] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 16:23:36,853 [40] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-29 16:23:36,853 [40] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-29 16:23:36,853 [40] ERROR Ticknet - Exception Message - 
+A public action method 'Asignacion' was not found on controller 'WebApplication4.Controllers.VentasController'.
+2015-11-29 16:23:36,853 [40] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 16:24:34,006 [40] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 16:24:34,006 [40] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-29 16:24:34,006 [40] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-29 16:24:34,006 [40] ERROR Ticknet - Exception Message - 
+A public action method 'Asignacion' was not found on controller 'WebApplication4.Controllers.VentasController'.
+2015-11-29 16:24:34,006 [40] DEBUG Ticknet - ++++++++++++++++++++++++++++
