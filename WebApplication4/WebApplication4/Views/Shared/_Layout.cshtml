@@ -161,13 +161,7 @@
                                 </div>
                             </div>
                             
-                        }
-                        @if (codigoUsuario == 2)
-                        {
-                            <div class="navbar-form navbar-right">
-                                <a href="@Url.Action("CarritoVentas","Ventas")" name="boton" value="carrito" class="btn btn-success pull-right ">Carrito Ventas  <span class="glyphicon glyphicon-shopping-cart"></span></a>
-                            </div>
-                        }
+                        }                        
                     </div>
                 </div>
             </nav>
@@ -178,6 +172,13 @@
                 @(TempData["message"])
             </div>
         </div>
+        @if (codigoUsuario == 2)
+        {
+            <ul title="Carrito de compras" id="barraLateral">
+                <li><a name="boton" href="@Url.Action("CarritoVentas", "Ventas")"><span class="fa fa-cart-plus fa-4x"></span></a></li>                
+            </ul>            
+        }
+        
         <div style="min-height:800px">
             @RenderBody()
         </div>
@@ -411,9 +412,9 @@ else
         </div>
         <ul title="Carrito de compras" id="barraLateral">
             <li><a href="@Url.Action("MiCarrito", "CuentaUsuario")"><span class="fa fa-cart-plus fa-4x"></span></a></li>
-            <!--li><a href="@Url.Action("PuntoVentas", "Home")"><span class="fa fa-map-marker fa-4x"></span></a></li-->
+            
         </ul>
-<div class="bod" style="min-h
+
         <div class="bod" style="min-height:800px">
             @RenderBody()
         </div>

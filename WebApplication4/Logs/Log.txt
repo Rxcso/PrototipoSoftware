@@ -2649,3 +2649,27 @@ System.Collections.ListDictionaryInternal
 2015-11-28 19:42:15,431 [5] ERROR Ticknet - Exception Message - 
 The underlying provider failed on Open.
 2015-11-28 19:42:15,431 [5] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 23:12:15,756 [23] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 23:12:15,766 [23] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-28 23:12:15,766 [23] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-28 23:12:15,766 [23] ERROR Ticknet - Exception Message - 
+A public action method 'Asignacion' was not found on controller 'WebApplication4.Controllers.VentasController'.
+2015-11-28 23:12:15,766 [23] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 23:14:08,714 [29] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 23:14:08,714 [29] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-28 23:14:08,714 [29] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-28 23:14:08,714 [29] ERROR Ticknet - Exception Message - 
+A public action method 'Asignacion' was not found on controller 'WebApplication4.Controllers.VentasController'.
+2015-11-28 23:14:08,714 [29] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 23:22:21,430 [27] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 23:22:21,438 [27] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-28 23:22:21,438 [27] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-28 23:22:21,438 [27] ERROR Ticknet - Exception Message - 
+A public action method 'Asignacion' was not found on controller 'WebApplication4.Controllers.VentasController'.
+2015-11-28 23:22:21,438 [27] DEBUG Ticknet - ++++++++++++++++++++++++++++

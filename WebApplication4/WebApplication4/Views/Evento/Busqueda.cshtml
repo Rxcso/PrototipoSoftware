@@ -15,26 +15,15 @@
     inf245netsoft db = new inf245netsoft();
 }
 
-                               <!--style>
-                                   .thumbnail > .event-img {
-                                       height: 70px;
-                                   }
-
-                                   .bloque {
-                                       width: 250px;
-                                       height: 150px;
-                                   }
-                               </style-->
-
 <div id="busqNombre" class="container-fluid">
-    <div class="col-md-3">
+    <div class="col-md-5">
         <ol class="breadcrumb">
             <li class="active">Búsqueda de eventos</li>
         </ol>
     </div>    
 </div>
 
-<div id="busqAvanzada" class="container-fluid" style="text-align:center">
+<div id="busqAvanzada" class="container" style="text-align:center">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             @using (Html.BeginForm("Busqueda", "Evento", FormMethod.Get, new { id = "search" }))
@@ -277,7 +266,7 @@
 
     </div>
 </div>
-<div class="container-fluid">
+<div class="container">
     <div class="panel panel-primary">
         <div class="panel-heading">
             <strong>Resultados: @ViewBag.Cant </strong>
