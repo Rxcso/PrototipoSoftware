@@ -235,12 +235,14 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\BloqueDeTIempoModel.cs" />
+    <Compile Include="Models\Boleta.cs" />
     <Compile Include="Models\CancelarModel.cs" />
     <Compile Include="Models\CarritoItem.cs" />
     <Compile Include="Models\Categoria.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CategoriaModel.cs" />
+    <Compile Include="Models\DetalleVentaBoleta.cs" />
     <Compile Include="Models\Entrada.cs" />
     <Compile Include="Models\LogDevoluciones.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -358,6 +360,7 @@
     <Compile Include="Models\TurnoSistema.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Utilitarios.cs" />
     <Compile Include="Models\VenderEntradaModel.cs" />
     <Compile Include="Models\Ventas.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -462,6 +465,7 @@
     <Content Include="Images\Eventos\evento1118.jpg" />
     <Content Include="Images\Eventos\evento1120.jpg" />
     <Content Include="Images\Eventos\evento1121.jpg" />
+    <Content Include="Images\imagen.png" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>

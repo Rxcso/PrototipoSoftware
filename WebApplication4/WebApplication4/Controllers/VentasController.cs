@@ -6,6 +6,8 @@ using System.Data.Entity.Core;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Globalization;
+using System.Drawing;
+using System.Drawing.Printing;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -1847,6 +1849,19 @@ namespace WebApplication4.Controllers
 
         public ActionResult PrintTicket(int codVenT)
         {
+
+
+
+            if (generarBoleta(codVenT))
+            {
+                //Se imprimio :)
+
+            }
+
+
+
+
+
             List<Entrada> listaEntradas = new List<Entrada>();
             CultureInfo culture = new CultureInfo("es-PE");
             var lista = from obj in db.DetalleVenta
@@ -1920,7 +1935,9 @@ namespace WebApplication4.Controllers
 
             var st = "";
             this.ViewData.Model = data;
-            string path = HttpContext.Server.MapPath("~/Images/plantilla2.png");
+            string path = HttpContext.Server.MapPath("~/Images/imagen.png");
+
+            path = path.Replace('\\', '/');
             Session["path"] = path;
             using (StringWriter stringWriter = new StringWriter())
             {
@@ -1936,6 +1953,141 @@ namespace WebApplication4.Controllers
 
             Session["imagen"] = jpegBytes;
             return View(data);
+        }
+
+
+        private bool generarBoleta(int codVenT)
+        {
+
+
+            Boleta boleta = new Boleta();
+            List<DetalleVentaBoleta> detalles = new List<DetalleVentaBoleta>();
+
+
+            var lista = from obj in db.DetalleVenta
+                        where obj.codVen == codVenT
+                        select obj;
+
+            foreach (var detalle in lista)
+            {
+
+
+                DetalleVentaBoleta de = new DetalleVentaBoleta();
+
+                try
+                {
+                    var fu = db.Funcion.Find(detalle.codFuncion);
+                    var evento = db.Eventos.Find(fu.codEvento);
+                    var local = db.Local.Find(evento.idLocal);
+                    var pe = db.PrecioEvento.Find(detalle.codPrecE);
+                    var zona = db.ZonaEvento.Find(pe.codZonaEvento);
+
+
+
+                    de.Descripcion = evento.nombre + "funcion: " + fu.horaIni;
+
+                    de.Cantidad = detalle.cantEntradas;
+                    de.Codigo = detalle.codDetalleVenta;
+                    de.Total = detalle.total;
+                    de.Precio = pe.precio;
+
+                    detalles.Add(de);
+
+
+
+
+                }
+                catch (Exception ex)
+                {
+
+
+
+                }
+
+
+            }
+
+
+            boleta.detalles = detalles;
+
+
+
+            string cadena = "";
+            cadena = "                          TickNet                           \r\n";
+            cadena += "                 Av.Universitaria No 1400                  \r\n";
+            cadena += "                        Lima-Peru                          \r\n";
+            cadena += "               Telefono: 620 0000 Anx 3090                 \r\n";
+            cadena += "                   RUC 20009080255                         \r\n";
+            cadena += "             BOLETA DE VENTA ELECTRONICA                   \r\n";
+            cadena += "Codigo   |Descripcion                   |Cantidad|  Total  \r\n";
+
+
+
+
+
+
+
+
+            foreach (var detalle in boleta.detalles)
+            {
+                cadena += "" + detalle.Codigo.ToString().PadRight(10, ' ') + " " + detalle.Descripcion.PadRight(30, ' ').Substring(0, 30) +
+                    " " + detalle.Cantidad.ToString().PadRight(10, ' ') + " " + detalle.Total.Value.ToString("0.##").PadRight(10, ' ') + "\n";
+
+
+            }
+
+            cadena += String.Empty.PadRight(60, ' ') + "\r\n";
+            cadena += String.Concat("Total: ").PadLeft(40, ' ') + boleta.Total.ToString("0.##").PadRight(20, ' ');
+
+
+
+
+            Stream stream = Utilitarios.GenerateStreamFromString(cadena);
+
+            StreamReader reader = new StreamReader(stream);
+            Font printFont = new Font("Arial", 9);
+
+            PrintDocument pd = new PrintDocument();
+
+            string printer = pd.PrinterSettings.PrinterName;
+
+            pd.PrintPage += (sender, args) => {
+
+                string line = null;
+                float yPos;
+                int count = 0;
+                float leftMargin = 0;
+                float topMargin = args.MarginBounds.Top;
+
+                while ((line = reader.ReadLine()) != null)
+                {
+
+                    yPos = topMargin + (count * printFont.GetHeight(args.Graphics));
+
+                    args.Graphics.DrawString(line, printFont, Brushes.Black, leftMargin, yPos, new StringFormat());
+
+                    count++;
+                }
+
+
+
+            };
+            try
+            {
+                pd.Print();
+
+
+            }
+            catch (Exception ex)
+            {
+                //No encontro alguna impresora activa.
+
+
+            }
+
+
+
+            return true;
         }
     }
 }

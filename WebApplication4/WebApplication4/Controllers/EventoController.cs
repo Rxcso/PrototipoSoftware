@@ -87,7 +87,7 @@ namespace WebApplication4.Controllers
                         PeriodoVenta per = db.PeriodoVenta.Where(c => c.codEvento == paquete.idEvento && c.fechaInicio <= hoy && c.fechaFin >= hoy).ToList().First();
                         PrecioEvento pr = db.PrecioEvento.Where(c => c.codZonaEvento == paquete.idZona && c.codPeriodoVenta == per.idPerVent).ToList().First();
                         //ve.codVen = vel.codVen + 1;
-                        CuentaUsuario cuenta = (CuentaUsuario)Session["UsuarioLogueado"];
+                        CuentaUsuario cuenta =  db.CuentaUsuario.Find( User.Identity.Name );
                         ve.fecha = DateTime.Now;
                         ve.cantAsientos = paquete.cantEntradas;
                         ve.cliente = cuenta.usuario;

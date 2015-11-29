@@ -5,17 +5,11 @@
 
 
 @{
-    Layout = null;
-}
-
-
-
-@{
     ViewBag.Title = "VerTicket";
     Layout = null;
 
 
-
+    string path = (string)(Session["path"]);
 
 
 }
@@ -46,7 +40,7 @@
 
 
 
-    <div id="ticket" style="background: url(../../Images/plantilla2.png) no-repeat">
+    <div id="ticket" style="background: url('@path') no-repeat">
 
         <div id="header" class="Rotate-90 bloques">
             <p><strong>@Model.Evento</strong></p>
