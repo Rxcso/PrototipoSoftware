@@ -69,17 +69,17 @@
                                         Módulo de venta <span class="caret"></span>
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="@Url.Action("Busqueda", "Evento")">Buscar eventos</a></li>
-                                        <li><a href="@Url.Action("Entrega", "Ventas")">Entregar boletos</a></li>
-                                        <li><a href="@Url.Action("BuscaReserva","Ventas")">Buscar reserva</a></li>
-                                        <li><a href="@Url.Action("Devolucion", "Ventas")">Devolución</a></li>
+                                        <li><a href="@Url.Action("Busqueda", "Evento")"><span class="fa fa-fw fa-search-plus"></span> Buscar eventos</a></li>
+                                        <li><a href="@Url.Action("Entrega", "Ventas")"><span class="fa fa-fw fa-ticket"></span> Entregar boletos</a></li>
+                                        <li><a href="@Url.Action("BuscaReserva","Ventas")"><span class="fa fa-fw fa-sticky-note-o"></span> Buscar reserva</a></li>
+                                        <li><a href="@Url.Action("Devolucion", "Ventas")"><span class="fa fa-fw fa-undo"></span> Devolución</a></li>
                                         <li class="divider"></li>
-                                        <li><a href="@Url.Action("BuscaCliente", "CuentaUsuario")">Buscar cliente</a></li>
-                                        <li><a href="@Url.Action("RegistrarUsuarioVendedor", "CuentaUsuario")">Registrar Cliente</a></li>
+                                        <li><a href="@Url.Action("BuscaCliente", "CuentaUsuario")"><span class="fa fa-fw fa-user"></span> Buscar cliente</a></li>
+                                        <li><a href="@Url.Action("RegistrarUsuarioVendedor", "CuentaUsuario")"><span class="fa fa-fw fa-pencil"></span> Registrar Cliente</a></li>
                                         <li class="divider"></li>
-                                        <li><a href="@Url.Action("ReporteDia", "Ventas")">Reporte de ventas</a></li>
-                                        <li><a href="@Url.Action("Apertura", "Ventas")">Apertura de caja</a></li>
-                                        <li><a href="@Url.Action("Cierre", "Ventas")">Cierre de caja</a></li>
+                                        <li><a href="@Url.Action("ReporteDia", "Ventas")"><span class="fa fa-fw fa-money"></span> Mis ventas</a></li>
+                                        <li><a href="@Url.Action("Apertura", "Ventas")"><span class="fa fa-fw fa-inbox"></span> Apertura de caja</a></li>
+                                        <li><a href="@Url.Action("Cierre", "Ventas")"><span class="fa fa-fw fa-archive"></span> Cierre de caja</a></li>
                                     </ul>
                                 </li>
                             }
@@ -91,11 +91,13 @@
                                     </a>
                                     <ul class="dropdown-menu">
                                         <!--Administrador-->
-                                        <li><a href="@Url.Action("Asignacion", "CuentaUsuario")">Asignar turnos y puntos de venta</a></li>
-                                        <li><a href="@Url.Action("Politicas", "Politicas")">Políticas de la empresa</a></li>
-                                        <li><a href="@Url.Action("Index", "TipoDeCambio")">Tipo de cambio</a></li>
-                                        <li><a href="@Url.Action("Pago", "Ventas")">Registrar pagos</a></li>
-                                        <li><a href="@Url.Action("PagoOrganizador", "Ventas")">Registrar pagos de Penalidad</a></li>
+                                        <li><a href="@Url.Action("Asignacion", "CuentaUsuario")"><span class="fa fa-fw fa-clock-o"></span> Asignar turnos y puntos de venta</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li><a href="@Url.Action("Politicas", "Politicas")"><span class="fa fa-fw fa-ellipsis-v"></span> Políticas de la empresa</a></li>
+                                        <li><a href="@Url.Action("Index", "TipoDeCambio")"><span class="fa fa-fw fa-dollar"></span> Tipo de cambio</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li><a href="@Url.Action("Pago", "Ventas")"><span class="fa fa-fw fa-arrow-circle-right"></span> Pagos a organizador</a></li>
+                                        <li><a href="@Url.Action("PagoOrganizador", "Ventas")"><span class="fa fa-fw fa-arrow-circle-left"></span> Pagos de penalidad</a></li>
                                     </ul>
                                 </li>
                             }
@@ -111,19 +113,19 @@
                                     @if (@codigoUsuario == 4)
                                     {
                                         <!--Administrador del negocio-->
-                                        <li><a href="@Url.Action("Index", "Categoria")">Categorías de eventos</a></li>
-                                        <li><a href="@Url.Action("Index", "Empleado")">Empleados</a></li>
-                                        <li><a href="@Url.Action("Index", "PuntoVenta")">Puntos de venta</a></li>
-                                        <li><a href="@Url.Action("Index", "Regalo")">Regalos</a></li>
+                                        <li><a href="@Url.Action("Index", "Categoria")"><span class="fa fa-fw fa-pie-chart"></span> Categorías de eventos</a></li>
+                                        <li><a href="@Url.Action("Index", "Empleado")"><span class="fa fa-fw fa-user"></span> Empleados</a></li>
+                                        <li><a href="@Url.Action("Index", "PuntoVenta")"><span class="fa fa-fw fa-map-marker"></span> Puntos de venta</a></li>
+                                        <li><a href="@Url.Action("Index", "Regalo")"><span class="fa fa-fw fa-gift"></span> Regalos</a></li>
                                     }
 
                                     @if (@codigoUsuario == 3)
                                     {
                                         <!--Promotor-->
                                         <!--li class="divider"></!--li-->
-                                        <li><a href="@Url.Action("Index", "Organizador")">Organizadores</a></li>
-                                        <li><a href="@Url.Action("Index", "Local")">Locales</a></li>
-                                        <li><a href="@Url.Action("Index", "Evento")">Eventos</a></li>
+                                        <li><a href="@Url.Action("Index", "Organizador")"><span class="fa fa-fw fa-male"></span> Organizadores</a></li>
+                                        <li><a href="@Url.Action("Index", "Local")"><span class="fa fa-fw fa-building"></span> Locales</a></li>
+                                        <li><a href="@Url.Action("Index", "Evento")"><span class="fa fa-fw fa-calendar-o"></span> Eventos</a></li>
                                     }
                                 </ul>
                             </li>
@@ -134,12 +136,12 @@
                                         Reportes <span class="caret"></span>
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="@Url.Action("Index", "ReporteVentas")">Ventas</a></li>
-                                        <li><a href="@Url.Action("ReporteEvento", "Evento")">Eventos</a></li>
+                                        <li><a href="@Url.Action("Index", "ReporteVentas")"><span class="fa fa-fw fa-line-chart"></span> Ventas</a></li>
+                                        <li><a href="@Url.Action("ReporteEvento", "Evento")"><span class="fa fa-fw fa-calendar-o"></span> Eventos</a></li>
                                         <li class="divider"></li>
-                                        <li><a href="@Url.Action("ReporteAsignacion","CuentaUsuario")">Asignación de vendedores</a></li>
-                                        <li><a href="@Url.Action("ReporteAsistencia","CuentaUsuario")">Asistencia</a></li>
-                                        <li><a href="@Url.Action("ReporteCliente", "CuentaUsuario")">Clientes</a></li>
+                                        <li><a href="@Url.Action("ReporteAsignacion","CuentaUsuario")"><span class="fa fa-fw fa-male"></span> Asignación de vendedores</a></li>
+                                        <li><a href="@Url.Action("ReporteAsistencia","CuentaUsuario")"><span class="fa fa-fw fa-clock-o"></span> Asistencia</a></li>
+                                        <li><a href="@Url.Action("ReporteCliente", "CuentaUsuario")"><span class="fa fa-fw fa-users"></span> Clientes</a></li>
                                     </ul>
                                 </li>
                             }
@@ -159,13 +161,7 @@
                                 </div>
                             </div>
                             
-                        }
-                        @if (codigoUsuario == 2)
-                        {
-                            <div class="navbar-form navbar-right">
-                                <a href="@Url.Action("CarritoVentas","Ventas")" name="boton" value="carrito" class="btn btn-success pull-right ">Carrito Ventas  <span class="glyphicon glyphicon-shopping-cart"></span></a>
-                            </div>
-                        }
+                        }                        
                     </div>
                 </div>
             </nav>
@@ -176,6 +172,13 @@
                 @(TempData["message"])
             </div>
         </div>
+        @if (codigoUsuario == 2)
+        {
+            <ul title="Carrito de compras" id="barraLateral">
+                <li><a name="boton" href="@Url.Action("CarritoVentas", "Ventas")"><span class="fa fa-cart-plus fa-4x"></span></a></li>                
+            </ul>            
+        }
+        
         <div style="min-height:800px">
             @RenderBody()
         </div>
@@ -409,9 +412,9 @@ else
         </div>
         <ul title="Carrito de compras" id="barraLateral">
             <li><a href="@Url.Action("MiCarrito", "CuentaUsuario")"><span class="fa fa-cart-plus fa-4x"></span></a></li>
-            <!--li><a href="@Url.Action("PuntoVentas", "Home")"><span class="fa fa-map-marker fa-4x"></span></a></li-->
+            
         </ul>
-<div class="bod" style="min-h
+
         <div class="bod" style="min-height:800px">
             @RenderBody()
         </div>

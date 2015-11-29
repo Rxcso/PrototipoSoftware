@@ -16,7 +16,38 @@ thead {
         color: white;
         font-weight: bold;
 }
+/*CARRITO DE COMPRAS*/
+#barraLateral{
+    position: fixed;
+    top: 450px;   
+    left:0px; 
+    border:1px solid white;   
+}
+#barraLateral li{
+    list-style: none;    
+    width: 60px;
+    height: 60px;    
+    cursor: pointer;    
+    -webkit-transition: width 0.2s;    
+    -moz-transition: width 0.2s; 
+    -ms-transition: width 0.2s;
+    -o-transition: width 0.2s;
+}
+#barraLateral li a{    
+    display: block;
+    width: inherit;
+    height: inherit;    
+    text-decoration: none;
+    color: white;
+}
+#barraLateral li:hover{width: 70px}
+#barraLateral li:nth-of-type(1){background: #990000}
 
+@media only screen and (max-width: 870px) {
+    #barraLateral {
+        display:none;
+    }
+}
 
 
 /*ESTILOS DE LOS REPORTES*/
@@ -37,4 +68,13 @@ thead {
     .r{text-align:end}
     .table > tbody > tr > th {
         vertical-align:middle;
+    }
+
+    /*Truncar los nombres de los eventos en index2*/
+    .suspensivos{
+        overflow:hidden;
+        text-overflow:ellipsis;
+        height:18px;
+        white-space:nowrap;
+        width:inherit;
     }

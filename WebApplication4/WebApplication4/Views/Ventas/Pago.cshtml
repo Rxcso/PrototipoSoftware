@@ -109,7 +109,7 @@
             </center>
         </div>
     </div>
-    <div class="row">
+   
         <div class="table-responsive">
             <table id="mytable" class="table table-bordered table-hover">
                 <thead>
@@ -134,48 +134,49 @@
             </table>
         </div>
         
-    </div>
-
-    <div class="modal fade" id="modalBuscarOrganizador">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <!--ACA VA EL CONTENIDO DEL MODAL-->
-                <!--contenido de la ventana-->
-                <div class="modal-body">
-                    <div class="form-group">
-                        @{
-                            List<WebApplication4.Models.Organizador> orgList = db.Organizador.Where(c => c.estadoOrg == "Activo").ToList();
-                        }
-                        <table class="table table-bordered table-hover" id="tablita">
-                            <thead>
-                                <tr class="thead">
-                                    <th>Código</th>
-                                    <th>Nombre</th>
-                                    <th>Seleccionar</th>
+    
+</div>
+<div class="modal fade" id="modalBuscarOrganizador">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!--ACA VA EL CONTENIDO DEL MODAL-->
+            <!--contenido de la ventana-->
+            <div class="modal-body">
+                <div class="form-group">
+                    @{
+                        List<WebApplication4.Models.Organizador> orgList = db.Organizador.Where(c => c.estadoOrg == "Activo").ToList();
+                    }
+                    <table class="table table-bordered table-hover" id="tablita">
+                        <thead>
+                            <tr class="thead">
+                                <th>Código</th>
+                                <th>Nombre</th>
+                                <th>Seleccionar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var org in orgList)
+                            {
+                                <tr>
+                                    <td>@org.codOrg</td>
+                                    <td>@org.nombOrg</td>
+                                    <td><input type="radio" name="groupO" value="@org.codOrg"></td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var org in orgList)
-                                {
-                                    <tr>
-                                        <td>@org.codOrg</td>
-                                        <td>@org.nombOrg</td>
-                                        <td><input type="radio" name="groupO" value="@org.codOrg"></td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
+                            }
+                        </tbody>
+                    </table>
                 </div>
-                <!--footer de la ventana-->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" onclick="llenaOrg()">Seleccionar</button>
-                </div>
+            </div>
+            <!--footer de la ventana-->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="llenaOrg()">Seleccionar</button>
             </div>
         </div>
     </div>
 </div>
+
+
 
 @if(idor!=0){
     <input type="hidden" id="idOrgT" value="@idor" />

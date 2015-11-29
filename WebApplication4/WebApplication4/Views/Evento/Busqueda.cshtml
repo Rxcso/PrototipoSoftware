@@ -15,26 +15,15 @@
     inf245netsoft db = new inf245netsoft();
 }
 
-                               <!--style>
-                                   .thumbnail > .event-img {
-                                       height: 70px;
-                                   }
-
-                                   .bloque {
-                                       width: 250px;
-                                       height: 150px;
-                                   }
-                               </style-->
-
 <div id="busqNombre" class="container-fluid">
-    <div class="col-md-3">
+    <div class="col-md-5">
         <ol class="breadcrumb">
             <li class="active">Búsqueda de eventos</li>
         </ol>
     </div>    
 </div>
 
-<div id="busqAvanzada" class="container-fluid" style="text-align:center">
+<div id="busqAvanzada" class="container" style="text-align:center">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             @using (Html.BeginForm("Busqueda", "Evento", FormMethod.Get, new { id = "search" }))
@@ -69,60 +58,36 @@
 
             @Html.Hidden("nombre", nombre, new { id = "adv-nomb" })
 
-
-
             // @Html.ValidationSummary("", new { @class = "text-danger" })
             <center>
                 <div class="form-group ">
                     <div class="input-group">
-
                         <span class="input-group-addon">Desde:</span>
-
-
                         @if (ViewBag.fech_ini != null)
                         {
-                            string valor = ViewBag.fech_ini.ToString("yyyy-MM-dd");
-
-                            <input id="fech_ini" name="fech_ini" type="date" class="form-control " value=@valor>
+                            string valor = ViewBag.fech_ini.ToString("dd-MM-yyyy");
+                            <input id="fech_ini" name="fech_ini" type="text" class="fechar form-control " value=@valor>
                         }
                         else
                         {
-
-                            <input id="fech_ini" name="fech_ini" type="date" class="form-control ">
+                            <input id="fech_ini" name="fech_ini" type="text" class="fechar form-control ">
                         }
-
-
-
                     </div>
                 </div>
-
-                @*<div class="form-group">
-                    <div class="input-group">
-                        <span class="input-group-addon">Hasta:</span>
-                        <input id="fech_fin" onchange="changeDate2()" name="fech_fin" type="date" class="form-control">
-                    </div>
-                </div>*@
-
                 <div class="form-group">
                     <div class="input-group">
                         <span class="input-group-addon">Hasta:</span>
-
                         @if (ViewBag.fech_fin != null)
                         {
                             string valor = ViewBag.fech_fin.ToString("yyyy-MM-dd");
-
-                            <input id="fech_fin" name="fech_fin" type="date" value=@valor class="form-control" >
+                            <input id="fech_fin" name="fech_fin" type="text" value=@valor class="fechar form-control" >
                         }
                         else
                         {
-
-                            <input id="fech_fin"  name="fech_fin" type="date" class="form-control" >
+                            <input id="fech_fin"  name="fech_fin" type="text" class="fechar form-control" >
                         }
-
-
                     </div>
                 </div>
-
                 @*       @{
                         var db = new WebApplication4.Models.inf245netsoft();
 
@@ -131,94 +96,46 @@
                             ViewBag.Lista = db.EventosPrueba.AsNoTracking().Where(c => c.estado == "activo").ToList();
 
                         }
-
                     }*@
-
-
-
                 <div class="form-group ">
-
-
                     @*
                         @Html.LabelFor(model => model.idCategoria)
                         @Html.DropDownListFor(model => model.idCategoria, @ViewBag.categorias as SelectList, "Categorias", new { @class = "form-control", onclick = "cambioCat()" })
                     *@
-
                     <select name="idCategoria" id="idCategoria" data-val="true" onchange="cambioCat()" class="form-control col-lg-2">
-
-                        <option value="">Categorias</option>
-
-
+                        <option value="">Categoría</option>
                         @foreach (var categoria in ViewBag.categorias)
                         {
                             <option value=@categoria.Value> @categoria.Text</option>
                         }
-
                     </select>
-
-
                 </div>
                 <div class="form-group ">
-                    @*
-                        @Html.LabelFor(model => model.idSubCat)
-                        @Html.DropDownListFor(model => model.idSubCat, @ViewBag.subcategorias as SelectList, "SubCategorias", new { @class = "form-control" })
-                    *@
-
                     <select name="idSubCat" id="idSubCat" data-val="true" class="form-control col-lg-2">
-
-                        <option value="">Subcategorias</option>
+                        <option value="">Subcategoría</option>
                         @if (ViewBag.idCategoria != null)
-                        {
-                          
+                        {                          
                             int idPadre = ViewBag.idCategoria;
-
                             var subcat = from obj in db.Categoria
                                          where obj.idCatPadre == idPadre
                                          select obj;
 
                             foreach (var dato in subcat)
                             {
-
                                 <option value=@dato.idCategoria>@dato.nombre</option>
-
                             }
-
-
-
                         }
-
-
-
                     </select>
-
-
-
-
-
-
-
-
-
                 </div>
                 <div class="form-group">
-                    @*
-                        @Html.LabelFor(model => model.idRegion)
-                        @Html.DropDownListFor(model => model.idRegion, @ViewBag.departamentos as SelectList, "Departamentos", new { @class = "form-control", @onchange = "cambio()" })
-                    *@
-
                     <select name="idRegion" id="idRegion" data-val="true" class="form-control col-lg-2" onchange="cambio()">
-                        <option value="">Departamentos</option>
+                        <option value="">Departamento</option>
 
                         @foreach (var departamento in ViewBag.departamentos)
                         {
                             <option value=@departamento.Value> @departamento.Text</option>
                         }
-
                     </select>
-
-
-
-
                     @*
 
                         @{
@@ -235,36 +152,20 @@
                         @Html.DropDownListFor(model => model.idProv, @ViewBag.distritos as SelectList, "Distrito", new { @class = "form-control" })
                     *@
                     <select name="idProv" id="idProv" data-val="true" class="form-control ">
-
-
-                        <option value="">Distritos </option>
-
+                        <option value="">Provincia </option>
                         @if (ViewBag.idProv != null)
                         {
                             int idreg = ViewBag.idRegion;
-                        
-
                             var region = from obj in db.Region
                                          where obj.idRegPadre == idreg
                                          select obj;
 
                             foreach (var dato in region)
                             {
-
                                 <option value=@dato.idRegion>@dato.nombre</option>
-
                             }
-
-
-
                         }
-
-
-
-
                     </select>
-
-
 
                 </div>
                 <div class="form-group">
@@ -277,7 +178,7 @@
 
     </div>
 </div>
-<div class="container-fluid">
+<div class="container">
     <div class="panel panel-primary">
         <div class="panel-heading">
             <strong>Resultados: @ViewBag.Cant </strong>
@@ -288,62 +189,42 @@
 
             @foreach (var evento in Model)
             {
-
-                <a href="/Evento/VerEvento/@evento.codigo">
                     <div class="col-md-2 col-sm-4 col-xs-6 bloque">
-                        <div class="thumbnail">
-                            <img class="event event-img" src="@evento.ImagenEvento" alt="">
-                            <div class="caption" style="text-align:center">
-                                <div class="row">@evento.nombre</div>
-                                @{
-                                    var func = from obj in db.Funcion
-                                               where (obj.codEvento == evento.codigo && obj.estado.Contains("ACTIVO"))
-                                               orderby obj.fecha ascending
-                                               select obj;
+                        <div class="thumbnail" title="@evento.nombre">
+                            <a href="/Evento/VerEvento/@evento.codigo">
+                                <img class="event event-img" src="@evento.ImagenEvento" alt="">
+                                <div class="caption" style="text-align:center">
+                                    <div class="suspensivos"><strong>@evento.nombre</strong></div>
+                                    @{
+                var func = from obj in db.Funcion
+                           where (obj.codEvento == evento.codigo && obj.estado.Contains("ACTIVO"))
+                           orderby obj.fecha ascending
+                           select obj;
 
-                                    string fecha = "";
+                string fecha = "";
 
-                                    if (func.Count() > 0)
-                                    {
+                if (func.Count() > 0)
+                {
 
-                                        var funcion = func.First();
+                    var funcion = func.First();
 
-                                        fecha = funcion.fecha.Value.ToString("dd/MM/yyyy");
-                                        fecha = fecha + " " + funcion.horaIni.Value.ToString("hh:mm tt"); 
+                    fecha = funcion.fecha.Value.ToString("dd/MM/yyyy");
+                    fecha = fecha + " " + funcion.horaIni.Value.ToString("hh:mm tt");
+                }
+                else
+                {
+                    fecha = "Pronto";
+                }
                                     }
-                                    else
-                                    {
-
-                                        fecha = "Pronto";
-                                    }
-
-
-                                }
-
-                                <div class="row">@fecha</div>
-
-                            </div>
+                                    <div class="row">@fecha</div>
+                                </div>
+                            </a>
                         </div>
                     </div>
-                </a>
-
-                @*
-
-                    <tr>
-                        <td>@evento.nombre</td>
-                        <td>@evento.lugar</td>
-                    </tr>
-                *@
             }
         </div>
-
     </div>
-
-
     @{
-        
-
-
         var fechaI = "";
         var fechaF = "";
 
@@ -522,7 +403,7 @@
 
                 if (new Date(fechF.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1")) < new Date(fechI.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1"))) {
 
-                    $("#alerta").append('<strong>Fecha hasta no puede ser menor que fecha desde</strong>').show();
+                    $("#alerta").append('<strong>"Fecha hasta" no puede ser menor que "Fecha desde"</strong>').show();
                     return;
                 } else {
                     var valor = $("#alerta").children('strong');

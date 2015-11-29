@@ -22,62 +22,72 @@
     //se le asignan los valores del puntoVentaModel a los campos que se editaran
 }
 
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li><a href="@Url.Action("Index","PuntoVenta")">Mantenimiento de Puntos de Venta</a></li>
+            <li class="active">Editar Punto de Venta</li>
+        </ol>
+    </div>
+</div>
 
-
-<div class="modal-body">
+<div class="container">
     @using (Html.BeginForm("EditRegister", "PuntoVenta", FormMethod.Post, new { model = puntoM }))
     {
         @Html.AntiForgeryToken()
-
-        <div class="form-horizontal">
-            @Html.ValidationSummary(true)
-            <br>
-            <div class="row form-group">
-                @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })
-                <div class="col-md-5">
-                    @Html.TextBoxFor(model => model.nombre, new { @class = "form-control", @placeholder = @puntoM.nombre, @Value = @puntoM.nombre })
-                    @Html.ValidationMessageFor(model => model.nombre)
+        <div class="col-md-8 col-md-offset-2">
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true)
+                <br>
+                <div class="row form-group">
+                    @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })
+                    <div class="col-md-5">
+                        @Html.TextBoxFor(model => model.nombre, new { @class = "form-control", @placeholder = @puntoM.nombre, @Value = @puntoM.nombre })
+                        @Html.ValidationMessageFor(model => model.nombre)
+                    </div>
                 </div>
-            </div>
 
-            <div class="row form-group">
-                @Html.LabelFor(model => model.ubicacion, new { @class = "control-label col-md-3" })
-                <div class="col-md-5">
-                    @Html.TextBoxFor(model => model.ubicacion, new { @class = "form-control", @placeholder = @puntoM.ubicacion, @Value = @puntoM.ubicacion })
-                    @Html.ValidationMessageFor(model => model.ubicacion)
+                <div class="row form-group">
+                    @Html.LabelFor(model => model.ubicacion, new { @class = "control-label col-md-3" })
+                    <div class="col-md-5">
+                        @Html.TextBoxFor(model => model.ubicacion, new { @class = "form-control", @placeholder = @puntoM.ubicacion, @Value = @puntoM.ubicacion })
+                        @Html.ValidationMessageFor(model => model.ubicacion)
+                    </div>
                 </div>
-            </div>
 
-            <div class="row form-group">
-                @Html.LabelFor(model => model.mac, new { @class = "control-label col-md-3" })
-                <div class="col-md-5">
-                    @Html.TextBoxFor(model => model.mac, new { @class = "form-control", @placeholder = @puntoM.mac, @Value = @puntoM.mac })
-                    @Html.ValidationMessageFor(model => model.mac)
+                <div class="row form-group">
+                    @Html.LabelFor(model => model.mac, new { @class = "control-label col-md-3" })
+                    <div class="col-md-5">
+                        @Html.TextBoxFor(model => model.mac, new { @class = "form-control", @placeholder = @puntoM.mac, @Value = @puntoM.mac })
+                        @Html.ValidationMessageFor(model => model.mac)
+                    </div>
                 </div>
-            </div>
 
 
-            <div class="row form-group">
-                @Html.LabelFor(model => model.idRegion, new { @class = "control-label col-md-3" })
-                <div class="col-md-2">
-                    @Html.DropDownListFor(model => model.idRegion, @ViewBag.DepID as SelectList, "Departamento", new { @class = "form-control", @onchange = "cambioDepartamento()" })
+                <div class="row form-group">
+                    @Html.LabelFor(model => model.idRegion, new { @class = "control-label col-md-3" })
+                    <div class="col-md-5">
+                        @Html.DropDownListFor(model => model.idRegion, @ViewBag.DepID as SelectList, "Departamento", new { @class = "form-control", @onchange = "cambioDepartamento()" })
+                    </div>
                 </div>
-            </div>
 
-            <div class="row form-group">
-                @Html.LabelFor(model => model.idProv, new { @class = "control-label col-md-3" })
-                <div class="col-md-2">
-                    @Html.DropDownListFor(model => model.idProv, @ViewBag.ProvID as SelectList, "Provincia", new { @class = "form-control" })
+                <div class="row form-group">
+                    @Html.LabelFor(model => model.idProv, new { @class = "control-label col-md-3" })
+                    <div class="col-md-5">
+                        @Html.DropDownListFor(model => model.idProv, @ViewBag.ProvID as SelectList, "Provincia", new { @class = "form-control" })
+                    </div>
                 </div>
-            </div>
 
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Editar" class="btn btn-primary" />
+                <div class="form-group">
+                    <center>
+                        <button type="submit" value="Editar" class="btn btn-primary"><span class="glyphicon glyphicon-save"></span> Guardar</button>
+                        <a href="@Url.Action("Index","PuntoVenta")" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Cancelar</a>
+                    </center>
                 </div>
             </div>
         </div>
+        
+        
     }
 </div>
 

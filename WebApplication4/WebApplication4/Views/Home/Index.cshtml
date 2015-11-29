@@ -70,7 +70,7 @@
 
                         @foreach (var evento in Model)
                         {
-                            <div class="col-md-3 col-sm-6 col-xs-12 bloque-imagen">
+                            <div class="col-md-3 col-sm-6 col-xs-12 bloque-imagen" title="@evento.nombre">
                                 <div class="thumbnail">
                                     <a href=@Url.Action("VerEvento", "Evento", new { id = evento.codigo })>
                                         <img  class="event" src="@evento.ImagenEvento" alt="">
