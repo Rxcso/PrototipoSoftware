@@ -8,6 +8,7 @@
 <div class="container-fluid">
     <div class="col-md-5">
         <ol class="breadcrumb">
+            <li><a href="@Url.Action("Index","Home")">Inicio</a></li>
             <li>@Html.ActionLink("Mi Cuenta", "MiCuenta", "CuentaUsuario")
             <li class="active">Mis Preferencias</li>
         </ol>
@@ -21,7 +22,7 @@
             <div class="contenedor col-md-8">
                 <div class="container">
                     <div class="row">
-                        <h3>Elija categorías de su interés</h3><br>
+                        <h3>Elija categorías de su interés...</h3><br>
                         @for (int i = 0; i < Model.listSelected.Length; i++)
                         {
                             @Html.HiddenFor(c => c.listIdCategorias[i])
