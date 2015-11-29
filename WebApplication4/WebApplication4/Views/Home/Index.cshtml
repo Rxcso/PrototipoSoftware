@@ -66,8 +66,6 @@
 
                     <!--Aca iran los eventos en miniatura-->
                     <div class="panel-body">
-
-
                         @foreach (var evento in Model)
                         {
                             <div class="col-md-3 col-sm-6 col-xs-12 bloque-imagen" title="@evento.nombre">
@@ -88,7 +86,7 @@
 
                                 var funcion = func.First();
                                 fecha = funcion.fecha.Value.ToString("dd/MM/yyyy");
-                                fecha = fecha + " " + funcion.horaIni.Value.ToString("hh:mm tt");
+                                //fecha = fecha + " " + funcion.horaIni.Value.ToString("hh:mm tt");
                             }
                             else
                             {

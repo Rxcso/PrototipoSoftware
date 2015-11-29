@@ -23,7 +23,9 @@
 
 }
 <style>
-    td{text-align:center}
+    td {
+        text-align: center;
+    }
 </style>
 <div class="container-fluid">
     <div class="col-md-5">
@@ -33,7 +35,7 @@
     </div>
 </div>
 
-<div class="container">    
+<div class="container">
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
@@ -48,7 +50,7 @@
                     </div>
                 </div>
             </div>
-        </div> 
+        </div>
     </div><br />
     <div class="row">
         <div class="col-md-12">
@@ -149,7 +151,7 @@
                     </tbody>
                 </table>
             </div>
-        </div>                    
+        </div>
     </div>
 </div><!--Fin del container-->
 
@@ -159,7 +161,7 @@
         <div class="modal-content">
             <!--ACA VA EL CONTENIDO DEL MODAL-->
             <!--contenido de la ventana-->
-            <div class="modal-body">       
+            <div class="modal-body">
                 <div class="form-group">
                     @{
                         List<WebApplication4.Models.CuentaUsuario> vendList = db.CuentaUsuario.Where(c => c.estado == true && c.codPerfil == 2).ToList();
@@ -176,14 +178,14 @@
                             @foreach (var vend in vendList)
                             {
                                 <tr id=@vend.usuario.Replace("@", "°") onclick="myFunction(this)">
-                                    <td>@vend.usuario.Replace("@", "°")</td>
+                                    <td>@vend.usuario</td>
                                     <td>@vend.nombre</td>
                                     <td><input type="radio" name="groupO" value="@vend.usuario.Replace("@", "°")"></td>
                                 </tr>
                             }
                         </tbody>
                     </table>
-                </div>                                    
+                </div>
             </div>
             <!--footer de la ventana-->
             <div class="modal-footer">
