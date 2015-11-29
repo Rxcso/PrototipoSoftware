@@ -33,21 +33,15 @@
     </div>
 </div>
 
-<div class="container">
-    <div class="row form-group">
-        <div class="col-md-3">
-            <a class="btn btn-primary" onclick="registrar()" href="" data-toggle="modal"><span class="glyphicon glyphicon-plus"></span> Agregar</a>
-            <a class="btn btn-danger" onclick="borrarT()" href=""><span class="glyphicon glyphicon-trash"></span> Eliminar</a>
-        </div>
-    </div>
+<div class="container">    
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
-                <label class="control-label col-md-2">Vendedor:</label>
-                <div class="col-md-5">
+                <label class="control-label col-md-2 col-sm-2 col-xs-2">Vendedor:</label>
+                <div class="col-md-5 col-sm-5 col-xs-5">
                     <input type="text" id="idVend" class="form-control" value="@idvend" readonly="true">
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-5 col-sm-5 col-xs-5">
                     <div class="input-group">
                         <input type="text" class="form-control" id="vendedorNombre" value="@nombV" readonly="true">
                         <span class="input-group-btn"><a href="#modalBuscarVendedor" class="btn btn-primary" data-toggle="modal" type="button">Buscar <span class="glyphicon glyphicon-search"></span></a></span>
@@ -102,8 +96,8 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
-                <label for="nombreEvento" class="control-label col-md-2">Turno:</label>
-                <div class="col-md-3">
+                <label for="nombreEvento" class="control-label col-md-2 col-sm-2 col-xs-2">Turno:</label>
+                <div class="col-md-3 col-sm-3 col-xs-3">
                     <select name="" id="comboBusq" class="form-control">
                         <option value="0">Seleccionar</option>
                         @foreach (var item in listaTurno)
@@ -113,6 +107,12 @@
                             </option>
                         }
                     </select>
+                </div>
+                <div class="col-md-7 col-sm-7 col-xs-7">
+                    <center>
+                        <a class="btn btn-primary" onclick="registrar()" href="" data-toggle="modal"><span class="glyphicon glyphicon-plus"></span> Agregar</a>
+                        <a class="btn btn-danger" onclick="borrarT()" href=""><span class="glyphicon glyphicon-trash"></span> Eliminar</a>
+                    </center>
                 </div>
             </div>
         </div>
