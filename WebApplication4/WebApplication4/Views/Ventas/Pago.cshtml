@@ -29,25 +29,17 @@
     }
     
 }
-
+<style>
+    input,td{text-align:center}    
+</style>
 <div class="container-fluid">
     <div class="col-md-5">
         <ol class="breadcrumb">
-            <li class="active">Registrar Pagos</li>
+            <li class="active">Registrar pagos hacia un organizador</li>
         </ol>
     </div>
 </div>
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="form-group">
-                @*<a class="btn btn-danger pull-right" href="@Url.Action("Index2", "Home")">Salir <span class="glyphicon glyphicon-log-out"></span></a>*@
-                <br>
-                <br>
-                <br>
-            </div>
-        </div>
-    </div>
+<div class="container">    
     <div class="row">
         <div class="col-md-10 col-md-offset-2">
             <form action="" class="form-horizontal">
@@ -55,14 +47,13 @@
                 <div class="form-group">
                     <label for="organizador" class="control-label col-md-2">Organizador:</label>
                     <div class="col-md-2">
-                        <input type="textarea" id="idOrg" class="form-control" readonly="true" value="@idor">
+                        <input type="text" id="idOrg" class="form-control" readonly="true" value="@idor">
                     </div>
                     <div class="col-md-4">
                         <div class="input-group">
-                            <input type="text" class="form-control" disabled id="organizadorNombre" value="@nombO">
-                            <span class="input-group-btn"><a href="#modalBuscarOrganizador" class="btn btn-primary" data-toggle="modal" type="button">Buscar <span class="glyphicon glyphicon-search"></span></a></span>
+                            <input type="text" class="form-control" readonly id="organizadorNombre" value="@nombO">
+                            <span class="input-group-btn"><a href="#modalBuscarOrganizador" class="btn btn-primary" data-toggle="modal" type="button"><span class="glyphicon glyphicon-search"></span> Buscar</a></span>
                         </div>
-
                     </div>
                 </div>
                 @if (idor != 0)
@@ -76,7 +67,7 @@
                 }
                 <div class="row form-group">
                     <label for="nombreEvento" class="control-label col-md-2">Evento:</label>
-                    <div class="col-md-2">
+                    <div class="col-md-6">
                         <select name="" id="comboBusq" onchange="cambio()" class="form-control">
                             <option value="0">Seleccionar</option>
                             @foreach (var item in listaEv)
@@ -110,36 +101,39 @@
                         <input type="number" class="form-control col-md-4" id="monto2">
                     </div>
                 </div>
-            </form>
-            <div class="form-group col-md-12">
-                <center>
-                    <a class="btn btn-primary" href="#avisoConfirmacion" data-toggle="modal" onclick="registrar()">Registrar Pago  <span class="glyphicon glyphicon-ok-sign"></span></a>
-                </center>
-            </div>
+            </form>            
+        </div>
+        <div class="form-group col-md-12">
+            <center>
+                <a class="btn btn-primary" href="#avisoConfirmacion" data-toggle="modal" onclick="registrar()"><span class="fa fa-money fa-lg"></span> Registrar Pago</a>
+            </center>
         </div>
     </div>
     <div class="row">
-        <table id="mytable" class="table table-bordered table-hover">
-            <thead>
-                <tr class="thead">
-                    <th>Id</th>
-                    <th>Fecha</th>
-                    <th>Organizador</th>
-                    <th>Monto</th>
-                </tr>
-            </thead>
-            <tbody id="tbody">
-                @foreach (var row in liP)
-                {
-                    <tr id=@row.codPago onclick="myFunction(this)">
-                        <td>@row.codPago</td>
-                        <td>@row.fecha</td>
-                        <td>@db.Organizador.Find(row.codOrg).nombOrg</td>
-                        <td>@row.monto</td>
+        <div class="table-responsive">
+            <table id="mytable" class="table table-bordered table-hover">
+                <thead>
+                    <tr class="thead">
+                        <th>Código pago</th>
+                        <th>Fecha de pago</th>
+                        <th>Organizador</th>
+                        <th>Monto (S/.)</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody id="tbody">
+                    @foreach (var row in liP)
+                    {
+                        <tr id=@row.codPago onclick="myFunction(this)">
+                            <td>@row.codPago</td>
+                            <td>@row.fecha</td>
+                            <td>@db.Organizador.Find(row.codOrg).nombOrg</td>
+                            <td>@row.monto</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        
     </div>
 
     <div class="modal fade" id="modalBuscarOrganizador">
@@ -148,36 +142,35 @@
                 <!--ACA VA EL CONTENIDO DEL MODAL-->
                 <!--contenido de la ventana-->
                 <div class="modal-body">
-                    <form action="" class="form-horizontal">
-                        <div class="form-group">
-                            @{
-                                List<WebApplication4.Models.Organizador> orgList = db.Organizador.Where(c => c.estadoOrg == "Activo").ToList();
-                            }
-                            <table class="table table-bordered table-hover" id="tablita">
-                                <thsead>
-                                    <tr class="thead">
-                                        <th>Id</th>
-                                        <th>Nombre</th>
-                                        <th>Seleccionar</th>
+                    <div class="form-group">
+                        @{
+                            List<WebApplication4.Models.Organizador> orgList = db.Organizador.Where(c => c.estadoOrg == "Activo").ToList();
+                        }
+                        <table class="table table-bordered table-hover" id="tablita">
+                            <thead>
+                                <tr class="thead">
+                                    <th>Código</th>
+                                    <th>Nombre</th>
+                                    <th>Seleccionar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var org in orgList)
+                                {
+                                    <tr>
+                                        <td>@org.codOrg</td>
+                                        <td>@org.nombOrg</td>
+                                        <td><input type="radio" name="groupO" value="@org.codOrg"></td>
                                     </tr>
-                                </thsead>
-                                <tbody>
-                                    @foreach (var org in orgList)
-                                    {
-                                        <tr>
-                                            <td>@org.codOrg</td>
-                                            <td>@org.nombOrg</td>
-                                            <td><input type="radio" name="groupO" value="@org.codOrg"></td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </form>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!--footer de la ventana-->
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" onclick="llenaOrg()"><span class="glyphicon glyphicon-ok"></span> Seleccionar</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" onclick="llenaOrg()">Seleccionar</button>
                 </div>
             </div>
         </div>
