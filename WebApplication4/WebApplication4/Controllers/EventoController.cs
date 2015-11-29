@@ -458,33 +458,23 @@ namespace WebApplication4.Controllers
             }
             if (ModelState.IsValid)
             {
-                if (Validaciones.VerificaEventoDG(model))
+                if (int.TryParse(Session["IdEventoModificado"].ToString(), out idEvento))
                 {
-                    if (int.TryParse(Session["IdEventoModificado"].ToString(), out idEvento))
-                    {
-                        Eventos modificado = db.Eventos.Find(idEvento);
-                        modificado.descripcion = model.descripcion;
-                        modificado.direccion = model.Direccion;
-                        modificado.idCategoria = model.idCategoria;
-                        modificado.idOrganizador = model.idOrganizador;
-                        modificado.idProvincia = model.idProv;
-                        modificado.idRegion = model.idRegion;
-                        modificado.idSubcategoria = model.idSubCat;
-                        modificado.idLocal = model.Local;
-                        modificado.nombre = model.nombre;
-                        modificado.fechaUltModificacion = DateTime.Today;
-                        modificado.estado = "Modificado";
-                        db.SaveChanges();
-                        return RedirectToAction("BloquesTiempoVenta");
-                    }
+                    Eventos modificado = db.Eventos.Find(idEvento);
+                    modificado.descripcion = model.descripcion;
+                    modificado.direccion = model.Direccion;
+                    modificado.idCategoria = model.idCategoria;
+                    modificado.idOrganizador = model.idOrganizador;
+                    modificado.idProvincia = model.idProv;
+                    modificado.idRegion = model.idRegion;
+                    modificado.idSubcategoria = model.idSubCat;
+                    modificado.idLocal = model.Local;
+                    modificado.nombre = model.nombre;
+                    modificado.fechaUltModificacion = DateTime.Today;
+                    modificado.estado = "Modificado";
+                    db.SaveChanges();
+                    return RedirectToAction("BloquesTiempoVenta");
                 }
-                if (model.Local != 0 && model.Direccion != null)
-                {
-                    ModelState.AddModelError("Local", "Debe ingresar un local o dirección.");
-                    ModelState.AddModelError("Direccion", "Debe ingresar una dirección o un local");
-                }
-
-                return View(model);
             }
             return View(model);
         }
@@ -511,45 +501,37 @@ namespace WebApplication4.Controllers
         [HttpPost]
         public ActionResult DatosGenerales(DatosGeneralesModel model)
         {
-            if (Validaciones.VerificaEventoDG(model))
+            if (ModelState.IsValid && model.idOrganizador != 0)
             {
-                if (ModelState.IsValid && model.idOrganizador != 0)
-                {
-                    Eventos evento = new Eventos();
-                    evento.nombre = model.nombre;
-                    evento.idOrganizador = model.idOrganizador;
-                    evento.idCategoria = model.idCategoria;
-                    evento.idSubcategoria = (model.idSubCat == 0) ? 0 : model.idSubCat;
-                    evento.idLocal = (model.Local == 0) ? 0 : model.Local;
-                    evento.direccion = string.IsNullOrEmpty(model.Direccion) ? "" : model.Direccion;
-                    evento.idRegion = (model.idRegion == 0) ? 0 : model.idRegion;
-                    evento.idProvincia = (model.idProv == 0) ? 0 : model.idProv;
-                    evento.descripcion = string.IsNullOrEmpty(model.descripcion) ? "" : model.descripcion;
-                    evento.fechaRegistro = DateTime.Today;
-                    evento.estado = "Creado";
-                    evento.monto_adeudado = 0;
-                    evento.monto_transferir = 0;
-                    evento.tieneBoletoElectronico = false;
-                    evento.permiteReserva = false;
-                    evento.puntosAlCliente = 0;
-                    evento.hanPostergado = false;
-                    evento.hanCancelado = false;
-                    evento.maxReservas = 0;
-                    //evento.ImagenDestacado = MagicHelpers.NuevoEvento;
-                    db.Eventos.Add(evento);
-                    db.SaveChanges();
-                    int id = evento.codigo;
-                    Session["IdEventoCreado"] = id;
-                    return RedirectToAction("BloquesTiempoVenta");
-                }
+                Eventos evento = new Eventos();
+                evento.nombre = model.nombre;
+                evento.idOrganizador = model.idOrganizador;
+                evento.idCategoria = model.idCategoria;
+                evento.idSubcategoria = (model.idSubCat == 0) ? 0 : model.idSubCat;
+                evento.idLocal = (model.Local == 0) ? 0 : model.Local;
+                evento.direccion = string.IsNullOrEmpty(model.Direccion) ? "" : model.Direccion;
+                evento.idRegion = (model.idRegion == 0) ? 0 : model.idRegion;
+                evento.idProvincia = (model.idProv == 0) ? 0 : model.idProv;
+                evento.descripcion = string.IsNullOrEmpty(model.descripcion) ? "" : model.descripcion;
+                evento.fechaRegistro = DateTime.Today;
+                evento.estado = "Creado";
+                evento.monto_adeudado = 0;
+                evento.monto_transferir = 0;
+                evento.tieneBoletoElectronico = false;
+                evento.permiteReserva = false;
+                evento.puntosAlCliente = 0;
+                evento.hanPostergado = false;
+                evento.hanCancelado = false;
+                evento.maxReservas = 0;
+                //evento.ImagenDestacado = MagicHelpers.NuevoEvento;
+                db.Eventos.Add(evento);
+                db.SaveChanges();
+                int id = evento.codigo;
+                Session["IdEventoCreado"] = id;
+                return RedirectToAction("BloquesTiempoVenta");
             }
             if (model.idOrganizador == 0)
                 ModelState.AddModelError("idOrganizador", "El evento debe tener un organizador");
-            if (model.Local != 0 && model.Direccion != null)
-            {
-                ModelState.AddModelError("Local", "Debe ingresar un local o dirección.");
-                ModelState.AddModelError("Direccion", "Debe ingresar una dirección o un local");
-            }
             ViewBag.MensajeExtra = "Revise los errores.";
             List<Region> listaDep = db.Region.Where(c => c.idRegPadre == null).ToList();
             List<Region> listProv = db.Region.Where(c => c.idRegPadre == model.idRegion).ToList();

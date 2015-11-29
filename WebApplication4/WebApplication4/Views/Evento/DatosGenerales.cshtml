@@ -76,7 +76,7 @@
                     <div class="form-group">
                         @Html.LabelFor(c => c.Direccion, new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.TextBoxFor(c => c.Direccion, new { @class = "form-control", @placeholder = "Solo si no existe local para el evento" })
+                            @Html.TextBoxFor(c => c.Direccion, new { @class = "form-control", @placeholder = "Solo si no existe local para el evento" ,@onchange="cambio()" })
                         </div>
                         @Html.ValidationMessageFor(c => c.Direccion)
                     </div><br><br>
@@ -84,11 +84,13 @@
                         @Html.LabelFor(model => model.idRegion, new { @class = "control-label col-md-2" })
                         <div class="col-md-4">
                             @Html.DropDownListFor(model => model.idRegion, @ViewBag.DepID as SelectList, "Departamento", new { @class = "form-control", @onchange = "cambioDepartamento()" })
+                            @Html.HiddenFor(model => model.idRegion)
                             @Html.ValidationMessageFor(c => c.idRegion)
                         </div>
                         @Html.LabelFor(model => model.idProv, new { @class = "control-label col-md-2" })
                         <div class="col-md-4">
                             @Html.DropDownListFor(model => model.idProv, @ViewBag.ProvID as SelectList, "Provincia", new { @class = "form-control" })
+                            @Html.HiddenFor(model => model.idProv)
                         </div>
                     </div><br><br>
                     <div class="form-group">
@@ -111,19 +113,23 @@
         <div class="modal-content">
             <!--ACA VA EL CONTENIDO DEL MODAL-->
             <!--contenido de la ventana-->
+            <div class="modal-header">
+                <h4s class="modal-title">Seleccione un Local:</h4s>
+            </div>
             <div class="modal-body">
                 <form action="" class="form-horizontal">
                     <div class="form-group">
                         @{
                             List<Local> localList = db.Local.ToList();
                         }
-                        Seleccione un Local:
                         <table class="table table-bordered table-hover" id="tablita">
                             <thead>
                                 <tr class="thead">
                                     <th>Id</th>
                                     <th>Nombre</th>
                                     <th>Ubicacion</th>
+                                    <th>Departamento </th>
+                                    <th>Provincia</th>
                                     <th>Seleccionar</th>
                                 </tr>
                             </thead>
@@ -133,8 +139,12 @@
                                     <tr>
                                         <td>@local.codLocal</td>
                                         <td>@local.descripcion</td>
+                                        <td>@db.Region.Find(local.idRegion).nombre</td>
+                                        <td>@db.Region.Find(local.idProvincia).nombre</td>
                                         <td>@local.ubicacion</td>
-                                        <td><input type="radio" id="@local.codLocal" name="groupL" value="@local.ubicacion"></td>
+                                        <td style="text-align:center">
+                                            <input data-nprov="@db.Region.Find(local.idProvincia).nombre><" data-dep="@local.idRegion" data-prov="@local.idProvincia" type="radio" id="@local.codLocal" name="groupL" value="@local.ubicacion">
+                                        </td>
                                     </tr>
                                 }
                             </tbody>
