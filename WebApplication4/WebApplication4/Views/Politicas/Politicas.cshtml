@@ -51,6 +51,18 @@
             <div class="tab-pane fade active in" id="dias"><br />
                 <div class="container">
                     <div class="row form-group">
+                        <div class="col-md-4 col-md-offset-1 col-sm-4 col-xs-4">
+                            
+                        </div>
+                        <center class="col-md-2 col-sm-4 col-xs-4">
+                            <strong>Nuevo valor</strong>
+                        </center>
+                        <center class="col-md-2 col-sm-4 col-xs-4">
+                            <strong>Valor actual</strong>
+                        </center>
+                    </div>
+
+                    <div class="row form-group">
                         <div class="radio col-md-4 col-md-offset-1 col-sm-4 col-xs-4">
                             <label><input type="radio" name="tipoRes" value="1">Duración de reserva: </label>
                         </div>
@@ -60,7 +72,7 @@
                                 <span class="input-group-addon" id="reserva">días</span>
                             </div>
                         </div>
-                        <div class="col-md-1 col-sm-4 col-xs-4">
+                        <div class="col-md-2 col-sm-4 col-xs-4">
                             <input type="text" value="@p1" class="form-control" aria-describedby="dolares" readonly="true">
                         </div>
                     </div>
@@ -74,7 +86,7 @@
                                 <span class="input-group-addon" id="reserva">horas</span>
                             </div>
                         </div>
-                        <div class="col-md-1 col-sm-4 col-xs-4">
+                        <div class="col-md-2 col-sm-4 col-xs-4">
                             <input type="text" value="@pl6" class="form-control" aria-describedby="dolares" readonly="true">
                         </div>
                     </div>
@@ -85,7 +97,7 @@
                         <div class="col-md-2 col-sm-4 col-xs-4">
                             <input id="maxC" type="number" class="form-control">
                         </div>
-                        <div class="col-md-1 col-sm-4 col-xs-4">
+                        <div class="col-md-2 col-sm-4 col-xs-4">
                             <input type="text" value="@p2" class="form-control" aria-describedby="dolares" readonly="true">
                         </div>
                     </div>
@@ -99,7 +111,7 @@
                                 <input id="monT" type="number" class="form-control" aria-describedby="min">
                             </div>
                         </div>
-                        <div class="col-md-1 col-sm-4 col-xs-4">
+                        <div class="col-md-2 col-sm-4 col-xs-4">
                             <input type="text" value="@p3" class="form-control" aria-describedby="dolares" readonly="true">
                         </div>
                     </div>
@@ -110,7 +122,7 @@
                         <div class="col-md-2 col-sm-4 col-xs-4">
                             <input id="rAsg" type="number" class="form-control">
                         </div>
-                        <div class="col-md-1 col-sm-4 col-xs-4">
+                        <div class="col-md-2 col-sm-4 col-xs-4">
                             <input type="text" value="@p5" class="form-control" aria-describedby="dolares" readonly="true">
                         </div>
                     </div>
@@ -121,13 +133,13 @@
                         <div class="col-md-2 col-sm-4 col-xs-4">
                             <input id="mxE" type="number" class="form-control">
                         </div>
-                        <div class="col-md-1 col-sm-4 col-xs-4">
+                        <div class="col-md-2 col-sm-4 col-xs-4">
                             <input type="text" value="@p7" class="form-control" aria-describedby="dolares" readonly="true">
                         </div>
                     </div>
                     <div class="form-group row">
                         <center>
-                            <button type="button" onclick="registrar()" class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span> Registrar</button>
+                            <button type="button" onclick="registrar()" class="btn btn-primary"><span class="glyphicon glyphicon-save"></span> Guardar cambios</button>
                         </center>
                     </div>
                 </div>
@@ -138,6 +150,17 @@
                 <div class="container">
                     <div class="row form-group">
                         <div class="col-md-4 col-md-offset-1 col-sm-4 col-xs-4">
+
+                        </div>
+                        <center class="col-md-2 col-sm-4 col-xs-4">
+                            <strong>Nuevo valor</strong>
+                        </center>
+                        <center class="col-md-2 col-sm-4 col-xs-4">
+                            <strong>Valor actual</strong>
+                        </center>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-4 col-md-offset-1 col-sm-4 col-xs-4">
                             <p>Tolerancia tardanza:</p>
                         </div>
                         <div class="col-md-2 col-sm-4 col-xs-4">
@@ -146,13 +169,13 @@
                                 <span class="input-group-addon" id="min">minutos</span>
                             </div>
                         </div>
-                        <div class="col-md-1 col-sm-4 col-xs-4">
+                        <div class="col-md-2 col-sm-4 col-xs-4">
                             <input type="text" value="@p4" class="form-control" aria-describedby="dolares" readonly="true">
                         </div>
                     </div>
                     <div class="row form-group">
                         <center>
-                            <button type="button" onclick="registrar2()" class="btn btn-primary">Registrar <span class="glyphicon glyphicon-ok"></span></button>
+                            <button type="button" onclick="registrar2()" class="btn btn-primary"><span class="glyphicon glyphicon-save"></span> Guardar cambios</button>
                         </center>
                     </div>
                 </div>
