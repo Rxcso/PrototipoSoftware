@@ -274,27 +274,27 @@ namespace WebApplication4.Controllers
                 {
                     Ventas venta = db.Ventas.Find(model.idVenta);
                     venta.montoEfectivoSoles = 0;
-                    venta.montoCreditoSoles = model.MontoPagar;
-                    venta.montoDev = 0;
                     venta.montoEfectivoDolares = 0;
-                    venta.MontoTotalSoles = model.Importe;
+                    venta.montoCreditoSoles = model.MontoPagar;
+                    venta.MontoTotalSoles = model.MontoPagar;
+                    venta.montoDev = 0;
                     venta.Estado = MagicHelpers.Compra;
                     venta.entradasDev = 0;
                     venta.modalidad = "T";
                     venta.fecha = DateTime.Now;
                     VentasXFuncion vxf = db.VentasXFuncion.Where(c => c.codVen == venta.codVen).First();
-                    vxf.cantEntradas = venta.cantAsientos.Value;
                     vxf.montoDev = 0;
+                    vxf.cantEntradas = venta.cantAsientos.Value;
                     vxf.hanEntregado = false;
                     vxf.descuento = (int)model.Descuento;
-                    vxf.subtotal = model.MontoPagar;
+                    vxf.subtotal = model.Importe;
                     vxf.total = vxf.subtotal - vxf.descuento;
                     Eventos evento = db.Eventos.Find(vxf.Funcion.codEvento);
                     DetalleVenta detalle = db.DetalleVenta.Where(c => c.codVen == venta.codVen && c.codFuncion == vxf.Funcion.codFuncion).First();
                     detalle.descTot = (int)model.Descuento;
                     detalle.entradasDev = 0;
                     detalle.montoDev = 0;
-                    detalle.Subtotal = model.MontoPagar;
+                    detalle.Subtotal = model.Importe;
                     detalle.total = model.MontoPagar - model.Descuento;
                     evento.monto_adeudado += evento.montoFijoVentaEntrada.Value + evento.porccomision.Value * detalle.cantEntradas.Value / 100;
                     //si es que tiene asientos, debo cambiar el estado de todos los asientos que ha comprado
@@ -561,6 +561,7 @@ namespace WebApplication4.Controllers
                                 dt.cantEntradas = paquete.cantidad;
                                 dt.codFuncion = paquete.idFuncion;
                                 dt.codPrecE = pr.codPrecioEvento;
+
                                 dt.total = vf.total;
                                 dt.entradasDev = 0;
                                 dt.descTot = vf.descuento;
