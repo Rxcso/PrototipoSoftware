@@ -2673,3 +2673,11 @@ System.Collections.ListDictionaryInternal
 2015-11-28 23:22:21,438 [27] ERROR Ticknet - Exception Message - 
 A public action method 'Asignacion' was not found on controller 'WebApplication4.Controllers.VentasController'.
 2015-11-28 23:22:21,438 [27] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 12:18:33,768 [205] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 12:18:33,777 [205] ERROR Ticknet - Exception Type - 
+EntityCommandExecutionException
+2015-11-29 12:18:33,777 [205] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-29 12:18:33,777 [205] ERROR Ticknet - Exception Message - 
+An error occurred while executing the command definition. See the inner exception for details.
+2015-11-29 12:18:33,777 [205] DEBUG Ticknet - ++++++++++++++++++++++++++++
