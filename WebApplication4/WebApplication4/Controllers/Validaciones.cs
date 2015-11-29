@@ -112,6 +112,4 @@ namespace WebApplication4.Controllers
             return (model.Local == 0) ^ (model.Direccion == null);
         }
     }
-
-
 }

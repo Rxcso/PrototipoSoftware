@@ -77,8 +77,6 @@ namespace WebApplication4.Controllers
             return View("RegisterPromocion");
         }
 
-
-        //
         // POST: /Promocion/Register
         [HttpPost]
         [AllowAnonymous]
@@ -104,7 +102,6 @@ namespace WebApplication4.Controllers
                 }
                 if (listPer.Count == 0)
                 {
-
                     ViewBag.NoPeriodo = "No existe un periodo de venta para este evento";
                     return View("Index");
                 }
@@ -165,7 +162,6 @@ namespace WebApplication4.Controllers
                 }
                 if (listPer.Count == 0)
                 {
-
                     ViewBag.NoPeriodo = "No existe un periodo de venta para este evento";
                     return View("Index");
                 }
@@ -221,6 +217,5 @@ namespace WebApplication4.Controllers
             //return RedirectToAction("Index", "Promocion");
             return Json("La Promocion ha sido descativada con exito", JsonRequestBehavior.AllowGet);
         }
-
     }
 }

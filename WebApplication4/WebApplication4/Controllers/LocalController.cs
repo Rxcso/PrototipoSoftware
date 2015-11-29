@@ -209,6 +209,5 @@ namespace WebApplication4.Controllers
             else Session["ListaL"] = null;
             return RedirectToAction("Index", "Local");
         }
-
     }
 }
