@@ -2681,3 +2681,11 @@ System.Collections.ListDictionaryInternal
 2015-11-29 12:18:33,777 [205] ERROR Ticknet - Exception Message - 
 An error occurred while executing the command definition. See the inner exception for details.
 2015-11-29 12:18:33,777 [205] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 12:45:07,672 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 12:45:07,708 [9] ERROR Ticknet - Exception Data - 
+DataException
+2015-11-29 12:45:07,708 [9] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-29 12:45:07,708 [9] ERROR Ticknet - Exception Message - 
+An exception occurred while initializing the database. See the InnerException for details.
+2015-11-29 12:45:07,708 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
