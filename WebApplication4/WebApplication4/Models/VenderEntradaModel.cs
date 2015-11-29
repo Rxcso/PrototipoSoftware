@@ -66,6 +66,7 @@ namespace WebApplication4.Models
 
         public int idEvento { get; set; }
         public double Vuelto { get; set; }
+        public int modalidad { get; set; }
         public List<int> idEventos { get; set; }
         public List<int> idPromociones { get; set; }
         public List<int> idFunciones { get; set; }
