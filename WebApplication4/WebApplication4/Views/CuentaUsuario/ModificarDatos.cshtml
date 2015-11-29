@@ -8,6 +8,7 @@
 <div class="container-fluid">
     <div class="col-md-5">
         <ol class="breadcrumb">
+            <li><a href="@Url.Action("Index","Home")">Inicio</a></li>
             <li>@Html.ActionLink("Mi Cuenta", "MiCuenta", "CuentaUsuario")
             <li class="active">Modificar Datos</li>
         </ol>
@@ -16,35 +17,34 @@
 @using (Html.BeginForm("ModificarDatos", "CuentaUsuario", FormMethod.Post))
 {
     <div class="container">
-        <div class="contenedor col-md-8">
-            <h3>Datos de Personales</h3><br>
-            <div class="row form-group">
+        <div class="contenedor col-md-8"><br />            
+            <div class="row form-horizontal">
                 @Html.LabelFor(model => model.nombre, new { @class = "control-label col-md-3" })
                 <div class="col-md-7">
                     @Html.TextBoxFor(model => model.nombre, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.nombre)
                 </div>
 
-            </div>
+            </div><br />
 
-            <div class="row form-group">
+            <div class="row form-horizontal">
                 @Html.LabelFor(model => model.apellido, new { @class = "control-label col-md-3" })
                 <div class="col-md-7">
                     @Html.TextBoxFor(model => model.apellido, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.apellido)
                 </div>
-            </div>
+            </div><br />
 
-            <div class="row form-group">
+            <div class="row form-horizontal">
                 @Html.LabelFor(model => model.tipoDoc, new { @class = "control-label col-md-3" })
                 <div class="col-md-3">
                     @if (Model.tipoDoc == 1)
                     {
-                        <input type="text" class="form-control" value="DNI" disabled>
+                        <input type="text" class="form-control" value="DNI" readonly>
                     }
                     @if (Model.tipoDoc == 2)
                     {
-                        <input type="text" class="form-control" value="Pasaporte" disabled>
+                        <input type="text" class="form-control" value="Pasaporte" readonly>
                     }
 
 
@@ -56,39 +56,39 @@
                     @Html.TextBoxFor(model => model.codDoc, new { @class = "form-control", @readonly = "readonly" })
                     @Html.ValidationMessageFor(model => model.codDoc)
                 </div>
-            </div>
-            <div class="row form-group">
+            </div><br />
+            <div class="row form-horizontal">
                 @Html.LabelFor(model => model.fechaNac, new { @class = "control-label col-md-3" })
                 <div class="col-md-7">
-                    @Html.EditorFor(model => model.fechaNac, new { htmlAttributes = new { @class = "form-control fecha2" , type="text"} })
+                    @Html.EditorFor(model => model.fechaNac, new { htmlAttributes = new { @class = "form-control fecha2", type = "text" } })
                     @Html.ValidationMessageFor(model => model.fechaNac)
                 </div>
-            </div>
-            <div class="row form-group">
+            </div><br />
+            <div class="row form-horizontal">
                 @Html.LabelFor(model => model.direccion, new { @class = "control-label col-md-3" })
                 <div class="col-md-7">
                     @Html.TextBoxFor(model => model.direccion, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.direccion)
                 </div>
-            </div>
+            </div><br />
 
-            <div class="row form-group">
+            <div class="row form-horizontal">
                 @Html.LabelFor(model => model.telefono, new { @class = "control-label col-md-3" })
                 <div class="col-md-7">
                     @Html.TextBoxFor(model => model.telefono, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.telefono)
                 </div>
-            </div>
+            </div><br />
 
 
-            <div class="row form-group">
+            <div class="row form-horizontal">
                 @Html.LabelFor(model => model.telMovil, new { @class = "control-label col-md-3" })
                 <div class="col-md-7">
                     @Html.TextBoxFor(model => model.telMovil, new { @class = "form-control" })
                     @Html.ValidationMessageFor(model => model.telMovil)
                 </div>
-            </div>
-            <div class="row form-group">
+            </div><br />
+            <div class="row form-horizontal">
                 <div class="col-md-12">
                     <center>
                         <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-save"></span> Guardar</button>

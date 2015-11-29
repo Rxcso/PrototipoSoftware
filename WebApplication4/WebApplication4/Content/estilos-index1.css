@@ -24,7 +24,8 @@ img.bg {
 /*contenedor de fondo blanco*/
 .con{background-color:white;
          margin:10px;
-         border-radius:5px;         
+         border-radius:5px; 
+         border:2px solid gray;                 
     }
 
 #busqAvanzada{text-align: center; margin-top: 10px;margin-bottom: 10px;}
@@ -125,6 +126,6 @@ thead {
     background-color:rgba(229,245,255,0.8);
 }
 
-
+input{text-align:center}
 
 th,td{text-align:center}

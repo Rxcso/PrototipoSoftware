@@ -15,48 +15,54 @@
 <div class="container-fluid">
     <div class="col-md-4">
         <ol class="breadcrumb">
+            <li><a href="@Url.Action("Index","Home")">Inicio</a></li>
             <li><a href="@Url.Action("MiCuenta", "CuentaUsuario")">Mi cuenta</a></li>
             <li class="active">Regalos</li>
         </ol>
+    </div>    
+</div>
+<div class="container">
+    <div class="row">
+        <!--LO IMPORTANTE-->
+        <div class="col-md-8">
+            <div class="row form-group">
+                <div class="col-md-12 table-responsive">
+                    <table id="mytable" class="table table-bordered table-hover">
+                        <thead>
+                            <tr class="thead">
+                                <th class="col-md-3">Nombre</th>
+                                <th class="col-md-7">Descripción</th>
+                                <th class="col-md-2">Puntos</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody">
+                            @foreach (var row in listaRegalo)
+                            {
+                                //se muestran la lista de regalos activos
+                                <tr id=@row.idRegalo onclick="myFunction(this)">
+                                    <td>@row.Nombre</td>
+                                    <td>@row.descripcion</td>
+                                    <td>@row.puntos</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <center>
+                <h5>Los regalos solo podrán ser reclamados en los puntos de venta y de acuerdo a stock.</h5>
+                <h6>Puedes ver los puntos de venta <a href="@Url.Action("PuntoVentas", "Home")">aquí</a></h6>
+            </center>
+            
+        </div>
+
+        <!--CARRUSEL-->
+        <div class="col-md-4">
+            destacados
+            @*{Html.RenderPartial("Destacados");}*@
+        </div>
     </div>
-    
 </div>
 
 
-    <div class="container">
-        <div class="row">
-            <!--LO IMPORTANTE-->
-            <div class="col-md-8">
-                <div class="row form-group">
-                    <div class="col-md-12 table-responsive">
-                        <table id="mytable" class="table table-bordered table-hover">
-                            <thead>
-                                <tr class="thead">
-                                    <th class="col-md-3">Nombre</th>
-                                    <th class="col-md-7">Descripción</th>
-                                    <th class="col-md-2">Puntos</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tbody">
-                                @foreach (var row in listaRegalo)
-                                {
-                                    //se muestran la lista de regalos activos
-                                    <tr id=@row.idRegalo onclick="myFunction(this)">
-                                        <td>@row.Nombre</td>
-                                        <td>@row.descripcion</td>
-                                        <td>@row.puntos</td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!--CARRUSEL-->
-            <div class="col-md-4">
-                @*{Html.RenderPartial("Destacados");}*@
-            </div>
-        </div>
-        
-    </div>
+    
