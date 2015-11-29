@@ -132,6 +132,10 @@ namespace WebApplication4.Controllers
                                 int fil = paquete.filas[i];
                                 List<Asientos> listasiento = context.Asientos.Where(x => x.codZona == paquete.idZona && x.fila == fil && x.columna == col).ToList();
                                 AsientosXFuncion actAsiento = context.AsientosXFuncion.Find(listasiento.First().codAsiento, paquete.idFuncion);
+                                if (actAsiento.estado == "libre")
+                                {
+                                    throw new OptimisticConcurrencyException();
+                                }
                                 actAsiento.estado = "OCUPADO";
                                 actAsiento.codDetalleVenta = dt.codDetalleVenta;
                                 actAsiento.PrecioPagado = pr.precio;
@@ -1821,7 +1825,7 @@ namespace WebApplication4.Controllers
             ViewBag.subcategorias = new SelectList(listSubCat, "idSubcat", "nombre");
 
             int pageNumber = (page ?? 1);
-            int pageSize = 8;
+            int pageSize = 12;
             return View(lista.ToPagedList(pageNumber, pageSize));
         }
 

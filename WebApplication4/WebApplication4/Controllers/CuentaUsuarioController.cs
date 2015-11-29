@@ -581,6 +581,10 @@ namespace WebApplication4.Controllers
                                         int fil = paquete.filas[i];
                                         List<Asientos> listasiento = context.Asientos.Where(x => x.codZona == paquete.idZona && x.fila == fil && x.columna == col).ToList();
                                         AsientosXFuncion actAsiento = context.AsientosXFuncion.Find(listasiento.First().codAsiento, paquete.idFuncion);
+                                        if (actAsiento.estado == "libre")
+                                        {
+                                            throw new OptimisticConcurrencyException();
+                                        }
                                         actAsiento.estado = MagicHelpers.Ocupado;
                                         actAsiento.codDetalleVenta = dt.codDetalleVenta;
                                         actAsiento.PrecioPagado = pr.precio;
@@ -593,7 +597,7 @@ namespace WebApplication4.Controllers
                                     if (ZXF.cantLibres < paquete.cantidad)
                                     {
                                         //genero una exception para detener la compra?
-                                        throw new Exception();
+                                        throw new OptimisticConcurrencyException();
                                     }
                                     else
                                         ZXF.cantLibres -= paquete.cantidad;
@@ -609,6 +613,7 @@ namespace WebApplication4.Controllers
                                     {
                                         Ventas remover = db.Ventas.Find(idVenta);
                                         db.Ventas.Remove(remover);
+                                        db.SaveChanges();
                                     }
                                 }
                             }
@@ -622,6 +627,7 @@ namespace WebApplication4.Controllers
                             {
                                 Ventas remover = db.Ventas.Find(idVenta);
                                 db.Ventas.Remove(remover);
+                                db.SaveChanges();
                             }
                             TempData["tipo"] = "alert alert-warning";
                             TempData["message"] = "Error en la compra.";
@@ -1513,7 +1519,7 @@ namespace WebApplication4.Controllers
                     cu.fechaNac = model.fechaNac;
                     cu.sexo = model.sexo;
                     cu.telefono = model.telefono;
-                    cu.usuario = model.Email;                    
+                    cu.usuario = model.Email;
                     cu.telMovil = model.telMovil;
                     cu.puntos = 0;
 

@@ -26,7 +26,12 @@
     ViewBag.Title = "Ver Evento";
     Layout = "~/Views/Shared/_Layout.cshtml";
     string estiloAsientos = (((Boolean)ViewBag.VeoAsientos) == true) ? "" : "display:none";
-    
+    Turno tu = null;
+    //se comprueba si el usuario que se logueo tiene un turno asignado almacenado en session
+    if (Session["TurnoHoy"] != null)
+    {
+        tu = (Turno)Session["TurnoHoy"];
+    }
 }
 
 
@@ -41,7 +46,7 @@
             else
             {
                 <li><a href="@Url.Action("Index","Home")">Inicio</a></li>
-            }            
+            }
             <li class="active">Evento: @ViewBag.evento.nombre</li>
         </ol>
     </div>
@@ -57,9 +62,9 @@
                     <center class="col-md-12">
                         <div style="width:inherit">
                             <img style="width:inherit" class="event" src=@ViewBag.evento.ImagenEvento alt=@ViewBag.evento.nombre>
-                        </div>                        
+                        </div>
                     </center>
-                    
+
                     <div class="con col-md-12">
                         <div style="text-align:left">
                             <h4>@ViewBag.evento.nombre</h4>
@@ -94,7 +99,7 @@
                 <div class="con col-md-12">
                     <div class="container-fluid">
                         <h4><u>Distribución de zonas</u></h4>
-                        <img style="cursor:default;border:1px solid black" width="100%" class="event" src=@ViewBag.evento.ImagenSitios alt="Zonas de evento" title="Distribución de asientos">                        
+                        <img style="cursor:default;border:1px solid black" width="100%" class="event" src=@ViewBag.evento.ImagenSitios alt="Zonas de evento" title="Distribución de asientos">
                     </div>
                     <br />
                 </div>
@@ -230,8 +235,8 @@
                                             </div>
                                         </div>
                                         <div class="row form-group">
-                                            <label for="zonaTarifa" class="control-label col-md-9 col-sm-9">Cantidad de entradas:</label>
-                                            <div class="col-md-3 col-sm-3">
+                                            <label for="zonaTarifa" class="control-label col-md-8 col-sm-8">Cantidad de entradas:</label>
+                                            <div class="col-md-4 col-sm-4">
                                                 <input id="numEntradas" class="form-control pull-right" type="number" value="0">
                                             </div>
                                             @TempData["ErrorSeleccionandoAsientos"]
@@ -239,7 +244,7 @@
                                         </div>
                                         <div class="row form-group">
 
-                                            @using (Html.BeginForm("Entradas", "Evento", FormMethod.Post, new { id = "submitEntradas" ,@class = "col-md-12" }))
+                                            @using (Html.BeginForm("Entradas", "Evento", FormMethod.Post, new { id = "submitEntradas", @class = "col-md-12" }))
                                             {
 
                                                 @Html.TextBoxFor(Model => Model.idZona, new { style = "display:none" })
@@ -247,13 +252,13 @@
                                                 @Html.TextBoxFor(model => model.idEvento, new { style = "display:none" })
                                                 @Html.TextBoxFor(model => model.tieneAsientos, new { id = "formTieneEntradas", style = "display:none" })
                                                 @Html.TextBoxFor(model => model.cantEntradas, new { id = "formCantEntradas", style = "display:none" })
-                                                
+
                                                 <div class="col-md-12" id="asientosElegidos">
 
                                                 </div>
 
                                                 if (codperfilActual == 1 || !Request.IsAuthenticated)//para el cliente
-                                                {                                                    
+                                                {
                                                     <center class="col-md-12 col-sm-12 form-group">
                                                         <button type="submit" name="boton" value="carrito" class="btn btn-success  "><span class="glyphicon glyphicon-shopping-cart"></span> Agregar a mi carrito</button>
                                                     </center>
@@ -281,9 +286,26 @@
                                                 //para el vendedor tendra un carrito distinto
                                                 if (codperfilActual == 2)
                                                 {
-                                                    <div class="form-group col-md-12 col-sm-12">
-                                                        <button type="submit" name="boton" value="carritoVendedor" class="btn btn-success">Agregar al carrito <span class="fa fa-shopping-cart"></span></button>
-                                                    </div>
+                                                    if (tu != null && tu.estadoCaja == "Abierto")
+                                                    {
+                                                        <div class="form-group col-md-12 col-sm-12">
+                                                            <button type="submit" name="boton" value="carritoVendedor" class="btn btn-success">Agregar al carrito <span class="fa fa-shopping-cart"></span></button>
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        if (tu == null)
+                                                        {
+                                                            <h6>Debes tener un Turno</h6>
+                                                        }
+                                                        else
+                                                        {
+                                                            if (tu.estadoCaja != "Abierto")
+                                                            {
+                                                                <h6>Caja debe estar Abierta</h6>
+                                                            }
+                                                        }
+                                                    }
                                                 }
                                             }
 
@@ -299,7 +321,7 @@
                 </div>
                 <br />
             </div>
-            
+
         </div>
 
 
@@ -324,7 +346,7 @@
 
     <!--LOS EVENTOS DESTACADOS-->
     <div class="col-md-4">
-        @{Html.RenderPartial("Destacados");}        
+        @{Html.RenderPartial("Destacados");}
     </div>
 
 </div>

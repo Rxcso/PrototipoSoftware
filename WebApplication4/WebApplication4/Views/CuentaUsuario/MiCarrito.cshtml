@@ -25,6 +25,7 @@
     <div class="col-md-5">
         <ol class="breadcrumb">
             <li><a href="@Url.Action("Index","Home")">Inicio</a></li>
+            <li><a href="@Url.Action("MiCuenta","CuentaUsuario")">Mi cuenta</a></li>
             <li class="active">Carrito de compras</li>
         </ol>
     </div>
@@ -46,8 +47,11 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="row form-group">
-                            <div class="col-md-12">
-                                <a class="btn btn-danger pull-right" onclick="quitarCarrito()">Quitar  <span class="glyphicon glyphicon-trash"></span></a>
+                            <div class="col-md-10 col-sm-8 col-xs-6">
+                                <a class="btn btn-success pull-right" href="@Url.Action("ComprarEntrada", "CuentaUsuario")"><span class="fa fa-credit-card"></span> Pagar entradas</a>
+                            </div>
+                            <div class="col-md-2 col-sm-4 col-xs-6">
+                                <a class="btn btn-danger pull-right" onclick="quitarCarrito()"><span class="glyphicon glyphicon-trash"></span> Quitar</a>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -72,7 +76,7 @@
                                         string asientos = "";
                                         <tr id="@(i)">
                                             <td style="display:none">@carritoList[i].idEvento</td>
-                                            <td>@carritoList[i].nombreEvento</td>
+                                            <td><a href=@Url.Action("VerEvento", "Evento", new { id = @carritoList[i].idEvento})>@carritoList[i].nombreEvento</a></td>
                                             <td>@String.Format("{0:dd/MM/yyyy}", carritoList[i].fecha)</td>
                                             <td>@String.Format("{0:t}", carritoList[i].hora)</td>
                                             <td>@carritoList[i].zona</td>
@@ -105,16 +109,11 @@
                             </table>
                         </div>
                         <div class="row form-group">
-                            <div id="filaTotal" class="col-xs-offset-8 col-xs-4 col-sm-offset-8 col-sm-4 col-md-offset-10 col-md-2">
+                            <div id="filaTotal" class="col-xs-offset-8 col-xs-4 col-sm-offset-8 col-sm-4 col-md-offset-9 col-md-3">
                                 <label for="Total" class="pull-left">Total (S/.)</label>
                                 <label id="totalCompra" class="">@(total)</label>
                             </div>
-                        </div>
-                        <div class="row form-group">
-                            <div class="col-md-12">
-                                <a class="btn btn-success pull-right" href="@Url.Action("ComprarEntrada", "CuentaUsuario")"><span class="glyphicon glyphicon-usd"></span> Comprar</a>
-                            </div>
-                        </div>
+                        </div>                        
                     </div>
                 </div>
 

@@ -7,7 +7,8 @@
     var db = new WebApplication4.Models.inf245netsoft();
     CuentaUsuario cu = null;
     //se obtiene la cuenta del usuario logueado
-    cu = (CuentaUsuario)Session["UsuarioLogueado"];
+    //cu = (CuentaUsuario)Session["UsuarioLogueado"];
+    cu = db.CuentaUsuario.Find(User.Identity.Name);
     DateTime hoy = DateTime.Now;
     List<Ventas> listaventas = null;
     List<VentasXFuncion> listvxf = new List<VentasXFuncion>();
@@ -22,13 +23,13 @@
     td,th{text-align:center}
 </style>
 <div class="container-fluid">
-    <div class="col-md-4">
+    <div class="col-md-5">
         <ol class="breadcrumb">
+            <li><a href="@Url.Action("Index","Home")">Inicio</a></li>
             <li><a href="@Url.Action("MiCuenta", "CuentaUsuario")">Mi cuenta</a></li>
             <li class="active">Mis compras pasadas</li>
         </ol>
-    </div>
-    
+    </div>    
 </div>
 
 <div class="container">
@@ -40,13 +41,13 @@
                 <div class="col-md-12 table-responsive">
                     <table id="mytable" class="table table-bordered table-hover">
                         <thead>
-                            <tr class="thead">
-                                <th>Código</th>
-                                <th>Fecha</th>
-                                <th>Cantidad</th>
-                                <th>Monto (S/.)</th>
-                                <th>Estado</th>
-                                <th style="text-align:center"><span class="fa fa-info-circle"></span></th>
+                            <tr>
+                                <th class="col-md-2">Código</th>
+                                <th class="col-md-2">Fecha</th>
+                                <th class="col-md-2">Cantidad</th>
+                                <th class="col-md-2">Monto (S/.)</th>
+                                <th class="col-md-2">Estado</th>
+                                <th class="col-md-2"><span class="fa fa-info-circle"></span></th>
                             </tr>
                         </thead>
                         <tbody id="tbody">
@@ -71,6 +72,7 @@
         </div>
         <!--LOS EVENTOS DESTACADOS-->
         <div class="col-md-4">
+            destacados
         </div>
     </div>
 </div><!--Fin del container-->

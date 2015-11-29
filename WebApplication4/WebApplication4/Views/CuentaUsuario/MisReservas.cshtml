@@ -7,7 +7,8 @@
     var db = new WebApplication4.Models.inf245netsoft();
     CuentaUsuario cu = null;
     //se obtiene la cuenta del usuario logueado
-    cu = (CuentaUsuario)Session["UsuarioLogueado"];
+    //cu = (CuentaUsuario)Session["UsuarioLogueado"];
+    cu = db.CuentaUsuario.Find(User.Identity.Name);
     DateTime hoy = DateTime.Now;
     List<Ventas> listaventas = null;
     List<VentasXFuncion> listvxf = new List<VentasXFuncion>();
@@ -29,11 +30,12 @@
 
 }
 <style>
-    td{cursor:text}
+    
 </style>
 <div class="container-fluid">
-    <div class="col-md-4">
+    <div class="col-md-5">
         <ol class="breadcrumb">
+            <li><a href="@Url.Action("Index","Home")">Inicio</a></li>
             <li><a href="@Url.Action("MiCuenta", "CuentaUsuario")">Mi cuenta</a></li>
             <li class="active">Mis reservas vigentes</li>
         </ol>
@@ -74,7 +76,7 @@
                                     //se muestran las ventas si existen y si existe su ventaxfuncion correpondiente
                                     foreach (var row in listvxf)
                                     {
-                                        <tr id=@row.codVen >
+                                        <tr id=@row.codVen onclick='myFunction(this)'>
                                             <td>@row.codVen</td>
                                             @*se obtiene la funcion del la venta x funcion*@
                                             @{

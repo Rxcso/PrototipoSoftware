@@ -78,3 +78,5 @@ thead {
         white-space:nowrap;
         width:inherit;
     }
+
+    td{text-align:center}

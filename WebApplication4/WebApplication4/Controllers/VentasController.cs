@@ -713,6 +713,10 @@ namespace WebApplication4.Controllers
                                             int fil = paquete.filas[i];
                                             List<Asientos> listasiento = context.Asientos.Where(x => x.codZona == paquete.idZona && x.fila == fil && x.columna == col).ToList();
                                             AsientosXFuncion actAsiento = context.AsientosXFuncion.Find(listasiento.First().codAsiento, paquete.idFuncion);
+                                            if (actAsiento.estado == "libre")
+                                            {
+                                                throw new OptimisticConcurrencyException();
+                                            }
                                             actAsiento.estado = MagicHelpers.Ocupado;
                                             actAsiento.codDetalleVenta = dt.codDetalleVenta;
                                             actAsiento.PrecioPagado = pr.precio;
@@ -725,7 +729,7 @@ namespace WebApplication4.Controllers
                                         if (ZXF.cantLibres < paquete.cantidad)
                                         {
                                             //genero una exception para detener la compra?
-                                            throw new Exception();
+                                            throw new OptimisticConcurrencyException();
                                         }
                                         else
                                             ZXF.cantLibres -= paquete.cantidad;
@@ -1850,16 +1854,15 @@ namespace WebApplication4.Controllers
         public ActionResult PrintTicket(int codVenT)
         {
 
+            /*
+                    if (generarBoleta(codVenT))
+                    {
+                        //Se imprimio :)
+
+                    }
 
 
-            if (generarBoleta(codVenT))
-            {
-                //Se imprimio :)
-
-            }
-
-
-
+            */
 
 
             List<Entrada> listaEntradas = new List<Entrada>();
@@ -1880,15 +1883,30 @@ namespace WebApplication4.Controllers
 
                         var fu = db.Funcion.Find(detalle.codFuncion);
                         var evento = db.Eventos.Find(fu.codEvento);
-                        var local = db.Local.Find(evento.idLocal);
+                        if (evento.idLocal.HasValue)
+                        {
+
+                            var local = db.Local.Find(evento.idLocal);
+                            ticket.Local = local.descripcion;
+                            ticket.Direccion = local.ubicacion;
+                        }
+                        else
+                        {
+                            ticket.Direccion = evento.direccion;
+
+
+                        }
+
+
+
                         var pe = db.PrecioEvento.Find(detalle.codPrecE);
                         var zona = db.ZonaEvento.Find(pe.codZonaEvento);
 
                         ticket.Lugar = evento.Region.nombre;
                         ticket.Evento = evento.nombre;
-                        ticket.Local = local.descripcion;
 
-                        ticket.Direccion = local.ubicacion;
+
+
 
                         ticket.Precio = pe.precio;
                         ticket.Fecha = fu.fecha.Value.ToString("dddd d # MMMM # yyyy", culture).Replace("#", "de");
@@ -1909,16 +1927,30 @@ namespace WebApplication4.Controllers
 
                         var fu = db.Funcion.Find(detalle.codFuncion);
                         var evento = db.Eventos.Find(fu.codEvento);
-                        var local = db.Local.Find(evento.idLocal);
+
+
+
+                        if (evento.idLocal.HasValue)
+                        {
+
+                            var local = db.Local.Find(evento.idLocal);
+                            ticket.Local = local.descripcion;
+                            ticket.Direccion = local.ubicacion;
+                        }
+                        else
+                        {
+                            ticket.Direccion = evento.direccion;
+
+
+                        }
+
                         var pe = db.PrecioEvento.Find(detalle.codPrecE);
                         var zona = db.ZonaEvento.Find(pe.codZonaEvento);
 
                         ticket.Lugar = evento.Region.nombre;
                         ticket.Evento = evento.nombre;
                         ticket.codEvento = evento.codigo;
-                        ticket.Local = local.descripcion;
 
-                        ticket.Direccion = local.ubicacion;
 
                         ticket.Precio = pe.precio;
                         ticket.Fecha = fu.fecha.Value.ToString("dddd d # MMMM # yyyy", culture).Replace("#", "de") + " " + fu.horaIni.Value.ToString("hh:mm tt", culture);
@@ -1950,6 +1982,26 @@ namespace WebApplication4.Controllers
             var converter = new NReco.ImageGenerator.HtmlToImageConverter();
             converter.Width = 710;
             var jpegBytes = converter.GenerateImage(st, ImageFormat.Png);
+
+            PrintDocument pd = new PrintDocument();
+            Stream stream = new MemoryStream(jpegBytes);
+            string def = pd.PrinterSettings.PrinterName;
+
+            pd.PrintPage += (sender, args) =>
+            {
+
+
+                Image i = Image.FromStream(stream);
+                Rectangle m = new Rectangle(0, 0, 700, 250);
+
+
+                args.Graphics.DrawImage(i, m);
+
+
+
+            };
+            pd.Print();
+
 
             Session["imagen"] = jpegBytes;
             return View(data);
@@ -2049,7 +2101,8 @@ namespace WebApplication4.Controllers
 
             string printer = pd.PrinterSettings.PrinterName;
 
-            pd.PrintPage += (sender, args) => {
+            pd.PrintPage += (sender, args) =>
+            {
 
                 string line = null;
                 float yPos;
