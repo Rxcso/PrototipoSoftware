@@ -74,7 +74,14 @@ namespace WebApplication4.Controllers
                 ve = db.CuentaUsuario.Find(listav2[j].cliente);
                 if (ve != null)
                 {
-                    r.nombre = db.CuentaUsuario.Find(listav2[j].vendedor).nombre;
+                    if (listav2[j].vendedor != null)
+                    {
+                        r.nombre = db.CuentaUsuario.Find(listav2[j].vendedor).nombre;
+                    }
+                    else
+                    {
+                        r.nombre = "-";
+                    }
                 }
                 else
                 {
