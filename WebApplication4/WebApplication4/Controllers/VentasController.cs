@@ -2003,13 +2003,11 @@ namespace WebApplication4.Controllers
                     detalles.Add(de);
 
 
-
-
                 }
                 catch (Exception ex)
                 {
 
-
+                    return false;
 
                 }
 
@@ -2090,7 +2088,7 @@ namespace WebApplication4.Controllers
             catch (Exception ex)
             {
                 //No encontro alguna impresora activa.
-
+                return false;
 
             }
 
