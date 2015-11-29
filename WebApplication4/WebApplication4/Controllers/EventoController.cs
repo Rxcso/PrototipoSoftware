@@ -1818,7 +1818,7 @@ namespace WebApplication4.Controllers
             ViewBag.subcategorias = new SelectList(listSubCat, "idSubcat", "nombre");
 
             int pageNumber = (page ?? 1);
-            int pageSize = 8;
+            int pageSize = 12;
             return View(lista.ToPagedList(pageNumber, pageSize));
         }
 
