@@ -288,8 +288,14 @@ namespace WebApplication4.Controllers
                     vxf.hanEntregado = false;
                     vxf.descuento = (int)model.Descuento;
                     vxf.subtotal = model.MontoPagar;
+                    vxf.total = vxf.subtotal - vxf.descuento;
                     Eventos evento = db.Eventos.Find(vxf.Funcion.codEvento);
                     DetalleVenta detalle = db.DetalleVenta.Where(c => c.codVen == venta.codVen && c.codFuncion == vxf.Funcion.codFuncion).First();
+                    detalle.descTot = (int)model.Descuento;
+                    detalle.entradasDev = 0;
+                    detalle.montoDev = 0;
+                    detalle.Subtotal = model.MontoPagar;
+                    detalle.total = model.MontoPagar - model.Descuento;
                     evento.monto_adeudado += evento.montoFijoVentaEntrada.Value + evento.porccomision.Value * detalle.cantEntradas.Value / 100;
                     //si es que tiene asientos, debo cambiar el estado de todos los asientos que ha comprado
                     if (db.AsientosXFuncion.Any(c => c.codFuncion == vxf.Funcion.codFuncion && c.codDetalleVenta == detalle.codDetalleVenta))
