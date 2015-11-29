@@ -725,7 +725,7 @@ namespace WebApplication4.Controllers
                                         if (ZXF.cantLibres < paquete.cantidad)
                                         {
                                             //genero una exception para detener la compra?
-                                            throw new Exception();
+                                            throw new OptimisticConcurrencyException();
                                         }
                                         else
                                             ZXF.cantLibres -= paquete.cantidad;
@@ -2049,7 +2049,8 @@ namespace WebApplication4.Controllers
 
             string printer = pd.PrinterSettings.PrinterName;
 
-            pd.PrintPage += (sender, args) => {
+            pd.PrintPage += (sender, args) =>
+            {
 
                 string line = null;
                 float yPos;
