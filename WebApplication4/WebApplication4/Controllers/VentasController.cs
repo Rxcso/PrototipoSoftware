@@ -1947,7 +1947,7 @@ namespace WebApplication4.Controllers
             string path = HttpContext.Server.MapPath("~/Images/imagen.png");
 
             path = path.Replace('\\', '/');
-            Session['path'] = path;
+            Session["path"] = path;
             using (StringWriter stringWriter = new StringWriter())
             {
                 ViewEngineResult viewResult = ViewEngines.Engines.FindView(this.ControllerContext, "GeneraTicket", null);
