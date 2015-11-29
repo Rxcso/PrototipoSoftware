@@ -2689,3 +2689,11 @@ System.Collections.ListDictionaryInternal
 2015-11-29 12:45:07,708 [9] ERROR Ticknet - Exception Message - 
 An exception occurred while initializing the database. See the InnerException for details.
 2015-11-29 12:45:07,708 [9] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 16:43:31,860 [38] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 16:43:31,989 [38] ERROR Ticknet - Exception Type - 
+EntityException
+2015-11-29 16:43:31,990 [38] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-29 16:43:31,990 [38] ERROR Ticknet - Exception Message - 
+The underlying provider failed on Open.
+2015-11-29 16:43:31,990 [38] DEBUG Ticknet - ++++++++++++++++++++++++++++

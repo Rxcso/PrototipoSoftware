@@ -194,7 +194,6 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\EventoController.cs" />
     <Compile Include="Controllers\EventoReservaOrganizadorController.cs" />
-    <Compile Include="Controllers\EventosPruebaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LocalController.cs" />
     <Compile Include="Controllers\MagicHelpers.cs" />
@@ -203,7 +202,6 @@
     <Compile Include="Controllers\EventoPostergar_CancelarController.cs" />
     <Compile Include="Controllers\PoliticasController.cs" />
     <Compile Include="Controllers\PromocionController.cs" />
-    <Compile Include="Controllers\PruebaController.cs" />
     <Compile Include="Controllers\PuntoVentaController.cs" />
     <Compile Include="Controllers\RegaloController.cs" />
     <Compile Include="Controllers\ReporteVentasController.cs" />
@@ -270,7 +268,6 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DevolucionModel.cs" />
-    <Compile Include="Models\Evento2Model.cs" />
     <Compile Include="Models\EventoModel.cs" />
     <Compile Include="Models\Eventos.cs">
       <DependentUpon>Model1.tt</DependentUpon>
