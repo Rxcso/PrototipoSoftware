@@ -69,3 +69,12 @@ thead {
     .table > tbody > tr > th {
         vertical-align:middle;
     }
+
+    /*Truncar los nombres de los eventos en index2*/
+    .suspensivos{
+        overflow:hidden;
+        text-overflow:ellipsis;
+        height:18px;
+        white-space:nowrap;
+        width:inherit;
+    }
