@@ -17,11 +17,8 @@
         tu = (Turno)Session["TurnoHoy"];
     }
 }
-<style>
-    td{text-align:center}
-</style>
 <div class="container-fluid">
-    <div class="col-md-5">
+    <div class="col-md-3">
         <ol class="breadcrumb">
             <li class="active">Entrega de boletos</li>
         </ol>
@@ -30,48 +27,54 @@
 
 <div class="container">
     <div class="row ">
-        <div class="col-md-1">
+        <div class="col-md-1 col-sm-6">
             <label for="dni" class="control-label">Tipo Doc:</label>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2 col-sm-6">
             <select class="form-control" name="" id="comboBusq">
                 <option value="0">Ambos</option>
                 <option value="1">DNI</option>
                 <option value="2">Pasaporte</option>
             </select>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2 col-sm-6">
             <label for="dni" class="control-label">N° Documento:</label>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2 col-sm-6">
             <div class="input-group">
                 <input id="idBusq" type="text" class="form-control">
                 <span class="input-group-btn"><button onclick="busca()" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-search"></span></button></span>
             </div>
         </div>
 
-        @*si existe un turno y la caja para ese turno esta abierta aparece la opcion para pagar reserva*@
-        @if (tu != null && tu.estadoCaja == "Abierto")               
-        {
+       
         <div class="col-md-5">
-            <a href="#imprimir" class="btn btn-primary " data-toggle="modal"><span class="fa fa-ticket fa-lg"></span> Entregar boletos</a>
-            @*<a href="@Url.Action("Index2", "Home")" class="btn btn-danger pull-right">Salir <span class="glyphicon glyphicon-log-out"></span></a>*@
-        </div>                
-        }
-        else
-        {
-            if (tu == null)
-            {
-                <h6>Debes tener un Turno</h6>
-            }
-            else
-            {
-                if (tu.estadoCaja != "Abierto")
+            <div class="row">
+                @*si existe un turno y la caja para ese turno esta abierta aparece la opcion para pagar reserva*@
+                @if (tu != null && tu.estadoCaja == "Abierto")
                 {
-                    <h6>Caja debe estar Abierta</h6>
+                    <center>
+                        <a href="#imprimir" class="btn btn-primary " data-toggle="modal"><span class="fa fa-ticket fa-lg"></span> Entregar boletos</a>
+                    </center>                    
                 }
-            }
-        }
+                else
+                {
+                    if (tu == null)
+                    {
+                        <h6>Debes tener un Turno</h6>
+                    }
+                    else
+                    {
+                        if (tu.estadoCaja != "Abierto")
+                        {
+                            <h6>Caja debe estar Abierta</h6>
+                        }
+                    }
+                }
+            </div>
+            
+        </div>                
+        
     </div>
 
     <div class="row">
