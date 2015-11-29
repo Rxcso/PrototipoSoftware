@@ -11,7 +11,6 @@
     </div>
 </div>
 <div class="container">
-
     <div class="row">
         <div class="form-group">
             <label for="nombre" class="control-label col-md-2">Nº Documento:</label>
@@ -27,7 +26,7 @@
             </div>
             <div class="col-md-2">
                 <!--Por evaluar :)-->
-                <a class="btn btn-primary" data-toggle="modal" onclick="redirigeDevolucion()">Ver Detalle<span class="glyphicon glyphicon-pencil"></span></a>
+                <a class="btn btn-primary" data-toggle="modal" onclick="redirigeDevolucion()"><span class="fa fa-list-ul fa-lg"></span> Detalle</a>
                 <!--<label>
                     <input type="checkbox"> Solo vencidos
                 </label>-->
@@ -44,50 +43,50 @@
         //if (Session["Bus"] != null)
         devoluciones = (List<WebApplication4.Models.DevolucionModel>)Session["BusquedaDev"];
     }
-    <h4>Resultados:</h4>
     <div class="row">
-        <table id="mytable" class="table table-bordered table-hover">
-            <thead>
-                <tr class="active">
-                    <th>Cod. Devol.</th>
-                    <th>Nº Doc</th>
-                    <th>Nombre</th>
-                    <th>Fecha Fun</th>
-                    <th>Hora Ini Fun</th>
-                    <th>Evento</th>
-                    <th>Zona</th>
-                    <th>Cant boletos</th>
-                    <th>Monto (S/.)</th>
-                    <th>Estado Even</th>
-                </tr>
-            </thead>
-            <tbody id="tbody">
-                @{
-                    if (devoluciones != null)
-                    {
-                        foreach (var row in devoluciones)
+        <h4>Resultados:</h4>
+        <div class="table-responsive">
+            <table id="mytable" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th class="col-md-1">Cod. Devol.</th>
+                        <th class="col-md-1">Nº Doc</th>
+                        <th class="col-md-2">Nombre</th>
+                        <th class="col-md-1">Fecha</th>
+                        <th class="col-md-1">Hora</th>
+                        <th class="col-md-2">Evento</th>
+                        <th class="col-md-1">Zona/Tarifa</th>
+                        <th class="col-md-1">Cantidad</th>
+                        <th class="col-md-1">Total (S/.)</th>
+                        <th class="col-md-1">Estado</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                    @{
+                        if (devoluciones != null)
                         {
-                            <tr id=@row.codDev onclick="myFunction(this)">
-                                <td>@row.codDev</td>
-                                <td>@row.numDoc</td>
-                                <td>@row.nombre</td>
-                                <td>@row.fecha</td>
-                                <td>@row.hora</td>
-                                <td>@row.evento</td>
-                                <td>@row.zona</td>
-                                <td>@row.cantAsientos</td>
-                                <td>@row.monto</td>
-                                <td>@row.estado</td>
-                            </tr>
+                            foreach (var row in devoluciones)
+                            {
+                                <tr id=@row.codDev onclick="myFunction(this)">
+                                    <td>@row.codDev</td>
+                                    <td>@row.numDoc</td>
+                                    <td>@row.nombre</td>
+                                    <td>@row.fecha</td>
+                                    <td>@row.hora</td>
+                                    <td>@row.evento</td>
+                                    <td>@row.zona</td>
+                                    <td>@row.cantAsientos</td>
+                                    <td>@row.monto</td>
+                                    <td>@row.estado</td>
+                                </tr>
+                            }
                         }
                     }
-                }
-            </tbody>
-        </table>
-    </div>
+                </tbody>
+            </table>
+        </div>
+    </div>    
 </div>
-
-
 <input type="hidden" id="idFila" value="" />
 <script>
     function myFunction(x) {
@@ -167,11 +166,6 @@
         //$.post('/Regalo/Edit/' + regalo);
     }
 </script>
-<style>
-    .trselected {
-        background: gray;
-    }
-</style>
 
 <div class="modal fade" id="devolver">
     <!--esta div pondra la pantalla oscura al presionar el boton-->

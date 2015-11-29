@@ -65,31 +65,33 @@
     }
 
     <div class="row">
-        <table id="mytable" class="table table-bordered table-hover">
-            <thead>
-                <tr class="thead">
-                    <th>Usuario</th>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>No Documento</th>
-                    <th>Puntos</th>
-                    @*<th></th>*@
-                </tr>
-            </thead>
-            <tbody id="tbody">
-                @foreach (var row in listaCliente)
-                {
-                    <tr id=@row.codDoc onclick="myFunction(this)">
-                        <td>@row.usuario.Replace("@", "°")</td>
-                        <td>@row.nombre</td>
-                        <td>@row.apellido</td>
-                        <td>@row.codDoc</td>
-                        <td>@row.puntos</td>
-                        @*<td>@Html.ActionLink("Selecciona", "Entrega", new { usuario = row.usuario.Replace("@", "°") })</td>*@
+        <div class="table-responsive">
+            <table id="mytable" class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th class="col-md-2">Usuario</th>
+                        <th class="col-md-3">Nombres</th>
+                        <th class="col-md-3">Apellidos</th>
+                        <th class="col-md-2">No Documento</th>
+                        <th class="col-md-2">Puntos</th>
+                        @*<th></th>*@
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody id="tbody">
+                    @foreach (var row in listaCliente)
+                    {
+                        <tr id=@row.codDoc onclick="myFunction(this)">
+                            <td>@row.usuario.Replace("@", "°")</td>
+                            <td>@row.nombre</td>
+                            <td>@row.apellido</td>
+                            <td>@row.codDoc</td>
+                            <td>@row.puntos</td>
+                            @*<td>@Html.ActionLink("Selecciona", "Entrega", new { usuario = row.usuario.Replace("@", "°") })</td>*@
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>        
     </div>
 </div><!--Fin del container-->
 
@@ -164,12 +166,6 @@
         $('#regalo').modal('hide');
     }
 </script>
-
-<style>
-    .trselected {
-        background: gray;
-    }
-</style>
 
 <div class="modal fade" id="regalo">
     <!--esta div pondra la pantalla oscura al presionar el boton-->
