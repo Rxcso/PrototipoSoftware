@@ -48,7 +48,7 @@
                     <div class="col-md-12">
                         <div class="row form-group">
                             <div class="col-md-10 col-sm-8 col-xs-6">
-                                <a class="btn btn-success pull-right" href="@Url.Action("ComprarEntrada", "CuentaUsuario")"><span class="glyphicon glyphicon-usd"></span> Pagar entradas</a>
+                                <a class="btn btn-success pull-right" href="@Url.Action("ComprarEntrada", "CuentaUsuario")"><span class="fa fa-credit-card"></span> Pagar entradas</a>
                             </div>
                             <div class="col-md-2 col-sm-4 col-xs-6">
                                 <a class="btn btn-danger pull-right" onclick="quitarCarrito()"><span class="glyphicon glyphicon-trash"></span> Quitar</a>
@@ -76,7 +76,7 @@
                                         string asientos = "";
                                         <tr id="@(i)">
                                             <td style="display:none">@carritoList[i].idEvento</td>
-                                            <td>@carritoList[i].nombreEvento</td>
+                                            <td><a href=@Url.Action("VerEvento", "Evento", new { id = @carritoList[i].idEvento})>@carritoList[i].nombreEvento</a></td>
                                             <td>@String.Format("{0:dd/MM/yyyy}", carritoList[i].fecha)</td>
                                             <td>@String.Format("{0:t}", carritoList[i].hora)</td>
                                             <td>@carritoList[i].zona</td>
