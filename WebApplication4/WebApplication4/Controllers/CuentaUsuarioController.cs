@@ -277,12 +277,17 @@ namespace WebApplication4.Controllers
                     venta.montoCreditoSoles = model.MontoPagar;
                     venta.montoDev = 0;
                     venta.montoEfectivoDolares = 0;
-                    venta.MontoTotalSoles = model.MontoPagar;
+                    venta.MontoTotalSoles = model.Importe;
                     venta.Estado = MagicHelpers.Compra;
                     venta.entradasDev = 0;
                     venta.modalidad = "T";
+                    venta.fecha = DateTime.Now;
                     VentasXFuncion vxf = db.VentasXFuncion.Where(c => c.codVen == venta.codVen).First();
                     vxf.cantEntradas = venta.cantAsientos.Value;
+                    vxf.montoDev = 0;
+                    vxf.hanEntregado = false;
+                    vxf.descuento = (int)model.Descuento;
+                    vxf.subtotal = model.MontoPagar;
                     Eventos evento = db.Eventos.Find(vxf.Funcion.codEvento);
                     DetalleVenta detalle = db.DetalleVenta.Where(c => c.codVen == venta.codVen && c.codFuncion == vxf.Funcion.codFuncion).First();
                     evento.monto_adeudado += evento.montoFijoVentaEntrada.Value + evento.porccomision.Value * detalle.cantEntradas.Value / 100;
@@ -464,7 +469,7 @@ namespace WebApplication4.Controllers
                                 ve.CuentaUsuario = db.CuentaUsuario.Find(MagicHelpers.AnonimoUniversal);
                                 ve.cliente = model.Nombre;
                             }
-                            ve.fecha = DateTime.Now;
+                            ve.fecha = DateTime.Now;x
                             ve.cantAsientos = cantidadEntradasTotales;
                             //de todas maneras en la venta se registra el nombre, dni y tipo de documento del que esta comprando.
                             ve.cliente = model.Nombre;

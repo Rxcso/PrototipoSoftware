@@ -122,7 +122,7 @@ namespace WebApplication4.Controllers
             int codVenta = model.idVenta;
             if (validacionVenta(model))
             {
-                DateTime hoy = DateTime.Today;
+                DateTime hoy = DateTime.Now;
                 //buscamos la venta
                 Ventas venta = db.Ventas.Find(model.idVenta);
                 //asignamos el vendedor
@@ -548,7 +548,7 @@ namespace WebApplication4.Controllers
                     if (verificaSiCompra(model.idFunciones, model.Dni))
                     {
                         int idVenta = 0;
-                        DateTime hoy = DateTime.Today;
+                        DateTime hoy = DateTime.Now;
                         CuentaUsuario cuenta = new CuentaUsuario();
                         using (var context = new inf245netsoft())
                         {
