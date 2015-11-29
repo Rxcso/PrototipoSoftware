@@ -1524,8 +1524,7 @@ namespace WebApplication4.Controllers
                     cu.fechaNac = model.fechaNac;
                     cu.sexo = model.sexo;
                     cu.telefono = model.telefono;
-                    cu.usuario = model.Email;
-                    cu.tipoUsuario = "Cliente";
+                    cu.usuario = model.Email;                    
                     cu.telMovil = model.telMovil;
                     cu.puntos = 0;
 

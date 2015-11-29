@@ -357,8 +357,7 @@ namespace WebApplication4.Controllers
                         cuentausuario.sexo = model.sexo;
                         cuentausuario.telefono = model.telefono;
                         cuentausuario.telMovil = model.telMovil;
-                        cuentausuario.tipoDoc = model.tipoDoc;
-                        cuentausuario.tipoUsuario = "Cliente";
+                        cuentausuario.tipoDoc = model.tipoDoc;                        
                         cuentausuario.usuario = model.Email;
 
                         db.CuentaUsuario.Add(cuentausuario);
@@ -436,8 +435,7 @@ namespace WebApplication4.Controllers
                     cuentausuario.sexo = model.sexo;
                     cuentausuario.telefono = model.telefono;
                     cuentausuario.telMovil = model.telMovil;
-                    cuentausuario.tipoDoc = model.tipoDoc;
-                    cuentausuario.tipoUsuario = "Cliente";
+                    cuentausuario.tipoDoc = model.tipoDoc;                    
                     cuentausuario.usuario = model.Email;
 
 
@@ -504,8 +502,7 @@ namespace WebApplication4.Controllers
                     cuentausuario.sexo = model.sexo;
                     cuentausuario.telefono = model.telefono;
                     cuentausuario.telMovil = model.telMovil;
-                    cuentausuario.tipoDoc = model.tipoDoc;
-                    cuentausuario.tipoUsuario = "Cliente";
+                    cuentausuario.tipoDoc = model.tipoDoc;                    
                     cuentausuario.usuario = model.Email;
 
 

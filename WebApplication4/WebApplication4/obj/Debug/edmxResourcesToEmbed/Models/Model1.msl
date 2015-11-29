@@ -1,28 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="inf245netsoftModelStoreContainer" CdmEntityContainer="inf245netsoft">
-    <EntitySetMapping Name="CuentaUsuario">
-      <EntityTypeMapping TypeName="inf245netsoftModel.CuentaUsuario">
-        <MappingFragment StoreEntitySet="CuentaUsuario">
-          <ScalarProperty Name="usuario" ColumnName="usuario" />
-          <ScalarProperty Name="tipoUsuario" ColumnName="tipoUsuario" />
-          <ScalarProperty Name="correo" ColumnName="correo" />
-          <ScalarProperty Name="contrasena" ColumnName="contrasena" />
-          <ScalarProperty Name="estado" ColumnName="estado" />
-          <ScalarProperty Name="tipoDoc" ColumnName="tipoDoc" />
-          <ScalarProperty Name="codDoc" ColumnName="codDoc" />
-          <ScalarProperty Name="nombre" ColumnName="nombre" />
-          <ScalarProperty Name="apellido" ColumnName="apellido" />
-          <ScalarProperty Name="direccion" ColumnName="direccion" />
-          <ScalarProperty Name="telefono" ColumnName="telefono" />
-          <ScalarProperty Name="telMovil" ColumnName="telMovil" />
-          <ScalarProperty Name="sexo" ColumnName="sexo" />
-          <ScalarProperty Name="fechaNac" ColumnName="fechaNac" />
-          <ScalarProperty Name="puntos" ColumnName="puntos" />
-          <ScalarProperty Name="codPerfil" ColumnName="codPerfil" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Banco">
       <EntityTypeMapping TypeName="inf245netsoftModel.Banco">
         <MappingFragment StoreEntitySet="Banco">
@@ -188,14 +166,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <AssociationSetMapping Name="CategoriasXUsuario" TypeName="inf245netsoftModel.CategoriasXUsuario" StoreEntitySet="CategoriasXUsuario">
-      <EndProperty Name="CuentaUsuario">
-        <ScalarProperty Name="usuario" ColumnName="usuario" />
-      </EndProperty>
-      <EndProperty Name="Categoria">
-        <ScalarProperty Name="idCategoria" ColumnName="idCategoria" />
-      </EndProperty>
-    </AssociationSetMapping>
     <EntitySetMapping Name="Pago">
       <EntityTypeMapping TypeName="inf245netsoftModel.Pago">
         <MappingFragment StoreEntitySet="Pago">
@@ -482,5 +452,34 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="CuentaUsuario">
+      <EntityTypeMapping TypeName="inf245netsoftModel.CuentaUsuario">
+        <MappingFragment StoreEntitySet="CuentaUsuario">
+          <ScalarProperty Name="codPerfil" ColumnName="codPerfil" />
+          <ScalarProperty Name="puntos" ColumnName="puntos" />
+          <ScalarProperty Name="fechaNac" ColumnName="fechaNac" />
+          <ScalarProperty Name="sexo" ColumnName="sexo" />
+          <ScalarProperty Name="telMovil" ColumnName="telMovil" />
+          <ScalarProperty Name="telefono" ColumnName="telefono" />
+          <ScalarProperty Name="direccion" ColumnName="direccion" />
+          <ScalarProperty Name="apellido" ColumnName="apellido" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="codDoc" ColumnName="codDoc" />
+          <ScalarProperty Name="tipoDoc" ColumnName="tipoDoc" />
+          <ScalarProperty Name="estado" ColumnName="estado" />
+          <ScalarProperty Name="contrasena" ColumnName="contrasena" />
+          <ScalarProperty Name="correo" ColumnName="correo" />
+          <ScalarProperty Name="usuario" ColumnName="usuario" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="CategoriasXUsuario" TypeName="inf245netsoftModel.CategoriasXUsuario" StoreEntitySet="CategoriasXUsuario">
+      <EndProperty Name="CuentaUsuario">
+        <ScalarProperty Name="usuario" ColumnName="usuario" />
+      </EndProperty>
+      <EndProperty Name="Categoria">
+        <ScalarProperty Name="idCategoria" ColumnName="idCategoria" />
+      </EndProperty>
+    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping>
