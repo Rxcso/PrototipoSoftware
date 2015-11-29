@@ -111,7 +111,7 @@
             </center>
         </div>
     </div>
-    <div class="row">
+    <div class="table-responsive">
         <table id="mytable" class="table table-bordered table-hover">
             <thead>
                 <tr class="thead">
@@ -153,27 +153,28 @@
                     @{
                         List<WebApplication4.Models.Organizador> orgList = db.Organizador.Where(c => c.estadoOrg == "Activo").ToList();
                     }
-                    <table class="table table-bordered table-hover" id="tablita">
-                        <thead>
-                            <tr>
-                                <th>Código</th>
-                                <th>Nombre</th>
-                                <th>Seleccionar</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var org in orgList)
-                            {
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover" id="tablita">
+                            <thead>
                                 <tr>
-                                    <td>@org.codOrg</td>
-                                    <td>@org.nombOrg</td>
-                                    <td><input type="radio" name="groupO" value="@org.codOrg"></td>
+                                    <th>Código</th>
+                                    <th>Nombre</th>
+                                    <th>Seleccionar</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach (var org in orgList)
+                                {
+                                    <tr>
+                                        <td>@org.codOrg</td>
+                                        <td>@org.nombOrg</td>
+                                        <td><input type="radio" name="groupO" value="@org.codOrg"></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>                    
                 </div>
-
             </div>
             <!--footer de la ventana-->
             <div class="modal-footer">

@@ -31,7 +31,7 @@
     @using (Html.BeginForm("EditRegister", "Categoria", FormMethod.Post, new { }))
     {
         @Html.AntiForgeryToken()
-        <div class="col-md-8 col-md-offset-2 contenedor">
+        <div class="col-md-8 col-md-offset-2">
         <br>
         <div class="form-horizontal">
             @Html.ValidationSummary(true)            
