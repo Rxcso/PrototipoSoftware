@@ -2641,3 +2641,19 @@ System.Collections.ListDictionaryInternal
 The parameters dictionary contains a null entry for parameter 'id' of non-nullable type 'System.Int32' for method 'System.Web.Mvc.ActionResult Historial(Int32)' in 'WebApplication4.Controllers.OrganizadorController'. An optional parameter must be a reference type, a nullable type, or be declared as an optional parameter.
 Nombre del parámetro: parameters
 2015-11-28 18:04:04,617 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 20:16:49,078 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 20:16:49,087 [10] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-28 20:16:49,087 [10] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-28 20:16:49,087 [10] ERROR Ticknet - Exception Message - 
+A public action method 'Asignacion' was not found on controller 'WebApplication4.Controllers.VentasController'.
+2015-11-28 20:16:49,087 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 20:41:29,369 [26] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-28 20:41:29,378 [26] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-28 20:41:29,378 [26] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-28 20:41:29,378 [26] ERROR Ticknet - Exception Message - 
+A public action method 'Asignacion' was not found on controller 'WebApplication4.Controllers.VentasController'.
+2015-11-28 20:41:29,378 [26] DEBUG Ticknet - ++++++++++++++++++++++++++++
