@@ -47,7 +47,7 @@
     }
     @{
         var db = new WebApplication4.Models.inf245netsoft();
-        DateTime fecha1 = DateTime.Today.AddDays(-120);
+        DateTime fecha1 = DateTime.Today.AddDays(-5);
         //se obtiene la lista de tipos de cambio de hace 120 dias atras
         List<WebApplication4.Models.TipoDeCambio> listaCambio = db.TipoDeCambio.AsNoTracking().Where(c => c.fecha > fecha1).ToList();
     }
