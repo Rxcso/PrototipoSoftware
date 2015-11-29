@@ -44,7 +44,13 @@
 
         <div id="header" class="Rotate-90 bloques">
             <p><strong>@Model.Evento</strong></p>
-            <p>@Model.Local</p>
+
+
+            @if (Model.Local != null)
+            {
+                <p>@Model.Local</p>
+
+            }
             <p>@Model.Direccion - @Model.Lugar</p>
             <p>@Model.Fecha</p>
             <p>Zona: @Model.Zona</p>
