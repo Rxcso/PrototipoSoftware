@@ -1310,7 +1310,7 @@ namespace WebApplication4.Controllers
                 int val = int.Parse(fd);
                 if (val >= 0)
                 {
-                    listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.puntos > val && c.estado == true && c.codPerfil == 1).ToList();
+                    listacl = db.CuentaUsuario.AsNoTracking().Where(c => c.puntos >= val && c.estado == true && c.codPerfil == 1).ToList();
 
                 }
                 else
