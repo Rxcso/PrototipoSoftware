@@ -224,13 +224,14 @@ namespace WebApplication4.Controllers
                 Region querR = db.Region.Where(c => c.idRegion == (int)valorID).First();
                 r.region = querR.nombre;
 
-                valorID = (int)lv[i].idLocal;
 
-                if (valorID != 0)
+                if (lv[i].idLocal != null)
                 {
+                    valorID = (int)lv[i].idLocal;
                     Local querL = db.Local.Where(c => c.codLocal == valorID).First();
                     r.local = querL.ubicacion;
                 }
+
                 else
                 {
                     r.local = lv[i].direccion;
@@ -250,9 +251,9 @@ namespace WebApplication4.Controllers
                 for (int j = 0; j < lf.Count; j++)
                 {
                     fecha = (DateTime)lf[j].fecha;
-                    r.fechaFuncion = fecha.Date;
+                    r.fechaFuncion = fecha.ToString("dd-MM-yyyy");
                     hora = (DateTime)lf[j].horaIni;
-                    r.horaFuncion = hora.Hour;
+                    r.horaFuncion = hora.ToString("hh:mm tt");
                     //cantidades de entradas disponibles
                     cantLibres = 0;
                     codFuncion = (int)lf[j].codFuncion;
@@ -279,17 +280,19 @@ namespace WebApplication4.Controllers
                     valorID = (int)lv[i].idRegion;
                     querR = db.Region.Where(c => c.idRegion == (int)valorID).First();
                     r.region = querR.nombre;
-                    valorID = (int)lv[i].idLocal;
-                    if (valorID != 0)
+                    if (lv[i].idLocal != null)
                     {
+                        valorID = (int)lv[i].idLocal;
                         Local querL = db.Local.Where(c => c.codLocal == valorID).First();
                         r.local = querL.ubicacion;
                     }
+
                     else
                     {
                         r.local = lv[i].direccion;
                     }
                 }
+
             }
 
             Session["ReporteEventos"] = lr;
