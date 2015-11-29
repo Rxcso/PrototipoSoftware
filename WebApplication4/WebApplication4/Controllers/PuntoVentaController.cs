@@ -254,6 +254,5 @@ namespace WebApplication4.Controllers
             else Session["ListaP"] = null;
             return RedirectToAction("Index", "PuntoVenta");
         }
-
     }
 }

@@ -10,7 +10,6 @@ using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Data.Entity.Core;
 
-
 namespace WebApplication4.Controllers
 {
     public partial class EventoController : Controller
@@ -18,12 +17,10 @@ namespace WebApplication4.Controllers
         [HttpPost]
         public ActionResult ReservaOrganizador(ReservaOrganizadorModel model)
         {
-
             using (var context = new inf245netsoft())
             {
                 try
                 {
-
                     for (int i = 0; i < model.idFuncion.Length; i++) if (model.eliminar[i])
                         {
                             if (model.idAsiento[i] < 0)
@@ -37,11 +34,8 @@ namespace WebApplication4.Controllers
                                 var asientoReal = context.AsientosXFuncion.Find(model.idAsiento[i], model.idFuncion[i]);
                                 asientoReal.estado = "libre";
                             }
-
                         }
-
                     context.SaveChanges();
-
                 }
                 catch (OptimisticConcurrencyException ex)
                 {
@@ -60,7 +54,6 @@ namespace WebApplication4.Controllers
         [HttpGet]
         public ActionResult verReservaOrganizador(string evento)
         {
-
             Eventos ev;
 
             if (evento == null || (ev = db.Eventos.Find(Int32.Parse(evento))) == null)
@@ -87,7 +80,6 @@ namespace WebApplication4.Controllers
 
             foreach (var funcion in ev.Funcion)
             {
-
                 foreach (var asientoReal in funcion.AsientosXFuncion)
                 {
                     if (asientoReal.estado == "RESERVAORGANIZADOR")
@@ -116,7 +108,6 @@ namespace WebApplication4.Controllers
                             elimina.Add(false);
                         }
                     }
-
             }
 
             modelo.idZona = zonas.ToArray();
@@ -126,16 +117,8 @@ namespace WebApplication4.Controllers
             modelo.nameFuncion = nombresF.ToArray();
             modelo.nameZona = nombresZ.ToArray();
             modelo.idAsiento = idAsientos.ToArray();
-
-
-
             return View("ReservaOrganizador", modelo);
         }
-
-
-
-
-
 
         public string reservarOrganizador(PaqueteEntradas paquete)
         {
@@ -145,7 +128,6 @@ namespace WebApplication4.Controllers
                 {
                     try
                     {
-
                         if (paquete.tieneAsientos)
                         {
                             for (int i = 0; i < paquete.cantEntradas; i++)
@@ -180,11 +162,6 @@ namespace WebApplication4.Controllers
             //Funciones Utilitarias necesarias
             //BuscarEntradasLeQuedan( User , Funcion )
             return "Ok";
-
         }
-
-
-
-
     }
 }

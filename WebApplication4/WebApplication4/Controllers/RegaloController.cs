@@ -11,7 +11,6 @@ namespace WebApplication4.Controllers
     [Authorize(Roles = "Administrador")]
     public class RegaloController : Controller
     {
-
         private inf245netsoft db = new inf245netsoft();
         // GET: Regalo
         public ActionResult Index()
@@ -63,7 +62,6 @@ namespace WebApplication4.Controllers
             //return RedirectToAction("Index", "Evento");
             return Json("Regalo Desactivado", JsonRequestBehavior.AllowGet);
         }
-
 
         public JsonResult Active(string regalo)
         {
@@ -141,6 +139,7 @@ namespace WebApplication4.Controllers
             else Session["ListaR"] = null;
             return RedirectToAction("Index", "Regalo");
         }
+        
         public ActionResult SearchI()
         {
             List<Regalo> listaReg;

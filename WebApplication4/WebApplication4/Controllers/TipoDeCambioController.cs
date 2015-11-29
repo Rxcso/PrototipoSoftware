@@ -12,7 +12,6 @@ namespace WebApplication4.Controllers
     [Authorize(Roles="Administrador")]
     public class TipoDeCambioController : Controller
     {
-
         private inf245netsoft db = new inf245netsoft();
         // GET: TipoDeCambio
         public ActionResult Index()
@@ -63,8 +62,5 @@ namespace WebApplication4.Controllers
             }
             return View("Index");
         }
-
-
-
     }
 }

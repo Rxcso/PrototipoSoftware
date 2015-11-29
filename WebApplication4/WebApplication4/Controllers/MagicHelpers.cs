@@ -50,8 +50,5 @@ namespace WebApplication4.Controllers
             chars[9] = caracteresSimbolos[randNum.Next(caracteresSimbolos.Length)];
             return new string(chars);
         }
-
     }
-
-
 }

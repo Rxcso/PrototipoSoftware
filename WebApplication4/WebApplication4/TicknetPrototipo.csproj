@@ -465,6 +465,7 @@
     <Content Include="Images\Eventos\evento1118.jpg" />
     <Content Include="Images\Eventos\evento1120.jpg" />
     <Content Include="Images\Eventos\evento1121.jpg" />
+    <Content Include="Images\imagen.png" />
     <Content Include="Models\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>

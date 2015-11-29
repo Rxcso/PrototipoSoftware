@@ -86,7 +86,6 @@ namespace WebApplication4.Controllers
                     dummy.codPromo = -1;
                     listaPromocionesEfectivo.Add(dummy);
                 }
-
                 model.idEventos = new List<int>();
                 model.idEventos.Add(codEvento);
                 ViewBag.PromocionesEfectivo = listaPromocionesEfectivo;
@@ -892,6 +891,7 @@ namespace WebApplication4.Controllers
             TempData["message"] = "No hay items en el carrito.";
             return RedirectToAction("CarritoVentas");
         }
+
         // GET: Ventas
         public ActionResult Index()
         {
@@ -1619,7 +1619,6 @@ namespace WebApplication4.Controllers
             if (axf.Count != 0) //numerado
             {
                 int codAsiento = int.Parse(asiento);
-
                 //DetalleVenta dv = (DetalleVenta)Session["DetalleVenta"];
                 AsientosXFuncion axfuncion = db.AsientosXFuncion.Where(a => a.codAsiento == codAsiento && a.codFuncion == dv.codFuncion).First();
                 //AsientosXFuncion axfuncion = db.AsientosXFuncion.Find(codAsiento);
@@ -1687,8 +1686,6 @@ namespace WebApplication4.Controllers
                         break;
                     }
                 Session["ListaAsientos"] = axf;
-
-
                 LogDevoluciones ld = new LogDevoluciones();
                 ld.codDetalleVenta = dv.codDetalleVenta;
                 ld.codVendedor = User.Identity.Name;
@@ -1700,7 +1697,6 @@ namespace WebApplication4.Controllers
             }
             else // no numerado
             {
-
                 //AsientosXFuncion axfuncion = db.AsientosXFuncion.Find(codAsiento);
                 PrecioEvento pe = db.PrecioEvento.Find(dv.codPrecE);
                 Ventas v = db.Ventas.Find(dv.codVen);
@@ -1745,7 +1741,6 @@ namespace WebApplication4.Controllers
                 dvAux.cantEntradas -= 1;
 
                 dvAux.montoDev += (double)pe.precio;
-
 
                 LogDevoluciones ld = new LogDevoluciones();
                 ld.codDetalleVenta = dv.codDetalleVenta;
@@ -1852,10 +1847,6 @@ namespace WebApplication4.Controllers
             else return View("VerDetalle");
         }
 
-
-
-
-
         public ActionResult PrintTicket(int codVenT)
         {
 
@@ -1947,6 +1938,7 @@ namespace WebApplication4.Controllers
             string path = HttpContext.Server.MapPath("~/Images/imagen.png");
 
             path = path.Replace('\\', '/');
+            Session["path"] = path;
             using (StringWriter stringWriter = new StringWriter())
             {
                 ViewEngineResult viewResult = ViewEngines.Engines.FindView(this.ControllerContext, "GeneraTicket", null);
@@ -2002,13 +1994,11 @@ namespace WebApplication4.Controllers
                     detalles.Add(de);
 
 
-
-
                 }
                 catch (Exception ex)
                 {
 
-
+                    return false;
 
                 }
 
@@ -2089,7 +2079,7 @@ namespace WebApplication4.Controllers
             catch (Exception ex)
             {
                 //No encontro alguna impresora activa.
-
+                return false;
 
             }
 

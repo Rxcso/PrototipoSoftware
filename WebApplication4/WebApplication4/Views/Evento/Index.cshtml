@@ -213,41 +213,29 @@
             </table>
 
             @{
-
-
                 var fechaI = "";
                 var fechaF = "";
-
                 if (ViewBag.fech_ini != null)
                 {
                     fechaI = ViewBag.fech_ini.ToString("yyyy-MM-dd");
-
-
                 }
                 else
                 {
                     fechaI = ViewBag.fech_ini;
-
                 }
 
                 if (ViewBag.fech_fin != null)
                 {
                     fechaF = ViewBag.fech_fin.ToString("yyyy-MM-dd");
-
-
                 }
                 else
                 {
                     fechaF = ViewBag.fech_fin;
-
                 }
 
             }
-
             Pagina @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount;
             @Html.PagedListPager(Model, page => Url.Action("Index", new { page, nombre = @ViewBag.nombre, fech_ini = fechaI, fech_fin = fechaF, idCategoria = @ViewBag.idCategoria, idSubCat = @ViewBag.idSubCat }))
-
-
         </div>
     </div>
 </div>
@@ -266,9 +254,7 @@
             }, 'Must be greater than {0}.');
             */
             $("#adv-search").on('submit', function (e) {
-
                 e.preventDefault();
-
 
                 var fechI = this['fech_ini'].value;
                 var fechF = this['fech_fin'].value;
@@ -283,18 +269,12 @@
 
                     var valor = $("#alerta").children('strong');
                     if (valor.length > 0) {
-
                         valor.remove();
-
                     }
-
                     $("#alerta").hide();
-
                 }
                 /*Regla 2 : Validacion para las fechas*/
                 if (fechF != '' && fechI != '') {
-
-
                     if (new Date(fechF.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1")) < new Date(fechI.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1"))) {
 
                         $("#alerta").append('<strong>"Fecha hasta" no puede ser menor que "Fecha desde"</strong>').show();
@@ -302,54 +282,25 @@
                     } else {
                         var valor = $("#alerta").children('strong');
                         if (valor.length > 0) {
-
                             valor.remove();
-
                         }
-
                         $("#alerta").hide();
-
                     }
-
                 }
-
                 this.submit();
-
-
             });
 
-
-
-
-
             if (!isNaN(@ViewBag.idCategoria)) {
-
                 $("#idCategoria > option[value='" + @ViewBag.idCategoria + "'").attr('selected', 'selected');
-
-
                 if (!isNaN(@ViewBag.idSubCat)) {
-
-
                     $("#idSubCat > option[value='" + @ViewBag.idSubCat + "'").attr('selected', 'selected');
-
-
-
                 }
-
-
             }
 
             if (!isNaN(@ViewBag.idRegion)) {
-
                 $("#idRegion > option[value='" + @ViewBag.idRegion + "'").attr('selected', 'selected');
-
-
-
-
             }
-
         });
-
 
         function submitSearch() {
             $("#search").submit();
@@ -360,9 +311,6 @@
                            .attr("type", "hidden")
                             .attr("name", "nombre").val(($("#nombre").val() != "") ? $("#nombre").val() : "");
             $("#adv-search").append(input);*/
-
-
-
             $("#adv-search").submit();
         }
 
@@ -434,6 +382,7 @@
                 evento = "";
             }
         }
+
         function redirigeCancelar() {
             var evento = $('#idEventoT').val();
             if (evento != "") {
@@ -443,6 +392,7 @@
                 evento = "";
             }
         }
+
         function modificaEvento() {
             var evento = $('#idEventoT').val();
             if (evento != "") {
@@ -474,5 +424,3 @@
         }
     </script>
 }
-
-

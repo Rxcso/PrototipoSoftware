@@ -159,6 +159,5 @@ namespace WebApplication4.Controllers
             else Session["ListaO"] = null;
             return RedirectToAction("Index", "Organizador");
         }
-
     }
 }
