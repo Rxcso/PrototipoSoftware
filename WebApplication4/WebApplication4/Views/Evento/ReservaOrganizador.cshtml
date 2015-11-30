@@ -1,84 +1,89 @@
 ﻿@using WebApplication4.Models
 @model ReservaOrganizadorModel
 
-
 @{
     ViewBag.Title = "Reservas de Organizador";
     Layout = "~/Views/Shared/_Layout.cshtml";
     int tot =Model.idZona.Length;
-
-
-
-
 }
-
+<style>
+    h3{border-bottom:1px solid gray}
+</style>
+<div class="container-fluid">
+    <div class="col-md-5">
+        <ol class="breadcrumb">
+            <li><a href="@Url.Action("Index","Evento")">Mantenimiento de eventos</a></li>
+            <li class="active">Ver boletos reservados del organizador</li>
+        </ol>
+    </div>
+</div>
 <div class="container">
-
-    <h2>@Model.nameEvento</h2>
-
-    <br />
-    @if( tot>0 ){
-
-using (Html.BeginForm("ReservaOrganizador", "Evento", FormMethod.Post, new { id="ReservaForm" }))
-{
-
-    <div class=" row">
-        <button class="btn btn-primary" type="sumit">Descartar Reserva</button>
-        </div>
-    <br />
-    <div class="row">
-        <div class="col-md-12 table-responsive">
-            <thsead>
-            </thsead><table class="table table-bordered table-hover">
-                <tbody>
-                    <tr class="thead">
-                        <th>Funcion</th>
-                        <th>
-                            Zona
-                        </th>
-                        <th>
-                            Asiento
-                        </th>
-                        <th>Eliminar</th>
-
-                    </tr>
-
-                </tbody>
-                <tbody>
-                    @Html.HiddenFor(c=>c.idEvento)
-                    @{
-                        
-                        for (int i = 0; i < tot; i++)
-                        {
-                            <tr id="xxx">
-                                
-                                @Html.HiddenFor(c => c.idFuncion[i])
-                                @Html.HiddenFor(c => c.idZona[i])
-                                @Html.HiddenFor(c => c.idAsiento[i])
-                                <td> @Html.DisplayFor(c => c.nameFuncion[i]) </td>
-                                <td>@Html.DisplayFor(c => c.nameZona[i])</td>
-                                <td> @Html.DisplayFor(c => c.AsientoXFuncion[i]) </td>
-                                <td> @if( DateTime.Parse(Model.nameFuncion[i]) > DateTime.Now ){
-                                 @Html.CheckBoxFor(c => c.eliminar[i])
-                                
-                                }
-                                else{
-                                @("Pasado");
-}
-                                </td>
-                            </tr>
-                        }
-                    }
-                </tbody>
-            </table>
-
+    <div class="row form-group">
+        <div class="col-md-12">
+            <h3>@Model.nameEvento</h3>
         </div>
     </div>
-}
+        
+    @if( tot>0 ){
+
+        using (Html.BeginForm("ReservaOrganizador", "Evento", FormMethod.Post, new { id="ReservaForm" }))
+        {
+            <div class="row form-group">
+                <div class="col-md-12">
+                    <button class="btn btn-danger pull-right" type="submit"><span class="fa fa-trash fa-lg"></span> Descartar boleto(s)</button>
+                </div>                
+            </div>
+        
+            <div class="row form-group">
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr class="thead">
+                                    <th>Función</th>
+                                    <th>Zona</th>
+                                    <th>Asiento</th>
+                                    <th>Eliminar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @Html.HiddenFor(c => c.idEvento)
+                                @{
+                                    for (int i = 0; i < tot; i++)
+                                    {
+                                            <tr id="xxx">
+                                                @Html.HiddenFor(c => c.idFuncion[i])
+                                                @Html.HiddenFor(c => c.idZona[i])
+                                                @Html.HiddenFor(c => c.idAsiento[i])
+                                                <td> @Html.DisplayFor(c => c.nameFuncion[i]) </td>
+                                                <td>@Html.DisplayFor(c => c.nameZona[i])</td>
+                                                <td> @Html.DisplayFor(c => c.AsientoXFuncion[i]) </td>
+                                                <td>
+                                                    @if (DateTime.Parse(Model.nameFuncion[i]) > DateTime.Now)
+                                                    {
+                                                        @Html.CheckBoxFor(c => c.eliminar[i])
+                                                    }
+                                                    else
+                                                    {
+                                                        @("Pasado");
+                                                    }
+                                                </td>
+                                            </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>                    
+                </div>
+            </div>
+        }
 
     }
     else{
-    <div> El Organizador no realizo ninguna reserva</div>
-
-}
+        <div class="row form-group">
+            <div class="col-md-12">
+                <h2> No hay entradas reservadas para el organizador</h2>
+            </div>
+        </div>
+    }
 </div>

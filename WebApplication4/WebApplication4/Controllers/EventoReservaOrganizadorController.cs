@@ -45,7 +45,7 @@ namespace WebApplication4.Controllers
                 }
             }
 
-            TempData["tipo"] = "alert alert-warning";
+            TempData["tipo"] = "alert alert-success";
             TempData["message"] = "Las reservas se cancelaron correctamente";
             return Redirect("~/Evento/verReservaOrganizador?evento=" + model.idEvento);
         }
