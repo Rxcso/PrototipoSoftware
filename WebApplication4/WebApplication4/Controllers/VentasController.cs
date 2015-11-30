@@ -586,7 +586,16 @@ namespace WebApplication4.Controllers
                                 ve.montoEfectivoDolares = model.MontoDolares;
                                 ve.MontoTotalSoles = model.MontoPagar;
                                 ve.montoCreditoSoles = model.MontoTar;
-                                ve.montoEfectivoSoles = model.MontoDolares * db.TipoDeCambio.Where(c => c.estado == "Activo").ToList().Last().valor.Value / MagicHelpers.ConstanteTipoCambio + model.MontoEfe - model.Vuelto;
+                                double dolarsoles = (double)model.MontoDolares * db.TipoDeCambio.Where(c => c.estado == "Activo").ToList().Last().valor.Value / MagicHelpers.ConstanteTipoCambio;
+                                if (model.MontoEfe > dolarsoles)
+                                {
+                                    ve.montoEfectivoSoles = model.MontoEfe - model.Vuelto;
+                                }
+                                else
+                                {
+                                    ve.montoEfectivoSoles = model.MontoEfe;
+                                    ve.montoEfectivoDolares = (dolarsoles - model.Vuelto) / (db.TipoDeCambio.Where(c => c.estado == "Activo").ToList().Last().valor.Value / MagicHelpers.ConstanteTipoCambio);
+                                }
                                 //--vendedor, guardo el correo del vendedor en la venta
                                 ve.vendedor = User.Identity.Name;
                                 //
