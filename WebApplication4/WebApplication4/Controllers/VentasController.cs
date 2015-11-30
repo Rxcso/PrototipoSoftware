@@ -989,6 +989,19 @@ namespace WebApplication4.Controllers
                 listvxf.Add(lv[j]);
             }
             Session["ListaVentaFuncionCliente"] = listvxf;
+
+            //destacados
+            List<Eventos> listaDestacados = new List<Eventos>(0);
+            try
+            {
+                listaDestacados = db.Eventos.AsNoTracking().Where(c => (c.ImagenDestacado != null && c.estado != null && c.estado.CompareTo("Activo") == 0)).ToList();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            ViewBag.ListaDestacados = listaDestacados;
+            return View();
             return View("Detalles");
         }
 

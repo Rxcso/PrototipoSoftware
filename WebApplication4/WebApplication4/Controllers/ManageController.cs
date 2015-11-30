@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Collections.Generic;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -13,6 +14,7 @@ namespace WebApplication4.Controllers
     [Authorize]
     public class ManageController : Controller
     {
+        public static inf245netsoft db = new inf245netsoft();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -217,6 +219,18 @@ namespace WebApplication4.Controllers
         /*Copien todo este codigo en CuentaUsuarioController para que lo manejen mejor*/
         public ActionResult ChangePassword()
         {
+            //destacados
+            List<Eventos> listaDestacados = new List<Eventos>(0);
+            try
+            {
+                listaDestacados = db.Eventos.AsNoTracking().Where(c => (c.ImagenDestacado != null && c.estado != null && c.estado.CompareTo("Activo") == 0)).ToList();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            ViewBag.ListaDestacados = listaDestacados;
+            return View();
             return View();
         }
 
@@ -369,7 +383,21 @@ namespace WebApplication4.Controllers
 
             base.Dispose(disposing);
         }
-
+        [HttpGet]
+        public ActionResult Destacados()
+        {
+            //para que se carguen los destacados al lado
+            List<Eventos> listaDestacados = new List<Eventos>(0);
+            try
+            {
+                listaDestacados = db.Eventos.AsNoTracking().Where(c => (c.ImagenDestacado != null && c.estado != null && c.estado.CompareTo("Activo") == 0)).ToList();
+            }
+            catch (Exception ex)
+            {
+            }
+            ViewBag.ListaDestacados = listaDestacados;
+            return View();
+        }
         #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";

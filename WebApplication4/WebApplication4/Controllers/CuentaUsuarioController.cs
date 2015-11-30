@@ -262,6 +262,19 @@ namespace WebApplication4.Controllers
             model.idVenta = codVenta;
             ViewBag.Mes = Fechas.Mes();
             ViewBag.AnVen = Fechas.Anio();
+
+            //destacados
+            List<Eventos> listaDestacados = new List<Eventos>(0);
+            try
+            {
+                listaDestacados = db.Eventos.AsNoTracking().Where(c => (c.ImagenDestacado != null && c.estado != null && c.estado.CompareTo("Activo") == 0)).ToList();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            ViewBag.ListaDestacados = listaDestacados;
+            return View();
             return View(model);
         }
 
@@ -713,6 +726,18 @@ namespace WebApplication4.Controllers
             misp.listSelected = auxListSelected.ToArray();
             //misp.listIdCategorias = auxlistIdCategorias.ToArray();
             //misp.listNombreCategorias = auxlistNombreCategorias.ToArray();
+
+            //destacados
+            List<Eventos> listaDestacados = new List<Eventos>(0);
+            try
+            {
+                listaDestacados = db.Eventos.AsNoTracking().Where(c => (c.ImagenDestacado != null && c.estado != null && c.estado.CompareTo("Activo") == 0)).ToList();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            ViewBag.ListaDestacados = listaDestacados;
             return View(misp);
         }
 
@@ -751,6 +776,18 @@ namespace WebApplication4.Controllers
             client.telefono = cliente.telefono;
             client.telMovil = cliente.telMovil;
             client.tipoDoc = (int)cliente.tipoDoc;
+            
+            //destacados
+            List<Eventos> listaDestacados = new List<Eventos>(0);
+            try
+            {
+                listaDestacados = db.Eventos.AsNoTracking().Where(c => (c.ImagenDestacado != null && c.estado != null && c.estado.CompareTo("Activo") == 0)).ToList();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            ViewBag.ListaDestacados = listaDestacados;
             return View(client);
         }
 
@@ -1024,6 +1061,7 @@ namespace WebApplication4.Controllers
             string correo = User.Identity.Name;
             CuentaUsuario cliente = db.CuentaUsuario.Where(c => c.correo == correo).First();
             ViewBag.ptos = cliente.puntos;
+            //destacados
             List<Eventos> listaDestacados = new List<Eventos>(0);
             try
             {
@@ -1057,11 +1095,33 @@ namespace WebApplication4.Controllers
 
         public ActionResult MisReservas()
         {
+            //destacados
+            List<Eventos> listaDestacados = new List<Eventos>(0);
+            try
+            {
+                listaDestacados = db.Eventos.AsNoTracking().Where(c => (c.ImagenDestacado != null && c.estado != null && c.estado.CompareTo("Activo") == 0)).ToList();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            ViewBag.ListaDestacados = listaDestacados;
             return View();
         }
 
         public ActionResult VerRegalos()
         {
+            //destacados
+            List<Eventos> listaDestacados = new List<Eventos>(0);
+            try
+            {
+                listaDestacados = db.Eventos.AsNoTracking().Where(c => (c.ImagenDestacado != null && c.estado != null && c.estado.CompareTo("Activo") == 0)).ToList();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            ViewBag.ListaDestacados = listaDestacados;
             return View();
         }
 
@@ -1208,6 +1268,17 @@ namespace WebApplication4.Controllers
 
         public ActionResult MisCompras()
         {
+            //destacados
+            List<Eventos> listaDestacados = new List<Eventos>(0);
+            try
+            {
+                listaDestacados = db.Eventos.AsNoTracking().Where(c => (c.ImagenDestacado != null && c.estado != null && c.estado.CompareTo("Activo") == 0)).ToList();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            ViewBag.ListaDestacados = listaDestacados;
             return View();
         }
 
@@ -1241,6 +1312,17 @@ namespace WebApplication4.Controllers
                 Session["CarritoItem"] = item;
                 ViewBag.Carrito = item;
             }
+            //destacados
+            List<Eventos> listaDestacados = new List<Eventos>(0);
+            try
+            {
+                listaDestacados = db.Eventos.AsNoTracking().Where(c => (c.ImagenDestacado != null && c.estado != null && c.estado.CompareTo("Activo") == 0)).ToList();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            ViewBag.ListaDestacados = listaDestacados;
             return View();
         }
 
@@ -1667,6 +1749,22 @@ namespace WebApplication4.Controllers
                 }).ToList();
             }
             return Json(listaAsignacion, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult Destacados()
+        {
+            //para que se carguen los destacados al lado
+            List<Eventos> listaDestacados = new List<Eventos>(0);
+            try
+            {
+                listaDestacados = db.Eventos.AsNoTracking().Where(c => (c.ImagenDestacado != null && c.estado != null && c.estado.CompareTo("Activo") == 0)).ToList();
+            }
+            catch (Exception ex)
+            {
+            }
+            ViewBag.ListaDestacados = listaDestacados;
+            return View();
         }
     }
 }
