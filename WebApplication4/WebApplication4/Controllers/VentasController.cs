@@ -135,7 +135,7 @@ namespace WebApplication4.Controllers
                 venta.Estado = MagicHelpers.Compra;
                 venta.fecha = hoy;
                 //monto usados al pagar
-                venta.montoEfectivoSoles = model.MontoEfe - model.Vuelto;
+                venta.montoEfectivoSoles = model.MontoDolares * db.TipoDeCambio.Where(c => c.estado == "Activo").ToList().Last().valor.Value / MagicHelpers.ConstanteTipoCambio + model.MontoEfe - model.Vuelto;
                 venta.montoEfectivoDolares = model.MontoDolares;
                 venta.montoCreditoSoles = model.MontoTar;
                 venta.MontoTotalSoles = model.MontoPagar;
@@ -586,7 +586,7 @@ namespace WebApplication4.Controllers
                                 ve.montoEfectivoDolares = model.MontoDolares;
                                 ve.MontoTotalSoles = model.MontoPagar;
                                 ve.montoCreditoSoles = model.MontoTar;
-                                ve.montoEfectivoSoles = model.MontoEfe - model.Vuelto;
+                                ve.montoEfectivoSoles = model.MontoDolares * db.TipoDeCambio.Where(c => c.estado == "Activo").ToList().Last().valor.Value / MagicHelpers.ConstanteTipoCambio + model.MontoEfe - model.Vuelto;
                                 //--vendedor, guardo el correo del vendedor en la venta
                                 ve.vendedor = User.Identity.Name;
                                 //
@@ -1931,12 +1931,12 @@ namespace WebApplication4.Controllers
 
 
                         var funcion = db.VentasXFuncion.Where(c => c.codVen == codVenT && c.codFuncion == fu.codFuncion);
-                        
-                        if(funcion!= null && funcion.Count() > 0)
+
+                        if (funcion != null && funcion.Count() > 0)
                         {
 
                             funcion.First().hanEntregado = true;
-                          
+
                         }
 
 
@@ -1989,7 +1989,7 @@ namespace WebApplication4.Controllers
                         {
 
                             funcion.First().hanEntregado = true;
-                          
+
                         }
                         listaEntradas.Add(ticket);
                     }
