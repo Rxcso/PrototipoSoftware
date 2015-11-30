@@ -1853,7 +1853,7 @@ namespace WebApplication4.Controllers
 
         public ActionResult PrintTicket(int codVenT)
         {
-
+            Session["EntregaBusca"] = null;
             /*
                     if (generarBoleta(codVenT))
                     {
@@ -1915,6 +1915,18 @@ namespace WebApplication4.Controllers
                         ticket.Hora = fu.horaIni.Value.ToString("hh:mm tt", culture);
                         var asiento = db.Asientos.Find(dato.codAsiento);
                         ticket.Asiento = "Fil: " + asiento.fila + " Col: " + asiento.columna;
+                        ticket.Codigo = "" + evento.codigo + "" + fu.codFuncion + "" + codVenT + "" + cant;
+
+
+                        var funcion = db.VentasXFuncion.Where(c => c.codVen == codVenT && c.codFuncion == fu.codFuncion);
+                        
+                        if(funcion!= null && funcion.Count() > 0)
+                        {
+
+                            funcion.First().hanEntregado = true;
+                          
+                        }
+
 
                         listaEntradas.Add(ticket);
                     }
@@ -1959,10 +1971,20 @@ namespace WebApplication4.Controllers
 
                         ticket.Codigo = "" + evento.codigo + "" + fu.codFuncion + "" + codVenT + "" + cant;
 
+                        var funcion = db.VentasXFuncion.Where(c => c.codVen == codVenT && c.codFuncion == fu.codFuncion);
+
+                        if (funcion != null && funcion.Count() > 0)
+                        {
+
+                            funcion.First().hanEntregado = true;
+                          
+                        }
                         listaEntradas.Add(ticket);
                     }
                 }
             }
+
+            db.SaveChanges();
             var data = listaEntradas.First();
 
             var st = "";
