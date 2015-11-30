@@ -14,9 +14,10 @@ $(function () {
     $("#fech_ini").datepicker("option", "altField", "#altfech_ini");
     $("#fech_fin").datepicker("option", "altField", "#altfech_fin");
 
-
+    //para fecha nac
     $(".fecha2").datepicker({
         format: "dd-mm",
+        minDate: "-80y",
         maxDate: "+0D",
         showAnim: "fade",
         changeYear: true
