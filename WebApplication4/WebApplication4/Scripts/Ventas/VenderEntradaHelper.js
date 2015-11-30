@@ -364,7 +364,7 @@ function cambioPago() {
         loadTarjeta(arr[1], arr[0], arr[2]);
     }
     if (parseInt(metodoSelecionado) == 3) {
-        loadMixto(arr[2],arr[1],arr[0]);
+        loadMixto(arr[2], arr[1], arr[0]);
     }
 }
 //funcion que busca al cliente

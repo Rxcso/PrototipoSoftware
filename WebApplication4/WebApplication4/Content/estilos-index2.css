@@ -109,4 +109,15 @@ thead {
 }
 
 
-hr{border-width: 4px;border:black}
+hr{border-width: 4px;border:black }
+
+.d{
+    -webkit-transition: border 0.2s; 
+    -moz-transition: border 0.2s; 
+    -ms-transition: border 0.2s; 
+    -o-transition: border 0.2s; 
+}
+.d :hover{
+    border:2px solid black;       
+}
+
