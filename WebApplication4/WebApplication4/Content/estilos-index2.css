@@ -79,4 +79,4 @@ thead {
         width:inherit;
     }
 
-    td{text-align:center}
+    td,input{text-align:center}
