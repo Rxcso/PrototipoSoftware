@@ -81,13 +81,13 @@ namespace WebApplication4.Controllers
                     try
                     {
                         Ventas ve = new Ventas();
-                        //Ventas vel = db.Ventas.ToList().Last();
+                        //Ventas vel = context.Ventas.ToList().Last();
                         DateTime hoy = DateTime.Now.Date;
-                        ZonaEvento zo = db.ZonaEvento.Find(paquete.idZona);
-                        PeriodoVenta per = db.PeriodoVenta.Where(c => c.codEvento == paquete.idEvento && c.fechaInicio <= hoy && c.fechaFin >= hoy).ToList().First();
-                        PrecioEvento pr = db.PrecioEvento.Where(c => c.codZonaEvento == paquete.idZona && c.codPeriodoVenta == per.idPerVent).ToList().First();
+                        ZonaEvento zo = context.ZonaEvento.Find(paquete.idZona);
+                        PeriodoVenta per = context.PeriodoVenta.Where(c => c.codEvento == paquete.idEvento && c.fechaInicio <= hoy && c.fechaFin >= hoy).ToList().First();
+                        PrecioEvento pr = context.PrecioEvento.Where(c => c.codZonaEvento == paquete.idZona && c.codPeriodoVenta == per.idPerVent).ToList().First();
                         //ve.codVen = vel.codVen + 1;
-                        CuentaUsuario cuenta = db.CuentaUsuario.Find(User.Identity.Name);
+                        CuentaUsuario cuenta = context.CuentaUsuario.Find(User.Identity.Name);
                         ve.fecha = DateTime.Now;
                         ve.cantAsientos = paquete.cantEntradas;
                         ve.cliente = cuenta.usuario;
@@ -96,8 +96,8 @@ namespace WebApplication4.Controllers
                         ve.tipoDoc = cuenta.tipoDoc;
                         ve.montoEfectivoSoles = paquete.cantEntradas * pr.precio;
                         ve.MontoTotalSoles = paquete.cantEntradas * pr.precio;
-                        db.Ventas.Add(ve);
-                        db.SaveChanges();
+                        context.Ventas.Add(ve);
+                        context.SaveChanges();
                         VentasXFuncion vf = new VentasXFuncion();
                         vf.hanEntregado = false;
                         vf.codVen = ve.codVen;
@@ -105,25 +105,25 @@ namespace WebApplication4.Controllers
                         vf.cantEntradas = paquete.cantEntradas;
                         vf.codFuncion = paquete.idFuncion;
                         vf.Ventas = ve;
-                        vf.Funcion = db.Funcion.Find(paquete.idFuncion);
+                        vf.Funcion = context.Funcion.Find(paquete.idFuncion);
                         vf.descuento = 0;
                         vf.subtotal = paquete.cantEntradas * pr.precio;
                         vf.total = paquete.cantEntradas * pr.precio;
                         vf.hanEntregado = false;
-                        db.VentasXFuncion.Add(vf);
-                        //db.SaveChanges();
+                        context.VentasXFuncion.Add(vf);
+                        //context.SaveChanges();
                         DetalleVenta dt = new DetalleVenta();
                         dt.cantEntradas = paquete.cantEntradas;
-                        //dt.codDetalleVenta = db.DetalleVenta.ToList().Last().codDetalleVenta + 1;
+                        //dt.codDetalleVenta = context.DetalleVenta.ToList().Last().codDetalleVenta + 1;
                         dt.codFuncion = paquete.idFuncion;
                         dt.codPrecE = pr.codPrecioEvento;
                         dt.total = paquete.cantEntradas * pr.precio;
                         dt.entradasDev = 0;
                         dt.descTot = 0;
                         dt.codVen = vf.codVen;
-                        db.DetalleVenta.Add(dt);
+                        context.DetalleVenta.Add(dt);
                         if (paquete.filas != null && paquete.filas.Count > 0) paquete.tieneAsientos = true;
-                        db.SaveChanges();
+                        context.SaveChanges();
                         if (paquete.tieneAsientos)
                         {
                             for (int i = 0; i < paquete.cantEntradas; i++)
@@ -146,6 +146,7 @@ namespace WebApplication4.Controllers
                             ZonaxFuncion ZXF = context.ZonaxFuncion.Find(paquete.idFuncion, paquete.idZona);
                             if (ZXF.cantLibres < paquete.cantEntradas)
                             {
+                                context.Dispose();
                                 Ventas ventaAct = db.Ventas.Find(idVenta);
                                 db.Ventas.Remove(ventaAct);
                                 db.SaveChanges();
@@ -153,11 +154,11 @@ namespace WebApplication4.Controllers
                             }
                             ZXF.cantLibres -= paquete.cantEntradas;
                         }
-                        db.SaveChanges();
                         context.SaveChanges();
                     }
                     catch (OptimisticConcurrencyException ex)
                     {
+                        context.Dispose();
                         Ventas ventaAct = db.Ventas.Find(idVenta);
                         if (ventaAct != null) db.Ventas.Remove(ventaAct);
                         db.SaveChanges();
