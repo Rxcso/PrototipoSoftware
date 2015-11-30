@@ -73,7 +73,7 @@
 }
 
 <div class="container-fluid">
-    <div class="col-md-5">
+    <div class="col-md-3">
         <ol class="breadcrumb">
             <li class="active">Reporte de ventas del día</li>
         </ol>
@@ -81,41 +81,50 @@
 </div>
 <div class="container">    
     <div class="row">
-        <div class="col-md-1 col-sm-3 col-xs-4">
-            <label for="dni" class="control-label">Fecha:</label>
+        <div class="col-md-2 col-md-offset-8 col-sm-2 col-sm-offset-8 col-xs-6 ">
+            <strong class="pull-right">Fecha:</strong>
         </div>
-        <div class="col-md-2 col-sm-3 col-xs-4">
-            <label class="control-label">@dn.Date.ToString("dd/MM/yyyy")</label>
+        <div class="col-md-2 col-sm-2 col-xs-6">
+            <input type="text" class="form-control" readonly value="@dn.Date.ToString("dd/MM/yyyy")">
         </div>
-    </div><br>
+    </div><br />
     <div class="row">
-        <div class="table-responsive">
-            <table id="mytable" class="table table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th>Código</th>
-                        <th>Evento</th>
-                        <th>Número de entradas vendidas del evento</th>
-                        <th>Monto de las ventas</th>
-                    </tr>
-                </thead>
-                <tbody id="tbody">
-                    @if (lvd != null)
-                    {
-                        foreach (var row in lvd)
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table id="mytable" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th class="col-md-1">Código</th>
+                            <th class="col-md-5">Evento</th>
+                            <th class="col-md-4">Número de entradas vendidas</th>
+                            <th class="col-md-2">Monto (S/.)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody">
+                        @if (lvd != null)
                         {
-                            <tr id=@row.codigo>
-                                <td>@row.codigo</td>
-                                <td>@row.nombre</td>
-                                <td>@row.cant</td>
-                                <td>@row.total</td>
-                            </tr>
+                            foreach (var row in lvd)
+                            {
+                                <tr id=@row.codigo>
+                                    <td>@row.codigo</td>
+                                    <td>@row.nombre</td>
+                                    <td>@row.cant</td>
+                                    <td>@row.total</td>
+                                </tr>
+                            }
                         }
-                    }
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
+        </div>                
+    </div>
+    <div class="row">
+        <div class="col-md-2 col-md-offset-8 col-sm-2 col-sm-offset-8 col-xs-6 ">
+            <strong class="pull-right">TOTAL (S/.)</strong>
         </div>
-        <h3>Total Vendido: @totalf</h3>
+        <div class="col-md-2 col-sm-2 col-xs-6">
+            <input type="text" class="numero form-control" readonly value="@totalf">
+        </div>
     </div>
 </div>
 

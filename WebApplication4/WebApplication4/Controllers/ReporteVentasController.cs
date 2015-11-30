@@ -206,7 +206,7 @@ namespace WebApplication4.Controllers
             if (dt1 > dt2) return Json("Fecha inicio debe ser menor que fecha fin", JsonRequestBehavior.AllowGet);
             List<ReporteModel.ReporteVentas3Model> lr = new List<ReporteModel.ReporteVentas3Model>();
             List<Eventos> lv2 = db.Eventos.ToList();
-            List<Eventos> lev = lv2.Where(r => r.estado == "Activo"  && r.fecha_inicio>dt1.Date && r.fecha_inicio<dt2.Date).ToList(); 
+            List<Eventos> lev = lv2.Where(r => r.estado == "Activo"  && r.fecha_inicio>=dt1.Date && r.fecha_inicio<=dt2.Date).ToList(); 
             for (int i = 0; i < lev.Count; i++)
             {
                 int ce = lev[i].codigo;

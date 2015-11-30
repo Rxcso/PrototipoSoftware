@@ -568,11 +568,11 @@ namespace WebApplication4.Controllers
                                 int cantidadEntradasTotales = carrito.Sum(c => c.cantidad);
                                 try
                                 {//si es un usuario registrado busco la cuenta y la asigno luego a la venta
-                                    cuenta = db.CuentaUsuario.Where(c => c.codDoc.CompareTo(model.Dni) == 0).First();
+                                    cuenta = context.CuentaUsuario.Where(c => c.codDoc.CompareTo(model.Dni) == 0).First();
                                 }
                                 catch (Exception ex)
                                 {//si no es un cliente registrado guardo la venta como si fuera anonima
-                                    cuenta = db.CuentaUsuario.Find(MagicHelpers.AnonimoUniversal);
+                                    cuenta = context.CuentaUsuario.Find(MagicHelpers.AnonimoUniversal);
                                 }
                                 ve.fecha = DateTime.Now;
                                 ve.cantAsientos = cantidadEntradasTotales;
@@ -602,10 +602,10 @@ namespace WebApplication4.Controllers
                                 {//solo efectivo
                                     ve.modalidad = "E";
                                 }
-                                db.Ventas.Add(ve);
+                                context.Ventas.Add(ve);
                                 try
                                 {
-                                    db.SaveChanges();
+                                    context.SaveChanges();
                                     idVenta = ve.codVen;
                                 }
                                 catch (DbEntityValidationException dbEx)
@@ -625,16 +625,16 @@ namespace WebApplication4.Controllers
                                 {
                                     CarritoItem paquete = carrito[w];
                                     //zona del evento
-                                    ZonaEvento zo = db.ZonaEvento.Find(paquete.idZona);
+                                    ZonaEvento zo = context.ZonaEvento.Find(paquete.idZona);
                                     //en que perdiodo de venta estamos
-                                    PeriodoVenta per = db.PeriodoVenta.Where(c => c.codEvento == paquete.idEvento && c.fechaInicio <= hoy && c.fechaFin >= hoy).ToList().First();
-                                    PrecioEvento pr = db.PrecioEvento.Where(c => c.codZonaEvento == paquete.idZona && c.codPeriodoVenta == per.idPerVent).ToList().First();
+                                    PeriodoVenta per = context.PeriodoVenta.Where(c => c.codEvento == paquete.idEvento && c.fechaInicio <= hoy && c.fechaFin >= hoy).ToList().First();
+                                    PrecioEvento pr = context.PrecioEvento.Where(c => c.codZonaEvento == paquete.idZona && c.codPeriodoVenta == per.idPerVent).ToList().First();
                                     //la venta x funcion requerida
                                     VentasXFuncion vf = new VentasXFuncion();
                                     //si ya existe una venta x funcion de esta venta
-                                    if (db.VentasXFuncion.Any(c => c.codVen == ve.codVen && c.codFuncion == paquete.idFuncion))
+                                    if (context.VentasXFuncion.Any(c => c.codVen == ve.codVen && c.codFuncion == paquete.idFuncion))
                                     {
-                                        vf = db.VentasXFuncion.Where(c => c.codVen == ve.codVen && c.codFuncion == paquete.idFuncion).First();
+                                        vf = context.VentasXFuncion.Where(c => c.codVen == ve.codVen && c.codFuncion == paquete.idFuncion).First();
                                         vf.cantEntradas += paquete.cantidad;
                                         vf.subtotal += paquete.cantidad * pr.precio;
                                         float? porcDescuento = 0;
@@ -646,7 +646,7 @@ namespace WebApplication4.Controllers
                                             if (model.idPromociones[w] != -1)
                                             {
                                                 int idPromocion = model.idPromociones[w];
-                                                Promociones promocion = db.Promociones.Where(c => c.codPromo == idPromocion && c.codEvento == paquete.idEvento).First();
+                                                Promociones promocion = context.Promociones.Where(c => c.codPromo == idPromocion && c.codEvento == paquete.idEvento).First();
                                                 porcDescuento = promocion.descuento / 100;
                                             }
                                             vf.descuento = (int?)(vf.subtotal * porcDescuento);
@@ -664,7 +664,7 @@ namespace WebApplication4.Controllers
                                         vf.cantEntradas = paquete.cantidad;
                                         vf.codFuncion = paquete.idFuncion;
                                         vf.Ventas = ve;
-                                        vf.Funcion = db.Funcion.Find(paquete.idFuncion);
+                                        vf.Funcion = context.Funcion.Find(paquete.idFuncion);
                                         vf.hanEntregado = false;
                                         vf.subtotal = paquete.cantidad * pr.precio;
                                         float? porcDescuento = 0;
@@ -676,7 +676,7 @@ namespace WebApplication4.Controllers
                                             if (model.idPromociones[w] != -1)
                                             {
                                                 int idPromocion = model.idPromociones[w];
-                                                Promociones promocion = db.Promociones.Where(c => c.codPromo == idPromocion && c.codEvento == paquete.idEvento).First();
+                                                Promociones promocion = context.Promociones.Where(c => c.codPromo == idPromocion && c.codEvento == paquete.idEvento).First();
                                                 porcDescuento = promocion.descuento / 100;
                                             }
                                             vf.descuento = (int?)(vf.subtotal * porcDescuento);
@@ -686,9 +686,9 @@ namespace WebApplication4.Controllers
                                             vf.descuento = (int?)model.Descuento;
                                         }
                                         vf.total = vf.subtotal - vf.descuento;
-                                        db.VentasXFuncion.Add(vf);
+                                        context.VentasXFuncion.Add(vf);
                                     }
-                                    db.SaveChanges();
+                                    context.SaveChanges();
                                     //detalle de venta
                                     DetalleVenta dt = new DetalleVenta();
                                     dt.cantEntradas = paquete.cantidad;
@@ -698,12 +698,12 @@ namespace WebApplication4.Controllers
                                     dt.entradasDev = 0;
                                     dt.descTot = vf.descuento;
                                     dt.codVen = vf.codVen;
-                                    db.DetalleVenta.Add(dt);
+                                    context.DetalleVenta.Add(dt);
                                     if (paquete.filas != null && paquete.filas.Count > 0) paquete.tieneAsientos = true;
                                     //actualizo el mondo adeudado 
-                                    Eventos evento = db.Eventos.Find(paquete.idEvento);
+                                    Eventos evento = context.Eventos.Find(paquete.idEvento);
                                     evento.monto_adeudado += (double)(paquete.cantidad * pr.precio * evento.porccomision / 100 + evento.montoFijoVentaEntrada);
-                                    db.SaveChanges();
+                                    context.SaveChanges();
                                     //si tengo asientos, actualizo los asientos a ocupado
                                     if (paquete.tieneAsientos)
                                     {
@@ -713,7 +713,7 @@ namespace WebApplication4.Controllers
                                             int fil = paquete.filas[i];
                                             List<Asientos> listasiento = context.Asientos.Where(x => x.codZona == paquete.idZona && x.fila == fil && x.columna == col).ToList();
                                             AsientosXFuncion actAsiento = context.AsientosXFuncion.Find(listasiento.First().codAsiento, paquete.idFuncion);
-                                            if (actAsiento.estado == "libre")
+                                            if (actAsiento.estado != "libre")
                                             {
                                                 throw new OptimisticConcurrencyException();
                                             }
@@ -736,8 +736,8 @@ namespace WebApplication4.Controllers
                                     }
                                     try
                                     {
-                                        CuentaUsuario dbCuenta = db.CuentaUsuario.Find(cuenta.correo);
-                                        dbCuenta.puntos += db.Eventos.Find(paquete.idEvento).puntosAlCliente * paquete.cantidad;
+                                        CuentaUsuario dbCuenta = context.CuentaUsuario.Find(cuenta.correo);
+                                        dbCuenta.puntos += context.Eventos.Find(paquete.idEvento).puntosAlCliente * paquete.cantidad;
                                     }
                                     catch (Exception ex)
                                     {
@@ -745,9 +745,6 @@ namespace WebApplication4.Controllers
                                     }
 
                                 }
-
-                                db.SaveChanges();
-
                                 context.SaveChanges();
                             }
                             catch (OptimisticConcurrencyException ex)
@@ -755,12 +752,14 @@ namespace WebApplication4.Controllers
                                 //hubo un problema con la compra, remuevo el item
                                 if (idVenta != 0)
                                 {
+                                    context.Dispose();
                                     Ventas remover = db.Ventas.Find(idVenta);
                                     db.Ventas.Remove(remover);
+                                    db.SaveChanges();
                                 }
                                 TempData["tipo"] = "alert alert-warning";
-                                TempData["message"] = "Error en la compra.";
-                                return View(model);
+                                TempData["message"] = "Error en la venta.";
+                                return RedirectToAction("CarritoVentas");
                             }
                         }
                         TempData["tipo"] = "alert alert-success";
