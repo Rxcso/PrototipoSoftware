@@ -1,59 +1,61 @@
-﻿
-@using WebApplication4.Models;
+﻿@using WebApplication4.Models;
 
-    @{
-        ViewBag.Title = "Mi Cuenta";
-        Layout = "~/Views/Shared/_Layout.cshtml";
-        int ptos = ViewBag.ptos;
-        List<Eventos> listaDestacados = ViewBag.ListaDestacados as List<Eventos>;
-    }
+@{
+    ViewBag.Title = "Mi Cuenta";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int ptos = ViewBag.ptos;
+    List<Eventos> listaDestacados = ViewBag.ListaDestacados as List<Eventos>;
+}
 <style>
-        #pref {                   
-            list-style: none;
-            font-size: 18px;        
+    #pref {
+        list-style: none;
+        font-size: 18px;
+    }
+
+        #pref li {
+            padding: 5px 10px;
         }
-        #pref li {            
-            padding:5px 10px;
-        }
+
         #pref a {
-            color:black;            
+            color: black;
             text-decoration: none;
         }
-        #pref a:hover {
-            --text-decoration: underline;
-            font-weight:bold;
-        }
-        #points {
-            color: #BDB10C;
-        }
-</style>
 
-    <div class="container-fluid">
-        <div class="col-md-3">
-            <ol class="breadcrumb">
-                <li><a href="@Url.Action("Index", "Home")">Inicio</a></li>
-                <li class="active">Mi cuenta</li>
-            </ol>
+            #pref a:hover {
+                --text-decoration: underline;
+                font-weight: bold;
+            }
+
+    #points {
+        color: #BDB10C;
+    }
+</style>
+<div class="container-fluid">
+    <div class="col-md-3">
+        <ol class="breadcrumb">
+            <li><a href="@Url.Action("Index", "Home")">Inicio</a></li>
+            <li class="active">Mi cuenta</li>
+        </ol>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="contenedor col-md-8">
+            <h2 class="pull-right" id="points"><span class="fa fa-star"></span> @ptos </h2>
+            <ul id="pref">
+                <li><a href="@Url.Action("ModificarDatos","CuentaUsuario")"><span class="fa fa-newspaper-o fa-fw"></span> Actualizar mis datos</a></li>
+                <li><a href="@Url.Action("ChangePassword","Manage")"><span class="fa fa-unlock-alt fa-fw"></span> Cambiar mi contraseña</a></li>
+                <li><a href="@Url.Action("MisPreferencias", "CuentaUsuario")"><span class="fa fa-heart-o fa-fw"></span> Mis preferencias</a></li>
+                <li><a href="@Url.Action("MisReservas", "CuentaUsuario")"><span class="fa fa-ticket fa-fw"></span> Mis reservas</a></li>
+                <li><a href="@Url.Action("MisCompras", "CuentaUsuario")"><span class="fa fa-money fa-fw"></span> Mis compras</a></li>
+                <li><a href="@Url.Action("MiCarrito","CuentaUsuario")"><span class="fa fa-shopping-cart fa-fw"></span> Mi carrito</a></li>
+                <li><a href="@Url.Action("VerRegalos","CuentaUsuario")"><span class="fa fa-gift fa-fw"></span> Ver regalos</a></li>
+            </ul>
+        </div>
+        <!--CARRUSEL-->
+        <div class="col-md-4">
+            @{Html.RenderPartial("Destacados");}
         </div>
     </div>
-    <div class="container">
-        <div class="row">
-            <div class="contenedor col-md-8">                
-                    <h2 class="pull-right" id="points"><span class="fa fa-star"></span> @ptos </h2>
-                    <ul id="pref">
-                        <li><a href="@Url.Action("ModificarDatos","CuentaUsuario")"><span class="fa fa-newspaper-o fa-fw"></span> Actualizar mis datos</a></li>
-                        <li><a href="@Url.Action("ChangePassword","Manage")"><span class="fa fa-unlock-alt fa-fw"></span> Cambiar mi contraseña</a></li>
-                        <li><a href="@Url.Action("MisPreferencias", "CuentaUsuario")"><span class="fa fa-heart-o fa-fw"></span> Mis preferencias</a></li>
-                        <li><a href="@Url.Action("MisReservas", "CuentaUsuario")"><span class="fa fa-ticket fa-fw"></span> Mis reservas</a></li>
-                        <li><a href="@Url.Action("MisCompras", "CuentaUsuario")"><span class="fa fa-money fa-fw"></span> Mis compras</a></li>
-                        <li><a href="@Url.Action("MiCarrito","CuentaUsuario")"><span class="fa fa-shopping-cart fa-fw"></span> Mi carrito</a></li>
-                        <li><a href="@Url.Action("VerRegalos","CuentaUsuario")"><span class="fa fa-gift fa-fw"></span> Ver regalos</a></li>
-                    </ul>                                                                  
-            </div>            
-            <!--CARRUSEL-->   
-            <div class="col-md-4">
-                @{Html.RenderPartial("Destacados");}
-            </div>
-        </div>
-    </div>
+</div>
 
