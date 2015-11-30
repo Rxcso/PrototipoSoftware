@@ -8,6 +8,9 @@
     td {
         text-align: center;
     }
+    h3 {
+        border-bottom: 1px solid gray;
+    }
 </style>
 <div class="container-fluid">
     <div class="col-md-5">
@@ -18,8 +21,7 @@
     </div>
 </div>
 <div class="container">
-
-    <div class="row">
+    <div class="row form-group">
         <div class="col-md-12">
             <!--a href="@Url.Action("Index","Evento")" class="btn btn-danger pull-left"><span class="glyphicon glyphicon-hand-left"></span> Regresar</a-->
             <h3>@ViewBag.MensajeExtra</h3>
@@ -133,11 +135,11 @@
                 </div>
             </div>
             <div class="col-md-12">
-                <button type="submit" class="btn btn-primary pull-right">Guardar y seguir <span class="glyphicon glyphicon-hand-right"></span></button>
+                <button type="submit" class="btn btn-success pull-right">Guardar y seguir <span class="glyphicon glyphicon-hand-right"></span></button>
             </div>
 
         }
-    </div>
+    </div><br />
 </div>
 
 <!--ventana de buscar local-->

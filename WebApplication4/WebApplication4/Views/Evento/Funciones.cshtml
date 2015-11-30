@@ -6,60 +6,82 @@
     DateTime? fechaInicioEvento = ViewBag.FechaInicio;
 }
 @model FuncionesListModel
+
+<style>
+    td {
+        text-align: center;
+    }
+
+    h3 {
+        border-bottom: 1px solid gray;
+    }
+</style>
 <div class="container-fluid">
-    <div class="col-md-5">
+    <div class="col-md-8">
         <ol class="breadcrumb">
             <li><a href="@Url.Action("Index","Evento")">Mantenimiento de eventos</a></li>
-            <li class="active">Nuevo evento</li>
+            <li> Datos generales</li>
+            <li> Bloques de tiempo</li>
+            <li class="active">Funciones</li>
         </ol>
     </div>
 </div>
-<h3>@ViewBag.MensajeError</h3>
-<div class="tab-pane fade in container" id="funciones">
-    <h3>Ingrese las Funciones del Evento</h3>
-    @Html.Hidden("histFuncion", "" + cantidad)
-    <br>
+
+<h2>@ViewBag.MensajeError</h2>
+<div class="container" id="funciones">
+    <h3>Funciones del evento</h3>
+    @Html.Hidden("histFuncion", "" + cantidad)    
     @using (Html.BeginForm("Funciones", "Evento", FormMethod.Post, new { @id = "formPost" }))
     {
-        <div class="form-group col-md-12">
-            <button id="btnAgregarFuncion" type="button" class="btn btn-primary" onclick="agregaFuncion()">Agregar función  <span class="glyphicon glyphicon-plus"></span></button>
-            <button id="btnAgregarFuncion" type="button" class="btn btn-primary" onclick="eliminarFuncion()">Quitar función <span class="glyphicon glyphicon-remove"></span></button>
-            <button type="submit" class="btn btn-primary" style="float: right;" onclick="return guardarFunciones()">Siguiente   <span class="glyphicon glyphicon-arrow-right"></span></button>
-        </div><br /><br />
-
-        <div id="funciones" class="container">
-            <div class="row">
-                <table class="table table-bordered table-hover" id="bloqueFuncion">
-                    <thead>
-                        <tr>
-                            <td>N°</td>
-                            <td>Fecha</td>
-                            <td>Hora</td>
-                            <td>¿Quitar?</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (listaResultado != null)
-                        {
-                            for (int i = 0; i < listaResultado.Count; i++)
-                            {
-                                string fechaFuncion = listaResultado[i].fechaFuncion.ToString("yyyy-MM-dd");
-                                string horaFuncion = listaResultado[i].horaInicio.ToString("HH:mm");
-                                <tr id="@(i+1)">
-                                    <td>@(i + 1)</td>
-                                    <td><input id="fechaFuncion" type="date" class="form-control" value="@fechaFuncion" disabled /></td>
-                                    <td><input id="horaFuncion" type="time" class="form-control" value="@horaFuncion" disabled></td>
-                                    <td style="text-align:center">
-                                        <input type="radio" name="groupFunciones" value="@(i+1)">
-                                    </td>
-                                </tr>
-                            }
-                        }
-                    </tbody>
-                </table>
+        <div class="row">
+            <div class="col-md-10 col-sm-8 col-xs-6">
+                <button id="btnAgregarFuncion" type="button" class="btn btn-primary pull-right" onclick="agregaFuncion()"><span class="glyphicon glyphicon-plus"></span> Agregar función</button>
             </div>
-            @Html.Hidden("fechaInicioEvento", @String.Format("{0:yyyy-MM-dd}", fechaInicioEvento))
+            <div class="col-md-2 col-sm-4 col-xs-6">
+                <button id="btnAgregarFuncion" type="button" class="btn btn-danger" onclick="eliminarFuncion()"><span class="glyphicon glyphicon-trash"></span> Quitar función</button>
+            </div>
+        </div><br />
+        <div id="funciones" class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover" id="bloqueFuncion">
+                        <thead>
+                            <tr>
+                                <td>N°</td>
+                                <td>Fecha</td>
+                                <td>Hora</td>
+                                <td>¿Quitar?</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (listaResultado != null)
+                            {
+                                for (int i = 0; i < listaResultado.Count; i++)
+                                {
+                                    string fechaFuncion = listaResultado[i].fechaFuncion.ToString("yyyy-MM-dd");
+                                    string horaFuncion = listaResultado[i].horaInicio.ToString("HH:mm");
+                                    <tr id="@(i+1)">
+                                        <td>@(i + 1)</td>
+                                        <td><input id="fechaFuncion" type="date" class="form-control" value="@fechaFuncion" disabled /></td>
+                                        <td><input id="horaFuncion" type="time" class="form-control" value="@horaFuncion" disabled></td>
+                                        <td style="text-align:center">
+                                            <input type="radio" name="groupFunciones" value="@(i+1)">
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                    @Html.Hidden("fechaInicioEvento", @String.Format("{0:yyyy-MM-dd}", fechaInicioEvento))
+                </div>                
+            </div>            
+        </div><br />
+        <div class="row">
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-success pull-right" onclick="return guardarFunciones()">Guardar y seguir <span class="glyphicon glyphicon-hand-right"></span></button>
+            </div>
         </div>
-    }
-    <script type="text/javascript" src="@Url.Content("/Scripts/RegisterEvento/FuncionesHelper.js")"></script>
+            
+    }    
 </div>
+<script type="text/javascript" src="@Url.Content("/Scripts/RegisterEvento/FuncionesHelper.js")"></script>

@@ -42,7 +42,7 @@ namespace WebApplication4.Models
         public int idProv { get; set; }
 
         //[Required]
-        [Display(Name = "Descripcion:")]
+        [Display(Name = "Descripción:")]
         public string descripcion { get; set; }
         //TERMINA DATOS GENERALES
         //public Nullable<double> penalidadXcancelacion { get; set; }

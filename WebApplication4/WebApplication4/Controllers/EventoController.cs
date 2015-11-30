@@ -493,7 +493,7 @@ namespace WebApplication4.Controllers
             ViewBag.SubID = new SelectList(listSubCat, "idCategoria", "nombre");
             ViewBag.DepID = new SelectList(listaDep, "idRegion", "nombre");
             ViewBag.CatID = new SelectList(listaCat, "idCategoria", "nombre");
-            ViewBag.MensajeExtra = "Nuevo Evento: Datos Generales";
+            ViewBag.MensajeExtra = "Nuevo Evento: datos generales";
             ViewBag.NombreOrganizador = "";
             ViewBag.NombreLocal = "";
             return View(model);

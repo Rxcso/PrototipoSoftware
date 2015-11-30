@@ -15,25 +15,39 @@
         modificado = 1;
     }
 }
+
+<style>
+    td {
+        text-align: center;
+    }
+
+    h3 {
+        border-bottom: 1px solid gray;
+    }
+</style>
+
 <div class="container-fluid">
-    <div class="col-md-5">
+    <div class="col-md-10">
         <ol class="breadcrumb">
             <li><a href="@Url.Action("Index","Evento")">Mantenimiento de eventos</a></li>
+            <li> Datos generales</li>
+            <li> Bloques de tiempo</li>
+            <li> Funciones</li>
             <li class="active">Tarifas</li>
         </ol>
     </div>
 </div>
-<div class="tab-pane fade in container" id="tarifas">
+
+
+<div class="container" id="tarifas">
     <h3>Tarifas</h3>
     <h4>@ViewBag.MensajeError</h4>
-    <div class="container">
-        <br>
+    <div class="container">        
         <div class="row">
             <div class="col-md-3 col-md-offset-9">
-                <button class="btn btn-primary" onclick="agregaFila()">Agregar fila <span class="glyphicon glyphicon-plus"></span></button>
-                <button class="btn btn-primary" onclick="quitarFila()">Quitar fila <span class="glyphicon glyphicon-remove"></span></button>
+                <button class="btn btn-primary" onclick="agregaFila()"><span class="glyphicon glyphicon-plus"></span> Agregar fila</button>
+                <button class="btn btn-danger" onclick="quitarFila()"><span class="glyphicon glyphicon-trash"></span> Quitar fila </button>
             </div>
-
         </div><br>
         @Html.Hidden("nHeaders", "" + (nombresHeaderTabla.Count + 3))
         @Html.Hidden("nZonas", "" + nZonas)
@@ -74,7 +88,7 @@
                         }
                     </tbody>
                 </table>
-                <button type="submit" class="btn btn-primary" style="float: right;" onclick="return agregaTarifas()">Siguiente   <span class="glyphicon glyphicon-arrow-right"></span></button>
+                <button type="submit" class="btn btn-success" style="float: right;" onclick="return agregaTarifas()">Guardar seguir <span class="glyphicon glyphicon-hand-right"></span></button>
             }
         </div>
     </div>

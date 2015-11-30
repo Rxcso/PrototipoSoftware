@@ -5,66 +5,80 @@
     List<BloqueDeTiempoModel> listaResultados = ViewBag.Resultados as List<BloqueDeTiempoModel>;
     int cantResultado = (listaResultados == null) ? 0 : listaResultados.Count;
 }
+<style>
+    td {
+        text-align: center;
+    }
 
+    h3 {
+        border-bottom: 1px solid gray;
+    }
+</style>
 <div class="container-fluid">
-    <div class="col-md-5">
+    <div class="col-md-6">
         <ol class="breadcrumb">
             <li><a href="@Url.Action("Index","Evento")">Mantenimiento de eventos</a></li>
-            <li class="active">Nuevo evento</li>
+            <li> Datos generales</li>
+            <li class="active"> Bloques de tiempo</li>
         </ol>
     </div>
 </div>
 <div class="container" id="bloques_tiempo">
-    <div class="col-md-9">
-        <h3>Ingrese los Bloques de Tiempo de Venta:</h3><br>
-    </div>
-    <div class="col-md-4">
-        <div class="form-group">
-            <button id="btnAgregarBloque" type="button" class="btn btn-primary" onclick="nuevoBloque()">Añadir bloque <span class="glyphicon glyphicon-plus"></span></button>
-            <button id="btnQuitarBloque" type="button" class="btn btn-primary" onclick="quitarBloque()">Quitar bloque <span class="glyphicon glyphicon-remove"></span></button>
+    <div class="row">
+        <div class="col-md-6 col-sm-6">
+            <h3>Ingrese los Bloques de Tiempo de Venta:</h3><br>
+        </div>
+        <div class="col-md-6 col-sm-6">
+            <button id="btnAgregarBloque" type="button" class="btn btn-primary" onclick="nuevoBloque()"><span class="glyphicon glyphicon-plus"></span> Agregar bloque</button>
+            <button id="btnQuitarBloque" type="button" class="btn btn-danger " onclick="quitarBloque()"><span class="glyphicon glyphicon-trash"></span> Quitar bloque</button>
         </div>
     </div>
-    <div id="bloques">
+    
+    <div class="row" id="bloques">
         @Html.Hidden("histBloque", "" + cantResultado)
         @using (@Html.BeginForm("BloquesTiempoVenta", "Evento", FormMethod.Post, new { @id = "formPost" }))
         {
-            <div class="container" id="bloques_tiempo">
-                <br>
-                <div id="bloques" class="container">
-                    <div id="bloque_1" class="row">
-                        <table class="table table-bordered table-hover" id="bloqueDeTiempo">
-                            <thead>
-                                <tr>
-                                    <td>N°</td>
-                                    <td>Desde: </td>
-                                    <td>Hasta: </td>
-                                    <td>¿Quitar?</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if (listaResultados != null)
-                                {
-                                    for (var i = 0; i < listaResultados.Count; i++)
+            <div class="row" id="bloques_tiempo">
+                <div class="col-md-12">
+                    <div id="bloques">
+                        <div id="bloque_1" class="table-responsive">
+                            <table class="table table-bordered table-hover" id="bloqueDeTiempo">
+                                <thead>
+                                    <tr>
+                                        <td>N°</td>
+                                        <td>Desde: </td>
+                                        <td>Hasta: </td>
+                                        <td>¿Quitar?</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (listaResultados != null)
                                     {
-                                        string fechaInicio = listaResultados[i].fechaInicio.ToString("yyyy-MM-dd");
-                                        string fechaFin = listaResultados[i].fechaFin.ToString("yyyy-MM-dd");
-                                        <tr id="@(i+1)">
-                                            <td>@(i + 1)</td>
-                                            <td><input id="fechaIni" class="form-control" type="date" value="@fechaInicio" readonly="readonly"></td>
-                                            <td><input id="fechaIni" class="form-control" type="date" value="@fechaFin" readonly="readonly"></td>
-                                            <td style="text-align:center">
-                                                <input type="radio" name="groupBloquedeVenta" value="@(i+1)">
-                                            </td>
-                                        </tr>
+                                        for (var i = 0; i < listaResultados.Count; i++)
+                                        {
+                                            string fechaInicio = listaResultados[i].fechaInicio.ToString("yyyy-MM-dd");
+                                            string fechaFin = listaResultados[i].fechaFin.ToString("yyyy-MM-dd");
+                                            <tr id="@(i+1)">
+                                                <td>@(i + 1)</td>
+                                                <td><input id="fechaIni" class="form-control" type="date" value="@fechaInicio" readonly="readonly"></td>
+                                                <td><input id="fechaIni" class="form-control" type="date" value="@fechaFin" readonly="readonly"></td>
+                                                <td style="text-align:center">
+                                                    <input type="radio" name="groupBloquedeVenta" value="@(i+1)">
+                                                </td>
+                                            </tr>
+                                        }
                                     }
-                                }
-                            </tbody>
-                        </table><br>
-                    </div><br>
-                    <button type="submit" class="btn btn-primary" style="float: right;" onclick="return guardarBloques()">Siguiente   <span class="glyphicon glyphicon-arrow-right"></span></button>
+                                </tbody>
+                            </table><br>
+                        </div>                        
+                    </div>
                 </div>
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-success pull-right" onclick="return guardarBloques()">Guardar y seguir <span class="glyphicon glyphicon-hand-right"></span></button>
+                </div>                
             </div>
         }
-    </div>
-    <script type="text/javascript" src="@Url.Content("/Scripts/RegisterEvento/BloqueTiempoVentaHelper.js")"></script>
+    </div>    
 </div>
+
+<script type="text/javascript" src="@Url.Content("/Scripts/RegisterEvento/BloqueTiempoVentaHelper.js")"></script>
