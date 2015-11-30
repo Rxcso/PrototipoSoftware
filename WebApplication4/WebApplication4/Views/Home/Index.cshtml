@@ -4,13 +4,13 @@
 @using PagedList.Mvc;
 @model PagedList.IPagedList<Eventos>
 
-    @{
-        ViewBag.Title = "TickNet";
-        inf245netsoft db = new inf245netsoft();
-        List<Eventos> listaDestacados = ViewBag.ListaDestacados as List<Eventos>;
-    }
+@{
+    ViewBag.Title = "TickNet";
+    inf245netsoft db = new inf245netsoft();
+    List<Eventos> listaDestacados = ViewBag.ListaDestacados as List<Eventos>;
+}
 
-    @*<style>
+@*<style>
         .thumbnail > .event {
             height: 50px;
         }
@@ -24,186 +24,205 @@
 
 
 
-    <div id="seccionPrincipal" class="container">
-        <div class="row">
-            <div class="col-md-12 ">
-                <div id="carousel-1" class="carousel slide" data-ride="carousel">
-                    <!--indicadores primero-->
-                    <ol class="carousel-indicators">
-                        @for (var i = 0; i < listaDestacados.Count; i++)
-                        {
-                            <li data-target="#carousel-1" style="max-height:100%; max-width:100%;" data-slide-to=@("" + i) class="active"></li>
-                        }
+<div id="seccionPrincipal" class="container">
+    <div class="row">
+        <div class="col-md-12 ">
+            <div id="carousel-1" class="carousel slide" data-ride="carousel">
+                <!--indicadores primero-->
+                <ol class="carousel-indicators">
+                    @for (var i = 0; i < listaDestacados.Count; i++)
+                    {
+                        <li data-target="#carousel-1" style="max-height:100%; max-width:100%;" data-slide-to=@("" + i) class="active"></li>
+                    }
 
-                    </ol>
-                    <!--Contenedor de los slide-->
-                    <div class="carousel-inner" role="listbox">
-
-
-                        @for (var i = 0; i < listaDestacados.Count; i++)
-                        {
-                            <div class="@((i == 0) ? "item active" : "item ")">
-
-                                <a href=@Url.Action("VerEvento", "Evento", new { id = listaDestacados[i].codigo })><img src=@listaDestacados[i].ImagenDestacado height="500" width="1200" class="img-responsive" alt=@listaDestacados[i].nombre></a>
-                            </div>
-                        }
-
-                    </div>
+                </ol>
+                <!--Contenedor de los slide-->
+                <div class="carousel-inner" role="listbox">
 
 
-                    <!--Controles-->
-                    <a href="#carousel-1" class="left carousel-control" role="button" data-slide="prev">
-                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                    </a>
-                    <a href="#carousel-1" class="right carousel-control" role="button" data-slide="next">
-                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                    </a>
-                </div>
-            </div>
-            <div class="col-md-12">
-                <div class="panel panel-primary">
-                    <div id="titulo1" class="panel-heading"><strong>Próximos eventos</strong></div>
+                    @for (var i = 0; i < listaDestacados.Count; i++)
+                    {
+                        <div class="@((i == 0) ? "item active" : "item ")">
 
-                    <!--Aca iran los eventos en miniatura-->
-                    <div class="panel-body">
-                        @foreach (var evento in Model)
-                        {
-                            <div class="col-md-3 col-sm-6 col-xs-12 bloque-imagen" title="@evento.nombre">
-                                <div class="thumbnail">
-                                    <a href=@Url.Action("VerEvento", "Evento", new { id = evento.codigo })>
-                                        <img  class="event" src="@evento.ImagenEvento" alt="">
-                                        <div class="caption" style="text-align:center">
-                                            @{
-                            var func = from obj in db.Funcion
-                                       where (obj.codEvento == evento.codigo && obj.estado.Contains("ACTIVO"))
-                                       orderby obj.fecha ascending
-                                       select obj;
-
-                            string fecha = "";
-
-                            if (func.Count() > 0)
-                            {
-
-                                var funcion = func.First();
-                                fecha = funcion.fecha.Value.ToString("dd/MM/yyyy");
-                                //fecha = fecha + " " + funcion.horaIni.Value.ToString("hh:mm tt");
-                            }
-                            else
-                            {
-
-                                fecha = "Disponible el : " + String.Format("{0:d}", evento.fecha_inicio);
-                            }
-
-
-                                            }
-
-                                            <div class="suspensivos"><strong>@evento.nombre</strong></div>
-                                            <div class=""><strong>@fecha</strong></div>
-                                        </div>
-                                    </a>
-                                    
-                                </div>
-                            </div>
-
-                        }
-
-
-
-                    </div>
-
-
+                            <a href=@Url.Action("VerEvento", "Evento", new { id = listaDestacados[i].codigo })><img src=@listaDestacados[i].ImagenDestacado height="500" width="1200" class="img-responsive" alt=@listaDestacados[i].nombre></a>
+                        </div>
+                    }
 
                 </div>
 
 
-                @{
-
-
-                    var fechaI = "";
-                    var fechaF = "";
-
-                    if (ViewBag.fech_ini != null)
-                    {
-                        fechaI = ViewBag.fech_ini.ToString("yyyy-MM-dd");
-
-
-                    }
-                    else
-                    {
-                        fechaI = ViewBag.fech_ini;
-
-                    }
-
-                    if (ViewBag.fech_fin != null)
-                    {
-                        fechaF = ViewBag.fech_fin.ToString("yyyy-MM-dd");
-
-
-                    }
-                    else
-                    {
-                        fechaF = ViewBag.fech_fin;
-
-                    }
-
-
-
-                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, nombre = ViewBag.nombre, fech_ini = fechaI, fech_fin = fechaF, idCategoria = ViewBag.idCategoria, idSubCat = ViewBag.idSubCat, idRegion = ViewBag.idRegion }));
-                }
-
+                <!--Controles-->
+                <a href="#carousel-1" class="left carousel-control" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                </a>
+                <a href="#carousel-1" class="right carousel-control" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                </a>
             </div>
         </div>
-    </div>
+        <div class="col-md-12">
+            <div class="panel panel-primary">
+                <div id="titulo1" class="panel-heading"><strong>Próximos eventos</strong></div>
 
-    <!--librerias-->
-    @section scripts{
-        <script>
-            $(document).ready(function () {
+                <!--Aca iran los eventos en miniatura-->
+                <div class="panel-body">
+                    @foreach (var evento in Model)
+                    {
+                        <div class="col-md-3 col-sm-6 col-xs-12 bloque-imagen" title="@evento.nombre">
+                            <div class="thumbnail">
+                                <a href=@Url.Action("VerEvento", "Evento", new { id = evento.codigo })>
+                                    <img class="event" src="@evento.ImagenEvento" alt="">
+                                    <div class="caption" style="text-align:center">
+                                        @{
+                        var func = from obj in db.Funcion
+                                   where (obj.codEvento == evento.codigo && obj.estado.Contains("ACTIVO"))
+                                   orderby obj.fecha ascending
+                                   select obj;
+
+                        string fecha = "";
+
+                        if (func.Count() > 0)
+                        {
+
+                            var funcion = func.First();
+                            fecha = funcion.fecha.Value.ToString("dd/MM/yyyy");
+                            //fecha = fecha + " " + funcion.horaIni.Value.ToString("hh:mm tt");
+                        }
+                        else
+                        {
+
+                            fecha = "Disponible el : " + String.Format("{0:d}", evento.fecha_inicio);
+                        }
 
 
+                                        }
 
-                if (!isNaN(@ViewBag.idCategoria)) {
+                                        <div class="suspensivos"><strong>@evento.nombre</strong></div>
+                                        <div class=""><strong>@fecha</strong></div>
+                                    </div>
+                                </a>
 
-                    $("#idCategoria > option[value='" + @ViewBag.idCategoria + "'").attr('selected', 'selected');
-
-
-                    if (!isNaN(@ViewBag.idSubCat)) {
-
-
-                        $("#idSubCat > option[value='" + @ViewBag.idSubCat + "'").attr('selected', 'selected');
-
-
+                            </div>
+                        </div>
 
                     }
 
 
+
+                </div>
+
+
+
+            </div>
+
+
+            @{
+
+
+                var fechaI = "";
+                var fechaF = "";
+
+                if (ViewBag.fech_ini != null)
+                {
+                    fechaI = ViewBag.fech_ini.ToString("yyyy-MM-dd");
+
+
+                }
+                else
+                {
+                    fechaI = ViewBag.fech_ini;
+
                 }
 
-                if (!isNaN(@ViewBag.idRegion)) {
+                if (ViewBag.fech_fin != null)
+                {
+                    fechaF = ViewBag.fech_fin.ToString("yyyy-MM-dd");
 
-                    $("#idRegion > option[value='" + @ViewBag.idRegion + "'").attr('selected', 'selected');
 
+                }
+                else
+                {
+                    fechaF = ViewBag.fech_fin;
+
+                }
+
+
+
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page, nombre = ViewBag.nombre, fech_ini = fechaI, fech_fin = fechaF, idCategoria = ViewBag.idCategoria, idSubCat = ViewBag.idSubCat, idRegion = ViewBag.idRegion }));
+            }
+
+        </div>
+    </div>
+</div>
+
+<!--librerias-->
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+
+
+            if (!isNaN(@ViewBag.idCategoria)) {
+
+                $("#idCategoria > option[value='" + @ViewBag.idCategoria + "'").attr('selected', 'selected');
+
+
+                if (!isNaN(@ViewBag.idSubCat)) {
+
+
+                    $("#idSubCat > option[value='" + @ViewBag.idSubCat + "'").attr('selected', 'selected');
 
 
 
                 }
 
-                $("#adv-search").on('submit', function (e) {
 
-                    e.preventDefault();
+            }
 
-                    var fechI = this['altfech_ini'].value;                    
-                    var fechF = this['altfech_fin'].value;
-                    
+            if (!isNaN(@ViewBag.idRegion)) {
 
-                    /*Regla 1 para la validadcion de al menos un campo*/
-                    if (fechI == '' && fechF == '' && $("#idCategoria").val() == '' &&
-                        $("#idSubCat").val() == '' && $("#idRegion").val() == '') {
+                $("#idRegion > option[value='" + @ViewBag.idRegion + "'").attr('selected', 'selected');
+
+
+
+
+            }
+
+            $("#adv-search").on('submit', function (e) {
+
+                e.preventDefault();
+
+                var fechI = this['altfech_ini'].value;
+                var fechF = this['altfech_fin'].value;
+
+
+                /*Regla 1 para la validadcion de al menos un campo*/
+                if (fechI == '' && fechF == '' && $("#idCategoria").val() == '' &&
+                    $("#idSubCat").val() == '' && $("#idRegion").val() == '') {
+                    $("#alerta").empty();
+                    $("#alerta").append('<strong>Ingrese al menos un campo!</strong>').show();
+                    return;
+                } else {
+
+                    var valor = $("#alerta").children('strong');
+                    if (valor.length > 0) {
+
+                        valor.remove();
+
+                    }
+
+                    $("#alerta").hide();
+
+                }
+                /*Regla 2 : Validacion para las fechas*/
+                if (fechF != '' && fechI != '') {
+
+
+                    if (new Date(fechF.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1")) < new Date(fechI.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1"))) {
                         $("#alerta").empty();
-                        $("#alerta").append('<strong>Ingrese al menos un campo!</strong>').show();
+                        $("#alerta").append('<strong>"Fecha desde" no puede ser posterior a "Fecha hasta"</strong>').show();
                         return;
                     } else {
-
                         var valor = $("#alerta").children('strong');
                         if (valor.length > 0) {
 
@@ -214,90 +233,71 @@
                         $("#alerta").hide();
 
                     }
-                    /*Regla 2 : Validacion para las fechas*/
-                    if (fechF != '' && fechI != '') {
 
+                }
 
-                        if (new Date(fechF.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1")) < new Date(fechI.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1"))) {
-                            $("#alerta").empty();
-                            $("#alerta").append('<strong>"Fecha desde" no puede ser posterior a "Fecha hasta"</strong>').show();
-                            return;
-                        } else {
-                            var valor = $("#alerta").children('strong');
-                            if (valor.length > 0) {
+                this.submit();
 
-                                valor.remove();
-
-                            }
-
-                            $("#alerta").hide();
-
-                        }
-
-                    }
-
-                    this.submit();
-
-
-                });
 
             });
 
-
-            function cambioCat() {
-
-                fillCombo("idSubCat", $("#idCategoria").val(), "/Home/Subcategorias", "Subcategorias");
-
-            }
-
-            function fillCombo(idCombo, value, linkUrl, optlabel) {
-
-                $("#" + idCombo).empty();
-                $("#" + idCombo).append("<option value=''>" + optlabel + "</option>")
+        });
 
 
-                var depId = parseInt(value);
-                if (isNaN(depId)) return;
-                $.ajax({
-                    url: linkUrl,
-                    type: 'POST',
-                    data: { idCategoria: depId },
-                    dataType: 'json',
-                    success: function (data) {
-                        if (isNaN(data.length)) return;
+        function cambioCat() {
 
-                        $.each(data, function (k, v) {
-                            $("#" + idCombo).append("<option value='" + v.id + "'>" + v.nombre + "</option>");
-                        });
-                    },
-                    error: function () {
-                        alert("Error :(");
-                    }
-                });
-            }
+            fillCombo("idSubCat", $("#idCategoria").val(), "/Home/Subcategorias", "Subcategorias");
+
+        }
+
+        function fillCombo(idCombo, value, linkUrl, optlabel) {
+
+            $("#" + idCombo).empty();
+            $("#" + idCombo).append("<option value=''>" + optlabel + "</option>")
 
 
+            var depId = parseInt(value);
+            if (isNaN(depId)) return;
+            $.ajax({
+                url: linkUrl,
+                type: 'POST',
+                data: { idCategoria: depId },
+                dataType: 'json',
+                success: function (data) {
+                    if (isNaN(data.length)) return;
 
-            function busqueda() {
-                $('#search').submit();
-            }
+                    $.each(data, function (k, v) {
+                        $("#" + idCombo).append("<option value='" + v.id + "'>" + v.nombre + "</option>");
+                    });
+                },
+                error: function () {
+                    alert("Error :(");
+                }
+            });
+        }
 
-            function busquedaAdv() {
-                $('#adv-search').submit();
-            }
 
-            function verEvento() {
-                window.open("ver_evento.html", "_self");
-            }
 
-            function buscar() {
-                window.open("index1.html", "_self");
-            }
-            function ingresar() {
-                window.open("mi_cuenta.html", "_self");
-            }
-        </script>
-    }
+        function busqueda() {
+            $('#search').submit();
+        }
+
+        function busquedaAdv() {
+            $('#adv-search').submit();
+        }
+
+        function verEvento() {
+            window.open("ver_evento.html", "_self");
+        }
+
+        function buscar() {
+            window.open("index1.html", "_self");
+        }
+        function ingresar() {
+            window.open("mi_cuenta.html", "_self");
+        }
+    </script>
+}
 
 
 

@@ -14,7 +14,6 @@ namespace WebApplication4.Controllers
 
         public ActionResult Index(string nombre, DateTime? fech_ini, DateTime? fech_fin, int? idCategoria, int? idSubCat, int? idRegion, int? page)
         {
-
             List<Eventos> listaDestacados = new List<Eventos>(0);
             try
             {
@@ -42,24 +41,24 @@ namespace WebApplication4.Controllers
             ViewBag.idSubCat = idSubCat;
             ViewBag.idRegion = idRegion;
 
-            var lista = from obj in db.Eventos 
+            var lista = from obj in db.Eventos
                         where (obj.estado.Contains("Activo") == true)
                         select obj;
 
             if (User.Identity.IsAuthenticated && String.IsNullOrEmpty(nombre) && !fech_ini.HasValue && !fech_fin.HasValue && !idCategoria.HasValue && !idSubCat.HasValue && !idRegion.HasValue)
             {
-                var auxlista = from cate  in db.Categoria
+                var auxlista = from cate in db.Categoria
                                join u in db.CuentaUsuario on User.Identity.Name equals u.correo
-                               where ( u.Categoria.Where(s=>s.idCategoria == cate.idCategoria).ToList().Count() > 0 )
-                               select cate ;
+                               where (u.Categoria.Where(s => s.idCategoria == cate.idCategoria).ToList().Count() > 0)
+                               select cate;
 
                 auxlista.GroupBy(s => s.idCategoria);
 
-                lista = from obj  in db.Eventos
-                        where (obj.estado.Contains("Activo") == true )
+                lista = from obj in db.Eventos
+                        where (obj.estado.Contains("Activo") == true)
                         orderby (
                             (auxlista).Any(s => s.idCategoria == obj.idSubcategoria || s.idCategoria == obj.idCategoria) ? 0 : 1)
-                        select obj ;
+                        select obj;
 
             }
             else
@@ -99,7 +98,7 @@ namespace WebApplication4.Controllers
 
                 lista = lista.OrderBy(s => s.fecha_inicio);
             }
-            
+
             ViewBag.Cant = lista.Count();
 
             return View(lista.ToPagedList(pageNumber, pageSize));
@@ -120,6 +119,17 @@ namespace WebApplication4.Controllers
         public ActionResult PuntoVentas()
         {
             ViewBag.Message = "Your application description page.";
+            //destacados
+            List<Eventos> listaDestacados = new List<Eventos>(0);
+            try
+            {
+                listaDestacados = db.Eventos.AsNoTracking().Where(c => (c.ImagenDestacado != null && c.estado != null && c.estado.CompareTo("Activo") == 0)).ToList();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            ViewBag.ListaDestacados = listaDestacados;
 
             return View();
         }
@@ -164,6 +174,22 @@ namespace WebApplication4.Controllers
                         };
             List<Subcategoria> listaNueva = lista.ToList<Subcategoria>();
             return Json(listaNueva, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult Destacados()
+        {
+            //para que se carguen los destacados al lado
+            List<Eventos> listaDestacados = new List<Eventos>(0);
+            try
+            {
+                listaDestacados = db.Eventos.AsNoTracking().Where(c => (c.ImagenDestacado != null && c.estado != null && c.estado.CompareTo("Activo") == 0)).ToList();
+            }
+            catch (Exception ex)
+            {
+            }
+            ViewBag.ListaDestacados = listaDestacados;
+            return View();
         }
     }
 }
