@@ -1,7 +1,6 @@
 ﻿document.addEventListener('DOMContentLoaded', function () {
     var arr = ["efectivo", "tarjeta", "mixto"];
     var mod = parseInt(document.getElementById("modalidad").value);
-    alert(mod);
     if (mod == 1) {
         loadEfectivo(arr[0], arr[1], arr[2]);
     }
