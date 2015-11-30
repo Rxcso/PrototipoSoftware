@@ -482,6 +482,7 @@
     <Content Include="Scripts\CategoriaEvento\BorrarCategoriaEvento.js" />
     <Content Include="Scripts\ComprarEntrada\ComprarEntradaHelper.js" />
     <Content Include="Scripts\datepicker-es.js" />
+    <Content Include="Scripts\busqueda.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Content\bootstrap-theme.css.map" />

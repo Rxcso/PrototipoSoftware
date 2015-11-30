@@ -105,3 +105,19 @@
     </div>
 }
 
+@section scripts{
+    <script>
+    if (!isNaN(@ViewBag.idCategoria)) {
+        $("#idCategoria > option[value='" + @ViewBag.idCategoria + "'").attr('selected', 'selected');
+        if (!isNaN(@ViewBag.idSubCat)) {
+            $("#idSubCat > option[value='" + @ViewBag.idSubCat + "'").attr('selected', 'selected');
+        }
+    }
+    if (!isNaN(@ViewBag.idRegion)) {
+        $("#idRegion > option[value='" + @ViewBag.idRegion + "'").attr('selected', 'selected');
+        if (!isNaN(@ViewBag.idProv)) {
+            $("#idProv > option[value='" + @ViewBag.idProv + "'").attr('selected', 'selected');
+        }
+    }
+    </script>
+}
