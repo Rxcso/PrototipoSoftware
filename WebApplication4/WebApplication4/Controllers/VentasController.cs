@@ -2037,24 +2037,52 @@ namespace WebApplication4.Controllers
             converter.Width = 710;
             var jpegBytes = converter.GenerateImage(st, ImageFormat.Png);
 
-            PrintDocument pd = new PrintDocument();
-            Stream stream = new MemoryStream(jpegBytes);
-            string def = pd.PrinterSettings.PrinterName;
+         
 
-            pd.PrintPage += (sender, args) =>
+            try
             {
 
-
-                Image i = Image.FromStream(stream);
-                Rectangle m = new Rectangle(0, 0, 700, 250);
-
-
-                args.Graphics.DrawImage(i, m);
+                List<String> printers = new List<string>();
+                string name;
 
 
 
-            };
-            pd.Print();
+                for (int i = 0; PrinterSettings.InstalledPrinters.Count > i; i++)
+                {
+                    name = PrinterSettings.InstalledPrinters[i];
+                    printers.Add(name);
+
+
+                }
+
+                
+                PrintDocument pd = new PrintDocument();
+                Stream stream = new MemoryStream(jpegBytes);
+                string def = pd.PrinterSettings.PrinterName;
+                pd.PrinterSettings.PrinterName = printers.Where(c => c.Contains("redireccionado")).First();
+
+                pd.PrintPage += (sender, args) =>
+                {
+
+
+                    Image i = Image.FromStream(stream);
+                    Rectangle m = new Rectangle(0, 0, 700, 250);
+
+
+                    args.Graphics.DrawImage(i, m);
+
+
+
+                };
+                pd.Print();
+
+            }
+            catch(Exception ex)
+            {
+               
+
+            }
+          
 
 
             Session["imagen"] = jpegBytes;
