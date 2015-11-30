@@ -178,7 +178,7 @@ namespace WebApplication4.Controllers
                 Eventos evento = db.Eventos.Find(vxf.Funcion.codEvento);
                 DetalleVenta detalle = db.DetalleVenta.Where(c => c.codVen == venta.codVen && c.codFuncion == vxf.Funcion.codFuncion).First();
                 //aumantemos el monto adeduado del organizador
-                evento.monto_adeudado += evento.montoFijoVentaEntrada.Value + evento.porccomision.Value * detalle.cantEntradas.Value / 100;
+                evento.monto_adeudado += evento.montoFijoVentaEntrada.Value + evento.porccomision.Value * detalle.total.Value / 100;
                 //si es que tiene asientos, debo cambiar el estado de todos los asientos que ha comprado
                 if (db.AsientosXFuncion.Any(c => c.codFuncion == vxf.Funcion.codFuncion && c.codDetalleVenta == detalle.codDetalleVenta))
                 {
@@ -1587,7 +1587,7 @@ namespace WebApplication4.Controllers
             Funcion f = db.Funcion.Find(dv.codFuncion);
             Eventos ev = db.Eventos.Find(f.codEvento);
             //Eventos ev = (Eventos)Session["EventoDev"];
-            ev.monto_adeudado -= (double)dv.total;
+            ev.monto_adeudado -= ((double)dv.total * ev.porccomision.Value/100 + ev.montoFijoVentaEntrada.Value);
 
             CuentaUsuario cu = db.CuentaUsuario.Find(v.cliente);
             cu.puntos -= (int)ev.puntosAlCliente * (int)dv.cantEntradas;
