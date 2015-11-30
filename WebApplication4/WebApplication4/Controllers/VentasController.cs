@@ -135,8 +135,18 @@ namespace WebApplication4.Controllers
                 venta.Estado = MagicHelpers.Compra;
                 venta.fecha = hoy;
                 //monto usados al pagar
-                venta.montoEfectivoSoles = model.MontoDolares * db.TipoDeCambio.Where(c => c.estado == "Activo").ToList().Last().valor.Value / MagicHelpers.ConstanteTipoCambio + model.MontoEfe - model.Vuelto;
+                //venta.montoEfectivoSoles = model.MontoDolares * db.TipoDeCambio.Where(c => c.estado == "Activo").ToList().Last().valor.Value / MagicHelpers.ConstanteTipoCambio + model.MontoEfe - model.Vuelto;
                 venta.montoEfectivoDolares = model.MontoDolares;
+                double dolarsoles = (double)model.MontoDolares * db.TipoDeCambio.Where(c => c.estado == "Activo").ToList().Last().valor.Value / MagicHelpers.ConstanteTipoCambio;
+                if (model.MontoEfe > dolarsoles)
+                {
+                    venta.montoEfectivoSoles = model.MontoEfe - model.Vuelto;
+                }
+                else
+                {
+                    venta.montoEfectivoSoles = model.MontoEfe;
+                    venta.montoEfectivoDolares = (dolarsoles - model.Vuelto) / (db.TipoDeCambio.Where(c => c.estado == "Activo").ToList().Last().valor.Value / MagicHelpers.ConstanteTipoCambio);
+                }
                 venta.montoCreditoSoles = model.MontoTar;
                 venta.MontoTotalSoles = model.MontoPagar;
                 //modalidad de pago
