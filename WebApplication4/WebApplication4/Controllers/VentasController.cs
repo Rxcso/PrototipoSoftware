@@ -1587,7 +1587,7 @@ namespace WebApplication4.Controllers
             Funcion f = db.Funcion.Find(dv.codFuncion);
             Eventos ev = db.Eventos.Find(f.codEvento);
             //Eventos ev = (Eventos)Session["EventoDev"];
-            ev.monto_adeudado -= ((double)dv.total * ev.porccomision.Value/100 + ev.montoFijoVentaEntrada.Value);
+            ev.monto_adeudado =ev.monto_adeudado - (double)dv.total + dv.montoDev;
 
             CuentaUsuario cu = db.CuentaUsuario.Find(v.cliente);
             cu.puntos -= (int)ev.puntosAlCliente * (int)dv.cantEntradas;
