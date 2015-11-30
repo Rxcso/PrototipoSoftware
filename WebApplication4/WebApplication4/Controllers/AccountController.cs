@@ -279,6 +279,17 @@ namespace WebApplication4.Controllers
         [AllowAnonymous]
         public ActionResult RegisterClient()
         {
+            //destacados
+            List<Eventos> listaDestacados = new List<Eventos>(0);
+            try
+            {
+                listaDestacados = db.Eventos.AsNoTracking().Where(c => (c.ImagenDestacado != null && c.estado != null && c.estado.CompareTo("Activo") == 0)).ToList();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            ViewBag.ListaDestacados = listaDestacados;
             return View("RegisterClient");
         }
 
@@ -761,6 +772,22 @@ namespace WebApplication4.Controllers
             }
 
             base.Dispose(disposing);
+        }
+
+        [HttpGet]
+        public ActionResult Destacados()
+        {
+            //para que se carguen los destacados al lado
+            List<Eventos> listaDestacados = new List<Eventos>(0);
+            try
+            {
+                listaDestacados = db.Eventos.AsNoTracking().Where(c => (c.ImagenDestacado != null && c.estado != null && c.estado.CompareTo("Activo") == 0)).ToList();
+            }
+            catch (Exception ex)
+            {
+            }
+            ViewBag.ListaDestacados = listaDestacados;
+            return View();
         }
 
         #region Helpers

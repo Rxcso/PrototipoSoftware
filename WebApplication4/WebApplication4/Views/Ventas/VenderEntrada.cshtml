@@ -26,10 +26,17 @@
 <style>
     .blanco {
         background-color: white;
-        border: 2px solid black;
+        border: 1px solid gray;
         border-radius: 10px;
+        padding: 5px;
     }
-    #formPost{padding:15px}
+    h3 {
+        border-bottom: 1px solid gray;
+    }
+
+    #formPost {
+        padding: 15px;
+    }
 </style>
 
 <div class="container-fluid">
@@ -204,7 +211,7 @@
                 </div><br />
                 
                 <div class="row">
-                    <div id="efectivo" class="col-md-4">
+                    <div id="efectivo" class="blanco col-md-4">
                         <center class="row">                            
                             @if (Model.modalidad == 1)
                             {
@@ -253,8 +260,8 @@
                             </div>
                         </div>
                     </div>
-                    <div id="tarjeta" class="col-md-4">
-                        <center class="row">                            
+                    <div id="tarjeta" class="blanco col-md-4">
+                        <center class="row">
                             @if (Model.modalidad == 2)
                             {
                                 <input type="radio" name="TipoPago" value="2" onclick="cambioPago()" checked="checked">
@@ -302,8 +309,8 @@
                             </div>
                         </div>
                     </div>
-                    <div id="mixto" class="col-md-4">
-                        <center class="row">                            
+                    <div id="mixto" class="blanco col-md-4">
+                        <center class="row">
                             @if (Model.modalidad == 3)
                             {
                                 <input type="radio" name="TipoPago" value="3" onclick="cambioPago()" checked="checked">

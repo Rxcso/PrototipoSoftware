@@ -16,6 +16,20 @@
     double cambio = tipoCambio.valor.Value / (MagicHelpers.ConstanteTipoCambio * 1.0);
     //funciones
 }
+<style>
+    .blanco {
+        background-color: white;
+        border: 1px solid gray;
+        border-radius: 10px;
+        padding: 5px;
+    }
+    h3 {
+        border-bottom: 1px solid gray;
+    }
+    #formPost {
+        padding: 15px;
+    }
+</style>
 
 <div class="container-fluid">
     <div class="col-md-5">
@@ -98,6 +112,7 @@
                         </div>
                     </div><br />
                     <h3><span class="fa fa-credit-card "></span> Información de la tarjeta</h3><br />
+                    
                     <div class="row form-horizontal">
                         @Html.LabelFor(c => c.idBanco, new { @class = "control-label col-md-6" })
                         <div class="col-md-6">
@@ -164,7 +179,7 @@
                     </div><br />
                     
                     <div class="row">
-                        <div id="efectivo" class="col-md-4">
+                        <div id="efectivo" class="blanco col-md-4">
                             <center class="row">                                
                                 @if (Model.modalidad == 1)
                                 {
@@ -213,7 +228,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="tarjeta" class="col-md-4">
+                        <div id="tarjeta" class="blanco col-md-4">
                             <center class="row">                                
                                 @if (Model.modalidad == 2)
                                 {
@@ -262,7 +277,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="mixto" class="col-md-4">
+                        <div id="mixto" class="blanco col-md-4">
                             <center class="row">                                
                                 @if (Model.modalidad == 3)
                                 {

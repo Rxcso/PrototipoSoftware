@@ -119,6 +119,7 @@ thead {
     border-radius:5px;
     border:2px solid black;
     background-color:rgba(229,245,255,0.8);
+    
 }
 
 input{text-align:center}
@@ -129,7 +130,7 @@ th,td{text-align:center}
 /*PARA EFECTO INDEX 1*/
 /*contenedor de fondo blanco*/
 
-.con{background-color:white;
+.con{background-color:rgba(229,245,255,0.8);
          margin:10px;
          border-radius:5px; 
          border:2px solid gray;                 

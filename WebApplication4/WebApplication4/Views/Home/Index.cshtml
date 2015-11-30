@@ -10,16 +10,15 @@
     List<Eventos> listaDestacados = ViewBag.ListaDestacados as List<Eventos>;
 }
 
-@*<style>
-        .thumbnail > .event {
-            height: 50px;
-        }
-
-        .bloque-imagen {
-            width: 250px;
-            height: 150px;
-        }
-    </style>*@
+<style>
+    .panel-body {
+        background-color: rgba(229,245,255,0.8);
+    }
+    .caption{
+        background-color: black;        
+    }
+    a:hover{color:white}
+</style>
 
 
 
@@ -72,7 +71,7 @@
                             <div class="thumbnail">
                                 <a href=@Url.Action("VerEvento", "Evento", new { id = evento.codigo })>
                                     <img class="event" src="@evento.ImagenEvento" alt="">
-                                    <div class="caption" style="text-align:center">
+                                    <div class="caption" style="text-align:center;color:white">
                                         @{
                         var func = from obj in db.Funcion
                                    where (obj.codEvento == evento.codigo && obj.estado.Contains("ACTIVO"))
