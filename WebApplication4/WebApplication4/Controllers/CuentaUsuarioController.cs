@@ -273,8 +273,7 @@ namespace WebApplication4.Controllers
             {
 
             }
-            ViewBag.ListaDestacados = listaDestacados;
-            return View();
+            ViewBag.ListaDestacados = listaDestacados;            
             return View(model);
         }
 
@@ -414,11 +413,24 @@ namespace WebApplication4.Controllers
                     ViewBag.Pagar = total - descuento;
                     ViewBag.Mes = Fechas.Mes();
                     ViewBag.AnVen = Fechas.Anio();
+
+                    //destacados
+                    List<Eventos> listaDestacados = new List<Eventos>(0);
+                    try
+                    {
+                        listaDestacados = db.Eventos.AsNoTracking().Where(c => (c.ImagenDestacado != null && c.estado != null && c.estado.CompareTo("Activo") == 0)).ToList();
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                    ViewBag.ListaDestacados = listaDestacados;
                     return View();
                 }
             }
             TempData["tipo"] = "alert alert-warning";
             TempData["message"] = "No hay items en el carrito.";
+            
             return RedirectToAction("MiCarrito");
         }
 

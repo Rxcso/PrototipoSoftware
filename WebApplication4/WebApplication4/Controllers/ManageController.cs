@@ -229,8 +229,7 @@ namespace WebApplication4.Controllers
             {
 
             }
-            ViewBag.ListaDestacados = listaDestacados;
-            return View();
+            ViewBag.ListaDestacados = listaDestacados;            
             return View();
         }
 
@@ -248,7 +247,7 @@ namespace WebApplication4.Controllers
             {
                 if (cliente.contrasena != model.NewPassword)
                 {
-                    if (model.NewPassword != model.ConfirmPassword)
+                    if (model.NewPassword == model.ConfirmPassword)
                     {
                         var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
                         if (result.Succeeded)
