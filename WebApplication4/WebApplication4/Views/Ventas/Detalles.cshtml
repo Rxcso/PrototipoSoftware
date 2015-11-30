@@ -38,8 +38,8 @@
                             <th>Evento</th>
                             <th>Fecha</th>
                             <th>Hora</th>
-                            <th>Cantidad de Entradas</th>
-                            <th>Total</th>
+                            <th>Cantidad de entradas</th>
+                            <th>Total (S/.)</th>
                         </tr>
                     </thead>
                     <tbody id="tbody">
@@ -50,7 +50,7 @@
                                 <tr id=@row.codVen onclick="myFunction(this)">
                                     @{Funcion fu = db.Funcion.Find(row.codFuncion);
                                     }
-                                    <td>@db.Eventos.Find(fu.codEvento).nombre</td>
+                                    <td><a href="@Url.Action("VerEvento", "Evento", new { id = @db.Eventos.Find(fu.codEvento).codigo })">@db.Eventos.Find(fu.codEvento).nombre</a></td>
                                     <td>@String.Format("{0:d}", fu.fecha)</td>
                                     <td>@String.Format("{0:t}", fu.horaIni)</td>
                                     <td>@row.cantEntradas</td>
