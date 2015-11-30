@@ -138,7 +138,8 @@
                 window.location.href = '/Evento/ReporteEvento';
             }
         });
-    } else {
+        } else {
+            alert("La fecha inicio es campo obligatorio");
             $.ajax({
                 url: "@Url.Action("LimpiaR1", "Evento")",
         data: {},

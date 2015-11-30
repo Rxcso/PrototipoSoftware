@@ -2850,3 +2850,11 @@ System.Collections.ListDictionaryInternal
 2015-11-29 17:48:20,228 [60] ERROR Ticknet - Exception Message - 
 Store update, insert, or delete statement affected an unexpected number of rows (0). Entities may have been modified or deleted since entities were loaded. See http://go.microsoft.com/fwlink/?LinkId=472540 for information on understanding and handling optimistic concurrency exceptions.
 2015-11-29 17:48:20,228 [60] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 18:25:01,751 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-29 18:25:01,762 [8] ERROR Ticknet - Exception Type - 
+InvalidOperationException
+2015-11-29 18:25:01,762 [8] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-29 18:25:01,762 [8] ERROR Ticknet - Exception Message - 
+The operation failed: The relationship could not be changed because one or more of the foreign-key properties is non-nullable. When a change is made to a relationship, the related foreign-key property is set to a null value. If the foreign-key does not support null values, a new relationship must be defined, the foreign-key property must be assigned another non-null value, or the unrelated object must be deleted.
+2015-11-29 18:25:01,762 [8] DEBUG Ticknet - ++++++++++++++++++++++++++++
