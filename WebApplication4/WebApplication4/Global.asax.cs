@@ -22,7 +22,7 @@ namespace WebApplication4
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AntiForgeryConfig.SuppressIdentityHeuristicChecks = true;
-            log4net.Config.XmlConfigurator.Configure(new FileInfo(Server.MapPath("~/Log4Net.config")));  
+            log4net.Config.XmlConfigurator.Configure(new FileInfo(Server.MapPath("~/Log4Net.config")));
         }
 
         void Application_Error(object sender, EventArgs e)
@@ -35,6 +35,5 @@ namespace WebApplication4
             log.Error("Exception Message - \n" + ex.Message);
             log.Debug("++++++++++++++++++++++++++++");
         }
-
     }
 }

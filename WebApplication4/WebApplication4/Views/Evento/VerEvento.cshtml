@@ -286,30 +286,30 @@
                                                 //para el vendedor tendra un carrito distinto
                                                 if (codperfilActual == 2)
                                                 {
-                                                    if (tu != null && tu.estadoCaja == "Abierto")
-                                                    {
+                                                   // if (tu != null && tu.estadoCaja == "Abierto")
+                                                    //{
                                                         <div class="form-group col-md-12 col-sm-12">
                                                             <button type="submit" name="boton" value="carritoVendedor" class="btn btn-success">Agregar al carrito <span class="fa fa-shopping-cart"></span></button>
                                                         </div>
-                                                    }
-                                                    else
-                                                    {
-                                                        if (tu == null)
-                                                        {
-                                                            <center>
-                                                                <h5>Debe tener un turno para poder vender</h5>
-                                                            </center> 
-                                                        }
-                                                        else
-                                                        {
-                                                            if (tu.estadoCaja != "Abierto")
-                                                            {
-                                                                <center>
-                                                                    <h5>La caja no ha sido abierta aún</h5>
-                                                                </center>
-                                                            }
-                                                        }
-                                                    }
+                                                    //}
+                             //                       else
+                               //                     {
+                                                      //  if (tu == null)
+//                                                        {
+  //                                                          <center>
+    //                                                            <h5>Debe tener un turno para poder vender</h5>
+      //                                                      </center> 
+        //                                                }
+          //                                              else
+            //                                            {
+              ///                                              if (tu.estadoCaja != "Abierto")
+                 //                                           {
+                   //                                             <center>
+                     //                                               <h5>La caja no ha sido abierta aún</h5>
+                       //                                         </center>
+                         //                                   }
+                           //                             }
+                                 //                   }
                                                 }
                                             }
 

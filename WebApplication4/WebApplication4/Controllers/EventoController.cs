@@ -506,6 +506,7 @@ namespace WebApplication4.Controllers
             {
                 Eventos evento = new Eventos();
                 evento.nombre = model.nombre;
+                //evento.idPromotor = 
                 evento.idOrganizador = model.idOrganizador;
                 evento.idCategoria = model.idCategoria;
                 evento.idSubcategoria = (model.idSubCat == 0) ? 0 : model.idSubCat;
