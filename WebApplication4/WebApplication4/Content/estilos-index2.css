@@ -80,3 +80,30 @@ thead {
     }
 
     td,input{text-align:center}
+
+
+    /*contenedor de fondo blanco*/
+    .con{background-color:#F1F1F1;
+         margin:10px;
+         border-radius:5px; 
+         border:2px solid #337AB7;                 
+    }
+    
+
+    /*destacados*/
+    .headDestacados {
+        background-color: #337AB7;
+        color: black;
+        border:1px solid black;
+        border-radius:5px;
+        padding: 5px 10px;
+        font-weight: bold;
+        text-align:center;
+        font-family: sans-serif;
+        font-size: 17px;
+        height: 35px;
+    }
+.carousel {
+        border:1px solid black;
+        border-radius:5px;
+}
