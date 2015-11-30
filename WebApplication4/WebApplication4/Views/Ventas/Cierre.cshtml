@@ -4,8 +4,7 @@
 @{
     ViewBag.Title = "Cierre";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var db = new WebApplication4.Models.inf245netsoft();
-    int idPunto;
+    var db = new WebApplication4.Models.inf245netsoft();    
     double mS = 0, mD = 0;
     double mSC = 0, mDC = 0;
     Turno turno = (Turno)Session["TurnoHoy"];
@@ -63,7 +62,7 @@
 }
 
 <div class="container-fluid">
-    <div class="col-md-5">
+    <div class="col-md-3">
         <ol class="breadcrumb">
             <li class="active">Cerrar Caja</li>
         </ol>
@@ -71,7 +70,6 @@
 </div>
 <div class="container">
     <div class="row">
-
         <div class="form-group">
             <label for="categoria" class="control-label col-md-2 col-md-offset-2">Monto Inicial:</label>
             <div class="col-md-2">
@@ -88,7 +86,6 @@
             </div>
         </div>
         <br><br>
-
         <div class="form-group">
             <label for="categoria" class="control-label col-md-2 col-md-offset-2">Ventas al contado:</label>
             <div class="col-md-2">
@@ -103,10 +100,8 @@
                     <input type="text" value="@totalDE" class="form-control" aria-describedby="dolares" readonly="true">
                 </div>
             </div>
-        </div><br>
-
-        <br>
-
+        </div>
+        <br><br>
         <div class="form-group">
             <label for="categoria" class="control-label col-md-2 col-md-offset-2">Ventas con tarjeta:</label>
             <div class="col-md-2">
@@ -122,9 +117,7 @@
                 </div>
             </div>
         </div>
-
         <br><br>
-
         <div class="form-group">
             <label for="categoria" class="control-label col-md-2 col-md-offset-2">Monto en caja:</label>
             <div class="col-md-2">
@@ -139,214 +132,46 @@
                     <input id="idmcd" type="text" value="@totalD" class="form-control" aria-describedby="dolares" readonly="true">
                 </div>
             </div>
-
-
-
         </div>
         <br><br>
-
-        @if (turno != null && turno.estadoCaja == "Cerrado") { 
-        @*<div class="form-group">
-            <label for="categoria" class="control-label col-md-2 col-md-offset-2">Monto Inicial:</label>
-            <div class="col-md-2">
-                <div class="input-group">
-                    <span class="input-group-addon" id="soles">S/.</span>
-                    <input type="text" value="@mS" class="form-control" aria-describedby="soles" readonly="true">
+        @if (turno != null && turno.estadoCaja == "Cerrado")
+        {
+            <div class="form-group">
+                <label for="categoria" class="control-label col-md-2 col-md-offset-2">Monto real:</label>
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="input-group-addon">S/.</span>
+                        <input type="number" value="@mSC" class="form-control" aria-describedby="soles" readonly>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <span class="input-group-addon">$.</span>
+                        <input type="number" value="@mDC" class="form-control" aria-describedby="dolares" readonly>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-2">
-                <div class="input-group">
-                    <span class="input-group-addon" id="soles">$.</span>
-                    <input type="text" value="@mD" class="form-control" aria-describedby="soles" readonly="true">
-                </div>
-            </div>
-        </div>
-        <br><br>
-
-        <div class="form-group">
-            <label for="categoria" class="control-label col-md-2 col-md-offset-2">Ventas al contado:</label>
-            <div class="col-md-2">
-                <div class="input-group">
-                    <span class="input-group-addon" id="soles">S/.</span>
-                    <input type="text" value="@totalSE" class="form-control" aria-describedby="soles" readonly="true">
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="input-group">
-                    <span class="input-group-addon" id="dolares">$.</span>
-                    <input type="text" value="@totalDE" class="form-control" aria-describedby="dolares" readonly="true">
-                </div>
-            </div>
-        </div><br>
-
-        <br>
-
-        <div class="form-group">
-            <label for="categoria" class="control-label col-md-2 col-md-offset-2">Ventas con tarjeta:</label>
-            <div class="col-md-2">
-                <div class="input-group">
-                    <span class="input-group-addon" id="soles">S/.</span>
-                    <input type="text" value="@totalST" class="form-control" aria-describedby="soles" readonly="true">
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="input-group">
-                    <span class="input-group-addon" id="dolares">$.</span>
-                    <input type="text" value="@totalDT" class="form-control" aria-describedby="dolares" readonly="true">
-                </div>
-            </div>
-        </div>
-
-        <br><br>
-
-        <div class="form-group">
-            <label for="categoria" class="control-label col-md-2 col-md-offset-2">Monto en caja:</label>
-            <div class="col-md-2">
-                <div class="input-group">
-                    <span class="input-group-addon" id="soles">S/.</span>
-                    <input type="text" value="@totalS" class="form-control" aria-describedby="soles" readonly="true">
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="input-group">
-                    <span class="input-group-addon" id="dolares">$.</span>
-                    <input type="text" value="@totalD" class="form-control" aria-describedby="dolares" readonly="true">
-                </div>
-            </div>
-
-
-
-        </div>
-    <br><br>*@
-
-    <div class="form-group">
-        <label for="categoria" class="control-label col-md-2 col-md-offset-2">Monto real:</label>
-        <div class="col-md-2">
-            <div class="input-group">
-                <span class="input-group-addon">S/.</span>
-                <input type="number" value="@mSC" class="form-control" aria-describedby="soles" readonly="true">
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="input-group">
-                <span class="input-group-addon">$.</span>
-                <input type="number" value="@mDC" class="form-control" aria-describedby="dolares" readonly="true">
-            </div>
-        </div>
-    </div>
-    <br><br>
+            <br><br>
         }
         else
         {
-            @*<div class="form-group">
-                <label for="categoria" class="control-label col-md-2 col-md-offset-2">Monto Inicial:</label>
+            <div class="form-group">
+                <label for="categoria" class="control-label col-md-2 col-md-offset-2">Monto real:</label>
                 <div class="col-md-2">
                     <div class="input-group">
-                        <span class="input-group-addon" id="soles">S/.</span>
-                        <input type="text" class="form-control" aria-describedby="soles" readonly="true">
+                        <span class="input-group-addon">S/.</span>
+                        <input type="number" id="montoSolesR" class="form-control" aria-describedby="soles">
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="input-group">
-                        <span class="input-group-addon" id="soles">$.</span>
-                        <input type="text" class="form-control" aria-describedby="soles" readonly="true">
+                        <span class="input-group-addon">$.</span>
+                        <input type="number" id="dolaresR" class="form-control" aria-describedby="dolares">
                     </div>
                 </div>
             </div>
             <br><br>
-
-            <div class="form-group">
-                <label for="categoria" class="control-label col-md-2 col-md-offset-2">Ventas al contado:</label>
-                <div class="col-md-2">
-                    <div class="input-group">
-                        <span class="input-group-addon" id="soles">S/.</span>
-                        <input type="text" class="form-control" aria-describedby="soles" readonly="true">
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="input-group">
-                        <span class="input-group-addon" id="dolares">$.</span>
-                        <input type="text" class="form-control" aria-describedby="dolares" readonly="true">
-                    </div>
-                </div>
-            </div><br>
-
-            <br>
-
-            <div class="form-group">
-                <label for="categoria" class="control-label col-md-2 col-md-offset-2">Ventas con tarjeta:</label>
-                <div class="col-md-2">
-                    <div class="input-group">
-                        <span class="input-group-addon" id="soles">S/.</span>
-                        <input type="text" class="form-control" aria-describedby="soles" readonly="true">
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="input-group">
-                        <span class="input-group-addon" id="dolares">$.</span>
-                        <input type="text" class="form-control" aria-describedby="dolares" readonly="true">
-                    </div>
-                </div>
-            </div>
-
-            <br><br>
-
-            <div class="form-group">
-                <label for="categoria" class="control-label col-md-2 col-md-offset-2">Monto en caja:</label>
-                <div class="col-md-2">
-                    <div class="input-group">
-                        <span class="input-group-addon" id="soles">S/.</span>
-                        <input type="text" class="form-control" aria-describedby="soles" readonly="true">
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="input-group">
-                        <span class="input-group-addon" id="dolares">$.</span>
-                        <input type="text" class="form-control" aria-describedby="dolares" readonly="true">
-                    </div>
-                </div>
-
-
-
-            </div>
-    <br><br>*@
-
-    <div class="form-group">
-        <label for="categoria" class="control-label col-md-2 col-md-offset-2">Monto real:</label>
-        <div class="col-md-2">
-            <div class="input-group">
-                <span class="input-group-addon">S/.</span>
-                <input type="number" id="montoSolesR" class="form-control" aria-describedby="soles">
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="input-group">
-                <span class="input-group-addon">$.</span>
-                <input type="number" id="dolaresR" class="form-control" aria-describedby="dolares">
-            </div>
-        </div>
-    </div>
-    <br><br>
         }
-        @*<br><br>
-
-        <div class="form-group">
-            <label for="categoria" class="control-label col-md-2 col-md-offset-2">Monto real:</label>
-            <div class="col-md-2">
-                <div class="input-group">
-                    <span class="input-group-addon" >S/.</span>
-                    <input type="text" id="montoSolesR" class="form-control" aria-describedby="soles">
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="input-group">
-                    <span class="input-group-addon" >$.</span>
-                    <input type="text" id="dolaresR" class="form-control" aria-describedby="dolares">
-                </div>
-            </div>
-        </div>
-        <br><br>*@
-
         <center>
             @if (turno != null && turno.estadoCaja == "Abierto")
             {
@@ -354,48 +179,11 @@
             }
             else
             {
-                @*<button type="button" class="btn btn-primary" onclick="cerrar()">Cerrar caja <span class="glyphicon glyphicon-inbox"></span></button>*@
             }
-            @*<a href="@Url.Action("Index2", "Home")" class="btn btn-danger">Salir <span class="glyphicon glyphicon-log-out"></span></a>*@
         </center>
-
         <br><br><br>
-
     </div>
 </div>
-
-<script>
-    function cerrar() {
-        var montos = $('#montoSolesR').val();
-        var montocs = $('#idmcs').val();
-        var montocd = $('#idmcd').val();
-        //alert(montos);
-        var montod = $('#dolaresR').val();
-        //alert(montod);
-        if (montos != "" && montos != null && montod != "" && montod != null) {
-            //alert(monto);
-            if ((montocd == montod) && (montocs == montos)) {
-                $.ajax({
-                    url: "@Url.Action("CerrarCaja", "Ventas")",
-                    data: { montos: montos, montod: montod },
-                    success: function (data) {
-                        alert(data);
-                        window.location.href = '/Ventas/Cierre';
-                    },
-                    error: function (data) {
-                        alert(data);
-                        window.location.href = '/Ventas/Cierre';
-                    }
-                });
-            } else {
-                alert("Los montos ingresados deben coincidir con los montos en caja");
-            }
-        } else {
-            alert("Ingrese los monto solicitados");
-        }
-    }
-
-</script>
 
 <div class="modal fade" id="formNuevo">
     <!--esta div pondra la pantalla oscura al presionar el boton-->
@@ -448,12 +236,8 @@
                                 </table>
                             </div>
                         </div>
-
-
-
+                    </div>
                 </form>
-
-
             </div>
             <!--footer de la ventana-->
             <div class="modal-footer">
@@ -464,3 +248,37 @@
     </div>
 </div>
 
+@section scripts{
+    <script>
+    function cerrar() {
+        var montos = $('#montoSolesR').val();
+        var montocs = $('#idmcs').val();
+        var montocd = $('#idmcd').val();
+        //alert(montos);
+        var montod = $('#dolaresR').val();
+        //alert(montod);
+        if (montos != "" && montos != null && montod != "" && montod != null) {
+            //alert(monto);
+            if ((montocd == montod) && (montocs == montos)) {
+                $.ajax({
+                    url: "@Url.Action("CerrarCaja", "Ventas")",
+                    data: { montos: montos, montod: montod },
+                    success: function (data) {
+                        alert(data);
+                        window.location.href = '/Ventas/Cierre';
+                    },
+                    error: function (data) {
+                        alert(data);
+                        window.location.href = '/Ventas/Cierre';
+                    }
+                });
+            } else {
+                alert("Los montos ingresados deben coincidir con los montos en caja");
+            }
+        } else {
+            alert("Ingrese los monto solicitados");
+        }
+    }
+
+</script>
+    }
