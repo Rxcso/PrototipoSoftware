@@ -2065,7 +2065,6 @@ namespace WebApplication4.Controllers
         private bool generarBoleta(int codVenT)
         {
 
-
             Boleta boleta = new Boleta();
             List<DetalleVentaBoleta> detalles = new List<DetalleVentaBoleta>();
 
@@ -2084,9 +2083,9 @@ namespace WebApplication4.Controllers
                 {
                     var fu = db.Funcion.Find(detalle.codFuncion);
                     var evento = db.Eventos.Find(fu.codEvento);
-                    var local = db.Local.Find(evento.idLocal);
+
                     var pe = db.PrecioEvento.Find(detalle.codPrecE);
-                    var zona = db.ZonaEvento.Find(pe.codZonaEvento);
+
 
 
 
@@ -2096,6 +2095,18 @@ namespace WebApplication4.Controllers
                     de.Codigo = detalle.codDetalleVenta;
                     de.Total = detalle.total;
                     de.Precio = pe.precio;
+                    if (detalle.descTot.HasValue)
+                    {
+                        de.Descuento = detalle.descTot;
+
+
+                    }
+                    else
+                    {
+                        de.Descuento = 0;
+
+                    }
+
 
                     detalles.Add(de);
 
@@ -2113,6 +2124,28 @@ namespace WebApplication4.Controllers
 
 
             boleta.detalles = detalles;
+            try
+            {
+                var total = db.Ventas.Where(c => c.codVen == codVenT).First().MontoTotalSoles;
+
+                if (total.HasValue)
+                {
+                    boleta.Total = total;
+
+                }
+                else
+                {
+                    //Cuando no hay total??
+                    boleta.Total = 0;
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+
+            }
+
 
 
 
@@ -2135,14 +2168,23 @@ namespace WebApplication4.Controllers
             foreach (var detalle in boleta.detalles)
             {
                 cadena += "" + detalle.Codigo.ToString().PadRight(10, ' ') + " " + detalle.Descripcion.PadRight(30, ' ').Substring(0, 30) +
-                    " " + detalle.Cantidad.ToString().PadRight(10, ' ') + " " + detalle.Total.Value.ToString("0.##").PadRight(10, ' ') + "\n";
+                    " " + detalle.Cantidad.ToString().PadRight(10, ' ') + " " + detalle.Total.Value.ToString("0.##").PadRight(10, ' ') + "\r\n";
+                if (detalle.Descuento != 0)
+                {
+
+                    cadena += "                         Descuento: " + detalle.Descuento + "/r/n";
+
+                }
 
 
             }
 
-            cadena += String.Empty.PadRight(60, ' ') + "\r\n";
-            cadena += String.Concat("Total: ").PadLeft(40, ' ') + boleta.Total.ToString("0.##").PadRight(20, ' ');
-
+            cadena += String.Empty.PadRight(60, '-') + "\r\n";
+            cadena += String.Concat("Total: ").PadLeft(40, ' ') + boleta.Total.Value.ToString("0.##").PadRight(20, ' ');
+            cadena += "\r\n";
+            cadena += "\r\n";
+            cadena += "\r\n";
+            cadena += "                 GRACIAS POR SU COMPRA                    \r\n";
 
 
 

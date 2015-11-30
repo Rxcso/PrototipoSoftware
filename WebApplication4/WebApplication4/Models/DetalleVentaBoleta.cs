@@ -11,8 +11,11 @@ namespace WebApplication4.Models
         public string Descripcion { get; set; }
         public int? Cantidad { get; set; }
         public string Zona { get; set; }
-        public double? Total { get; set; }
+        public double? Subtotal { get; set; }
         public double? Precio { get; set; }
+        public double? Descuento { get; set; }
+
+        public double? Total { get; set; }
 
 
     }
