@@ -132,7 +132,7 @@ namespace WebApplication4.Controllers
                                 int fil = paquete.filas[i];
                                 List<Asientos> listasiento = context.Asientos.Where(x => x.codZona == paquete.idZona && x.fila == fil && x.columna == col).ToList();
                                 AsientosXFuncion actAsiento = context.AsientosXFuncion.Find(listasiento.First().codAsiento, paquete.idFuncion);
-                                if (actAsiento.estado == "libre")
+                                if (actAsiento.estado != "libre")
                                 {
                                     throw new OptimisticConcurrencyException();
                                 }
