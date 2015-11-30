@@ -2890,3 +2890,27 @@ System.Collections.ListDictionaryInternal
 2015-11-29 23:06:23,511 [10] ERROR Ticknet - Exception Message - 
 Es incorrecto utilizar una sección registrada como allowDefinition='MachineToApplication' mas allá del nivel de aplicación. Este error puede tener como origen un directorio virtual que no esté configurado como aplicación en IIS. (C:\Users\samoel\Desktop\Software\PrototipoSoftware\WebApplication4\WebApplication4\views\web.config line 37)
 2015-11-29 23:06:23,511 [10] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-30 01:51:08,144 [44] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-30 01:51:08,151 [44] ERROR Ticknet - Exception Data - 
+HttpException
+2015-11-30 01:51:08,151 [44] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-30 01:51:08,152 [44] ERROR Ticknet - Exception Message - 
+A public action method 'Asignacion' was not found on controller 'WebApplication4.Controllers.VentasController'.
+2015-11-30 01:51:08,152 [44] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-30 01:51:58,919 [92] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-30 01:51:58,919 [92] ERROR Ticknet - Exception Type - 
+InvalidOperationException
+2015-11-30 01:51:58,919 [92] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-30 01:51:58,919 [92] ERROR Ticknet - Exception Message - 
+Attaching an entity of type 'WebApplication4.Models.Turno' failed because another entity of the same type already has the same primary key value. This can happen when using the 'Attach' method or setting the state of an entity to 'Unchanged' or 'Modified' if any entities in the graph have conflicting key values. This may be because some entities are new and have not yet received database-generated key values. In this case use the 'Add' method or the 'Added' entity state to track the graph and then set the state of non-new entities to 'Unchanged' or 'Modified' as appropriate.
+2015-11-30 01:51:58,919 [92] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-30 01:55:13,268 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++
+2015-11-30 01:55:13,274 [6] ERROR Ticknet - Exception Type - 
+InvalidOperationException
+2015-11-30 01:55:13,274 [6] ERROR Ticknet - Exception Data - 
+System.Collections.ListDictionaryInternal
+2015-11-30 01:55:13,274 [6] ERROR Ticknet - Exception Message - 
+Attaching an entity of type 'WebApplication4.Models.Turno' failed because another entity of the same type already has the same primary key value. This can happen when using the 'Attach' method or setting the state of an entity to 'Unchanged' or 'Modified' if any entities in the graph have conflicting key values. This may be because some entities are new and have not yet received database-generated key values. In this case use the 'Add' method or the 'Added' entity state to track the graph and then set the state of non-new entities to 'Unchanged' or 'Modified' as appropriate.
+2015-11-30 01:55:13,274 [6] DEBUG Ticknet - ++++++++++++++++++++++++++++

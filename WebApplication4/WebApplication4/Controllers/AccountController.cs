@@ -23,7 +23,7 @@ namespace WebApplication4.Controllers
         private ApplicationUserManager _userManager;
         private inf245netsoft db = new inf245netsoft();
 
-         
+
         public AccountController()
         {
         }
@@ -89,15 +89,31 @@ namespace WebApplication4.Controllers
                 if (cuentausuario.codPerfil == 2)
                 {
                     string macAddresses = "";
+                    DateTime hora = DateTime.Now;
+                    List<Turno> turnos = db.Turno.Where(c => c.usuario == cuentausuario.correo).ToList();
+                    turnos = turnos.Where(c => c.fecha.Date == DateTime.Today.Date).ToList();
+                    foreach (Turno turno in turnos)
+                    {
+                        TurnoSistema tS = turno.TurnoSistema;
+                        string horaInicio = tS.horIni;
+                        string horaFin = tS.horFin;
+                        DateTime horaInicioDate = DateTime.ParseExact(horaInicio, "H:m:s", null);
+                        DateTime horaFinDate = DateTime.ParseExact(horaFin, "H:m:s", null);
+                        if (horaInicioDate <= hora && hora <= horaFinDate)
+                        {
+                            macAddresses = turno.PuntoVenta.dirMAC;
+                            break;
+                        }
+                    }
 
-                    foreach (NetworkInterface nic in NetworkInterface.GetAllNetworkInterfaces())
+                    /*foreach (NetworkInterface nic in NetworkInterface.GetAllNetworkInterfaces())
                     {
                         if (nic.OperationalStatus == OperationalStatus.Up)
                         {
                             macAddresses += nic.GetPhysicalAddress().ToString();
                             break;
                         }
-                    }
+                    }*/
                     if (macAddresses != "")
                     {
                         List<PuntoVenta> lpu = db.PuntoVenta.Where(c => c.dirMAC == macAddresses).ToList();
@@ -195,7 +211,7 @@ namespace WebApplication4.Controllers
                                 TimeSpan time1 = TimeSpan.FromMinutes(limite);
                                 TimeSpan horalimite = TimeSpan.Parse(ts.horIni);
                                 TimeSpan hora1 = horalimite.Add(time1);
-                                db.Entry(tu).State = EntityState.Modified;
+                                //db.Entry(tu).State = EntityState.Modified;
                                 if (hora1 > da)
                                 {
                                     tu.estado = "Asistio";
@@ -207,7 +223,7 @@ namespace WebApplication4.Controllers
                                 tu.horaRegistro = da.ToString(@"hh\:mm\:ss");
                                 Session["MensajeIngresoTurno"] = "Hora de ingreso registrada a las: " + da.ToString(@"hh\:mm\:ss") + " hs";
                                 db.SaveChanges();
-                                db.Entry(tu).State = EntityState.Detached;
+                                //db.Entry(tu).State = EntityState.Detached;
                             }
                         }
                         Session["UsuarioLogueado"] = cuentausuario;
@@ -354,7 +370,7 @@ namespace WebApplication4.Controllers
                         cuentausuario.sexo = model.sexo;
                         cuentausuario.telefono = model.telefono;
                         cuentausuario.telMovil = model.telMovil;
-                        cuentausuario.tipoDoc = model.tipoDoc;                        
+                        cuentausuario.tipoDoc = model.tipoDoc;
                         cuentausuario.usuario = model.Email;
 
                         db.CuentaUsuario.Add(cuentausuario);
@@ -430,7 +446,7 @@ namespace WebApplication4.Controllers
                     cuentausuario.sexo = model.sexo;
                     cuentausuario.telefono = model.telefono;
                     cuentausuario.telMovil = model.telMovil;
-                    cuentausuario.tipoDoc = model.tipoDoc;                    
+                    cuentausuario.tipoDoc = model.tipoDoc;
                     cuentausuario.usuario = model.Email;
                     db.CuentaUsuario.Add(cuentausuario);
                     db.SaveChanges();
@@ -492,7 +508,7 @@ namespace WebApplication4.Controllers
                     cuentausuario.sexo = model.sexo;
                     cuentausuario.telefono = model.telefono;
                     cuentausuario.telMovil = model.telMovil;
-                    cuentausuario.tipoDoc = model.tipoDoc;                    
+                    cuentausuario.tipoDoc = model.tipoDoc;
                     cuentausuario.usuario = model.Email;
                     db.CuentaUsuario.Add(cuentausuario);
                     db.SaveChanges();
@@ -557,7 +573,7 @@ namespace WebApplication4.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-        
+
         // GET: /Account/ForgotPasswordConfirmation
         [AllowAnonymous]
         public ActionResult ForgotPasswordConfirmation()
