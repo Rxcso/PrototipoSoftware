@@ -26,8 +26,12 @@
 <style>
     .blanco {
         background-color: white;
-        border: 2px solid black;
+        border: 1px solid gray;
         border-radius: 10px;
+        padding: 5px;
+    }
+    h3 {
+        border-bottom: 1px solid gray;
     }
 
     #formPost {
@@ -41,6 +45,7 @@
             <li><a href="@Url.Action("Busqueda", "Evento")">Buscar eventos</a></li>
             <li class="active">Pagar Entrada</li>
         </ol>
+        @Html.HiddenFor(c => c.modalidad)
     </div>
 </div>
 
@@ -100,11 +105,11 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h3><span class="fa fa-user"></span> Datos del comprador</h3><hr /><br />
+            <h3><span class="fa fa-user"></span> Datos del comprador</h3><br />
             <div class="form-horizontal">
                 <div class="col-md-3">
-                    @Html.CheckBox("registrado", new { @onchange = "cambio()" })
-                    @Html.Label("lblReg", "¿Es usuario registrado?")
+                    @Html.CheckBox("registrado", new { @onchange = "cambio()" })                    
+                    @Html.Label("lblReg", "¿Es usuario registrado?")                    
                 </div>
                 <label for="dni" class="control-label col-md-2">Tipo Doc:</label>
                 <div class="form-group col-md-3">
@@ -119,14 +124,14 @@
                     <input id="idBusq" type="text" class="form-control" readonly="readonly">
                     <span class="input-group-btn"><button id="btnBusqueda" onclick="busca()" class="btn btn-primary" type="button" disabled><span class="glyphicon glyphicon-search"></span></button></span>
                 </div>
-            </div> <br />
+             </div> <br />           
         </div>
         @using (Html.BeginForm("VenderEntrada", "Ventas", FormMethod.Post, new { @id = "formPost" }))
         {
             @Html.HiddenFor(c => c.modalidad)
             <div class="cold-md-12">
                 <div class="row form-horizontal">
-                    <div class="col-md-3">
+                    <div class="col-md-3">                        
                     </div>
                     @Html.LabelFor(c => c.Nombre, new { @class = "control-label col-md-2" })
                     <div class="col-md-3">
@@ -138,9 +143,8 @@
                         @Html.TextBoxFor(c => c.Dni, new { @class = "form-control" })
                         @Html.ValidationMessageFor(c => c.Dni)
                     </div>
-                </div><br />
-
-                <h3><span class="fa fa-credit-card "></span> Información de la tarjeta</h3><hr /><br />
+                </div><br />                
+                <h3><span class="fa fa-credit-card "></span> Información de la tarjeta</h3><br />
                 <div class="row form-horizontal">
                     @Html.LabelFor(c => c.idBanco, new { @class = "control-label col-md-6" })
                     <div class="col-md-6">
@@ -191,8 +195,8 @@
                         @Html.ValidationMessageFor(c => c.AnioVen)
                     </div>
                 </div><br />
-
-                <h3><span class="fa fa-money"></span> Montos y dsctos.</h3><hr /><br>
+                
+                <h3><span class="fa fa-credit-card"></span> Métodos de pago, montos y descuentos</h3><br>
                 <div class="row form-horizontal">
                     <div class="col-md-6">
                     </div>
@@ -204,12 +208,11 @@
                     <div class="col-md-2">
                         @Html.TextBoxFor(c => c.Importe, new { @class = "form-control", @Value = importe, @readonly = "readonly", @type = "number" })
                     </div>
-                </div> <br />
-
-                <h3><span class="fa fa-credit-card"></span> Métodos de Pago</h3><hr /><hr /><br>
+                </div><br />
+                
                 <div class="row">
-                    <div id="efectivo" class="col-md-4">
-                        <center class="row">
+                    <div id="efectivo" class="blanco col-md-4">
+                        <center class="row">                            
                             @if (Model.modalidad == 1)
                             {
                                 <input type="radio" name="TipoPago" value="1" onclick="cambioPago()" checked="checked">
@@ -218,7 +221,7 @@
                             {
                                 <input type="radio" name="TipoPago" value="1" onclick="cambioPago()">
                             }
-                            <label>Efectivo</label>
+                            <label>Efectivo:</label>
                         </center><br />
                         <div class="row form-group">
                             @Html.LabelFor(c => c.Descuento, new { @class = "control-label col-md-3" })
@@ -257,7 +260,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="tarjeta" class="col-md-4">
+                    <div id="tarjeta" class="blanco col-md-4">
                         <center class="row">
                             @if (Model.modalidad == 2)
                             {
@@ -267,7 +270,7 @@
                             {
                                 <input type="radio" name="TipoPago" value="2" onclick="cambioPago()">
                             }
-                            <label>Tarjeta</label>
+                            <label>Tarjeta:</label>
                         </center><br />
                         <div class="row form-group">
                             @Html.LabelFor(c => c.Descuento, new { @class = "control-label col-md-3" })
@@ -306,7 +309,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="mixto" class="col-md-4">
+                    <div id="mixto" class="blanco col-md-4">
                         <center class="row">
                             @if (Model.modalidad == 3)
                             {
@@ -316,7 +319,7 @@
                             {
                                 <input type="radio" name="TipoPago" value="3" onclick="cambioPago()">
                             }
-                            <label>Mixto</label>
+                            <label>Mixto:</label>
                         </center><br />
                         <div class="row form-group">
                             @Html.LabelFor(c => c.Descuento, new { @class = "control-label col-md-3" })
@@ -358,12 +361,12 @@
                 </div><br />
 
                 <div class="row">
-                    <center>
+                    <center >
                         <button type="submit" onclick="return llenaArreglo()" class="btn btn-default btn-primary"><span class="fa fa-usd fa-lg"></span> Finalizar venta</button>
                     </center>
                 </div><br />
             </div>
         }
-    </div>
+    </div>    
 </div>
 <script type="text/javascript" src="@Url.Content("/Scripts/Ventas/VenderEntradaHelper.js")"></script>

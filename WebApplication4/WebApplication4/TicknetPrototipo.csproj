@@ -482,6 +482,7 @@
     <Content Include="Scripts\CategoriaEvento\BorrarCategoriaEvento.js" />
     <Content Include="Scripts\ComprarEntrada\ComprarEntradaHelper.js" />
     <Content Include="Scripts\datepicker-es.js" />
+    <Content Include="Scripts\busqueda.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Content\bootstrap-theme.css.map" />
@@ -668,6 +669,11 @@
     <Content Include="Views\Ventas\GeneraTicket.cshtml" />
     <Content Include="Views\Ventas\PrintTicket.cshtml" />
     <Content Include="Views\Organizador\Historial.cshtml" />
+    <Content Include="Views\Ventas\Destacados.cshtml" />
+    <Content Include="Views\Home\Destacados.cshtml" />
+    <Content Include="Views\Manage\Destacados.cshtml" />
+    <Content Include="Views\CuentaUsuario\Destacados.cshtml" />
+    <Content Include="Views\Account\Destacados.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

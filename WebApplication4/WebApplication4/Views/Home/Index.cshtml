@@ -10,16 +10,15 @@
     List<Eventos> listaDestacados = ViewBag.ListaDestacados as List<Eventos>;
 }
 
-@*<style>
-        .thumbnail > .event {
-            height: 50px;
-        }
-
-        .bloque-imagen {
-            width: 250px;
-            height: 150px;
-        }
-    </style>*@
+<style>
+    .panel-body {
+        background-color: rgba(229,245,255,0.8);
+    }
+    .caption{
+        background-color: black;        
+    }
+    a:hover{color:white}
+</style>
 
 
 
@@ -72,7 +71,7 @@
                             <div class="thumbnail">
                                 <a href=@Url.Action("VerEvento", "Evento", new { id = evento.codigo })>
                                     <img class="event" src="@evento.ImagenEvento" alt="">
-                                    <div class="caption" style="text-align:center">
+                                    <div class="caption" style="text-align:center;color:white">
                                         @{
                         var func = from obj in db.Funcion
                                    where (obj.codEvento == evento.codigo && obj.estado.Contains("ACTIVO"))
@@ -157,134 +156,7 @@
 
 <!--librerias-->
 @section scripts{
-    <script>
-        $(document).ready(function () {
-
-
-
-            if (!isNaN(@ViewBag.idCategoria)) {
-
-                $("#idCategoria > option[value='" + @ViewBag.idCategoria + "'").attr('selected', 'selected');
-
-
-                if (!isNaN(@ViewBag.idSubCat)) {
-
-
-                    $("#idSubCat > option[value='" + @ViewBag.idSubCat + "'").attr('selected', 'selected');
-
-
-
-                }
-
-
-            }
-
-            if (!isNaN(@ViewBag.idRegion)) {
-
-                $("#idRegion > option[value='" + @ViewBag.idRegion + "'").attr('selected', 'selected');
-
-
-
-
-            }
-
-            $("#adv-search").on('submit', function (e) {
-
-                e.preventDefault();
-
-                var fechI = this['altfech_ini'].value;
-                var fechF = this['altfech_fin'].value;
-
-
-                /*Regla 1 para la validadcion de al menos un campo*/
-                if (fechI == '' && fechF == '' && $("#idCategoria").val() == '' &&
-                    $("#idSubCat").val() == '' && $("#idRegion").val() == '') {
-                    $("#alerta").empty();
-                    $("#alerta").append('<strong>Ingrese al menos un campo!</strong>').show();
-                    return;
-                } else {
-
-                    var valor = $("#alerta").children('strong');
-                    if (valor.length > 0) {
-
-                        valor.remove();
-
-                    }
-
-                    $("#alerta").hide();
-
-                }
-                /*Regla 2 : Validacion para las fechas*/
-                if (fechF != '' && fechI != '') {
-
-
-                    if (new Date(fechF.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1")) < new Date(fechI.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1"))) {
-                        $("#alerta").empty();
-                        $("#alerta").append('<strong>"Fecha desde" no puede ser posterior a "Fecha hasta"</strong>').show();
-                        return;
-                    } else {
-                        var valor = $("#alerta").children('strong');
-                        if (valor.length > 0) {
-
-                            valor.remove();
-
-                        }
-
-                        $("#alerta").hide();
-
-                    }
-
-                }
-
-                this.submit();
-
-
-            });
-
-        });
-
-
-        function cambioCat() {
-
-            fillCombo("idSubCat", $("#idCategoria").val(), "/Home/Subcategorias", "Subcategorias");
-
-        }
-
-        function fillCombo(idCombo, value, linkUrl, optlabel) {
-
-            $("#" + idCombo).empty();
-            $("#" + idCombo).append("<option value=''>" + optlabel + "</option>")
-
-
-            var depId = parseInt(value);
-            if (isNaN(depId)) return;
-            $.ajax({
-                url: linkUrl,
-                type: 'POST',
-                data: { idCategoria: depId },
-                dataType: 'json',
-                success: function (data) {
-                    if (isNaN(data.length)) return;
-
-                    $.each(data, function (k, v) {
-                        $("#" + idCombo).append("<option value='" + v.id + "'>" + v.nombre + "</option>");
-                    });
-                },
-                error: function () {
-                    alert("Error :(");
-                }
-            });
-        }
-
-
-
-        function busqueda() {
-            $('#search').submit();
-        }
-
-        function busquedaAdv() {
-            $('#adv-search').submit();
-        }
+    <script>       
 
         function verEvento() {
             window.open("ver_evento.html", "_self");

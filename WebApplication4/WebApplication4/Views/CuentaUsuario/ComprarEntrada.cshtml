@@ -29,16 +29,19 @@
 }
 <style>
     #listaEventoPromocion {
-        background-color:white;
-        border:2px solid black;
-        border-radius:10px;
-        
+        background-color: white;
+        border: 2px solid black;
+        border-radius: 10px;
+        padding: 5px;
     }
     #tarjeta {
         background-color: white;
         border: 2px solid black;
         border-radius: 10px;
         
+    }
+    h3 {
+        border-bottom: 1px solid gray;
     }
 </style>
 <div class="container-fluid">
@@ -200,5 +203,21 @@
     </div><br />
 </div>
 
-
 <script type="text/javascript" src="@Url.Content("/Scripts/ComprarEntrada/ComprarEntradaHelper.js")"></script>
+@section scripts{    
+    <script>
+    if (!isNaN(@ViewBag.idCategoria)) {
+        $("#idCategoria > option[value='" + @ViewBag.idCategoria + "'").attr('selected', 'selected');
+        if (!isNaN(@ViewBag.idSubCat)) {
+            $("#idSubCat > option[value='" + @ViewBag.idSubCat + "'").attr('selected', 'selected');
+        }
+    }
+    if (!isNaN(@ViewBag.idRegion)) {
+        $("#idRegion > option[value='" + @ViewBag.idRegion + "'").attr('selected', 'selected');
+        if (!isNaN(@ViewBag.idProv)) {
+            $("#idProv > option[value='" + @ViewBag.idProv + "'").attr('selected', 'selected');
+        }
+    }
+</script>
+}
+

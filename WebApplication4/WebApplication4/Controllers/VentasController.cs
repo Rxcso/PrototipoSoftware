@@ -135,8 +135,18 @@ namespace WebApplication4.Controllers
                 venta.Estado = MagicHelpers.Compra;
                 venta.fecha = hoy;
                 //monto usados al pagar
-                venta.montoEfectivoSoles = model.MontoDolares * db.TipoDeCambio.Where(c => c.estado == "Activo").ToList().Last().valor.Value / MagicHelpers.ConstanteTipoCambio + model.MontoEfe - model.Vuelto;
+                //venta.montoEfectivoSoles = model.MontoDolares * db.TipoDeCambio.Where(c => c.estado == "Activo").ToList().Last().valor.Value / MagicHelpers.ConstanteTipoCambio + model.MontoEfe - model.Vuelto;
                 venta.montoEfectivoDolares = model.MontoDolares;
+                double dolarsoles = (double)model.MontoDolares * db.TipoDeCambio.Where(c => c.estado == "Activo").ToList().Last().valor.Value / MagicHelpers.ConstanteTipoCambio;
+                if (model.MontoEfe > dolarsoles)
+                {
+                    venta.montoEfectivoSoles = model.MontoEfe - model.Vuelto;
+                }
+                else
+                {
+                    venta.montoEfectivoSoles = model.MontoEfe;
+                    venta.montoEfectivoDolares = (dolarsoles - model.Vuelto) / (db.TipoDeCambio.Where(c => c.estado == "Activo").ToList().Last().valor.Value / MagicHelpers.ConstanteTipoCambio);
+                }
                 venta.montoCreditoSoles = model.MontoTar;
                 venta.MontoTotalSoles = model.MontoPagar;
                 //modalidad de pago
@@ -168,7 +178,7 @@ namespace WebApplication4.Controllers
                 Eventos evento = db.Eventos.Find(vxf.Funcion.codEvento);
                 DetalleVenta detalle = db.DetalleVenta.Where(c => c.codVen == venta.codVen && c.codFuncion == vxf.Funcion.codFuncion).First();
                 //aumantemos el monto adeduado del organizador
-                evento.monto_adeudado += evento.montoFijoVentaEntrada.Value + evento.porccomision.Value * detalle.cantEntradas.Value / 100;
+                evento.monto_adeudado += evento.montoFijoVentaEntrada.Value + evento.porccomision.Value * detalle.total.Value / 100;
                 //si es que tiene asientos, debo cambiar el estado de todos los asientos que ha comprado
                 if (db.AsientosXFuncion.Any(c => c.codFuncion == vxf.Funcion.codFuncion && c.codDetalleVenta == detalle.codDetalleVenta))
                 {
@@ -586,7 +596,16 @@ namespace WebApplication4.Controllers
                                 ve.montoEfectivoDolares = model.MontoDolares;
                                 ve.MontoTotalSoles = model.MontoPagar;
                                 ve.montoCreditoSoles = model.MontoTar;
-                                ve.montoEfectivoSoles = model.MontoDolares * db.TipoDeCambio.Where(c => c.estado == "Activo").ToList().Last().valor.Value / MagicHelpers.ConstanteTipoCambio + model.MontoEfe - model.Vuelto;
+                                double dolarsoles = (double)model.MontoDolares * db.TipoDeCambio.Where(c => c.estado == "Activo").ToList().Last().valor.Value / MagicHelpers.ConstanteTipoCambio;
+                                if (model.MontoEfe > dolarsoles)
+                                {
+                                    ve.montoEfectivoSoles = model.MontoEfe - model.Vuelto;
+                                }
+                                else
+                                {
+                                    ve.montoEfectivoSoles = model.MontoEfe;
+                                    ve.montoEfectivoDolares = (dolarsoles - model.Vuelto) / (db.TipoDeCambio.Where(c => c.estado == "Activo").ToList().Last().valor.Value / MagicHelpers.ConstanteTipoCambio);
+                                }
                                 //--vendedor, guardo el correo del vendedor en la venta
                                 ve.vendedor = User.Identity.Name;
                                 //
@@ -1866,6 +1885,7 @@ namespace WebApplication4.Controllers
         public ActionResult PrintTicket(int codVenT)
         {
             Session["EntregaBusca"] = null;
+            Session["imagen"] = null; 
             /*
                     if (generarBoleta(codVenT))
                     {
@@ -2070,7 +2090,7 @@ namespace WebApplication4.Controllers
 
 
 
-                    de.Descripcion = evento.nombre + "funcion: " + fu.horaIni;
+                    de.Descripcion = evento.nombre + " " + fu.horaIni;
 
                     de.Cantidad = detalle.cantEntradas;
                     de.Codigo = detalle.codDetalleVenta;
@@ -2097,13 +2117,13 @@ namespace WebApplication4.Controllers
 
 
             string cadena = "";
-            cadena = "                          TickNet                           \r\n";
-            cadena += "                 Av.Universitaria No 1400                  \r\n";
-            cadena += "                        Lima-Peru                          \r\n";
-            cadena += "               Telefono: 620 0000 Anx 3090                 \r\n";
-            cadena += "                   RUC 20009080255                         \r\n";
+            cadena += "                            TickNet                        \r\n";
+            cadena += "                    Av.Universitaria No 1400               \r\n";
+            cadena += "                           Lima-Peru                       \r\n";
+            cadena += "                 Telefono: 620 0000 Anx 3090               \r\n";
+            cadena += "                       RUC 20009080255                     \r\n";
             cadena += "             BOLETA DE VENTA ELECTRONICA                   \r\n";
-            cadena += "Codigo   |Descripcion                   |Cantidad|  Total  \r\n";
+            cadena += "Codigo  |Descripcion                      | Cant |  Total  \r\n";
 
 
 

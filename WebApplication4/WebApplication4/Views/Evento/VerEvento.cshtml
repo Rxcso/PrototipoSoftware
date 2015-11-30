@@ -292,24 +292,24 @@
                                                             <button type="submit" name="boton" value="carritoVendedor" class="btn btn-success">Agregar al carrito <span class="fa fa-shopping-cart"></span></button>
                                                         </div>
                                                     //}
-                             //                       else
-                               //                     {
-                                                      //  if (tu == null)
-//                                                        {
-  //                                                          <center>
-    //                                                            <h5>Debe tener un turno para poder vender</h5>
-      //                                                      </center> 
-        //                                                }
-          //                                              else
-            //                                            {
-              ///                                              if (tu.estadoCaja != "Abierto")
-                 //                                           {
-                   //                                             <center>
-                     //                                               <h5>La caja no ha sido abierta aún</h5>
-                       //                                         </center>
-                         //                                   }
-                           //                             }
-                                 //                   }
+                                                    //else
+                                                    //{
+                                                        //if (tu == null)
+                                                        //{
+                                                         /*   <center>
+                                                                <h5>Debe tener un turno para poder vender</h5>
+                                                            </center> 
+                                                        }
+                                                        else
+                                                        {
+                                                            if (tu.estadoCaja != "Abierto")
+                                                            {
+                                                                <center>
+                                                                    <h5>La caja no ha sido abierta aún</h5>
+                                                                </center>
+                                                            }
+                                                        }
+                                                    }*/
                                                 }
                                             }
 
@@ -532,7 +532,7 @@
                     $("#formTieneEntradas").val("" + listaAsientos[index].tieneAsientos);
                     $("#formTieneEntradas").attr("value", listaAsientos[index].tieneAsientos);
 
-                    $('<div><h3>Quedan ' + listaAsientos[index].totalLibres + ' asientos</h3> </div>').appendTo('#canvas');
+                    $('<div style="text-align:center;margin-top:95px"><h3>Quedan</h3><h2> ' + listaAsientos[index].totalLibres + '</h2><h3>asientos</h3> </div>').appendTo('#canvas');
 
 
                 }
@@ -638,7 +638,7 @@
 
                     if (new Date(fechF.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1")) < new Date(fechI.replace(/(\d{4})-(\d{2})-(\d{2})/, "$2/$3/$1"))) {
 
-                        $("#alerta").append('<strong>Fecha hasta no puede ser menor que fecha desde</strong>').show();
+                        $("#alerta").append('<strong>"Fecha hasta" no puede ser menor que "Fecha desde"</strong>').show();
                         return;
                     } else {
                         var valor = $("#alerta").children('strong');
