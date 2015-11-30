@@ -1853,6 +1853,7 @@ namespace WebApplication4.Controllers
         public ActionResult PrintTicket(int codVenT)
         {
             Session["EntregaBusca"] = null;
+            Session["imagen"] = null; 
             /*
                     if (generarBoleta(codVenT))
                     {
@@ -2057,7 +2058,7 @@ namespace WebApplication4.Controllers
 
 
 
-                    de.Descripcion = evento.nombre + "funcion: " + fu.horaIni;
+                    de.Descripcion = evento.nombre + " " + fu.horaIni;
 
                     de.Cantidad = detalle.cantEntradas;
                     de.Codigo = detalle.codDetalleVenta;
@@ -2084,13 +2085,13 @@ namespace WebApplication4.Controllers
 
 
             string cadena = "";
-            cadena = "                          TickNet                           \r\n";
-            cadena += "                 Av.Universitaria No 1400                  \r\n";
-            cadena += "                        Lima-Peru                          \r\n";
-            cadena += "               Telefono: 620 0000 Anx 3090                 \r\n";
-            cadena += "                   RUC 20009080255                         \r\n";
+            cadena += "                            TickNet                        \r\n";
+            cadena += "                    Av.Universitaria No 1400               \r\n";
+            cadena += "                           Lima-Peru                       \r\n";
+            cadena += "                 Telefono: 620 0000 Anx 3090               \r\n";
+            cadena += "                       RUC 20009080255                     \r\n";
             cadena += "             BOLETA DE VENTA ELECTRONICA                   \r\n";
-            cadena += "Codigo   |Descripcion                   |Cantidad|  Total  \r\n";
+            cadena += "Codigo  |Descripcion                      | Cant |  Total  \r\n";
 
 
 
