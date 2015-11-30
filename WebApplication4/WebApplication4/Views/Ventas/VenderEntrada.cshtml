@@ -23,14 +23,23 @@
     //funciones
     List<int> idFunciones = ViewBag.Funciones as List<int>;
 }
+<style>
+    .blanco {
+        background-color: white;
+        border: 2px solid black;
+        border-radius: 10px;
+    }
+    #formPost{padding:15px}
+</style>
 
 <div class="container-fluid">
     <div class="col-md-5">
         <ol class="breadcrumb">
-            <li><a href="@Url.Action("Index2", "Home")">Inicio</a></li>
+            <li><a href="@Url.Action("Busqueda", "Evento")">Buscar eventos</a></li>
             <li class="active">Pagar Entrada</li>
         </ol>
-    @Html.HiddenFor(c => c.modalidad)
+        @Html.HiddenFor(c => c.modalidad)
+    </div>
 </div>
 
 @{
@@ -40,15 +49,15 @@
     }
 }
 <div class="container " id="promocionesLista">
-    <div id="listaEventoPromocionEfectivo" class="col-md-4">
-        <p>Descuentos disponibles para pago solo en efectivo, no aplicable para pago mixto:</p>
+    <div id="listaEventoPromocionEfectivo" class="col-md-6 blanco">
+        <p>Descuentos disponibles para pago solo en efectivo. No aplicable para pago mixto:</p>
         @{
             for (int i = 0; i < promocionesListaEf.Count; i++)
             {
                 string razon = "";
                 if (promocionesListaEf[i].codPromo == -1)
                 {
-                    razon = "- No cuenta con promocion";
+                    razon = "- No cuenta con promoción";
                 }
                 else
                 {
@@ -62,7 +71,7 @@
         }
     </div>
     @Html.Hidden("dsctInicial", "" + @descuento)
-    <div class="col-md-4">
+    <div class="col-md-6 blanco">
         <p>Descuentos disponibles en pago por tarjeta, no aplicable para pago mixto:</p>
         <div id="listaEventoPromocion">
             @{
@@ -71,7 +80,7 @@
                     string razon = "";
                     if (promocionesLista[i].codPromo == -1)
                     {
-                        razon = "- No cuenta con promocion";
+                        razon = "- No cuenta con promoción";
                     }
                     else
                     {
@@ -89,123 +98,116 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h3>Información de la tarjeta</h3><br />
-            <div class="container row form-group">
-                <div>
-                    @Html.Label("lblReg", "¿Es usuario registrado?")
-                    @Html.CheckBox("registrado", new { @onchange = "cambio()" })
+            <h3><span class="fa fa-user"></span> Datos del comprador</h3><hr /><br />
+            <div class="form-horizontal">
+                <div class="col-md-3">
+                    @Html.CheckBox("registrado", new { @onchange = "cambio()" })                    
+                    @Html.Label("lblReg", "¿Es usuario registrado?")                    
                 </div>
-                <div class="col-md-12 form-inline">
-                    <div class="col-md-4">
-                        <div class="col-md-3">
-                            <label for="dni" class="control-label">Tipo Doc:</label>
-                        </div>
-                        <div class="form-group col-md-1">
-                            <select class="form-control" id="comboBusq" disabled>
-                                <option value="0">Ambos</option>
-                                <option value="1">DNI</option>
-                                <option value="2">Pasaporte</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-7">
-                        <div class="col-md-3">
-                            <label for="dni" class="control-label">N° Documento:</label>
-                        </div>
-                        <div class="input-group col-md-3">
-                            <input id="idBusq" type="text" class="form-control" readonly="readonly">
-                            <span class="input-group-btn"><button id="btnBusqueda" onclick="busca()" class="btn btn-primary" type="button" disabled><span class="glyphicon glyphicon-search"></span></button></span>
-                        </div>
-                    </div>
+                <label for="dni" class="control-label col-md-2">Tipo Doc:</label>
+                <div class="form-group col-md-3">
+                    <select class="form-control" id="comboBusq" disabled>
+                        <option value="0">Ambos</option>
+                        <option value="1">DNI</option>
+                        <option value="2">Pasaporte</option>
+                    </select>
                 </div>
-            </div>
+                <label for="dni" class="control-label col-md-2">N° Documento:</label>
+                <div class="input-group col-md-2">
+                    <input id="idBusq" type="text" class="form-control" readonly="readonly">
+                    <span class="input-group-btn"><button id="btnBusqueda" onclick="busca()" class="btn btn-primary" type="button" disabled><span class="glyphicon glyphicon-search"></span></button></span>
+                </div>
+             </div> <br />           
         </div>
         @using (Html.BeginForm("VenderEntrada", "Ventas", FormMethod.Post, new { @id = "formPost" }))
         {
             @Html.HiddenFor(c => c.modalidad)
             <div class="cold-md-12">
-                <div class="row form-group">
+                <div class="row form-horizontal">
+                    <div class="col-md-3">                        
+                    </div>
                     @Html.LabelFor(c => c.Nombre, new { @class = "control-label col-md-2" })
                     <div class="col-md-3">
                         @Html.TextBoxFor(c => c.Nombre, new { @class = "form-control" })
                         @Html.ValidationMessageFor(c => c.Nombre)
                     </div>
-                </div>
-                <div class="row form-group">
                     @Html.LabelFor(c => c.Dni, new { @class = "control-label col-md-2" })
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         @Html.TextBoxFor(c => c.Dni, new { @class = "form-control" })
                         @Html.ValidationMessageFor(c => c.Dni)
                     </div>
-                </div>
-                <div class="row form-group">
-                    @Html.LabelFor(c => c.idBanco, new { @class = "control-label col-md-2" })
-                    <div class="col-md-2">
+                </div><br />
+                
+                <h3><span class="fa fa-credit-card "></span> Información de la tarjeta</h3><hr /><br />
+                <div class="row form-horizontal">
+                    @Html.LabelFor(c => c.idBanco, new { @class = "control-label col-md-6" })
+                    <div class="col-md-6">
                         @Html.DropDownListFor(c => c.idBanco, ViewBag.Bancos as SelectList, new { @disabled = "disabled", @class = "form-control", @onchange = "calculaPromo()" })
                         @Html.ValidationMessageFor(c => c.idBanco)
                     </div>
                     @Html.HiddenFor(c => c.idBanco)
-                </div>
+                </div><br />
 
-                <div class="row form-group">
-                    @Html.LabelFor(c => c.idTipoTarjeta, new { @class = "control-label col-md-2" })
-                    <div class="col-md-2">
+                <div class="row form-horizontal">
+                    @Html.LabelFor(c => c.idTipoTarjeta, new { @class = "control-label col-md-6" })
+                    <div class="col-md-6">
                         @Html.DropDownListFor(c => c.idTipoTarjeta, ViewBag.TipoTarjeta as SelectList, new { @disabled = "disabled", @class = "form-control", @onchange = "calculaPromo()" })
                     </div>
                     @Html.HiddenFor(c => c.idTipoTarjeta)
-                </div>
+                </div><br />
 
-                <div class="row form-group">
-                    @Html.LabelFor(c => c.NumeroTarjeta, new { @class = "control-label col-md-2" })
-                    <div class="col-md-3">
+                <div class="row form-horizontal">
+                    @Html.LabelFor(c => c.NumeroTarjeta, new { @class = "control-label col-md-6" })
+                    <div class="col-md-6">
                         @Html.TextBoxFor(c => c.NumeroTarjeta, new { @readonly = "readonly", @class = "form-control" })
                         @Html.ValidationMessageFor(c => c.NumeroTarjeta)
                     </div>
-                </div>
+                </div><br />
 
-                <div class="row form-group">
-                    @Html.LabelFor(c => c.CodCcv, new { @class = "control-label col-md-2" })
-                    <div class="col-md-1">
+                <div class="row form-horizontal">
+                    @Html.LabelFor(c => c.CodCcv, new { @class = "control-label col-md-6" })
+                    <div class="col-md-6">
                         @Html.TextBoxFor(c => c.CodCcv, new { @readonly = "readonly", @class = "form-control" })
                         @Html.ValidationMessageFor(c => c.NumeroTarjeta)
                     </div>
-                </div>
+                </div><br />
 
-                <div class="row form-group">
-                    @Html.LabelFor(c => c.Mes, new { @class = "control-label col-md-2" })
+                <div class="row form-horizontal">
+                    <div class="col-md-6">
+
+                    </div>
+                    @Html.LabelFor(c => c.Mes, new { @class = "control-label col-md-1" })
                     <div class="col-md-2">
                         @Html.DropDownListFor(c => c.Mes, ViewBag.Mes as List<SelectListItem>, new { @disabled = "disabled", @class = "form-control" })
                         @Html.HiddenFor(c => c.Mes)
                         @Html.ValidationMessageFor(c => c.Mes)
                     </div>
-                    @Html.LabelFor(c => c.AnioVen, new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(c => c.AnioVen, new { @class = "control-label col-md-1" })
                     <div class="col-md-2">
                         @Html.DropDownListFor(c => c.AnioVen, ViewBag.AnVen as List<SelectListItem>, new { @disabled = "disabled", @class = "form-control" })
                         @Html.HiddenFor(c => c.AnioVen)
                         @Html.ValidationMessageFor(c => c.AnioVen)
                     </div>
-                </div>
+                </div><br />
 
-                <h3>Información de montos</h3><br>
-                <div>
-                    <div class="row form-group">
-                        @Html.Label("Tipo de Cambio:", new { @class = "control-label col-md-2" })
-                        <div class="col-md-3">
-                            @Html.TextBox("tipoCambioMoneda", "" + @cambio, new { @class = "form-control", @readonly = "readonly", @type = "number" })
-                        </div>
+                <h3><span class="fa fa-money"></span> Montos y dsctos.</h3><hr /><br>                
+                <div class="row form-horizontal">
+                    <div class="col-md-6">
                     </div>
-                    <div class="row form-group">
-                        @Html.LabelFor(c => c.Importe, new { @class = "control-label col-md-2" })
-                        <div class="col-md-3">
-                            @Html.TextBoxFor(c => c.Importe, new { @class = "form-control", @Value = importe, @readonly = "readonly", @type = "number" })
-                        </div>
+                    @Html.Label("Tipo de Cambio:", new { @class = "control-label col-md-1" })
+                    <div class="col-md-2">
+                        @Html.TextBox("tipoCambioMoneda", "" + @cambio, new { @class = "form-control", @readonly = "readonly", @type = "number" })
                     </div>
-                </div>
-                <h3>Método de Pago</h3><br />
+                    @Html.LabelFor(c => c.Importe, new { @class = "control-label col-md-1" })
+                    <div class="col-md-2">
+                        @Html.TextBoxFor(c => c.Importe, new { @class = "form-control", @Value = importe, @readonly = "readonly", @type = "number" })
+                    </div>
+                </div> <br />                   
+                    
+                <h3><span class="fa fa-credit-card"></span> Métodos de Pago</h3><hr /><hr /><br>
                 <div class="row">
                     <div id="efectivo" class="col-md-4">
-                        <div>
-                            <label>Efectivo:</label>
+                        <center class="row">                            
                             @if (Model.modalidad == 1)
                             {
                                 <input type="radio" name="TipoPago" value="1" onclick="cambioPago()" checked="checked">
@@ -214,7 +216,8 @@
                             {
                                 <input type="radio" name="TipoPago" value="1" onclick="cambioPago()">
                             }
-                        </div><br />
+                            <label>Efectivo:</label>
+                        </center><br />
                         <div class="row form-group">
                             @Html.LabelFor(c => c.Descuento, new { @class = "control-label col-md-3" })
                             <div class="col-md-6">
@@ -253,8 +256,7 @@
                         </div>
                     </div>
                     <div id="tarjeta" class="col-md-4">
-                        <div>
-                            <label>Tarjeta:</label>
+                        <center class="row">                            
                             @if (Model.modalidad == 2)
                             {
                                 <input type="radio" name="TipoPago" value="2" onclick="cambioPago()" checked="checked">
@@ -263,7 +265,8 @@
                             {
                                 <input type="radio" name="TipoPago" value="2" onclick="cambioPago()">
                             }
-                        </div><br />
+                            <label>Tarjeta:</label>
+                        </center><br />
                         <div class="row form-group">
                             @Html.LabelFor(c => c.Descuento, new { @class = "control-label col-md-3" })
                             <div class="col-md-6">
@@ -302,8 +305,7 @@
                         </div>
                     </div>
                     <div id="mixto" class="col-md-4">
-                        <div>
-                            <label>Mixto:</label>
+                        <center class="row">                            
                             @if (Model.modalidad == 3)
                             {
                                 <input type="radio" name="TipoPago" value="3" onclick="cambioPago()" checked="checked">
@@ -312,7 +314,8 @@
                             {
                                 <input type="radio" name="TipoPago" value="3" onclick="cambioPago()">
                             }
-                        </div><br />
+                            <label>Mixto:</label>
+                        </center><br />
                         <div class="row form-group">
                             @Html.LabelFor(c => c.Descuento, new { @class = "control-label col-md-3" })
                             <div class="col-md-6">
@@ -350,16 +353,15 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div><br />
 
                 <div class="row">
-                    <div class="col-md-6 col-sm-6 col-xs-6">
-                        <input type="submit" value="Finalizar Venta" onclick="return llenaArreglo()" class="btn btn-default btn-primary" />
-                    </div>
-                </div>
+                    <center >
+                        <button type="submit" onclick="return llenaArreglo()" class="btn btn-default btn-primary"><span class="fa fa-usd fa-lg"></span> Finalizar venta</button>
+                    </center>
+                </div><br />
             </div>
         }
-    </div>
-    <script type="text/javascript" src="@Url.Content("/Scripts/Ventas/VenderEntradaHelper.js")"></script>
+    </div>    
 </div>
-<br />
+<script type="text/javascript" src="@Url.Content("/Scripts/Ventas/VenderEntradaHelper.js")"></script>
