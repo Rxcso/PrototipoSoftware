@@ -67,45 +67,44 @@
                     <!--Aca iran los eventos en miniatura-->
                     <div class="panel-body">
                         @foreach (var evento in Model)
-                        {
-                            <div class="col-md-3 col-sm-6 col-xs-12 bloque-imagen" title="@evento.nombre">
-                                <div class="thumbnail">
-                                    <a href=@Url.Action("VerEvento", "Evento", new { id = evento.codigo })>
-                                        <img  class="event" src="@evento.ImagenEvento" alt="">
-                                        <div class="caption" style="text-align:center">
-                                            @{
-                            var func = from obj in db.Funcion
-                                       where (obj.codEvento == evento.codigo && obj.estado.Contains("ACTIVO"))
-                                       orderby obj.fecha ascending
-                                       select obj;
+{
+    <div id="@evento.codigo" onmouseover="bordear(@evento.codigo)" onmouseout="desbordear(@evento.codigo)" class="col-md-3 col-sm-6 col-xs-12 bloque-imagen" title="@evento.nombre">
+        <div class="thumbnail">
+            <a href=@Url.Action("VerEvento", "Evento", new { id = evento.codigo })>
+                <img class="event" src="@evento.ImagenEvento" alt="">
+                <div class="caption" style="text-align:center">
+                    @{
+    var func = from obj in db.Funcion
+               where (obj.codEvento == evento.codigo && obj.estado.Contains("ACTIVO"))
+               orderby obj.fecha ascending
+               select obj;
 
-                            string fecha = "";
+    string fecha = "";
 
-                            if (func.Count() > 0)
-                            {
+    if (func.Count() > 0)
+    {
 
-                                var funcion = func.First();
-                                fecha = funcion.fecha.Value.ToString("dd/MM/yyyy");
-                                //fecha = fecha + " " + funcion.horaIni.Value.ToString("hh:mm tt");
-                            }
-                            else
-                            {
+        var funcion = func.First();
+        fecha = funcion.fecha.Value.ToString("dd/MM/yyyy");
+        //fecha = fecha + " " + funcion.horaIni.Value.ToString("hh:mm tt");
+    }
+    else
+    {
 
-                                fecha = "Disponible el : " + String.Format("{0:d}", evento.fecha_inicio);
-                            }
+        fecha = "Disponible el : " + String.Format("{0:d}", evento.fecha_inicio);
+    }
 
 
-                                            }
+                    }
 
-                                            <div class="suspensivos"><strong>@evento.nombre</strong></div>
-                                            <div class=""><strong>@fecha</strong></div>
-                                        </div>
-                                    </a>
-                                    
-                                </div>
-                            </div>
+                    <div class="suspensivos"><strong>@evento.nombre</strong></div>
+                    <div class=""><strong>@fecha</strong></div>
+                </div>
+            </a>
 
-                        }
+        </div>
+    </div>
+}
 
 
 
@@ -296,6 +295,12 @@
             function ingresar() {
                 window.open("mi_cuenta.html", "_self");
             }
+            /*function bordear(id) {                
+                $("#" + id +" thumbnail").css("border", "2px solid red");
+            }
+            function desbordear(id) {
+                $("#" + id + " thumbnail").css("border", "2px solid gray");
+            }*/
         </script>
     }
 

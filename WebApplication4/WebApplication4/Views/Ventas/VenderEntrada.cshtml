@@ -98,7 +98,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h3><span class="fa fa-user"></span> Datos del comprador</h3><hr /><br />
+            <h3><span class="fa fa-user"></span> Datos del comprador</h3><br />
             <div class="form-horizontal">
                 <div class="col-md-3">
                     @Html.CheckBox("registrado", new { @onchange = "cambio()" })                    
@@ -136,9 +136,8 @@
                         @Html.TextBoxFor(c => c.Dni, new { @class = "form-control" })
                         @Html.ValidationMessageFor(c => c.Dni)
                     </div>
-                </div><br />
-                
-                <h3><span class="fa fa-credit-card "></span> Información de la tarjeta</h3><hr /><br />
+                </div><br />                
+                <h3><span class="fa fa-credit-card "></span> Información de la tarjeta</h3><br />
                 <div class="row form-horizontal">
                     @Html.LabelFor(c => c.idBanco, new { @class = "control-label col-md-6" })
                     <div class="col-md-6">
@@ -189,8 +188,8 @@
                         @Html.ValidationMessageFor(c => c.AnioVen)
                     </div>
                 </div><br />
-
-                <h3><span class="fa fa-money"></span> Montos y dsctos.</h3><hr /><br>                
+                
+                <h3><span class="fa fa-credit-card"></span> Métodos de pago, montos y descuentos</h3><br>
                 <div class="row form-horizontal">
                     <div class="col-md-6">
                     </div>
@@ -202,9 +201,8 @@
                     <div class="col-md-2">
                         @Html.TextBoxFor(c => c.Importe, new { @class = "form-control", @Value = importe, @readonly = "readonly", @type = "number" })
                     </div>
-                </div> <br />                   
-                    
-                <h3><span class="fa fa-credit-card"></span> Métodos de Pago</h3><hr /><hr /><br>
+                </div><br />
+                
                 <div class="row">
                     <div id="efectivo" class="col-md-4">
                         <center class="row">                            
