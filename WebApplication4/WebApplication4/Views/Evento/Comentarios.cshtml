@@ -221,6 +221,14 @@
             var codEvento = @comm.codEvento;
             var usuario =$("#user_val").val();
             var contenido = $("#comm-cont-txt").val();
+
+
+            var valor = $("#alerta").children('strong');
+            if (valor.length > 0) {
+
+                valor.remove();
+            }
+
             if (contenido.length > 200){
                 $("#warning_block").append("<Strong>Excede la cantidad de caracteres<Strong>").show();
                 return;
@@ -234,6 +242,7 @@
 
 
             if(contenido == ''){
+         
                 $("#warning_block").append("<Strong>Intento anadir un comentario vacio<Strong>").show();
                 return;
             }else{
